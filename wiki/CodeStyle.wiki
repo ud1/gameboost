@@ -102,7 +102,23 @@ namespace gb { namespace io {
 ==Preincrement и Predecrement==
 ==Использование const==
 ==Целочисленные типы==
+
+Использовать строго стандартизованные числовые типы, находящиеся в stdint.h или inttypes.h:
+{{{
+bool
+int8_t
+uint8_t
+int16_t
+uint16_t
+int32_t
+uint32_t
+int64_t
+uint64_t
+}}}
+TODO: Создать заголовок библиотеки GameBoost для определения этих типов данных централизованно.
+
 ==64-bit совместимость==
+==Little/Big Endian совместимость==
 ==Макросы препроцессора==
 ==0 и NULL==
 ==sizeof==
