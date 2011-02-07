@@ -197,6 +197,39 @@ void start_event( int x );
 
 Все файлы должны храниться в кодировке UTF8 без маркера BOM - это важно для компиляторов gcc4.3 и более младших версий.
 
+Скрипт для удаления маркеров BOM из дерева исходников:
+{{{
+#!/usr/bin/python
+# coding: utf-8
+# Вырезать из всех *.cpp, *.h файлов проекта отметки Unicode-BOM
+import fnmatch
+import os
+
+def cut_bom( fpath ):
+    f = file( fpath, "rb" )
+    head_bytes = f.read( 3 )
+    if head_bytes == "\xEF\xBB\xBF":
+        rest = f.read()
+        f.close()
+        f = file( fpath, "wb" )
+        f.write( rest )
+        print "cut file " + fpath
+
+    f.close()
+
+def walk_helper ( rootPath, pattern ): 
+    for root, dirs, files in os.walk( rootPath ):
+        for filename in fnmatch.filter( files, pattern ):
+            p = os.path.join( root, filename )
+            cut_bom( p )
+
+def walk( rootPath ):
+    walk_helper ( rootPath, "*.cpp" )
+    walk_helper ( rootPath, "*.h" )
+ 
+walk( 'ИМЯПАПКИ' )
+}}}
+
 ==Пробелы или табуляции?==
 
 Используются символы табуляций. Размер табуляции выбирается по личному предпочтению каждого программиста.
