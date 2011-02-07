@@ -36,7 +36,8 @@
 
 #include "io/file.h"
 
-namespace gb {
+namespace gb
+{
 }}}
 
 ==Имена и порядок включения .h файлов==
@@ -52,15 +53,18 @@ namespace gb {
 
 Всё, что принадлежит библиотеке GameBoost, следует заключить в:
 {{{
-namespace gb {
+namespace gb
+{
 }
 }}}
 
 Вложенные подпапки должны отвечать вложенному namespace:
 К примеру gb/io/io.h будет находиться в:
 {{{
-namespace gb { namespace io {
-} // namespace gb
+namespace gb
+{
+    namespace io {
+    } // namespace gb
 } // namespace io
 }}}
 
