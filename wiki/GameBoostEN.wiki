@@ -1,0 +1,13 @@
+#summary Tools and libraries for everything you might need while writing your new C++ game.
+#labels Featured
+
+= Introduction =
+
+GameBoost (abbreviated: gb, or GB) is a collection of libraries to help an ordinary C++ game developer making his new masterpiece.
+
+Contains libraries for rendering, math, logic and AI, animations, input and event handling, content loaders, crossplatform support, filesystem abstraction and more.
+
+
+= Details =
+
+-
