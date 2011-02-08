@@ -4,83 +4,94 @@
 #include "Timer.h"
 #include <assert.h>
 
-// Частота
-uint64_t freq;
-
-inline uint64_t Time()
+namespace
 {
-	LARGE_INTEGER s;
-	QueryPerformanceCounter(&s);
-	return s.QuadPart;
+	// Частота
+	uint64_t freq;
+
+	inline uint64_t Time()
+	{
+		LARGE_INTEGER s;
+		QueryPerformanceCounter(&s);
+		return s.QuadPart;
+	}
 }
 
-//
-// Timer
-//
-
-Timer::Timer()
+namespace gb
 {
-	LARGE_INTEGER s;
-	QueryPerformanceFrequency(&s);
-	freq = s.QuadPart;
-	start_time = Time();
-	global_start_time = start_time;
-}
+	namespace base
+	{
 
-Timer::~Timer() {}
+		//
+		// Timer
+		//
 
-void Timer::startTiming()
-{
-	start_time = Time();
-}
+		Timer::Timer()
+		{
+			LARGE_INTEGER s;
+			QueryPerformanceFrequency(&s);
+			freq = s.QuadPart;
+			start_time = Time();
+			global_start_time = start_time;
+		}
 
-double Timer::timeElapsed()
-{
-	elapsed_time = ((double)( Time() - start_time )/freq);
-	return elapsed_time;
-}
+		Timer::~Timer() {}
 
-double Timer::globalTime()
-{
-	uint64_t temp = global_start_time;
-	global_start_time = Time();
-	globalTime += ((double)( global_start_time - temp )/freq);
-	return global_time;
-}
+		void Timer::startTiming()
+		{
+			start_time = Time();
+		}
 
-void Timer::resetGlobalTime(double time)
-{
-	global_start_time = Time();
-	global_time = time;
-}
+		double Timer::timeElapsed()
+		{
+			elapsed_time = ((double)( Time() - start_time )/freq);
+			return elapsed_time;
+		}
 
-//
-// AdvancedTimer
-//
+		double Timer::globalTime()
+		{
+			uint64_t temp = global_start_time;
+			global_start_time = Time();
+			globalTime += ((double)( global_start_time - temp )/freq);
+			return global_time;
+		}
 
-AdvancedTimer::AdvancedTimer()
-{
-	time_acceleration = 1.0;
-}
+		void Timer::resetGlobalTime(double time)
+		{
+			global_start_time = Time();
+			global_time = time;
+		}
 
-double AdvancedTimer::timeElapsed()
-{
-	elapsed_time=((double)( Time() - start_time)/freq )*time_acceleration;
-	return elapsed_time;
-}
+		//
+		// AdvancedTimer
+		//
 
-double AdvancedTimer::globalTime()
-{
-	uint64_t temp = global_start_time;
-	global_start_time = Time();
-	global_time += ((double)( global_start_time - temp )/freq)*time_acceleration;
-	return global_time;
-}
+		AdvancedTimer::AdvancedTimer()
+		{
+			time_acceleration = 1.0;
+		}
 
-void AdvancedTimer::setTimeAcceleration(double accel)
-{
-	globalTime();
-	time_acceleration = accel;
+		double AdvancedTimer::timeElapsed()
+		{
+			elapsed_time=((double)( Time() - start_time)/freq )*time_acceleration;
+			return elapsed_time;
+		}
+
+		double AdvancedTimer::globalTime()
+		{
+			uint64_t temp = global_start_time;
+			global_start_time = Time();
+			global_time += ((double)( global_start_time - temp )/freq)*time_acceleration;
+			return global_time;
+		}
+
+		void AdvancedTimer::setTimeAcceleration(double accel)
+		{
+			globalTime();
+			time_acceleration = accel;
+		}
+
+	}
 }
 
 #endif
