@@ -12,6 +12,7 @@ namespace gb
 		public:
 			
 			Timer();
+			virtual ~Timer();
 			
 			// сброс времени в 0
 			void startTiming();
@@ -40,8 +41,9 @@ namespace gb
 		class AdvancedTimer: public Timer
 		{
 		public:
-			
 			AdvancedTimer();
+			virtual ~AdvancedTimer() {}
+
 			double timeElapsed();
 			double globalTime();
 			

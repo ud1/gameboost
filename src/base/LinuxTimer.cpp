@@ -1,6 +1,8 @@
-#ifndef _WIN32
+#include "precompiled_headers.h"
 
-#include "Timer.h"
+#ifdef __linux
+
+#include "base/Timer.h"
 #include <assert.h>
 #include <sys/time.h>
 
@@ -88,4 +90,4 @@ namespace gb
 	}
 }
 
-#endif
+#endif // __linux

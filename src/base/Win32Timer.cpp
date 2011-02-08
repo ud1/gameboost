@@ -1,7 +1,10 @@
+#include "precompiled_headers.h"
+
 #ifdef _WIN32
 
+#include "base/Timer.h"
+
 #include <windows.h>
-#include "Timer.h"
 #include <assert.h>
 
 namespace
@@ -52,7 +55,7 @@ namespace gb
 		{
 			uint64_t temp = global_start_time;
 			global_start_time = Time();
-			globalTime += ((double)( global_start_time - temp )/freq);
+			global_time += ((double)( global_start_time - temp )/freq);
 			return global_time;
 		}
 
@@ -94,4 +97,4 @@ namespace gb
 	}
 }
 
-#endif
+#endif // _WIN32
