@@ -3,7 +3,8 @@
 // Отключить SSE инструкции для совместимости
 #define GB_NO_SIMD 0
 
-
+// Запретить использование Boost (http://boost.org)
+#define GB_NO_BOOST_LIBRARY 0
 
 
 // microsoft specific
