@@ -1,6 +1,9 @@
 ﻿#pragma once
 
-#include <xmmintrin.h>
+#if ! GB_NO_SIMD
+	#include <xmmintrin.h>
+#endif // GB_NO_SIMD
+
 #include <cfloat>
 #include <cmath>
 #include <cassert>

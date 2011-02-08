@@ -44,5 +44,5 @@ private:
 	void init(char *name);
 };
 
-}
-}
+} // namespace
+} // namespace

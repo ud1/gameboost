@@ -1,6 +1,8 @@
 #include "precompiled_headers.h"
 
-#include "FileHD.h"
+#include "io/FileHD.h"
+
+// TODO: заменить на <cstdio>
 #include <stdio.h>
 
 using namespace gb::io;
