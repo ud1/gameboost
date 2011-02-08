@@ -32,7 +32,7 @@ public:
 	void warning(const char *message, ...);
 	void error(const char *message, ...);
 
-	void SetTimeRecord(bool trec){_trec = trec;}
+	void set_time_record(bool trec){_trec = trec;}
 
 
 
