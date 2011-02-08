@@ -10,7 +10,7 @@ namespace gb
         {
         protected:
             int32_t file;
-            string  name;
+            std::string  name;
         public:
             FileHD(void);
             FileHD(const char *name, const char*mode = "rb");
