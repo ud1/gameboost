@@ -24,14 +24,14 @@
 
 = Соглашения по типам данных и библиотекам =
 
-Строки - std::string, char *
-Пути к файлам и ресурсам - boost::filesystem::path (utf8) при доступе к реальной файловой системе переводить в boost::filesystem::wpath
-Целочисленные типы - stdint.h
-Размеры и смещения - size_t, std::streamoff, std::streampos
-Шаред указатели - boost::shared_ptr<> (можно переназначить на std::shared_ptr для C++0x)
-Короткоживущие scoped указатели - boost::scoped_ptr<> (можно переназначить на std::scoped_ptr для C++0x)
-Массивы - boost::array, boost::scoped_array (можно переназначить на std::array для C++0x)
-Доступ к файлам - C++ streams (избегать stdio/FILE *, использовать mmapped io где можно).
-Форматирование строк stringstream где возможно, иначе snprintf.
-Вывод в консоль std::cout/std::cerr <<
-Треды - boost::thread или свой велосипед?
+  * Строки - std::string, char `*`
+  * Пути к файлам и ресурсам - boost::filesystem::path (utf8) при доступе к реальной файловой системе переводить в boost::filesystem::wpath
+  * Целочисленные типы - stdint.h
+  * Размеры и смещения - size_t, std::streamoff, std::streampos
+  * Шаред указатели - boost::shared_ptr<> (можно переназначить на std::shared_ptr для C++0x)
+  * Короткоживущие scoped указатели - boost::scoped_ptr<> (можно переназначить на std::scoped_ptr для C++0x)
+  * Массивы - boost::array, boost::scoped_array (можно переназначить на std::array для C++0x)
+  * Доступ к файлам - C++ streams (избегать stdio/FILE `*`, использовать mmapped io где можно).
+  * Форматирование строк stringstream где возможно, иначе snprintf.
+  * Вывод в консоль std::cout/std::cerr <<
+  * Треды - boost::thread или свой велосипед?
