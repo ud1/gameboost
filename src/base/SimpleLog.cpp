@@ -14,7 +14,7 @@ SimpleLog::SimpleLog()
 SimpleLog::SimpleLog(bool timerecord)
 {
 	init("log.txt");
-	SetTimeRecord(timerecord);
+	set_time_record(timerecord);
 }
 
 SimpleLog::SimpleLog(char *name)
@@ -25,7 +25,7 @@ SimpleLog::SimpleLog(char *name)
 SimpleLog::SimpleLog(char *name, bool timerecord)
 {
 	init(name);
-	SetTimeRecord(timerecord);
+	set_time_record(timerecord);
 }
 
 SimpleLog::~SimpleLog()
@@ -42,7 +42,7 @@ SimpleLog::~SimpleLog()
 void SimpleLog::init(char *name)
 {
 	_name = name;
-	SetTimeRecord(false);
+	set_time_record(false);
 	setlocale(LC_ALL, "rus");	
 
 	if( (_file = fopen(_name,"w")) == NULL )
