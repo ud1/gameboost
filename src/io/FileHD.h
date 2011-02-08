@@ -1,11 +1,14 @@
 #pragma once
-#include "IFile.h"
+
+#include "io/IFile.h"
+
 #include <string>
 
 namespace gb
 {
     namespace io
     {
+
         typedef class FileHD : public IFile
         {
         protected:
@@ -24,5 +27,6 @@ namespace gb
             virtual void close();
             virtual bool isOpened();
         } CFileHD;
-    };
-};
+    
+	} // namespace
+} // namespace

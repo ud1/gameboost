@@ -1,10 +1,12 @@
 #pragma once
-#include "IFile.h"
+
+#include "io/IFile.h"
 
 namespace gb
 {
     namespace io
     {
+
         typedef class FileRAM : public IFile
         {
         protected:
@@ -24,5 +26,6 @@ namespace gb
             virtual void close();
             virtual bool isOpened();
         } CFileRAM;
-    };
-};
+
+    } // namespace
+} // namespace

@@ -1,53 +1,56 @@
 #pragma once
 
-#include "Atomic.h"
+#include "base/Atomic.h"
 
-namespace Base
+namespace gb
 {
-
-	class IRefCountable
+	namespace Base
 	{
-	public:
 
-		typedef Base::atomic_int_t RefCount_t;
-
-		IRefCountable()
+		class IRefCountable
 		{
-			refCount = 1;
-		}
+		public:
 
-		virtual ~IRefCountable() {}
+			typedef Base::atomic_int_t RefCount_t;
 
-		RefCount_t addRef()
-		{
-			return Base::atomicIncrAndFetchInt(&refCount);
-		}
-
-		RefCount_t release()
-		{
-			RefCount_t count = Base::atomicDecrAndFetchInt(&refCount);
-			if (count <= 0)
+			IRefCountable()
 			{
-				destroyThis();
-				return 0;
+				refCount = 1;
 			}
-			return refCount;
-		}
 
-		RefCount_t getCounter() const
-		{
-			return refCount;
-		}
+			virtual ~IRefCountable() {}
 
-	private:
-		RefCount_t refCount;
+			RefCount_t addRef()
+			{
+				return Base::atomicIncrAndFetchInt(&refCount);
+			}
 
-	protected:
-		// override this if you do not want to destroy object
-		virtual void destroyThis()
-		{
-			delete this;
-		}
-	};
+			RefCount_t release()
+			{
+				RefCount_t count = Base::atomicDecrAndFetchInt(&refCount);
+				if (count <= 0)
+				{
+					destroyThis();
+					return 0;
+				}
+				return refCount;
+			}
 
-}
+			RefCount_t getCounter() const
+			{
+				return refCount;
+			}
+
+		private:
+			RefCount_t refCount;
+
+		protected:
+			// override this if you do not want to destroy object
+			virtual void destroyThis()
+			{
+				delete this;
+			}
+		};
+
+	} // namespace
+} // namespace

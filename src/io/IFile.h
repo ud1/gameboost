@@ -1,10 +1,12 @@
 #pragma once
-#include "..\Config.h"
+
+#include "Config.h"
 
 namespace gb
 {
     namespace io
     {
+
         class IFile
         {
         public:
@@ -18,5 +20,6 @@ namespace gb
             virtual void close() = 0;
             virtual bool isOpened() = 0;
         };
-    };
-};
+
+	} // namespace
+}  // namespace
