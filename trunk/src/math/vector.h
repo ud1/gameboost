@@ -14,7 +14,7 @@ namespace math
 {
 
 class
-#ifndef _GDB_NO_SIMD_
+#if ! GB_NO_SIMD
 __declspec(align(16))
 #endif
 Vector4f
@@ -163,7 +163,7 @@ public:
   float x, y, z, w;
 };
 
-#ifdef _GDB_NO_SIMD_
+#if GB_NO_SIMD
 inline bool Vector4f::operator== (const Vector4f &V) const
 {
 	return (x == V.x && y == V.y && z == V.z && w == V.w);
@@ -397,7 +397,9 @@ inline void Vector4f::setLength(float Length)
 		w *= newLength;
 	}
 }
-#else
+
+#else // ! GB_NO_SIMD
+
 inline bool Vector4f::operator== (const Vector4f &V) const
 {
 	__m128 VT1 = _mm_load_ps( get() );
@@ -752,7 +754,7 @@ inline void Vector4f::setLength(float Length)
 		_mm_store_ps(get(),VT3);
 	}
 }
-#endif
+#endif // GB_NO_SIMD
 
 }
 

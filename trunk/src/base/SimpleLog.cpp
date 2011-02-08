@@ -1,4 +1,6 @@
-﻿#include "SimpleLog.h"
+﻿#include "precompiled_headers.h"
+
+#include "SimpleLog.h"
 #include <ctime>
 #include <cstdarg>
 #include <clocale>
