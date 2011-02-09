@@ -103,7 +103,7 @@ bool Path::isAbsolute()
 std::string Path::getExtension()
 {
 #if GB_ALLOW_BOOST_LIBRARY__PATH
-	return boost::filesystem::extension( value );
+	return boost::filesystem::extension( value ).substr(1);
 #else // no boost
 
 	size_t dotpos = value.rfind( '.' );

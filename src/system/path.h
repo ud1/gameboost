@@ -5,7 +5,8 @@
 // здесь можно локально отключить использование Boost, если вдруг Вам не нравится
 // Boost.Filesystem.Path и хочется простых русских std::string
 //#define GB_ALLOW_BOOST_LIBRARY__PATH GB_ALLOW_BOOST_LIBRARY
-#define GB_ALLOW_BOOST_LIBRARY__PATH 1
+//#define GB_ALLOW_BOOST_LIBRARY__PATH 1
+#define GB_ALLOW_BOOST_LIBRARY__PATH 0
 
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 #include <boost/filesystem.hpp>
@@ -15,8 +16,10 @@ namespace gb
 {
     namespace system
     {
-		//! Нужно для initialPath без поддержки Boost
+#if ! GB_ALLOW_BOOST_LIBRARY__PATH
+		//! Нужно для initialPath без поддержки Boost, больше не используется
 		std::string currentDirStr();
+#endif
 
         class Path
         {
@@ -86,6 +89,8 @@ namespace gb
 			std::string getExtension();
 			void changeExtension( const std::string & new_ext );
         };
+
+
 
         //! Путь к папке C:/Users/%LOGIN%/AppData/%COMPANY_NAME%/%APP_NAME%, создаётся если не было
         Path applicationDataDir( const std::string & company_name, const std::string & app_name );
