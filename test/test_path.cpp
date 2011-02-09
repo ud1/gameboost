@@ -1,4 +1,4 @@
-#include "precompiled_headers.h"
+#include "test_pch.h"
 
 #include <gtest/gtest.h>
 

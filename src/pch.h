@@ -17,6 +17,7 @@
 
 #if GB_ALLOW_BOOST_LIBRARY
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
 #endif
 
 #include "base/Types.h"
