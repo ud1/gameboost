@@ -61,83 +61,16 @@ void SimpleLog::init(char *name)
 	}
 }
 
-void SimpleLog::print(const char *message, ...)
+void SimpleLog::message_log(char *levtext, char *text)
 {
-	va_list args;
-	va_start(args, message);
-	char buffer[1024];
-	vsprintf(buffer, message, args);
-	print(NORMAL, (char*)buffer);
-	va_end(args);
-}
-
-void SimpleLog::print(LevelLog level, const char *message, ...)
-{
-	va_list args;
-	va_start(args, message);
-	char buffer[1024];
-
-	char *strlev;
-	switch (level)
-	{
-	case NORMAL:
-		strlev = "";
-		break;
-	case INFO:
-		strlev = "*INFO: ";
-		break;
-	case WARNING:
-		strlev = "*WARNING: ";
-		break;
-	case ERROR:
-		strlev = "*ERROR: ";
-		break;
-	default:
-		strlev = "";
-		break;
-	}
-
-	vsprintf(buffer, message, args);
 	if (_trec == true)
 	{
 		char timer[9];
 		_strtime(timer);
 		clock_t cl = clock();
-
-		fprintf(_file, "%s::%d: ", timer, cl);
 		printf("%s::%d: ", timer, cl); 
+		fprintf(_file, "%s::%d: ", timer, cl);
 	}
-	fprintf(_file, "%s%s\n", strlev, buffer);
-	printf("%s%s\n", strlev, buffer); 
-	va_end(args);
-}
-
-void SimpleLog::info(const char *message, ...)
-{
-	va_list args;
-	va_start(args, message);
-	char buffer[1024];
-	vsprintf(buffer, message, args);
-	print(INFO, (char*)buffer);
-	va_end(args);
-}
-
-void SimpleLog::warning(const char *message, ...)
-{
-	va_list args;
-	va_start(args, message);
-	char buffer[1024];
-	vsprintf(buffer, message, args);
-	print(WARNING, (char*)buffer);
-	va_end(args);
-}
-
-void SimpleLog::error(const char *message, ...)
-{
-	va_list args;
-	va_start(args, message);
-	char buffer[1024];
-	vsprintf(buffer, message, args);
-	print(ERROR, (char*)buffer);
-	va_end(args);
+	printf("%s%s\n", levtext, text); 
+	fprintf(_file, "%s%s\n", levtext, text);
 }

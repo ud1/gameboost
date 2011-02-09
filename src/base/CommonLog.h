@@ -7,14 +7,6 @@ namespace gb
 namespace log
 {
 
-typedef enum
-{
-	NORMAL,
-	INFO,
-	WARNING,
-	ERROR
-} LevelLog;
-
 class CommonLog
 {
 public:
@@ -24,7 +16,6 @@ public:
 	~CommonLog();
 
 	virtual void print(const char *message, ...);
-	virtual void print(LevelLog level, const char *message, ...);
 	virtual void info(const char *message, ...);
 	virtual void warning(const char *message, ...);
 	virtual void error(const char *message, ...);
@@ -34,6 +25,7 @@ public:
 protected:
 	bool _trec;
 	virtual void init();
+	virtual void message_log(char *levtext, char *text);
 };
 
 }

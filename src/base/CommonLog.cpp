@@ -33,45 +33,7 @@ void CommonLog::print(const char *message, ...)
 	va_start(args, message);
 	char buffer[1024];
 	vsprintf(buffer, message, args);
-	print(NORMAL, (char*)buffer);
-	va_end(args);
-}
-
-void CommonLog::print(LevelLog level, const char *message, ...)
-{
-	va_list args;
-	va_start(args, message);
-	char buffer[1024];
-
-	char *strlev;
-	switch (level)
-	{
-	case NORMAL:
-		strlev = "";
-		break;
-	case INFO:
-		strlev = "*INFO: ";
-		break;
-	case WARNING:
-		strlev = "*WARNING: ";
-		break;
-	case ERROR:
-		strlev = "*ERROR: ";
-		break;
-	default:
-		strlev = "";
-		break;
-	}
-
-	vsprintf(buffer, message, args);
-	if (_trec == true)
-	{
-		char timer[9];
-		_strtime(timer);
-		clock_t cl = clock();
-		printf("%s::%d: ", timer, cl); 
-	}
-	printf("%s%s\n", strlev, buffer); 
+	message_log("", (char*)buffer);
 	va_end(args);
 }
 
@@ -81,7 +43,7 @@ void CommonLog::info(const char *message, ...)
 	va_start(args, message);
 	char buffer[1024];
 	vsprintf(buffer, message, args);
-	print(INFO, (char*)buffer);
+	message_log("*INFO: ", (char*)buffer);
 	va_end(args);
 }
 
@@ -91,7 +53,7 @@ void CommonLog::warning(const char *message, ...)
 	va_start(args, message);
 	char buffer[1024];
 	vsprintf(buffer, message, args);
-	print(WARNING, (char*)buffer);
+	message_log("*WARNING: ", (char*)buffer);
 	va_end(args);
 }
 
@@ -101,6 +63,18 @@ void CommonLog::error(const char *message, ...)
 	va_start(args, message);
 	char buffer[1024];
 	vsprintf(buffer, message, args);
-	print(ERROR, (char*)buffer);
+	message_log("*ERROR: ", (char*)buffer);
 	va_end(args);
+}
+
+void CommonLog::message_log(char *levtext, char *text)
+{
+	if (_trec == true)
+	{
+		char timer[9];
+		_strtime(timer);
+		clock_t cl = clock();
+		printf("%s::%d: ", timer, cl); 
+	}
+	printf("%s%s\n", levtext, text); 
 }
