@@ -10,7 +10,12 @@
 #include <cassert>
 #include <stdio.h>
 
-#if ! GB_NO_BOOST_LIBRARY
+#include <list>
+#include <set>
+#include <vector>
+#include <map>
+
+#if GB_ALLOW_BOOST_LIBRARY
 #include <boost/algorithm/string.hpp>
 #endif
 
