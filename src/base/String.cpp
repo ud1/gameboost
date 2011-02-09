@@ -1,7 +1,7 @@
 /*! \file String.h
- *	\author Дмитрий Литовченко kvakvs@yandex.ru
- *	Мягкая обёртка вокруг boost/algorithm/string.hpp с возможностью реализации собственных
- *	алгоритмов без подключения библиотеки Boost
+ *	\author Р”РјРёС‚СЂРёР№ Р›РёС‚РѕРІС‡РµРЅРєРѕ kvakvs@yandex.ru
+ *	РњСЏРіРєР°СЏ РѕР±С‘СЂС‚РєР° РІРѕРєСЂСѓРі boost/algorithm/string.hpp СЃ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊСЋ СЂРµР°Р»РёР·Р°С†РёРё СЃРѕР±СЃС‚РІРµРЅРЅС‹С…
+ *	Р°Р»РіРѕСЂРёС‚РјРѕРІ Р±РµР· РїРѕРґРєР»СЋС‡РµРЅРёСЏ Р±РёР±Р»РёРѕС‚РµРєРё Boost
  */
 #include "pch.h"
 
@@ -10,7 +10,7 @@
 #include <utfcpp/checked.h>
 #include <utfcpp/unchecked.h>
 
-// предварительно растягивать длину строк при конверсиях (теоретически ускоряет работу)
+// РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕ СЂР°СЃС‚СЏРіРёРІР°С‚СЊ РґР»РёРЅСѓ СЃС‚СЂРѕРє РїСЂРё РєРѕРЅРІРµСЂСЃРёСЏС… (С‚РµРѕСЂРµС‚РёС‡РµСЃРєРё СѓСЃРєРѕСЂСЏРµС‚ СЂР°Р±РѕС‚Сѓ)
 #define GB_PRERESERVE_STRINGS 1
 
 namespace gb
@@ -23,7 +23,7 @@ std::string toUtf8( const std::wstring & wide_str )
 {
 	std::string utf8_str;
 #if GB_PRERESERVE_STRINGS
-	// пессимистический прогноз все символы будут 2 байта
+	// РїРµСЃСЃРёРјРёСЃС‚РёС‡РµСЃРєРёР№ РїСЂРѕРіРЅРѕР· РІСЃРµ СЃРёРјРІРѕР»С‹ Р±СѓРґСѓС‚ 2 Р±Р°Р№С‚Р°
 	utf8_str.reserve( wide_str.length() * 2 );
 #endif
 	utf8::utf16to8 (wide_str.begin(), wide_str.end(), std::back_inserter(utf8_str));
@@ -35,7 +35,7 @@ std::wstring toWide( const std::string & utf8_str )
 {
 	std::wstring wide_str;
 #if GB_PRERESERVE_STRINGS
-	// пессимистический прогноз все символы 1 байт
+	// РїРµСЃСЃРёРјРёСЃС‚РёС‡РµСЃРєРёР№ РїСЂРѕРіРЅРѕР· РІСЃРµ СЃРёРјРІРѕР»С‹ 1 Р±Р°Р№С‚
 	wide_str.reserve( utf8_str.length() );
 #endif
 	utf8::utf8to16 (utf8_str.begin(), utf8_str.end(), std::back_inserter(wide_str));
