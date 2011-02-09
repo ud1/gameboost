@@ -1,3 +1,8 @@
+/*! \file String.h
+ *	\author ƒмитрий Ћитовченко kvakvs@yandex.ru
+ *	ћ€гка€ обЄртка вокруг boost/algorithm/string.hpp с возможностью реализации собственных
+ *	алгоритмов без подключени€ библиотеки Boost
+ */
 #include "pch.h"
 
 #include "base/String.h"

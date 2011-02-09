@@ -1,9 +1,8 @@
 ﻿#pragma once
-
-/*!
- * \file String.h
- * Мягкая обёртка вокруг boost/algorithm/string.hpp с возможностью реализации собственных
- * алгоритмов без подключения библиотеки Boost
+/*! \file String.h
+ *	\author Дмитрий Литовченко kvakvs@yandex.ru
+ *	Мягкая обёртка вокруг boost/algorithm/string.hpp с возможностью реализации собственных
+ *	алгоритмов без подключения библиотеки Boost
  */
 
 #if GB_ALLOW_BOOST_LIBRARY

@@ -1,11 +1,15 @@
 #pragma once
+/*!	\file Path.h
+ *  Пути к файлам и ресурсам, работа с директориями и путями
+ *	\author Дмитрий Литовченко kvakvs@yandex.ru
+ */
 
 #include "Config.h"
 
 // здесь можно локально отключить использование Boost, если вдруг Вам не нравится
 // Boost.Filesystem.Path и хочется простых русских std::string
-//#define GB_ALLOW_BOOST_LIBRARY__PATH GB_ALLOW_BOOST_LIBRARY
-#define GB_ALLOW_BOOST_LIBRARY__PATH 1
+#define GB_ALLOW_BOOST_LIBRARY__PATH GB_ALLOW_BOOST_LIBRARY
+//#define GB_ALLOW_BOOST_LIBRARY__PATH 1
 //#define GB_ALLOW_BOOST_LIBRARY__PATH 0
 
 #if GB_ALLOW_BOOST_LIBRARY__PATH
