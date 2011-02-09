@@ -1,21 +1,27 @@
-﻿#pragma once
+#pragma once
 
-#include "CommonLog.h"
+#include <cstdio>
 
 namespace gb
 {
 namespace log
 {
 
-class SimpleLog : public CommonLog
+typedef enum
+{
+	NORMAL,
+	INFO,
+	WARNING,
+	ERROR
+} LevelLog;
+
+class CommonLog
 {
 public:
-	SimpleLog();
-	SimpleLog(bool timerecord);
-	SimpleLog(char *name);
-	SimpleLog(char *name, bool timerecord);
+	CommonLog();
+	CommonLog(bool timerecord);
 
-	~SimpleLog();
+	~CommonLog();
 
 	virtual void print(const char *message, ...);
 	virtual void print(LevelLog level, const char *message, ...);
@@ -25,15 +31,9 @@ public:
 
 	virtual void SetTimeRecord(bool trec){_trec = trec;}
 
-
-
-private:
-	FILE *_file;	// файл лога
-	char *_name;	// имя файла
-
-	virtual void init(char *name);
-
-
+protected:
+	bool _trec;
+	virtual void init();
 };
 
 }
