@@ -55,6 +55,37 @@ namespace gb
 			double time_acceleration;
 		};
 		
+		// Таймер используется для расчета количества кадров в секунду
+		class FPSTimer: public AdvancedTimer 
+		{
+			FPSTimer();
+
+			// завершение цикла измерения времени кадра
+			float finishTiming();
+			
+			// получить время кадра в секундах
+			float getDt() const;
+			
+			// получить сглаженное время кадра в секундах
+			float getAverageDt() const;
+			
+			// получить количество кадров в секунду, расчитаное исходя из 
+			// длительности одного кадра
+			float getFPS() const;
+			
+			// получить реальное количество кадров в секунду
+			float getAverageFPS() const;
+			
+		private:
+			int frames;
+			double time;
+			float dt;
+			float adt;
+			float fps;
+			float afps;
+		};
+		
 	} // namespace
+	
 } // namespace
 
