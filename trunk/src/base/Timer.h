@@ -10,81 +10,46 @@ namespace gb
 		class Timer
 		{
 		public:
+			typedef uint64_t Ticks, TicksFreq;
 			
 			Timer();
-			virtual ~Timer();
-			
+			Ticks getTickCount() const;
+			TicksFreq getTimeFreq() const;
+			static void sleep(unsigned millisecs);
+
 			// сброс времени в 0
 			void startTiming();
 			
 			// сколько секунд прошло с последнего вызова startTiming()
-			virtual double timeElapsed();
-			
-			// сколько секунд прошло с момента создания таймера,
-			// может быть переустановлено функцией resetGlobalTime()
-			virtual double globalTime();
-			
-			// переустановка глобального времени
-			virtual void resetGlobalTime(double time = 0.0);
+			double timeElapsed();
 
 			// хранит время возвращенное последним вызовом timeElapsed()
 			double elapsed_time;
 			
 		protected:
-			// Для хранения времени
-			uint64_t start_time;
-			uint64_t global_start_time;
-			double global_time;
+			Ticks start_time;
 		};
 
 		// Позволяет задавать ускорение/замедление времени
-		class AdvancedTimer: public Timer
+		class AdvancedTimer
 		{
 		public:
 			AdvancedTimer();
-			virtual ~AdvancedTimer() {}
-
-			double timeElapsed();
-			double globalTime();
+			
+			void resetTime(double t = 0.0);
+			double getTime();
 			
 			// Если accel = 1.0, то время идет в нормальном темпе
-			void setTimeAcceleration(double accel);
-			double getTimeAcceleration() {return time_acceleration;}
+			void setTimeAccel(double accel);
+			double getTimeAccel() const {return time_acceleration;}
 
-		private:
-			double time_acceleration;
-		};
-		
-		// Таймер используется для расчета количества кадров в секунду
-		class FPSTimer: public AdvancedTimer 
-		{
-			FPSTimer();
-
-			// завершение цикла измерения времени кадра
-			float finishTiming();
-			
-			// получить время кадра в секундах
-			float getDt() const;
-			
-			// получить сглаженное время кадра в секундах
-			float getAverageDt() const;
-			
-			// получить количество кадров в секунду, расчитаное исходя из 
-			// длительности одного кадра
-			float getFPS() const;
-			
-			// получить реальное количество кадров в секунду
-			float getAverageFPS() const;
+			// хранит время возвращенное последним вызовом getTime()
+			double t;
 			
 		private:
-			int frames;
-			double time;
-			float dt;
-			float adt;
-			float fps;
-			float afps;
+			double the_time, time_acceleration;
+			Timer timer;
 		};
-		
 	} // namespace
 	
 } // namespace
