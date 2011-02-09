@@ -1,9 +1,12 @@
-#include "Atomic.h"
+#include "base/Atomic.h"
 
 #ifndef _WIN32
 
-namespace Base
+namespace gb
 {
+	namespace base
+	{
+
 	inline void atomicIncrInt(atomic_int_t *ptr)
 	{
 		__sync_add_and_fetch(ptr, 1);
@@ -46,6 +49,8 @@ namespace Base
 
 		return original;
 	}
-}
+
+	} // namespace base
+} // namespace gb
 
 #endif

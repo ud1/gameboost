@@ -1,11 +1,14 @@
-#include "Atomic.h"
+#include "base/Atomic.h"
 
 #if defined(_WIN32)
 #include <Windows.h>
 #include <intrin.h>
 
-namespace Base
+namespace gb
 {
+	namespace base
+	{
+
 	inline void atomicIncrInt(atomic_int_t *ptr)
 	{
 		_InterlockedIncrement(ptr);
@@ -46,6 +49,8 @@ namespace Base
 
 		return original;
 	}
-}
+	
+	} // namespace base
+} // namespace gb
 
 #endif

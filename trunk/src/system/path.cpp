@@ -1,6 +1,6 @@
 /*!	\file Path.cpp
- *  Ïóòè ê ôàéëàì è ðåñóðñàì, ðàáîòà ñ äèðåêòîðèÿìè è ïóòÿìè. Ïëàòôîðìîíåçàâèñèìàÿ ÷àñòü.
- *	\author Äìèòðèé Ëèòîâ÷åíêî kvakvs@yandex.ru
+ *  ÐŸÑƒÑ‚Ð¸ Ðº Ñ„Ð°Ð¹Ð»Ð°Ð¼ Ð¸ Ñ€ÐµÑÑƒÑ€ÑÐ°Ð¼, Ñ€Ð°Ð±Ð¾Ñ‚Ð° Ñ Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸ÑÐ¼Ð¸ Ð¸ Ð¿ÑƒÑ‚ÑÐ¼Ð¸. ÐŸÐ»Ð°Ñ‚Ñ„Ð¾Ñ€Ð¼Ð¾Ð½ÐµÐ·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð°Ñ Ñ‡Ð°ÑÑ‚ÑŒ.
+ *	\author Ð”Ð¼Ð¸Ñ‚Ñ€Ð¸Ð¹ Ð›Ð¸Ñ‚Ð¾Ð²Ñ‡ÐµÐ½ÐºÐ¾ kvakvs@yandex.ru
  */
 #include "pch.h"
 #include "system/path.h"
@@ -23,7 +23,7 @@ class AutoInitialPath
 public:
 	static wchar_t initialPath_[MAX_PATH];
 public:
-	//! Ñêðûòûé êîíñòðóêòîð äëÿ initialPath - íà ñòàðòå ïðîãðàììû áåð¸ò òåêóùèé êàòàëîã ïðîöåññà
+	//! Ð¡ÐºÑ€Ñ‹Ñ‚Ñ‹Ð¹ ÐºÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€ Ð´Ð»Ñ initialPath - Ð½Ð° ÑÑ‚Ð°Ñ€Ñ‚Ðµ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹ Ð±ÐµÑ€Ñ‘Ñ‚ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ð¹ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ°
 	AutoInitialPath()
 	{
 		_wgetcwd( initialPath_, sizeof( initialPath_ ) );
@@ -66,7 +66,7 @@ std::wstring Path::toWstring()
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 boost::filesystem::wpath Path::toWpath()
 {
-	// TODO: Âûãëÿäèò óæàñíî, ðàáîòàåò íàâåðíîå ìåäëåííî
+	// TODO: Ð’Ñ‹Ð³Ð»ÑÐ´Ð¸Ñ‚ ÑƒÐ¶Ð°ÑÐ½Ð¾, Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚ Ð½Ð°Ð²ÐµÑ€Ð½Ð¾Ðµ Ð¼ÐµÐ´Ð»ÐµÐ½Ð½Ð¾
 	return boost::filesystem::wpath( str::toWide( value.string() ) );
 }
 #endif
@@ -131,7 +131,7 @@ Path Path::getParent()
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 	return Path( value.branch_path() );
 #else
-	// TODO: ïîääåðæêà /./ è /../
+	// TODO: Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ° /./ Ð¸ /../
 	throw "up";
 #endif
 }
@@ -143,7 +143,7 @@ bool Path::isAbsolute()
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 	return value.is_complete();
 #else
-	// TODO: Ýòîò êîä íå ïðîâåðÿåò ñåòåâûå èìåíà, è õèòðûå èìåíà, íà÷èíàþùèåñÿ ñ "\\" èëè "\\.\"
+	// TODO: Ð­Ñ‚Ð¾Ñ‚ ÐºÐ¾Ð´ Ð½Ðµ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÑ‚ ÑÐµÑ‚ÐµÐ²Ñ‹Ðµ Ð¸Ð¼ÐµÐ½Ð°, Ð¸ Ñ…Ð¸Ñ‚Ñ€Ñ‹Ðµ Ð¸Ð¼ÐµÐ½Ð°, Ð½Ð°Ñ‡Ð¸Ð½Ð°ÑŽÑ‰Ð¸ÐµÑÑ Ñ "\\" Ð¸Ð»Ð¸ "\\.\"
 	return str::startsWith( value, "/" )
 		|| str::startsWith( value, "\\" )
 		|| (value.size() >= 2 && value[1] == ':');
@@ -164,12 +164,12 @@ std::string Path::getExtension()
 	size_t rslashpos = value.rfind( '\\' );
 #endif // _WIN32
 
-	// íåò òî÷êè - íåò ðàñøèðåíèÿ
+	// Ð½ÐµÑ‚ Ñ‚Ð¾Ñ‡ÐºÐ¸ - Ð½ÐµÑ‚ Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸Ñ
 	if (dotpos == std::string::npos) return "";
-	// åñòü ñëåø, è åñòü òî÷êà, è òî÷êà èä¸ò ðàíüøå ñëåøà - íåò ðàñøèðåíèÿ
+	// ÐµÑÑ‚ÑŒ ÑÐ»ÐµÑˆ, Ð¸ ÐµÑÑ‚ÑŒ Ñ‚Ð¾Ñ‡ÐºÐ°, Ð¸ Ñ‚Ð¾Ñ‡ÐºÐ° Ð¸Ð´Ñ‘Ñ‚ Ñ€Ð°Ð½ÑŒÑˆÐµ ÑÐ»ÐµÑˆÐ° - Ð½ÐµÑ‚ Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸Ñ
 	if (slashpos != std::string::npos && slashpos > dotpos) return "";
 #ifdef _WIN32
-	// åñòü îáðàòíûé ñëåø, è åñòü òî÷êà, è òî÷êà èä¸ò ðàíüøå îáðàòíîãî ñëåøà - íåò ðàñøèðåíèÿ
+	// ÐµÑÑ‚ÑŒ Ð¾Ð±Ñ€Ð°Ñ‚Ð½Ñ‹Ð¹ ÑÐ»ÐµÑˆ, Ð¸ ÐµÑÑ‚ÑŒ Ñ‚Ð¾Ñ‡ÐºÐ°, Ð¸ Ñ‚Ð¾Ñ‡ÐºÐ° Ð¸Ð´Ñ‘Ñ‚ Ñ€Ð°Ð½ÑŒÑˆÐµ Ð¾Ð±Ñ€Ð°Ñ‚Ð½Ð¾Ð³Ð¾ ÑÐ»ÐµÑˆÐ° - Ð½ÐµÑ‚ Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸Ñ
 	if (rslashpos != std::string::npos && slashpos > dotpos) return "";
 #endif // _WIN32
 	return value.substr( dotpos );
