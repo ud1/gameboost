@@ -93,7 +93,7 @@ bool Path::isAbsolute()
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 	return value.is_complete();
 #else
-	// TODO: Этот код не проверяет сетевые имена, и хитрые имена, стартующие "\\" или "\\.\"
+	// TODO: Этот код не проверяет сетевые имена, и хитрые имена, начинающиеся с "\\" или "\\.\"
 	return str::startsWith( value, "/" )
 		|| str::startsWith( value, "\\" )
 		|| (value.size() >= 2 && value[1] == ':');
@@ -104,10 +104,25 @@ std::string Path::getExtension()
 {
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 	return boost::filesystem::extension( value );
-#else
-	// TODO:
-	throw "up";
-#endif
+#else // no boost
+
+	size_t dotpos = value.rfind( '.' );
+	size_t slashpos = value.rfind( '/' );
+#ifdef _WIN32
+	size_t rslashpos = value.rfind( '\\' );
+#endif // _WIN32
+
+	// нет точки - нет расширения
+	if (dotpos == std::string::npos) return "";
+	// есть слеш, и есть точка, и точка идёт раньше слеша - нет расширения
+	if (slashpos != std::string::npos && slashpos > dotpos) return "";
+#ifdef _WIN32
+	// есть обратный слеш, и есть точка, и точка идёт раньше обратного слеша - нет расширения
+	if (rslashpos != std::string::npos && slashpos > dotpos) return "";
+#endif // _WIN32
+	return value.substr( dotpos+1 );
+
+#endif // GB_ALLOW_BOOST_LIBRARY__PATH
 }
 
 void Path::changeExtension( const std::string & new_ext )
