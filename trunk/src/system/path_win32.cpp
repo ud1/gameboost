@@ -1,3 +1,7 @@
+/*!	\file Path_win32.cpp
+ *  Пути к файлам и ресурсам, работа с директориями и путями. Win32 реализация.
+ *	\author Дмитрий Литовченко kvakvs@yandex.ru
+ */
 #include "pch.h"
 #include "system/path.h"
 #include "base/String.h"

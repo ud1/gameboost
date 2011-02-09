@@ -1,3 +1,7 @@
+/*!	\file Path.cpp
+ *  Пути к файлам и ресурсам, работа с директориями и путями. Платформонезависимая часть.
+ *	\author Дмитрий Литовченко kvakvs@yandex.ru
+ */
 #include "pch.h"
 #include "system/path.h"
 #include "base/String.h"
@@ -67,6 +71,8 @@ boost::filesystem::wpath Path::toWpath()
 }
 #endif
 
+
+
 Path Path::operator / ( const Path & other ) const
 {
 #if GB_ALLOW_BOOST_LIBRARY__PATH
@@ -76,6 +82,8 @@ Path Path::operator / ( const Path & other ) const
 	throw "up";
 #endif
 }
+
+
 
 Path & Path::operator /= ( const Path & other )
 {
@@ -87,6 +95,8 @@ Path & Path::operator /= ( const Path & other )
 	throw "up";
 #endif
 }
+
+
 
 std::string Path::getLeaf()
 {
@@ -114,6 +124,8 @@ std::string Path::getLeaf()
 #endif
 }
 
+
+
 Path Path::getParent()
 {
 #if GB_ALLOW_BOOST_LIBRARY__PATH
@@ -123,6 +135,8 @@ Path Path::getParent()
 	throw "up";
 #endif
 }
+
+
 
 bool Path::isAbsolute()
 {
@@ -136,10 +150,12 @@ bool Path::isAbsolute()
 #endif
 }
 
+
+
 std::string Path::getExtension()
 {
 #if GB_ALLOW_BOOST_LIBRARY__PATH
-	return boost::filesystem::extension( value ).substr(1);
+	return boost::filesystem::extension( value );
 #else // no boost
 
 	size_t dotpos = value.rfind( '.' );
@@ -156,20 +172,24 @@ std::string Path::getExtension()
 	// есть обратный слеш, и есть точка, и точка идёт раньше обратного слеша - нет расширения
 	if (rslashpos != std::string::npos && slashpos > dotpos) return "";
 #endif // _WIN32
-	return value.substr( dotpos+1 );
+	return value.substr( dotpos );
 
 #endif // GB_ALLOW_BOOST_LIBRARY__PATH
 }
 
+
+
 void Path::changeExtension( const std::string & new_ext )
 {
 #if GB_ALLOW_BOOST_LIBRARY__PATH
-	boost::filesystem::change_extension( value, new_ext );
+	value = boost::filesystem::change_extension( value, new_ext );
 #else
 	// TODO:
 	throw "up";
 #endif
 }
+
+
 
 	} // namespace system
 } // namespace gb
