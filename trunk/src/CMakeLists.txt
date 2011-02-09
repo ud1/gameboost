@@ -35,11 +35,11 @@ include_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/boost )
 include_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
 
 if (MSVC)
-	set_source_files_properties( precompiled_headers.cpp PROPERTIES COMPILE_FLAGS "/Ycprecompiled_headers.h" )
+	set_source_files_properties( pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h" )
 	foreach( src_file ${GAMEBOOST_SOURCES} )
-		set_source_files_properties( ${src_file} PROPERTIES COMPILE_FLAGS "/Yuprecompiled_headers.h" )
+		set_source_files_properties( ${src_file} PROPERTIES COMPILE_FLAGS "/Yupch.h" )
 	endforeach( src_file ${GAMEBOOST_SOURCES} )
-	list( APPEND GAMEBOOST_SOURCES precompiled_headers.cpp precompiled_headers.h )
+	list( APPEND GAMEBOOST_SOURCES pch.cpp pch.h )
 endif()
 
 #------ target -----

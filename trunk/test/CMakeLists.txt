@@ -1,13 +1,6 @@
 project( GBTEST )
 cmake_minimum_required(VERSION 2.8)
 
-set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${GBTEST_SOURCE_DIR}/bin CACHE PATH "Single Directory for all Executables." )
-set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${GBTEST_SOURCE_DIR}/bin CACHE PATH "Single Directory for all Executables." )
-
-# включим GameBoost в зависимости
-add_subdirectory( deplib/gtest-1.5.0 )
-add_subdirectory( ../src ${GBTEST_SOURCE_DIR}/.build_gameboost )
-
 if (MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -D_WIN32_WINNT=0x0501 /MP )
 endif()
@@ -15,8 +8,7 @@ endif()
 #------ sources ------
 set( GBTEST_SOURCES
 		main.cpp
-		test_path.cpp
-		)
+		test_path.cpp )
 
 source_group( tests REGULAR_EXPRESSION "test_" )
 
@@ -27,14 +19,17 @@ include_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
 
 include_directories( ${GBTEST_SOURCE_DIR}/deplib/gtest-1.5.0/include )
 
+link_directories( ${GAMEBOOST_SOURCE_DIR}/linklib )
+link_libraries( gtest gtest_main )
+
 if (MSVC)
-	set_source_files_properties( precompiled_headers.cpp PROPERTIES COMPILE_FLAGS "/Ycprecompiled_headers.h" )
+	set_source_files_properties( test_pch.cpp PROPERTIES COMPILE_FLAGS "/Yctest_pch.h" )
 	foreach( src_file ${GBTEST_SOURCES} )
-		set_source_files_properties( ${src_file} PROPERTIES COMPILE_FLAGS "/Yuprecompiled_headers.h" )
+		set_source_files_properties( ${src_file} PROPERTIES COMPILE_FLAGS "/Yutest_pch.h" )
 	endforeach( src_file ${GBTEST_SOURCES} )
-	list( APPEND GBTEST_SOURCES precompiled_headers.cpp precompiled_headers.h )
+	list( APPEND GBTEST_SOURCES test_pch.cpp test_pch.h )
 endif()
 
 #------ target -----
-add_library( gbUnitTest STATIC ${GBTEST_SOURCES} )
-add_dependencies( gbUnitTest gtest )
+add_executable( gameboost_test ${GBTEST_SOURCES} )
+add_dependencies( gameboost_test gtest )
