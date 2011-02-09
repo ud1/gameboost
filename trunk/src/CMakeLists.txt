@@ -20,15 +20,19 @@ set( GAMEBOOST_SOURCES
 
 		math/vector.h
 
+		system/path.h  system/path.cpp  system/path_linux.cpp  system/path_win32.cpp  system/path_macosx.cpp
+
 		Config.h )
 
 source_group( base REGULAR_EXPRESSION "base/" )
 source_group( io REGULAR_EXPRESSION "io/" )
 source_group( math REGULAR_EXPRESSION "math/" )
+source_group( system REGULAR_EXPRESSION "system/" )
 
 #------ additional includes ------
 include_directories( ${GAMEBOOST_SOURCE_DIR} )
 include_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/boost )
+include_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
 
 if (MSVC)
 	set_source_files_properties( precompiled_headers.cpp PROPERTIES COMPILE_FLAGS "/Ycprecompiled_headers.h" )
