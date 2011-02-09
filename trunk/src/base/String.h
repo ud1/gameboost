@@ -19,9 +19,9 @@
 namespace gb
 {
 	namespace str {
-
-		std::string toUtf8( const std::wstring & wide );
-		std::wstring toWide( const std::string & utf8 );
+		
+		std::string toUtf8( const std::wstring & wide_str );
+		std::wstring toWide( const std::string & utf8_str );
 
 // Boost запрещён, пишем велосипеды здесь
 #if ! GB_ALLOW_BOOST_LIBRARY

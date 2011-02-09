@@ -8,8 +8,10 @@
 #include <Shlobj.h>
 #include <direct.h>
 
-using namespace gb;
-using namespace system;
+namespace gb
+{
+	namespace system
+	{
 
 Path applicationDataDir( const std::string & company_name, const std::string & app_name )
 {
@@ -60,11 +62,23 @@ Path currentDir()
 }
 
 
+#if ! GB_ALLOW_BOOST_LIBRARY__PATH
+//! Нужно для initialPath без поддержки Boost, больше не используется
 std::string currentDirStr()
 {
 	wchar_t currentPath [MAX_PATH];
 	_wgetcwd( currentPath, sizeof(currentPath) );
 	return str::toUtf8( currentPath );
+}
+#endif // !GB_ALLOW_BOOST_LIBRARY__PATH
+
+Path initialDir()
+{
+#if GB_ALLOW_BOOST_LIBRARY__PATH
+	return Path( boost::filesystem::initial_path() );
+#else
+	return Path::initialPath_;
+#endif
 }
 
 
@@ -93,9 +107,12 @@ bool Path::isDirectory()
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 	return boost::filesystem::is_directory( toWpath() );
 #else
-	return GetFileAttributesW( toWstring().c_str() ) | FILE_ATTRIBUTE_DIRECTORY; 
+	return GetFileAttributesW( toWstring().c_str() ) & FILE_ATTRIBUTE_DIRECTORY == FILE_ATTRIBUTE_DIRECTORY; 
 #endif
 }
 
+
+	} // namespace system
+} // namespace gb
 
 #endif //_WIN32
