@@ -10,13 +10,15 @@ set( GAMEBOOST_SOURCES
 		base/Atomic.h
 		base/IRefCountable.h
 		base/SimpleLog.cpp  base/SimpleLog.h
-		base/Timer.h  base/LinuxTimer.cpp  base/Win32Timer.cpp
+		base/Timer.h  base/Timer.cpp
 		base/String.cpp  base/String.h
 		base/Types.h
 
 		io/FileHD.cpp  io/FileHD.h
 		io/FileRAM.cpp  io/FileRAM.h
 		io/IFile.h
+
+		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp
 
 		math/vector.h
 
