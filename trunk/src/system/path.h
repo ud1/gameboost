@@ -5,8 +5,8 @@
 // здесь можно локально отключить использование Boost, если вдруг Вам не нравится
 // Boost.Filesystem.Path и хочется простых русских std::string
 //#define GB_ALLOW_BOOST_LIBRARY__PATH GB_ALLOW_BOOST_LIBRARY
-//#define GB_ALLOW_BOOST_LIBRARY__PATH 1
-#define GB_ALLOW_BOOST_LIBRARY__PATH 0
+#define GB_ALLOW_BOOST_LIBRARY__PATH 1
+//#define GB_ALLOW_BOOST_LIBRARY__PATH 0
 
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 #include <boost/filesystem.hpp>
@@ -16,26 +16,14 @@ namespace gb
 {
     namespace system
     {
-#if ! GB_ALLOW_BOOST_LIBRARY__PATH
-		//! Нужно для initialPath без поддержки Boost, больше не используется
-		std::string currentDirStr();
-#endif
 
-        class Path
+		class Path
         {
         private:
 #if GB_ALLOW_BOOST_LIBRARY__PATH
             boost::filesystem::path value;
 #else
             std::string value;
-
-			//! Скрытый конструктор для initialPath - на старте программы берёт текущий каталог процесса
-			Path( bool ) {
-				value = currentDirStr();
-            }
-
-		public:
-			static Path initialPath_;
 #endif
 
         public:

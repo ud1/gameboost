@@ -4,12 +4,32 @@
 
 #ifdef _WIN32
 
-using namespace gb;
-using namespace system;
+#include <Windows.h>
+
+namespace gb
+{
+	namespace system
+	{
+
 
 #if ! GB_ALLOW_BOOST_LIBRARY__PATH
-Path Path::initialPath_( true );
-#endif
+
+class AutoInitialPath
+{
+public:
+	static wchar_t initialPath_[MAX_PATH];
+public:
+	//! Скрытый конструктор для initialPath - на старте программы берёт текущий каталог процесса
+	AutoInitialPath()
+	{
+		_wgetcwd( initialPath_, sizeof( initialPath_ ) );
+    }
+};
+
+wchar_t AutoInitialPath::initialPath_[MAX_PATH];
+AutoInitialPath autoInitialPath;
+
+#endif // ! GB_ALLOW_BOOST_LIBRARY__PATH
 
 
 Path initialDir()
@@ -17,7 +37,7 @@ Path initialDir()
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 	return Path( boost::filesystem::initial_path() );
 #else
-	return Path::initialPath_;
+	return Path( str::toUtf8( AutoInitialPath::initialPath_ ) );
 #endif
 }
 
@@ -73,8 +93,24 @@ std::string Path::getLeaf()
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 	return value.leaf();
 #else
-	// TODO!
-	throw "up";
+	
+	size_t slashpos = value.rfind( '/' );
+#ifdef _WIN32
+	size_t rslashpos = value.rfind( '\\' );
+
+	if (slashpos != std::string::npos && slashpos > rslashpos) {
+		return value.substr( slashpos+1 );
+	}
+	if (rslashpos != std::string::npos && rslashpos > slashpos) {
+		return value.substr( rslashpos+1 );
+	}
+#endif // _WIN32
+
+	if (slashpos != std::string::npos) {
+		return value.substr( slashpos+1 );
+	}
+
+	return "";
 #endif
 }
 
@@ -83,7 +119,7 @@ Path Path::getParent()
 #if GB_ALLOW_BOOST_LIBRARY__PATH
 	return Path( value.branch_path() );
 #else
-	// TODO!
+	// TODO: поддержка /./ и /../
 	throw "up";
 #endif
 }
@@ -135,5 +171,8 @@ void Path::changeExtension( const std::string & new_ext )
 #endif
 }
 
+	} // namespace system
+} // namespace gb
 
 #endif //_WIN32
+

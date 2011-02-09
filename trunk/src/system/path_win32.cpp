@@ -62,26 +62,6 @@ Path currentDir()
 }
 
 
-#if ! GB_ALLOW_BOOST_LIBRARY__PATH
-//! Нужно для initialPath без поддержки Boost, больше не используется
-std::string currentDirStr()
-{
-	wchar_t currentPath [MAX_PATH];
-	_wgetcwd( currentPath, sizeof(currentPath) );
-	return str::toUtf8( currentPath );
-}
-#endif // !GB_ALLOW_BOOST_LIBRARY__PATH
-
-Path initialDir()
-{
-#if GB_ALLOW_BOOST_LIBRARY__PATH
-	return Path( boost::filesystem::initial_path() );
-#else
-	return Path::initialPath_;
-#endif
-}
-
-
 bool Path::exists()
 {
 #if GB_ALLOW_BOOST_LIBRARY__PATH
