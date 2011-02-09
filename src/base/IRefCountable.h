@@ -4,14 +4,14 @@
 
 namespace gb
 {
-	namespace Base
+	namespace base
 	{
 
 		class IRefCountable
 		{
 		public:
 
-			typedef Base::atomic_int_t RefCount_t;
+			typedef base::atomic_int_t RefCount_t;
 
 			IRefCountable()
 			{
@@ -22,12 +22,12 @@ namespace gb
 
 			RefCount_t addRef()
 			{
-				return Base::atomicIncrAndFetchInt(&refCount);
+				return atomicIncrAndFetchInt(&refCount);
 			}
 
 			RefCount_t release()
 			{
-				RefCount_t count = Base::atomicDecrAndFetchInt(&refCount);
+				RefCount_t count = atomicDecrAndFetchInt(&refCount);
 				if (count <= 0)
 				{
 					destroyThis();
