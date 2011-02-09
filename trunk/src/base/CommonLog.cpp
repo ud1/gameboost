@@ -1,4 +1,4 @@
-﻿#include "SimpleLog.h"
+#include "CommonLog.h"
 #include <ctime>
 #include <cstdarg>
 #include <clocale>
@@ -6,62 +6,28 @@
 using namespace gb;
 using namespace log;
 
-SimpleLog::SimpleLog()
+CommonLog::CommonLog()
 {
-	init("log.txt");
+	init();
 }
 
-SimpleLog::SimpleLog(bool timerecord)
+CommonLog::CommonLog(bool timerecord)
 {
-	init("log.txt");
+	init();
 	SetTimeRecord(timerecord);
 }
 
-SimpleLog::SimpleLog(char *name)
+CommonLog::~CommonLog()
 {
-	init(name);
 }
 
-SimpleLog::SimpleLog(char *name, bool timerecord)
+void CommonLog::init()
 {
-	init(name);
-	SetTimeRecord(timerecord);
-}
-
-SimpleLog::~SimpleLog()
-{
-	char timer[9];
-	_strtime(timer);
-	char date[9];
-	_strdate(date);
-	fprintf(_file, "\n---------------------------------------\n");
-	fprintf(_file, "Конец лога: %s %s.", date, timer);
-	fclose(_file);
-}
-
-void SimpleLog::init(char *name)
-{
-	_name = name;
 	SetTimeRecord(false);
-	setlocale(LC_ALL, "rus");	
-
-	if( (_file = fopen(_name,"w")) == NULL )
-	{
-		printf("Error creating file...\n");
-		return;
-	}
-	else
-	{
-		char timer[9];
-		_strtime(timer);
-		char date[9];
-		_strdate(date);
-		fprintf(_file, "Лог создан: %s %s.\n", date, timer);
-		fprintf(_file, "---------------------------------------\n\n");
-	}
+	setlocale(LC_ALL, "rus");
 }
 
-void SimpleLog::print(const char *message, ...)
+void CommonLog::print(const char *message, ...)
 {
 	va_list args;
 	va_start(args, message);
@@ -71,7 +37,7 @@ void SimpleLog::print(const char *message, ...)
 	va_end(args);
 }
 
-void SimpleLog::print(LevelLog level, const char *message, ...)
+void CommonLog::print(LevelLog level, const char *message, ...)
 {
 	va_list args;
 	va_start(args, message);
@@ -103,16 +69,13 @@ void SimpleLog::print(LevelLog level, const char *message, ...)
 		char timer[9];
 		_strtime(timer);
 		clock_t cl = clock();
-
-		fprintf(_file, "%s::%d: ", timer, cl);
 		printf("%s::%d: ", timer, cl); 
 	}
-	fprintf(_file, "%s%s\n", strlev, buffer);
 	printf("%s%s\n", strlev, buffer); 
 	va_end(args);
 }
 
-void SimpleLog::info(const char *message, ...)
+void CommonLog::info(const char *message, ...)
 {
 	va_list args;
 	va_start(args, message);
@@ -122,7 +85,7 @@ void SimpleLog::info(const char *message, ...)
 	va_end(args);
 }
 
-void SimpleLog::warning(const char *message, ...)
+void CommonLog::warning(const char *message, ...)
 {
 	va_list args;
 	va_start(args, message);
@@ -132,7 +95,7 @@ void SimpleLog::warning(const char *message, ...)
 	va_end(args);
 }
 
-void SimpleLog::error(const char *message, ...)
+void CommonLog::error(const char *message, ...)
 {
 	va_list args;
 	va_start(args, message);
