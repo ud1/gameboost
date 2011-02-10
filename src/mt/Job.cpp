@@ -1,6 +1,9 @@
-#include "Job.h"
+#include "pch.h"
 
-#include "JobScheduler.h"
+#if GB_ALLOW_BOOST_LIBRARY
+
+#include "mt/Job.h"
+#include "mt/JobScheduler.h"
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/lambda/lambda.hpp>
@@ -107,3 +110,5 @@ namespace gb {
 
 	}
 }
+
+#endif // GB_ALLOW_BOOST_LIBRARY

@@ -1,10 +1,13 @@
 #pragma once
 
+#if GB_ALLOW_BOOST_LIBRARY
+
 #include "ThreadPolicy.h"
 #include "Job.h"
 
 namespace gb {
 	namespace mt {
+
 		class IJobScheduler : public base::IRefCountable {
 		public:
 			virtual Job *scheduleJob(int millisecs, const JobTask &f) = 0;
@@ -45,5 +48,8 @@ namespace gb {
 			int period;
 			void doJob(JobTask::Action a);
 		};
-	}
-}
+
+	} // namespace mt
+} // namespace gb
+
+#endif // GB_ALLOW_BOOST_LIBRARY

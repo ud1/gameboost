@@ -1,5 +1,7 @@
 #pragma once
 
+#if GB_ALLOW_BOOST_LIBRARY
+
 #include "base/IRefCountable.h"
 #include "base/Atomic.h"
 #include "base/Types.h"
@@ -160,6 +162,7 @@ namespace gb
 			Jobs jobs;
 		};
 
-	}
-}
+	} // namespace mt
+} // namespace gb
 
+#endif // GB_ALLOW_BOOST_LIBRARY
