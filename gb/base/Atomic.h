@@ -23,7 +23,7 @@ namespace gb
 }
 
 #ifdef _WIN32
-#include "Win32Atomic.inl"
+#include <gb/base/Win32Atomic.inl>
 #else
-#include "LinuxAtomic.inl"
+#include <gb/base/LinuxAtomic.inl>
 #endif

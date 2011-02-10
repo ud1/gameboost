@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "CommonLog.h"
+#include <gb/base/CommonLog.h>
 
 namespace gb
 {

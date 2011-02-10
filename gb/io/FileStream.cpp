@@ -1,5 +1,10 @@
-#include "gb/pch.h"
-#include "gb/io/FileStream.h"
+/*	\file FileStream.cpp
+ *	\author -Eugene-, kozlov_eugene@list.ru
+*/
+#include "pch.h"
+
+#include <gb/io/FileStream.h>
+
 using namespace gb::io;
 
 FileStream::FileStream(void) : IStream(), file(0), name(0) {};

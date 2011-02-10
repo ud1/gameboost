@@ -4,7 +4,7 @@
  *	\author Дмитрий Литовченко kvakvs@yandex.ru
  */
 
-#include "Config.h"
+#include <gb/Config.h>
 
 // здесь можно локально отключить использование Boost, если вдруг Вам не нравится
 // Boost.Filesystem.Path и хочется простых русских std::string

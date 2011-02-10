@@ -17,4 +17,4 @@
 #include <boost/algorithm/string.hpp>
 #endif
 
-#include <base/Types.h>
+#include <gb/base/Types.h>

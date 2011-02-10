@@ -2,10 +2,10 @@
 
 #if GB_ALLOW_BOOST_LIBRARY
 
-#include "base/IRefCountable.h"
-#include "base/Atomic.h"
-#include "base/Types.h"
-#include "ThreadPolicy.h"
+#include <gb/base/IRefCountable.h>
+#include <gb/base/Atomic.h>
+#include <gb/base/Types.h>
+#include <gb/mt/ThreadPolicy.h>
 
 #include <vector>
 

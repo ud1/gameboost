@@ -3,8 +3,9 @@
  *	\author Дмитрий Литовченко kvakvs@yandex.ru
  */
 #include "pch.h"
-#include "system/path.h"
-#include "base/String.h"
+
+#include <gb/system/Path.h>
+#include <gb/base/String.h>
 
 #ifdef _WIN32
 

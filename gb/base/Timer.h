@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Types.h"
+#include <gb/base/Types.h>
 
 namespace gb
 {

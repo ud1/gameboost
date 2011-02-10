@@ -2,8 +2,8 @@
 
 #if GB_ALLOW_BOOST_LIBRARY
 
-#include "mt/Job.h"
-#include "mt/JobScheduler.h"
+#include <gb/mt/Job.h>
+#include <gb/mt/JobScheduler.h>
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/lambda/lambda.hpp>
