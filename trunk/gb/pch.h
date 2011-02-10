@@ -1,4 +1,4 @@
-#include "Config.h"
+#include <gb/Config.h>
 
 #ifdef _WIN32
 	#include <Windows.h>
@@ -43,4 +43,4 @@
 	#include <boost/thread/mutex.hpp>
 #endif
 
-#include "base/Types.h"
+#include <gb/base/Types.h>

@@ -5,7 +5,7 @@
  */
 #include "pch.h"
 
-#include "base/String.h"
+#include <gb/base/String.h>
 
 #include <utfcpp/checked.h>
 #include <utfcpp/unchecked.h>

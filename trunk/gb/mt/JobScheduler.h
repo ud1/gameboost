@@ -2,8 +2,8 @@
 
 #if GB_ALLOW_BOOST_LIBRARY
 
-#include "ThreadPolicy.h"
-#include "Job.h"
+#include <gb/mt/ThreadPolicy.h>
+#include <gb/mt/Job.h>
 
 namespace gb {
 	namespace mt {

@@ -16,13 +16,13 @@ set( GBTEST_SOURCES
 
 #------ additional includes ------
 include_directories( ${GAMEBOOST_SOURCE_DIR} )
-include_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/boost )
-include_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
+include_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/boost )
+include_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/utfcpp.sourceforge.net )
 
 include_directories( ${GBTEST_SOURCE_DIR}/deplib/gtest-1.5.0/include )
 
 link_directories( ${GAMEBOOST_SOURCE_DIR}/linklib )
-link_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/boost/stage/lib )
+link_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/boost/stage/lib )
 
 link_libraries( gtest gtest_main gameboost )
 

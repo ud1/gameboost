@@ -1,6 +1,9 @@
-#include "gb/pch.h"
-#include "gb/io/MemoryStream.h"
-// -Eugene-, kozlov_eugene@list.ru
+/*	\file MemoryStream.cpp
+ *	\author -Eugene-, kozlov_eugene@list.ru
+*/
+#include "pch.h"
+
+#include <gb/io/MemoryStream.h>
 
 using namespace gb::io;
 

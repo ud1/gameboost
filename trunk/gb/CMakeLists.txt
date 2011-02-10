@@ -1,11 +1,14 @@
-project( GAMEBOOST )
+project( LIBGAMEBOOST )
 cmake_minimum_required(VERSION 2.8)
 
 if (MSVC)
+	# Параметры компиляции для MSVC
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -D_WIN32_WINNT=0x0501 /MP )
+else()
+	# для прочих компиляторов
 endif()
 
-#------ sources ------
+# Исходники
 set( GAMEBOOST_SOURCES
 		base/Atomic.h
 		base/IRefCountable.h
@@ -14,9 +17,7 @@ set( GAMEBOOST_SOURCES
 		base/String.cpp  base/String.h
 		base/Types.h
 
-		io/FileHD.cpp  io/FileHD.h
-		io/FileRAM.cpp  io/FileRAM.h
-		io/IFile.h
+		io/FileStream.cpp  io/FileStream.h  io/IStream.h  io/MemoryStream.cpp  io/MemoryStream.h
 
 		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp
 
@@ -26,6 +27,7 @@ set( GAMEBOOST_SOURCES
 
 		Config.h )
 
+# группы файлов в IDE
 source_group( base REGULAR_EXPRESSION "base/" )
 source_group( mt REGULAR_EXPRESSION "mt/" )
 source_group( io REGULAR_EXPRESSION "io/" )
@@ -34,8 +36,9 @@ source_group( system REGULAR_EXPRESSION "system/" )
 
 #------ additional includes ------
 include_directories( ${GAMEBOOST_SOURCE_DIR} )
-include_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/boost )
-include_directories( ${GAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
+include_directories( ${LIBGAMEBOOST_SOURCE_DIR} )
+include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/boost )
+include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
 
 if (MSVC)
 	set_source_files_properties( pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h" )

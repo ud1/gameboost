@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
 
-#include "SimpleLog.h"
+#include <gb/base/SimpleLog.h>
 
 #include <ctime>
 #include <cstdarg>

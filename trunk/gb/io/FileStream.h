@@ -1,7 +1,5 @@
 #pragma once
-#include "IStream.h"
-#include "gb/base/types.h"
-// -Eugene-, kozlov_eugene@list.ru
+#include <gb/io/IStream.h>
 
 namespace gb
 {
@@ -10,20 +8,18 @@ namespace gb
         /*
          * Поток данных для чтения с диска.
          * 
-         * Особенности работы: параметр mode ф-ции create() - gb::io::eFileAccess;
-         * Его нельзя устанавливать, используя eFileAccess::TRUNCATE и eFileAccess::APPEND
+         * Особенности работы: параметр mode ф-ции open() - gb::io::eFileAccess
          */
-        typedef class MemoryStream : public IStream
+        typedef class FileStream : public IStream
         {
         protected:
-            size_t      file_size;
-            uint8_t    *file;
-            size_t      offset;
+            FILE* file;
+            std::string  name;
         public:
-            MemoryStream(void);
-            MemoryStream(size_t size, int mode = eFileAccess::READ | eFileAccess::WRITE);
-            virtual ~MemoryStream(void);
-            virtual uint8_t*create(size_t size, int mode = eFileAccess::READ | eFileAccess::WRITE);
+            FileStream(void);
+            FileStream(const char *name, const int mode = eFileAccess::READ);
+            virtual ~FileStream(void);
+            virtual bool open(const char *name, const int mode = eFileAccess::READ);
             virtual size_t write(const void*buffer, const size_t size);
             virtual size_t read(void*buffer, const size_t size);
             virtual size_t write(const void*buffer, const size_t size, const size_t offset);
@@ -31,12 +27,12 @@ namespace gb
 
             virtual bool seek(const size_t offset, const int origin);
             virtual size_t tell();
-
+ 
             virtual size_t size();
             virtual bool eof();
             virtual bool isOpened();
 
             virtual void close();
-        } CMemoryStream;
+        } CFileStream;
     };
 };

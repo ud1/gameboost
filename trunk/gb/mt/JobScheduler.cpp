@@ -2,7 +2,7 @@
 
 #if GB_ALLOW_BOOST_LIBRARY
 
-#include "mt/JobScheduler.h"
+#include <gb/mt/JobScheduler.h>
 
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
