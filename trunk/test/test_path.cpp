@@ -7,7 +7,7 @@
 #include <gtest/gtest.h>
 #include <boost/system/error_code.hpp>
 
-#include <system/path.h>
+#include <system/Path.h>
 
 // The fixture for testing class Foo.
 class gb_system_Path_test : public ::testing::Test

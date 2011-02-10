@@ -3,6 +3,7 @@
 #ifdef _WIN32
 	#include <Windows.h>
 	#include <Shlobj.h>
+	#include <mbstring.h>
 #endif
 
 #include <string>
@@ -13,7 +14,9 @@
 #include <cfloat>
 #include <cmath>
 #include <cassert>
+
 #include <stdio.h>
+#include <string.h>
 
 #include <list>
 #include <set>
