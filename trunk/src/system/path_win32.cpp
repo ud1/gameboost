@@ -85,6 +85,14 @@ void Path::createDir()
 #endif
 }
 
+void Path::createDirectories()
+{
+#if GB_ALLOW_BOOST_LIBRARY__PATH
+	boost::filesystem::create_directories( toWstring() );
+#else
+	throw "up"; // TODO
+#endif
+}
 
 bool Path::isDirectory()
 {

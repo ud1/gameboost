@@ -21,13 +21,18 @@ protected:
 
 TEST_F (gb_system_Path_test, test_getExtension)
 {
-	gb::system::Path	p( "/home/test/file.txt" );
-	ASSERT_EQ( p.getExtension(), ".txt" );
-	ASSERT_EQ( p.getLeaf(), "file.txt" );
+	try {
+		gb::system::Path	p( "/home/test/file.txt" );
+		ASSERT_EQ( p.getExtension(), ".txt" );
+		ASSERT_EQ( p.getLeaf(), "file.txt" );
 
-	gb::system::Path	pp = p.getParent();
-	ASSERT_EQ( pp.getLeaf(), "test" );
+		gb::system::Path	pp = p.getParent();
+		ASSERT_EQ( pp.getLeaf(), "test" );
 
-	p.changeExtension( ".zip" );
-	ASSERT_EQ( p.getExtension(), ".zip" );
+		p.changeExtension( ".zip" );
+		ASSERT_EQ( p.getExtension(), ".zip" );
+	}
+	catch (...) {
+		ASSERT_FALSE( "exception!" );
+	}
 }

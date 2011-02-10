@@ -1,4 +1,8 @@
-#include "JobScheduler.h"
+#include "pch.h"
+
+#if GB_ALLOW_BOOST_LIBRARY
+
+#include "mt/JobScheduler.h"
 
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
@@ -72,7 +76,7 @@ namespace
 
 			bool operator < (const JobEntry &o) const
 			{
-				t < o.t;
+				return t < o.t;
 			}
 
 			using Job::doJob;
@@ -90,7 +94,7 @@ namespace
 
 		typedef boost::intrusive::multiset<JobEntry> Jobs;
 		Jobs jobs; // guarded by mutex
-		int threadsN;
+		size_t threadsN;
 		boost::posix_time::ptime creationTime;
 
 		JobEntry *getJob_(bool &is_empty_out, ptime &time_to_wait_out)
@@ -247,7 +251,7 @@ namespace
 			JobEntry *job;
 			bool is_empty;
 			boost::posix_time::ptime time_to_wait;
-			const void *owner;
+			// unreferenced -- const void *owner;
 
 			if (job = getJob_(is_empty, time_to_wait))
 			{
@@ -369,3 +373,5 @@ namespace gb {
 		}
 	}
 }
+
+#endif // GB_ALLOW_BOOST_LIBRARY

@@ -1,4 +1,9 @@
-#include "ThreadPolicy.h"
+#include "pch.h"
+
+#if GB_ALLOW_BOOST_LIBRARY
+
+#include "mt/ThreadPolicy.h"
+
 #include <map>
 #include <boost/thread.hpp>
 
@@ -80,3 +85,5 @@ namespace gb {
 		}
 	}
 }
+
+#endif // GB_ALLOW_BOOST_LIBRARY

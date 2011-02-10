@@ -1,5 +1,7 @@
 #pragma once
 
+#if GB_ALLOW_BOOST_LIBRARY
+
 #include <vector>
 #include <algorithm>
 
@@ -49,5 +51,8 @@ namespace gb {
 		private:
 			ThreadMapping(){}
 		};
-	}
-}
+
+	} // namespace mt
+} // namespace gb
+
+#endif // GB_ALLOW_BOOST_LIBRARY

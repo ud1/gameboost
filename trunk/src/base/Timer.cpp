@@ -1,4 +1,6 @@
-﻿#include "base/Timer.h"
+﻿#include "pch.h"
+
+#include "base/Timer.h"
 
 namespace
 {

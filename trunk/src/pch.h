@@ -20,8 +20,23 @@
 #include <map>
 
 #if GB_ALLOW_BOOST_LIBRARY
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
+	#include <boost/algorithm/string.hpp>
+
+	#include <boost/filesystem.hpp>
+
+	#include <boost/bind.hpp>
+
+	#include <boost/lambda/lambda.hpp>
+
+	#include <boost/interprocess/sync/interprocess_semaphore.hpp>
+
+	#include <boost/intrusive/set.hpp>
+
+	#include <boost/date_time/posix_time/posix_time.hpp>
+
+	#include <boost/thread.hpp>
+	#include <boost/thread/thread.hpp>
+	#include <boost/thread/mutex.hpp>
 #endif
 
 #include "base/Types.h"
