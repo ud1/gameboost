@@ -8,7 +8,9 @@ endif()
 #------ sources ------
 set( GBTEST_SOURCES
 		main.cpp
-		test_path.cpp )
+		test_Path.cpp
+		test_String.cpp
+		)
 
 # source_group( tests REGULAR_EXPRESSION "test_" )
 

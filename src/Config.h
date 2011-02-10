@@ -4,7 +4,7 @@
 #define GB_NO_SIMD 0
 
 // Запретить использование Boost (http://boost.org)
-#define GB_ALLOW_BOOST_LIBRARY 1
+#define GB_ALLOW_BOOST_LIBRARY 0
 
 
 // microsoft specific
