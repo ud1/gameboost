@@ -1,7 +1,8 @@
 #include "Config.h"
 
 #ifdef _WIN32
-#include <Windows.h>
+	#include <Windows.h>
+	#include <Shlobj.h>
 #endif
 
 #include <string>

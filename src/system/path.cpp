@@ -9,6 +9,7 @@
 #ifdef _WIN32
 
 #include <Windows.h>
+#include <Shlobj.h>
 
 namespace gb
 {
@@ -186,6 +187,22 @@ void Path::changeExtension( const std::string & new_ext )
 #else
 	// TODO:
 	throw "up";
+#endif
+}
+
+
+void Path::createDirectories()
+{
+#if GB_ALLOW_BOOST_LIBRARY__PATH
+	boost::filesystem::create_directories( toWstring() );
+#else
+
+#ifdef _WIN32
+	SHCreateDirectoryExW( NULL, toWstring().c_str(), NULL );
+#else
+	throw "up";
+#endif
+
 #endif
 }
 
