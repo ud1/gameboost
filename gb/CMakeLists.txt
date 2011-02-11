@@ -10,7 +10,7 @@ endif()
 
 # Исходники
 set( GAMEBOOST_SOURCES
-		base/Atomic.h
+		base/Atomic.h  base/Guid.h
 		base/IRefCountable.h
 		base/SimpleLog.cpp  base/SimpleLog.h  base/CommonLog.cpp  base/CommonLog.h
 		base/Timer.h  base/Timer.cpp  base/FPSCounter.cpp  base/FPSCounter.h 
@@ -21,7 +21,7 @@ set( GAMEBOOST_SOURCES
 		math/Vector.h
 		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
 		str/String.cpp  str/String.h  str/KsString.cpp  str/KsString.h  str/KsUtils.cpp  str/KsUtils.h  str/KsDefines.h
-		i18n/I18n.cpp  i18n/I18n.h  i18n/IntlString.h 
+		i18n/I18n.cpp  i18n/I18n.h  i18n/IntlString.h  i18n/IntlString.cpp
 		i18n/Japanese.h  i18n/Japanese.cpp
 		i18n/RomanicGermanic.h  i18n/RomanicGermanic.cpp
 		Config.h )

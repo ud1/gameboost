@@ -13,24 +13,46 @@ namespace gb
 	{
 
 
-LangCode::LangCode( const char * locale )
+LangCode::LangCode( const std::string & locale )
 {
-	size_t l_len = strlen( locale ) ;
-
-	if (l_len == 2)
+	if (locale.length() == 2)
 	{
-		this->code = ((uint32_t)std::toupper( locale[0] ) << 24)
+		this->m_code = ((uint32_t)std::toupper( locale[0] ) << 24)
 			| ((uint32_t)std::toupper( locale[1] ) << 16);
 	}
-	if (l_len == 5 & locale[2] == '_')
+	if (locale.length() == 5 & locale[2] == '_')
 	{
-		this->code = ((uint32_t)std::toupper( locale[0] ) << 24)
+		this->m_code = ((uint32_t)std::toupper( locale[0] ) << 24)
 			| ((uint32_t)std::toupper( locale[1] ) << 16)
 			| ((uint32_t)std::toupper( locale[3] ) << 8)
 			| (uint32_t)std::toupper( locale[4] );
 	}
 	
-	this->code = 0;
+	this->m_code = 0;
+}
+
+
+const char * LangCode::getUppercaseSearchSuffix()
+{
+	static char suffix[6];
+	suffix[0] = '.';
+	suffix[1] = (char)(m_code >> 24);
+	suffix[2] = (char)(m_code >> 16);
+	suffix[3] = (char)(m_code >> 8);
+	suffix[4] = (char)m_code;
+	suffix[5] = '\x00';
+	return suffix;
+}
+
+
+const char * LangCode::getLangUppercaseSearchSuffix()
+{
+	static char suffix[4];
+	suffix[0] = '.';
+	suffix[1] = (char)(m_code >> 24);
+	suffix[2] = (char)(m_code >> 16);
+	suffix[3] = '\x00';
+	return suffix;
 }
 
 
