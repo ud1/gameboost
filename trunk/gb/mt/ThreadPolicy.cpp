@@ -3,6 +3,7 @@
 #if GB_ALLOW_BOOST_LIBRARY
 
 #include <gb/mt/ThreadPolicy.h>
+#include <gb/base/Debug.h>
 
 #include <map>
 #include <boost/thread.hpp>
@@ -80,7 +81,7 @@ namespace gb {
 		
 		ThreadGroup ThreadMapping::getCurrentThreadGroup()
 		{
-			assert(thread_groups.count(boost::this_thread::get_id()));
+			GBASSERT(thread_groups.count(boost::this_thread::get_id()));
 			return thread_groups.find(boost::this_thread::get_id())->second;
 		}
 	}

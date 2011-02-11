@@ -8,10 +8,10 @@
 #include <gb/str/String.h>
 
 // Включить поддержку классом Boost.Serialize
-#define GB_ENABLE_GUID_BOOST_SERIALIZE 1
+#define GB_ENABLE_BOOST_SERIALIZE 1
 
 
-#if GB_ENABLE_GUID_BOOST_SERIALIZE
+#if GB_ENABLE_BOOST_SERIALIZE
 #include <boost/serialization/serialization.hpp>
 #endif
 
@@ -66,7 +66,7 @@ struct GuidTemplate
 
 
 	//! Проверка на нули
-	inline bool IsZero() const
+	inline bool isZero() const
 	{
 		//return ! Data[0] && ! Data[1] && ! Data[2] && ! Data[3];
 		return !D1 && !D2 && !D3 && !D4;
@@ -75,7 +75,7 @@ struct GuidTemplate
 
 
 	//! Обнуляет GUID
-	void SetZero()
+	void setZero()
 	{
 		//memset (Data, 0, sizeof(Data));
 		D1 = D2 = D3 = D4 = 0;
@@ -83,10 +83,11 @@ struct GuidTemplate
 
 
 
-	void Autogenerate (uint32_t id)
+	void generateSimple (uint32_t id)
 	{
 		D1 = ((uint16_t)id << 16) | (uint16_t)id;
-		D2 = (uint32_t)OS::GetTickCount();
+		// TODO: заменить на кроссплатформенный доступ к миллисек.таймеру
+		D2 = (uint32_t)::GetTickCount();
 		D3 = id;
 		D4 = id;
 /*
@@ -100,7 +101,7 @@ struct GuidTemplate
 
 
 	//! Представление в виде строки
-	inline std::string ToStr() const
+	inline std::string toString() const
 	{
 		std::stringstream ss;
 		ss << (*this);
@@ -110,7 +111,7 @@ struct GuidTemplate
 
 
 	//! Короткое представление GUID по первым 4 цифрам + код типа GUID из структуры Flavor
-	std::string ToPrefix() const
+	std::string toShortPrefix() const
 	{
 		std::stringstream ss;	
 		ss << Flavor::TypePrefix() << "=";
@@ -124,7 +125,9 @@ struct GuidTemplate
 
 
 	//! Создаёт имя для использования в питоне вида "prefix_000000001111111122222222"
-	std::string ToPythonIdentifier (const std::string & prefix) const
+	//! Для генерации функций в скриптовом языке, которые были бы уникальны по этому Guid
+	//! например: def WidgetClick_000000001111111122222222():
+	std::string toPythonIdentifier (const std::string & prefix) const
 	{
 		std::stringstream ss;
 		ss << prefix;
@@ -171,22 +174,7 @@ struct GuidTemplate
 			}
 		}
 		return false;
-/*
-		if (Data [0] < other.Data [0]) return true;
-		if (Data [0] == other.Data [0])
-		{
-			if (Data [1] < other.Data [1]) return true;
-			if (Data [1] == other.Data [1])
-			{
-				if (Data [2] < other.Data [2]) return true;
-				if (Data [2] == other.Data [2])
-				{
-					if (Data [3] < other.Data [3]) return true;
-				}
-			}
-		}
-		return false;
-*/
+
 	}
 
 
@@ -199,13 +187,6 @@ struct GuidTemplate
 		if (D3 != other.D3) return false;
 		if (D4 != other.D4) return false;
 		return true;
-/*
-		if (Data [0] != other.Data [0]) return false;
-		if (Data [1] != other.Data [1]) return false;
-		if (Data [2] != other.Data [2]) return false;
-		if (Data [3] != other.Data [3]) return false;
-		return true;
-*/
 	}
 
 
@@ -214,16 +195,6 @@ struct GuidTemplate
 	{
 		return !(*this == other);
 	}
-
-
-
-	//! Оператор записи в поток (в XML)
-	//template <class Flavor>
-	//friend std::ostream & operator << (std::ostream & os, const GuidT<Flavor> & p);
-
-	//! Оператор чтения из потока (из XML)
-	//template <class Flavor>
-	//friend std::istream & operator >> (std::istream & is, GuidT<Flavor> & p);
 
 	typedef std::list <ThisClass> List;
 	typedef std::set <ThisClass> Set;
@@ -241,7 +212,7 @@ struct GuidTemplate
 		return v;
 	}
 
-#ifdef GB_ENABLE_GUID_BOOST_SERIALIZE
+#ifdef GB_ENABLE_BOOST_SERIALIZE
 protected:
 	// BOOST SERIALIZATION
 	friend class boost::serialization::access;
@@ -249,7 +220,6 @@ protected:
 	template <class Archive>
 	void serialize (Archive & ar, const uint32_t version)
 	{
-		//ar & Data [0] & Data [1] & Data [2] & Data [3];
 		ar & D1 & D2 & D3 & D4;
 	}
 #endif
@@ -263,36 +233,30 @@ std::ostream & operator<<( std::ostream & os, const GuidTemplate<Flavor> & p )
 	// 8 знаков
 	os.width(8);
 	os.fill('0');
-	//os << std::hex << p.Data [0] << "-";
 	os << std::hex << p.D1 << "-";
 
 	// 4 знака
 	os.width(4);
 	os.fill('0');
-	//os << (uint16_t)(p.Data [1] >> 16) << "-";
 	os << (uint16_t)(p.D2 >> 16) << "-";
 
 	// 4 знака
 	os.width(4);
 	os.fill('0');
-	//os << (uint16_t)(p.Data [1]) << "-";
 	os << (uint16_t)(p.D2) << "-";
 
 	// 4 знака
 	os.width(4);
 	os.fill('0');
-	//os << (uint16_t)(p.Data [2] >> 16) << "-";
 	os << (uint16_t)(p.D3 >> 16) << "-";
 
 	// 4 + 8 = 12 знаков
 	os.width(4);
 	os.fill('0');
-	//os << (uint16_t)(p.Data [2]);
 	os << (uint16_t)(p.D3);
 
 	os.width(8);
 	os.fill('0');
-	//os << p.Data [3];
 	os << p.D4;
 	return os;
 }
@@ -306,7 +270,7 @@ std::istream & operator>>( std::istream & is, GuidTemplate<Flavor> & p )
  	is >> str;
 
 	if (str.empty()) {
-		p.SetZero();
+		p.setZero();
 		return is;
 	}
 	
@@ -314,21 +278,16 @@ std::istream & operator>>( std::istream & is, GuidTemplate<Flavor> & p )
 	gb::str::split (parts, str, ba::is_any_of ("-"));
 	if (parts.size() != 5)
 	{
-		p.SetZero();
+		p.setZero();
 		return is;
 	}
 
-// 	p.Data[0] = Util::FromHex (parts[0]);
-// 	p.Data[1] = (uint16_t)Util::FromHex (parts[1]) << 16 | (uint16_t)Util::FromHex (parts[2]);
 	p.D1 = gb::str::uint32FromHex (parts[0]);
 	p.D2 = (uint16_t)gb::str::uint32FromHex (parts[1]) << 16 | (uint16_t)gb::str::uint32FromHex (parts[2]);
  	uint64_t last = gb::str::uint64FromHex (parts[4]);
-// 	p.Data[2] = (uint16_t)Util::FromHex (parts[3]) << 16 | (uint16_t)(last >> 32);
-// 	p.Data[3] = (uint32_t)last;
 	p.D3 = (uint16_t)gb::str::uint32FromHex (parts[3]) << 16 | (uint16_t)(last >> 32);
 	p.D4 = (uint32_t)last;
 
-	//	>> p.Data[0] >> p.Data[1] >> p.Data[2] >> p.Data[3];
 	return is;
 }
 

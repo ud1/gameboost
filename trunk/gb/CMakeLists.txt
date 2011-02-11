@@ -11,6 +11,7 @@ endif()
 # Исходники
 set( GAMEBOOST_SOURCES
 		base/Atomic.h  base/Guid.h
+		base/Debug.h
 		base/IRefCountable.h
 		base/SimpleLog.cpp  base/SimpleLog.h  base/CommonLog.cpp  base/CommonLog.h
 		base/Timer.h  base/Timer.cpp  base/FPSCounter.cpp  base/FPSCounter.h 

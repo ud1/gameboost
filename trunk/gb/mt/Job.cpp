@@ -4,6 +4,7 @@
 
 #include <gb/mt/Job.h>
 #include <gb/mt/JobScheduler.h>
+#include <gb/base/Debug.h>
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/lambda/lambda.hpp>
@@ -63,13 +64,13 @@ namespace gb {
 		{
 			if (s == JobTask::CANCEL_JOB)
 			{
-				assert(status == JOB_CANCELING);
+				GBASSERT(status == JOB_CANCELING);
 				job_task.run(s);
 				status = JOB_CANCELED;
 			}
 			else
 			{
-				assert(status == JOB_RUNNING);
+				GBASSERT(status == JOB_RUNNING);
 				job_task.run(s);
 				status = JOB_FINISHED;
 			}

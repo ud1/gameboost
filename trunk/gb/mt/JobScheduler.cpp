@@ -3,6 +3,7 @@
 #if GB_ALLOW_BOOST_LIBRARY
 
 #include <gb/mt/JobScheduler.h>
+#include <gb/base/Debug.h>
 
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
@@ -339,7 +340,7 @@ namespace gb {
 
 		Loop::Loop(IJobScheduler *sched_, int period_millisecs, const JobTask &f)
 		{
-			assert(sched_);
+			GBASSERT(sched_);
 			sched = sched_;
 			period = period_millisecs;
 			task.policy = f.policy;
