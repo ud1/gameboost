@@ -30,6 +30,11 @@ std::wstring toWide( const std::string & utf8_str );
 //! \returns возвращает его длину в результате функции и код в out_result
 uint32_t decodeUtf8Character( uint32_t & out_result, const char * utf8 );
 
+uint32_t uint32FromHex (const std::string & s);
+uint64_t uint64FromHex (const std::string & s);
+
+
+
 // Boost запрещён, стоянка велосипедов открывается здесь
 #if ! GB_ALLOW_BOOST_LIBRARY
 

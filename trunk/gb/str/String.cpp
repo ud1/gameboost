@@ -10,6 +10,7 @@
 #include <utfcpp/checked.h>
 #include <utfcpp/unchecked.h>
 
+#include <sstream>
 #include <cctype>
 #include <mbstring.h>
 
@@ -92,6 +93,26 @@ uint32_t decodeUtf8Character( uint32_t & out_result, const char * utf8 )
 	}
 	return 1;
 }
+
+uint32_t uint32FromHex (const std::string & s)
+{
+	std::istringstream stream(s);
+	uint32_t result;
+	stream >> std::hex >> result;
+	if (stream.fail()) return 0;
+	return result;
+}
+
+uint64_t uint64FromHex (const std::string & s)
+{
+	std::istringstream stream(s);
+	uint64_t result;
+	stream >> std::hex >> result;
+	if (stream.fail()) return 0;
+	return result;
+}
+
+
 
 #if ! GB_ALLOW_BOOST_LIBRARY
 void toUpper( std::string & v )
