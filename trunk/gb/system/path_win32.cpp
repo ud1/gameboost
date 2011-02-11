@@ -5,7 +5,7 @@
 #include "pch.h"
 
 #include <gb/system/Path.h>
-#include <gb/base/String.h>
+#include <gb/str/String.h>
 
 #ifdef _WIN32
 

@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-#include <gb/base/String.h>
+#include <gb/str/String.h>
 
 // The fixture for testing class Foo.
 class gb_base_String_test : public ::testing::Test
