@@ -26,6 +26,10 @@ namespace gb
 std::string toUtf8( const std::wstring & wide_str );
 std::wstring toWide( const std::string & utf8_str );
 
+//! Раскодирует один Unicode символ из потока байтов UTF8
+//! \returns возвращает его длину в результате функции и код в out_result
+uint32_t decodeUtf8Character( uint32_t & out_result, const char * utf8 );
+
 // Boost запрещён, стоянка велосипедов открывается здесь
 #if ! GB_ALLOW_BOOST_LIBRARY
 

@@ -1,6 +1,7 @@
 /*! \file  KsUtils.cpp
  * \brief –азнообразные классы , типы дл€ разных задач 
  * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
+ * \author Reviewer/imported by: kvakvs (kvakvs@yandex.ru)
  */
 #include "pch.h"
 
