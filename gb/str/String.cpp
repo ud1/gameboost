@@ -5,7 +5,7 @@
  */
 #include "pch.h"
 
-#include <gb/base/String.h>
+#include <gb/str/String.h>
 
 #include <utfcpp/checked.h>
 #include <utfcpp/unchecked.h>
@@ -49,12 +49,12 @@ std::wstring toWide( const std::string & utf8_str )
 #if ! GB_ALLOW_BOOST_LIBRARY
 void toUpper( std::string & v )
 {
-#ifdef _WIN32
-	v = toUpperCopy(v);
-#else
+// #ifdef _WIN32
+// 	v = toUpperCopy(v);
+// #else
 	// Делаем морду валенком, как будто так и надо, и работаем только с ASCII
 	for( size_t i = 0; i < v.size(); ++i ) v[i] = std::toupper( v[i] );
-#endif
+// #endif
 }
 #endif
 
@@ -62,21 +62,21 @@ void toUpper( std::string & v )
 #if ! GB_ALLOW_BOOST_LIBRARY
 std::string toUpperCopy( const std::string & v )
 {
-#ifdef _WIN32
-	// TODO: вынести это куда-то глобально
-	static _locale_t utf8Locale = _create_locale( LC_ALL, "en_US.UTF8" );
-	// TODO: Не самый оптимальный вариант с копированием символов
-	std::auto_ptr <uint8_t> tmp( new uint8_t [v.length()+1] );
-	_mbscpy_s( tmp.get(), v.length()+1, (const uint8_t *)v.c_str() );
-	_mbsupr_s_l( tmp.get(), v.length()+1, utf8Locale );
-	return std::string( (const char *)tmp.get(), v.length() );
-#else
+// #ifdef _WIN32
+// 	// TODO: вынести это куда-то глобально
+// 	static _locale_t utf8Locale = _create_locale( LC_ALL, "en_US.UTF8" );
+// 	// TODO: Не самый оптимальный вариант с копированием символов
+// 	std::auto_ptr <uint8_t> tmp( new uint8_t [v.length()+1] );
+// 	_mbscpy_s( tmp.get(), v.length()+1, (const uint8_t *)v.c_str() );
+// 	_mbsupr_s_l( tmp.get(), v.length()+1, utf8Locale );
+// 	return std::string( (const char *)tmp.get(), v.length() );
+// #else
 	std::string upper_v;
 	upper_v.resize (v);
 	// Делаем морду валенком, как будто так и надо, и работаем только с ASCII
 	for( size_t i = 0; i < v.size(); ++i ) upper_v[i] = std::toupper( v[i] );
 	return upper_v;
-#endif
+// #endif
 }
 #endif
 
@@ -85,15 +85,15 @@ std::string toUpperCopy( const std::string & v )
 #if ! GB_ALLOW_BOOST_LIBRARY
 void toLower( std::string & v )
 {
-#ifdef _WIN32
-	v = toLowerCopy(v);
-#else
+// #ifdef _WIN32
+// 	v = toLowerCopy(v);
+// #else
 	std::string lower_v;
 	lower_v.resize (v);
 	// Делаем морду валенком, как будто так и надо, и работаем только с ASCII
 	for( size_t i = 0; i < v.size(); ++i ) lower_v[i] = std::tolower( v[i] );
 	return lower_v;
-#endif
+// #endif
 }
 #endif
 
@@ -101,16 +101,19 @@ void toLower( std::string & v )
 #if ! GB_ALLOW_BOOST_LIBRARY
 std::string toLowerCopy( const std::string & v )
 {
-#ifdef _WIN32
-	// TODO: вынести это куда-то глобально
-	static _locale_t utf8Locale = _create_locale( LC_ALL, "en_US.UTF8" );
-	// TODO: Не самый оптимальный вариант с копированием символов
-	std::auto_ptr <uint8_t> tmp( new uint8_t [v.length()+1] );
-	_mbscpy_s( tmp.get(), v.length()+1, (const uint8_t *)v.c_str() );
-	_mbslwr_s_l( tmp.get(), v.length()+1, utf8Locale );
-	return std::string( (const char *)tmp.get(), v.length() );
-#else
-#endif
+// #ifdef _WIN32
+// 	// TODO: вынести это куда-то глобально
+// 	static _locale_t utf8Locale = _create_locale( LC_ALL, "en_US.UTF8" );
+// 	// TODO: Не самый оптимальный вариант с копированием символов
+// 	std::auto_ptr <uint8_t> tmp( new uint8_t [v.length()+1] );
+// 	_mbscpy_s( tmp.get(), v.length()+1, (const uint8_t *)v.c_str() );
+// 	_mbslwr_s_l( tmp.get(), v.length()+1, utf8Locale );
+// 	return std::string( (const char *)tmp.get(), v.length() );
+// #else
+	std::string s( v );
+	toLower( s );
+	return s;
+// #endif
 }
 #endif
 

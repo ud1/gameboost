@@ -9,8 +9,8 @@
 //				http://www.gamedev.ru/community/gameboost
 //
 //------------------------------------------------------------------------------
-
-#include "gb/base/FPSCounter.h"
+#include "pch.h"
+#include <gb/base/FPSCounter.h>
 
 //------------------------------------------------------------------------------
 //
@@ -44,9 +44,9 @@ namespace gb
 
 		//----------------------------------------------------------------------
 
-		float FPSCounter::start()
+		void FPSCounter::start()
 		{
-			timer.start();
+			timer.startTiming();
 		}
 		
 		//----------------------------------------------------------------------
@@ -77,30 +77,30 @@ namespace gb
 
 		//----------------------------------------------------------------------
 		
-		float getDt() const
+		float FPSCounter::getDt() const
 		{
 			return dt;
 		}
 		
 		//----------------------------------------------------------------------
 		
-		float getAverageDt() const
+		float FPSCounter::getAverageDt() const
 		{
 			return adt;
 		}
 		
 		//----------------------------------------------------------------------
 		
-		float getFPS() const
+		float FPSCounter::getFPS() const
 		{
 			return fps;
 		}
 		
 		//----------------------------------------------------------------------
 		
-		float getAverageFPS() const 
+		float FPSCounter::getAverageFPS() const 
 		{
-			return afps
+			return afps;
 		}
 		
 		//----------------------------------------------------------------------

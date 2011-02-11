@@ -36,4 +36,4 @@ endif()
 
 #------ target -----
 add_executable( gameboost_test ${GBTEST_SOURCES} )
-# add_dependencies( gameboost_test gtest )
+add_dependencies( gameboost_test gameboost )

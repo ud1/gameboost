@@ -12,19 +12,16 @@ endif()
 set( GAMEBOOST_SOURCES
 		base/Atomic.h
 		base/IRefCountable.h
-		base/SimpleLog.cpp  base/SimpleLog.h
-		base/Timer.h  base/Timer.cpp
-		base/String.cpp  base/String.h
+		base/SimpleLog.cpp  base/SimpleLog.h  base/CommonLog.cpp  base/CommonLog.h
+		base/Timer.h  base/Timer.cpp  base/FPSCounter.cpp  base/FPSCounter.h 
 		base/Types.h
-
+		base/Factory.h
 		io/FileStream.cpp  io/FileStream.h  io/IStream.h  io/MemoryStream.cpp  io/MemoryStream.h
-
 		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp
-
 		math/Vector.h
-
 		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
-
+		str/String.cpp  str/String.h  str/KsString.cpp  str/KsString.h  str/KsUtils.cpp  str/KsUtils.h  str/KsDefines.h
+		i18n/I18n.h  i18n/IntlString.h  i18n/Japanese.inl.h  i18n/RomanicGermanic.inl.h
 		Config.h )
 
 # группы файлов в IDE
@@ -33,6 +30,8 @@ source_group( mt REGULAR_EXPRESSION "mt/" )
 source_group( io REGULAR_EXPRESSION "io/" )
 source_group( math REGULAR_EXPRESSION "math/" )
 source_group( system REGULAR_EXPRESSION "system/" )
+source_group( i18n REGULAR_EXPRESSION "i18n/" )
+source_group( strings REGULAR_EXPRESSION "str/" )
 
 #------ additional includes ------
 include_directories( ${GAMEBOOST_SOURCE_DIR} )

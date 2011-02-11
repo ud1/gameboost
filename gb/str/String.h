@@ -5,6 +5,8 @@
  *	алгоритмов без подключения библиотеки Boost
  */
 
+#include <gb/Config.h>
+
 #if GB_ALLOW_BOOST_LIBRARY
 #include <boost/algorithm/string.hpp>
 #endif

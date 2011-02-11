@@ -53,7 +53,7 @@ namespace gb
 			FPSCounter();
 			
 			void start();
-			void finish();
+			float finish();
 			
 			float getDt() const;
 			float getAverageDt() const;

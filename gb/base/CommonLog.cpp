@@ -1,4 +1,6 @@
-#include "CommonLog.h"
+#include "pch.h"
+#include <gb/base/CommonLog.h>
+
 #include <ctime>
 #include <cstdarg>
 #include <clocale>
