@@ -21,7 +21,9 @@ set( GAMEBOOST_SOURCES
 		math/Vector.h
 		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
 		str/String.cpp  str/String.h  str/KsString.cpp  str/KsString.h  str/KsUtils.cpp  str/KsUtils.h  str/KsDefines.h
-		i18n/I18n.h  i18n/IntlString.h  i18n/Japanese.inl.h  i18n/RomanicGermanic.inl.h
+		i18n/I18n.cpp  i18n/I18n.h  i18n/IntlString.h 
+		i18n/Japanese.h  i18n/Japanese.cpp
+		i18n/RomanicGermanic.h  i18n/RomanicGermanic.cpp
 		Config.h )
 
 # группы файлов в IDE

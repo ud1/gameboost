@@ -45,6 +45,53 @@ std::wstring toWide( const std::string & utf8_str )
 	return wide_str;
 }
 
+uint32_t decodeUtf8Character( uint32_t & out_result, const char * utf8 )
+{
+	unsigned char c = utf8[0];
+	out_result = L'?';
+
+	if(c < 0x80)		// 1-byte code
+	{
+		out_result = c;
+		return 1;
+	}
+	else if(c < 0xC0)     // invalid
+	{
+		return 1;
+	}
+	else if(c < 0xE0)	// 2-byte code
+	{
+		out_result =  (c & 0x1F) << 6;
+		c = utf8[1];
+		out_result |= (c & 0x3F);
+		return 2;
+	}
+	else if(c < 0xF0)     // 3-byte code
+	{
+		out_result =  (c & 0x0F) << 12;
+		c = utf8[1];
+		out_result |= (c & 0x3F) <<  6;
+		c = utf8[2];
+		out_result |= (c & 0x3F);
+		return 3;
+	}
+	else if(c < 0xF8)     // 4-byte code
+	{
+		// make sure wchar_t is large enough to hold it
+		//if(std::numeric_limits<wchar_t>::max() > 0xFFFF)
+		{
+			out_result =  (c & 0x07) << 18;
+			c = utf8[1];
+			out_result |= (c & 0x3F) << 12;
+			c = utf8[2];
+			out_result |= (c & 0x3F) <<  6;
+			c = utf8[3];
+			out_result |= (c & 0x3F);
+			return 4;
+		}
+	}
+	return 1;
+}
 
 #if ! GB_ALLOW_BOOST_LIBRARY
 void toUpper( std::string & v )
