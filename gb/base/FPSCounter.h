@@ -38,7 +38,7 @@ namespace gb
 		
 		class FPSCounter
 		{
-
+		
 			int frames;
 			double time;
 			float dt;
