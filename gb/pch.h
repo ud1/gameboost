@@ -42,7 +42,7 @@
 	#include <boost/thread/thread.hpp>
 	#include <boost/thread/mutex.hpp>
 
-	#if GB_ENABLE_GUID_BOOST_SERIALIZE
+	#if GB_ENABLE_BOOST_SERIALIZE
 		#include <boost/serialization/serialization.hpp>
 	#endif
 

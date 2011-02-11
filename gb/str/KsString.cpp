@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 
-#include <assert.h>
+//#include <assert.h>
 
 #pragma warning( push )
 #pragma warning( disable : 4996 )
@@ -1749,7 +1749,7 @@ bool KsStringVector::loadFromFileA(const char* fname, bool bRemoveEndLineOnEnd )
 	if(!file) return false;
 
 	// ????		//
-	//	assert(false);
+	//	GBASSERT(false);
 
 	static const int32_t SS_LEN = 256;
 	static char ss[SS_LEN];

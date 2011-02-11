@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <gb/base/Debug.h>
+
 #if ! GB_NO_SIMD
 	#include <xmmintrin.h>
 #endif // GB_NO_SIMD
@@ -66,7 +68,7 @@ public:
 	
 	inline float &  operator[] (int index)
 	{
-		assert( index >=0 && index <= 3 );
+		GBASSERT( index >=0 && index <= 3 );
 		return reinterpret_cast<float*>(this)[index];
 	}
 

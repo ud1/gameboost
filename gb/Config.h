@@ -7,7 +7,7 @@
 #define GB_ALLOW_BOOST_LIBRARY 1
 
 // Включить поддержку классами Boost.Serialize
-#define GB_ENABLE_GUID_BOOST_SERIALIZE 1
+#define GB_ENABLE_BOOST_SERIALIZE 1
 
 // microsoft specific
 #ifdef _MSC_VER
