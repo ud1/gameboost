@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 #include <string>
+#include <cctype>
 #include <vector>
 #include <list>
 
@@ -45,8 +46,8 @@ bool strTo(KS_OUT T& outVal,  const std::string& s)
 {
 	if( !s.length() ) return false;
 	try { outVal = boost::lexical_cast<T>(s); }
-	catch(bad_lexical_cast &) {  return false; 	};	return true;
-};
+	catch(bad_lexical_cast &) {  return false; 	}	return true;
+}
 
 
 template<typename T>
@@ -73,11 +74,11 @@ bool strVectorTo(KS_OUT std::vector<T>& vOut,  const std::vector<std::string>& v
 
 		vOut.push_back(val);
 
-	}; // for
+	} // for
 
 
 	return true;
-};
+}
 
 
 /** \brief Заполнение вектора по строке делёной символом конца строки  \n */
@@ -98,8 +99,8 @@ void changeCase1251(char* buff, bool bUpReg);
 /** \brief Поиск индексов вхождения символа chToBeSearch в строке src
 с позиции  nStartIndex */
 //==============================================
-bool searchCharPos(KS_OUT std::vector<int> vPosOut, const std::string& src,
-	KS_IN char chToBeSearch, KS_IN int nStartIndex);
+bool searchCharPos(KS_OUT std::vector<int32_t> vPosOut, const std::string& src,
+	KS_IN char chToBeSearch, KS_IN int32_t nStartIndex);
 
 
 /** \brief Печать информации о строке на консоль. */
@@ -135,13 +136,13 @@ void preprocessCppComments(KS_INOUT std::string& s, KS_IN_OPTIONAL char chRepl=0
 
 
 /** \brief Поиск индекса вхождения   символа. Минус один если не найден */
-int findChar(const std::string& s, const char symb, const int nStartPos);
+int32_t findChar(const std::string& s, const char symb, const int32_t nStartPos);
 
 /** \brief Поиск подстроки между символами <br>
 nPosition - с какой позиции и в нём же и результат индекса (позиция завершающего символа)  */
 bool findSubstringBetween( KS_OUT std::string& sResult, const std::string& s,
 	const char chBegin,  const char chEnd,
-	KS_INOUT int& nPosition );
+	KS_INOUT int32_t& nPosition );
 
 /** \brief Разрезать строку по указаному символу chDiv <br>
 bClearResVecBefore - очистить или нет результирующий вектор vResult перед операцией   */
@@ -157,14 +158,14 @@ void splitTokens( KS_OUT std::vector<std::string>& vResult,
 
 /** \brief Разрезать строку по кол-ву указаному в pOffsets и  nOffsLen */
 void sliceByOffsets(KS_OUT std::vector<std::string>& vResult, const std::string& src,
-	const unsigned int* pOffsets, const int nOffsLen) ;
+	const uint32_t* pOffsets, const int32_t nOffsLen) ;
 
 /** \brief Разоезать строку src между индексами nStartPos && nStopPos
 по токену  chToken   */
 bool sliceBetweenIndices(KS_OUT std::vector<std::string>& vOut,
 	const std::string& src,
 	KS_IN char  chToken,
-	KS_IN int nStartPos, KS_IN int nStopPos);
+	KS_IN int32_t nStartPos, KS_IN int32_t nStopPos);
 
 
 /** \brief Проверка на соответствие символа chr любому из szAny  */
@@ -172,12 +173,12 @@ bool isAnyOf(const char chr, const std::string& sAny) ;
 
 /** \brief Выполнить поиск в строке src любого символа содержащегося  в sAny
 с позиции posit . Если найден то вернёт true и в posit индекс вхождения  */
-bool findAnyOf(const std::string& src, KS_INOUT int& posit, const std::string& sAny ) ;
+bool findAnyOf(const std::string& src, KS_INOUT int32_t& posit, const std::string& sAny ) ;
 
 /** \brief Выполнить поиск в строке src с позиции posit поиск
 первого символа в диапазоне chBegin ... chEnd  (включительно) .
 Если найден то вернёт true и в posit индекс вхождения */
-bool findAnyOfBetween(const std::string& src, KS_INOUT int& posit, KS_IN char chBegin, KS_IN char chEnd);
+bool findAnyOfBetween(const std::string& src, KS_INOUT int32_t& posit, KS_IN char chBegin, KS_IN char chEnd);
 
 
 
@@ -194,7 +195,7 @@ bool StrUt_Check_OpenXmlTag(KS_OUT std::string& sOutTag,
 /** \brief Проверка строчки на открывающий xml/html таг по индексу     */
 bool StrUt_Check_OpenXmlTag_pos(KS_OUT std::string& sOutTag, 
 	const std::string& src,
-	KS_INOUT int& posit);
+	KS_INOUT int32_t& posit);
 
 /** \brief Проверка строчки на закрывающий xml/html таг     */
 bool StrUt_Check_CloseXmlTag(KS_OUT std::string& sOutTag,
@@ -203,7 +204,7 @@ bool StrUt_Check_CloseXmlTag(KS_OUT std::string& sOutTag,
 /** \brief Проверка строчки на закрывающий xml/html таг  по индексу    */
 bool StrUt_Check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
 	const std::string& src,
-	KS_INOUT int& posit);
+	KS_INOUT int32_t& posit);
 #endif //0
 
 /** \brief Удаление символов начиная с "//" (с++ однострочный комментарий) */
@@ -215,31 +216,31 @@ void skipCppOnelineComment(KS_INOUT std::string& s);
 
 
 void intArrayToStr(KS_OUT std::string& sOut,
-	const int* pArray,  const int nArrayLen,
+	const int32_t* pArray,  const int32_t nArrayLen,
 	const char* szBegin, const char* szEnd,
 	const char* szSeparator );
 
 
 void intArrayToStr(KS_OUT std::string& sOut,
-	const std::vector<int>& vArray,
+	const std::vector<int32_t>& vArray,
 	const char* szBegin, const char* szEnd,
 	const char* szSeparator );
 
 
-bool intArrayFromStr(KS_OUT int* pBufOut, KS_IN int nBufLen,
+bool intArrayFromStr(KS_OUT int32_t* pBufOut, KS_IN int32_t nBufLen,
 	KS_IN std::string& src, KS_IN char chBegin, KS_IN char chEnd,
-	KS_IN char chSeparator, KS_OUT_OPTIONAL int* pOutNumReaded=NULL  );
+	KS_IN char chSeparator, KS_OUT_OPTIONAL int32_t* pOutNumReaded=NULL  );
 
 
-bool intArrayFromStr(KS_OUT std::vector<int>& vOut, KS_IN std::string& src,
+bool intArrayFromStr(KS_OUT std::vector<int32_t>& vOut, KS_IN std::string& src,
 	KS_IN char chBegin, KS_IN char chEnd, KS_IN char chSeparator );
 
 
 /** \brief  найти следующий символ не равный символам sSkipAnySymbols
 в строке src со стартовой позиции nStartPosit. Если найден вернёт true
 и в nOutFoundPosit позиция найденого символа */
-bool findNextSkipAny(KS_OUT int& nOutFoundPosit, KS_IN std::string& src,
-	KS_IN int nStartPosit,
+bool findNextSkipAny(KS_OUT int32_t& nOutFoundPosit, KS_IN std::string& src,
+	KS_IN int32_t nStartPosit,
 	KS_IN std::string& sSkipAnySymbols );
 
 
@@ -253,7 +254,7 @@ inline bool removeAnyFromBeginAndEnd( KS_INOUT std::string& s , KS_IN std::strin
 	s = "";
 	bool bres = removeAnyFromBeginAndEnd( s  ,  temp ,   sAny);
 	return bres;
-};
+}
 
 /** \brief Аналог StrUt_RemoveAnyFromBeginAndEnd для вектора строк */
 void removeAnyFromBeginAndEnd_Vec(KS_INOUT std::vector<std::string>& v,
@@ -286,7 +287,7 @@ bool strArrayFromStr( KS_OUT std::vector<std::string>& vOut,///<
 Каждый не должен превышать длину src  и не должен быть отрицательным) */
 bool sliceStrByIndices(std::vector<std::string>& vOut,  
 	const std::string& src, 
-	const std::vector<unsigned int>& vIndexes );
+	const std::vector<uint32_t>& vIndexes );
 
 
 /** \brief Удалить из vInp все пустые строки, а непустые поместить в vOut */
@@ -308,28 +309,28 @@ void copyStringsSkipEmpty(std::vector<std::string>& vOut, std::vector<std::strin
 /** \brief Проверка является ли символ цифровым */
 inline bool isDigit(char symb) {
 	return ( (symb>='0') && (symb<='9') );
-};
+}
 
 /** \brief Проверка является ли символ англоязычным символом в ВЕРХНЕМ регистре. */
 inline bool isLatinLetterUpper(char symb) {
 	if (  (symb>='A') && (symb<='Z') ) return true;
 	return false;
-};
+}
 
 /** \brief Проверка является ли символ англоязычным символом в НИЖНЕМ регистре. */
 inline bool isLatinLetterLower(char symb) {
 	if (  (symb>='a') && (symb<='z') ) return true;
 	return false;
-};
+}
 
 /** \brief Проверка является ли символ англоязычным символом */
 inline bool isLatinLetter(char symb) {
 	return ( isLatinLetterUpper(symb) || isLatinLetterLower(symb) );
-};
+}
 
 /** \brief Поиск символа новой строки . <br>
 src-указ. на первый символ в буфере.  pos - текущая позиция. */
-inline bool findNextLinePos(const char* src, int& pos) {
+inline bool findNextLinePos(const char* src, int32_t& pos) {
 	char tkn ;
 	while(true) {
 		tkn =  *( src + pos );
@@ -340,25 +341,25 @@ inline bool findNextLinePos(const char* src, int& pos) {
 				// found !
 				pos += 2;
 				return true;
-			};
-		};
+			}
+		}
 
 		pos++;
-	};
+	}
 
 	return false;
-};
+}
 
 /** \brief Является ли символ математическим */
 inline bool isMathOperator(char symb) {
 	return ( (symb == '+') || (symb == '-') || (symb == '*') || (symb == '/')  );
-};
+}
 
 /** \brief Присоединяет символ к строке. */
 inline void appendChar(char* buf, const char s) {
-	int iblen = (int)strlen(buf);
+	int32_t iblen = (int32_t)strlen(buf);
 	*(buf + iblen) = s;
-};
+}
 
 
 
@@ -369,7 +370,7 @@ inline std::string StrUt_MakeOpenXmlTag(const std::string& sTag) {
 	res += sTag;
 	res += ">";
 	return res;
-};
+}
 
 /** \brief  make string:  "</tag>" */
 inline std::string StrUt_MakeCloseXmlTag(const std::string& sTag) {
@@ -377,7 +378,7 @@ inline std::string StrUt_MakeCloseXmlTag(const std::string& sTag) {
 	res += sTag;
 	res += ">";
 	return res;
-};
+}
 
 inline bool StrUt_CheckSymbolMayBeOpen(KS_IN char symb) {
 	if( symb == '(' ) return true;
@@ -386,7 +387,7 @@ inline bool StrUt_CheckSymbolMayBeOpen(KS_IN char symb) {
 	if( symb == '<' ) return true;
 
 	return false;
-};
+}
 
 inline bool StrUt_CheckSymbolMayBeClose(KS_IN char symb) {
 	if( symb == ')' ) return true;
@@ -395,14 +396,14 @@ inline bool StrUt_CheckSymbolMayBeClose(KS_IN char symb) {
 	if( symb == '>' ) return true;
 
 	return false;
-};
+}
 
 inline bool StrUt_SymbMayBeSeparator(KS_IN char symb) {
 	if( symb == ',' ) return true;
 	if( symb == ';' ) return true;
 
 	return false;
-};
+}
 #endif //0
 
 
@@ -411,9 +412,9 @@ inline bool StrUt_SymbMayBeSeparator(KS_IN char symb) {
 /** \brief Класс от std::string  с расширеной функциональностью  */
 class KsString : public std::string {
 public:
-	KsString() {};
-	KsString(const char* s) {  assign(s); };
-	KsString(const std::string& s) {  assign(s.c_str() ); };
+	KsString() {}
+	KsString(const char* s) {  assign(s); }
+	KsString(const std::string& s) {  assign(s.c_str() ); }
 
 
 	void operator = (const char* s) {
@@ -421,24 +422,24 @@ public:
 	}
 	void operator += (const char* s) {
 		append(s);
-	};
+	}
 
 	void operator += (float f) {
-		int pos=0;
+		int32_t pos=0;
 		static char ss[12]; ss[0]=0;
 		pos += sprintf(ss+pos, "%f", f);
 		*this += ss;
-	};
+	}
 
-	void operator += (int i) {
-		int pos=0;
+	void operator += (int32_t i) {
+		int32_t pos=0;
 		static char ss[12]; ss[0]=0;
 		pos += sprintf(ss+pos, "%i", i);
 		*this += ss;
 	}
 
 	void operator += (bool b) {
-		int pos=0;
+		int32_t pos=0;
 		static char ss[12]; ss[0]=0;
 		if(b) pos+= sprintf(ss+pos, "true");
 		else  pos+= sprintf(ss+pos, "false");
@@ -447,38 +448,41 @@ public:
 
 	void operator += (char _ch) {
 		push_back(_ch);
-	};
+	}
 
 	/** \brief Добавить символ конца строки.  */
-	void endl() { append("\n"); };
+	void appendLF() { append("\n"); }
 
-	static char toupper_ex(char _ch) {
-		return toupper(_ch);
-	};
+	static char toUpperCh(char _ch) {
+		return std::toupper(_ch);
+	}
 
-	static char tolower_ex(char _ch) {
-		return tolower(_ch);
-	};
+	static char toLowerCh(char _ch) {
+		return std::tolower(_ch);
+	}
 
 	/** \brief Печать на консоль. */
 	void print(bool bEndl = true) const {
 		printf( c_str() );
 		if(bEndl) printf("\n");
-	};
+	}
 
 	/** \brief Печать информации о строке на консоль. */
-	void print_info() const {
-		printStrInfo(*this);
-	};
+	void printStrInfo() const {
+		gb::str::printStrInfo( *this );
+	}
 
 	/** \brief  . */
-	void make_lowercase()  ;
+	void toLower();
+
 	/** \brief  . */
-	void make_upercase() ;
+	void toUpper();
+
 	/** \brief  . */
-	void  remove_symbols( const char symb ) ;
+	void  eraseChar( const char symb );
+
 	/** \brief  . */
-	void  replace_symbols( const char symb, const char new_symb ) ;
+	void replaceChar( const char symb, const char new_symb ) ;
 
 
 
@@ -486,53 +490,51 @@ public:
 	// TODO: Не компилится
 	// 	bool save_string_to_file_a(const char* fname) const {
 	// 		 StrUt_SaveStrToFileA(*this, fname );
-	// 	};
+	// 	}
 
 	/** \brief Загрузка строки из файла . */
-	bool load_string_from_file_a(const char* fname)  {
-		return loadStrFromFileA(*this, fname );
-	};
+	bool loadStrFromFileA(const char* fname)  {
+		return gb::str::loadStrFromFileA(*this, fname );
+	}
 
 
 
 	/** \brief Обратный вызов для поиска. */
-	typedef  bool (*TFuncOnFound)( void* pUserParam, const int _at, int nCountFound);
+	typedef bool (* found_func_t )( void* pUserParam, const int32_t _at, int32_t nCountFound);
 
 	/** \brief Поиск с обратным вызовом . */
-	bool search_with_callback(const char* srch, TFuncOnFound func, void* pUserParam ) const {
+	bool findWithCallback(const char* srch, found_func_t func, void* pUserParam ) const {
 		bool res = false;
-		const int nSrcLen = (int)length();
+		const int32_t nSrcLen = (int32_t)length();
 		if(nSrcLen==0) return false;
 
-		const int nsrchLen = (int)strlen(srch);
+		const int32_t nsrchLen = (int32_t)strlen(srch);
 		if(nsrchLen==0) return false;
 
-		int nCountFound =0;
-		for(int c=0; c< nSrcLen; c++) {
-			int numSuss =0;
-			if( Compare_symbols( c_str() + c, srch, nsrchLen , numSuss   )  ) {
+		int32_t nCountFound =0;
+		for(int32_t c=0; c< nSrcLen; c++) {
+			int32_t numSuss =0;
+			if( compareChars( c_str() + c, srch, nsrchLen , numSuss   )  ) {
 				nCountFound++;
 				if( func(pUserParam, c, nCountFound)==false ) {
 					return true;
-				};
-			};
+				}
+			}
 
 			c+= numSuss;
-		};
-
-
+		}
 
 		return true;
-	};
+	}
 
-	static bool Compare_symbols(const char* a1, const char* a2, const int num, int& numSuss) {
-		for(int c=0; c< num; c++) {
+	static bool compareChars(const char* a1, const char* a2, const int32_t num, int32_t& numSuss) {
+		for(int32_t c=0; c< num; c++) {
 			if(  *(a1+c) != *(a2+c)  )
 				return false;
 			numSuss++;
-		};
+		}
 		return true;
-	};
+	}
 
 
 	///////////////////////////////
@@ -540,24 +542,24 @@ public:
 	///////////////////////////////
 
 
-	//void boost_to_upper() {  StrUt_BoostMakeUpperCase(*this);   };
-	//void boost_to_lower() {	 StrUt_BoostMakeLowerCase(*this);  	};
+	//void boost_to_upper() {  StrUt_BoostMakeUpperCase(*this);   }
+	//void boost_to_lower() {	 StrUt_BoostMakeLowerCase(*this);  	}
 
 	// 	void boost_replace_first_copy(const std::string& s_tobe_relp, const std::string& snew) {
 	// 	    StrUt_Boost_replace_first_copy(*this, s_tobe_relp, snew );
-	// 	};
+	// 	}
 	// 
 	// 	void boost_replace_last_copy(const std::string& s_tobe_relp, const std::string& snew) {
 	// 	    StrUt_Boost_replace_last_copy(*this, s_tobe_relp, snew );
-	// 	};
+	// 	}
 
 	// 	void  boost_trim_before() {
 	// 	 	  boost::trim(*this);
-	// 	};
+	// 	}
 
 	// 	void boost_erase_all( const std::string& s_erased ) {
 	// 		StrUt_BoostEraseAll( *this,  s_erased );
-	// 	};
+	// 	}
 
 
 
@@ -567,9 +569,9 @@ public:
 
 
 /** \brief Класс от  std::vector для Str с расширеной функциональностью . */
-class StringsVector : public std::vector< gb::str::KsString > {   // std::string> {
+class KsStringVector : public std::vector< gb::str::KsString > {   // std::string> {
 public:
-	StringsVector() {};
+	KsStringVector() {}
 
 	/** \brief Печать полного текста. */
 	void print(bool bInline=false) const {
@@ -579,36 +581,38 @@ public:
 			printf("%s", s.c_str() );
 			if(!bInline) {
 				printf("\n");
-			};
-		};
-	};
+			}
+		}
+	}
 
 	/** \brief Добавить новую строку. */
-	size_t add(const std::string& s) {
+	size_t appendStr(const std::string& s) {
 		std::string ls = s;
 		push_back(ls);
 		return size();
-	};
+	}
 
 	/** \brief Добавить новую строку. */
-	size_t add(const char* s) {
+	size_t appendStr(const char* s) {
 		std::string ls = s;
 		push_back(ls);
 		return size();
-	};
+	}
 
 	/** \brief Добавить новую строку. */
-	size_t add(const KsString & s ) {
+	size_t appendStr(const KsString & s ) {
 		push_back( s);
 		return size();
-	};
+	}
 
 	/** \brief Подсчёт и возвврат кол-ва всех символов . */
-	unsigned int get_total_numsymbols() const  ;
+	uint32_t countTotalLength() const;
+	
 	/** \brief Сбрасывает полный текст в файл. */
-	bool save_to_file_a(const char* fname, bool bEndLineAfterItem=true) const ;
+	bool saveToFileA(const char* fname, bool bEndLineAfterItem=true) const ;
+	
 	/** \brief Загружает новый текст из файла. Каждая строка-новый итем вектора. */
-	bool load_from_file_a(const char* fname, bool bRemoveEndLineOnEnd=true) ;
+	bool loadFromFileA(const char* fname, bool bRemoveEndLineOnEnd=true);
 };
 // end class
 
