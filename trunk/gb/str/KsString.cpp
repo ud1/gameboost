@@ -35,7 +35,7 @@ void splitLines(
 	std::string temp;
 	if(s.length() == 0) return ;
 
-	for(int c=0; c<(int)s.length(); c++) {
+	for(int32_t c=0; c<(int32_t)s.length(); c++) {
 		char ch = s[c];
 		if(ch == '\n') {
 			if( temp.length() ) {
@@ -57,7 +57,7 @@ void splitLines(
 
 //======================================================
 void cstrToUpper(char* buf) {
-	int c=0;
+	int32_t c=0;
 	while(1)
 	{
 		if(  *(buf + c) == 0 ) return ;
@@ -70,7 +70,7 @@ void cstrToUpper(char* buf) {
 
 //======================================================
 void cstrToLower(char* buf) {
-	int c=0;
+	int32_t c=0;
 	while(1)
 	{
 		if(  *(buf + c) == 0 ) return ;
@@ -213,7 +213,7 @@ void StrUt_Boost_replace_last_copy(std::string& s, const std::string& s_tobe_rel
 bool iCompareCstr(const char* src1, 
 	const char* src2 ) 
 {
-	int c=0;
+	int32_t c=0;
 	while(1) {
 		char ch1 = tolower( *(src1 + c) );
 		char ch2 = tolower( *(src2 + c) );
@@ -247,19 +247,19 @@ void preprocessCppComments(KS_OUT std::string& sDest,
 	KS_IN_OPTIONAL char chRepl) 
 {
 	sDest = "";
-	const int SRCLEN = (int)sSrc.length();
+	const int32_t SRCLEN = (int32_t)sSrc.length();
 
 	bool bNowOneLineComment = false; // in one line comment
 	bool bNowMultiLineComment = false; // in multi line comment
 
-	for(int c=0; c<SRCLEN; c++) {
+	for(int32_t c=0; c<SRCLEN; c++) {
 		char ch = sSrc[c];
 
 		if( c == SRCLEN-1) {
 			// last
 
 			char tmp = sSrc[c+1];
-			int _end =0;
+			int32_t _end =0;
 		}
 
 
@@ -365,16 +365,16 @@ void preprocessCppComments(KS_OUT std::string& sDest,
 }
 
 //====================================================
-int findChar(const std::string& s,
+int32_t findChar(const std::string& s,
 	const char symb,
-	const int nStartPos) 
+	const int32_t nStartPos) 
 {
-	const int SRCLEN = (int)s.length();
+	const int32_t SRCLEN = (int32_t)s.length();
 	if(SRCLEN == 0) return -1;
 
 	if(nStartPos > SRCLEN-1) return -1;
 
-	for(int c=nStartPos; c<SRCLEN; c++) {
+	for(int32_t c=nStartPos; c<SRCLEN; c++) {
 		char ch = s[c];
 		if(ch == symb)
 		{
@@ -392,16 +392,16 @@ bool findSubstringBetween( KS_OUT std::string& sResult ,
 	const std::string& s, 
 	const char chBegin, 
 	const char chEnd, 
-	KS_INOUT int& nPosition ) 
+	KS_INOUT int32_t& nPosition ) 
 {
 	sResult = "";
-	const int SRCLEN = (int )s.length();
+	const int32_t SRCLEN = (int32_t )s.length();
 	if(SRCLEN == 0) return false;
 
-	int nFoundBegin = -1;// pos where begin 
-	int nFoundEnd = -1; // pos where end
+	int32_t nFoundBegin = -1;// pos where begin 
+	int32_t nFoundEnd = -1; // pos where end
 
-	for(int c=nPosition; c<SRCLEN; c++) {
+	for(int32_t c=nPosition; c<SRCLEN; c++) {
 		char curr = s[c];
 		if(curr == chBegin)
 		{
@@ -460,12 +460,12 @@ void ksSplit(KS_OUT std::vector<std::string>& vResult,
 		vResult.clear();
 	}
 
-	const int SRCLEN = (int)src.length();
+	const int32_t SRCLEN = (int32_t)src.length();
 	if(SRCLEN == 0) return;
 
 	std::string temp = "";
 
-	for(int c=0; c<SRCLEN; c++)	 {
+	for(int32_t c=0; c<SRCLEN; c++)	 {
 		char curr = src[c];
 
 		if(curr == chDiv) {
@@ -512,8 +512,8 @@ void splitTokens( KS_OUT std::vector<std::string>& vResult,
 void sliceByOffsets(
 	KS_OUT std::vector<std::string>& vResult,
 	const std::string& src, 
-	const unsigned int* pOffsets, 
-	const int nOffsLen ) 
+	const uint32_t* pOffsets, 
+	const int32_t nOffsLen ) 
 {
 	using namespace std;
 	using namespace boost;
@@ -531,10 +531,10 @@ void sliceByOffsets(
 bool isAnyOf(const char chr, 
 	const std::string& sAny) 
 {
-	const int SANYLEN = (int)sAny.length();
+	const int32_t SANYLEN = (int32_t)sAny.length();
 	if( SANYLEN == 0 ) return false;
 
-	for(int c=0; c<SANYLEN; c++) {
+	for(int32_t c=0; c<SANYLEN; c++) {
 		const char curr =  sAny[c];
 		if( chr == curr) return true;
 
@@ -545,17 +545,17 @@ bool isAnyOf(const char chr,
 
 //============================================
 bool findAnyOf(const std::string& src,
-	KS_INOUT int& posit,
+	KS_INOUT int32_t& posit,
 	const std::string& sAny ) 
 {
 	if(sAny.length() == 0) return false;
-	const int SRCLEN = (int)src.length();
+	const int32_t SRCLEN = (int32_t)src.length();
 
-	for(int c = posit; c<SRCLEN; c++) {
+	for(int32_t c = posit; c<SRCLEN; c++) {
 		const char curr = src[c];
 		if(curr == 0) return false;
 
-		for(int c_any=0; c_any<(int)sAny.length(); c_any++)
+		for(int32_t c_any=0; c_any<(int32_t)sAny.length(); c_any++)
 		{
 			if( sAny[c_any] == curr )
 			{
@@ -572,7 +572,7 @@ bool findAnyOf(const std::string& src,
 
 //============================================
 bool findAnyOfBetween(const std::string& src,
-	KS_INOUT int& posit,
+	KS_INOUT int32_t& posit,
 	KS_IN char chBegin,
 	KS_IN char chEnd) 
 {
@@ -605,18 +605,18 @@ void replaceAnyChar(KS_OUT std::string& sOut,
 		sOut = "";
 		if( sAny.length() == 0 )	 return ;
 
-		const int NSRCLEN = (int)src.length();
+		const int32_t NSRCLEN = (int32_t)src.length();
 		if(NSRCLEN == 0) return ;
 
 		if(sAny.length() == 0) return;
 
-		const int NANYLEN = (int)sAny.length(); 
+		const int32_t NANYLEN = (int32_t)sAny.length(); 
 
 		bool bAnyFound = false; ///< found  or not
-		for(int c=0; c<NSRCLEN; c++) {
+		for(int32_t c=0; c<NSRCLEN; c++) {
 			bAnyFound = false;
 
-			for(int c_sAny=0; c_sAny<NANYLEN; c_sAny++ )
+			for(int32_t c_sAny=0; c_sAny<NANYLEN; c_sAny++ )
 			{
 				if( src[c] == sAny[c_sAny] ) 
 				{
@@ -678,7 +678,7 @@ bool StrUt_Check_OpenXmlTag(KS_OUT std::string& sOutTag,
 
 		if(  src[src.length()-1] != '>' ) return false;
 
-		for(int c=1; c<(int)src.length()-1; c++) {
+		for(int32_t c=1; c<(int32_t)src.length()-1; c++) {
 			if( StrUt_CheckSymbolEngLiteral(src[c]) || src[c] == '_'  ) {
 				sOutTag += src[c];
 			}
@@ -695,7 +695,7 @@ bool StrUt_Check_OpenXmlTag(KS_OUT std::string& sOutTag,
 
 //===================================================
 bool StrUt_Check_OpenXmlTag_pos(KS_OUT std::string& sOutTag, 
-	const std::string& src, KS_INOUT int& posit )
+	const std::string& src, KS_INOUT int32_t& posit )
 {
 	sOutTag = "";
 	if( src.length()-posit < 3 ) return false;
@@ -703,7 +703,7 @@ bool StrUt_Check_OpenXmlTag_pos(KS_OUT std::string& sOutTag,
 
 	posit+= 1;
 
-	while( posit <= (int)src.length() ) {
+	while( posit <= (int32_t)src.length() ) {
 		if( src[posit] == '>' )
 		{
 			if(sOutTag.length() )
@@ -747,7 +747,7 @@ bool StrUt_Check_CloseXmlTag(KS_OUT std::string& sOutTag,
 
 		if(  src[src.length()-1] != '>' ) return false;
 
-		for(int c=2; c<(int)src.length()-1; c++) {
+		for(int32_t c=2; c<(int32_t)src.length()-1; c++) {
 			if(StrUt_CheckSymbolEngLiteral(src[c]) || src[c] == '_'  ) {
 				sOutTag += src[c];
 			}
@@ -764,7 +764,7 @@ bool StrUt_Check_CloseXmlTag(KS_OUT std::string& sOutTag,
 
 //===========================================================
 bool StrUt_Check_CloseXmlTag_pos(KS_OUT std::string& sOutTag, 
-	const std::string& src, KS_INOUT int& posit )
+	const std::string& src, KS_INOUT int32_t& posit )
 {
 	sOutTag = "";
 	if( src.length()-posit < 3 ) return false;
@@ -773,7 +773,7 @@ bool StrUt_Check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
 
 	posit+= 2;
 
-	while( posit <= (int)src.length() ) {
+	while( posit <= (int32_t)src.length() ) {
 		if( src[posit] == '>' )
 		{
 			if(sOutTag.length() )
@@ -842,7 +842,7 @@ void skipCppOnelineComment(KS_INOUT std::string& s)
 //=========================================================
 
 void intArrayToStr(KS_OUT std::string& sOut, 
-	const int* pArray,  const int nArrayLen,
+	const int32_t* pArray,  const int32_t nArrayLen,
 	const char* szBegin, const char* szEnd, 
 	const char* szSeparator )
 {
@@ -854,7 +854,7 @@ void intArrayToStr(KS_OUT std::string& sOut,
 
 
 
-	for(int c=0; c<nArrayLen; c++)
+	for(int32_t c=0; c<nArrayLen; c++)
 	{
 		sOut += gb::util::Formater::intToCstr( *(pArray + c) );
 
@@ -877,14 +877,14 @@ void intArrayToStr(KS_OUT std::string& sOut,
 
 
 //===========================================
-bool intArrayFromStr(KS_OUT int* pBufOut, KS_IN int nBufLen, 
+bool intArrayFromStr(KS_OUT int32_t* pBufOut, KS_IN int32_t nBufLen, 
 	KS_IN std::string& src, 
 	KS_IN char chBegin, KS_IN char chEnd, 
-	KS_IN char chSeparator, KS_OUT_OPTIONAL int* pOutNumReaded  )
+	KS_IN char chSeparator, KS_OUT_OPTIONAL int32_t* pOutNumReaded  )
 {
 
 
-	const int NSRCLEN = (int)src.length();
+	const int32_t NSRCLEN = (int32_t)src.length();
 	if(NSRCLEN == 0) return false;
 
 	bool bFoundBegin = false;
@@ -892,14 +892,14 @@ bool intArrayFromStr(KS_OUT int* pBufOut, KS_IN int nBufLen,
 
 	std::string sDigit;
 
-	int numParsedValues = 0; 
+	int32_t numParsedValues = 0; 
 
 	if(pOutNumReaded)
 	{
 		*pOutNumReaded = 0;
 	}
 
-	for(int c=0; c<NSRCLEN; c++)
+	for(int32_t c=0; c<NSRCLEN; c++)
 	{
 		char curr = src[c];
 		// check tab .. empty ....
@@ -930,7 +930,7 @@ bool intArrayFromStr(KS_OUT int* pBufOut, KS_IN int nBufLen,
 		if(bFoundBegin ) 
 		{
 			// scan next end digit token
-			for(int j=0; j<(j+c+NSRCLEN); j++)
+			for(int32_t j=0; j<(j+c+NSRCLEN); j++)
 			{
 				curr = src[c + j];
 
@@ -949,10 +949,10 @@ bool intArrayFromStr(KS_OUT int* pBufOut, KS_IN int nBufLen,
 					// found separator !
 
 					// cast
-					int val = -1;
+					int32_t val = -1;
 					try 
 					{
-						val=  boost::lexical_cast<int>(sDigit);
+						val=  boost::lexical_cast<int32_t>(sDigit);
 					}
 					catch(boost::bad_lexical_cast &  )
 					{
@@ -1011,11 +1011,11 @@ bool intArrayFromStr(KS_OUT int* pBufOut, KS_IN int nBufLen,
 }
 
 //===========================================
-bool intArrayFromStr(KS_OUT std::vector<int>& vOut, KS_IN std::string& src, 
+bool intArrayFromStr(KS_OUT std::vector<int32_t>& vOut, KS_IN std::string& src, 
 	KS_IN char chBegin, KS_IN char chEnd, KS_IN char chSeparator ) 
 {
 
-	const int NSRCLEN = (int)src.length();
+	const int32_t NSRCLEN = (int32_t)src.length();
 	if(NSRCLEN == 0) return false;
 
 	bool bFoundBegin = false;
@@ -1023,7 +1023,7 @@ bool intArrayFromStr(KS_OUT std::vector<int>& vOut, KS_IN std::string& src,
 
 	std::string sDigit;
 
-	for(int c=0; c<NSRCLEN; c++)
+	for(int32_t c=0; c<NSRCLEN; c++)
 	{
 		char curr = src[c];
 		// check tab .. empty ....
@@ -1049,7 +1049,7 @@ bool intArrayFromStr(KS_OUT std::vector<int>& vOut, KS_IN std::string& src,
 		if(bFoundBegin ) 
 		{
 			// scan next end digit token
-			for(int j=0; j<(j+c+NSRCLEN); j++)
+			for(int32_t j=0; j<(j+c+NSRCLEN); j++)
 			{
 				curr = src[c + j];
 
@@ -1068,10 +1068,10 @@ bool intArrayFromStr(KS_OUT std::vector<int>& vOut, KS_IN std::string& src,
 					// found separator !
 
 					// cast
-					int val = -1;
+					int32_t val = -1;
 					try 
 					{
-						val=  boost::lexical_cast<int>(sDigit);
+						val=  boost::lexical_cast<int32_t>(sDigit);
 					}
 					catch(boost::bad_lexical_cast &  )
 					{
@@ -1109,7 +1109,7 @@ bool intArrayFromStr(KS_OUT std::vector<int>& vOut, KS_IN std::string& src,
 bool sliceBetweenIndices(KS_OUT std::vector<std::string>& vOut,
 	const std::string& src, 
 	KS_IN char  chToken, 
-	KS_IN int nStartPos, KS_IN int nStopPos) 
+	KS_IN int32_t nStartPos, KS_IN int32_t nStopPos) 
 {
 	// check args
 	if(nStartPos >= nStopPos)
@@ -1121,7 +1121,7 @@ bool sliceBetweenIndices(KS_OUT std::vector<std::string>& vOut,
 	sClump = "";
 
 	//  extract str
-	for(int c = nStartPos; c<nStopPos; c++ )
+	for(int32_t c = nStartPos; c<nStopPos; c++ )
 	{
 		sClump += src[c];
 	}
@@ -1145,12 +1145,12 @@ bool sliceBetweenIndices(KS_OUT std::vector<std::string>& vOut,
 }
 
 //=================================================
-bool findNextSkipAny(KS_OUT int& nOutFoundPosit, KS_IN std::string& src, 
-	KS_IN int nStartPosit, 
+bool findNextSkipAny(KS_OUT int32_t& nOutFoundPosit, KS_IN std::string& src, 
+	KS_IN int32_t nStartPosit, 
 	KS_IN std::string& sSkipAnySymbols )
 {
 	nOutFoundPosit =   -1;
-	const int NSRCLEN = (int)src.length();
+	const int32_t NSRCLEN = (int32_t)src.length();
 
 	if( (NSRCLEN - nStartPosit) <= 0  )
 	{
@@ -1160,7 +1160,7 @@ bool findNextSkipAny(KS_OUT int& nOutFoundPosit, KS_IN std::string& src,
 
 	bool bFoundAny = false;
 
-	for(int c=nStartPosit; c<NSRCLEN; c++)
+	for(int32_t c=nStartPosit; c<NSRCLEN; c++)
 	{
 		char curr = src[c];
 
@@ -1172,7 +1172,7 @@ bool findNextSkipAny(KS_OUT int& nOutFoundPosit, KS_IN std::string& src,
 
 		bFoundAny = false;
 
-		for(int j=0; j<(int)sSkipAnySymbols.length(); j++)
+		for(int32_t j=0; j<(int32_t)sSkipAnySymbols.length(); j++)
 		{
 			char chCmp = sSkipAnySymbols[j];
 
@@ -1214,16 +1214,16 @@ bool removeAnyFromBeginAndEnd(KS_OUT std::string& sOut,
 	KS_IN std::string& sAny)
 {
 
-	int nFoundPosFromBegin =  -1;
-	int nFoundPosFromEnd   =  -1;
+	int32_t nFoundPosFromBegin =  -1;
+	int32_t nFoundPosFromEnd   =  -1;
 
 	// search begin pos
-	for(int c=0; c<(int)src.length(); c++)
+	for(int32_t c=0; c<(int32_t)src.length(); c++)
 	{
 		char curr = src[c];
 
 		bool bFoundAny = false;
-		for(int j=0; j<(int)sAny.length(); j++)
+		for(int32_t j=0; j<(int32_t)sAny.length(); j++)
 		{
 			if( curr == sAny[j] )
 			{
@@ -1251,12 +1251,12 @@ bool removeAnyFromBeginAndEnd(KS_OUT std::string& sOut,
 
 
 	// search end pos
-	for(int c=(int)src.length()-1; c>=0; c--)
+	for(int32_t c=(int32_t)src.length()-1; c>=0; c--)
 	{
 		char curr = src[c];
 
 		bool bFoundAny = false;
-		for(int j=0; j<(int)sAny.length(); j++)
+		for(int32_t j=0; j<(int32_t)sAny.length(); j++)
 		{
 			if( curr == sAny[j] )
 			{
@@ -1298,11 +1298,11 @@ bool removeAnyFromBeginAndEnd(KS_OUT std::string& sOut,
 
 	if(nFoundPosFromEnd == -1)
 	{
-		nFoundPosFromEnd = (int)src.length()-1;
+		nFoundPosFromEnd = (int32_t)src.length()-1;
 	}
 
 	// make string
-	for(int c= nFoundPosFromBegin; c<=nFoundPosFromEnd; c++)
+	for(int32_t c= nFoundPosFromBegin; c<=nFoundPosFromEnd; c++)
 	{
 		sOut += src[c];
 
@@ -1318,7 +1318,7 @@ void removeAnyFromBeginAndEnd_Vec(
 {
 
 	std::string temp;
-	for(int c=0; c<(int)v.size(); c++)
+	for(int32_t c=0; c<(int32_t)v.size(); c++)
 	{
 		temp = "";
 		removeAnyFromBeginAndEnd(temp, v[c], sAny );
@@ -1343,7 +1343,7 @@ void strArrayToStr(KS_OUT std::string& sOut,
 	}
 
 
-	for(int c=0; c<(int)vecStr.size(); c++)
+	for(int32_t c=0; c<(int32_t)vecStr.size(); c++)
 	{
 		sOut += vecStr[c];
 
@@ -1381,7 +1381,7 @@ bool strArrayFromStr(
 {
 
 	std::string sArray;
-	int nPos = 0;
+	int32_t nPos = 0;
 
 	if(!findSubstringBetween(sArray, src, chBegin, chEnd, nPos ) )
 	{
@@ -1400,7 +1400,7 @@ bool strArrayFromStr(
 //==================================================
 void changeCase1251(char* buff, bool bUpReg) {
 
-	int c = 0;  
+	int32_t c = 0;  
 	unsigned char ch = 0;
 
 	while(true) 
@@ -1446,16 +1446,16 @@ void changeCase1251(char* buff, bool bUpReg) {
 
 
 //=========================================================
-bool searchCharPos(KS_OUT std::vector<int> vPosOut,
+bool searchCharPos(KS_OUT std::vector<int32_t> vPosOut,
 	const std::string& src,
-	KS_IN char chToBeSearch, KS_IN int nStartIndex)
+	KS_IN char chToBeSearch, KS_IN int32_t nStartIndex)
 {
 	vPosOut.clear();
 
-	const int NSRCLEN = (int)src.length();
+	const int32_t NSRCLEN = (int32_t)src.length();
 	if(nStartIndex >= NSRCLEN) return false;
 
-	for(int c=nStartIndex; c<NSRCLEN; c++)
+	for(int32_t c=nStartIndex; c<NSRCLEN; c++)
 	{
 		const char curr =  src[c];
 		if( curr ==  chToBeSearch) {
@@ -1480,7 +1480,7 @@ bool searchCharPos(KS_OUT std::vector<int> vPosOut,
 //    if(src.length() == 0)
 //		  return true;
 //
-//	for(int c=0; c<src.length(); c++ )
+//	for(int32_t c=0; c<src.length(); c++ )
 //	{
 //       char curr = src[c];
 //	   if(curr == '\"')
@@ -1505,17 +1505,17 @@ bool searchCharPos(KS_OUT std::vector<int> vPosOut,
 //====================================================
 bool sliceStrByIndices(std::vector<std::string>& vOut,  
 	const std::string& src, 
-	const std::vector<unsigned int>& vIndexes )
+	const std::vector<uint32_t>& vIndexes )
 {
 
 	/**********
 	пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-	int _tmain(int argc, _TCHAR* argv[])
+	int32_t _tmain(int32_t argc, _TCHAR* argv[])
 	{
 	std::string src = "The simpler but less flexible way is to include glew.h and glew.c into your project. On Windows, you also";
 
-	std::vector<unsigned int> vind;
+	std::vector<uint32_t> vind;
 	vind.push_back(0);
 	vind.push_back(5);
 	vind.push_back(11);
@@ -1540,7 +1540,7 @@ bool sliceStrByIndices(std::vector<std::string>& vOut,
 	if(vIndexes.size() == 0) return false;
 
 
-	for(int c=0; c<(int)vIndexes.size(); c++)
+	for(int32_t c=0; c<(int32_t)vIndexes.size(); c++)
 	{
 		// ckeck bound
 		if( vIndexes[c] >= src.length() )
@@ -1572,9 +1572,9 @@ bool sliceStrByIndices(std::vector<std::string>& vOut,
 	// slice
 	vOut.clear();
 	std::string str = "";
-	for(int c=0; c<(int)vIndexes.size()-1; c++)
+	for(int32_t c=0; c<(int32_t)vIndexes.size()-1; c++)
 	{
-		for(int j=vIndexes[c]; j<(int)vIndexes[c+1]; j++)
+		for(int32_t j=vIndexes[c]; j<(int32_t)vIndexes[c+1]; j++)
 		{
 			str += src[j];
 
@@ -1601,7 +1601,7 @@ void copyStringsSkipEmpty(std::vector<std::string>& vOut,
 	/***************
 	пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
-	int _tmain(int argc, _TCHAR* argv[])
+	int32_t _tmain(int32_t argc, _TCHAR* argv[])
 	{
 	std::vector<std::string> vs;
 	vs.push_back("hgfghgh");
@@ -1646,32 +1646,32 @@ void copyStringsSkipEmpty(std::vector<std::string>& vOut,
 // KsString::
 //======================================================
 
-void KsString::make_lowercase() {
+void KsString::toLower() {
 	const size_t SRC_LEN =  length();
 	if( 0 == SRC_LEN  ) return;
 	char symb;
 	for(size_t c=0; c<SRC_LEN; c++) {
 		symb = at(c);
-		symb = toupper_ex(symb);
+		symb = toUpperCh(symb);
 		at(c) = symb;
 	}
 }
 
 
 
-void KsString::make_upercase() {
+void KsString::toUpper() {
 	const size_t SRC_LEN =  length();
 	if( 0 == SRC_LEN  ) return;
 	char symb;
 	for(size_t c=0; c<SRC_LEN; c++) {
 		symb = at(c);
-		symb = tolower_ex(symb);
+		symb = toLowerCh(symb);
 		at(c) = symb;
 	}
 }
 
 
-void  KsString::remove_symbols( const char symb ) {
+void  KsString::eraseChar( const char symb ) {
 	static std::string ss;
 	const size_t SRC_LEN = length();
 	if( 0 == SRC_LEN  ) return;
@@ -1689,7 +1689,7 @@ void  KsString::remove_symbols( const char symb ) {
 }
 
 
-void  KsString::replace_symbols( const char symb, const char new_symb ) {
+void  KsString::replaceChar( const char symb, const char new_symb ) {
 	const size_t SRC_LEN = length();
 	if( 0 == SRC_LEN  ) return;
 
@@ -1709,18 +1709,18 @@ void  KsString::replace_symbols( const char symb, const char new_symb ) {
 // StringsVector::
 //======================================================
 
-unsigned int StringsVector::get_total_numsymbols() const {
+uint32_t KsStringVector::countTotalLength() const {
 	if( empty() )  return 0;
-	unsigned int res =0;
+	uint32_t res =0;
 	for(size_t c=0; c<size(); c++) {
 		const std::string& scurr = at(c);
-		res += (unsigned int)scurr.length();
+		res += (uint32_t)scurr.length();
 	}
 	return res;
 }
 
 //==========================================================
-bool StringsVector::save_to_file_a(const char* fname, bool bEndLineAfterItem ) const {
+bool KsStringVector::saveToFileA(const char* fname, bool bEndLineAfterItem ) const {
 	FILE* file = fopen(fname, "w");
 	if(!file) return false;
 
@@ -1743,7 +1743,7 @@ bool StringsVector::save_to_file_a(const char* fname, bool bEndLineAfterItem ) c
 
 
 //==========================================================
-bool StringsVector::load_from_file_a(const char* fname, bool bRemoveEndLineOnEnd ) {
+bool KsStringVector::loadFromFileA(const char* fname, bool bRemoveEndLineOnEnd ) {
 	clear();
 	FILE* file = fopen(fname, "r");
 	if(!file) return false;
@@ -1751,12 +1751,12 @@ bool StringsVector::load_from_file_a(const char* fname, bool bRemoveEndLineOnEnd
 	// ????		//
 	//	assert(false);
 
-	static const int SS_LEN = 256;
+	static const int32_t SS_LEN = 256;
 	static char ss[SS_LEN];
 	ss[0]=0;
 
 	static std::string stemp = "";
-	int rres = 1;
+	int32_t rres = 1;
 	while( 1 ) {
 		ss[0]=0;
 		const char* ccres = fgets(  ss, SS_LEN,  file );
@@ -1780,7 +1780,7 @@ bool StringsVector::load_from_file_a(const char* fname, bool bRemoveEndLineOnEnd
 							*(ss + sslen-1) = 0;
 						}
 					}
-					add(ss);
+					appendStr(ss);
 				}
 
 	}

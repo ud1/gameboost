@@ -25,7 +25,7 @@ namespace gb {
 float GetCurrHeightPrecTime() ;
 
 /** \brief  Вычисление текущей позиции курсора на окне по данному хэндлу */
-int GetCursorWindowPosition(HWND hwnd, POINT* pout) ;
+int32_t GetCursorWindowPosition(HWND hwnd, POINT* pout) ;
 #endif //0
 
 
@@ -44,11 +44,11 @@ public:
 
 	static bool floatFromCstr( KS_OUT float* val, const char* s )
 	{
-		const int NSCANRES = sscanf(s, "%f", val);	
+		const int32_t NSCANRES = sscanf(s, "%f", val);	
 		if(NSCANRES != 1) return false;
 
 		return true;
-	};
+	}
 
 	static bool floatFromCstr(KS_OUT float& val, const char* s) {
 		float value = -1.0f;
@@ -56,50 +56,50 @@ public:
 
 		val = value;
 		return true;	
-	};
+	}
 
 
 	/** \brief Преобразование  знакового целого в строку  */
-	static const char* intToCstr(int i) ;
+	static const char* intToCstr(int32_t i) ;
 
-	static bool intFromCstr(KS_OUT int* val, const char* s) {
-		const int NSCANRES = sscanf(s, "%i", val);	
+	static bool intFromCstr(KS_OUT int32_t* val, const char* s) {
+		const int32_t NSCANRES = sscanf(s, "%i", val);	
 		if(NSCANRES != 1) return false;
 
 		return true;
-	};
+	}
 
-	static bool intFromCstr(KS_OUT int& val, const char* s) {
-		int value = -1;
+	static bool intFromCstr(KS_OUT int32_t& val, const char* s) {
+		int32_t value = -1;
 		if( intFromCstr(&value, s) == false ) return false;
 
 		val = value;
 		return true;
-	};
+	}
 
 	/** \brief Преобразование  беззнакового целого в строку  */
-	static const char* uintToCstr(unsigned int val) ;
+	static const char* uintToCstr(uint32_t val) ;
 
-	static bool uintFromCstring(KS_OUT unsigned int& val, const char* s) {
-		unsigned int nval = -1;
-		const int NSCANRES = sscanf(s, "%u", &nval);
+	static bool uintFromCstring(KS_OUT uint32_t& val, const char* s) {
+		uint32_t nval = -1;
+		const int32_t NSCANRES = sscanf(s, "%u", &nval);
 		val = nval;
 
 		if(NSCANRES != 1) return false;
 		return true;
-	};
+	}
 
 	/** \brief Преобразование  целого в строку  в шестнадцатеричном виде   */
-	static const char* intToHex(int i) ;
+	static const char* intToHex(int32_t i) ;
 	/** \brief Преобразование  целого в строку  в шестнадцатеричном виде с префиксом "0x" */
-	static const char* intToCppHex(int i) ; 
+	static const char* intToCppHex(int32_t i) ; 
 	/** \brief  Перевод указателя в виде hex-строки  в буфер buff  с символами в верхнем регистре.  <BR>
 	Буфер должен быть длиной не менее 11 . Пример результата = 0xA23A98FC  */
 	static const char* pointerToCstr(const void* p) ;
 	
 #ifdef _WIN32
 	/** \brief Хэндл окна в строку */
-	static unsigned int hwndAsUint(const HWND hwnd) ;
+	static uint32_t hwndAsUint(const HWND hwnd) ;
 #endif
 
 	/** \brief Генератор случайного float-числа со случайным знаком ( диапазон: -1.0f ... +1.0f )  */
@@ -107,9 +107,9 @@ public:
 	/** \brief Генератор случайного float-числа без знака ( диапазон: 0.0f ...  1.0f )  */
 	static float randomFloatUnsign() ;
 	/** \brief Получение случайного целого в диапазоне (0 - nmax) */
-	static int RandomMax(int nmax) ;
+	static int32_t RandomMax(int32_t nmax) ;
 	/** \brief Получение случайного целого в диапазоне (nmin - nmax) */
-	static int RandomMinMax(int nmin , int nmax) ;
+	static int32_t RandomMinMax(int32_t nmin , int32_t nmax) ;
 
 #ifdef _WIN32
 	/** \brief побитовая печать на консоль двойного слова DWORD */
@@ -133,7 +133,7 @@ public:
 	static void printDwordAsBinCstr(const DWORD dw) ;
 
 	/** \brief Преобразование в uint из строки содержащей цифру в двоичном виде. */
-	static DWORD UintFromBinCstr(const char* _s, int nlen= -1) throw( std::runtime_error& ) ;
+	static DWORD UintFromBinCstr(const char* _s, int32_t nlen= -1) throw( std::runtime_error& ) ;
 #endif
 
 
@@ -166,7 +166,7 @@ sbFirstCall = false;
 // ... initialization code
 
 return true;
-};
+}
 
 bool   Finalize(void* pUserData) {
 static bool sbFirstCall = true;
@@ -175,11 +175,11 @@ sbFirstCall = false;
 // ... finalization code
 
 return true;
-};
+}
 
 SourceInit  __SourceInit( Initialize, Finalize, NULL );
 
-int _tmain(int argc, _TCHAR* argv[]) {
+int32_t _tmain(int32_t argc, _TCHAR* argv[]) {
 return 0;
 }
 
@@ -211,11 +211,11 @@ public:
 	float fMax;
 	float fAver;
 	float fTotal;
-	unsigned int uiCount;
+	uint32_t uiCount;
 
-	TimeHandleInfo() { setzero();  };
+	TimeHandleInfo() { setzero();  }
 
-	inline void setzero() { fMin=fMin=fAver=fTotal=0.0f; uiCount=0;   };
+	inline void setzero() { fMin=fMin=fAver=fTotal=0.0f; uiCount=0;   }
 };
 
 
@@ -229,8 +229,8 @@ public:
 	pnfreq - Опционально значение для QueryPerformanceFrequency или NULL для его вычисления в функции.  */
 	static float Current(_in_opt LARGE_INTEGER* pnfreq = NULL ) ;
 
-	DeltaTimeHandler() { m_fLastTime = 0.0f; Reset();  };
-	virtual   ~DeltaTimeHandler() {};
+	DeltaTimeHandler() { m_fLastTime = 0.0f; Reset();  }
+	virtual   ~DeltaTimeHandler() {}
 
 
 	/** \brief Главный метод измерения дельты времени с момента последнего вызова  этого метода. <br> 
@@ -241,16 +241,16 @@ public:
 	float Tick(_in_opt float* pfInputCurrTime=NULL,  _out_opt float* pfOutCurrTime=NULL) ;
 
 	/** \brief Сброс по таймеру по  данному интервалу таймера (в миллисекундах) */
-	void CaptureOnTimer(int itimerInterval, _out_opt TimeHandleInfo* pOutHi = NULL) ;
+	void CaptureOnTimer(int32_t itimerInterval, _out_opt TimeHandleInfo* pOutHi = NULL) ;
 
 	void Reset() ;
 
-	inline float GetMinDelta()  const { return m_fMinDelta; };
-	inline float GetMaxDelta()  const { return m_fMaxDelta; };
-	inline float GetAverDelta() const { return m_fTotalDelta / (float)m_uiCountOnTick ; };
-	inline float GetLastDelta() const { return m_lastResDelta; };
-	inline float GetTotalDelta() const { return m_fTotalDelta; };
-	inline UINT  GetCountOnTick() const  { return m_uiCountOnTick; };
+	inline float GetMinDelta()  const { return m_fMinDelta; }
+	inline float GetMaxDelta()  const { return m_fMaxDelta; }
+	inline float GetAverDelta() const { return m_fTotalDelta / (float)m_uiCountOnTick ; }
+	inline float GetLastDelta() const { return m_lastResDelta; }
+	inline float GetTotalDelta() const { return m_fTotalDelta; }
+	inline UINT  GetCountOnTick() const  { return m_uiCountOnTick; }
 
 
 	const char* tostr() const ;
@@ -285,26 +285,26 @@ public:
 		float fMax;
 		float fAver;
 
-		unsigned int uiCountBegin;
-		unsigned int uiCountEnd;
+		uint32_t uiCountBegin;
+		uint32_t uiCountEnd;
 
-		ElTmCaptInfo() { setzero();  };
+		ElTmCaptInfo() { setzero();  }
 
-		inline void setzero() {  fMin= fMax = fAver=0.0f;   uiCountBegin=uiCountEnd=0;   };
+		inline void setzero() {  fMin= fMax = fAver=0.0f;   uiCountBegin=uiCountEnd=0;   }
 
 		inline void print() {
 			printf(" fMin = %f\n fMax = %f\n fAver = %f\n  uiCountBegin = %u \n uiCountEnd = %u", 
 				fMin, fMax, fAver, uiCountBegin, uiCountEnd );
-		};
-	};
+		}
+	}
 
 
 
-	ElapsedTimeCapture() { m_bBegined = false;  Reset() ;  };
-	virtual ~ElapsedTimeCapture() {};
+	ElapsedTimeCapture() { m_bBegined = false;  Reset() ;  }
+	virtual ~ElapsedTimeCapture() {}
 
 	/** \brief Получить время последнего вызова метода Begin */
-	inline float GetLastBeginedTime() const { return m_fBegin; };
+	inline float GetLastBeginedTime() const { return m_fBegin; }
 
 	/** \brief Начать действие.  После действия вызвать End . <br>
 	В параметрах: <br>
@@ -321,15 +321,15 @@ public:
 	float End(_in_opt float* pfInpCurrTime = NULL, float* pfOutCurrTime = NULL) ;
 
 	/** \brief Был ли вызван Begin и не вызван End , то есть запущен ли захват.  */
-	inline bool isBegined() const {   return m_bBegined;  };
+	inline bool isBegined() const {   return m_bBegined;  }
 
-	inline float GetMinValue() const { return m_fMin ; };
-	inline float GetMaxValue() const { return m_fMax ; };
-	inline float GetTotalValue() const { return m_fTotal ; };
-	inline float GetAverValue() const { return m_fTotal / (float)m_uCountBeginEnd ; };
+	inline float GetMinValue() const { return m_fMin ; }
+	inline float GetMaxValue() const { return m_fMax ; }
+	inline float GetTotalValue() const { return m_fTotal ; }
+	inline float GetAverValue() const { return m_fTotal / (float)m_uCountBeginEnd ; }
 
 	/** \brief Сброс по таймеру по  данному интервалу таймера (в миллисекундах) */
-	void CaptureOnTimer(_in int itimerInterval, 
+	void CaptureOnTimer(_in int32_t itimerInterval, 
 		_out_opt TimeHandleInfo* pOutHi = NULL, 
 		_out_opt ElTmCaptInfo* pOutEci = NULL) ;
 
@@ -346,12 +346,13 @@ private:
 	float m_fBegin;
 	bool m_bBegined;
 
-	unsigned int m_uCountBeginEnd;
-	unsigned int m_uCountBegin ;
-	unsigned int m_uCountEnd;
+	uint32_t m_uCountBeginEnd;
+	uint32_t m_uCountBegin ;
+	uint32_t m_uCountEnd;
 	bool m_bFirstCall;
 };
 // end class
+
 #endif //0
 
 
