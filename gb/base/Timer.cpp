@@ -78,16 +78,16 @@ namespace gb
 		}
 
 		// Засекаем текущее время
-		void Timer::startTiming()
+		void Timer::reset()
 		{
 			start_time = getTickCount();
 		}
 
 		// Возвращает прошедшее время
-		double Timer::timeElapsed()
+		double Timer::getTime()
 		{
-			elapsed_time = ((double)( getTickCount() - start_time )/getTimeFreq());
-			return elapsed_time;
+			t = ((double)( getTickCount() - start_time )/getTimeFreq());
+			return t;
 		}
 
 		//
@@ -100,22 +100,22 @@ namespace gb
 			the_time = 0.0;
 		}
 
-		void AdvancedTimer::resetTime(double t_)
+		void AdvancedTimer::reset(double t_)
 		{
 			the_time = t;
-			timer.startTiming();
+			timer.reset();
 		}
 		
 		double AdvancedTimer::getTime()
 		{
-			t = the_time + timer.timeElapsed()*time_acceleration;
+			t = the_time + timer.getTime()*time_acceleration;
 			return t;
 		}
 
 		void AdvancedTimer::setTimeAccel(double accel)
 		{
 			the_time = getTime();
-			timer.startTiming();
+			timer.reset();
 			time_acceleration = accel;
 		}
 
