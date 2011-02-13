@@ -1,5 +1,7 @@
 #pragma once
 
+#include "gb/Config.h"
+
 #if GB_ALLOW_BOOST_LIBRARY
 
 #include <gb/mt/ThreadPolicy.h>
@@ -23,8 +25,7 @@ namespace gb {
 			virtual void startThreads(size_t threads_number, ThreadGroup group) = 0;
 			virtual void stop() = 0;
 
-			virtual void runOnce(ThreadGroup group) = 0;
-			virtual void run(ThreadGroup group) = 0;
+			virtual bool runOnce(ThreadGroup group) = 0;
 		};
 
 		IJobScheduler *createJobScheduler();
