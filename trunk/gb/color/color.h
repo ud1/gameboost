@@ -1,9 +1,10 @@
-/** \file  color.h
-* \brief Цвет. Сопутствующие типы,  классы, функции.
+п»ї/** \file  color.h
+* \brief Р¦РІРµС‚. РЎРѕРїСѓС‚СЃС‚РІСѓСЋС‰РёРµ С‚РёРїС‹,  РєР»Р°СЃСЃС‹, С„СѓРЅРєС†РёРё.
 * 
 * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586 
 *
-*   Поправлен кодстайл.. Прочие незначительные поправки улучшающие читаемость .
+*
+*   РџРѕРїСЂР°РІР»РµРЅ РєРѕРґСЃС‚Р°Р№Р».. РџСЂРѕС‡РёРµ РЅРµР·РЅР°С‡РёС‚РµР»СЊРЅС‹Рµ РїРѕРїСЂР°РІРєРё СѓР»СѓС‡С€Р°СЋС‰РёРµ С‡РёС‚Р°РµРјРѕСЃС‚СЊ .
 */
 
 #pragma once
@@ -20,40 +21,40 @@
 namespace gb
 {
 
-     /** \brief Цвет и цветовые операции . */
+     /** \brief Р¦РІРµС‚ Рё С†РІРµС‚РѕРІС‹Рµ РѕРїРµСЂР°С†РёРё . */
      namespace color
      {
 
 
 
-/** \brief float-цвет в виде структуры. 
-   Для выполнения операций использовать  статические методы класса Color4f.  */
+/** \brief float-С†РІРµС‚ РІ РІРёРґРµ СЃС‚СЂСѓРєС‚СѓСЂС‹. 
+   Р”Р»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёР№ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ  СЃС‚Р°С‚РёС‡РµСЃРєРёРµ РјРµС‚РѕРґС‹ РєР»Р°СЃСЃР° Color4f.  */
 struct color4f_s {
     float r, g, b, a;
 };
  
 
-/** \brief Целочисленый 4-х байтовый  цвет.   */
+/** \brief Р¦РµР»РѕС‡РёСЃР»РµРЅС‹Р№ 4-С… Р±Р°Р№С‚РѕРІС‹Р№  С†РІРµС‚.   */
 typedef uint32_t    uicolor32_t;   
  
 
-/** \brief  Обозначение целочисленого 4-х компонентного  цвета по байтам.   */
+/** \brief  РћР±РѕР·РЅР°С‡РµРЅРёРµ С†РµР»РѕС‡РёСЃР»РµРЅРѕРіРѕ 4-С… РєРѕРјРїРѕРЅРµРЅС‚РЅРѕРіРѕ  С†РІРµС‚Р° РїРѕ Р±Р°Р№С‚Р°Рј.   */
 struct color_rgba_s { 
     uint8_t r, g, b, a; 
 };
 
 
-/** \brief  Целочисленый 3-х байтовый цвет  без альфа-компоненты .   */
+/** \brief  Р¦РµР»РѕС‡РёСЃР»РµРЅС‹Р№ 3-С… Р±Р°Р№С‚РѕРІС‹Р№ С†РІРµС‚  Р±РµР· Р°Р»СЊС„Р°-РєРѕРјРїРѕРЅРµРЅС‚С‹ .   */
 struct color_rgb24_s  { 
     uint8_t r, g, b; 
 };
 
 
-/** \brief  Мононхромное значение  1 байт . */
+/** \brief  РњРѕРЅРѕРЅС…СЂРѕРјРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ  1 Р±Р°Р№С‚ . */
 typedef uint8_t   color_mono_8b_t;
 
 
-/** \brief  Мононхромное значение из 2-х байт .  */
+/** \brief  РњРѕРЅРѕРЅС…СЂРѕРјРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РёР· 2-С… Р±Р°Р№С‚ .  */
 struct color_mono16b_s {
   union 
   {
@@ -65,24 +66,24 @@ struct color_mono16b_s {
 
 
 //
-//  цветовые макросы
+//  С†РІРµС‚РѕРІС‹Рµ РјР°РєСЂРѕСЃС‹
 //
 
 
-/**  \brief  Макрос построения цвета по байтам. Альфа первая.   */
+/**  \brief  РњР°РєСЂРѕСЃ РїРѕСЃС‚СЂРѕРµРЅРёСЏ С†РІРµС‚Р° РїРѕ Р±Р°Р№С‚Р°Рј. РђР»СЊС„Р° РїРµСЂРІР°СЏ.   */
 #define MAKECOLOR_ARGB(a,r,g,b) (( uicolor32_t)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
 
-/**  Макрос построения цвета по байтам. Альфа последняя  */
+/**  РњР°РєСЂРѕСЃ РїРѕСЃС‚СЂРѕРµРЅРёСЏ С†РІРµС‚Р° РїРѕ Р±Р°Р№С‚Р°Рј. РђР»СЊС„Р° РїРѕСЃР»РµРґРЅСЏСЏ  */
 #define MAKECOLOR_RGBA(r,g,b,a)   MAKECOLOR_ARGB(a,r,g,b)
 
-/**  \brief Макрос построения цвета color_rgb24_s  по трём элементам    */
+/**  \brief РњР°РєСЂРѕСЃ РїРѕСЃС‚СЂРѕРµРЅРёСЏ С†РІРµС‚Р° color_rgb24_s  РїРѕ С‚СЂС‘Рј СЌР»РµРјРµРЅС‚Р°Рј    */
 #define MAKECOLOR_RGB(r,g,b)  (( color_rgb24_s)( (((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)) )
 
-/**  \brief Макрос построения целочисленого цвета по компонентам float (0.0f ... 1.0f)  */
+/**  \brief РњР°РєСЂРѕСЃ РїРѕСЃС‚СЂРѕРµРЅРёСЏ С†РµР»РѕС‡РёСЃР»РµРЅРѕРіРѕ С†РІРµС‚Р° РїРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°Рј float (0.0f ... 1.0f)  */
 #define MAKECOLOR_FLOAT_RGBA(r,g,b,a) \  MAKECOLOR_RGBA((DWORD)((r)*255.f),(DWORD)((g)*255.f),(DWORD)((b)*255.f),(DWORD)((a)*255.f))
 
 
-/** \brief  Обмен компонентов R и G . */
+/** \brief  РћР±РјРµРЅ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ R Рё G . */
 inline void colorSwapRG(uicolor32_t& color) 
 {
    register uint8_t n_g = (uint8_t)(color >> 16); 
@@ -94,7 +95,7 @@ inline void colorSwapRG(uicolor32_t& color)
 
 
 
-/** \brief  Обмен компонентов R и B . */
+/** \brief  РћР±РјРµРЅ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ R Рё B . */
 inline void   colorSwapRB(uicolor32_t& color) 
 {
   register uint8_t n_B = (uint8_t)(color >> 16); 
@@ -107,7 +108,7 @@ inline void   colorSwapRB(uicolor32_t& color)
 
  
 
-/** \brief Обмен компонентов G и B .  */
+/** \brief РћР±РјРµРЅ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ G Рё B .  */
 inline void colorSwapGB(uicolor32_t&  color) 
 {
    register uint8_t _g  = (uint8_t) ( color >> 8 );
@@ -120,7 +121,7 @@ inline void colorSwapGB(uicolor32_t&  color)
 
 
 //
-// Выделение компоненты цвета
+// Р’С‹РґРµР»РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ С†РІРµС‚Р°
 //
  
  
@@ -131,7 +132,7 @@ inline uint8_t   colorExtractB( uicolor32_t color ) {  return (uint8_t)color;   
  
 
 //
-// Выделение компоненты цвета   как float
+// Р’С‹РґРµР»РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ С†РІРµС‚Р°   РєР°Рє float
 //
 
 
@@ -143,7 +144,7 @@ inline float   colorExtractBf( uicolor32_t col ) {  return ( ( (float)colorExtra
  
 
 //
-// Установка компоненты цвета
+// РЈСЃС‚Р°РЅРѕРІРєР° РєРѕРјРїРѕРЅРµРЅС‚С‹ С†РІРµС‚Р°
 //
 
  
@@ -157,7 +158,7 @@ inline void   colorSetB( uicolor32_t& col, uint8_t b ) { col |= 0x000000FF; col 
 
 
 //
-// Установка компоненты цвета  по float
+// РЈСЃС‚Р°РЅРѕРІРєР° РєРѕРјРїРѕРЅРµРЅС‚С‹ С†РІРµС‚Р°  РїРѕ float
 //
 
  
@@ -171,7 +172,7 @@ inline void   colorSetBf( uicolor32_t& color, float b ) { colorSetB( color, (uin
 
 
 //
-//  Обмен цветовых компонентов.
+//  РћР±РјРµРЅ С†РІРµС‚РѕРІС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ.
 //
 
 inline void  colorRgb24_SwapRG( color_rgb24_s& color ) { register uint8_t temp; temp = color.r; color.r=color.g; color.g=temp;  };
@@ -179,14 +180,14 @@ inline void  colorRgb24_SwapRB( color_rgb24_s& color ) { register uint8_t temp; 
 inline void  colorRgb24_SwapGB( color_rgb24_s& color ) { register uint8_t temp; temp = color.g; color.g=color.b; color.b=temp;  };
 
 
-/** \brief Конвертация uicolor32_t в color_rgb24_s.  */
+/** \brief РљРѕРЅРІРµСЂС‚Р°С†РёСЏ uicolor32_t РІ color_rgb24_s.  */
 inline color_rgb24_s   colorRgbFromUiColor (uicolor32_t color) { register color_rgb24_s res; res.r=(color >> 16); res.g=(color>>8); res.b=(color); return res;  };
    
 
 //--------------------------------------------------------
 
 
-/**  \brief   Класс  Трёхкомпонентный стандартный цвет по float . */
+/**  \brief   РљР»Р°СЃСЃ  РўСЂС‘С…РєРѕРјРїРѕРЅРµРЅС‚РЅС‹Р№ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ С†РІРµС‚ РїРѕ float . */
 class Color3f {
 public:
   union 
@@ -200,25 +201,25 @@ public:
   Color3f(const Color3f* col)           { r=col->r;  g=col->g;  b=col->b;  };
   Color3f(float _r, float _g, float _b) { r=_r;      g=_g;      b=_b;      };
 
-  /** \brief  альфа игнорируется. */
+  /** \brief  Р°Р»СЊС„Р° РёРіРЅРѕСЂРёСЂСѓРµС‚СЃСЏ. */
   Color3f(const color4f_s& col)         { r=col.r;   g=col.g;   b=col.b;   };
 
   inline void make(float _r, float _g, float _b) { r=_r; g=_g; b=_b;  };
 
-  /** \brief Проверка каждого на ноль. */
+  /** \brief РџСЂРѕРІРµСЂРєР° РєР°Р¶РґРѕРіРѕ РЅР° РЅРѕР»СЊ. */
   inline bool empty() const { return (r==0.0f) && (g==0.0f) && (b==0.0f); };
-  /** \brief обнулить */
+  /** \brief РѕР±РЅСѓР»РёС‚СЊ */
   inline void setzero() { r=g=b=0.0f; };
 
-  /** \brief Установить как белый цвет */
+  /** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РєР°Рє Р±РµР»С‹Р№ С†РІРµС‚ */
   inline void setWhite( ) { r=g=b=1.0f;   };
-  /** \brief Установить как чёрный цвет */
+  /** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РєР°Рє С‡С‘СЂРЅС‹Р№ С†РІРµС‚ */
   inline void setBlack( ) { r=g=b=0.0f;   };
-  /** \brief  масштабирование . Изменение яркости. */
+  /** \brief  РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ . РР·РјРµРЅРµРЅРёРµ СЏСЂРєРѕСЃС‚Рё. */
   inline void scale(float f) { r*=f; g*=f; b*=f; };
 
 
-  /** \brief Отсечение значений в пределах 0.0 ... 1.0  */
+  /** \brief РћС‚СЃРµС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РІ РїСЂРµРґРµР»Р°С… 0.0 ... 1.0  */
   inline void saturate() {
     if(r>1.0f) r=1.0f;   if(r<0.0f) r=0.0f;
     if(g>1.0f) g=1.0f;   if(g<0.0f) g=0.0f; 
@@ -258,7 +259,7 @@ public:
       #pragma warning (disable : 4996)
 
 
-    /** \brief Конвертация в строку.  Разделитель:  пробел */
+    /** \brief РљРѕРЅРІРµСЂС‚Р°С†РёСЏ РІ СЃС‚СЂРѕРєСѓ.  Р Р°Р·РґРµР»РёС‚РµР»СЊ:  РїСЂРѕР±РµР» */
     const char* tostr() const {
        static char ss[32];
        ss[0] = 0;
@@ -266,7 +267,7 @@ public:
             return ss;
     };
 
-    /** \brief   Чтение значений из строки разд. пробелами  */
+    /** \brief   Р§С‚РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РёР· СЃС‚СЂРѕРєРё СЂР°Р·Рґ. РїСЂРѕР±РµР»Р°РјРё  */
     bool fromstr(const char*  s) {
       const int SCRES = sscanf(s, "%f  %f  %f", &r, &g, &b );
        if( SCRES != 3  ) return false;
@@ -276,7 +277,7 @@ public:
 
      #pragma warning (pop)
 
-	/** \brief печать значений на консоль */
+	/** \brief РїРµС‡Р°С‚СЊ Р·РЅР°С‡РµРЅРёР№ РЅР° РєРѕРЅСЃРѕР»СЊ */
     void print() const { printf("%s\n", tostr() ); };
  
 
@@ -287,7 +288,7 @@ public:
 //-----------------------------------------------------------------------
 
 
-/**  \brief   Класс  Четырёхкомпонентный стандартный цвет по float . */
+/**  \brief   РљР»Р°СЃСЃ  Р§РµС‚С‹СЂС‘С…РєРѕРјРїРѕРЅРµРЅС‚РЅС‹Р№ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ С†РІРµС‚ РїРѕ float . */
 class Color4f {
 public:
   union 
@@ -302,22 +303,22 @@ public:
   Color4f(float vr, float vg, float vb) {r=vr; g=vg; b=vb; a=1.0f; };   
   Color4f(float vr, float vg, float vb, float va) {r=vr; g=vg; b=vb; a=va; }; 
 
-  /** \brief Конструктор по байтам ( 0->0.0f   ,  255->1.0f ) */
+  /** \brief РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ Р±Р°Р№С‚Р°Рј ( 0->0.0f   ,  255->1.0f ) */
   Color4f(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a) {r=(float)_r/255.5f; g=(float)_g/255.0f; b=(float)_b/255.0f; a=(float)_a/255.0f; };
 
  
   inline void set   (const Color4f* cSrc)   {r=cSrc->r;  g=cSrc->g;  b=cSrc->b;  a=cSrc->a;  };
   inline void set_to(Color4f* cDest) const  {cDest->r=r; cDest->g=g; cDest->b=b; cDest->a=a; };
 
-  /** \brief  проверка  каждый компонент ноль */
+  /** \brief  РїСЂРѕРІРµСЂРєР°  РєР°Р¶РґС‹Р№ РєРѕРјРїРѕРЅРµРЅС‚ РЅРѕР»СЊ */
   inline bool empty() const { return (r==0.0f) && (g==0.0f) && (b==0.0f) && (a==0.0f); };
-  /** \brief  занулить каждый компонент. */
+  /** \brief  Р·Р°РЅСѓР»РёС‚СЊ РєР°Р¶РґС‹Р№ РєРѕРјРїРѕРЅРµРЅС‚. */
   inline void setzero() { r=g=b=a=0.0f; };
 
     /** \brief  uint8_t(0-255) > float(0.0f - 1.0f)  */
   inline void setFromBytes(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a) { r=(float)_r/255.5f; g=(float)_g/255.0f; b=(float)_b/255.0f; a=(float)_a/255.0f; };
  
-  /** \brief Построение цвета  из целочисленого 4-x  байтового цвета.  */
+  /** \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ С†РІРµС‚Р°  РёР· С†РµР»РѕС‡РёСЃР»РµРЅРѕРіРѕ 4-x  Р±Р°Р№С‚РѕРІРѕРіРѕ С†РІРµС‚Р°.  */
   inline void operator =  (const uicolor32_t val) {
      a =  (float)  (val >> 24)         / 255.0f;
      r =  (float)( (val << 8 ) >> 24 ) / 255.0f;
@@ -325,9 +326,9 @@ public:
      b =  (float)( (val << 24) >> 24 ) / 255.0f;
   };
 
-  /** \brief Установить белый цвет  */
+  /** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ Р±РµР»С‹Р№ С†РІРµС‚  */
   inline void setWhite(float _a=1.0f) {r=g=b=1.0f; a=_a; };
-  /** \brief Установить чёрный цвет  */
+  /** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ С‡С‘СЂРЅС‹Р№ С†РІРµС‚  */
   inline void setBlack(float _a=1.0f) {r=g=b=0.0f; a=_a; };
 
   inline operator    uicolor32_t() const   
@@ -375,7 +376,7 @@ public:
       return res; 
   };
 
-  /** \brief сложение  */
+  /** \brief СЃР»РѕР¶РµРЅРёРµ  */
   inline void add(const Color4f* color)     
   {
 	  r+=color->r; 
@@ -384,7 +385,7 @@ public:
 	  a+=color->a; 
   };
 
-  /** \brief сложение только rgb. альфа не изменятеся.  */
+  /** \brief СЃР»РѕР¶РµРЅРёРµ С‚РѕР»СЊРєРѕ rgb. Р°Р»СЊС„Р° РЅРµ РёР·РјРµРЅСЏС‚РµСЃСЏ.  */
   inline void addRGB(const Color4f* color)  
   {
 	  r+=color->r; 
@@ -392,7 +393,7 @@ public:
 	  b+=color->b; 
   };
 
-  /** \brief Вычитание  */
+  /** \brief Р’С‹С‡РёС‚Р°РЅРёРµ  */
   inline void sub(const Color4f* color)     
   {
 	  r-=color->r; 
@@ -401,7 +402,7 @@ public:
 	  a-=color->a; 
   };
 
-  /** \brief Вычитание только rgb. альфа не изменятеся.   */
+  /** \brief Р’С‹С‡РёС‚Р°РЅРёРµ С‚РѕР»СЊРєРѕ rgb. Р°Р»СЊС„Р° РЅРµ РёР·РјРµРЅСЏС‚РµСЃСЏ.   */
   inline void subRGB(const Color4f* color)  
   {
 	  r-=color->r; 
@@ -409,7 +410,7 @@ public:
 	  b-=color->b; 
   };
 
-  /** \brief Масштабирование   */
+  /** \brief РњР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ   */
   inline void scale(float s)                
   {
 	  r*=s; 
@@ -418,7 +419,7 @@ public:
 	  a*=s; 
   };
 
-  /** \brief Масштабирование только rgb. альфа не изменятеся.    */
+  /** \brief РњР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ С‚РѕР»СЊРєРѕ rgb. Р°Р»СЊС„Р° РЅРµ РёР·РјРµРЅСЏС‚РµСЃСЏ.    */
   inline void scaleRGB(float s)             
   {
 	  r*=s; 
@@ -426,7 +427,7 @@ public:
 	  b*=s; 
   };
 
-  /** \brief  установить по  c1 и c2 по  линейной  интерполяции. */
+  /** \brief  СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РїРѕ  c1 Рё c2 РїРѕ  Р»РёРЅРµР№РЅРѕР№  РёРЅС‚РµСЂРїРѕР»СЏС†РёРё. */
   void setLerp(const Color4f& c1, const Color4f& c2, float s) 
   {
     r  = c1.r + s * (c2.r - c1.r);
@@ -435,7 +436,7 @@ public:
     a  = c1.a + s * (c2.a - c1.a);
   };
 
-  /** \brief  линейная интерполяция. */
+  /** \brief  Р»РёРЅРµР№РЅР°СЏ РёРЅС‚РµСЂРїРѕР»СЏС†РёСЏ. */
   void setLerp(const Color4f& color, float s) 
   {
     r = color.r + s * ( r - color.r);
@@ -445,7 +446,7 @@ public:
   };
 
 
-   /** \brief  насыщенность */
+   /** \brief  РЅР°СЃС‹С‰РµРЅРЅРѕСЃС‚СЊ */
   inline void setAdjustSaturation(const Color4f* cSrc, float s)  
   {
        const float grey  = cSrc->r * 0.2125f  +  cSrc->g * 0.7154f  +  cSrc->b * 0.0721f;
@@ -455,7 +456,7 @@ public:
   };
 
 
-   /** \brief изменить насыщенность */
+   /** \brief РёР·РјРµРЅРёС‚СЊ РЅР°СЃС‹С‰РµРЅРЅРѕСЃС‚СЊ */
   inline void adjustSaturation( float s )  
   {
      const float grey  =  r * 0.2125f +  g * 0.7154f +  b * 0.0721f;
@@ -464,7 +465,7 @@ public:
     b  = grey + s * ( b - grey );
   };
 
-  /** \brief Масштабирование цвета. Изменение яркости. */
+  /** \brief РњР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ С†РІРµС‚Р°. РР·РјРµРЅРµРЅРёРµ СЏСЂРєРѕСЃС‚Рё. */
   inline void modulate(const Color4f* color) 
   {
     r *= color->r;
@@ -473,7 +474,7 @@ public:
     a *= color->a; 
   };
 
-  /** \brief  Установить  негативный. */
+  /** \brief  РЈСЃС‚Р°РЅРѕРІРёС‚СЊ  РЅРµРіР°С‚РёРІРЅС‹Р№. */
   inline void setNegative(const Color4f* color) 
   {
     r = 1.0f - color->r;
@@ -482,7 +483,7 @@ public:
     a = 1.0f - color->a;  
   };
 
-  /** \brief Обратить цвета . Негатив. */
+  /** \brief РћР±СЂР°С‚РёС‚СЊ С†РІРµС‚Р° . РќРµРіР°С‚РёРІ. */
   inline void negative() 
   {
     r = 1.0f - r;
@@ -491,7 +492,7 @@ public:
     a = 1.0f - a; 
   };
 
-  /** \brief получить негативный цвет */
+  /** \brief РїРѕР»СѓС‡РёС‚СЊ РЅРµРіР°С‚РёРІРЅС‹Р№ С†РІРµС‚ */
   inline Color4f getNegative() const 
   {
 	  Color4f res(this); 
@@ -499,7 +500,7 @@ public:
 	  return res;  
   };
 
-  /** \brief изменить контраст */
+  /** \brief РёР·РјРµРЅРёС‚СЊ РєРѕРЅС‚СЂР°СЃС‚ */
   inline void adjustContrast(float s) 
   {
     r = 0.5f + s * ( r - 0.5f);
@@ -508,7 +509,7 @@ public:
   };
 
 
-  /** \brief получить цвет с изменённым контрастом */
+  /** \brief РїРѕР»СѓС‡РёС‚СЊ С†РІРµС‚ СЃ РёР·РјРµРЅС‘РЅРЅС‹Рј РєРѕРЅС‚СЂР°СЃС‚РѕРј */
   inline Color4f getAdjustContrast(float s) const 
   {
      Color4f res(this);
@@ -517,7 +518,7 @@ public:
   };
 
 
-  /** \brief Отсечение значений в пределах 0.0 ... 1.0  */
+  /** \brief РћС‚СЃРµС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РІ РїСЂРµРґРµР»Р°С… 0.0 ... 1.0  */
   inline void saturate() {
     if(r>1.0f) r=1.0f;   if(r<0.0f) r=0.0f;
     if(g>1.0f) g=1.0f;   if(g<0.0f) g=0.0f; 
@@ -525,7 +526,7 @@ public:
     if(a>1.0f) a=1.0f;   if(a<0.0f) a=0.0f; 
   };
 
-  /** \brief Получить сатурированый цвет из this . */
+  /** \brief РџРѕР»СѓС‡РёС‚СЊ СЃР°С‚СѓСЂРёСЂРѕРІР°РЅС‹Р№ С†РІРµС‚ РёР· this . */
   inline Color4f getSaturated() const 
   { 
 	  Color4f res(this); 
@@ -533,7 +534,7 @@ public:
 	  return res;  
   };
 
-  /** \brief Установить как средний цвет между this и col  . */
+  /** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РєР°Рє СЃСЂРµРґРЅРёР№ С†РІРµС‚ РјРµР¶РґСѓ this Рё col  . */
   inline void setAverage(const Color4f& col) 
   {
     r = (r+col.r) / 2.0f;
@@ -542,7 +543,7 @@ public:
     a = (a+col.a) / 2.0f;
   };
 
-  /** \brief Установить как средний цвет между  c1 и с2 . */
+  /** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РєР°Рє СЃСЂРµРґРЅРёР№ С†РІРµС‚ РјРµР¶РґСѓ  c1 Рё СЃ2 . */
   inline void setAverage( const Color4f& c1 , const Color4f& c2 ) 
   {
     r = (c2.r+c1.r) / 2.0f;
@@ -551,7 +552,7 @@ public:
     a = (c2.a+c1.a) / 2.0f;
   };
 
-  /** \brief Получить как средний цвет между this и col  . */
+  /** \brief РџРѕР»СѓС‡РёС‚СЊ РєР°Рє СЃСЂРµРґРЅРёР№ С†РІРµС‚ РјРµР¶РґСѓ this Рё col  . */
   inline Color4f getAveraged(const Color4f& col) {
     Color4f res;
     res.setAverage(*this , col);
@@ -634,7 +635,7 @@ public:
       #pragma warning (disable : 4996)
 
 
-    /** \brief Конвертация в строку.  Разделитель:  пробел */
+    /** \brief РљРѕРЅРІРµСЂС‚Р°С†РёСЏ РІ СЃС‚СЂРѕРєСѓ.  Р Р°Р·РґРµР»РёС‚РµР»СЊ:  РїСЂРѕР±РµР» */
     const char* tostr() const {
        static char ss[32];
        ss[0] = 0;
@@ -642,7 +643,7 @@ public:
             return ss;
     };
 
-    /** \brief   Чтение значений из строки разд. пробелами  */
+    /** \brief   Р§С‚РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РёР· СЃС‚СЂРѕРєРё СЂР°Р·Рґ. РїСЂРѕР±РµР»Р°РјРё  */
     bool fromstr(const char*  s) {
       const int SCRES = sscanf(s, "%f  %f  %f  %f", &r, &g, &b, &a );
        if( SCRES != 4  ) return false;
@@ -654,7 +655,7 @@ public:
 
 
 
-#pragma message("ПОМЕНЯТЬ СТАРОЕ ОПРЕДЕЛЕНИЕ ДЛЯ DIRECTX НА НОВОЕ "  __FILE__ )
+#pragma message("РџРћРњР•РќРЇРўР¬ РЎРўРђР РћР• РћРџР Р•Р”Р•Р›Р•РќРР• Р”Р›РЇ DIRECTX РќРђ РќРћР’РћР• "  __FILE__ )
 #ifdef KSMTC_DIRECTX
 
   inline void operator = (const D3DCOLORVALUE& val) { r=val.r; g=val.g; b=val.b; a=val.a; };
