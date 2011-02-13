@@ -109,53 +109,6 @@ uint32_t Formater::hwndAsUint(const HWND hwnd)
 #endif
 
 
-//=========================================================
-float Formater::randomFloat() {
-	static bool sbFirstCall = true;
-	static int32_t stime;
-	static int32_t ir;
-	static float irf;
-
-	if(sbFirstCall) {
-		sbFirstCall = false; 
-		stime=  (int32_t)(time(NULL)/2);  
-		srand(stime);  
-	}
-
-	ir = rand();  
-	irf = (float)ir;
-	return (float)( irf - ((float)RAND_MAX )/2.0f) /  ((float)RAND_MAX ) ;
-}
-
-//=========================================================
-float Formater::randomFloatUnsign() {
-	static bool sbFirstCall = true;
-	static int32_t stime;
-
-	if(sbFirstCall) { 
-		sbFirstCall = false; 
-
-		stime=  (int32_t)(time(NULL)/2);  
-		srand(stime);  
-	}
-
-
-	return  (float)rand() /  (float)RAND_MAX   ;
-}
-
-
-//=========================================================
-int32_t Formater::RandomMax(int32_t nmax) {
-	initRandom();
-	return  (int32_t)(   ( (float)rand() / (float)RAND_MAX  )  * (float)nmax +  0.5f );  
-}
-
-//=========================================================
-int32_t Formater::RandomMinMax(int32_t nmin , int32_t nmax) {
-	initRandom();
-	return  RandomMax(  nmax - nmin ) + nmin;
-}
-
 
 //=========================================================
 #ifdef _WIN32
@@ -289,17 +242,9 @@ DWORD Formater::UintFromBinCstr(const char* _s, int32_t nlen ) throw( std::runti
 
 
 
-//=========================================================
-void Formater::initRandom() { 
-	static bool sbFirstcall=true; 
+********************************
 
-	if(!sbFirstcall)  return; 
-
-
-	sbFirstcall=false; 
-
-	srand( (uint32_t) time(NULL));	
-}
+ 
 
 //====================================================
 const char* Formater::DwordToStr(const DWORD dw,  bool bAsHex ) 

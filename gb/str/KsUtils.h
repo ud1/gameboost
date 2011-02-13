@@ -102,14 +102,7 @@ public:
 	static uint32_t hwndAsUint(const HWND hwnd) ;
 #endif
 
-	/** \brief Генератор случайного float-числа со случайным знаком ( диапазон: -1.0f ... +1.0f )  */
-	static float randomFloat() ;
-	/** \brief Генератор случайного float-числа без знака ( диапазон: 0.0f ...  1.0f )  */
-	static float randomFloatUnsign() ;
-	/** \brief Получение случайного целого в диапазоне (0 - nmax) */
-	static int32_t RandomMax(int32_t nmax) ;
-	/** \brief Получение случайного целого в диапазоне (nmin - nmax) */
-	static int32_t RandomMinMax(int32_t nmin , int32_t nmax) ;
+ 
 
 #ifdef _WIN32
 	/** \brief побитовая печать на консоль двойного слова DWORD */
@@ -136,10 +129,7 @@ public:
 	static DWORD UintFromBinCstr(const char* _s, int32_t nlen= -1) throw( std::runtime_error& ) ;
 #endif
 
-
-private:
-	/** \brief инициализация рандома */
-	static void initRandom() ;
+ 
 
 };
 // end class
