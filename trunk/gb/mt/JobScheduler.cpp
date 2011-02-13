@@ -20,6 +20,7 @@ namespace
 {
 	using namespace gb::mt;
 	using namespace boost::posix_time;
+	using namespace boost::interprocess;
 	typedef boost::date_time::microsec_clock<boost::posix_time::ptime> clock;
 
 	class JobSchedulerQueue
@@ -49,13 +50,11 @@ namespace
 			is_running = false;
 		}
 
-		void runOnce();
-		void run();
+		bool runOnce();
+		void run(size_t n);
 
 		IJobScheduler *parent;
 	private:
-		boost::thread **threads;
-		boost::interprocess::interprocess_semaphore semaphore;
 		boost::mutex mutex;
 		volatile bool is_running;
 		ThreadGroup group;
@@ -68,6 +67,7 @@ namespace
 			{
 				shd = shd_;
 				shd->parent->addRef();
+				assigned_thread = -1;
 			}
 
 			~JobEntry()
@@ -83,32 +83,88 @@ namespace
 			using Job::doJob;
 			using Job::setJobTask;
 
-			boost::posix_time::ptime t;
+			ptime t;
 			JobSchedulerQueue *shd;
+			long assigned_thread;
 
 		protected:
 			bool getJobOwnership(JobTask::Action a)
 			{
-				return getThreadPolicy()->checkThreadGroup(ThreadMapping::getCurrentThreadGroup()) && shd->eraseJob(*this);
+				if (a == JobTask::DO_JOB && !getThreadPolicy()->checkThreadGroup(ThreadMapping::getCurrentThreadGroup()))
+					return false;
+				return shd->eraseJob(*this);
 			}
 		};
 
 		typedef boost::intrusive::multiset<JobEntry> Jobs;
 		Jobs jobs; // guarded by mutex
+		Jobs::iterator frontier_job, last_zero_delay_job;
+		size_t frontier_job_pos; // number of entries before frontier_job plus 1, frontier_job_pos <= free_workers.size()
+		size_t last_zero_delay_job_pos; // number of entries before last_zero_delay_job plus 1
 		size_t threadsN;
-		boost::posix_time::ptime creationTime;
+		ptime creationTime;
+		
+		//                            |----frontier_job
+		//                            |
+		//                            *
+		// | Job | Job | Job | ... | Job | Job | Job | Job | Job | ... |
+		// | t=0 | t=0 | t=0 | ... | t=0 | t=0 | t=0 | t>0 | t>0 | ... |
+		// |                             |        ^
+		// |       waiting_workers       |        |
+		// <---------------------------->         |
+		//                                        |---last_zero_delay_job
+		//
+		// frontier_job_pos/last_zero_delay_job_pos:
+		// |  1  |  2  |  3  | ... |
+		
+		friend struct Worker;
+		struct Worker
+		{
+			Worker()
+			{
+				semaphore = NULL;
+				job = NULL;
+			}
+			
+			void init(JobSchedulerQueue *holder, size_t n)
+			{
+				semaphore = new interprocess_semaphore(0);
+				thread = new boost::thread(boost::bind(&JobSchedulerQueue::threadFunc, holder, n));
+			}
+			
+			~Worker()
+			{
+				semaphore->post();
+				thread->join();
+				delete semaphore;
+				delete thread;
+			}
+			
+			boost::thread *thread;
+			interprocess_semaphore *semaphore;
+			JobSchedulerQueue::JobEntry *job;
+		};
+		Worker *workers;
+		std::vector<size_t> free_workers; // values = [0..threadsN-1]
+		size_t waiting_workers;
 
-		JobEntry *getJob_(bool &is_empty_out, ptime &time_to_wait_out)
+		JobEntry *getFirstJob(ptime time_before)
 		{
 			JobEntry *res = NULL;
 			mutex.lock();
-			if (!(is_empty_out = jobs.empty()))
+			if (!jobs.empty())
 			{
 				Jobs::iterator it = jobs.begin();
-				time_to_wait_out = it->t;
-				if (time_to_wait_out <= clock::universal_time())
+				if (it->t <= time_before)
 				{
 					res = &*it;
+					--waiting_workers;
+
+					frontier_job_pos--;
+					if (res->t == creationTime)
+						last_zero_delay_job_pos--;
+
+					workers[res->assigned_thread].job = NULL;
 					jobs.erase(it);
 				}
 			}
@@ -116,13 +172,62 @@ namespace
 			mutex.unlock();
 			return res;
 		}
+		
+		void threadReleased(size_t n)
+		{ // mutex locked
+			if (frontier_job_pos)
+			{
+				Jobs::iterator it = frontier_job;
+				if (++it != jobs.end())
+				{
+					++frontier_job;
+					++frontier_job_pos;
+					workers[n].job = &*frontier_job;
+					frontier_job->assigned_thread = n;
+				}
+				else
+				{
+					free_workers.push_back(n);
+					workers[n].job = NULL;
+				}
+			}
+			else
+			{
+				frontier_job = jobs.begin();
+				frontier_job_pos = 0;
+				if (frontier_job != jobs.end())
+				{
+					frontier_job_pos = 1;
+					workers[n].job = &*frontier_job;
+					frontier_job->assigned_thread = n;
+				}
+			}
+		}
 
 		bool eraseJob(JobEntry &job)
 		{
 			boost::lock_guard<boost::mutex> guard(mutex);
 			if (job.is_linked())
 			{
-				jobs.erase(Jobs::s_iterator_to(job));
+				Jobs::iterator it = Jobs::s_iterator_to(job);
+				jobs.erase(it);
+				
+				if (job.t == creationTime)
+				{
+					if (last_zero_delay_job_pos > 1 && it == last_zero_delay_job)
+						--last_zero_delay_job;
+					--last_zero_delay_job_pos;
+				}
+				
+				if (job.assigned_thread >= 0)
+				{
+					if (frontier_job_pos > 1 && it == frontier_job)
+						--frontier_job;
+					--frontier_job_pos;
+
+					threadReleased(job.assigned_thread);
+					workers[job.assigned_thread].semaphore->post();
+				}
 				job.release();
 				return true;
 			}
@@ -158,36 +263,94 @@ namespace
 			}
 		}
 		
-		void threadFunc()
+		void threadFunc(size_t n)
 		{
 			ThreadMapping::registerCurrentThread(group);
-			run();
+			run(n);
 			ThreadMapping::unregisterCurrentThread();
+		}
+		
+		Jobs::iterator insertJob(JobEntry *entry, int millisecs, bool &fire_semaphore_out)
+		{ // mutex is locked
+			Jobs::iterator result;
+			bool inserted_before_frontier_job = false;
+			bool update_frontier_job_pos = false;
+			fire_semaphore_out = false;
+			if (!millisecs)
+			{
+				if (!last_zero_delay_job_pos)
+					result = last_zero_delay_job = jobs.insert(*entry);
+				else result = last_zero_delay_job = jobs.insert_before(++last_zero_delay_job, *entry);
+
+				++last_zero_delay_job_pos;
+				
+				if (last_zero_delay_job_pos <= waiting_workers)
+					inserted_before_frontier_job = true;
+			}
+			else
+			{
+				if (!frontier_job_pos)
+				{
+					result = frontier_job = jobs.insert(*entry);
+					frontier_job_pos = 1;
+					fire_semaphore_out = true;
+				}
+				else if (entry->t < frontier_job->t)
+				{
+					result = jobs.insert(*entry);
+					inserted_before_frontier_job = true;
+				}
+				else if (entry->t == frontier_job->t)
+				{
+					Jobs::iterator it = frontier_job;
+					result = jobs.insert_before(++it, *entry);
+					update_frontier_job_pos = true;
+				}
+				else
+				{
+					result = jobs.insert(*entry);
+					update_frontier_job_pos = true;
+				}
+			}
+			
+			if (update_frontier_job_pos && frontier_job_pos < waiting_workers)
+			{
+				frontier_job = result;
+				++frontier_job_pos;
+				fire_semaphore_out = true;
+			}
+			
+			if (inserted_before_frontier_job)
+			{
+				fire_semaphore_out = true;
+				if (waiting_workers && frontier_job_pos == waiting_workers)
+				{
+					frontier_job->assigned_thread = -1;
+					--frontier_job;
+				}
+				else
+				{
+					++frontier_job_pos;
+					assert(frontier_job_pos <= waiting_workers);
+				}
+			}
+			return result;
 		}
 	};
 
-	JobSchedulerQueue::JobSchedulerQueue() : semaphore(0 /* initial count */)
+	JobSchedulerQueue::JobSchedulerQueue()
 	{
 		is_running = true;
 		creationTime = clock::universal_time();
 		threadsN = 0;
+		frontier_job = last_zero_delay_job = jobs.end();
+		frontier_job_pos = last_zero_delay_job_pos = 0;
 	}
 
 	JobSchedulerQueue::~JobSchedulerQueue()
 	{
 		stop();
-		for (int i = 0; i < threadsN; ++i)
-		{
-			semaphore.post();
-		}
-		
-		for (int i = 0; i < threadsN; ++i)
-		{
-			threads[i]->join();
-			delete threads[i];
-		}
-		
-		delete []threads;
+		delete []workers;
 		cancelAllJobs();
 	}
 
@@ -198,70 +361,81 @@ namespace
 		entry->addRef();
 
 		if (millisecs > 0)
-		{
 			entry->t = clock::universal_time() + milliseconds(millisecs);
-			mutex.lock();
-			if (jobs.insert(*entry) == jobs.begin())
-			{
-				semaphore.post();
-			}
-			mutex.unlock();
-		}
-		else
+		else entry->t = creationTime;
+		
+		mutex.lock();
+		size_t old_frontier_job_pos = frontier_job_pos;
+		size_t old_frontier_job_thread = (old_frontier_job_pos == 0 ? 0 : frontier_job->assigned_thread);
+		bool fire_semaphore;
+		insertJob(entry, millisecs, fire_semaphore);
+		if (fire_semaphore)
 		{
-			entry->t = creationTime;
-			mutex.lock();
-			if (jobs.insert(jobs.begin(), *entry) == jobs.begin())
+			if (!free_workers.empty())
 			{
-				semaphore.post();
+				entry->assigned_thread = *free_workers.rbegin();
+				free_workers.pop_back();
+				workers[entry->assigned_thread].job = entry;
 			}
-			mutex.unlock();
+			else
+			{
+				entry->assigned_thread = old_frontier_job_thread;
+				workers[entry->assigned_thread].job = entry;
+			}
+			
+			workers[entry->assigned_thread].semaphore->post();
 		}
+		mutex.unlock();
 
 		return entry;
 	}
 
-	void JobSchedulerQueue::run()
+	void JobSchedulerQueue::run(size_t n)
 	{
 		while (is_running)
 		{
-			JobEntry *job;
-			bool is_empty;
+			mutex.lock();
+			bool has_job = workers[n].job != NULL;
 			ptime time_to_wait;
-
-			if (job = getJob_(is_empty, time_to_wait))
+			if (has_job)
+				time_to_wait = workers[n].job->t;
+			mutex.unlock();
+			
+			JobEntry *job;
+			if (has_job && !workers[n].semaphore->timed_wait(time_to_wait))
 			{
-				job->doJob(JobTask::DO_JOB);
-				job->release();
+				if (job = getFirstJob(time_to_wait))
+				{
+					job->doJob(JobTask::DO_JOB);
+					job->release();
+					mutex.lock();
+					++waiting_workers;
+					threadReleased(n);
+					mutex.unlock();
+				}
 			}
-			else if (is_empty)
+			
+			if (!has_job)
 			{
-				semaphore.wait();
-			}
-			else
-			{
-				semaphore.timed_wait(time_to_wait);
+				workers[n].semaphore->wait();
 			}
 		}
 	}
 
-	void JobSchedulerQueue::runOnce()
+	bool JobSchedulerQueue::runOnce()
 	{
 		while (is_running)
 		{
 			JobEntry *job;
-			bool is_empty;
-			boost::posix_time::ptime time_to_wait;
-			// unreferenced -- const void *owner;
-
-			if (job = getJob_(is_empty, time_to_wait))
+			if (job = getFirstJob(clock::universal_time()))
 			{
 				job->doJob(JobTask::DO_JOB);
 				job->release();
+				return true;
 			}
 			else
 			{
-				return;
+				return false;
 			}
 		}
 	}
@@ -272,9 +446,14 @@ namespace
 			return;
 
 		threadsN = threads_number;
-		threads = new boost::thread *[threadsN];
-		for (int i = 0; i < threadsN; ++i)
-			threads[i] = new boost::thread(boost::bind(&JobSchedulerQueue::threadFunc, this));
+		workers = new Worker[threadsN];
+		free_workers.reserve(threadsN);
+		waiting_workers = threadsN;
+		for (size_t i = 0; i < threadsN; ++i)
+		{
+			workers[i].init(this, i);
+			free_workers.push_back(i);
+		}
 	}
 	
 	
@@ -315,16 +494,11 @@ namespace
 			}
 		}
 
-		void runOnce(ThreadGroup group)
+		bool runOnce(ThreadGroup group)
 		{
-			queues[group].runOnce();
+			return queues[group].runOnce();
 		}
-		
-		void run(ThreadGroup group)
-		{
-			queues[group].run();
-		}
-		
+
 	private:
 		JobSchedulerQueue queues[THREAD_GROUP_NUMBER];
 		bool is_running;
