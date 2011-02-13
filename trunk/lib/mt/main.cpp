@@ -19,7 +19,7 @@ Timer timer;
 void printTime(JobTask::Action a)
 {
 	if (a == JobTask::DO_JOB)
-		std::cout << "time " << timer.timeElapsed() << " " << boost::this_thread::get_id() << std::endl;
+		std::cout << "time " << timer.getTime() << " " << boost::this_thread::get_id() << std::endl;
 	else std::cout << "Canceled\n";
 }
 
@@ -30,7 +30,7 @@ int main()
 	scheduler = createJobScheduler();
 	scheduler->startThreads(3, IO_THREAD_GROUP);
 
-	timer.startTiming();
+	timer.reset();
 	
 	Timer::sleep(5000);
 	

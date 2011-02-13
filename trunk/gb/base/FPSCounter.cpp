@@ -46,7 +46,7 @@ namespace gb
 
 		void FPSCounter::start()
 		{
-			timer.startTiming();
+			timer.reset();
 		}
 		
 		//----------------------------------------------------------------------
@@ -54,7 +54,7 @@ namespace gb
 		float FPSCounter::finish()
 		{
 
-			double elaps = timer.timeElapsed();
+			double elaps = timer.getTime();
 			dt = float(elaps);
 
 			if (elaps > 1e-10) {

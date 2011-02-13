@@ -18,13 +18,13 @@ namespace gb
 			static void sleep(unsigned millisecs);
 
 			// сброс времени в 0
-			void startTiming();
+			void reset();
 			
-			// сколько секунд прошло с последнего вызова startTiming()
-			double timeElapsed();
+			// сколько секунд прошло с последнего вызова resetTime()
+			double getTime();
 
-			// хранит время возвращенное последним вызовом timeElapsed()
-			double elapsed_time;
+			// хранит время возвращенное последним вызовом getTime()
+			double t;
 			
 		protected:
 			Ticks start_time;
@@ -36,7 +36,7 @@ namespace gb
 		public:
 			AdvancedTimer();
 			
-			void resetTime(double t = 0.0);
+			void reset(double t = 0.0);
 			double getTime();
 			
 			// Если accel = 1.0, то время идет в нормальном темпе
