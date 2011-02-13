@@ -210,7 +210,6 @@ namespace
 			if (job.is_linked())
 			{
 				Jobs::iterator it = Jobs::s_iterator_to(job);
-				jobs.erase(it);
 				
 				if (job.t == creationTime)
 				{
@@ -224,10 +223,16 @@ namespace
 					if (frontier_job_pos > 1 && it == frontier_job)
 						--frontier_job;
 					--frontier_job_pos;
-
+				}
+				
+				jobs.erase(it);
+				
+				if (job.assigned_thread >= 0)
+				{
 					threadReleased(job.assigned_thread);
 					workers[job.assigned_thread].semaphore->post();
 				}
+				
 				job.release();
 				return true;
 			}
