@@ -1,11 +1,12 @@
 // Надо бы что-нибудь поинтереснее написать будет
-
 #include "gb/Config.h"
 
 #include <gb/mt/JobScheduler.h>
 #include <gb/base/Timer.h>
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
+
+#include <gb/base/Logger.h>
 
 #include <iostream>
 
@@ -24,6 +25,8 @@ void printTime(JobTask::Action a)
 
 int main()
 {
+	DEBUG_LOG("Hello " << 123 << " world");
+	
 	scheduler = createJobScheduler();
 	scheduler->startThreads(3, IO_THREAD_GROUP);
 

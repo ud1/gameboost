@@ -13,18 +13,19 @@ set( GAMEBOOST_SOURCES
 		base/Atomic.h  base/Guid.h
 		base/Debug.h
 		base/IRefCountable.h
-		base/SimpleLog.cpp  base/SimpleLog.h  base/CommonLog.cpp  base/CommonLog.h
+		#base/SimpleLog.cpp  base/SimpleLog.h  base/CommonLog.cpp  base/CommonLog.h
 		base/Timer.h  base/Timer.cpp  base/FPSCounter.cpp  base/FPSCounter.h 
 		base/Types.h
-		base/Factory.h
-		io/FileStream.cpp  io/FileStream.h  io/IStream.h  io/MemoryStream.cpp  io/MemoryStream.h
+		base/Logger.h base/Logger.cpp
+		#base/Factory.h
+		#io/FileStream.cpp  io/FileStream.h  io/IStream.h  io/MemoryStream.cpp  io/MemoryStream.h
 		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp
 		math/Vector.h
-		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
-		str/String.cpp  str/String.h  str/KsString.cpp  str/KsString.h  str/KsUtils.cpp  str/KsUtils.h  str/KsDefines.h
-		i18n/I18n.cpp  i18n/I18n.h  i18n/IntlString.h  i18n/IntlString.cpp
-		i18n/Japanese.h  i18n/Japanese.cpp
-		i18n/RomanicGermanic.h  i18n/RomanicGermanic.cpp
+		#system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
+		#str/String.cpp  str/String.h  str/KsString.cpp  str/KsString.h  str/KsUtils.cpp  str/KsUtils.h  str/KsDefines.h
+		#i18n/I18n.cpp  i18n/I18n.h  i18n/IntlString.h  i18n/IntlString.cpp
+		#i18n/Japanese.h  i18n/Japanese.cpp
+		#i18n/RomanicGermanic.h  i18n/RomanicGermanic.cpp
 		Config.h )
 
 # группы файлов в IDE
