@@ -3,7 +3,7 @@
 * 
 * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586 
 *
-*   Поправлен кодстайл..  
+*   Поправлен кодстайл.. Прочие незначительные поправки улучшающие читаемость .
 */
 
 #pragma once
@@ -21,7 +21,7 @@ namespace gb
 {
 
      /** \brief Цвет и цветовые операции . */
-     namespace color_ns
+     namespace color
      {
 
 
