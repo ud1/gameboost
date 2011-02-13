@@ -91,28 +91,28 @@ namespace gb
 		}
 
 		//
-		// AdvancedTimer
+		// AcceleratedTimer
 		//
 
-		AdvancedTimer::AdvancedTimer()
+		AcceleratedTimer::AcceleratedTimer()
 		{
 			time_acceleration = 1.0;
 			the_time = 0.0;
 		}
 
-		void AdvancedTimer::reset(double t_)
+		void AcceleratedTimer::reset(double t_)
 		{
 			the_time = t;
 			timer.reset();
 		}
 		
-		double AdvancedTimer::getTime()
+		double AcceleratedTimer::getTime()
 		{
 			t = the_time + timer.getTime()*time_acceleration;
 			return t;
 		}
 
-		void AdvancedTimer::setTimeAccel(double accel)
+		void AcceleratedTimer::setTimeAccel(double accel)
 		{
 			the_time = getTime();
 			timer.reset();

@@ -31,10 +31,10 @@ namespace gb
 		};
 
 		// Позволяет задавать ускорение/замедление времени
-		class AdvancedTimer
+		class AcceleratedTimer
 		{
 		public:
-			AdvancedTimer();
+			AcceleratedTimer();
 			
 			void reset(double t = 0.0);
 			double getTime();
