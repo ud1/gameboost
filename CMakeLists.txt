@@ -8,3 +8,5 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${GAMEBOOST_SOURCE_DIR}/linklib CACHE PATH "
 add_subdirectory( test/deplib/gtest-1.5.0 )
 add_subdirectory( gb )
 add_subdirectory( test )
+
+add_subdirectory(lib)
