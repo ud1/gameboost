@@ -1,6 +1,6 @@
-/** 
+п»ї/** 
 * \file vector3fpu_impl.h
-* \brief Математическая библиотека с поддержкой SIMD инструкций
+* \brief РњР°С‚РµРјР°С‚РёС‡РµСЃРєР°СЏ Р±РёР±Р»РёРѕС‚РµРєР° СЃ РїРѕРґРґРµСЂР¶РєРѕР№ SIMD РёРЅСЃС‚СЂСѓРєС†РёР№
 * \author Vincent Barabus
 */
 #pragma once
@@ -95,7 +95,7 @@ inline Vector3f & Vector3f::operator/= (float F)
 	return *this;
 }
 
-// Методы
+// РњРµС‚РѕРґС‹
 inline Vector3f Vector3f::cross (const Vector3f &V) const
 {
 	Vector3f result;

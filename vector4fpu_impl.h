@@ -1,6 +1,6 @@
-/** 
+п»ї/** 
 * \file vector4fpu_impl.h
-* \brief Математическая библиотека с поддержкой SIMD инструкций
+* \brief РњР°С‚РµРјР°С‚РёС‡РµСЃРєР°СЏ Р±РёР±Р»РёРѕС‚РµРєР° СЃ РїРѕРґРґРµСЂР¶РєРѕР№ SIMD РёРЅСЃС‚СЂСѓРєС†РёР№
 * \author Vincent Barabus
 */
 #pragma once
@@ -99,7 +99,7 @@ inline Vector4f & Vector4f::operator/= (float F)
 	return *this;
 }
 
-// Методы
+// РњРµС‚РѕРґС‹
 inline Vector4f Vector4f::cross (const Vector4f &V2, const Vector4f &V3) const
 {
 	Vector4f result;
