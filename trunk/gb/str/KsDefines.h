@@ -1,7 +1,9 @@
-/*! \file  KsDefines.h
- * \brief Выжимка из ksut_macro.h минимум необходимых макросов для импортированного кода из ksut
+п»ї/*! \file  KsDefines.h
+ * \brief Р’С‹Р¶РёРјРєР° РёР· ksut_macro.h РјРёРЅРёРјСѓРј РЅРµРѕР±С…РѕРґРёРјС‹С… РјР°РєСЂРѕСЃРѕРІ РґР»СЏ РёРјРїРѕСЂС‚РёСЂРѕРІР°РЅРЅРѕРіРѕ РєРѕРґР° РёР· ksut
  * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
  * \author Reviewer/imported by: kvakvs (kvakvs@yandex.ru)
+ *
+ *
  */
 #pragma once
 

@@ -1,7 +1,8 @@
-/** \file   formater.cpp
+﻿/** \file   formater.cpp
 *
 *
 *   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
+*
 */
 
 #include "gb/pch.h"
