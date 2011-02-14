@@ -19,6 +19,8 @@
 
 
 namespace gb {
+
+    /** \brief Получение случайных значений. */
 	namespace rand {
 
 	/** \brief Генератор случайного bool  */
