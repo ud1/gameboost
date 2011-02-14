@@ -1,5 +1,6 @@
 #include <gb/shaders/ShaderPreprocessor.h>
 #include <gb/fs/Helpers.h>
+#include <gb/base/Logger.h>
 
 #define BOOST_WAVE_PRAGMA_KEYWORD "shader"
 
@@ -53,24 +54,21 @@ namespace gb
 					}
 
 					out = oss.str();
-					std::cout << out << "\n";
 				}
 				catch (boost::wave::cpp_exception &e)
 				{
 					// some preprocessing error
-					std::cerr 
-						<< e.file_name() << "(" << e.line_no() << "): "
-						<< e.description() << std::endl;
+					ERROR_LOG(e.file_name() << "(" << e.line_no() << "): " << e.description());
 					return false;
 				}
 				catch (std::exception &e)
 				{
 					// use last recognized token to retrieve the error position
-					std::cerr 
-						<< current_position.get_file() 
+					ERROR_LOG( 
+						current_position.get_file() 
 						<< "(" << current_position.get_line() << "): "
 						<< "exception caught: " << e.what()
-						<< std::endl;
+					);
 					return false;
 				}
 				catch (...)
