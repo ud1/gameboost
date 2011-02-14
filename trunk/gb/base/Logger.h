@@ -156,31 +156,31 @@ namespace gb
 		class ConsoleLogger : public Logger<ConsoleOutputer> {};
 		
 #if LOG_LEVEL <= 0
-#		define DEBUG_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(eLogType::LT_DEBUG) << x << "\n").flush()
+#		define DEBUG_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_DEBUG) << x << "\n").flush()
 #else
 #		define DEBUG_LOG(x)
 #endif
 
 #if LOG_LEVEL <= 1
-#		define MESSAGE_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(eLogType::LT_MESSAGE) << x << "\n").flush()
+#		define MESSAGE_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_MESSAGE) << x << "\n").flush()
 #else
 #		define MESSAGE_LOG(x)
 #endif
 
 #if LOG_LEVEL <= 2
-#		define WARNING_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(eLogType::LT_WARNING) << x << "\n").flush()
+#		define WARNING_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_WARNING) << x << "\n").flush()
 #else
 #		define WARNING_LOG(x)
 #endif
 		
 #if LOG_LEVEL <= 3
-#		define ERROR_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(eLogType::LT_ERROR) << x << "\n").flush()
+#		define ERROR_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_ERROR) << x << "\n").flush()
 #else
 #		define ERROR_LOG(x)
 #endif
 		
 #if LOG_LEVEL <= 4
-#		define CRITICAL_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(eLogType::LT_CRITICAL) << x << "\n").flush()
+#		define CRITICAL_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_CRITICAL) << x << "\n").flush()
 #else
 #		define CRITICAL_LOG(x)
 #endif
