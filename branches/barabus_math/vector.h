@@ -1,4 +1,9 @@
-﻿#pragma once
+﻿/** 
+* \file vector.h
+* \brief Математическая библиотека с поддержкой SIMD инструкций
+* \author Vincent Barabus
+*/
+#pragma once
 
 #include <xmmintrin.h>
 #include <cfloat>

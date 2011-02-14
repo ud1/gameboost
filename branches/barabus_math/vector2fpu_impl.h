@@ -1,3 +1,8 @@
+/** 
+* \file vector2fpu_impl.h
+* \brief Математическая библиотека с поддержкой SIMD инструкций
+* \author Vincent Barabus
+*/
 #pragma once
 
 inline bool Vector2f::operator== (const Vector2f &V) const

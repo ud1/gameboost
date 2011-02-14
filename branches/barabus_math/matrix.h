@@ -1,3 +1,8 @@
+/** 
+* \file matrix.h
+* \brief Математическая библиотека с поддержкой SIMD инструкций
+* \author Vincent Barabus
+*/
 #pragma once
 
 #include "vector.h"
