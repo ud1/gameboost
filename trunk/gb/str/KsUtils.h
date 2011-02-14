@@ -6,6 +6,7 @@
 #pragma once
 
 #include <gb/str/KsDefines.h>
+#include <gb/base/Types.h>
 
 #include <windows.h>
 #include <exception>
@@ -62,6 +63,7 @@ public:
 	/** \brief Преобразование  знакового целого в строку  */
 	static const char* intToCstr(int32_t i) ;
 
+	/** \brief Преобразование  знакового целого из строки. Если неверное значение вернёт false  */
 	static bool intFromCstr(KS_OUT int32_t* val, const char* s) {
 		const int32_t NSCANRES = sscanf(s, "%i", val);	
 		if(NSCANRES != 1) return false;
@@ -108,18 +110,20 @@ public:
 	/** \brief побитовая печать на консоль двойного слова DWORD */
 	static void print_bits(  DWORD value) ;
 	/** \brief Получение побитовой строки из байта . */
-	static const char* ByteToStrAsBin(BYTE u) ;
+	static const char* byteToCStrAsBin(BYTE u) ;
 	/** \brief печать побитового байта на консоль . */
-	static void PrintByteAsBin(BYTE u) ;
+	static void printByteAsBin(BYTE u) ;
 	/** \brief Преобразование DWORD в двоичное представление. */
-	static const char* DwordToBinStr(DWORD dwArg) ;
-
-	static const char* DwordToStr(const DWORD dw, bool bAsHex=false) ;
+	static const char* dwordToBinStr(DWORD dwArg) ;
+    /** \brief Преобразование DWORD в cстроковое  представление. Если bAsHex==true то в шестнадцатеричном виде. */
+	static const char* dwordToStr(const DWORD dw, bool bAsHex=false) ;
 
 	/** \brief можно передать например  0xAF33. то есть первые символы 0x считается как в hex . */
-	static bool DwordFromStr(KS_OUT DWORD* pdwOut, const char* s) ;
+	static bool dwordFromStr(KS_OUT DWORD* pdwOut, const char* s) ;
+
+	#pragma message ("ПОПРАВИТЬ ДЕКЛАРАЦИЮ ")
 	/** \brief  Аналог DwordFromStr, но для аргумента по ссылке .   */
-	static bool DwordFromStr_ref(KS_OUT DWORD& dw, const char* s) ;
+	static bool dwordFromStr_ref(KS_OUT DWORD& dw, const char* s) ;
 
 
 	/** \brief Печать DWORD значения в двоичном виде на консоль */
