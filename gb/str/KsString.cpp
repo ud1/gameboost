@@ -98,6 +98,7 @@ void printStrInfo(const std::string& s)
  
 }
 
+/******************************
 //============================================
 void StrUt_BoostMakeLowerCase(std::string& s) 
 {
@@ -111,6 +112,8 @@ void StrUt_BoostMakeUpperCase(std::string& s)
 
 	boost::to_upper(s); 
 }
+
+*********************************************/
 
 //============================================
 void replaceChar(std::string& s, const char chSymb, const char chNewSymb) 
