@@ -122,7 +122,8 @@ inline T& Matrix<T,N>::operator() ( unsigned int cell ) throw()
 template< typename T, const unsigned int N> 
 inline T Matrix<T,N>::operator() ( unsigned int cell ) const throw()
 {
-	return (*this)( cell );
+	PMATH_ASSERT( cell < Cells );
+	return mValue[cell];
 }
 
 template< typename T, const unsigned int N> 
@@ -134,7 +135,7 @@ inline T& Matrix<T,N>::operator() ( unsigned int row, unsigned int col ) throw()
 template< typename T, const unsigned int N> 
 inline T Matrix<T,N>::operator() ( unsigned int row, unsigned int col ) const throw()
 {
-	return (*this)( row, col );
+	return (*this)( row * Cols + col );
 }
 
 template< typename T, const unsigned int N> 
@@ -147,7 +148,8 @@ inline T* Matrix<T,N>::operator[] (unsigned int row) throw()
 template< typename T, const unsigned int N> 
 inline const T* Matrix<T,N>::operator[] (unsigned int row) const throw()
 {
-	return operator[](row);
+	PMATH_ASSERT( Cols*row < Cells );
+	return &mValue[Cols*row];
 }
 
 template< typename T, const unsigned int N>
@@ -294,12 +296,12 @@ template< typename T, const unsigned int N>
 inline Matrix<T,N> operator * ( const Matrix<T,N>& m1, const Matrix<T,N>& m2 ) throw()
 {
 	Matrix<T,N> ret;																		
-	for( unsigned int row = 0; row < Rows; ++row )							
+	for( unsigned int row = 0; row < N; ++row )							
 	{																		
-		for ( unsigned int col = 0; col < Cols; ++col )						
+		for ( unsigned int col = 0; col < N; ++col )						
 		{
 			ret(row,col) = T(0);
-			for ( unsigned int i = 0; i < M; i++ )
+			for ( unsigned int i = 0; i < N; i++ )
 			{
 				ret(row,col) += m1(row,i) * m2(i,col);
 			}
@@ -312,10 +314,10 @@ template< typename T, const unsigned int N>
 inline Vector<T,N> operator * ( const Matrix<T,N>& mat, const Vector<T,N>& vec ) throw()
 {
 	Vector<T,N> ret;																		
-	for( unsigned int row = 0; row < Rows; ++row )							
+	for( unsigned int row = 0; row < N; ++row )							
 	{	
 		ret(row) = T(0);																	
-		for ( unsigned int col = 0; col < Cols; ++col )						
+		for ( unsigned int col = 0; col < N; ++col )						
 		{
 			ret(row) += mat(row,col) * vec(i);
 		}																	
@@ -327,10 +329,10 @@ template< typename T, const unsigned int N>
 inline Vector<T,N> operator * ( const Vector<T,N>& vec, const Matrix<T,N>& mat ) throw()
 {
 	Vector<T,N> ret;																		
-	for( unsigned int row = 0; row < Rows; ++row )							
+	for( unsigned int row = 0; row < N; ++row )							
 	{
 		ret(row) = T(0);																		
-		for ( unsigned int col = 0; col < Cols; ++col )						
+		for ( unsigned int col = 0; col < N; ++col )						
 		{
 			ret(row) += vec(col) * mat(col, row);
 		}																	
