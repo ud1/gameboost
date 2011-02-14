@@ -474,12 +474,12 @@ public:
 #ifndef _GB_NO_SIMD_
 	inline void* operator new(unsigned int size)
 	{
-		return _aligned_malloc(size*sizeof(Vector4f), 16); 
+		return _aligned_malloc(size, 16); 
 	}
 
 	inline void* operator new[](unsigned int size)
 	{
-		return _aligned_malloc(size*sizeof(Vector4f), 16); 
+		return _aligned_malloc(size, 16); 
 	}
 
 	inline void operator delete(void * _ptr)
