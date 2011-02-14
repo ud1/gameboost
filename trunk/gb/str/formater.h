@@ -53,6 +53,7 @@ namespace gb {
 	/** \brief Преобразование  беззнакового целого в строку  */
 	static const char* uintToCstr(uint32_t val) ;
 
+#pragma message ("KS777:  ПОправить такое одинаковое же uintFromCstring  ниже")
 	static bool uintFromCstring(KS_OUT uint32_t& val, const char* s);
 
 	/** \brief Преобразование  целого в строку  в шестнадцатеричном виде   */
