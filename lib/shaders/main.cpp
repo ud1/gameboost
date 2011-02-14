@@ -13,7 +13,7 @@ int main()
 	
 	std::string shader;
 	
-	shdp.load("./shaders/test.vert", macros, shader);
+	shdp.load("../shaders/test.vert", macros, shader);
 	
 	std::cout << shader << std::endl;
 	return 0;
