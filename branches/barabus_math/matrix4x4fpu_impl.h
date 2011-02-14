@@ -126,7 +126,9 @@ inline Matrix4x4f Matrix4x4f::operator - () const
 	                    -_41, -_42, -_43, -_44 );
 }
 
-// common operators
+/*!
+ \brief перемножение матриц
+*/
 inline Matrix4x4f operator * ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 {
 	Matrix4x4f result;
@@ -151,6 +153,9 @@ inline Matrix4x4f operator * ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 	return result;
 }
 
+/*!
+ \brief Поэлементное сложение матриц
+*/
 inline Matrix4x4f operator + ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 {
 	Matrix4x4f result;
@@ -175,6 +180,9 @@ inline Matrix4x4f operator + ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 	return result;
 }
 
+/*!
+ \brief Поэлементное вычитание матриц
+*/
 inline Matrix4x4f operator - ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 {
 	Matrix4x4f result;
@@ -199,6 +207,9 @@ inline Matrix4x4f operator - ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 	return result;
 }
 
+/*!
+ \brief Умножение всех элементов матрицы на скаляр
+*/
 inline Matrix4x4f operator * ( const Matrix4x4f& M, float F )
 {
 	Matrix4x4f result;
@@ -223,6 +234,9 @@ inline Matrix4x4f operator * ( const Matrix4x4f& M, float F )
 	return result;
 }
 
+/*!
+ \brief Деление всех элементов матрицы на скаляр
+*/
 inline Matrix4x4f operator / ( const Matrix4x4f& M, float F )
 {
 	Matrix4x4f result;
@@ -247,6 +261,9 @@ inline Matrix4x4f operator / ( const Matrix4x4f& M, float F )
 	return result;
 }
 
+/*!
+ \brief Строгое сравнение
+*/
 inline bool operator == ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 {
 	return ( (M1._11 == M2._11) &&
@@ -267,6 +284,9 @@ inline bool operator == ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 	         (M1._44 == M2._44) );
 }
 
+/*!
+ \brief Строгое сравнение с отрицанием
+*/
 inline bool operator != ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 {
 	return ( (M1._11 != M2._11) ||
@@ -287,6 +307,9 @@ inline bool operator != ( const Matrix4x4f& M1, const Matrix4x4f& M2 )
 	         (M1._44 != M2._44) );
 }
 
+/*!
+ \brief Умножение вектора на матрицу
+*/
 inline Vector4f operator * ( const Vector4f& V, const Matrix4x4f& M )
 {
 	Vector4f result;
