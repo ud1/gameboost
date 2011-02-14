@@ -1,4 +1,4 @@
-/*! \file  KsDefines.cpp
+/*! \file  KsDefines.h
  * \brief Выжимка из ksut_macro.h минимум необходимых макросов для импортированного кода из ksut
  * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
  * \author Reviewer/imported by: kvakvs (kvakvs@yandex.ru)
