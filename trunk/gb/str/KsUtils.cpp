@@ -4,15 +4,10 @@
  * \author Reviewer/imported by: kvakvs (kvakvs@yandex.ru)
  */
 
- //  temp
-#include "gb/pch.h"
-
-//#include "pch.h"
-
-
+#include "pch.h"
+ 
 #include <gb/str/KsUtils.h>
-//#include "ksut_inc_c.h"
-
+ 
 #include <ostream>
 #include <iostream>
 

@@ -3,6 +3,7 @@
  *	Мягкая обёртка вокруг boost/algorithm/string.hpp с возможностью реализации собственных
  *	алгоритмов без подключения библиотеки Boost
  */
+ 
 #include "pch.h"
 
 #include <gb/str/String.h>
