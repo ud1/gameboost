@@ -1,3 +1,8 @@
+/** 
+* \file vector3fpu_impl.h
+* \brief Математическая библиотека с поддержкой SIMD инструкций
+* \author Vincent Barabus
+*/
 #pragma once
 
 inline bool Vector3f::operator== (const Vector3f &V) const

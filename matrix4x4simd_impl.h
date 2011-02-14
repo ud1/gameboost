@@ -1,3 +1,8 @@
+/** 
+* \file matrix4x4simd_impl.h
+* \brief Математическая библиотека с поддержкой SIMD инструкций
+* \author Vincent Barabus
+*/
 #pragma once
 
 inline Matrix4x4f& Matrix4x4f::operator *= ( const Matrix4x4f& M)

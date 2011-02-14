@@ -1,3 +1,8 @@
+/** 
+* \file vector4simd_impl.h
+* \brief Математическая библиотека с поддержкой SIMD инструкций
+* \author Vincent Barabus
+*/
 #pragma once
 
 inline bool Vector4f::operator== (const Vector4f &V) const
