@@ -3,10 +3,16 @@
  * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
  * \author Reviewer/imported by: kvakvs (kvakvs@yandex.ru)
  */
-#include "pch.h"
+
+#include "stdafx.h"
+//#include "pch.h"
+
 
 #include <gb/str/KsUtils.h>
 //#include "ksut_inc_c.h"
+
+#include <ostream>
+#include <iostream>
 
 #pragma warning (push)
 #pragma warning (disable : 4996)
@@ -130,7 +136,7 @@ void Formater::print_bits(  DWORD value) {
 }
 
 //=========================================================
-const char* Formater::ByteToStrAsBin(BYTE u) {
+const char* Formater::byteToCStrAsBin(BYTE u) {
 	static char ss[32];
 	ss[0]=0;
 	int32_t t; 
@@ -141,14 +147,14 @@ const char* Formater::ByteToStrAsBin(BYTE u) {
 }
 
 //=========================================================
-void Formater::PrintByteAsBin(BYTE u) { 
-	printf("%s\n",  ByteToStrAsBin(u) ); 
+void Formater::printByteAsBin(BYTE u) { 
+	printf("%s\n",  byteToCStrAsBin(u) ); 
 }
 
 
 
 //=========================================================
-const char* Formater::DwordToBinStr(DWORD dwArg) {
+const char* Formater::dwordToBinStr(DWORD dwArg) {
 	static char ss[64]; ss[0]=0;
 
 	// 3
@@ -203,7 +209,7 @@ const char* Formater::DwordToBinStr(DWORD dwArg) {
 
 //=========================================================
 void Formater::printDwordAsBinCstr(const DWORD dw) {
-	printf("%s\n", DwordToBinStr(dw) );
+	printf("%s\n", dwordToBinStr(dw) );
 }
 
 
@@ -239,15 +245,9 @@ DWORD Formater::UintFromBinCstr(const char* _s, int32_t nlen ) throw( std::runti
 
 	return res;
 }
-
-
-
-********************************
-
  
-
 //====================================================
-const char* Formater::DwordToStr(const DWORD dw,  bool bAsHex ) 
+const char* Formater::dwordToStr(const DWORD dw,  bool bAsHex ) 
 {
 
 	static char ss[32];
@@ -270,7 +270,7 @@ const char* Formater::DwordToStr(const DWORD dw,  bool bAsHex )
 }
 
 //=========================================================================
-bool Formater::DwordFromStr(KS_OUT DWORD* pdwOut, const char* s) 
+bool Formater::dwordFromStr(KS_OUT DWORD* pdwOut, const char* s) 
 {
 
 	const int32_t NSLRN = (int32_t)strlen(s);
@@ -316,11 +316,11 @@ bool Formater::DwordFromStr(KS_OUT DWORD* pdwOut, const char* s)
 }
 
 //====================================================================
-bool Formater::DwordFromStr_ref(KS_OUT DWORD& dw, const char* s) 
+bool Formater::dwordFromStr_ref(KS_OUT DWORD& dw, const char* s) 
 {
 	DWORD val = 0-1;
 
-	bool bres = DwordFromStr(&val, s);
+	bool bres = dwordFromStr(&val, s);
 	if(!bres) return bres;
 
 	dw = val;
