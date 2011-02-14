@@ -90,14 +90,12 @@ void cstrToLower(char* buf)
 //======================================================
 void printStrInfo(const std::string& s) 
 {
-
-	printf("\n--------\n");
-	printf("sizeof= %u\n",  sizeof( s ) );
+ 
+	printf("\nsizeof= %u\n",  sizeof( s ) );
 	printf("lenght= %u\n", s.length() );
 	printf("capacity= %u\n", s.capacity() );
 	printf("max_size= %u\n", s.max_size() );
-	printf("--------\n");
-
+ 
 }
 
 //============================================
@@ -208,6 +206,8 @@ bool saveStrToFileW(KS_IN std::string& s, const wchar_t* fname)
 
 
 #if GB_ALLOW_BOOST_LIBRARY
+
+/*****************
 void StrUt_Boost_replace_first_copy(std::string& s, const std::string& s_tobe_relp, const std::string& snew) {
 	s = boost::ireplace_first_copy( s, s_tobe_relp, snew );
 }
@@ -216,14 +216,22 @@ void StrUt_Boost_replace_first_copy(std::string& s, const std::string& s_tobe_re
 void StrUt_Boost_replace_last_copy(std::string& s, const std::string& s_tobe_relp, const std::string& snew) {
 	s = boost::ireplace_last_copy( s, s_tobe_relp, snew );
 }
+*************************/
+
 #endif
 
 //=============================================================
 #pragma message("KS777   ПРОВЕРИТЬ "  __FILE__ )
-bool iCompareCstr(const char* src1, const char* src2 ) 
+bool iCompareCstr(const char* src1, const char* src2,   uint32_t nMax  ) 
 {
-	int32_t c=0;
-	while(1) {
+	uint32_t c=0;
+	while(1) 
+	{
+	  if( c > nMax )
+	  {
+	   return false;
+	  }
+
 		char ch1 = tolower( *(src1 + c) );
 		char ch2 = tolower( *(src2 + c) );
 
@@ -236,14 +244,15 @@ bool iCompareCstr(const char* src1, const char* src2 )
 		}
 
 		c++;
+
+
 	}
 
 	return false;
 }
 
 //======================================================
-void preprocessCppComments(KS_INOUT std::string& s,
-	KS_IN_OPTIONAL char chRepl) 
+void preprocessCppComments(KS_INOUT std::string& s,	KS_IN_OPTIONAL char chRepl) 
 {
 	std::string temp = s;
 	preprocessCppComments(temp, s, chRepl );
@@ -251,9 +260,10 @@ void preprocessCppComments(KS_INOUT std::string& s,
 }
 
 //=======================================================
-void preprocessCppComments(KS_OUT std::string& sDest, 
-	const std::string& sSrc,
-	KS_IN_OPTIONAL char chRepl) 
+void preprocessCppComments(
+						   KS_OUT std::string& sDest, 
+							const std::string& sSrc,
+							KS_IN_OPTIONAL char chRepl) 
 {
 	sDest = "";
 	const int32_t SRCLEN = (int32_t)sSrc.length();
@@ -374,9 +384,7 @@ void preprocessCppComments(KS_OUT std::string& sDest,
 }
 
 //====================================================
-int32_t findChar(const std::string& s,
-	const char symb,
-	const int32_t nStartPos) 
+int32_t findChar(const std::string& s,	const char symb, const int32_t nStartPos) 
 {
 	const int32_t SRCLEN = (int32_t)s.length();
 	if(SRCLEN == 0) return -1;
@@ -672,13 +680,9 @@ void replaceAnyChar(KS_INOUT std::string &s,
 		replaceAnyChar( s , temp, sAny,  chNewSymb);
 
 }
+ 
 
 //=========================================================
-
-// 2010.12.20
-
-//=========================================================
-#if 0
 bool check_OpenXmlTag(KS_OUT std::string& sOutTag, 
 	const std::string& src ) {
 		sOutTag = "";
@@ -688,7 +692,7 @@ bool check_OpenXmlTag(KS_OUT std::string& sOutTag,
 		if(  src[src.length()-1] != '>' ) return false;
 
 		for(int32_t c=1; c<(int32_t)src.length()-1; c++) {
-			if( StrUt_CheckSymbolEngLiteral(src[c]) || src[c] == '_'  ) {
+			if( isLatinLetter (src[c]) || src[c] == '_'  ) {
 				sOutTag += src[c];
 			}
 			else
@@ -726,7 +730,7 @@ bool check_OpenXmlTag_pos(KS_OUT std::string& sOutTag,
 
 		}
 
-		if( StrUt_CheckSymbolEngLiteral(src[posit]) || src[posit] == '_'  ) {
+		if( isLatinLetter (src[posit]) || src[posit] == '_'  ) {
 			sOutTag += src[posit];
 		}
 		else
@@ -757,7 +761,7 @@ bool check_CloseXmlTag(KS_OUT std::string& sOutTag,
 		if(  src[src.length()-1] != '>' ) return false;
 
 		for(int32_t c=2; c<(int32_t)src.length()-1; c++) {
-			if(StrUt_CheckSymbolEngLiteral(src[c]) || src[c] == '_'  ) {
+			if( isLatinLetter (src[c]) || src[c] == '_'  ) {
 				sOutTag += src[c];
 			}
 			else
@@ -796,7 +800,7 @@ bool check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
 
 		}
 
-		if( StrUt_CheckSymbolEngLiteral(src[posit]) || src[posit] == '_'  ) {
+		if(  isLatinLetter(src[posit]) || src[posit] == '_'  ) {
 			sOutTag += src[posit];
 		}
 		else
@@ -815,7 +819,7 @@ bool check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
 
 	return false;
 }
-#endif //0
+ 
 
 //=========================================================================
 void skipCppOnelineComment(KS_OUT std::string& dest, KS_IN std::string& src ) 
@@ -1218,6 +1222,16 @@ bool findNextSkipAny(KS_OUT int32_t& nOutFoundPosit, KS_IN std::string& src,
 }
 
 //================================================
+bool removeAnyFromBeginAndEnd( KS_INOUT std::string& s , KS_IN std::string& sAny) 
+{
+	std::string temp = s;
+	s = "";
+	bool bres = removeAnyFromBeginAndEnd( s  ,  temp ,   sAny);
+	return bres;
+}
+
+
+//================================================
 bool removeAnyFromBeginAndEnd(KS_OUT std::string& sOut,
 	KS_IN std::string& src,
 	KS_IN std::string& sAny)
@@ -1380,6 +1394,27 @@ void strArrayToStr(KS_OUT std::string& sOut,
 }
 
 //======================================================
+bool findNextLinePos(const char* src, int32_t& pos) {
+	char tkn ;
+	while(true) {
+		tkn =  *( src + pos );
+		if(tkn == 0)
+			return false;
+		if(tkn == 13) {
+			if(  *( src + pos ) == 10 ) {
+				// found !
+				pos += 2;
+				return true;
+			}
+		}
+
+		pos++;
+	}
+
+	return false;
+}
+
+//======================================================
 bool strArrayFromStr(
 	KS_OUT std::vector<std::string>& vOut,
 	KS_IN std::string& src,
@@ -1455,7 +1490,7 @@ void changeCase1251(char* buff, bool bUpReg) {
 
 
 //=========================================================
-bool searchCharPos(KS_OUT std::vector<int32_t> vPosOut,
+bool searchCharPos(KS_OUT std::vector<int32_t>& vPosOut,
 	const std::string& src,
 	KS_IN char chToBeSearch, KS_IN int32_t nStartIndex)
 {
@@ -1800,6 +1835,7 @@ bool KsStringVector::loadFromFileA(const char* fname, bool bRemoveEndLineOnEnd )
 }
 
 //==========================================================
+
 	} // namespace str
 } // namespace gb
 
