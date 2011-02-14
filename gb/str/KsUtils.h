@@ -21,130 +21,22 @@ namespace gb {
 	namespace util {
 
 
-#if 0
+#ifdef _WIN32
+
 /** \brief Получение точного текущего времени.  */
-float GetCurrHeightPrecTime() ;
+float getCurrHeightPrecTime() ;
 
 /** \brief  Вычисление текущей позиции курсора на окне по данному хэндлу */
-int32_t GetCursorWindowPosition(HWND hwnd, POINT* pout) ;
-#endif //0
+int32_t getCursorWindowPosition(HWND hwnd, POINT* pout) ;
+
+#endif // #ifdef _WIN32
 
 
-/** \brief Класс форматирования  . Содержит так же несколько прочих функций . */
-class Formater {
-public:
-
-	/** \brief Преобразование bool в строку */
-	static const char* boolToCstr(bool b) ;
-
-	/** \brief Преобразование BOOL в строку */
-	static const char* boolToUppercaseCstr(bool b) ;
-
-	/** \brief Преобразование float в строку */
-	static const char* floatToCstr(float f) ;
-
-	static bool floatFromCstr( KS_OUT float* val, const char* s )
-	{
-		const int32_t NSCANRES = sscanf(s, "%f", val);	
-		if(NSCANRES != 1) return false;
-
-		return true;
-	}
-
-	static bool floatFromCstr(KS_OUT float& val, const char* s) {
-		float value = -1.0f;
-		if( floatFromCstr(&value, s) == false ) return false;
-
-		val = value;
-		return true;	
-	}
-
-
-	/** \brief Преобразование  знакового целого в строку  */
-	static const char* intToCstr(int32_t i) ;
-
-	/** \brief Преобразование  знакового целого из строки. Если неверное значение вернёт false  */
-	static bool intFromCstr(KS_OUT int32_t* val, const char* s) {
-		const int32_t NSCANRES = sscanf(s, "%i", val);	
-		if(NSCANRES != 1) return false;
-
-		return true;
-	}
-
-	static bool intFromCstr(KS_OUT int32_t& val, const char* s) {
-		int32_t value = -1;
-		if( intFromCstr(&value, s) == false ) return false;
-
-		val = value;
-		return true;
-	}
-
-	/** \brief Преобразование  беззнакового целого в строку  */
-	static const char* uintToCstr(uint32_t val) ;
-
-	static bool uintFromCstring(KS_OUT uint32_t& val, const char* s) {
-		uint32_t nval = -1;
-		const int32_t NSCANRES = sscanf(s, "%u", &nval);
-		val = nval;
-
-		if(NSCANRES != 1) return false;
-		return true;
-	}
-
-	/** \brief Преобразование  целого в строку  в шестнадцатеричном виде   */
-	static const char* intToHex(int32_t i) ;
-	/** \brief Преобразование  целого в строку  в шестнадцатеричном виде с префиксом "0x" */
-	static const char* intToCppHex(int32_t i) ; 
-	/** \brief  Перевод указателя в виде hex-строки  в буфер buff  с символами в верхнем регистре.  <BR>
-	Буфер должен быть длиной не менее 11 . Пример результата = 0xA23A98FC  */
-	static const char* pointerToCstr(const void* p) ;
-	
-#ifdef _WIN32
-	/** \brief Хэндл окна в строку */
-	static uint32_t hwndAsUint(const HWND hwnd) ;
-#endif
-
- 
-
-#ifdef _WIN32
-	/** \brief побитовая печать на консоль двойного слова DWORD */
-	static void print_bits(  DWORD value) ;
-	/** \brief Получение побитовой строки из байта . */
-	static const char* byteToCStrAsBin(BYTE u) ;
-	/** \brief печать побитового байта на консоль . */
-	static void printByteAsBin(BYTE u) ;
-	/** \brief Преобразование DWORD в двоичное представление. */
-	static const char* dwordToBinStr(DWORD dwArg) ;
-    /** \brief Преобразование DWORD в cстроковое  представление. Если bAsHex==true то в шестнадцатеричном виде. */
-	static const char* dwordToStr(const DWORD dw, bool bAsHex=false) ;
-
-	/** \brief можно передать например  0xAF33. то есть первые символы 0x считается как в hex . */
-	static bool dwordFromStr(KS_OUT DWORD* pdwOut, const char* s) ;
-
-	#pragma message ("ПОПРАВИТЬ ДЕКЛАРАЦИЮ ")
-	/** \brief  Аналог DwordFromStr, но для аргумента по ссылке .   */
-	static bool dwordFromStr_ref(KS_OUT DWORD& dw, const char* s) ;
-
-
-	/** \brief Печать DWORD значения в двоичном виде на консоль */
-	static void printDwordAsBinCstr(const DWORD dw) ;
-
-	/** \brief Преобразование в uint из строки содержащей цифру в двоичном виде. */
-	static DWORD UintFromBinCstr(const char* _s, int32_t nlen= -1) throw( std::runtime_error& ) ;
-#endif
-
- 
-
-};
-// end class
 
 
 #if 0
 
-/** \brief Тип инициализирующая функция . Смотреть класс SourceInit */
-typedef bool (*TFunc_SourceInitialize) (void* pUserData);
-/** \brief Тип финализирующая функция . Смотреть класс SourceInit */
-typedef bool (*TFunc_SourceFinalize)   (void* pUserData);
+
 
 /** \brief Класс для вызова инициализирующей  и финальной  функций  в cpp-файле. <br>
 \code
@@ -183,6 +75,14 @@ return 0;
 
 class SourceInit {
 public:
+   /** \brief Тип обратный вызов инициализирующая функция.   */
+   typedef bool (*TFunc_SourceInitialize) (void* pUserData);
+   /** \brief Тип обратный вызов финализирующая функция.   */
+   typedef bool (*TFunc_SourceFinalize)   (void* pUserData);
+
+
+
+
 	/** funcInit - будет вызвана до входа в main. 
 	funcFinal - будет вызвана после выхода из main. 
 	pUserData - свой указатель или NULL если не нужен.  */
