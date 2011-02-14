@@ -10,6 +10,9 @@
 #include <gb/str/KsString.h>
 #include <gb/str/KsUtils.h>
 
+#include <gb/str/formater.h>
+
+
 #if GB_ALLOW_BOOST_LIBRARY
 	#include <boost/algorithm/string.hpp>
 	#include <boost/tokenizer.hpp>
@@ -27,7 +30,7 @@
 namespace gb {
 	namespace str {
 
-
+//======================================================================
 void splitLines(
 	KS_OUT std::vector<std::string>& vOut, 
 	const std::string& s) 
@@ -56,7 +59,8 @@ void splitLines(
 }
 
 //======================================================
-void cstrToUpper(char* buf) {
+void cstrToUpper(char* buf) 
+{
 	int32_t c=0;
 	while(1)
 	{
@@ -69,7 +73,8 @@ void cstrToUpper(char* buf) {
 }
 
 //======================================================
-void cstrToLower(char* buf) {
+void cstrToLower(char* buf) 
+{
 	int32_t c=0;
 	while(1)
 	{
@@ -83,7 +88,8 @@ void cstrToLower(char* buf) {
 }
 
 //======================================================
-void printStrInfo(const std::string& s) {
+void printStrInfo(const std::string& s) 
+{
 
 	printf("\n--------\n");
 	printf("sizeof= %u\n",  sizeof( s ) );
@@ -95,19 +101,22 @@ void printStrInfo(const std::string& s) {
 }
 
 //============================================
-void StrUt_BoostMakeLowerCase(std::string& s) {
+void StrUt_BoostMakeLowerCase(std::string& s) 
+{
 
 	boost::to_lower(s); 
 }
 
 //======================================================
-void StrUt_BoostMakeUpperCase(std::string& s) {
+void StrUt_BoostMakeUpperCase(std::string& s) 
+{
 
 	boost::to_upper(s); 
 }
 
 //============================================
-void replaceChar(std::string& s, const char chSymb, const char shNewSymb) {
+void replaceChar(std::string& s, const char chSymb, const char chNewSymb) 
+{
 
 	const size_t SRC_LEN = s.length();
 
@@ -115,8 +124,8 @@ void replaceChar(std::string& s, const char chSymb, const char shNewSymb) {
 
 	for(size_t c=0; c<SRC_LEN; c++) {
 		if( s[c] == chSymb  )
-		{
-			s[c] = shNewSymb;
+		{			   
+			s[c] = chNewSymb;
 			continue;
 		}
 
@@ -210,8 +219,8 @@ void StrUt_Boost_replace_last_copy(std::string& s, const std::string& s_tobe_rel
 #endif
 
 //=============================================================
-bool iCompareCstr(const char* src1, 
-	const char* src2 ) 
+#pragma message("KS777   ПРОВЕРИТЬ "  __FILE__ )
+bool iCompareCstr(const char* src1, const char* src2 ) 
 {
 	int32_t c=0;
 	while(1) {
@@ -670,7 +679,7 @@ void replaceAnyChar(KS_INOUT std::string &s,
 
 //=========================================================
 #if 0
-bool StrUt_Check_OpenXmlTag(KS_OUT std::string& sOutTag, 
+bool check_OpenXmlTag(KS_OUT std::string& sOutTag, 
 	const std::string& src ) {
 		sOutTag = "";
 		if( src.length  () < 3 ) return false;
@@ -694,7 +703,7 @@ bool StrUt_Check_OpenXmlTag(KS_OUT std::string& sOutTag,
 }
 
 //===================================================
-bool StrUt_Check_OpenXmlTag_pos(KS_OUT std::string& sOutTag, 
+bool check_OpenXmlTag_pos(KS_OUT std::string& sOutTag, 
 	const std::string& src, KS_INOUT int32_t& posit )
 {
 	sOutTag = "";
@@ -738,7 +747,7 @@ bool StrUt_Check_OpenXmlTag_pos(KS_OUT std::string& sOutTag,
 }
 
 //=====================================================
-bool StrUt_Check_CloseXmlTag(KS_OUT std::string& sOutTag, 
+bool check_CloseXmlTag(KS_OUT std::string& sOutTag, 
 	const std::string& src ) {
 		sOutTag = "";
 		if( src.length() < 4 ) return false;
@@ -763,7 +772,7 @@ bool StrUt_Check_CloseXmlTag(KS_OUT std::string& sOutTag,
 }
 
 //===========================================================
-bool StrUt_Check_CloseXmlTag_pos(KS_OUT std::string& sOutTag, 
+bool check_CloseXmlTag_pos(KS_OUT std::string& sOutTag, 
 	const std::string& src, KS_INOUT int32_t& posit )
 {
 	sOutTag = "";
@@ -856,7 +865,7 @@ void intArrayToStr(KS_OUT std::string& sOut,
 
 	for(int32_t c=0; c<nArrayLen; c++)
 	{
-		sOut += gb::util::Formater::intToCstr( *(pArray + c) );
+		sOut += gb::str::Formater::intToCstr( *(pArray + c) );
 
 		if(c != nArrayLen-1)
 		{

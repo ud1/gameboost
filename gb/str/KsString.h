@@ -14,7 +14,10 @@
 #include <vector>
 #include <list>
 
+#include <gb/Config.h>
+#include <gb/base/Types.h>
 #include <gb/str/KsDefines.h>
+
 
 #if GB_ALLOW_BOOST_LIBRARY
 	#include <boost/algorithm/string.hpp>
@@ -32,13 +35,8 @@ namespace gb {
 static const char CSTR_ZERO[]    = "0";
 static const char CSTR_ONE[]     = "1";
 static const char CSTR_TWO[]     = "2";
-
-
-class StrUt_TEMPHOLDER {
-public:
-};
-// end class
-
+ 
+#ifdef GB_ALLOW_BOOST_LIBRARY
 
 template <typename T>
 /** \brief Каст из строкового представления в другое */
@@ -46,7 +44,7 @@ bool strTo(KS_OUT T& outVal,  const std::string& s)
 {
 	if( !s.length() ) return false;
 	try { outVal = boost::lexical_cast<T>(s); }
-	catch(bad_lexical_cast &) {  return false; 	}	return true;
+	catch( boost::bad_lexical_cast &) {  return false; 	}	return true;
 }
 
 
@@ -80,6 +78,8 @@ bool strVectorTo(KS_OUT std::vector<T>& vOut,  const std::vector<std::string>& v
 	return true;
 }
 
+#endif // #ifdef GB_ALLOW_BOOST_LIBRARY
+
 
 /** \brief Заполнение вектора по строке делёной символом конца строки  \n */
 void splitLines(KS_OUT std::vector<std::string>& vOut, const std::string& s) ;
@@ -109,7 +109,7 @@ void printStrInfo(const std::string& s);
 // void StrUt_BoostMakeLowerCase(std::string& s);
 // void StrUt_BoostMakeUpperCase(std::string& s);
 
-void replaceChar(std::string& s, const char chSymb, const char shNewSymb);
+void replaceChar(std::string& s, const char chSymb, const char chNewSymb);
 
 // void StrUt_BoostEraseAll(std::string& s, const std::string& s_erased);
 
@@ -140,9 +140,11 @@ int32_t findChar(const std::string& s, const char symb, const int32_t nStartPos)
 
 /** \brief Поиск подстроки между символами <br>
 nPosition - с какой позиции и в нём же и результат индекса (позиция завершающего символа)  */
-bool findSubstringBetween( KS_OUT std::string& sResult, const std::string& s,
-	const char chBegin,  const char chEnd,
-	KS_INOUT int32_t& nPosition );
+bool findSubstringBetween( 
+		KS_OUT std::string& sResult, const std::string& s,
+		const char chBegin,  
+		const char chEnd,
+		KS_INOUT int32_t& nPosition );
 
 /** \brief Разрезать строку по указаному символу chDiv <br>
 bClearResVecBefore - очистить или нет результирующий вектор vResult перед операцией   */
@@ -160,7 +162,7 @@ void splitTokens( KS_OUT std::vector<std::string>& vResult,
 void sliceByOffsets(KS_OUT std::vector<std::string>& vResult, const std::string& src,
 	const uint32_t* pOffsets, const int32_t nOffsLen) ;
 
-/** \brief Разоезать строку src между индексами nStartPos && nStopPos
+/** \brief Разрезать строку src между индексами nStartPos && nStopPos
 по токену  chToken   */
 bool sliceBetweenIndices(KS_OUT std::vector<std::string>& vOut,
 	const std::string& src,
@@ -189,22 +191,26 @@ void replaceAnyChar(KS_INOUT std::string &s, const std::string& sAny, const char
 
 
 #if 0
+
 /** \brief Проверка строчки на открывающий xml/html таг    */
-bool StrUt_Check_OpenXmlTag(KS_OUT std::string& sOutTag, 
+bool check_OpenXmlTag(KS_OUT std::string& sOutTag, 
 	const std::string& src);
+	
 /** \brief Проверка строчки на открывающий xml/html таг по индексу     */
-bool StrUt_Check_OpenXmlTag_pos(KS_OUT std::string& sOutTag, 
+bool check_OpenXmlTag_pos(KS_OUT std::string& sOutTag, 
 	const std::string& src,
 	KS_INOUT int32_t& posit);
 
 /** \brief Проверка строчки на закрывающий xml/html таг     */
-bool StrUt_Check_CloseXmlTag(KS_OUT std::string& sOutTag,
+bool check_CloseXmlTag(KS_OUT std::string& sOutTag,
 	const std::string& src);
 
 /** \brief Проверка строчки на закрывающий xml/html таг  по индексу    */
-bool StrUt_Check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
+bool check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
 	const std::string& src,
 	KS_INOUT int32_t& posit);
+	
+	
 #endif //0
 
 /** \brief Удаление символов начиная с "//" (с++ однострочный комментарий) */
