@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 inline bool Vector3f::operator== (const Vector3f &V) const
 {

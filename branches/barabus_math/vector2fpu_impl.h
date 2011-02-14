@@ -1,6 +1,6 @@
-/** 
+п»ї/** 
 * \file vector2fpu_impl.h
-* \brief Математическая библиотека с поддержкой SIMD инструкций
+* \brief РњР°С‚РµРјР°С‚РёС‡РµСЃРєР°СЏ Р±РёР±Р»РёРѕС‚РµРєР° СЃ РїРѕРґРґРµСЂР¶РєРѕР№ SIMD РёРЅСЃС‚СЂСѓРєС†РёР№
 * \author Vincent Barabus
 */
 #pragma once
@@ -91,7 +91,7 @@ inline Vector2f & Vector2f::operator/= (float F)
 	return *this;
 }
 
-// Методы
+// РњРµС‚РѕРґС‹
 inline Vector2f Vector2f::cross (const Vector2f &V) const
 {
 	Vector2f result;
