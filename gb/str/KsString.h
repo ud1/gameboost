@@ -99,7 +99,7 @@ void changeCase1251(char* buff, bool bUpReg);
 /** \brief Поиск индексов вхождения символа chToBeSearch в строке src
 с позиции  nStartIndex */
 //==============================================
-bool searchCharPos(KS_OUT std::vector<int32_t> vPosOut, const std::string& src,
+bool searchCharPos(KS_OUT std::vector<int32_t>& vPosOut, const std::string& src,
 	KS_IN char chToBeSearch, KS_IN int32_t nStartIndex);
 
 
@@ -122,8 +122,9 @@ bool saveStrToFileW   (KS_IN std::string& s,   const wchar_t* fname);
 // void StrUt_Boost_replace_first_copy(std::string& s, const std::string& s_tobe_relp, const std::string& snew);
 // void StrUt_Boost_replace_last_copy(std::string& s, const std::string& s_tobe_relp, const std::string& snew);
 
+#pragma message ("KS777 ПОПРАВИТЬ"  __FILE__)
 /** \brief Сравнение буферов без учёта регистра   НЕ ПРОВЕРЯЛАСЬ !!! */
-bool iCompareCstr(const char* src1, const char* src2 );
+bool iCompareCstr(const char* src1, const char* src2, uint32_t nMax );
 
 /** \brief  удалить из текста  все C++ комментарии, Если  chRepl != 0,<br>
 то закомментированый текст будет заменён этим символом	 <br>
@@ -190,7 +191,7 @@ void replaceAnyChar(KS_OUT std::string& sOut, const std::string &src, const std:
 void replaceAnyChar(KS_INOUT std::string &s, const std::string& sAny, const char chNewSymb) ;
 
 
-#if 0
+ 
 
 /** \brief Проверка строчки на открывающий xml/html таг    */
 bool check_OpenXmlTag(KS_OUT std::string& sOutTag, 
@@ -211,7 +212,7 @@ bool check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
 	KS_INOUT int32_t& posit);
 	
 	
-#endif //0
+ 
 
 /** \brief Удаление символов начиная с "//" (с++ однострочный комментарий) */
 void skipCppOnelineComment(KS_OUT std::string& dest,
@@ -222,24 +223,36 @@ void skipCppOnelineComment(KS_INOUT std::string& s);
 
 
 void intArrayToStr(KS_OUT std::string& sOut,
-	const int32_t* pArray,  const int32_t nArrayLen,
-	const char* szBegin, const char* szEnd,
+	const int32_t* pArray,  
+	const int32_t nArrayLen,
+	const char* szBegin, 
+	const char* szEnd,
 	const char* szSeparator );
 
 
 void intArrayToStr(KS_OUT std::string& sOut,
 	const std::vector<int32_t>& vArray,
-	const char* szBegin, const char* szEnd,
+	const char* szBegin, 
+	const char* szEnd,
 	const char* szSeparator );
 
 
-bool intArrayFromStr(KS_OUT int32_t* pBufOut, KS_IN int32_t nBufLen,
-	KS_IN std::string& src, KS_IN char chBegin, KS_IN char chEnd,
-	KS_IN char chSeparator, KS_OUT_OPTIONAL int32_t* pOutNumReaded=NULL  );
+bool intArrayFromStr(
+	KS_OUT int32_t* pBufOut, 
+	KS_IN int32_t nBufLen,
+	KS_IN std::string& src, 
+	KS_IN char chBegin, 
+	KS_IN char chEnd,
+	KS_IN char chSeparator, 
+	KS_OUT_OPTIONAL int32_t* pOutNumReaded = NULL  );
 
 
-bool intArrayFromStr(KS_OUT std::vector<int32_t>& vOut, KS_IN std::string& src,
-	KS_IN char chBegin, KS_IN char chEnd, KS_IN char chSeparator );
+bool intArrayFromStr(
+	KS_OUT std::vector<int32_t>& vOut, 
+	KS_IN std::string& src,
+	KS_IN char chBegin, 
+	KS_IN char chEnd, 
+	KS_IN char chSeparator );
 
 
 /** \brief  найти следующий символ не равный символам sSkipAnySymbols
@@ -255,12 +268,7 @@ bool findNextSkipAny(KS_OUT int32_t& nOutFoundPosit, KS_IN std::string& src,
 помимо sAny в строке нет вернёт false. */
 bool removeAnyFromBeginAndEnd(KS_OUT std::string& sOut, KS_IN std::string& src, KS_IN std::string& sAny);
 
-inline bool removeAnyFromBeginAndEnd( KS_INOUT std::string& s , KS_IN std::string& sAny) {
-	std::string temp = s;
-	s = "";
-	bool bres = removeAnyFromBeginAndEnd( s  ,  temp ,   sAny);
-	return bres;
-}
+bool removeAnyFromBeginAndEnd( KS_INOUT std::string& s , KS_IN std::string& sAny) ;
 
 /** \brief Аналог StrUt_RemoveAnyFromBeginAndEnd для вектора строк */
 void removeAnyFromBeginAndEnd_Vec(KS_INOUT std::vector<std::string>& v,
@@ -334,28 +342,6 @@ inline bool isLatinLetter(char symb) {
 	return ( isLatinLetterUpper(symb) || isLatinLetterLower(symb) );
 }
 
-/** \brief Поиск символа новой строки . <br>
-src-указ. на первый символ в буфере.  pos - текущая позиция. */
-inline bool findNextLinePos(const char* src, int32_t& pos) {
-	char tkn ;
-	while(true) {
-		tkn =  *( src + pos );
-		if(tkn == 0)
-			return false;
-		if(tkn == 13) {
-			if(  *( src + pos ) == 10 ) {
-				// found !
-				pos += 2;
-				return true;
-			}
-		}
-
-		pos++;
-	}
-
-	return false;
-}
-
 /** \brief Является ли символ математическим */
 inline bool isMathOperator(char symb) {
 	return ( (symb == '+') || (symb == '-') || (symb == '*') || (symb == '/')  );
@@ -367,9 +353,16 @@ inline void appendChar(char* buf, const char s) {
 	*(buf + iblen) = s;
 }
 
+/** \brief Поиск символа новой строки . <br>
+ \param
+ src - указывает на первый символ в буфере.  
+ pos - текущая позиция. */
+bool findNextLinePos(const char* src, int32_t& pos) ;
 
 
-#if 0
+
+ 
+
 /** \brief  make string:  "<tag>" */
 inline std::string StrUt_MakeOpenXmlTag(const std::string& sTag) {
 	std::string  res  = "<";
@@ -410,7 +403,7 @@ inline bool StrUt_SymbMayBeSeparator(KS_IN char symb) {
 
 	return false;
 }
-#endif //0
+ 
 
 
 
