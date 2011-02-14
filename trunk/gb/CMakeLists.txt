@@ -10,6 +10,8 @@ endif()
 
 # Исходники
 set( GAMEBOOST_SOURCES
+		fs/LocalFS.cpp fs/Helpers.cpp
+		shaders/ShaderPreprocessor.cpp
 		base/Atomic.h  base/Guid.h
 		base/Debug.h
 		base/IRefCountable.h
