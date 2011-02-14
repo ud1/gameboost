@@ -1,4 +1,4 @@
-/* \file KsStringUtils.h
+/** \file KsString.h
  * \brief Строки и сопутствующие типы.
  * Класс на основе STL и BOOST
  * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
