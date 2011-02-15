@@ -23,7 +23,7 @@ namespace gb
 		{
 			enum LogType
 			{
-				LT_DEBUG,
+				LT_DEBUG = 0,
 				LT_MESSAGE,
 				LT_WARNING,
 				LT_ERROR,
@@ -51,7 +51,7 @@ namespace gb
 				
 				char time_str[TIME_STR_LEN];
 				time_t rawtime;
-				tm * timeinfo;
+				//tm * timeinfo;
 				
 				time (&rawtime);
 				strftime(time_str, TIME_STR_LEN, format, localtime ( &rawtime ));
@@ -155,32 +155,32 @@ namespace gb
 		
 		class ConsoleLogger : public Logger<ConsoleOutputer> {};
 		
-#if LOG_LEVEL <= 0
-#		define DEBUG_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_DEBUG) << x << "\n").flush()
+#if GB_LOG_LEVEL <= 0
+	#define DEBUG_LOG(x) (gb::base::getLogger<GB_LOGGER_TYPE>()(gb::base::eLogType::LT_DEBUG) << x << "\n").flush()
 #else
-#		define DEBUG_LOG(x)
+	#define DEBUG_LOG(x)
 #endif
 
-#if LOG_LEVEL <= 1
-#		define MESSAGE_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_MESSAGE) << x << "\n").flush()
+#if GB_LOG_LEVEL <= 1
+	#define MESSAGE_LOG(x) (gb::base::getLogger<GB_LOGGER_TYPE>()(gb::base::eLogType::LT_MESSAGE) << x << "\n").flush()
 #else
-#		define MESSAGE_LOG(x)
+	#define MESSAGE_LOG(x)
 #endif
 
-#if LOG_LEVEL <= 2
-#		define WARNING_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_WARNING) << x << "\n").flush()
+#if GB_LOG_LEVEL <= 2
+#		define WARNING_LOG(x) (gb::base::getLogger<GB_LOGGER_TYPE>()(gb::base::eLogType::LT_WARNING) << x << "\n").flush()
 #else
 #		define WARNING_LOG(x)
 #endif
 		
-#if LOG_LEVEL <= 3
-#		define ERROR_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_ERROR) << x << "\n").flush()
+#if GB_LOG_LEVEL <= 3
+#		define ERROR_LOG(x) (gb::base::getLogger<GB_LOGGER_TYPE>()(gb::base::eLogType::LT_ERROR) << x << "\n").flush()
 #else
 #		define ERROR_LOG(x)
 #endif
 		
-#if LOG_LEVEL <= 4
-#		define CRITICAL_LOG(x) (gb::base::getLogger<LOGGER_TYPE>()(gb::base::eLogType::LT_CRITICAL) << x << "\n").flush()
+#if GB_LOG_LEVEL <= 4
+#		define CRITICAL_LOG(x) (gb::base::getLogger<GB_LOGGER_TYPE>()(gb::base::eLogType::LT_CRITICAL) << x << "\n").flush()
 #else
 #		define CRITICAL_LOG(x)
 #endif

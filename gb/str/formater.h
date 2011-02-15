@@ -79,7 +79,7 @@ namespace gb {
 	static bool uintFromCstr(KS_OUT uint32_t& dw,     const char* s) ;
 
 	/** \brief Преобразование в uint из строки содержащей цифру в двоичном виде. */
-	static uint32_t uintFromBinCstr(const char* _s, int32_t nlen= -1) throw(); 
+	static uint32_t uintFromBinCstr(const char* _s, int32_t nlen= -1); // throw(); 
 
 	/** \brief побитовая печать на консоль двойного слова uint32_t */
 	static void print_bits(  uint32_t value) ;

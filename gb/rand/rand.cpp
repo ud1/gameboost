@@ -5,10 +5,10 @@
 *   
 */
 
-    // temp inc  for vs
-#include "stdafx.h"
- 
-   // temp exclude
+// temp inc  for vs
+#include "pch.h"
+
+// temp exclude
 //#include "pch.h"
 
 #include <gb\rand\rand.h>
@@ -33,21 +33,20 @@ static void __initRandom()
 //=========================================================================
 bool gb::rand::randomBool()
 {
-   if(randomMax(1) )
-   {
-	 return true;
-   }
-  
-   return false;
+	// TODO: Просто отрезать младший бит от результата выбранной функции random(), убрать if()
+	if(randomMax(1) )
+	{
+		return true;
+	}
+
+	return false;
 };
 
 
 //=========================================================================
 float gb::rand::randomSignFloat1() 
 {
- 
-   return (randomUnsFloatBetween01() - 0.5f) * 2.0f;
-
+	return (randomUnsFloatBetween01() - 0.5f) * 2.0f;
 }
 
 //=========================================================================
@@ -85,52 +84,52 @@ int32_t  gb::rand::randomMinMax(int32_t nmin , int32_t nmax)
 //=========================================================================
 bool gb::rand::randomStr(std::string& sOut, char chrMin, char chrMax, const int nLenght)
 {
-  if( (chrMin == '\0') || (chrMax == '\0') || (chrMin > chrMax) )
-  {
-   // invalid params
-	  return false;
-  };
+	if( (chrMin == '\0') || (chrMax == '\0') || (chrMin > chrMax) )
+	{
+		// invalid params
+		return false;
+	};
 
 
- sOut = "";
+	sOut = "";
 
- if(nLenght == 0) return true;
+	if(nLenght == 0) return true;
 
- sOut.reserve(nLenght + 1);
-  for(int c=0; c<nLenght; c++)
-  {
-	  char nchar = (char)(  gb::rand::randomMinMax( (int)chrMin , (int)chrMax )  );
-	  sOut += nchar;
-  };
+	sOut.reserve(nLenght + 1);
+	for(int c=0; c<nLenght; c++)
+	{
+		char nchar = (char)(  gb::rand::randomMinMax( (int)chrMin , (int)chrMax )  );
+		sOut += nchar;
+	};
 
-  return true;
+	return true;
 };
- 
+
 //====================================================================
 void gb::rand::randomCstr(char* pdest, int ndestlen, char chrMin, char chrMax, const int nLenght)
 {
-   if(NULL == pdest) return ;
+	if(NULL == pdest) return ;
 	*pdest = '\0';
 
-   int num = nLenght;
-   if( num > ndestlen-1 )
-   {
-    num = ndestlen-1;
-   }
- 
-  for(int c=0; c<num; c++)
-  {
-	  char nchar = (char)(  gb::rand::randomMinMax( (int)chrMin , (int)chrMax )  );
-	 *(pdest + c) = nchar;
-  };
+	int num = nLenght;
+	if( num > ndestlen-1 )
+	{
+		num = ndestlen-1;
+	}
 
- // zero last
-  *(pdest + num) = '\0';
+	for(int c=0; c<num; c++)
+	{
+		char nchar = (char)(  gb::rand::randomMinMax( (int)chrMin , (int)chrMax )  );
+		*(pdest + c) = nchar;
+	};
+
+	// zero last
+	*(pdest + num) = '\0';
 
 
 };
 
- 
+
 
 
 // end file

@@ -1,5 +1,7 @@
 #pragma once
 
+#if GB_ALLOW_BOOST_LIBRARY
+
 #include <string>
 #include <vector>
 
@@ -23,3 +25,6 @@ namespace gb
 		};
 	}
 }
+
+
+#endif // GB_ALLOW_BOOST_LIBRARY

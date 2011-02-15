@@ -50,7 +50,7 @@ namespace gb
             int     getHeight()             { return height;      };
             int     getFormat()             { return format;      };
             int     getComponents()         { return components;  };
-            int     getMipmapsCount()       { return groups_count;};
+            size_t  getMipmapsCount()       { return groups_count;};
 	    } CTexture2D;
 
         char textureGetBitsPerPixel(int pf);

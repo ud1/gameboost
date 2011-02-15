@@ -1,8 +1,9 @@
 /*      \file FileStream.cpp
  *      \author -Eugene-, kozlov_eugene@list.ru
 */
-#include "gb/pch.h"
+#include "pch.h"
 #include "gb/containers/Texture2D.h"
+#include <algorithm>
 
 using namespace gb::containers;
 

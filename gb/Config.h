@@ -11,10 +11,10 @@
 #define GB_ASSERT_TYPE 0
 #endif
 
-#define LOGGER_TYPE gb::base::ConsoleLogger
+#define GB_LOGGER_TYPE gb::base::ConsoleLogger
 
 // LOG_LEVEL Сооствествует gb::base::eLogType::LogType
-#define LOG_LEVEL 0
+#define GB_LOG_LEVEL 0
 
 // Отключить SSE инструкции для совместимости
 #define GB_NO_SIMD 0
@@ -25,6 +25,9 @@
 // Включить поддержку классами Boost.Serialize
 #define GB_ENABLE_BOOST_SERIALIZE 1
 
+// Для того, чтоб WinDef.h не определял макросы min/max, мы используем расово верные макросы из <algorithm>
+#define NOMINMAX 1
+
 // microsoft specific
 #ifdef _MSC_VER
 	#pragma warning(disable:4996)
@@ -33,7 +36,10 @@
 	#pragma warning(disable:4554)
 
 	#ifdef _DEBUG
-		#define _CRTDBG_MAP_ALLOC
+		// включение этого макроса вызывает проблемы в boost/pool, boost/segregated_storage
+		// поскольку там создаётся функция malloc, и этот флаг её превращает в макрос
+		//#define _CRTDBG_MAP_ALLOC
+
 		#include <stdlib.h>
 		#include <crtdbg.h>
 	#endif

@@ -136,7 +136,9 @@ void gb::str::Formater::printDwordAsBin(const uint32_t dw)
 
 
 //==========================================================
-uint32_t gb::str::Formater::uintFromBinCstr(const char* _s, int32_t nlen ) throw()// std::runtime_error& ) 
+uint32_t gb::str::Formater::uintFromBinCstr(const char* _s, int32_t nlen ) 
+	// throw() - наличие throw() в объявлении функции и наличие throw в коде даёт варнинг компилятора
+	// std::runtime_error& ) 
 {
 	uint32_t res=0; 
 	if(-1 == nlen) nlen = (int32_t)strlen(_s);
@@ -160,7 +162,7 @@ uint32_t gb::str::Formater::uintFromBinCstr(const char* _s, int32_t nlen ) throw
 
 
 		//throw(   c  -1 );
-		throw( std::runtime_error("Error data") );
+		throw( std::runtime_error( "Formater::uintFromBinStr: Data error" ) );
 
 		return res;
 
