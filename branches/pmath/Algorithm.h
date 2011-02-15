@@ -1,5 +1,4 @@
-#ifndef MATH_ALGORYTM_H
-#define MATH_ALGORYTM_H
+﻿#pragma once
 
 namespace pmath
 {
@@ -50,5 +49,3 @@ inline void copy( T * dest, const T * val ) throw()
 }
 
 }
-
-#endif // MATH_ALGORYTM_H

@@ -1,4 +1,6 @@
-﻿namespace pmath
+﻿#pragma once
+
+namespace pmath
 {
 
 template<typename T, const unsigned int N>
