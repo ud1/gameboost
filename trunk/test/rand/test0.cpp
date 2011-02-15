@@ -1,13 +1,10 @@
 //* test random 
 
-#include "stdafx.h"
+#include "pch.h"
 #include <stdio.h> 
 #include <stdlib.h>
-
-#include <windows.h>
-
-
-#include "Z:\\!!GB\\gameboost\\gb\\rand\\rand.h"
+ 
+#include "gb/rand/rand.h"
 
 //==============================================================
 void print_int(const char* promt, const int32_t val)
@@ -54,16 +51,9 @@ void test_randomBool()
  print_div() ;
  printf("%s\n", "       test_randomBool  ");
 
+ for(int c=0; c<100; c++)
  print_bool( gb::rand::randomBool() );
- print_bool( gb::rand::randomBool() );
- print_bool( gb::rand::randomBool() );
- print_bool( gb::rand::randomBool() );
- print_bool( gb::rand::randomBool() );
- print_bool( gb::rand::randomBool() );
- print_bool( gb::rand::randomBool() );
- print_bool( gb::rand::randomBool() );
- print_bool( gb::rand::randomBool() );
- print_bool( gb::rand::randomBool() );
+ 
 
 
 
@@ -313,7 +303,7 @@ void test_randomCstr()
  
 
 //================================================================
-int _tmain(int argc, _TCHAR* argv[])
+int  main(int argc,  char* argv[])
 {
   printf("%s" , "START APPLICATION ..... \n\n " );
 
