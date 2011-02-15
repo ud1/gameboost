@@ -5,18 +5,20 @@ namespace pmath
 
 using ::std::min;
 using ::std::max;
+using ::std::sin;
+using ::std::sqrt;
 
-template<typename T>
-inline T sqr( const T val ) throw()
-{
-	return val * val;
-}
-
-template<typename T>
-inline T sqrt( const T val) throw()
-{
-	return T(::sqrt(double(val)));
-}
+//template<typename T>
+//inline T sqr( const T val ) throw()
+//{
+//	return val * val;
+//}
+//
+//template<typename T>
+//inline T sqrt( const T val) throw()
+//{
+//	return T(::sqrt(double(val)));
+//}
 
 template<typename T> 
 inline T lerp( float alpha, const T &v0, const T &v1 ) throw()
