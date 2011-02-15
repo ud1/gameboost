@@ -5,11 +5,7 @@
 *   
 */
 
-// temp inc  for vs
 #include "pch.h"
-
-// temp exclude
-//#include "pch.h"
 
 #include <gb\rand\rand.h>
 
@@ -33,13 +29,9 @@ static void __initRandom()
 //=========================================================================
 bool gb::rand::randomBool()
 {
-	// TODO: Просто отрезать младший бит от результата выбранной функции random(), убрать if()
-	if(randomMax(1) )
-	{
-		return true;
-	}
-
-	return false;
+ 	   __initRandom();
+ 
+	   return (  ::rand() & 1  );
 };
 
 
