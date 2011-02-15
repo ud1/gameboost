@@ -11,3 +11,14 @@
 #define GB_CONST_INV_PI			0.318309886183790671538
 #define GB_CONST_DOUBLE_INV_PI	0.636619772367581343076
 #define GB_CONST_SQRT_2			1.41421356237309504880
+
+namespace gb
+{
+
+	double getNaN() {
+		unsigned long nan_ulong[2] = {0xffffffff, 0x7fffffff};
+		double nan = *( double* )nan_ulong;
+		return nan;
+	}
+
+} // namespace gb
