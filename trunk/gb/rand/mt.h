@@ -3,8 +3,9 @@
 	Обёртка вокруг генератора случайных чисел Mersenne Twister
 	На выбор предлагаются алгоритмы SSE/SIMD и обычный, для SIMD предлагаются одинарная и двойная точность генерации
 	
-	При включении двойной точности дополнительные функции появляются в неймспейсе
-	gb::mersennetwister с именами dsfmt_*
+	При включении double оптимизации дополнительные функции появляются в неймспейсе
+	gb::mersennetwister с именами dsfmt_*, для целых случайных чисел такой генератор работает
+	медленнее, чем целочисленный GB_RANDOM_OPTIMIZE_FOR_DOUBLE=0
 */
 
 #include <gb/Config.h>
@@ -14,7 +15,7 @@
 #include <cmath>
 #include <math.h>
 
-#if GB_RANDOM_PRECISION
+#if GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 	#include <gb/deplib/mt/dSFMT/dSFMT.h>
 #else
 	#include <gb/deplib/mt/SFMT/SFMT.h>
@@ -29,7 +30,7 @@ namespace gb
 //! Стартовать рандом генератор с помощью числа
 inline void seed( uint32_t seed_value )
 {
-#if GB_RANDOM_PRECISION
+#if GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 	gb::mersennetwister::dsfmt_gv_init_gen_rand( seed_value );
 #else
 	gb::mersennetwister::init_gen_rand( seed_value );
@@ -40,7 +41,7 @@ inline void seed( uint32_t seed_value )
 //! Стартовать рандом генератор с помощью массива случайных данных
 inline void seedArray( uint32_t *init_key, int key_length )
 {
-#if GB_RANDOM_PRECISION
+#if GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 	gb::mersennetwister::dsfmt_gv_init_by_array( init_key, key_length );
 #else
 	gb::mersennetwister::init_by_array( init_key, key_length );
@@ -51,37 +52,47 @@ inline void seedArray( uint32_t *init_key, int key_length )
 template <typename value_type>
 value_type get();
 
-template <> uint32_t get()
-{
-#if GB_RANDOM_PRECISION
-	return gb::mersennetwister::dsfmt_gv_genrand_uint32();
-#else
-	return gb::mersennetwister::gen_rand32();
-#endif
-}
 
-
-template <> uint64_t get()
-{
-#if GB_RANDOM_PRECISION
-	return ((uint64_t)gb::mersennetwister::dsfmt_gv_genrand_uint32() << 32)
-		|| (uint64_t)gb::mersennetwister::dsfmt_gv_genrand_uint32();
-#else
-	return gb::mersennetwister::gen_rand64();
-#endif
-}
-
-
+#if GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 template <> float get()
 {
-	return get <uint32_t>() * (1.0f / 4294967295.0f);
+	// случайное число от 0 включительно до 1 не включительно
+	return (float)gb::mersennetwister::genrand_open_close();
 }
-
-
 template <> double get()
 {
-	return get <uint64_t>() * (1.0 / (double)0xFFFFFFFFFFFFFFFFUL);
+	// случайное число от 0 включительно до 1 не включительно
+	return gb::mersennetwister::genrand_open_close();
 }
+template <> uint32_t get()
+{
+	//return gb::mersennetwister::dsfmt_gv_genrand_uint32();
+	return (uint32_t)(gb::mersennetwister::genrand_open_close() * GB_CONST_UINT32MAX);
+}
+template <> uint64_t get()
+{
+	return (uint64_t)(gb::mersennetwister::genrand_open_close() * GB_CONST_UINT64MAX);
+}
+
+#else // ! GB_RANDOM_OPTIMIZE_FOR_DOUBLE
+
+template <> uint32_t get()
+{
+	return (uint32_t)gb::mersennetwister::gen_rand64();
+}
+template <> uint64_t get()
+{
+	return gb::mersennetwister::gen_rand64();
+}
+template <> float get()
+{
+	return get <uint32_t>() * (float)GB_CONST_UINT32MAX_INV);
+}
+template <> double get()
+{
+	return get <uint64_t>() * GB_CONST_UINT64MAX_INV);
+}
+#endif
 
 
 //! Get a random number in the range [a, b) or [a, b] depending on rounding
@@ -164,7 +175,8 @@ template <typename value_type>
 value_type getExponentialVariate( value_type lambd )
 {
     value_type u = get <value_type> ();
-    while ( u <= 1e-7 ) {
+    while ( u <= (value_type)1e-7 ) {
+		//std::cout << u << std::endl;
         u = get <value_type> ();
 	}
     return -std::log( u ) / lambd;

@@ -1,5 +1,5 @@
 #pragma once
-#if ! GB_RANDOM_PRECISION
+#if ! GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 
 // #if !defined(MEXP)
 // #ifdef __GNUC__
@@ -7,7 +7,6 @@
 // #endif
 //   #define MEXP 19937
 // #endif
-#define MEXP GB_RANDOM_PERIOD_EXPONENT
 
 /*-----------------
   BASIC DEFINITIONS
@@ -17,7 +16,7 @@
  * #define MEXP 19937 */
 /** SFMT generator has an internal state array of 128-bit integers,
  * and N is its size. */
-#define N (MEXP / 128 + 1)
+#define N (GB_RANDOM_PERIOD_EXPONENT / 128 + 1)
 /** N32 is the size of internal state array when regarded as an array
  * of 32-bit integers.*/
 #define N32 (N * 4)
@@ -66,32 +65,32 @@
 #define PARITY4	0xc98e126aU
 */
 
-#if MEXP == 607
+#if GB_RANDOM_PERIOD_EXPONENT == 607
   #include "SFMT-params607.h"
-#elif MEXP == 1279
+#elif GB_RANDOM_PERIOD_EXPONENT == 1279
   #include "SFMT-params1279.h"
-#elif MEXP == 2281
+#elif GB_RANDOM_PERIOD_EXPONENT == 2281
   #include "SFMT-params2281.h"
-#elif MEXP == 4253
+#elif GB_RANDOM_PERIOD_EXPONENT == 4253
   #include "SFMT-params4253.h"
-#elif MEXP == 11213
+#elif GB_RANDOM_PERIOD_EXPONENT == 11213
   #include "SFMT-params11213.h"
-#elif MEXP == 19937
+#elif GB_RANDOM_PERIOD_EXPONENT == 19937
   #include "SFMT-params19937.h"
-#elif MEXP == 44497
+#elif GB_RANDOM_PERIOD_EXPONENT == 44497
   #include "SFMT-params44497.h"
-#elif MEXP == 86243
+#elif GB_RANDOM_PERIOD_EXPONENT == 86243
   #include "SFMT-params86243.h"
-#elif MEXP == 132049
+#elif GB_RANDOM_PERIOD_EXPONENT == 132049
   #include "SFMT-params132049.h"
-#elif MEXP == 216091
+#elif GB_RANDOM_PERIOD_EXPONENT == 216091
   #include "SFMT-params216091.h"
 #else
 #ifdef __GNUC__
   #error "MEXP is not valid."
-  #undef MEXP
+  #undef GB_RANDOM_PERIOD_EXPONENT
 #else
-  #undef MEXP
+  #undef GB_RANDOM_PERIOD_EXPONENT
 #endif
 
 #endif

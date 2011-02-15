@@ -2,9 +2,9 @@
 
 #include <gb/base/Debug.h>
 
-#if ! GB_NO_SIMD
+#if GB_ALLOW_SIMD
 	#include <xmmintrin.h>
-#endif // GB_NO_SIMD
+#endif // GB_ALLOW_SIMD
 
 #include <cfloat>
 #include <cmath>
@@ -19,7 +19,7 @@ namespace math
 {
 
 class
-#if ! GB_NO_SIMD
+#if GB_ALLOW_SIMD
 __declspec(align(16))
 #endif
 Vector4f
@@ -168,7 +168,7 @@ public:
   float x, y, z, w;
 };
 
-#if GB_NO_SIMD
+#if ! GB_ALLOW_SIMD
 inline bool Vector4f::operator== (const Vector4f &V) const
 {
 	return (x == V.x && y == V.y && z == V.z && w == V.w);
@@ -403,7 +403,7 @@ inline void Vector4f::setLength(float Length)
 	}
 }
 
-#else // ! GB_NO_SIMD
+#else // GB_ALLOW_SIMD
 
 inline bool Vector4f::operator== (const Vector4f &V) const
 {
@@ -759,7 +759,7 @@ inline void Vector4f::setLength(float Length)
 		_mm_store_ps(get(),VT3);
 	}
 }
-#endif // GB_NO_SIMD
+#endif // ! GB_ALLOW_SIMD
 
 }
 

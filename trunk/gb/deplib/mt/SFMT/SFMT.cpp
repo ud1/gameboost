@@ -12,7 +12,7 @@
  */
 #include "pch.h"
 
-#if ! GB_RANDOM_PRECISION
+#if ! GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 
 #include <string.h>
 #include <assert.h>
@@ -49,7 +49,7 @@ union W128_T {
 /** 128-bit data type */
 typedef union W128_T w128_t;
 
-#elif defined(HAVE_SSE2)
+#elif defined(GB_ENABLE_SIMD)
   #include <emmintrin.h>
 
 /** 128-bit data structure */
@@ -108,7 +108,7 @@ inline static void swap(w128_t *array, int size);
 
 #if defined(HAVE_ALTIVEC)
   #include "SFMT-alti.h"
-#elif defined(HAVE_SSE2)
+#elif defined(GB_ENABLE_SIMD)
   #include "SFMT-sse2.h"
 #endif
 
@@ -212,7 +212,7 @@ inline static void lshift128(w128_t *out, w128_t const *in, int shift) {
  * @param c a 128-bit part of the internal state array
  * @param d a 128-bit part of the internal state array
  */
-#if (!defined(HAVE_ALTIVEC)) && (!defined(HAVE_SSE2))
+#if (!defined(HAVE_ALTIVEC)) && (!defined(GB_ENABLE_SIMD))
 #ifdef ONLY64
 inline static void do_recursion(w128_t *r, w128_t *a, w128_t *b, w128_t *c,
 				w128_t *d) {
@@ -250,7 +250,7 @@ inline static void do_recursion(w128_t *r, w128_t *a, w128_t *b, w128_t *c,
 #endif
 #endif
 
-#if (!defined(HAVE_ALTIVEC)) && (!defined(HAVE_SSE2))
+#if (!defined(HAVE_ALTIVEC)) && (!defined(GB_ENABLE_SIMD))
 /**
  * This function fills the internal state array with pseudorandom
  * integers.
@@ -442,6 +442,7 @@ uint64_t gen_rand64(void) {
 
     assert(initialized);
     assert(idx % 2 == 0);
+	//if (idx & 1) gen_rand32();
 
     if (idx >= N32) {
 	gen_rand_all();

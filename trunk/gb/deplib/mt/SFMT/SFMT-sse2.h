@@ -13,8 +13,8 @@
  * The new BSD License is applied to this software, see LICENSE.txt
  */
 #pragma once
-#if ! GB_NO_SIMD
-#if ! GB_RANDOM_PRECISION
+#if GB_ALLOW_SIMD
+#if ! GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 // #ifndef SFMT_SSE2_H
 // #define SFMT_SSE2_H
 
@@ -122,4 +122,4 @@ inline static void gen_rand_array(w128_t *array, int size) {
 
 //#endif
 #endif // ! GB_RANDOM_PRECISION
-#endif // GB_NO_SIMD
+#endif // GB_ALLOW_SIMD

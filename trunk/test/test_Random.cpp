@@ -22,11 +22,22 @@ TEST_F( gb_rand_mt_test, test_simple )
 {
 	gb::rand::seed( (uint32_t) std::time( NULL ) );
 
-	uint32_t ui32 = gb::rand::get <uint32_t>();
-	uint64_t ui64 = gb::rand::get <uint64_t>();
+	for (int i = 0; i < 10; i++) {
+		uint32_t ui32 = gb::rand::get <uint32_t>();
+		uint64_t ui64 = gb::rand::get <uint64_t>();
+		std::cout << "UI64=" << ui64 << " UI32=" << ui32 << std::endl;
+	}
 
 	float f;
 	double d;
+
+	for (int i = 0; i < 10; i++) {
+		f = gb::rand::get <float> ();
+		d = gb::rand::get <double> ();
+		std::cout << "FLOAT=" << f << " DOUBLE=" << d << std::endl;
+	}
+	exit(0);
+
 	f = gb::rand::getTriangularVariate <float> ();
 	d = gb::rand::getTriangularVariate <double> ();
 
