@@ -16,8 +16,8 @@
 // LOG_LEVEL Сооствествует gb::base::eLogType::LogType
 #define GB_LOG_LEVEL 0
 
-// Отключить SSE инструкции для совместимости
-#define GB_NO_SIMD 0
+// Включить или отключить SSE инструкции для совместимости
+#define GB_ALLOW_SIMD 0
 
 // Запретить использование Boost (http://boost.org)
 #define GB_ALLOW_BOOST_LIBRARY 1
@@ -25,8 +25,10 @@
 // Включить поддержку классами Boost.Serialize
 #define GB_ENABLE_BOOST_SERIALIZE 1
 
-// Точность функций для Mersenne Twister (gb/rand/mt.h) 0- обычная, 1- повышенная
-#define GB_RANDOM_PRECISION 1
+// Вид функций для Mersenne Twister (gb/rand/mt.h)
+// 0 - обычные целочисленные (работает быстрее с целыми случайными числами)
+// 1 - оптимизированные для double (работает медленнее с целыми случайными числами)
+#define GB_RANDOM_OPTIMIZE_FOR_DOUBLE 0
 
 /*! Период генератора случайных чисел 2 в степени GB_RANDOM_PERIOD_EXPONENT
  * Стандартный Mersenne Twister имеет период 2^19937

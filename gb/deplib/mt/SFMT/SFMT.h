@@ -28,7 +28,7 @@
  * unsigned int and 64-bit unsigned int in hexadecimal format.
  */
 #pragma once
-#if ! GB_RANDOM_PRECISION
+#if ! GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 // #ifndef SFMT_H
 // #define SFMT_H
 

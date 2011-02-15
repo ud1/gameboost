@@ -13,7 +13,7 @@
  */
 #include "pch.h"
 
-#if GB_RANDOM_PRECISION
+#if GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 
 #include <stdio.h>
 #include <string.h>
@@ -26,26 +26,22 @@ namespace gb {
 /** dsfmt internal state vector */
 dsfmt_t dsfmt_global_data;
 /** dsfmt mexp for check */
-static const int dsfmt_mexp = DSFMT_MEXP;
+static const int dsfmt_mexp = GB_RANDOM_PERIOD_EXPONENT;
 
 /*----------------
   STATIC FUNCTIONS
   ----------------*/
 inline static uint32_t ini_func1(uint32_t x);
 inline static uint32_t ini_func2(uint32_t x);
-inline static void gen_rand_array_c1o2(dsfmt_t *dsfmt, w128_t *array,
-				       int size);
-inline static void gen_rand_array_c0o1(dsfmt_t *dsfmt, w128_t *array,
-				       int size);
-inline static void gen_rand_array_o0c1(dsfmt_t *dsfmt, w128_t *array,
-				       int size);
-inline static void gen_rand_array_o0o1(dsfmt_t *dsfmt, w128_t *array,
-				       int size);
+inline static void gen_rand_array_c1o2(dsfmt_t *dsfmt, w128_t *array, int size);
+inline static void gen_rand_array_c0o1(dsfmt_t *dsfmt, w128_t *array, int size);
+inline static void gen_rand_array_o0c1(dsfmt_t *dsfmt, w128_t *array, int size);
+inline static void gen_rand_array_o0o1(dsfmt_t *dsfmt, w128_t *array, int size);
 inline static int idxof(int i);
 static void initial_mask(dsfmt_t *dsfmt);
 static void period_certification(dsfmt_t *dsfmt);
 
-#if defined(HAVE_SSE2)
+#if defined(GB_ENABLE_SIMD)
 #  include <emmintrin.h>
 /** mask data for sse2 */
 static __m128i sse2_param_mask;
@@ -109,7 +105,7 @@ inline static void do_recursion(w128_t *r, w128_t *a, w128_t * b,
     r->s = vec_xor(z, x);
     lung->s = w;
 }
-#elif defined(HAVE_SSE2)
+#elif defined(GB_ENABLE_SIMD)
 /**
  * This function setup some constant variables for SSE2.
  */
@@ -172,7 +168,7 @@ inline static void do_recursion(w128_t *r, w128_t *a, w128_t * b,
 }
 #endif
 
-#if defined(HAVE_SSE2)
+#if defined(GB_ENABLE_SIMD)
 /**
  * This function converts the double precision floating point numbers which
  * distribute uniformly in the range [1, 2) to those which distribute uniformly
@@ -514,21 +510,18 @@ int dsfmt_get_min_array_size(void) {
  * @param dsfmt dsfmt state vector.
  */
 void dsfmt_gen_rand_all(dsfmt_t *dsfmt) {
-    int i;
-    w128_t lung;
+	int i;
+	w128_t lung;
 
-    lung = dsfmt->status[DSFMT_N];
-    do_recursion(&dsfmt->status[0], &dsfmt->status[0],
-		 &dsfmt->status[DSFMT_POS1], &lung);
-    for (i = 1; i < DSFMT_N - DSFMT_POS1; i++) {
-	do_recursion(&dsfmt->status[i], &dsfmt->status[i],
-		     &dsfmt->status[i + DSFMT_POS1], &lung);
-    }
-    for (; i < DSFMT_N; i++) {
-	do_recursion(&dsfmt->status[i], &dsfmt->status[i],
-		     &dsfmt->status[i + DSFMT_POS1 - DSFMT_N], &lung);
-    }
-    dsfmt->status[DSFMT_N] = lung;
+	lung = dsfmt->status[DSFMT_N];
+	do_recursion(&dsfmt->status[0], &dsfmt->status[0], &dsfmt->status[DSFMT_POS1], &lung);
+	for (i = 1; i < DSFMT_N - DSFMT_POS1; i++) {
+		do_recursion(&dsfmt->status[i], &dsfmt->status[i], &dsfmt->status[i + DSFMT_POS1], &lung);
+	}
+	for (; i < DSFMT_N; i++) {
+		do_recursion(&dsfmt->status[i], &dsfmt->status[i], &dsfmt->status[i + DSFMT_POS1 - DSFMT_N], &lung);
+	}
+	dsfmt->status[DSFMT_N] = lung;
 }
 
 /**
@@ -635,7 +628,7 @@ void dsfmt_chk_init_gen_rand(dsfmt_t *dsfmt, uint32_t seed, int mexp) {
 
     /* make sure caller program is compiled with the same MEXP */
     if (mexp != dsfmt_mexp) {
-	fprintf(stderr, "DSFMT_MEXP doesn't match with dSFMT.c\n");
+	fprintf(stderr, "GB_RANDOM_PERIOD_EXPONENT doesn't match with dSFMT.c\n");
 	exit(1);
     }
     psfmt = &dsfmt->status[0].u32[0];
@@ -647,7 +640,7 @@ void dsfmt_chk_init_gen_rand(dsfmt_t *dsfmt, uint32_t seed, int mexp) {
     initial_mask(dsfmt);
     period_certification(dsfmt);
     dsfmt->idx = DSFMT_N64;
-#if defined(HAVE_SSE2)
+#if defined(GB_ENABLE_SIMD)
     setup_const();
 #endif
 }
@@ -671,7 +664,7 @@ void dsfmt_chk_init_by_array(dsfmt_t *dsfmt, uint32_t init_key[],
 
     /* make sure caller program is compiled with the same MEXP */
     if (mexp != dsfmt_mexp) {
-	fprintf(stderr, "DSFMT_MEXP doesn't match with dSFMT.c\n");
+	fprintf(stderr, "GB_RANDOM_PERIOD_EXPONENT doesn't match with dSFMT.c\n");
 	exit(1);
     }
     if (size >= 623) {
@@ -732,7 +725,7 @@ void dsfmt_chk_init_by_array(dsfmt_t *dsfmt, uint32_t init_key[],
     initial_mask(dsfmt);
     period_certification(dsfmt);
     dsfmt->idx = DSFMT_N64;
-#if defined(HAVE_SSE2)
+#if defined(GB_ENABLE_SIMD)
     setup_const();
 #endif
 }

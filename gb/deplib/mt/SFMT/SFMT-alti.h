@@ -14,7 +14,7 @@
  * see LICENSE.txt
  */
 #pragma once
-#if ! GB_RANDOM_PRECISION
+#if ! GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 #if GB_POWERPC
 // #ifndef SFMT_ALTI_H
 // #define SFMT_ALTI_H

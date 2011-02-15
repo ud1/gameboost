@@ -34,26 +34,27 @@
 #include <stdio.h>
 #include <assert.h>
 
-namespace gb {
-	namespace mersennetwister {
+namespace gb
+{
+	namespace mersennetwister
+	{
 
-// #if !defined(DSFMT_MEXP)
+// #if !defined(GB_RANDOM_PERIOD_EXPONENT)
 // #ifdef __GNUC__
-//   #warning "DSFMT_MEXP is not defined. I assume DSFMT_MEXP is 19937."
+//   #warning "GB_RANDOM_PERIOD_EXPONENT is not defined. I assume GB_RANDOM_PERIOD_EXPONENT is 19937."
 // #endif
-//   #define DSFMT_MEXP 19937
+//   #define GB_RANDOM_PERIOD_EXPONENT 19937
 // #endif
-#define DSFMT_MEXP GB_RANDOM_PERIOD_EXPONENT
 
 /*-----------------
   BASIC DEFINITIONS
   -----------------*/
 /* Mersenne Exponent. The period of the sequence 
- *  is a multiple of 2^DSFMT_MEXP-1.
- * #define DSFMT_MEXP 19937 */
+ *  is a multiple of 2^GB_RANDOM_PERIOD_EXPONENT-1.
+ * #define GB_RANDOM_PERIOD_EXPONENT 19937 */
 /** DSFMT generator has an internal state array of 128-bit integers,
  * and N is its size. */
-#define DSFMT_N ((DSFMT_MEXP - 128) / 104 + 1)
+#define DSFMT_N ((GB_RANDOM_PERIOD_EXPONENT - 128) / 104 + 1)
 /** N32 is the size of internal state array when regarded as an array
  * of 32-bit integers.*/
 #define DSFMT_N32 (DSFMT_N * 4)
@@ -140,7 +141,7 @@ union W128_T {
     double d[2];
 };
 
-#elif defined(HAVE_SSE2)
+#elif defined(GB_ENABLE_SIMD)
 #  include <emmintrin.h>
 
 /** 128-bit data structure */
@@ -181,8 +182,7 @@ void dsfmt_fill_array_close_open(dsfmt_t *dsfmt, double array[], int size);
 void dsfmt_fill_array_open_open(dsfmt_t *dsfmt, double array[], int size);
 void dsfmt_fill_array_close1_open2(dsfmt_t *dsfmt, double array[], int size);
 void dsfmt_chk_init_gen_rand(dsfmt_t *dsfmt, uint32_t seed, int mexp);
-void dsfmt_chk_init_by_array(dsfmt_t *dsfmt, uint32_t init_key[],
-			     int key_length, int mexp);
+void dsfmt_chk_init_by_array(dsfmt_t *dsfmt, uint32_t init_key[], int key_length, int mexp);
 const char *dsfmt_get_idstring(void);
 int dsfmt_get_min_array_size(void);
 
@@ -236,14 +236,14 @@ DSFMT_PRE_INLINE void dsfmt_init_by_array(dsfmt_t *dsfmt, uint32_t init_key[],
  */
 inline static uint32_t dsfmt_genrand_uint32(dsfmt_t *dsfmt) {
     uint32_t r;
-    uint64_t *psfmt64 = &dsfmt->status[0].u[0];
+	uint64_t *psfmt64 = &dsfmt->status[0].u[0];
 
-    if (dsfmt->idx >= DSFMT_N64) {
-	dsfmt_gen_rand_all(dsfmt);
-	dsfmt->idx = 0;
-    }
-    r = psfmt64[dsfmt->idx++] & 0xffffffffU;
-    return r;
+	if (dsfmt->idx >= DSFMT_N64) {
+		dsfmt_gen_rand_all(dsfmt);
+		dsfmt->idx = 0;
+	}
+	r = psfmt64[dsfmt->idx++] & 0xffffffffU;
+	return r;
 }
 
 /**
@@ -259,10 +259,10 @@ inline static double dsfmt_genrand_close1_open2(dsfmt_t *dsfmt) {
     double r;
     double *psfmt64 = &dsfmt->status[0].d[0];
 
-    if (dsfmt->idx >= DSFMT_N64) {
-	dsfmt_gen_rand_all(dsfmt);
-	dsfmt->idx = 0;
-    }
+	if (dsfmt->idx >= DSFMT_N64) {
+		dsfmt_gen_rand_all(dsfmt);
+		dsfmt->idx = 0;
+	}
     r = psfmt64[dsfmt->idx++];
     return r;
 }
@@ -440,7 +440,7 @@ inline static void dsfmt_gv_fill_array_open_open(double array[], int size) {
  * @param seed a 32-bit integer used as the seed.
  */
 inline static void dsfmt_init_gen_rand(dsfmt_t *dsfmt, uint32_t seed) {
-    dsfmt_chk_init_gen_rand(dsfmt, seed, DSFMT_MEXP);
+    dsfmt_chk_init_gen_rand(dsfmt, seed, GB_RANDOM_PERIOD_EXPONENT);
 }
 
 /**
@@ -462,7 +462,7 @@ inline static void dsfmt_gv_init_gen_rand(uint32_t seed) {
  */
 inline static void dsfmt_init_by_array(dsfmt_t *dsfmt, uint32_t init_key[],
 				       int key_length) {
-    dsfmt_chk_init_by_array(dsfmt, init_key, key_length, DSFMT_MEXP);
+    dsfmt_chk_init_by_array(dsfmt, init_key, key_length, GB_RANDOM_PERIOD_EXPONENT);
 }
 
 /**
