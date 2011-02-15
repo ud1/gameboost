@@ -2,7 +2,7 @@
  *  Тесты для модуля system/Path
  *	\author Дмитрий Литовченко kvakvs@yandex.ru
  */
-#include "test_pch.h"
+#include "pch_test.h"
 
 #include <gtest/gtest.h>
 #include <boost/system/error_code.hpp>

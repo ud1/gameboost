@@ -1,3 +1,5 @@
+#include <gb/Config.h>
+
 #include <string>
 #include <ctime>
 #include <cstdarg>
@@ -14,7 +16,9 @@
 #include <map>
 
 #if GB_ALLOW_BOOST_LIBRARY
-#include <boost/algorithm/string.hpp>
+	#include <boost/algorithm/string.hpp>
+	#include <boost/system/error_code.hpp>
+	#include <boost/filesystem.hpp>
 #endif
 
 #include <gb/base/Types.h>
