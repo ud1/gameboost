@@ -10,6 +10,7 @@ set( GBTEST_SOURCES
 		main.cpp
 		test_Path.cpp
 		test_String.cpp
+		test_Random.cpp
 		)
 
 # source_group( tests REGULAR_EXPRESSION "test_" )
@@ -24,14 +25,14 @@ include_directories( ${GBTEST_SOURCE_DIR}/deplib/gtest-1.5.0/include )
 link_directories( ${GAMEBOOST_SOURCE_DIR}/linklib )
 link_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/boost/stage/lib )
 
-link_libraries( gtest gtest_main gameboost )
+link_libraries( gtest gtest_main gameboost  )
 
 if (MSVC)
-	set_source_files_properties( test_pch.cpp PROPERTIES COMPILE_FLAGS "/Yctest_pch.h" )
+	set_source_files_properties( pch_test.cpp PROPERTIES COMPILE_FLAGS "/Ycpch_test.h" )
 	foreach( src_file ${GBTEST_SOURCES} )
-		set_source_files_properties( ${src_file} PROPERTIES COMPILE_FLAGS "/Yutest_pch.h" )
+		set_source_files_properties( ${src_file} PROPERTIES COMPILE_FLAGS "/Yupch_test.h" )
 	endforeach( src_file ${GBTEST_SOURCES} )
-	list( APPEND GBTEST_SOURCES test_pch.cpp test_pch.h )
+	list( APPEND GBTEST_SOURCES pch_test.cpp pch_test.h )
 endif()
 
 #------ target -----

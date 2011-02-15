@@ -25,6 +25,22 @@
 // Включить поддержку классами Boost.Serialize
 #define GB_ENABLE_BOOST_SERIALIZE 1
 
+// Точность функций для Mersenne Twister (gb/rand/mt.h) 0- обычная, 1- повышенная
+#define GB_RANDOM_PRECISION 1
+
+/*! Период генератора случайных чисел 2 в степени GB_RANDOM_PERIOD_EXPONENT
+ * Стандартный Mersenne Twister имеет период 2^19937
+ */
+// #define GB_RANDOM_PERIOD_EXPONENT 521
+// #define GB_RANDOM_PERIOD_EXPONENT 1279
+// #define GB_RANDOM_PERIOD_EXPONENT 2203
+// #define GB_RANDOM_PERIOD_EXPONENT 4253
+// #define GB_RANDOM_PERIOD_EXPONENT 11213
+#define GB_RANDOM_PERIOD_EXPONENT 19937
+// #define GB_RANDOM_PERIOD_EXPONENT 44497
+// #define GB_RANDOM_PERIOD_EXPONENT 86243
+// #define GB_RANDOM_PERIOD_EXPONENT 132049
+// #define GB_RANDOM_PERIOD_EXPONENT 216091
 // Для того, чтоб WinDef.h не определял макросы min/max, мы используем расово верные макросы из <algorithm>
 #define NOMINMAX 1
 
@@ -43,5 +59,10 @@
 		#include <stdlib.h>
 		#include <crtdbg.h>
 	#endif
-#endif
-// end microsoft specific
+#endif // end microsoft specific
+
+#if defined(__POWERPC__) || defined(_M_PPC)
+	#define GB_POWERPC 1
+#else
+	#define GB_POWERPC 0
+#endif // power pc
