@@ -1,15 +1,18 @@
-#ifndef MATH_HEADERS_QUATERNION_H
-#define MATH_HEADERS_QUATERNION_H
+#pragma once
 
 namespace pmath
 {
 
 template<typename T>
-class Quaternion : public Vector< T, 4 >
+class Quaternion
 {
+	Vector< T, 4 > mVal;
+public:
+};
+
+template<typename T>
+Quaternion<T> quaternion( const Vector<T,3>& axis, const T& angle );
 
 };
 
-};
-
-#endif
+#include "Quaternion.inl"
