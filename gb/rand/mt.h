@@ -320,5 +320,89 @@ value_type getGammaVariate( value_type alpha, value_type beta )
 }
 
 
+/*! Gaussian (Normal) distribution
+ *	Более быстрая версия getNormalVariate
+ *
+ *	mu is the mean, and sigma is the standard deviation.  This is
+ *	slightly faster than the normalvariate() function.
+ *
+ *	Not thread-safe without a lock around calls.
+ *	
+ *	When x and y are two variables from [0, 1), uniformly distributed, then
+ *		cos(2*pi*x)*sqrt(-2*log(1-y))
+ *		sin(2*pi*x)*sqrt(-2*log(1-y))
+ *	
+ *	are two *independent* variables with normal distribution
+ *	(mu = 0, sigma = 1).
+ *	(Lambert Meertens)
+ *	(corrected version; bug discovered by Mike Miller, fixed by LM)
+ *	
+ *	Multithreading note: When two threads call this function simultaneously, it is
+ *	possible that they will receive the same return value.  The window is very small
+ *	though. To avoid this, you have to use a lock around all calls.  (I didn't want
+ *	to slow this down in the serial case by using a lock here.)
+ *	http://en.wikipedia.org/wiki/Normal_distribution
+ */
+template <typename value_type>
+value_type getGaussianVariate( value_type mu, value_type sigma )
+{
+	static double gauss_next;
+
+    double z = gauss_next;
+    gauss_next = gb::getNaN();
+
+    if (z != z) // test for NaN
+	{
+        value_type x2pi = get <value_type> () * (value_type)GB_CONST_DOUBLE_PI;
+        value_type g2rad = std::sqrt( (value_type)-2.0 * std::log( (value_type)1.0 - get <value_type> ()) );
+        z = std::cos( x2pi ) * g2rad;
+        gauss_next = std::sin( x2pi ) * g2rad;
+	}
+
+    return mu + (value_type)z * sigma;
+}
+
+
+/*! Beta distribution.
+ *	http://en.wikipedia.org/wiki/Beta_distribution
+ *	Conditions on the parameters are alpha > 0 and beta > 0.
+ *	Returned values range between 0 and 1.
+ *
+ *	This version due to Janne Sinkkonen, and matches all the std
+ *	texts (e.g., Knuth Vol 2 Ed 3 pg 134 "the beta distribution").
+ */
+template <typename value_type>
+value_type getBetaVariate( value_type alpha, value_type beta )
+{
+    y = getGammaVariate <value_type>( alpha, (value_type)1.0 );
+    if (y == 0) {
+        return (value_type)0.0;
+	}
+    else {
+        return y / (y + getGammaVariate <value_type> ( beta, (value_type)1.0 ));
+	}
+}
+
+
+//! Pareto distribution.  alpha is the shape parameter
+template <typename value_type>
+value_type getParetoVariate( value_type alpha )
+{
+    value_type u = (value_type)1.0 - get <value_type> ();
+    return (value_type)1.0 / std::pow( u, (value_type)1.0 / alpha );
+}
+
+
+/*! Weibull distribution.
+ *	alpha is the scale parameter and beta is the shape parameter.
+ */
+template <typename value_type>
+value_type getWeibullVariate( value_type alpha, value_type beta )
+{
+    value_type u = (value_type)1.0 - get <value_type> ();
+    return alpha * std::pow( -std::log( u ), (value_type)1.0 / beta );
+}
+
+
 	} // namespace rand
 } // namespace gb

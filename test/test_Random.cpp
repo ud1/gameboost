@@ -41,4 +41,13 @@ TEST_F( gb_rand_mt_test, test_simple )
 
 	f = gb::rand::getVonMisesVariate <float> ( 10, 20 );
 	d = gb::rand::getVonMisesVariate <double> ( 10, 20 );
+
+	f = gb::rand::getGaussianVariate <float> ( 10, 20 );
+	d = gb::rand::getGaussianVariate <double> ( 10, 20 );
+
+	f = gb::rand::getParetoVariate <float> ( 10 );
+	d = gb::rand::getParetoVariate <double> ( 10 );
+
+	f = gb::rand::getWeibullVariate <float> ( 10, 20 );
+	d = gb::rand::getWeibullVariate <double> ( 10, 20 );
 }
