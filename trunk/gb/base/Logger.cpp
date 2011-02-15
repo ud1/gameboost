@@ -1,8 +1,10 @@
-#include "Logger.h"
+#include "pch.h"
+
+#include <gb/base/Logger.h>
 
 namespace
 {
-	static LOGGER_TYPE logger;
+	static GB_LOGGER_TYPE logger;
 }
 
 namespace gb
@@ -10,7 +12,7 @@ namespace gb
 	namespace base
 	{
 		template<>
-		LOGGER_TYPE &getLogger()
+		GB_LOGGER_TYPE &getLogger()
 		{
 			return logger;
 		}

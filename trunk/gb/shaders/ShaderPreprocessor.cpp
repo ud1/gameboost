@@ -1,3 +1,7 @@
+#include "pch.h"
+
+#if GB_ALLOW_BOOST_LIBRARY
+
 #include <gb/shaders/ShaderPreprocessor.h>
 #include <gb/fs/Helpers.h>
 #include <gb/base/Logger.h>
@@ -274,3 +278,5 @@ namespace gb
 		}
 	}
 }
+
+#endif // GB_ALLOW_BOOST_LIBRARY

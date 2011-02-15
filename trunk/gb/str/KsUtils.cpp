@@ -1,5 +1,5 @@
 /*! \file  KsUtils.cpp
- * \brief Разнообразные классы , типы для разных задач 
+ * \brief Р Р°Р·РЅРѕРѕР±СЂР°Р·РЅС‹Рµ РєР»Р°СЃСЃС‹ , С‚РёРїС‹ РґР»СЏ СЂР°Р·РЅС‹С… Р·Р°РґР°С‡ 
  * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
  * \author Reviewer/imported by: kvakvs (kvakvs@yandex.ru)
  */

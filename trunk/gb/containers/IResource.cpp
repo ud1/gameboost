@@ -1,7 +1,7 @@
 /*      \file FileStream.cpp
  *      \author -Eugene-, kozlov_eugene@list.ru
 */
-#include "gb/pch.h"
+#include "pch.h"
 #include "gb/containers/IResource.h"
 
 using namespace gb::containers;

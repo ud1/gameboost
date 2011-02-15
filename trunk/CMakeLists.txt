@@ -9,4 +9,7 @@ add_subdirectory( test/deplib/gtest-1.5.0 )
 add_subdirectory( gb )
 add_subdirectory( test )
 
-add_subdirectory(lib)
+# kv: не смог доказать CMake::FindBoost что у меня есть на машине буст.
+# параметры окружения не помогли. Пришлось отрезать всю ветку ;) убедитесь что он может успешно найти буст,
+# установленный в gb/deplib/boost/, у меня не находит или просто привяжите его к этой папке
+# add_subdirectory( lib )

@@ -42,6 +42,13 @@
 	#include <boost/thread/thread.hpp>
 	#include <boost/thread/mutex.hpp>
 
+// 	#include <boost/wave.hpp>
+// 	#include <boost/wave/cpplexer/cpp_lex_token.hpp>
+// 	#include <boost/wave/cpplexer/cpp_lex_iterator.hpp>
+
+	#include <boost/tuple/tuple.hpp>
+	#include <boost/tuple/tuple_comparison.hpp>
+
 	#if GB_ENABLE_BOOST_SERIALIZE
 		#include <boost/serialization/serialization.hpp>
 	#endif

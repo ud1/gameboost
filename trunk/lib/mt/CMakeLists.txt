@@ -7,7 +7,7 @@ set( MT_Test_SOURCES
 		)
 
 set(Boost_USE_MULTITHREADED ON)
-include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIR})
 find_package(Boost COMPONENTS thread date_time program_options system REQUIRED)
 
 include_directories( ${GAMEBOOST_SOURCE_DIR} )
