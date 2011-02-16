@@ -7,7 +7,7 @@
 *  - Перенос в пространство имён str
 *  - Удалены почти все зависимости от типов windows
 *  - Поправлен код стиль.
-*
+*  - Поправлено под многопоточку. Удалено использование стат. буферов.
 *
 */
 
@@ -30,78 +30,92 @@ namespace gb {
 	class Formater {
 	public:
 
-	/** \brief Преобразование bool в строку */
-	static const char* boolToCstr(bool b) ;
+	/** \brief Преобразование bool в строку в буфер pDest размером ndestlen */
+	static bool boolToCstr( char* pDest, int32_t ndestlen, bool  value );
+	static std::string boolToStr( bool  value );
 
-	/** \brief Преобразование BOOL в строку */
-	static const char* boolToUppercaseCstr(bool b) ;
+	/** \brief Преобразование value в строку в верхнем регистре 
+	       в буфер pDest размером ndestlen */
+	static bool boolToUppercaseCstr( char* pDest, int32_t ndestlen, bool value );
+	static std::string boolToUppercaseStr( bool value );
 
-	/** \brief Преобразование float в строку */
-	static const char* floatToCstr(float f) ;
+	/** \brief Преобразование float в строку в буфер pDest размером ndestlen */
+	static bool floatToCstr(char* pDest, int32_t ndestlen, float value);
+    static std::string  floatToStr(float value);
 
-	static bool floatFromCstr( KS_OUT float* val, const char* s ) ;
-	static bool floatFromCstr(KS_OUT float& val, const char* s) ;
+	static bool floatFromCstr( KS_OUT  float* out_val,  const char* s ) ;
+	static bool floatFromCstr( KS_OUT  float& out_val,  const char* s ) ;
 
-	/** \brief Преобразование  знакового целого в строку  */
-	static const char* intToCstr(int32_t i) ;
+	/** \brief Преобразование  знакового целого в строку  ???? */
+	static bool intToCstr(char* pDest, int32_t ndestlen,  int32_t value, bool bAsCppHex);
+	/** \brief Преобразование  беззнакового целого в строку  ????? */
+	static bool uintToCstr(char* pDest, int32_t ndestlen, uint32_t value, bool bAsCppHex);
 
-	/** \brief Преобразование  знакового целого из строки. Если неверное значение вернёт false  */
-	static bool intFromCstr(KS_OUT int32_t* val, const char* s) ;
+	static std::string intToStr  ( int32_t value, bool bAsCppHex);
+	static std::string uintToStr ( uint32_t value, bool bAsCppHex);
 
-	static bool intFromCstr(KS_OUT int32_t& val, const char* s) ;
 
-	/** \brief Преобразование  беззнакового целого в строку  */
-	static const char* uintToCstr(uint32_t val) ;
+	/** \brief Преобразование  знакового целого из строки. 
+	  
+	        Если неверное значение или исключение, то вернёт false   */
+	static bool intFromCstr(KS_OUT int32_t* out_val, const char* s) ;
+	/** \brief Преобразование  знакового целого из строки. 
+	 
+	        Если неверное значение или исключение, то вернёт false  */
+	static bool intFromCstr(KS_OUT int32_t& out_val, const char* s) ;
 
-#pragma message ("KS777:  ПОправить такое одинаковое же uintFromCstring  ниже")
-	static bool uintFromCstring(KS_OUT uint32_t& val, const char* s);
+
+	/** \brief можно передать например   */
+	static bool uintFromCstr(KS_OUT uint32_t* out_val, const char* s) ;
+	static bool uintFromCstr(KS_OUT uint32_t& out_val, const char* s) ;
+ 
 
 	/** \brief Преобразование  целого в строку  в шестнадцатеричном виде   */
-	static const char* intToHex(int32_t i) ;
+	static bool intToHex(char* pDest, int32_t ndestlen, int32_t value) ;
 	/** \brief Преобразование  целого в строку  в шестнадцатеричном виде с префиксом "0x" */
-	static const char* intToCppHex(int32_t i) ; 
+	static bool intToCppHex(char* pDest, int32_t ndestlen, int32_t value) ; 
 
 	/** \brief  Перевод указателя в виде hex-строки  в буфер buff  с символами в верхнем регистре.  <BR>
 	    Буфер должен быть длиной не менее 11 . Пример результата = 0xA23A98FC  */
-	static const char* pointerToCstr(const void* p) ;
+	static bool pointerToCstr(char* pDest, int32_t ndestlen, const void* p) ;
 	
 	/** \brief Получение побитовой строки из байта . */
-	static const char* byteToCStrAsBin(uint8_t u) ;
+	static bool  byteToCStrAsBin(char* pDest, int32_t ndestlen, uint8_t value);
 
 	/** \brief Преобразование uint32_t в двоичное представление. */
-	static const char* uintToBinCstr(uint32_t dwArg) ;
+	static bool uintToBinCstr(char* pDest, int32_t ndestlen, uint32_t value);
 
-    /** \brief Преобразование uint32_t в cстроковое  представление. Если bAsHex==true то в шестнадцатеричном виде. */
-	static const char* uintToCstr(const uint32_t dw, bool bAsHex=false) ;
+    static bool intToBinCstr(char* pDest, int32_t ndestlen, uint32_t value);
 
-	/** \brief можно передать например  0xAF33. то есть первые символы 0x считается как в hex . */
-	static bool uintFromCstr(KS_OUT uint32_t* pdwOut, const char* s) ;
-	static bool uintFromCstr(KS_OUT uint32_t& dw,     const char* s) ;
+	static std::string uintToBinStr( uint32_t value);
+
+    static std::string intToBinStr( uint32_t value);
+
+
+
+
 
 	/** \brief Преобразование в uint из строки содержащей цифру в двоичном виде. */
-	static uint32_t uintFromBinCstr(const char* _s, int32_t nlen= -1); // throw(); 
+	static uint32_t uintFromBinCstr(const char* _s, int32_t nlen= -1)  throw();
 
 	/** \brief побитовая печать на консоль двойного слова uint32_t */
-	static void print_bits(  uint32_t value) ;
-
-	/** \brief Печать uint32_t значения в двоичном виде на консоль */
-	static void printDwordAsBin(const uint32_t dw) ;
+	static void printUint32AsBin(  uint32_t value) ;
+ 
 	/** \brief печать  байта  в двоичном представлении на консоль . */
-	static void printByteAsBin(uint8_t u) ;
+	static void printByteAsBin(uint8_t value) ;
 	
 
-
 #ifdef _WIN32
-	/** \brief Хэндл окна в строку */
+
+	/** \brief  Хэндл окна в строку */
 	static uint32_t hwndAsUint(const HWND hwnd) ;
+
 #endif
 
  
  
-
     };
     // end class
-	
 	
 	
 	}
@@ -109,10 +123,5 @@ namespace gb {
 
 }
 // end namespace gb
-
-
-
-
-
 
 // end file

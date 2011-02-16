@@ -5,60 +5,67 @@
 *
 */
 
+//#pragma  message("ВЕРНУТЬ ПРЕКОМП ХЕДЕР"   __FILE__ )
 #include "pch.h"
+//#include "stdafx.h"
 
+//#pragma  message("ВЕРНУТЬ ПРАВИЛЬНЫЙ ПУТЬ"  __FILE__ )
 #include "gb/str/formater.h"
+//#include "z:\\!!GB_TOADD\\new_formater\\formater.h"
+
+#include <string.h>
+#include <stdlib.h>
+#include <iostream>
+
 
  
 #pragma warning(push)
 #pragma warning( disable : 4996 )
 
-//========================================================
-bool gb::str::Formater::intFromCstr(KS_OUT int32_t* val, const char* s) 
-{
-		const int32_t NSCANRES = sscanf(s, "%i", val);	
-		if(NSCANRES != 1) return false;
-
-		return true;
-}
-
-//========================================================
-bool gb::str::Formater::intFromCstr(KS_OUT int32_t& val, const char* s) 
-{
-		int32_t value = -1;
-		if( intFromCstr(&value, s) == false ) return false;
-
-		val = value;
-		return true;
-}
-
 
 //=========================================================
-const char* gb::str::Formater::byteToCStrAsBin(uint8_t u) 
+bool  gb::str::Formater::byteToCStrAsBin(char* pDest, int32_t ndestlen, uint8_t value)
 {
-	static char ss[32];
+	try 
+	{
+	  char ss[64];
 	ss[0]=0;
+
 	int32_t t; 
+
 	for(t=128; t>0; t = t/2) 
-		if(u & t)  strcat(ss, "1 "); 
-		else strcat(ss, "0 ");
-		return ss;
+		if(value & t)  strcat(ss, "1"); 
+		else strcat(ss, "0");
+
+	// copy
+	strncpy(pDest ,  ss, ndestlen );
+ 
+	}
+	catch(...)
+	{
+	  return false;
+	}
+
+  return true;
 }
 
 //=========================================================
-void gb::str::Formater::printByteAsBin(uint8_t u) 
+void gb::str::Formater::printByteAsBin( uint8_t value ) 
 { 
-	printf("%s\n",  byteToCStrAsBin(u) ); 
+	char buf[64];
+
+   byteToCStrAsBin(buf, 64, value );
+	printf("%s\n",  buf  ); 
 }
 
  
 
 //=========================================================
-void gb::str::Formater::print_bits(  uint32_t value) 
+void gb::str::Formater::printUint32AsBin(  uint32_t value) 
 {
 
-	const int32_t SHIFT = 8 * sizeof( unsigned ) - 1;
-	const unsigned MASK = 1 << SHIFT;
+	const int32_t SHIFT = 8 * sizeof( uint32_t ) - 1;
+	const unsigned int MASK = 1 << SHIFT;
 
 	for ( int32_t i = 1; i <= SHIFT + 1; i++ ) 
 	{
@@ -74,69 +81,113 @@ void gb::str::Formater::print_bits(  uint32_t value)
 	 
 
 //=========================================================
-const char * gb::str::Formater::uintToBinCstr(uint32_t dwArg) 
+bool gb::str::Formater::uintToBinCstr(char* pDest, int32_t ndestlen, uint32_t value)
+//const char * uintToBinCstr(uint32_t dwArg) 
 {
-	static char ss[64]; ss[0]=0;
+	try 
+	{
+
+	  char ss[64]; 
+	  ss[0]=0;
 
 	// 3
-	if( dwArg & 0x80000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x40000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x20000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x10000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x80000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x40000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x20000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x10000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
 
-	if( dwArg & 0x08000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x04000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x02000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x01000000 ) { strcat(ss, "1  "); } else { strcat(ss, "0  ");  }
+	if( value & 0x08000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x04000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x02000000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x01000000 ) { strcat(ss, "1  "); } else { strcat(ss, "0  ");  }
 
 	// 2
-	if( dwArg & 0x00800000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00400000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00200000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00100000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00800000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00400000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00200000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00100000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
 
-	if( dwArg & 0x00080000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00040000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00020000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00010000 ) { strcat(ss, "1   "); } else { strcat(ss, "0   ");  }
+	if( value & 0x00080000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00040000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00020000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00010000 ) { strcat(ss, "1   "); } else { strcat(ss, "0   ");  }
 
 
 	// 1
-	if( dwArg & 0x00008000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00004000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00002000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00001000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00008000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00004000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00002000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00001000 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
 
-	if( dwArg & 0x00000800 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00000400 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00000200 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00000100 ) { strcat(ss, "1 "); } else { strcat(ss, "0 ");  }// 0
+	if( value & 0x00000800 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000400 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000200 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000100 ) { strcat(ss, "1 "); } else { strcat(ss, "0 ");  }// 0
 
 
 	// 0
 
-	if( dwArg & 0x00000080 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00000040 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00000020 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00000010 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000080 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000040 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000020 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000010 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
 
-	if( dwArg & 0x00000008 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00000004 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00000002 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
-	if( dwArg & 0x00000001 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000008 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000004 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000002 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
+	if( value & 0x00000001 ) { strcat(ss, "1"); } else { strcat(ss, "0");  }
 
-	return ss;
+	//copy
+	strncpy(pDest , ss, ndestlen);
+
+
+	}
+	catch(...)
+	{
+	  return false;
+	}
+
+
+	return true;
 }
 
-//=========================================================
-void gb::str::Formater::printDwordAsBin(const uint32_t dw) 
+//=====================================================================
+bool gb::str::Formater::intToBinCstr(char* pDest, int32_t ndestlen, 
+											    uint32_t value) 
 {
-	printf("%s\n", uintToBinCstr(dw) );
-}
+	 return uintToBinCstr(pDest , ndestlen , value );
+};
 
+
+//===================================================================
+std::string gb::str::Formater::uintToBinStr( uint32_t value)
+{
+	std::string s;
+	char buf[32];
+
+	if( !uintToBinCstr(buf, 32, value ) ) return s;
+
+    s = buf;
+
+    return s;
+};
+
+//===================================================================
+std::string gb::str::Formater::intToBinStr( uint32_t value)
+{
+	std::string s;
+	char buf[32];
+
+	if( !intToBinCstr(buf, 32, value ) ) return s;
+
+    s = buf;
+
+    return s;
+};
+ 
 
 //==========================================================
-uint32_t gb::str::Formater::uintFromBinCstr(const char* _s, int32_t nlen ) 
+uint32_t gb::str::Formater::uintFromBinCstr(const char* _s, int32_t nlen ) throw() 
 	// throw() - наличие throw() в объявлении функции и наличие throw в коде даёт варнинг компилятора
 	// std::runtime_error& ) 
 {
@@ -144,18 +195,21 @@ uint32_t gb::str::Formater::uintFromBinCstr(const char* _s, int32_t nlen )
 	if(-1 == nlen) nlen = (int32_t)strlen(_s);
 
 	int32_t ibcount =0;
-	for(int32_t c=nlen-1; c>=0; c--) {
+	for(int32_t c=nlen-1; c>=0; c--) 
+	{
 		if( ( *(_s + c) == ' ')  ||  ( *(_s + c) == '\t' )   ) 
 			continue;
 
-		if( *(_s + c) == '1'    ) {
+		if( *(_s + c) == '1'    ) 
+		{
 			res |= ( 1 << ibcount );
 			ibcount++;
 			continue;
 		}
 
 
-		if( *(_s + c) == '0'    ) {
+		if( *(_s + c) == '0'    )
+		{
 			ibcount++;
 			continue;
 		}
@@ -170,29 +224,191 @@ uint32_t gb::str::Formater::uintFromBinCstr(const char* _s, int32_t nlen )
 
 	return res;
 }
- 
-//====================================================
-const char*gb::str::Formater::uintToCstr(const uint32_t dw,  bool bAsHex ) 
+  
+
+//==================================================================
+bool gb::str::Formater::floatFromCstr( KS_OUT float* out_val, const char* s )
 {
+	try {
+		const int32_t NSCANRES = sscanf(s, "%f", out_val);	
+		if(NSCANRES != 1) return false;
 
-	static char ss[32];
-	ss[0] =0;
-
-	if(bAsHex)
+	}
+	catch(...)
 	{
-		strcat(ss, "0x");
-		sprintf(ss + 2, "%X", dw);
+	  return false;
+	}
+
+  return true;
+};
+
+//==================================================================
+bool gb::str::Formater::floatFromCstr(KS_OUT float& out_val, const char* s) 
+{
+		try {
+
+		float value = -1.0f;
+		if( floatFromCstr(&value, s) == false ) 
+			  return false;
+
+		out_val = value;
+	}
+	catch(...)
+	{
+	  return false;
+	}
+
+  return true;	
+}
+
+//=========================================================
+static void  __Unsafe_boolToCstr(char* pDest, int32_t ndestlen, bool  value)
+{
+	*pDest = '\0';
+	if(value) 
+	{ 
+		strncpy(pDest, "true",  ndestlen); 
+	} 
+	else 
+	{ 
+		strncpy(pDest, "false",  ndestlen); 
+	}
+
+};
+
+
+//=========================================================
+bool gb::str::Formater::boolToCstr(char* pDest, int32_t ndestlen, bool  value) 
+{
+  bool bres = false;
+	try {
+    __Unsafe_boolToCstr(pDest, ndestlen, value);
+	}
+	catch(...)
+	{
+	  return false;
+	}
+
+	return true;
+}
+
+//=========================================================
+std::string gb::str::Formater::boolToStr(bool  value) 
+{
+   static std::string s;
+	char buf[32];
+	if(!boolToCstr(buf, 32, value) ) return  s;
+
+  s = buf;
+  return s;
+};
+
+
+//=========================================================
+static bool __Unsafe_boolToUppercaseCstr(char* pDest, int32_t ndestlen, bool value)
+{
+	bool  res = gb::str::Formater::boolToCstr(pDest, ndestlen, value );
+  if( !res ) return res;
+
+  // set up case
+  int c =0;
+  while(true)
+  {
+     if( *(pDest + c) == '\0' ) return res;
+    *(pDest + c) = toupper( *(pDest + c)  );
+  
+  c++;
+  };
+
+	return   res;
+}
+
+
+//========================================================
+bool gb::str::Formater::intFromCstr(KS_OUT int32_t* out_val, const char* s) 
+{
+	// NEW
+
+	try 
+	{
+
+	const int32_t NSLRN = (int32_t)strlen(s);
+	if(NSLRN < 3)
+	{
+		// not hex
+		const int32_t NSCANRES = sscanf(s, "%u", out_val);
+
+		if(NSCANRES != 1) return false;
+		return true; 
+
+	}
+
+	if( (*(s) == '0') && ( ( *(s+1) == 'x' ) || *(s+1) == 'X'  ) ) 
+	{
+		// hex
+		const int32_t NSCANRES = sscanf(s+2, "%X", out_val);
+
+		if(NSCANRES != 1) return false;
+		return true; 
+
 	}
 	else
 	{
-		sprintf(ss, "%u", dw);
+		// not hex
+		const int32_t NSCANRES = sscanf(s, "%i", out_val);
+
+		if(NSCANRES != 1) return false;
+		return true; 
+
 	}
 
+	}
+	catch(...)
+	{
+	 return false;
+	}
 
-	return ss;
-
-
+  return true;
 }
+
+//========================================================
+bool gb::str::Formater::intFromCstr(KS_OUT int32_t& val, const char* s) 
+{
+		int32_t value = -1;
+		if( intFromCstr(&value, s) == false ) return false;
+
+		val = value;
+		return true;
+}
+
+
+
+//=========================================================
+bool gb::str::Formater::boolToUppercaseCstr(char* pDest, int32_t ndestlen, bool value)
+{
+   bool res = false;
+	try {
+		res = __Unsafe_boolToUppercaseCstr(pDest, ndestlen, value);
+	}
+	catch(...)
+	{
+	 return false;
+	}
+  return true;
+}
+
+//====================================================
+std::string gb::str::Formater::boolToUppercaseStr( bool value )
+{
+	std::string s;
+  char buf[32];
+
+  if( !boolToUppercaseCstr(buf, 32, value) ) return s;
+
+  s = buf;
+ return s;
+};
+
 
 //=========================================================================
 bool gb::str::Formater::uintFromCstr(KS_OUT uint32_t* pdwOut, const char* s) 
@@ -243,53 +459,7 @@ bool gb::str::Formater::uintFromCstr(KS_OUT uint32_t& dw, const char* s)
 	return true;
 }
 
- 
-
-//==================================================================
-bool gb::str::Formater::floatFromCstr( KS_OUT float* val, const char* s )
-{
-		const int32_t NSCANRES = sscanf(s, "%f", val);	
-		if(NSCANRES != 1) return false;
-
-		return true;
-};
-
-//==================================================================
-bool gb::str::Formater::floatFromCstr(KS_OUT float& val, const char* s) 
-{
-		float value = -1.0f;
-		if( floatFromCstr(&value, s) == false ) 
-			  return false;
-
-		val = value;
-		return true;	
-}
-
-
-//=========================================================
-const char*  gb::str::Formater::boolToCstr(bool b) 
-{
-	static char ss[8];
-	if(b) 
-	{ 
-		strcpy(ss, "true"); 
-	} 
-	else 
-	{ 
-		strcpy(ss, "false"); 
-	}
-
-	return ss;
-}
-
-//=========================================================
-const char*  gb::str::Formater::boolToUppercaseCstr(bool b) 
-{
-	static char ss[8];
-	if(b) { strcpy(ss, "TRUE"); } else { strcpy(ss, "FALSE"); }
-	return ss;
-}
-
+/*
 //=========================================================
 bool gb::str::Formater::uintFromCstring(KS_OUT uint32_t& val, const char* s) 
 {
@@ -300,70 +470,237 @@ bool gb::str::Formater::uintFromCstring(KS_OUT uint32_t& val, const char* s)
 		if(NSCANRES != 1) return false;
 		return true;
 };
+ */
 
 //=========================================================
-const char* gb::str::Formater::floatToCstr(float f) {
-	static char buff[32];
-	int32_t cnt = sprintf(buff, "%f", f );
-	buff[cnt ] = 0;
-	return buff;
+bool gb::str::Formater::floatToCstr(char* pDest, int32_t ndestlen, float value)
+{
+	try 
+	{
+    char bufdigit[32];
+	bufdigit[0] = '\0';
+	const int32_t NCOUNT = sprintf(bufdigit, "%f", value );
+
+	 strncpy(pDest , bufdigit, ndestlen);
+
+	}
+	catch(...)
+	{
+	   return false;
+	}
+
+	return true;
 };
 
+//=============================================================
+std::string  gb::str::Formater::floatToStr(float value)
+{
+ std::string s;
+ char buf[32];
+
+ if( !floatToCstr(buf, 32, value) ) return s;
+
+	 s = buf;
+  return s;
+};
+
+//=============================================================
+bool gb::str::Formater::intToCstr(char* pDest, int32_t ndestlen,  
+										 int32_t value, 
+										 bool bAsCppHex)
+{
+	// NEW
+	try {
+
+		char buffer_digit[32];
+		buffer_digit[0] = 0;
+
+		if(bAsCppHex)
+		{
+		 sprintf(buffer_digit, "0x%.8X", value );
+		}
+		else
+		{
+		 sprintf(buffer_digit, "%i", value );
+		};
+
+		strncpy(pDest, buffer_digit, ndestlen);
+        
+	}
+	catch(...)
+	{
+	  return false;
+	}
+
+  return true;
+};
+
+//================================================================
+bool gb::str::Formater::uintToCstr(char* pDest, int32_t ndestlen, 
+								   uint32_t value, bool bAsCppHex)
+{
+  // NEW 
+	try {
+
+		char buffer_digit[32];
+		buffer_digit[0] = 0;
+
+		if(bAsCppHex)
+		{
+		 sprintf(buffer_digit, "0x%.8X", value );
+		}
+		else
+		{
+		 sprintf(buffer_digit, "%u", value );
+		};
+
+		strncpy(pDest, buffer_digit, ndestlen);
+        
+	}
+	catch(...)
+	{
+	  return false;
+	}
+
+   return true;
+};
+
+//=============================================
+std::string gb::str::Formater::intToStr  ( int32_t value, bool bAsCppHex)
+{
+  std::string s;
+  char buf[32];
+
+   if( !intToCstr(buf, 32, value, bAsCppHex) )  return s;
+
+  s = buf;
+  return s;
+};
+
+
+//=============================================
+std::string gb::str::Formater::uintToStr ( uint32_t value, bool bAsCppHex)
+{
+  std::string s;
+  char buf[32];
+
+   if( !uintToCstr(buf, 32, value , bAsCppHex) )  return s;
+
+  s = buf;
+  return s;
+};
+
+/*
 //=========================================================
 const char* gb::str::Formater::intToCstr(int32_t i) {
 	static char buff[32];
 	sprintf(buff, "%i", i );
 	return buff;  
 };
+*/
 
+
+/*
 //=========================================================
-const char* gb::str::Formater::uintToCstr(uint32_t val) {
+const char* gb::str::Formater::uintToCstr(uint32_t val) 
+{
 	static char ss[16];
 	ss[0] = 0;
 	sprintf(ss, "%u", val );
 	return ss;	
 };
+*/
 
 //=========================================================
-const char* gb::str::Formater::intToHex(int32_t i) {
+bool gb::str::Formater::intToHex(char* pDest, int32_t ndestlen, int32_t value) 
+{
+	try 
+	{
 	static char buff[32];
-	sprintf(buff, "%.8X", i );
-	return buff;
+	sprintf(buff, "%.8X", value );
+
+	strncpy(pDest, buff, ndestlen);
+
+	}
+	catch(...)
+	{
+	  return false;
+	}
+   return true;
 }
 
 //=========================================================
-const char* gb::str::Formater::intToCppHex(int32_t i) {
-	static char dig[10];
-	static char res[32];
+bool gb::str::Formater::intToCppHex(char* pDest, int32_t ndestlen, int32_t value) 
+{
+   try 
+   {
+	  char dig[16];
+	  dig[0] = '\0';
 
-	sprintf(dig, "%.8X", i );
-	strcpy(res, "0x");
-	strcat(res, dig);
-	return res;
+	sprintf(dig, "0x%.8X", value );
+	 
+    strncpy( pDest , dig , ndestlen );
+
+   }
+   catch(...)
+   {
+    return false;
+   };
+
+	return  true;
 } 
 
 
 //=========================================================
-const char* gb::str::Formater::pointerToCstr(const void* p) {
-	static char buf[16]; 
-	buf[0]=0;
-
+bool gb::str::Formater::pointerToCstr(char* pDest, int32_t ndestlen, const void* p)
+{
 #pragma  warning(push)
 #pragma  warning(disable : 4311)
-	uint32_t dw = (uint32_t)p;
-#pragma  warning(pop)
 
-	strcpy(buf, "0x");
-	static char sdigit[16];
-	_itoa((int32_t)dw, sdigit, 12); 
-	strcat(buf, sdigit);
-	int32_t c =0;
-	while( *(buf + c) != 0)
+	try 
 	{
-		*(buf + c) = toupper(*(buf + c));  
-		c++;
+ 
+	char  buf[32]; 
+	buf[0]=0;
+	//sprintf(buf, "0x%.8X", value );
+	
+
+	if( sizeof(void*) == 4 )
+	{
+	  // 32
+      sprintf(buf, "%d", (unsigned long)p );
 	}
-	return buf;	
+	else
+	{
+	  // 64
+      sprintf(buf, "%ld", (unsigned long long)p );
+	}
+
+	//int c=0;
+	//while( *(buf + c) != 0)
+	//{
+	//	*(buf + c) = toupper(*(buf + c));  
+	//	c++;
+
+	//	if(c>100)
+	//	{
+	//	 // infin loop ?????
+	//	}
+	//}
+ 	
+
+	// copy to dest
+	strncpy(pDest , buf , ndestlen );
+
+    }
+	catch(...) 
+	{
+	 return false;
+	}
+
+	return true;
+	#pragma  warning(pop)
+
 }
 
 
@@ -385,7 +722,7 @@ uint32_t gb::str::Formater::hwndAsUint(const HWND hwnd)
 	return res;
 }
 
-#endif
+#endif   // #ifdef _WIN32
 
 
 // end formater impl
