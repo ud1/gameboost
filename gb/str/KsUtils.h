@@ -9,6 +9,7 @@
 #include <gb/base/Types.h>
 
 #include <windows.h>
+
 #include <exception>
 #include <stdexcept>
 
