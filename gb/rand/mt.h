@@ -3,9 +3,13 @@
 	Обёртка вокруг генератора случайных чисел Mersenne Twister
 	На выбор предлагаются алгоритмы SSE/SIMD и обычный, для SIMD предлагаются одинарная и двойная точность генерации
 	
-	При включении double оптимизации дополнительные функции появляются в неймспейсе
+	При включении GB_RANDOM_OPTIMIZE_FOR_DOUBLE=1 дополнительные функции появляются в неймспейсе
 	gb::mersennetwister с именами dsfmt_*, для целых случайных чисел такой генератор работает
 	медленнее, чем целочисленный GB_RANDOM_OPTIMIZE_FOR_DOUBLE=0
+
+	\author Дмитрий Литовченко kvakvs@yandex.ru
+	\authors Mutsuo Saito, Makoto Matsumoto  (Hiroshima University) авторы алгоритма MT
+	http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/SFMT/index.html
 */
 
 #include <gb/Config.h>
@@ -49,26 +53,38 @@ inline void seedArray( uint32_t *init_key, int key_length )
 }
 
 
+/*! Получить случайное число от [0..1) для float, double,
+ *	и от 0 до (MAXVALUE=0xFFFF...FFFF) для выбранного типа данных для uint32_t, uint64_t
+ *	Допустимый параметр шаблона: value_type = [float, double, uint32_t, uint64_t]
+ **/
 template <typename value_type>
 value_type get();
 
 
 #if GB_RANDOM_OPTIMIZE_FOR_DOUBLE
+
+//! Получить случайный float 0..1, оптимизированная версия для double
 template <> float get()
 {
 	// случайное число от 0 включительно до 1 не включительно
 	return (float)gb::mersennetwister::genrand_open_close();
 }
+
+//! Получить случайный double 0..1, оптимизированная самая быстрая версия
 template <> double get()
 {
 	// случайное число от 0 включительно до 1 не включительно
 	return gb::mersennetwister::genrand_open_close();
 }
+
+//! Получить случайный uint32_t 0..0xFFFFFFFF, медленная версия сделана через get<double>
 template <> uint32_t get()
 {
 	//return gb::mersennetwister::dsfmt_gv_genrand_uint32();
 	return (uint32_t)(gb::mersennetwister::genrand_open_close() * GB_CONST_UINT32MAX);
 }
+
+//! Получить случайный uint64_t 0..0xFFFFFFFFFFFFFFFF, медленная версия сделана через get<double>
 template <> uint64_t get()
 {
 	return (uint64_t)(gb::mersennetwister::genrand_open_close() * GB_CONST_UINT64MAX);
@@ -76,18 +92,27 @@ template <> uint64_t get()
 
 #else // ! GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 
+//! Получить случайный uint32_t 0..0xFFFFFFFF, оптимизированная версия сделана через
+//! половинку get<uint64_t> (алгоритм плохо относится к выборке 32 бит вперемешку с 64 битными
+//! значениями, потому приводим все выборки к 64 битным).
 template <> uint32_t get()
 {
 	return (uint32_t)gb::mersennetwister::gen_rand64();
 }
+
+//! Получить случайный uint64_t 0..0xFFFFFFFFFFFFFFFF, оптимизированная самая быстрая версия
 template <> uint64_t get()
 {
 	return gb::mersennetwister::gen_rand64();
 }
+
+//! Получить случайный float 0..1
 template <> float get()
 {
 	return get <uint32_t>() * (float)GB_CONST_UINT32MAX_INV);
 }
+
+//! Получить случайный double 0..1
 template <> double get()
 {
 	return get <uint64_t>() * GB_CONST_UINT64MAX_INV);
@@ -95,8 +120,12 @@ template <> double get()
 #endif
 
 
-//! Get a random number in the range [a, b) or [a, b] depending on rounding
-//! http://en.wikipedia.org/wiki/Uniform_distribution_%28continuous%29
+/*! \brief Получить равномерно распределённое случайное число в диапазоне [a, b) или [a, b]
+ *	\brief в зависимости от округления
+ *	http://en.wikipedia.org/wiki/Uniform_distribution_%28continuous%29
+ *
+ *	Допустимый параметр шаблона: value_type = [float, double]
+ */
 template <typename value_type>
 value_type getUniformVariate( value_type a, value_type b )
 {
@@ -104,9 +133,11 @@ value_type getUniformVariate( value_type a, value_type b )
 }
 
 
-/*! Continuous distribution bounded by given lower and upper limits,
- *	and having a given mode value in-between.
+/*! \brief Непрерывное распределение, ограниченное верхним и нижним лимитами, с заданной фиксированной
+ *	\brief точкой между ними (в форме треугольника).
  *	http://en.wikipedia.org/wiki/Triangular_distribution
+ *
+ *	Допустимый параметр шаблона: value_type = [float, double]
  */
 template <typename value_type>
 value_type getTriangularVariate( value_type a=0.0, value_type b=1.0, value_type mode=0.5 )
@@ -122,16 +153,17 @@ value_type getTriangularVariate( value_type a=0.0, value_type b=1.0, value_type 
 }
 
 
-/*! Normal distribution.
+/*! \brief Получить число согласно нормальному распределению случайных чисел
  *	http://en.wikipedia.org/wiki/Normal_distribution
- *	mu is the mean, and sigma is the standard deviation.
+ *	http://ru.wikipedia.org/wiki/Нормальное_распределение
+ *	\param mu - середина (математическое ожидание)
+ *	\param sigma - стандартное отклонение (дисперсия).
  *
- *	mu = mean, sigma = standard deviation
+ *	Использует метод Kinderman и Monahan. Reference: Kinderman, A.J. and Monahan, J.F.,
+ *	"Computer generation of random variables using the ratio of uniform deviates",
+ *	ACM Trans Math Software, 3, (1977), pp257-260.
  *
- *	Uses Kinderman and Monahan method. Reference: Kinderman,
- *	A.J. and Monahan, J.F., "Computer generation of random
- *	variables using the ratio of uniform deviates", ACM Trans
- *	Math Software, 3, (1977), pp257-260.
+ *	Допустимый параметр шаблона: value_type = [float, double]
  */
 template <typename value_type>
 value_type getNormalVariate( value_type mu, value_type sigma)
@@ -150,11 +182,15 @@ value_type getNormalVariate( value_type mu, value_type sigma)
 }
 
 
-/*! Log normal distribution.
+/*! Логнормальное распределение
  *	http://en.wikipedia.org/wiki/Log-normal_distribution
- *	If you take the natural logarithm of this distribution, you'll get a
- *	normal distribution with mean mu and standard deviation sigma.
- *	mu can have any value, and sigma must be greater than zero.
+ *	http://ru.wikipedia.org/wiki/Логнормальное_распределение
+ *	Если взять натуральный логарифм от этого распределения, то Вы получите нормальное
+ *	распределение, со средним значением mu и стандартным отклонением sigma.
+ *	\param mu - среднее значение (мат.ожидание), может принимать любое значение
+ *	\param sigma - дисперсия (отклонение), больше нуля
+ *
+ *	Допустимый параметр шаблона: value_type = [float, double]
 */
 template <typename value_type>
 value_type getLogNormalVariate( value_type mu, value_type sigma )
@@ -165,25 +201,28 @@ value_type getLogNormalVariate( value_type mu, value_type sigma )
 
 /*! Exponential distribution.
  *	http://en.wikipedia.org/wiki/Exponential_distribution
- *	lambd is 1.0 divided by the desired mean.  It should be
- *	nonzero. Returned values range from 0 to positive infinity if lambd is positive, 
- *	and from negative infinity to 0 if lambd is negative.
- *
- *	lambd: rate lambd = 1/mean
+ *	http://ru.wikipedia.org/wiki/Экспоненциальное_распределение
+ *	\param Lambda - 1.0 делённое на желаемую середину распределения (мат.ожидание), должно быть ненулевым
+ *	\return значения от 0 до плюс бесконечности при положительном Lambda и от минус бесконечности до 0 иначе
  */
 template <typename value_type>
-value_type getExponentialVariate( value_type lambd )
+value_type getExponentialVariate( value_type Lambda )
 {
     value_type u = get <value_type> ();
     while ( u <= (value_type)1e-7 ) {
 		//std::cout << u << std::endl;
         u = get <value_type> ();
 	}
-    return -std::log( u ) / lambd;
+    return -std::log( u ) / Lambda;
 }
 
 
-//! Остаток от деления X на Y
+/*! Остаток от деления X на Y
+ *	\param x - делимое
+ *	\param y - делитель
+ *
+ *	Допустимый параметр шаблона: value_type = [float, double]
+ */
 template <typename value_type>
 value_type modulo ( value_type x,  value_type y )
 {
@@ -191,23 +230,17 @@ value_type modulo ( value_type x,  value_type y )
 }
 
 
-/*! Circular data distribution.
+/*! Круговое нормальное распределение (von Mises) - непрерывное распределение на круге.
+ *	Может представляться как приближение к замкнутому на круге нормальному распределению.
  *	http://en.wikipedia.org/wiki/Von_Mises_distribution
- *	mu is the mean angle, expressed in radians between 0 and 2*pi, and
- *	kappa is the concentration parameter, which must be greater than or
- *	equal to zero.  If kappa is equal to zero, this distribution reduces
- *	to a uniform random angle over the range 0 to 2*pi.
+ *	\param mu - угол пика распределения (мат. ожидание), выраженный в радианах между 0 и 2*pi
+ *	\param kappa - параметр концентрации, должен быть больше или равен нулю
+ *	Если kappa равен нулю, распределение становится равномерным случайным на круге.
  *
- *	\param mu - mean angle (in radians between 0 and 2*pi)
- *	\param kappa - concentration parameter kappa (>= 0)
- *	if kappa = 0 generate uniform random angle
+ *	Основано на алгоритме, опубликованном в: Fisher, N.I., "Statistical Analysis of
+ *	Circular Data", Cambridge University Press, 1993.
  *
- *	Based upon an algorithm published in: Fisher, N.I.,
- *	"Statistical Analysis of Circular Data", Cambridge
- *	University Press, 1993.
- *
- *	Thanks to Magnus Kessler for a correction to the
- *	implementation of step 4.
+ *	Допустимый параметр шаблона: value_type = [float, double]
  */
 template <typename value_type>
 value_type getVonMisesVariate( value_type mu, value_type kappa )
@@ -248,13 +281,16 @@ value_type getVonMisesVariate( value_type mu, value_type kappa )
 }
 
 
-/*!	Gamma distribution.  Not the gamma function!
- *	Conditions on the parameters are alpha > 0 and beta > 0.
+/*!	Га́мма распределе́ние — двухпараметрическое семейство абсолютно непрерывных распределений.
+ *	Если параметр alpha принимает целое значение, то такое гамма-распределение также называется
+ *	распределе́нием Эрла́нга.
+ *	http://en.wikipedia.org/wiki/Gamma_distribution
+ *	http://ru.wikipedia.org/wiki/Гамма-распределение
+ *	Мат.ожидание (пик распределения) - alpha*beta, дисперсия (разброс) - alpha*beta*beta
+ *	\param alpha > 0
+ *	\param beta > 0
  *
- *	alpha > 0, beta > 0, mean is alpha*beta, variance is alpha*beta**2
- *
- *	Warning: a few older sources define the gamma distribution in terms
- *	of alpha > -1.0
+ *	Осторожно: ряд устаревших источников определяют гамма-распределение, как основанное на alpha > -1.0
  */
 template <typename value_type>
 value_type getGammaVariate( value_type alpha, value_type beta )
@@ -332,28 +368,17 @@ value_type getGammaVariate( value_type alpha, value_type beta )
 }
 
 
-/*! Gaussian (Normal) distribution
- *	Более быстрая версия getNormalVariate
- *
- *	mu is the mean, and sigma is the standard deviation.  This is
- *	slightly faster than the normalvariate() function.
- *
- *	Not thread-safe without a lock around calls.
- *	
- *	When x and y are two variables from [0, 1), uniformly distributed, then
- *		cos(2*pi*x)*sqrt(-2*log(1-y))
- *		sin(2*pi*x)*sqrt(-2*log(1-y))
- *	
- *	are two *independent* variables with normal distribution
- *	(mu = 0, sigma = 1).
- *	(Lambert Meertens)
- *	(corrected version; bug discovered by Mike Miller, fixed by LM)
- *	
- *	Multithreading note: When two threads call this function simultaneously, it is
- *	possible that they will receive the same return value.  The window is very small
- *	though. To avoid this, you have to use a lock around all calls.  (I didn't want
- *	to slow this down in the serial case by using a lock here.)
+/*! Распределение Гаусса (оно же Нормальное распределение)
+ *	Это несколько более быстрая версия определённой выше функции getNormalVariate
+ *	http://hyperphysics.phy-astr.gsu.edu/hbase/math/gaufcn.html
  *	http://en.wikipedia.org/wiki/Normal_distribution
+ *	\param mu - мат.ожидание
+ *	\param sigma - стандартное отклонение (дисперсия)
+ *	
+ *	Примечание по потокобезопасности: Когда два потока вызывают одновременно эту функцию,
+ *	из-за наличия static переменной в функции есть шанс, что оба получат одинаковое возвращаемое 
+ *	значение. Однако, окно для возникновения такого бага достаточно маленькое. Чтобы 
+ *	избежать проблемы, используйте блокировку между вызовами этой функции.
  */
 template <typename value_type>
 value_type getGaussianVariate( value_type mu, value_type sigma )
@@ -375,13 +400,11 @@ value_type getGaussianVariate( value_type mu, value_type sigma )
 }
 
 
-/*! Beta distribution.
+/*! Бета-распределение
  *	http://en.wikipedia.org/wiki/Beta_distribution
- *	Conditions on the parameters are alpha > 0 and beta > 0.
- *	Returned values range between 0 and 1.
- *
- *	This version due to Janne Sinkkonen, and matches all the std
- *	texts (e.g., Knuth Vol 2 Ed 3 pg 134 "the beta distribution").
+ *	http://ru.wikipedia.org/wiki/Бета-распределение
+ *	Требования к параметрам - alpha > 0 и beta > 0.
+ *	\return Возвращает значения между 0 и 1.
  */
 template <typename value_type>
 value_type getBetaVariate( value_type alpha, value_type beta )
@@ -396,7 +419,11 @@ value_type getBetaVariate( value_type alpha, value_type beta )
 }
 
 
-//! Pareto distribution.  alpha is the shape parameter
+/*!	Парето-распределение
+ *	\param alpha - форма фигуры, см. страницу с русским или английским пояснением для иллюстраций
+ *	http://en.wikipedia.org/wiki/Pareto_distribution
+ *	http://ru.wikipedia.org/wiki/Распределение_Парето
+ */
 template <typename value_type>
 value_type getParetoVariate( value_type alpha )
 {
@@ -405,8 +432,11 @@ value_type getParetoVariate( value_type alpha )
 }
 
 
-/*! Weibull distribution.
- *	alpha is the scale parameter and beta is the shape parameter.
+/*! Распределение Вейбулла
+ *	http://en.wikipedia.org/wiki/Weibull_distribution
+ *	http://ru.wikipedia.org/wiki/Распределение_Вейбулла
+ *	\param alpha - масштаб
+ *	\param beta - форма фигуры (см. страницу с английским пояснением для иллюстраций)
  */
 template <typename value_type>
 value_type getWeibullVariate( value_type alpha, value_type beta )
