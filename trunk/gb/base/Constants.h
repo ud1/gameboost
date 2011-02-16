@@ -1,6 +1,8 @@
 ﻿#pragma once
 
-/*! Фундаментальные и вспомогательные константы
+/*! \file Constants.h
+ *	Фундаментальные и вспомогательные константы
+ *	\author Дмитрий Литовченко kvakvs@yandex.ru
  */
 
 #define GB_CONST_E				2.71828182845904523536
@@ -22,8 +24,7 @@ namespace gb
 
 	double getNaN() {
 		unsigned long nan_ulong[2] = {0xffffffff, 0x7fffffff};
-		double nan = *( double* )nan_ulong;
-		return nan;
+		return *( double* )nan_ulong;
 	}
 
 } // namespace gb
