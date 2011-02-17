@@ -6,7 +6,7 @@
 */
 
 //#pragma  message("ВЕРНУТЬ ПРЕКОМП ХЕДЕР"   __FILE__ )
-#include "pch.h"
+
 //#include "stdafx.h"
 
 //#pragma  message("ВЕРНУТЬ ПРАВИЛЬНЫЙ ПУТЬ"  __FILE__ )
@@ -216,6 +216,9 @@ uint32_t gb::str::Formater::uintFromBinCstr(const char* _s, int32_t nlen ) throw
 
 
 		//throw(   c  -1 );
+// WARNING
+// 		gb\str\formater.cpp(219): warning C4297: 'gb::str::Formater::uintFromBinCstr' : function assumed not to throw an exception but does
+//           __declspec(nothrow) or throw() was specified on the function
 		throw( std::runtime_error( "Formater::uintFromBinStr: Data error" ) );
 
 		return res;

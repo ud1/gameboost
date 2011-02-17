@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include <gb/base/CommonLog.h>
 
 #include <ctime>

@@ -109,13 +109,13 @@ template <> uint64_t get()
 //! Получить случайный float 0..1
 template <> float get()
 {
-	return get <uint32_t>() * (float)GB_CONST_UINT32MAX_INV);
+	return (get <uint32_t>() * (float)GB_CONST_UINT32MAX_INV);
 }
 
 //! Получить случайный double 0..1
 template <> double get()
 {
-	return get <uint64_t>() * GB_CONST_UINT64MAX_INV);
+	return (get <uint64_t>() * GB_CONST_UINT64MAX_INV);
 }
 #endif
 
