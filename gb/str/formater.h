@@ -46,9 +46,9 @@ namespace gb {
 	static bool floatFromCstr( KS_OUT  float* out_val,  const char* s ) ;
 	static bool floatFromCstr( KS_OUT  float& out_val,  const char* s ) ;
 
-	/** \brief Преобразование  знакового целого в строку  ???? */
+	/** \brief Преобразование  знакового целого в строку . Если bAsCppHex true,  тогда конвертирует в HEX в стиль c++  */
 	static bool intToCstr(char* pDest, int32_t ndestlen,  int32_t value, bool bAsCppHex);
-	/** \brief Преобразование  беззнакового целого в строку  ????? */
+	/** \brief Преобразование  беззнакового целого в строку   Если bAsCppHex true,  тогда конвертирует в HEX в стиль c++  */
 	static bool uintToCstr(char* pDest, int32_t ndestlen, uint32_t value, bool bAsCppHex);
 
 	static std::string intToStr  ( int32_t value, bool bAsCppHex);
@@ -57,15 +57,13 @@ namespace gb {
 
 	/** \brief Преобразование  знакового целого из строки. 
 	  
-	        Если неверное значение или исключение, то вернёт false   */
+	        Если неверное значение или исключение, то вернёт false. Можно передавать число d HEX-c++. Например 0x5faf43   */
 	static bool intFromCstr(KS_OUT int32_t* out_val, const char* s) ;
-	/** \brief Преобразование  знакового целого из строки. 
-	 
-	        Если неверное значение или исключение, то вернёт false  */
+	/** \brief Преобразование  знакового целого из строки. Если неверное значение или исключение, то вернёт false.  
+	    Можно передавать число d HEX-c++. Например 0x5faf43  */
 	static bool intFromCstr(KS_OUT int32_t& out_val, const char* s) ;
 
-
-	/** \brief можно передать например   */
+	/** \brief  Аналог intFromCstr  для  unsigned int    */
 	static bool uintFromCstr(KS_OUT uint32_t* out_val, const char* s) ;
 	static bool uintFromCstr(KS_OUT uint32_t& out_val, const char* s) ;
  
@@ -84,15 +82,12 @@ namespace gb {
 
 	/** \brief Преобразование uint32_t в двоичное представление. */
 	static bool uintToBinCstr(char* pDest, int32_t ndestlen, uint32_t value);
-
+	/** \brief Преобразование  int32_t в двоичное представление. */
     static bool intToBinCstr(char* pDest, int32_t ndestlen, uint32_t value);
-
+    /** \brief Преобразование uint32_t в двоичное представление. */
 	static std::string uintToBinStr( uint32_t value);
-
+    /** \brief Преобразование int32_t в двоичное представление. */
     static std::string intToBinStr( uint32_t value);
-
-
-
 
 
 	/** \brief Преобразование в uint из строки содержащей цифру в двоичном виде. */
