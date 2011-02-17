@@ -11,7 +11,7 @@
  *
  * The new BSD License is applied to this software, see LICENSE.txt
  */
-#include "pch.h"
+
 
 #if GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 

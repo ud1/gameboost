@@ -5,7 +5,7 @@
 * \author Reviewer/imported by: kvakvs (kvakvs@yandex.ru)
 */
 
-#include "pch.h"
+
 
 #include <gb/str/KsString.h>
 #include <gb/str/KsUtils.h>
@@ -872,7 +872,9 @@ void intArrayToStr(KS_OUT std::string& sOut,
 
 	for(int32_t c=0; c<nArrayLen; c++)
 	{
-		sOut += gb::str::Formater::intToCstr( *(pArray + c) );
+		// TODO: Заменить на что-нибудь работающее. Например boost::lexical_cast или самодельный конвертор типов
+		//sOut += gb::str::Formater::intToCstr( *(pArray + c) );
+		sOut += boost::lexical_cast <std::string>( pArray[ c ] );
 
 		if(c != nArrayLen-1)
 		{

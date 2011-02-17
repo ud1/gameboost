@@ -1,7 +1,7 @@
 /*      \file FileStream.cpp
  *      \author -Eugene-, kozlov_eugene@list.ru
 */
-#include "pch.h"
+
 
 #include "gb/io/FileStream.h"
 using namespace gb::io;
@@ -137,5 +137,5 @@ size_t FileStream::read(void*buffer, const size_t size, const size_t offset)
 
 bool FileStream::eof()
 {
-    return (bool)(feof(file));
+    return feof(file) != 0;
 }
