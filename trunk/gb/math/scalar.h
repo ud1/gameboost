@@ -1,6 +1,9 @@
-/** \file
- \brief Операции с   float/double
-
+п»ї/** \file
+* \brief РћРїРµСЂР°С†РёРё СЃ   float/double
+*
+*
+*
+*
 */
 
 #pragma once
@@ -17,7 +20,7 @@ namespace gb
   namespace math
   {
   
-    /** \brief  Операции  с  вещественными типами  (float/double).  */
+    /** \brief  РћРїРµСЂР°С†РёРё  СЃ  РІРµС‰РµСЃС‚РІРµРЅРЅС‹РјРё С‚РёРїР°РјРё  (float/double).  */
     namespace scalar
 	{
 	
@@ -48,13 +51,13 @@ namespace gb
 	static const float CE           = 2.718281828459f; ///<  e
 	
 	
-	/**  \brief Возвращает единицу с соответствующим знаком или ноль если параметр ноль   */
+	/**  \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РµРґРёРЅРёС†Сѓ СЃ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРј Р·РЅР°РєРѕРј РёР»Рё РЅРѕР»СЊ РµСЃР»Рё РїР°СЂР°РјРµС‚СЂ РЅРѕР»СЊ   */
     inline float  sign (const float val) { if(val>=0.0f) return 1.0f; return -1.0f; };
 
 	inline float sincos(const float a, float& outSin, float& outCos) {  outSin = sin(a); outCos = cos(a); };
 	
     #if defined (_MSC_VER)	
-	/** \brief ассемблерный способ полученить синус и косинус */
+	/** \brief Р°СЃСЃРµРјР±Р»РµСЂРЅС‹Р№ СЃРїРѕСЃРѕР± РїРѕР»СѓС‡РµРЅРёС‚СЊ СЃРёРЅСѓСЃ Рё РєРѕСЃРёРЅСѓСЃ */
 	inline void sincosAsm (float a, float& s, float& c) {
 		__asm  {
 			fld a;
@@ -67,7 +70,7 @@ namespace gb
 	};
 	#endif
 	
-	/** \brief Вычислить арк котангенс */
+	/** \brief Р’С‹С‡РёСЃР»РёС‚СЊ Р°СЂРє РєРѕС‚Р°РЅРіРµРЅСЃ */
     inline float arccot(float f) //throw() 
 	{ 
 	   //if(0.0f==f) 
@@ -75,23 +78,23 @@ namespace gb
 	   return atan(1.0f / f); 
 	};
 	
-	/**  \brief Вычислить котангенс  */
+	/**  \brief Р’С‹С‡РёСЃР»РёС‚СЊ РєРѕС‚Р°РЅРіРµРЅСЃ  */
     inline float cotan(const float f) {  return   1.0f / tanf(f); };
 	
-	/** \brief Угол в радианах в градусы */
+	/** \brief РЈРіРѕР» РІ СЂР°РґРёР°РЅР°С… РІ РіСЂР°РґСѓСЃС‹ */
 	inline float radiansToDegree(float rad)  { return rad * (180.0f / CPI); };
-	/** \brief Угол в градусах в радианы */	
+	/** \brief РЈРіРѕР» РІ РіСЂР°РґСѓСЃР°С… РІ СЂР°РґРёР°РЅС‹ */	
 	inline float degreeToRadians(float dgr)  { return dgr * (CPI / 180.0f); };
 	
-	/**  \brief  Вычисленить линейную интерполяцию между f1 и f2 по коэф. k */
+	/**  \brief  Р’С‹С‡РёСЃР»РµРЅРёС‚СЊ Р»РёРЅРµР№РЅСѓСЋ РёРЅС‚РµСЂРїРѕР»СЏС†РёСЋ РјРµР¶РґСѓ f1 Рё f2 РїРѕ РєРѕСЌС„. k */
     inline float lerp(const float f1, const float f2, const float k) { return f1 + (f2 - f1) * k; };
 	
-	/** \brief Округление . */
+	/** \brief РћРєСЂСѓРіР»РµРЅРёРµ . */
 	int round(float f);
 	
    #if defined (_MSC_VER)
 
-	/** \brief ассемблерный способ округления.  */
+	/** \brief Р°СЃСЃРµРјР±Р»РµСЂРЅС‹Р№ СЃРїРѕСЃРѕР± РѕРєСЂСѓРіР»РµРЅРёСЏ.  */
 	inline int roundAsm(float a) 
 	{
 	   register int retval;
@@ -101,7 +104,7 @@ namespace gb
 	};
 	#endif
 	
-	/** \brief Проверка на корректное значение */
+	/** \brief РџСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ */
 	inline bool check(float f) 
 	{
        if( f == 0.0f ) return true;
