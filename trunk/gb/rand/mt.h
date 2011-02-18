@@ -109,13 +109,13 @@ template <> uint64_t get()
 //! Получить случайный float 0..1
 template <> float get()
 {
-	return (get <uint32_t>() * (float)GB_CONST_UINT32MAX_INV);
+	return ( get <uint32_t>() * const1_Div_Uint32Max <float>() );
 }
 
 //! Получить случайный double 0..1
 template <> double get()
 {
-	return (get <uint64_t>() * GB_CONST_UINT64MAX_INV);
+	return ( get <uint64_t>() * const1_Div_Uint64Max <double>() );
 }
 #endif
 
@@ -168,7 +168,7 @@ value_type getTriangularVariate( value_type a=0.0, value_type b=1.0, value_type 
 template <typename value_type>
 value_type getNormalVariate( value_type mu, value_type sigma)
 {
-	static value_type NV_MAGICCONST = 4 * std::exp ( (value_type)-0.5 ) / (value_type)GB_CONST_SQRT_2;
+	static value_type NV_MAGICCONST = 4 * std::exp ( (value_type)-0.5 ) / constSqrt_2 <value_type>();
 	value_type z;
     while (1)
 	{
@@ -245,7 +245,7 @@ value_type modulo ( value_type x,  value_type y )
 template <typename value_type>
 value_type getVonMisesVariate( value_type mu, value_type kappa )
 {
-    if ( kappa <= (value_type)1e-6 ) return (value_type)GB_CONST_DOUBLE_PI * get <value_type>();
+    if ( kappa <= (value_type)1e-6 ) return const2_Pi <value_type>() * get <value_type>();
 
     value_type a = (value_type)1.0 + std::sqrt ((value_type)1.0 + (value_type)4.0 * kappa * kappa);
     value_type b = (a - std::sqrt( (value_type)2.0 * a )) / ((value_type)2.0 * kappa);
@@ -256,7 +256,7 @@ value_type getVonMisesVariate( value_type mu, value_type kappa )
 	{
         value_type u1 = get <value_type> ();
 
-        value_type z = std::cos( (value_type)(GB_CONST_PI * u1) );
+        value_type z = std::cos( (value_type)(constPi<value_type>() * u1) );
         f = ((value_type)1.0 + r * z)/(r + z);
         value_type c = kappa * (r - f);
 
@@ -271,10 +271,10 @@ value_type getVonMisesVariate( value_type mu, value_type kappa )
     value_type u3 = get <value_type> ();
 	value_type theta;
     if ( u3 > (value_type)0.5 ) {
-        theta = modulo <value_type> (mu, (value_type)GB_CONST_DOUBLE_PI) + std::acos( (value_type)f );
+        theta = modulo <value_type> (mu, const2_Pi<value_type>()) + std::acos( (value_type)f );
 	}
 	else {
-        theta = modulo <value_type> (mu, (value_type)GB_CONST_DOUBLE_PI) - std::acos( (value_type)f );
+        theta = modulo <value_type> (mu, const2_Pi<value_type>()) - std::acos( (value_type)f );
 	}
 
     return theta;
@@ -344,7 +344,7 @@ value_type getGammaVariate( value_type alpha, value_type beta )
         while (1) 
 		{
             value_type u = get <value_type> ();
-            value_type b = ((value_type)GB_CONST_E + alpha) / (value_type)GB_CONST_E;
+            value_type b = (constE<value_type>() + alpha) / constE<value_type>();
             value_type p = b*u;
             if (p <= 1.0) {
                 x = std::pow ( (value_type)p, (value_type)(1.0/alpha));
@@ -390,7 +390,7 @@ value_type getGaussianVariate( value_type mu, value_type sigma )
 
     if (z != z) // test for NaN
 	{
-        value_type x2pi = get <value_type> () * (value_type)GB_CONST_DOUBLE_PI;
+        value_type x2pi = get <value_type> () * const2_Pi<value_type>();
         value_type g2rad = std::sqrt( (value_type)-2.0 * std::log( (value_type)1.0 - get <value_type> ()) );
         z = std::cos( x2pi ) * g2rad;
         gauss_next = std::sin( x2pi ) * g2rad;
