@@ -197,13 +197,12 @@ namespace gb
 			/** \breief  Покомпонентное деление (this = this / m) */
 			mat22_s&  operator /= ( float f);
 
-			mat22_s operator + ( const mat22_s& m);
-			mat22_s operator - ( const mat22_s& m);
-			mat22_s operator * ( const mat22_s& m);
+			mat22_s operator + ( const mat22_s& m) const;
+			mat22_s operator - ( const mat22_s& m) const;
 
-
-			mat22_s operator * ( float f );
-			vec2_s  operator * ( const vec2_s& v );
+			mat22_s operator * ( const mat22_s& m) const;
+			mat22_s operator * ( float f ) const;
+			vec2_s  operator * ( const vec2_s& v ) const;
 
 
 			inline void setzero()     { _11=_12=_21=_22=0.0f; };
@@ -212,13 +211,13 @@ namespace gb
 
 			inline float determinant () { return floats [0][0] * floats [1][1] - floats [0][1] * floats [1][0];	};
 
-            void  invert ();
+            mat22_s&  invert ();
 
-			void         setRotation ( float angle );
-			inline void  setMirrorX () { setIdentity();  floats [0][0] = -1.0; };
-			inline void  setMirrorY () { setIdentity();  floats [1][1] = -1.0; };
-			void         setScaling ( const vec2_s& v );
-			void         setScaling (float x, float y);
+			mat22_s&         setRotation ( float angle );
+			inline mat22_s&  setMirrorX () { setIdentity();  floats [0][0] = -1.0; return *this; };
+			inline mat22_s&  setMirrorY () { setIdentity();  floats [1][1] = -1.0; return *this; };
+			mat22_s&         setScaling ( const vec2_s& v );
+			mat22_s&         setScaling (float x, float y);
 
 
 
@@ -247,7 +246,24 @@ namespace gb
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
 
+			mat33_s& mat33_s::operator = ( float a );
 
+			mat33_s operator + ( const mat33_s& m ) const;
+			mat33_s operator - ( const mat33_s& m ) const;
+
+			mat33_s&   operator *= ( float f );
+			mat33_s&   operator *= ( const mat33_s& m );
+            mat33_s&   operator /= ( float f );
+
+			mat33_s&   operator += ( const mat33_s& a );
+			mat33_s&   operator -= ( const mat33_s& a );
+
+
+			mat33_s  operator * ( const mat33_s& m) const;
+			mat33_s  operator * (  float f ) const;
+			vec3_s   operator * ( const vec3_s& v ) const;
+
+ 
 			inline void setzero() { _11=_12=_13=_21=_22=_23=_31=_32=_33=0.0f; };
 			inline void setIdentity() {
 				_11=1.0f; _12=0.0f; _13=0.0f;
@@ -261,6 +277,29 @@ namespace gb
 			    t=_13;  _13=_31; _31=t;
 			    t=_23;  _23=_32; _32=t;   
 			};
+
+			float  determinant () const;
+			mat33_s& invert ();
+
+			mat33_s& setScaling ( float x, float y, float z );
+			mat33_s& setScaling ( const vec3_s& v );
+
+			mat33_s& setRotationX ( float angle );
+			mat33_s& setRotationY ( float angle );
+			mat33_s& setRotationZ ( float angle );
+
+			mat33_s& setRotation ( const vec3_s& v, float angle );
+
+			mat33_s&  setMirrorX();
+			mat33_s&  setMirrorY();
+			mat33_s&  setMirrorZ();
+
+
+
+
+
+
+
 		
 		};
  
