@@ -57,10 +57,10 @@ namespace gb
 	/**  \brief Возвращает единицу с соответствующим знаком или ноль если параметр ноль   */
     inline float  sign (const float val) { if(val>=0.0f) return 1.0f; return -1.0f; };
 
-	inline float sincos(const float a, float& outSin, float& outCos) {  outSin = sin(a); outCos = cos(a); };
+	inline void sincos(const float a, float& outSin, float& outCos) {  outSin = sin(a); outCos = cos(a); };
 	
     #if defined (_MSC_VER)	
-	/** \brief ассемблерный способ полученить синус и косинус */
+	/** \brief ассемблерный способ получить синус и косинус */
 	inline void sincosAsm (float a, float& s, float& c) {
 		__asm  {
 			fld a;
@@ -95,7 +95,7 @@ namespace gb
 	/** \brief Округление . */
 	int round(float f);
 	
-   #if defined (_MSC_VER)
+    #if defined (_MSC_VER)
 
 	/** \brief ассемблерный способ округления.  */
 	inline int roundAsm(float a) 
