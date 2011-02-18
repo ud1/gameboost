@@ -15,7 +15,7 @@ set( GAMEBOOST_SOURCES
 		base/IRefCountable.h
 		base/SimpleLog.cpp  base/SimpleLog.h  base/CommonLog.cpp  base/CommonLog.h
 		base/Timer.h  base/Timer.cpp  base/FPSCounter.cpp  base/FPSCounter.h 
-		base/Types.h base/Constants.h
+		base/Types.h  base/Constants.h
 		base/Logger.h base/Logger.cpp
 		base/Factory.h 
 
