@@ -1,6 +1,6 @@
 ﻿
 
-#include "stdafx.h"
+//#include "stdafx.h"
 //#include "pch.h"
 
 //#include "z:\\!!GB_TOADD\\math\\scalar.h"
