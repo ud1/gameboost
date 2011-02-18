@@ -181,14 +181,49 @@ namespace gb
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
 
+			
+			mat22_s&  operator =  ( const mat22_s& m);
+			/** \brief   В главную диагональ установить f остальное занулить.*/
+			mat22_s&  operator =  ( float f);
+			/** \breief  Покомпонентное сложение   (this = this + m) */
+			mat22_s&  operator += ( const mat22_s& m);
+			/** \breief  Покомпонентное вычитанние (this = this - m) */
+			mat22_s&  operator -= ( const mat22_s& m);
+
+			mat22_s&  operator *= ( const mat22_s& m);
+
+			/** \breief  Покомпонентное умножение (this = this * m) */            
+			mat22_s&  operator *= ( float f);
+			/** \breief  Покомпонентное деление (this = this / m) */
+			mat22_s&  operator /= ( float f);
+
+			mat22_s operator + ( const mat22_s& m);
+			mat22_s operator - ( const mat22_s& m);
+			mat22_s operator * ( const mat22_s& m);
+
+
+			mat22_s operator * ( float f );
+			vec2_s  operator * ( const vec2_s& v );
+
 
 			inline void setzero()     { _11=_12=_21=_22=0.0f; };
 			inline void setIdentity() {	_11=1.0f; _12=0.0f;	_21=0.0f; _22=1.0f;	};
-			inline void transpone()   {  register float f=_12; _12=_21; _21=f; }; 
+			inline void transpone()   {  register float f=_12; _12=_21; _21=f; };
+
+			inline float determinant () { return floats [0][0] * floats [1][1] - floats [0][1] * floats [1][0];	};
+
+            void  invert ();
+
+			void         setRotation ( float angle );
+			inline void  setMirrorX () { setIdentity();  floats [0][0] = -1.0; };
+			inline void  setMirrorY () { setIdentity();  floats [1][1] = -1.0; };
+			void         setScaling ( const vec2_s& v );
+			void         setScaling (float x, float y);
 
 
 
-		
+
+
 		}; 
 
 
