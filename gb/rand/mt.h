@@ -383,10 +383,10 @@ value_type getGammaVariate( value_type alpha, value_type beta )
 template <typename value_type>
 value_type getGaussianVariate( value_type mu, value_type sigma )
 {
-	static double gauss_next;
+	static value_type gauss_next;
 
-    double z = gauss_next;
-    gauss_next = gb::getNaN();
+    value_type z = gauss_next;
+    gauss_next = gb::getNaN <value_type> ();
 
     if (z != z) // test for NaN
 	{

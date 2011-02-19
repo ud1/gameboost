@@ -15,7 +15,7 @@ set( GAMEBOOST_SOURCES
 		base/IRefCountable.h
 		base/SimpleLog.cpp  base/SimpleLog.h  base/CommonLog.cpp  base/CommonLog.h
 		base/Timer.h  base/Timer.cpp  base/FPSCounter.cpp  base/FPSCounter.h 
-		base/Types.h  base/Constants.h
+		base/Types.h  base/Constants.h  base/Constants.cpp
 		base/Logger.h base/Logger.cpp
 		base/Factory.h 
 
@@ -72,8 +72,11 @@ source_group( random/m_twister REGULAR_EXPRESSION "deplib/mt/" )
 #------ additional includes ------
 include_directories( ${GAMEBOOST_SOURCE_DIR} )
 include_directories( ${LIBGAMEBOOST_SOURCE_DIR} )
-include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/boost )
 include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
+
+# Boost ожидается либо в gb/deplib/boost либо в C:/boost кому как удобнее
+include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/boost )
+include_directories( C:/boost )
 
 if (MSVC)
 	set_source_files_properties( pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h" )
