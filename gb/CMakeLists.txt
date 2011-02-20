@@ -26,8 +26,7 @@ set( GAMEBOOST_SOURCES
 		io/DDSParser.cpp io/DDSParser.h io/FileStream.cpp io/FileStream.h io/IStream.h io/MemoryStream.cpp io/MemoryStream.h
 		fs/FileSystem.h fs/Helpers.cpp fs/Helpers.h fs/LocalFS.cpp fs/LocalFS.h fs/SeekType.h fs/Stream.h
 		
-		# не компилится из-за проблем с intrusive::multiset::insert_after
-		# mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp mt/syncPrimitives.h
+		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp mt/syncPrimitives.h
 
 		rand/rand.cpp rand/rand.h
 		rand/mt.h
@@ -46,7 +45,7 @@ set( GAMEBOOST_SOURCES
 
 		math/Vector.h  math/base.h  math/scalar.cpp  math/scalar.h
 
-		# shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
+		shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
 		
 		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
 		
@@ -60,6 +59,7 @@ set( GAMEBOOST_SOURCES
 
 # группы файлов в IDE
 source_group( base REGULAR_EXPRESSION "base/" )
+source_group( fs REGULAR_EXPRESSION "fs/" )
 source_group( mt REGULAR_EXPRESSION "mt/" )
 source_group( io REGULAR_EXPRESSION "io/" )
 source_group( math REGULAR_EXPRESSION "math/" )
@@ -67,21 +67,18 @@ source_group( system REGULAR_EXPRESSION "system/" )
 source_group( i18n REGULAR_EXPRESSION "i18n/" )
 source_group( strings REGULAR_EXPRESSION "str/" )
 source_group( random REGULAR_EXPRESSION "rand/" )
+source_group( shaders REGULAR_EXPRESSION "shaders/" )
 source_group( random/m_twister REGULAR_EXPRESSION "deplib/mt/" )
 
-#------ additional includes ------
-include_directories( ${GAMEBOOST_SOURCE_DIR} )
-include_directories( ${LIBGAMEBOOST_SOURCE_DIR} )
 include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
-
-# Boost ожидается либо в gb/deplib/boost либо в C:/boost кому как удобнее
-include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/boost )
-include_directories( C:/boost )
 
 if (MSVC)
 	set_source_files_properties( pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h" )
 	foreach( src_file ${GAMEBOOST_SOURCES} )
-		set_source_files_properties( ${src_file} PROPERTIES COMPILE_FLAGS "/Yupch.h /FIpch.h" )
+		# Только для *.cpp файлов
+		if (src_file MATCHES ".*[.]cpp$")
+			set_source_files_properties( ${src_file} PROPERTIES COMPILE_FLAGS "/Yupch.h /FIpch.h" )
+		endif (src_file MATCHES ".*[.]cpp$")
 	endforeach( src_file ${GAMEBOOST_SOURCES} )
 	list( APPEND GAMEBOOST_SOURCES pch.cpp pch.h )
 endif()

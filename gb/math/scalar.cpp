@@ -1,9 +1,4 @@
-﻿
-//#include "stdafx.h"
-//#include "pch.h"
- 
-
-#include <gb/math/scalar.h>
+﻿#include <gb/math/scalar.h>
 
 namespace gb 
 {
