@@ -13,14 +13,14 @@ set( GBTEST_SOURCES
 		test_Random.cpp
 		)
 
-find_package(Boost COMPONENTS system REQUIRED)
+find_package(Boost COMPONENTS system filesystem REQUIRED)
 # source_group( tests REGULAR_EXPRESSION "test_" )
 
 #------ additional includes ------
 include_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/utfcpp.sourceforge.net )
 include_directories( ${GBTEST_SOURCE_DIR}/deplib/gtest-1.5.0/include )
 
-link_libraries( gtest gtest_main gameboost  )
+link_libraries( gtest gtest_main gameboost ${Boost_FILESYSTEM_LIBRARY} )
 
 if (MSVC)
 	set_source_files_properties( pch_test.cpp PROPERTIES COMPILE_FLAGS "/Ycpch_test.h" )

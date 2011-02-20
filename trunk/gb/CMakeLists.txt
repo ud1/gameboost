@@ -43,7 +43,7 @@ set( GAMEBOOST_SOURCES
 		deplib/mt/dSFMT/dSFMT-params2203.h deplib/mt/dSFMT/dSFMT-params4253.h deplib/mt/dSFMT/dSFMT-params44497.h deplib/mt/dSFMT/dSFMT-params521.h
 		deplib/mt/dSFMT/dSFMT-params86243.h 
 
-		math/Vector.h  math/base.h  math/scalar.cpp  math/scalar.h
+		math/vector.h  math/base.h  math/scalar.cpp  math/scalar.h
 
 		shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
 		
