@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿#ifdef _WIN32
+
+#pragma once
 
 #include <gb/base/CommonLog.h>
 
@@ -29,3 +31,5 @@ private:
 
 }
 }
+
+#endif

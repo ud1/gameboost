@@ -1,4 +1,5 @@
-
+#ifdef _WIN32
+// Не компилируется под линуксом из-за _strtime и _strdate
 
 #include <gb/base/SimpleLog.h>
 
@@ -77,3 +78,5 @@ void SimpleLog::message_log(char *levtext, char *text)
 	printf("%s%s\n", levtext, text); 
 	fprintf(_file, "%s%s\n", levtext, text);
 }
+
+#endif

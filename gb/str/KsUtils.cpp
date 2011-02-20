@@ -16,7 +16,7 @@
 #pragma warning (disable : 4290)
 
  
-
+#ifdef _WIN32
 //=====================================================
 float gb::util::getCurrHeightPrecTime( ) 
 {
@@ -34,7 +34,7 @@ int gb::util::getCursorWindowPosition(HWND hwnd, POINT* pout)
  if(res) return 0;
 	return  -1;
 };
-
+#endif
 
 
 

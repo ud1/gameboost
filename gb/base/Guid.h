@@ -6,6 +6,9 @@
 
 #include <gb/Config.h>
 #include <gb/str/String.h>
+#include <gb/base/Timer.h>
+
+#include <sstream>
 
 // Включить поддержку классом Boost.Serialize
 #define GB_ENABLE_BOOST_SERIALIZE 1
@@ -87,7 +90,7 @@ struct GuidTemplate
 	{
 		D1 = ((uint16_t)id << 16) | (uint16_t)id;
 		// TODO: заменить на кроссплатформенный доступ к миллисек.таймеру
-		D2 = (uint32_t)::GetTickCount();
+		D2 = (uint32_t)gb::base::Timer::getTickCount();
 		D3 = id;
 		D4 = id;
 /*
@@ -275,7 +278,9 @@ std::istream & operator>>( std::istream & is, GuidTemplate<Flavor> & p )
 	}
 	
 	std::vector <std::string> parts;
-	gb::str::split (parts, str, ba::is_any_of ("-"));
+	// error: ‘ba’ has not been declared
+	//gb::str::split (parts, str, ba::is_any_of ("-"));
+	gb::str::split (parts, str, "-");
 	if (parts.size() != 5)
 	{
 		p.setZero();

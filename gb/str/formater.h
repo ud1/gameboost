@@ -17,6 +17,10 @@
 #include <gb/Config.h>
 #include <gb/str/KsDefines.h>
 
+#include <cstring>
+#include <string>
+#include <cstdio>
+
 
 namespace gb {
 

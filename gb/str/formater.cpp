@@ -16,7 +16,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <iostream>
-
+#include <stdexcept>
 
  
 #pragma warning(push)

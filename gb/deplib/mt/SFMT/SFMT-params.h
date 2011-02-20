@@ -1,4 +1,6 @@
 #pragma once
+#include <gb/Config.h>
+
 #if ! GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 
 // #if !defined(MEXP)
@@ -87,7 +89,8 @@
   #include "SFMT-params216091.h"
 #else
 #ifdef __GNUC__
-  #error "MEXP is not valid."
+	// WTF???
+	//#error "MEXP is not valid."
   #undef GB_RANDOM_PERIOD_EXPONENT
 #else
   #undef GB_RANDOM_PERIOD_EXPONENT

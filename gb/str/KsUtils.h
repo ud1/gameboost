@@ -8,7 +8,9 @@
 #include <gb/str/KsDefines.h>
 #include <gb/base/Types.h>
 
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include <exception>
 #include <stdexcept>

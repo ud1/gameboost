@@ -1,3 +1,5 @@
+#ifdef _WIN32
+
 #pragma once
 
 #include <cstdio>
@@ -30,3 +32,5 @@ protected:
 
 }
 }
+
+#endif

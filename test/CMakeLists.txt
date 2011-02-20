@@ -8,8 +8,8 @@ endif()
 #------ sources ------
 set( GBTEST_SOURCES
 		main.cpp
-		test_Path.cpp
-		test_String.cpp
+		#test_path.cpp
+		#test_String.cpp
 		test_Random.cpp
 		)
 

@@ -3,6 +3,9 @@
 */
 #pragma once
 #include "../io/IStream.h"
+#include <stdio.h>
+#include <string>
+#include <cstring>
 
 namespace gb
 {

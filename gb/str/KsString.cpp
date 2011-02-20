@@ -173,6 +173,7 @@ bool saveStrToFileA(KS_IN std::string& s,  const char* fname)
 	return true;
 }
 
+#ifdef _WIN32
 //===================================================================
 bool loadStrFromFileW(KS_OUT std::string& s, const wchar_t* fname)
 {
@@ -206,7 +207,7 @@ bool saveStrToFileW(KS_IN std::string& s, const wchar_t* fname)
 	return true;	
 
 }
-
+#endif // _WIN32
 
 #if GB_ALLOW_BOOST_LIBRARY
 

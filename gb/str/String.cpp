@@ -13,7 +13,7 @@
 
 #include <sstream>
 #include <cctype>
-#include <mbstring.h>
+//#include <mbstring.h>
 
 // предварительно растягивать длину строк при конверсиях (теоретически ускоряет работу)
 #define GB_PRERESERVE_STRINGS 1

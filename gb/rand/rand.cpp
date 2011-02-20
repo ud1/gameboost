@@ -7,7 +7,7 @@
 
 
 
-#include <gb\rand\rand.h>
+#include <gb/rand/rand.h>
 
 #include <stdio.h>
 #include <stdlib.h>
