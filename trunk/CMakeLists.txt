@@ -6,8 +6,10 @@ set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${GAMEBOOST_SOURCE_DIR}/bin CACHE PATH
 set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${GAMEBOOST_SOURCE_DIR}/linklib CACHE PATH "Single Directory for all static libraries." )
 
 set(CMAKE_FIND_LIBRARY_PREFIXES "lib")
-set(BOOST_ROOT "C:/boost")
-set(BOOST_LIBRARYDIR "C:/boost/stage/lib")
+if (MSVC)
+	set(BOOST_ROOT "C:/boost")
+	set(BOOST_LIBRARYDIR "C:/boost/stage/lib")
+endif()
 set(Boost_USE_MULTITHREADED ON)
 find_package(Boost)
 
