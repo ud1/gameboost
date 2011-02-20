@@ -51,8 +51,6 @@ namespace gb
 				
 				char time_str[TIME_STR_LEN];
 				time_t rawtime;
-				//tm * timeinfo;
-				
 				time (&rawtime);
 				strftime(time_str, TIME_STR_LEN, format, localtime ( &rawtime ));
 				

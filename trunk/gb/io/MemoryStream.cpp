@@ -3,6 +3,8 @@
 */
 
 #include "gb/io/MemoryStream.h"
+#include <cstring>
+#include <cstdio>
 
 using namespace gb::io;
 

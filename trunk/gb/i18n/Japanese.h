@@ -7,6 +7,8 @@
 #include <list>
 #include <string>
 
+#include <gb/base/Types.h>
+
 namespace gb {
 	namespace i18n {
 

@@ -2,7 +2,7 @@
  *      \author -Eugene-, kozlov_eugene@list.ru
 */
 #pragma once
-#include "gb/base/types.h"
+#include "gb/base/Types.h"
 #include "gb/containers/IResource.h"
 
 namespace gb

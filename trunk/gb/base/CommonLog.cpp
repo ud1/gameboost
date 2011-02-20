@@ -1,3 +1,5 @@
+#ifdef _WIN32
+// Не компилируется под линуксом из-за _strtime
 
 #include <gb/base/CommonLog.h>
 
@@ -80,3 +82,5 @@ void CommonLog::message_log(char *levtext, char *text)
 	}
 	printf("%s%s\n", levtext, text); 
 }
+
+#endif

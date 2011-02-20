@@ -3,7 +3,7 @@
 */
 #pragma once
 #include "IStream.h"
-#include "gb/base/types.h"
+#include "gb/base/Types.h"
 
 namespace gb
 {

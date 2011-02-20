@@ -2,6 +2,10 @@
  * \brief Запланированный модуль: Поддержка японского, европейского текста, разбивка на слова, строки
  * \author Дмитрий Литовченко kvakvs@yandex.ru
 */
+
+#include <gb/base/Types.h>
+#include <string>
+
 namespace gb
 {
 	namespace i18n

@@ -18,6 +18,7 @@
 
 #include <cmath>
 #include <math.h>
+#include <stdexcept>
 
 #if GB_RANDOM_OPTIMIZE_FOR_DOUBLE
 	#include <gb/deplib/mt/dSFMT/dSFMT.h>
@@ -296,7 +297,7 @@ template <typename value_type>
 value_type getGammaVariate( value_type alpha, value_type beta )
 {
     if ( alpha <= 0.0 || beta <= 0.0 ) {
-        throw std::exception( "getGammaVariate: alpha and beta must be > 0.0" );
+        throw std::runtime_error( "getGammaVariate: alpha and beta must be > 0.0" );
 	}
 
 	static double LOG4 = std::log (4.0);
@@ -409,7 +410,7 @@ value_type getGaussianVariate( value_type mu, value_type sigma )
 template <typename value_type>
 value_type getBetaVariate( value_type alpha, value_type beta )
 {
-    y = getGammaVariate <value_type>( alpha, (value_type)1.0 );
+    value_type y = getGammaVariate <value_type>( alpha, (value_type)1.0 );
     if (y == 0) {
         return (value_type)0.0;
 	}

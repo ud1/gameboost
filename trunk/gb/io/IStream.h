@@ -2,6 +2,7 @@
  *      \author -Eugene-, kozlov_eugene@list.ru
 */
 #pragma once
+#include <stdlib.h>
 
 namespace gb
 {

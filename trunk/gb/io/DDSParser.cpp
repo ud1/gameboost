@@ -25,8 +25,11 @@ bool gb::io::loadDDSTexture2D(gb::containers::Texture2D &tex, gb::io::IStream *f
 		format = gb::containers::eTexturePixelFmt::DXT5;
 		break;
 	default:
+#ifdef _WIN32
 		_ASSERT_EXPR(0, L"Загрузка всяких разных DDS еще не готова!");
-	};
+#endif
+		break;
+	}
 
     if(!tex.init(ddsd.Width, ddsd.Height, format, gb::containers::textureGetComponentsCount(format), ddsd.MipMapCount))
         return false;
