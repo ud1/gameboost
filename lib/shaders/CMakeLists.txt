@@ -6,7 +6,6 @@ set( ShaderPreprocessor_Test_SOURCES
 		main.cpp
 		)
 
-
 find_package(Boost COMPONENTS thread date_time program_options system filesystem wave REQUIRED)
 
 set(ShaderPreprocessor_Test_EXTRA_LIBS ${Boost_LIBRARIES})
