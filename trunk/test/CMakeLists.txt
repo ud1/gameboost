@@ -13,21 +13,12 @@ set( GBTEST_SOURCES
 		test_Random.cpp
 		)
 
+find_package(Boost COMPONENTS system REQUIRED)
 # source_group( tests REGULAR_EXPRESSION "test_" )
 
 #------ additional includes ------
-include_directories( ${GAMEBOOST_SOURCE_DIR} )
 include_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/utfcpp.sourceforge.net )
 include_directories( ${GBTEST_SOURCE_DIR}/deplib/gtest-1.5.0/include )
-# Boost ожидается либо в gb/deplib/boost либо в C:/Boost кому как удобнее
-include_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/boost )
-include_directories( C:/boost )
-
-link_directories( ${GAMEBOOST_SOURCE_DIR}/linklib )
-
-# Библиотеки буста ожидаются либо в gb/deplib/boost/stage/lib либо в C:/Boost/lib/vs2010_32(или _64)
-link_directories( C:/Boost/lib/vs2010_32 C:/Boost/lib/vs2010_64 )
-link_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/boost/stage/lib )
 
 link_libraries( gtest gtest_main gameboost  )
 

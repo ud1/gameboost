@@ -1,4 +1,4 @@
-﻿
+
 
 #include <gb/base/SimpleLog.h>
 

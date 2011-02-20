@@ -1,5 +1,4 @@
-#include "pch.h"
-
+#include <gb/Config.h>
 #if GB_ALLOW_BOOST_LIBRARY
 
 #include <gb/shaders/ShaderPreprocessor.h>
@@ -23,6 +22,7 @@ namespace gb
 	namespace shaders
 	{
 		using namespace gb::fs;
+		using namespace boost::wave;
 		
 		class ShaderPreprocessor::ShaderPreprocessorImpl
 		{
