@@ -2,8 +2,7 @@
  *  Пути к файлам и ресурсам, работа с директориями и путями. Платформонезависимая часть.
  *	\author Дмитрий Литовченко kvakvs@yandex.ru
  */
-
-#include <gb/system/path.h>
+#include <gb/system/Path.h>
 #include <gb/str/String.h>
 
 #ifdef _WIN32
