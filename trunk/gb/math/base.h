@@ -612,7 +612,9 @@ namespace gb
 
 
 			inline mat44_s() {};
+
 			inline mat44_s(const mat44_s& m) { *this = m; };
+
 			inline mat44_s( float _11_, float _12_, float _13_, float _14_,
 	                        float _21_, float _22_, float _23_, float _24_,
 	                        float _31_, float _32_, float _33_, float _34_,
@@ -824,8 +826,8 @@ namespace gb
 
 			inline mat44_s&     operator += (const mat44_s& m) { mat44_s t=*this + m; *this=t; return *this;  };
 			inline mat44_s&     operator -= (const mat44_s& m) { mat44_s t=*this - m; *this=t; return *this;  };
-			inline mat44_s&     operator *= (float f) { mat44_s t=*this * f; *this=t; return *this;  };
-			inline mat44_s&     operator /= (float f) { mat44_s t=*this / f; *this=t; return *this;  };
+			inline mat44_s&     operator *= (float f)          { mat44_s t=*this * f; *this=t; return *this;  };
+			inline mat44_s&     operator /= (float f)          { mat44_s t=*this / f; *this=t; return *this;  };
 
 
 
@@ -854,10 +856,8 @@ namespace gb
 				return *this;
 			}
 
-
-
-			/**    \brief перемножение матриц    */
-			inline mat44_s operator * ( const mat44_s& m )
+ 
+			inline mat44_s operator * ( const mat44_s& m ) const
 			{
 				mat44_s r;
 
@@ -879,6 +879,20 @@ namespace gb
 				r._44 =  _41 *  m._14 +  _42 *  m._24 +  _43 *  m._34 +  _44 *  m._44;
 
 				return  r;
+			}
+
+
+			/**    \brief Умножение вектора на матрицу    */
+			inline vec4_s operator * ( const vec4_s& v ) const 
+			{
+				vec4_s r;
+
+				r.x =  _11 * v.x +  _21 * v.y +  _31 * v.z +  _41 * v.w;
+				r.y =  _12 * v.x +  _22 * v.y +  _32 * v.z +  _42 * v.w;
+				r.z =  _13 * v.x +  _23 * v.y +  _33 * v.z +  _43 * v.w;
+				r.w =  _14 * v.x +  _24 * v.y +  _34 * v.z +  _44 * v.w;
+
+				return r;
 			}
 
 
@@ -906,6 +920,8 @@ namespace gb
 				f = _34;  _34 = _43;  _43 = f; 
 				  return *this;
 			};
+
+			inline mat44_s getTransponed() const { mat44_s r=*this; r.transpone(); return r; };
 
 
 			#ifdef GB_OPENGL
