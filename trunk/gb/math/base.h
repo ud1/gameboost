@@ -31,6 +31,7 @@
 #include <math.h>
 #include <string.h>
 #include <gb/math/scalar.h>
+#include <assert.h>
 
 namespace gb 
 {
@@ -299,6 +300,10 @@ namespace gb
 				float floats [2][2];
 			};
 
+			inline mat22_s() {};
+			inline mat22_s(const mat22_s& m) { *this=m; };
+			inline mat22_s(float _11_, float _12_, float _21_, float _22_) {_11=_11_; _12=_12_; _21=_21_; _22=_22_;  };
+
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
 
@@ -314,6 +319,13 @@ namespace gb
 
 			/** \brief   В главную диагональ установить f   остальное занулить.*/
 			inline mat22_s&  operator =  ( float f) { 	floats [0][1] = floats [1][0] = 0.0; floats [0][0] = floats [1][1] = f; };
+
+	        /**	 \brief Обращение знака всех элементов матрицы	*/
+			inline mat22_s operator - () const { mat22_s r=*this; r._11=-r._11; r._12=-r._12; r._21=-r._21; r._22=-r._22; return r; };
+
+
+
+
 
 			/** \breief  Покомпонентное сложение   (this = this + m) */
 			inline mat22_s&  operator += ( const mat22_s& m)
@@ -486,10 +498,34 @@ namespace gb
 				   float floats [3][3];
 			};
 
+
+			inline mat33_s() {};
+			inline mat33_s(const mat33_s& m) { *this = m; };
+			inline mat33_s( float _11_, float _12_, float _13_,
+				            float _21_, float _22_, float _23_,
+				            float _31_, float _32_, float _33_ ) :
+
+								_11( _11_ ), _12( _12_ ), _13( _13_ ),
+								_21( _21_ ), _22( _22_ ), _23( _23_ ),
+								_31( _31_ ), _32( _32_ ), _33( _33_ ) {}
+
+
+
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
 
+
 			mat33_s& mat33_s::operator = ( float a );
+
+		    /**  \brief Обращение знака всех элементов матрицы	*/
+	        inline mat33_s operator - () const
+		    {
+			   mat33_s r = *this;
+				r._11=-r._11;   r._12=-r._12;   r._13=-r._13; 
+				r._21=-r._21;   r._22=-r._22;   r._23=-r._23; 
+				r._31=-r._31;   r._32=-r._32;   r._33=-r._33; 		   
+			   return r;
+		    };
 
 			mat33_s operator + ( const mat33_s& m ) const;
 			mat33_s operator - ( const mat33_s& m ) const;
@@ -501,10 +537,24 @@ namespace gb
 			mat33_s&   operator += ( const mat33_s& a );
 			mat33_s&   operator -= ( const mat33_s& a );
 
-
 			mat33_s  operator * ( const mat33_s& m) const;
 			mat33_s  operator * (  float f ) const;
+
 			vec3_s   operator * ( const vec3_s& v ) const;
+
+			/**	 \brief Доступ к строкам матрицы по индексу. ПРОВЕРИТЬ !! */
+	        inline const vec3_s operator [] ( unsigned int index ) const
+	        {
+		       assert( index <= 2 );
+		       return reinterpret_cast<const vec3_s*>(this)[index];
+	        }
+
+			/**	 \brief Преобразование в матрицу 2x2 */
+			inline operator mat22_s()
+			{
+				return mat22_s( _11, _12,
+					            _21, _22 );
+			}
 
  
 			inline void setzero() { _11=_12=_13=_21=_22=_23=_31=_32=_33=0.0f; };
@@ -514,11 +564,13 @@ namespace gb
 				_31=0.0f; _32=0.0f; _33=1.0f;
 		    };
 
-			inline void transpone() { 
+			inline mat33_s&   transpone() 
+			{ 
 				 register float t;
 			    t=_12;  _12=_21; _21=t;
 			    t=_13;  _13=_31; _31=t;
-			    t=_23;  _23=_32; _32=t;   
+			    t=_23;  _23=_32; _32=t; 
+				  return *this;
 			};
 
 			float  determinant () const;
@@ -558,12 +610,276 @@ namespace gb
 				   float floats [4][4];
 			};
 
+
+			inline mat44_s() {};
+			inline mat44_s(const mat44_s& m) { *this = m; };
+			inline mat44_s( float _11_, float _12_, float _13_, float _14_,
+	                        float _21_, float _22_, float _23_, float _24_,
+	                        float _31_, float _32_, float _33_, float _34_,
+	                        float _41_, float _42_, float _43_, float _44_ ) : 
+			_11( _11_ ), _12( _12_ ), _13( _13_ ), _14( _14_ ),
+			_21( _21_ ), _22( _22_ ), _23( _23_ ), _24( _24_ ),
+			_31( _31_ ), _32( _32_ ), _33( _33_ ), _34( _34_ ),
+			_41( _41_ ), _42( _42_ ), _43( _43_ ), _44( _44_ )  {}
+
+
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
 
-			//
+			/**    \brief Строгое сравнение    */
+			inline bool operator == ( const mat44_s& m ) const
+			{
+			 return ( ( _11 == m._11) &&
+					  ( _12 == m._12) &&
+					  ( _13 == m._13) &&
+					  ( _14 == m._14) &&
+
+					  ( _21 == m._21) &&
+					  ( _22 == m._22) &&
+					  ( _23 == m._23) &&
+					  ( _24 == m._24) &&
+
+					  ( _31 == m._31) &&
+					  ( _32 == m._32) &&
+					  ( _33 == m._33) &&
+					  ( _34 == m._34) &&
+
+					  ( _41 == m._41) &&
+					  ( _42 == m._42) &&
+					  ( _43 == m._43) &&
+					  ( _44 == m._44) );
+			}
 
 
+
+			/**     \brief Строгое сравнение с отрицанием     */
+			inline bool operator != ( const mat44_s& m ) const
+			{
+		      return ( ( _11 != m._11) ||
+				       ( _12 != m._12) ||
+					   ( _13 != m._13) ||
+					   ( _14 != m._14) ||
+					   ( _21 != m._21) ||
+					   ( _22 != m._22) ||
+					   ( _23 != m._23) ||
+					   ( _24 != m._24) ||
+					   ( _31 != m._31) ||
+					   ( _32 != m._32) ||
+					   ( _33 != m._33) ||
+					   ( _34 != m._34) ||
+					   ( _41 != m._41) ||
+					   ( _42 != m._42) ||
+					   ( _43 != m._43) ||
+					   ( _44 != m._44) );
+			};
+
+
+			
+ 
+			/**   \brief Инверсия знака компонентов  */
+			inline mat44_s operator - () const
+			{
+				mat44_s r;
+
+				r._11 = -_11 ;
+				r._12 = -_12 ;
+				r._13 = -_13 ;
+				r._14 = -_14 ;
+
+				r._21 = -_21 ;
+				r._22 = -_22 ;
+				r._23 = -_23 ;
+				r._24 = -_24 ;
+
+				r._31 = -_31 ;
+				r._32 = -_32 ;
+				r._33 = -_33 ;
+				r._34 = -_34 ;
+
+				r._41 = -_41 ;
+				r._42 = -_42 ;
+				r._43 = -_43 ;
+				r._44 = -_44 ;
+
+				return r;
+			}
+
+
+ 
+			/**   \brief Поэлементное сложение матриц  */
+			inline mat44_s operator + ( const mat44_s& m ) const
+			{
+				mat44_s r;
+
+				r._11 = _11 + m._11;
+				r._12 = _12 + m._12;
+				r._13 = _13 + m._13;
+				r._14 = _14 + m._14;
+
+				r._21 = _21 + m._21;
+				r._22 = _22 + m._22;
+				r._23 = _23 + m._23;
+				r._24 = _24 + m._24;
+
+				r._31 = _31 + m._31;
+				r._32 = _32 + m._32;
+				r._33 = _33 + m._33;
+				r._34 = _34 + m._34;
+
+				r._41 = _41 + m._41;
+				r._42 = _42 + m._42;
+				r._43 = _43 + m._43;
+				r._44 = _44 + m._44;
+
+				return r;
+			}
+
+			/**   \brief Поэлементное вычитание матриц  */
+			inline mat44_s operator - ( const mat44_s& m ) const
+			{
+				mat44_s r;
+
+				r._11 = _11 -  m._11;
+				r._12 = _12 -  m._12;
+				r._13 = _13 -  m._13;
+				r._14 = _14 -  m._14;
+
+				r._21 = _21 -  m._21;
+				r._22 = _22 -  m._22;
+				r._23 = _23 -  m._23;
+				r._24 = _24 -  m._24;
+
+				r._31 = _31 -  m._31;
+				r._32 = _32 -  m._32;
+				r._33 = _33 -  m._33;
+				r._34 = _34 -  m._34;
+
+				r._41 = _41 -  m._41;
+				r._42 = _42 -  m._42;
+				r._43 = _43 -  m._43;
+				r._44 = _44 -  m._44;
+
+				return r;
+			}
+
+
+			/**   \brief Умножение всех элементов матрицы на скаляр   */
+			inline mat44_s operator * (  float f ) const 
+			{
+				mat44_s r;
+
+				r._11 = _11 * f;
+				r._12 = _12 * f;
+				r._13 = _13 * f;
+				r._14 = _14 * f;
+
+				r._21 = _21 * f;
+				r._22 = _22 * f;
+				r._23 = _23 * f;
+				r._24 = _24 * f;
+
+				r._31 = _31 * f;
+				r._32 = _32 * f;
+				r._33 = _33 * f;
+				r._34 = _34 * f;
+
+				r._41 = _41 * f;
+				r._42 = _42 * f;
+				r._43 = _43 * f;
+				r._44 = _44 * f;
+
+				return r;
+			}
+
+
+
+			/**  \brief Деление всех элементов матрицы на скаляр  */
+			inline mat44_s operator / ( float f ) const
+			{
+				mat44_s r;
+
+				r._11 = _11 / f;
+				r._12 = _12 / f;
+				r._13 = _13 / f;
+				r._14 = _14 / f;
+
+				r._21 = _21 / f;
+				r._22 = _22 / f;
+				r._23 = _23 / f;
+				r._24 = _24 / f;
+
+				r._31 = _31 / f;
+				r._32 = _32 / f;
+				r._33 = _33 / f;
+				r._34 = _34 / f;
+
+				r._41 = _41 / f;
+				r._42 = _42 / f;
+				r._43 = _43 / f;
+				r._44 = _44 / f;
+
+				return r;
+			}
+
+
+			inline mat44_s&     operator += (const mat44_s& m) { mat44_s t=*this + m; *this=t; return *this;  };
+			inline mat44_s&     operator -= (const mat44_s& m) { mat44_s t=*this - m; *this=t; return *this;  };
+			inline mat44_s&     operator *= (float f) { mat44_s t=*this * f; *this=t; return *this;  };
+			inline mat44_s&     operator /= (float f) { mat44_s t=*this / f; *this=t; return *this;  };
+
+
+
+			inline mat44_s&  operator *= ( const mat44_s& m )
+			{
+				mat44_s t;
+
+				t._11 = _11 * m._11 + _12 * m._21 + _13 * m._31 + _14 * m._41;
+				t._12 = _11 * m._12 + _12 * m._22 + _13 * m._32 + _14 * m._42;
+				t._13 = _11 * m._13 + _12 * m._23 + _13 * m._33 + _14 * m._43;
+				t._14 = _11 * m._14 + _12 * m._24 + _13 * m._34 + _14 * m._44;
+				t._21 = _21 * m._11 + _22 * m._21 + _23 * m._31 + _24 * m._41;
+				t._22 = _22 * m._22 + _21 * m._12 + _23 * m._32 + _24 * m._42;
+				t._23 = _22 * m._23 + _21 * m._13 + _23 * m._33 + _24 * m._43;
+				t._24 = _22 * m._24 + _21 * m._14 + _23 * m._34 + _24 * m._44;
+				t._31 = _31 * m._11 + _32 * m._21 + _33 * m._31 + _34 * m._41;
+				t._32 = _32 * m._22 + _31 * m._12 + _33 * m._32 + _34 * m._42;
+				t._33 = _32 * m._23 + _31 * m._13 + _33 * m._43 + _34 * m._33;
+				t._34 = _32 * m._24 + _31 * m._14 + _33 * m._34 + _34 * m._44;
+				t._41 = _42 * m._21 + _41 * m._11 + _43 * m._31 + _44 * m._41;
+				t._42 = _41 * m._12 + _42 * m._22 + _43 * m._32 + _44 * m._42;
+				t._43 = _41 * m._13 + _42 * m._23 + _43 * m._33 + _44 * m._43;
+				t._44 = _41 * m._14 + _42 * m._24 + _43 * m._34 + _44 * m._44;
+
+				*this = t;
+				return *this;
+			}
+
+
+
+			/**    \brief перемножение матриц    */
+			inline mat44_s operator * ( const mat44_s& m )
+			{
+				mat44_s r;
+
+				r._11 =  _11 *  m._11 +  _12 *  m._21 +  _13 *  m._31 +  _14 *  m._41;
+				r._12 =  _11 *  m._12 +  _12 *  m._22 +  _13 *  m._32 +  _14 *  m._42;
+				r._13 =  _11 *  m._13 +  _12 *  m._23 +  _13 *  m._33 +  _14 *  m._43;
+				r._14 =  _11 *  m._14 +  _12 *  m._24 +  _13 *  m._34 +  _14 *  m._44;
+				r._21 =  _21 *  m._11 +  _22 *  m._21 +  _23 *  m._31 +  _24 *  m._41;
+				r._22 =  _22 *  m._22 +  _21 *  m._12 +  _23 *  m._32 +  _24 *  m._42;
+				r._23 =  _22 *  m._23 +  _21 *  m._13 +  _23 *  m._33 +  _24 *  m._43;
+				r._24 =  _22 *  m._24 +  _21 *  m._14 +  _23 *  m._34 +  _24 *  m._44;
+				r._31 =  _31 *  m._11 +  _32 *  m._21 +  _33 *  m._31 +  _34 *  m._41;
+				r._32 =  _32 *  m._22 +  _31 *  m._12 +  _33 *  m._32 +  _34 *  m._42;
+				r._33 =  _32 *  m._23 +  _31 *  m._13 +  _33 *  m._43 +  _34 *  m._33;
+				r._34 =  _32 *  m._24 +  _31 *  m._14 +  _33 *  m._34 +  _34 *  m._44;
+				r._41 =  _42 *  m._21 +  _41 *  m._11 +  _43 *  m._31 +  _44 *  m._41;
+				r._42 =  _41 *  m._12 +  _42 *  m._22 +  _43 *  m._32 +  _44 *  m._42;
+				r._43 =  _41 *  m._13 +  _42 *  m._23 +  _43 *  m._33 +  _44 *  m._43;
+				r._44 =  _41 *  m._14 +  _42 *  m._24 +  _43 *  m._34 +  _44 *  m._44;
+
+				return  r;
+			}
 
 
 
