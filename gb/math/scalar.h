@@ -15,6 +15,12 @@
 
 #include <gb/base/Constants.h>
 
+/*******************************************************
+ 
+ --- добавлена функция получения максимального по трём значениям
+ -- round поправлена и перенесена в инлайн. Спасибо Zeux`у
+********************************************************/
+
 namespace gb 
 {
 
@@ -93,7 +99,10 @@ namespace gb
     inline float lerp(const float f1, const float f2, const float k) { return f1 + (f2 - f1) * k; };
 	
 	/** \brief Округление . */
-	int round(float f);
+	inline int round(float f) {  return (int)(f + (f > 0 ? 0.5f : -0.5f));  };
+
+    /** \brief Получить среднее из 3-х  значений */
+	inline float   max3 ( float a, float b, float c ) { return a > b ? (a > c ? a : (b > c ? b : c)) : (b > c ? b : (a > c ? a : c));  }
 	
     #if defined (_MSC_VER)
 

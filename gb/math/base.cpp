@@ -8,9 +8,10 @@
 
 */
 
-//#pragma message("WARN "  __FILE__ )
-//#include "pch.h"
+//#pragma message("KS777: NEED COMMENTED"  __FILE__ )
 //#include "stdafx.h"
+//#include "pch.h"
+
 
 #include <gb/math/base.h>
 
@@ -28,146 +29,67 @@ namespace base
 //=========================================================================
 //    mat22_s
 //=========================================================================
+//
+////=========================================================================
+//mat22_s& mat22_s::operator = ( const mat22_s& m )
+//{
+//fggfgdfg
+//
+//	return *this;
+//}
+//
+////=========================================================================
+//mat22_s& mat22_s::operator = ( float f )
+//{
+//gfgdfdfgfdg
+//
+//	return *this;
+//}
+//
+////=========================================================================
+//mat22_s& mat22_s::operator += ( const mat22_s& m )
+//{
+//dfdsfsdfdsf
+//}
+//
+////=========================================================================
+//mat22_s& mat22_s::operator -= ( const mat22_s& m )
+//gffgdfg
+//
+////=========================================================================
+//mat22_s& mat22_s::operator *= ( const mat22_s& m )
+//
+//
+////=========================================================================
+//mat22_s& mat22_s::operator *= ( float f )
+//gfdfgfgfd
+//
+////=========================================================================
+//mat22_s& mat22_s::operator /= ( float f )
+//{
+//fddfs
+//};
+//
+//
+////=========================================================================
+//mat22_s  mat22_s::operator + ( const mat22_s& m ) const 
+//gfggfggfgfggdgf fgfggf
+//
+////=========================================================================
+//mat22_s  mat22_s::operator - ( const mat22_s& m) const 
+//dffdfdsf
+//
+////=========================================================================
+//mat22_s  mat22_s::operator * ( const mat22_s& m) const 
+//fgdfgfdgfd
+//
+////=========================================================================
+//mat22_s  mat22_s::operator * (  float f ) const
+//fdfddf
+//
+////=========================================================================
+//vec2_s   mat22_s::operator * ( const vec2_s& v ) const
 
-//=========================================================================
-mat22_s& mat22_s::operator = ( const mat22_s& m )
-{
-	floats [0][0] = m.floats [0][0]; 
-	floats [0][1] = m.floats [0][1]; 
-	floats [1][0] = m.floats [1][0];
-	floats [1][1] = m.floats [1][1];
-
-	return *this;
-}
-
-//=========================================================================
-mat22_s& mat22_s::operator = ( float f )
-{
-	floats [0][1] = floats [1][0] = 0.0;
-	floats [0][0] = floats [1][1] = f;
-
-	return *this;
-}
-
-//=========================================================================
-mat22_s& mat22_s::operator += ( const mat22_s& m )
-{
-	floats [0][0] += m.floats [0][0];
-	floats [0][1] += m.floats [0][1];
-	floats [1][0] += m.floats [1][0];
-	floats [1][1] += m.floats [1][1];
-
-	return *this;
-}
-
-//=========================================================================
-mat22_s& mat22_s::operator -= ( const mat22_s& m )
-{
-	floats [0][0] -= m.floats [0][0];
-	floats [0][1] -= m.floats [0][1];
-	floats [1][0] -= m.floats [1][0];
-	floats [1][1] -= m.floats [1][1];
-
-	return *this;
-}
-
-//=========================================================================
-mat22_s& mat22_s::operator *= ( const mat22_s& m )
-{
-	mat22_s c  = *this ;
-
-	floats [0][0] = c.floats [0][0]*m.floats [0][0] + c.floats [0][1]*m.floats [1][0];
-	floats [0][1] = c.floats [0][0]*m.floats [0][1] + c.floats [0][1]*m.floats [1][1];
-	floats [1][0] = c.floats [1][0]*m.floats [0][0] + c.floats [1][1]*m.floats [1][0];
-	floats [1][1] = c.floats [1][0]*m.floats [0][1] + c.floats [1][1]*m.floats [1][1];
-
-	return *this;
-}
-
-//=========================================================================
-mat22_s& mat22_s::operator *= ( float f )
-{
-	floats [0][0] *= f;
-	floats [0][1] *= f;
-	floats [1][0] *= f;
-	floats [1][1] *= f;
-	return *this;
-}
-
-//=========================================================================
-mat22_s& mat22_s::operator /= ( float f )
-{
-	floats [0][0] /= f;
-	floats [0][1] /= f;
-	floats [1][0] /= f;
-	floats [1][1] /= f;
-
-	return *this;
-};
-
-
-//=========================================================================
-mat22_s  mat22_s::operator + ( const mat22_s& m ) const 
-{
-	mat22_s res;
-
-	res.floats[0][0] = floats [0][0] + m.floats [0][0];
-	res.floats[0][1] = floats [0][1] + m.floats [0][1];
-	res.floats[1][0] = floats [1][0] + m.floats [1][0];
-	res.floats[1][1] = floats [1][1] + m.floats [1][1];
-
-	return res;
-}
-
-//=========================================================================
-mat22_s  mat22_s::operator - ( const mat22_s& m) const 
-{
-	mat22_s res;
-
-	res.floats [0][0] = floats [0][0] - m.floats [0][0];
-	res.floats [0][1] = floats [0][1] - m.floats [0][1];
-	res.floats [1][0] = floats [1][0] - m.floats [1][0];
-	res.floats [1][1] = floats [1][1] - m.floats [1][1];
-
-	return res;
-}
-
-//=========================================================================
-mat22_s  mat22_s::operator * ( const mat22_s& m) const 
-{
-	mat22_s res;
-
-	res.floats[0][0] = floats[0][0]*m.floats[0][0]+floats[0][1]*m.floats[1][0];
-	res.floats[0][1] = floats[0][0]*m.floats[0][1]+floats[0][1]*m.floats[1][1];
-	res.floats[1][0] = floats[1][0]*m.floats[0][0]+floats[1][1]*m.floats[1][0];
-	res.floats[1][1] = floats[1][0]*m.floats[0][1]+floats[1][1]*m.floats[1][1];
-
-	return res;
-}
-
-//=========================================================================
-mat22_s  mat22_s::operator * (  float f ) const
-{
-	mat22_s res;
-
-	res.floats[0][0] = floats[0][0] * f;
-	res.floats[0][1] = floats[0][1] * f;
-	res.floats[1][0] = floats[1][0] * f;
-	res.floats[1][1] = floats[1][1] * f;
-
-	return  res;
-}
-
-//=========================================================================
-vec2_s   mat22_s::operator * ( const vec2_s& v ) const
-{
-	vec2_s res;// ( 
-
-		res.x =  floats [0][0]*v.x + floats [0][1]*v.y ;
-		res.y =  floats [1][0]*v.x + floats [1][1]*v.y ;
-			  //);
-	return res;
-}
 /************************
 //=========================================================================
 mat22_s operator * ( float b, const mat22_s& a )
@@ -185,65 +107,24 @@ mat22_s operator * ( float b, const mat22_s& a )
 
 //=========================================================================
 
-
-
-//=========================================================================
-mat22_s& mat22_s::invert ()
-{
+//
+//
+////=========================================================================
+//mat22_s& mat22_s::invert ()
+//fgfddgdfg
 // 
-	float det =  this->determinant  ();  
-	
-	mat22_s m;
-
-	m.floats [0][0] =  floats [1][1] / det;
-	m.floats [0][1] = -floats [0][1] / det;
-	m.floats [1][0] = -floats [1][0] / det;
-	m.floats [1][1] =  floats [0][0] / det;
-
-	*this = m;
-
-	return *this;
-}
- 
-//=========================================================================
-mat22_s& mat22_s::setScaling ( const vec2_s& v )
-{
-	//mat22_s m;
-
-	floats [0][0] = v.x;
-	floats [1][1] = v.y;
-	floats [0][1] =
-	floats [1][0] = 0.0;
-
-	 return *this;
-}
-
-//=========================================================================
-mat22_s&   mat22_s::setScaling (float x, float y)
-{
-	floats [0][0] = x;
-	floats [1][1] = y;
-	floats [0][1] =
-	floats [1][0] = 0.0;
-
-	return *this;
-};
-
-//=========================================================================
-mat22_s& mat22_s::setRotation ( float angle )
-{
- 
-	float    cosine,sine;
-	scalar::sincos(angle , sine , cosine );
-
-	floats [0][0] = cosine;
-	floats [0][1] = sine;
-	floats [1][0] = -sine;
-	floats [1][1] = cosine;
-
-	return *this;
-}
- 
+////=========================================================================
+//mat22_s& mat22_s::setScaling ( const vec2_s& v )
+//ggffdf
+//
+////=========================================================================
+//mat22_s&   mat22_s::setScaling (float x, float y)
+//dfdsdfsdfds
+//
+////=========================================================================
+//mat22_s& mat22_s::setRotation ( float angle )
+//dfdsfdsdf
+// 
  
 
 
