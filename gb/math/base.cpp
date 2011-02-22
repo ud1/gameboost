@@ -321,8 +321,7 @@ mat33_s mat33_s::operator * (  float f ) const
 //=========================================================================
 mat33_s&   mat33_s::operator *= ( const mat33_s& m )
 {
-	mat33_s t;
-	t = *this;
+	mat33_s t  = *this;
 
 	floats[0][0]=t.floats[0][0]*m.floats[0][0]+t.floats[0][1]*m.floats[1][0]+t.floats[0][2]*m.floats[2][0];
 	floats[0][1]=t.floats[0][0]*m.floats[0][1]+t.floats[0][1]*m.floats[1][1]+t.floats[0][2]*m.floats[2][1];
