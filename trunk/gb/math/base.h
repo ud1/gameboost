@@ -14,6 +14,7 @@
 
  TODO:  
    --- Поправить операторы для сравнения по эпсилону.
+   --- Перенести в cpp методы матрицы 4x4 .
 
 
    STORY:
@@ -900,9 +901,6 @@ namespace gb
 
 
 
-
-
-
 			inline void       setzero() { memset(&_11, 0, sizeof(mat44_s)  ); };
 			inline mat44_s&   setIdentity() {
 				_11=1.0f; _12=0.0f; _13=0.0f; _14=0.0f;
@@ -924,6 +922,10 @@ namespace gb
 				  return *this;
 			};
 
+			/** \brief Вычислить и вернуть транспонированое значение .  */
+			inline mat44_s getTransponed() const { mat44_s r=*this; r.transpone(); return r; };
+
+			/** \brief Вычислить и вернуть определитель.  */
 			inline float determinant()  const
 			{
 				 return 
@@ -935,9 +937,128 @@ namespace gb
 					( _13 *  _24 -  _14 *  _23) * ( _31 *  _42 -  _32 *  _41);
 			};
 
+			/** \brief Инверсия. Бросает исключение если инверсия невозможна */
 			mat44_s&  invert () throw();
 
-			inline mat44_s getTransponed() const { mat44_s r=*this; r.transpone(); return r; };
+
+			inline mat44_s& setMirrorX ()
+			{
+				setIdentity();
+				floats  [0][0] = -1.0f;
+				return *this;
+			}
+
+
+			inline mat44_s& setMirrorY ()
+			{
+				setIdentity();
+				floats  [1][1] = -1.0f;
+				return *this;
+			}
+
+
+			inline mat44_s& setMirrorZ ()
+			{
+				setIdentity();
+				floats [2][2] = -1.0f;
+				return *this;
+			}
+
+			inline mat44_s&  setRotationX( const float angle )  
+			{ 
+				setIdentity();  
+				float sina, cosa;
+				scalar::sincos(angle, sina, cosa);
+				_22 =  cosa;    
+				_23 =  sina;
+				_32 = -sina;   
+				_33 =  cosa;
+                  return *this;
+			}
+
+
+			inline mat44_s&  setRotationY( const float angle )  
+			{
+				setIdentity(); 
+				float sina, cosa;
+				scalar::sincos(angle, sina, cosa);
+				_11 =  cosa;  
+				_13 = -sina;
+				_31 =  sina; 
+				_33 =  cosa;
+				return *this;
+			};
+
+			inline mat44_s&  setRotationZ( const float angle ) 
+			{
+				setIdentity(); 
+				float sina, cosa;
+				scalar::sincos(angle, sina, cosa);
+				_11 =  cosa;  
+				_12 =  sina;
+				_21 = -sina; 
+				_22 =  cosa;
+				return *this;
+			};
+
+
+
+			inline mat44_s&  setRotationAxis( const vec3_s& vAx,  const float angle ) 
+			{
+				float sina, cosa, mcosa; 
+				scalar::sincos( angle , sina, cosa );
+				mcosa = 1.0f - cosa;
+
+				vec3_s ax = vAx;
+				ax.normalize();
+
+				_11 =(mcosa * ax.x * ax.x) + cosa;
+				_12 =(mcosa * ax.x * ax.y) - (ax.z * sina);
+				_13 =(mcosa * ax.z * ax.x) + (ax.y * sina);
+				_14 = 0.0f;
+
+				_21 =(mcosa * ax.x * ax.y) + (ax.z * sina);
+				_22 =(mcosa * ax.y * ax.y) + cosa;
+				_23 =(mcosa * ax.y * ax.z) - (ax.x * sina);
+				_24 = 0.0f;
+
+				_31 =(mcosa * ax.z * ax.x) - (ax.y * sina);
+				_32 =(mcosa * ax.y * ax.z) + (ax.x * sina);
+				_33 =(mcosa * ax.z * ax.z) + cosa;
+				_34 = 0.0f;
+
+				_41 = 0.0f;
+				_42 = 0.0f;
+				_43 = 0.0f;
+				_44 = 1.0f;
+
+				return *this;
+			};
+
+
+			inline mat44_s&  setRotationAxis( float axX, float axY, float axZ, float angle )  
+			{
+				vec3_s vax;
+				vax.x = axX; vax.y = axY; vax.z = axZ;
+				vax.normalize();
+				return setRotationAxis(  vax, angle);
+			};
+
+
+			inline mat44_s&  setTranslation( float x, float y, float z )  
+			{
+				setIdentity();
+				_41 = x;   _42 = y;  _43 = z;  
+				return *this;
+			};
+
+			inline mat44_s&  setTranslation( const vec3_s& vTransl) 
+			{
+				return  setTranslation(  vTransl.x, vTransl.y, vTransl.z);
+			};
+
+
+
 
 
 			#ifdef GB_OPENGL
