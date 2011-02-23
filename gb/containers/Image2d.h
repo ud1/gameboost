@@ -40,7 +40,7 @@ namespace gb
 		void convert(const Image2d &from, Image2d &to)
 		{
 			// Применяем двойную конвертацию через промежуточный
-			// формат пикселя RGB_888 или RGBA_8888, чтобы избежать написания COUNT^2 функций
+			// формат пикселя RGBA_8888 или FRGBA, чтобы избежать написания COUNT^2 функций
 			// достаточно всего 4*COUNT функций
 			Image2d temp;
 			temp.width = from.width;
