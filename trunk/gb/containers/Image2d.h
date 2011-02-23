@@ -2,6 +2,7 @@
 
 #include "PixelFormat.h"
 #include <cassert>
+#include <boost/concept_check.hpp>
 
 namespace gb
 {
@@ -13,6 +14,12 @@ namespace gb
 			ePixelFormat::PixelFormat pixel_format;
 			int row_size_in_bytes;
 			int data_size;
+			
+			void calculateDataSize()
+			{
+				row_size_in_bytes = (width*getPFDescription(pixel_format)->bits/8 + 3) & ~3;
+				data_size = height * row_size_in_bytes;
+			}
 		};
 		
 		struct Image2d : public Image2dHeader
@@ -50,8 +57,7 @@ namespace gb
 				temp.pixel_format = ePixelFormat::FRGBA;
 			else temp.pixel_format = ePixelFormat::RGBA_8888;
 
-			temp.row_size_in_bytes = (temp.width*getPFDescription(temp.pixel_format)->bits/8 + 3) & ~3;
-			temp.data_size = temp.height * temp.row_size_in_bytes;
+			temp.calculateDataSize();
 			temp.data = new char[temp.data_size];
 			
 			convert(from, temp);
