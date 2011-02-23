@@ -26,7 +26,7 @@ namespace
 		return stream >> h.type >> h.size >> h.reserved1 >> h.reserved2 >> h.off_bits;
 	}
 	
-	OutputStream &operator >> (OutputStream &stream, const BitmapFileHeader &h)
+	OutputStream &operator << (OutputStream &stream, const BitmapFileHeader &h)
 	{
 		return stream << h.type << h.size << h.reserved1 << h.reserved2 << h.off_bits;
 	}
@@ -100,15 +100,13 @@ namespace gb
 			if (fheader.reserved1 != 0 || fheader.reserved2 != 0)
 				return false;
 			
-			if (iheader.bit_count != 24 || iheader.bit_count != 32)
+			if (iheader.bit_count != 24 && iheader.bit_count != 32)
 				return false;
 			
 			header_out.width = iheader.width;
-			header_out.width = iheader.height;
+			header_out.height = iheader.height;
 			header_out.pixel_format = iheader.bit_count == 24 ? ePixelFormat::BGR_888 : ePixelFormat::BGRA_8888;
-			header_out.row_size_in_bytes = iheader.width * iheader.bit_count/8;
-			header_out.row_size_in_bytes = (header_out.row_size_in_bytes + 3) & ~3;
-			header_out.data_size = header_out.row_size_in_bytes * header_out.height;
+			header_out.calculateDataSize();
 			return true;
 		}
 		
@@ -130,10 +128,10 @@ namespace gb
 		bool BmpLoader::saveImage2d(fs::OutputStream &output, const containers::Image2d &image)
 		{
 			assert(image.data);
-			assert(image.row_size_in_bytes == (image.width*getPFDescription(image.pixel_format)->bits/8 + 3) & ~3);
+			assert(image.row_size_in_bytes == ((image.width*getPFDescription(image.pixel_format)->bits/8 + 3) & ~3));
 			assert(image.data_size == image.row_size_in_bytes*image.height);
 			
-			if (image.pixel_format != ePixelFormat::BGR_888 || image.pixel_format != ePixelFormat::BGRA_8888)
+			if (image.pixel_format != ePixelFormat::BGR_888 && image.pixel_format != ePixelFormat::BGRA_8888)
 			{
 				Image2d temp;
 				temp.width = image.width;
@@ -142,8 +140,7 @@ namespace gb
 					temp.pixel_format = ePixelFormat::BGR_888;
 				else temp.pixel_format = ePixelFormat::BGRA_8888;
 				
-				temp.row_size_in_bytes = (temp.width*getPFDescription(temp.pixel_format)->bits/8 + 3) & ~3;
-				temp.data_size = temp.height * temp.row_size_in_bytes;
+				temp.calculateDataSize();
 				temp.data = new char[temp.data_size];
 				
 				convert(image, temp);
@@ -167,13 +164,20 @@ namespace gb
 			iheader.planes = 1;
 			iheader.bit_count = getPFDescription(image.pixel_format)->bits;
 			iheader.compression = 0;
-			iheader.size_image = 0;
+			iheader.size_image = image.data_size;
 			iheader.xpels_per_meter = 0;
 			iheader.ypels_per_meter = 0;
 			iheader.clr_used = 0;
 			iheader.clr_important = 0;
 			
-			output << fheader << iheader;
+			try
+			{
+				output << fheader << iheader;
+			}
+			catch (std::runtime_error)
+			{
+				return false;
+			}
 			
 			int row_len = image.row_size_in_bytes;
 			for (int i = image.height; i --> 0;)

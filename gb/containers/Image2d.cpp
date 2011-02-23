@@ -46,7 +46,7 @@ namespace
 		F f[cnt*cnt];
 		conv_caller()
 		{
-			new conv_array<cnt-1, cnt-1, cnt-1>;
+			new (reinterpret_cast<conv_array<cnt-1, cnt-1, cnt-1>*>(f)) conv_array<cnt-1, cnt-1, cnt-1>;
 		}
 		
 		void call(const Image2d &im_from, Image2d &im_to)
