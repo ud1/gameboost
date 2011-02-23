@@ -19,6 +19,7 @@
 
    STORY:
 
+   ---  добавлены операции для векторов.
    ---  добавлены методы для векторов.
    --- для структур векторов добавлены конструкторы
    --  round теперь inline
@@ -97,6 +98,9 @@ namespace gb
 				inline void setzero() {x=y=0.0f; };
 				inline bool empty() const { return ( (x==0.0f) && (y==0.0f) ); };
 
+				inline vec2_s& set     (float _x, float _y) {x=_x; y=_y;  return *this; };
+				inline vec2_s& set_all (float val) { x=val; y=val;        return *this; };
+
 				inline bool isZero(float epsilon) const
 				{
 					return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon ) ;
@@ -105,15 +109,24 @@ namespace gb
 				inline float     length () const  {	return (float)sqrt ( x*x + y*y );	}
 			    inline float     lengthSq() const {	 return (x*x + y*y );  }
 
+				inline vec2_s&   normalize() { register float fl=length(); x/=fl; y/=fl;  return *this; }
+
 				inline float     dot(const vec2_s& v) const { return x*v.x + y*v.y; };
 							
-
-
 
 				inline float     getMaxLength () const {  if( fabs (x) >= fabs (y) ) return x; else return y;   }
 
 
   			    inline vec2_s&   invert() {x=-x; y=-y;  return *this; };
+
+
+				inline vec2_s    lerp(const vec2_s& v, const float k) 
+				{
+					vec2_s r;
+					r.x = x + (v.x - x) * k;
+					r.y = y + (v.y - y) * k;
+					return r;			
+				};
 
 				inline void print() const { printf(" %f %f ", x, y); };
 			};
@@ -172,6 +185,9 @@ namespace gb
 		    inline void setzero() {x=y=z=0.0f; }
 			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) ); }
 
+			inline vec3_s& set    (float _x, float _y, float _z) { x=_x; y=_y; z=_z; return *this; };
+			inline vec3_s& set_all(float val) { x=val; y=val; z=val;                 return *this; }
+
 			inline bool isZero(float epsilon) const
 			{
 				return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon ) && ( abs( z ) <= epsilon )  ;
@@ -198,6 +214,15 @@ namespace gb
 			inline float     getMaxLength () const {   return scalar::max3 ( fabs (x), fabs (y), fabs (z) );   }
 
 			inline vec3_s&   invert() {x=-x; y=-y; z=-z; return *this; };
+
+			inline vec3_s    lerp(const vec3_s& v, const float k) 
+			{
+				vec3_s r;
+				r.x = x + (v.x - x) * k;
+				r.y = y + (v.y - y) * k;
+				r.z = z + (v.z - z) * k;
+				return r;			
+			};
 
  			inline void print() const { printf(" %f %f %f ", x, y, z); };
 
@@ -256,6 +281,9 @@ namespace gb
 		    inline void setzero() {x=y=z=w=0.0f; };
 			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) && (w==0.0f) ); };
 
+			inline vec4_s& set    (float _x, float _y, float _z, float _w) { x=_x; y=_y; z=_z; w=_w; return *this; };
+			inline vec4_s& set_all(float val) {x=val; y=val; z=val; w=val; return *this; };
+
 			inline bool isZero(float epsilon) const
 			{
 				return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon ) && ( abs( z ) <= epsilon ) && ( abs( y ) <= epsilon );
@@ -279,6 +307,16 @@ namespace gb
 
 
 			inline vec4_s&   invert() {x=-x; y=-y; z=-z; w=-w; return *this; };
+
+			inline vec4_s    lerp(const vec4_s& v, const float k) 
+			{
+				vec4_s r;
+				r.x = x + (v.x - x) * k;
+				r.y = y + (v.y - y) * k;
+				r.z = z + (v.z - z) * k;
+				r.w = w + (v.w - w) * k;
+				return r;			
+			};
 
 
 			inline void print() const { printf(" %f %f %f %f ", x, y, z, w); };
@@ -1076,6 +1114,38 @@ namespace gb
 		
 		};
  
+
+//-------------------------------------------------------------------------
+//                         CONST
+//-------------------------------------------------------------------------
+
+
+
+static const mat22_s     MATRIX22_IDENTITY =  mat22_s 
+(
+  1.0f,  0.0f,
+  0.0f,  1.0f
+);
+
+
+static const mat33_s     MATRIX33_IDENTITY =  mat33_s 
+(
+  1.0f,  0.0f,  0.0f,
+  0.0f,  1.0f,  0.0f,
+  0.0f,  0.0f,  1.0f
+);
+
+static const mat44_s     MATRIX44_IDENTITY =  mat44_s 
+(
+  1.0f,  0.0f,  0.0f,  0.0f,
+  0.0f,  1.0f,  0.0f,  0.0f,
+  0.0f,  0.0f,  1.0f,  0.0f,
+  0.0f,  0.0f,  0.0f,  1.0f 
+);
+
+
+
+
 
 
 

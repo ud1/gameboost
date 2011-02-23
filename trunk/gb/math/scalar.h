@@ -16,7 +16,11 @@
 #include <gb/base/Constants.h>
 
 /*******************************************************
+ TODO:
+  --возможно переделать некоторые операции на шаблоны.
  
+STORY:
+ --- добавлены ещё некоторые операции
  --- добавлена функция получения максимального по трём значениям
  -- round поправлена и перенесена в инлайн. Спасибо Zeux`у
 ********************************************************/
@@ -60,8 +64,16 @@ namespace gb
 // 	static const float CE           = 2.718281828459f; ///<  e
 	
 	
-	/**  \brief Возвращает единицу с соответствующим знаком или ноль если параметр ноль   */
+	/**  \brief Возвращает единицу с соответствующим знаком   */
     inline float  sign (const float val) { if(val>=0.0f) return 1.0f; return -1.0f; };
+	/** \brief Отсечение значения в пределаз между минимумом и максимумом включительно. */
+	inline float clump(float val, float _min, float _max)
+	{
+	      float r = val;
+	    if(r < _min) r=_min;
+	    if(r > _max) r=_max;
+	      return r;
+	}
 
 	inline void sincos(const float a, float& outSin, float& outCos) {  outSin = sin(a); outCos = cos(a); };
 	
@@ -95,17 +107,23 @@ namespace gb
 	/** \brief Угол в градусах в радианы */	
 	inline float degreeToRadians(float dgr)  { return dgr * (gb::constPi <float>() / 180.0f); };
 	
+	//* \brief Нормализация угла поворота angle. Приведение значения в пределах -PI...+PI  .
+	inline float normalize_angle( float angle ) 
+	{
+		static  const float _PI_ = 3.1415926535898f;
+		static const float TWO_PI = 6.2831853071795865f;
+
+		return (angle - TWO_PI *  floor( ( angle + _PI_ ) / TWO_PI) );
+	}
+
+	
 	/**  \brief  Вычисленить линейную интерполяцию между f1 и f2 по коэф. k */
     inline float lerp(const float f1, const float f2, const float k) { return f1 + (f2 - f1) * k; };
 	
 	/** \brief Округление . */
 	inline int round(float f) {  return (int)(f + (f > 0 ? 0.5f : -0.5f));  };
-
-    /** \brief Получить среднее из 3-х  значений */
-	inline float   max3 ( float a, float b, float c ) { return a > b ? (a > c ? a : (b > c ? b : c)) : (b > c ? b : (a > c ? a : c));  }
 	
-    #if defined (_MSC_VER)
-
+	#if defined (_MSC_VER)
 	/** \brief ассемблерный способ округления.  */
 	inline int roundAsm(float a) 
 	{
@@ -114,13 +132,54 @@ namespace gb
 		 __asm fistp retval
 			   return retval;
 	};
-	#endif
+	#endif	
 	
-	/** \brief Проверка на корректное значение */
+
+    /** \brief Получить среднее из 3-х  значений */
+	inline float   max3 ( float a, float b, float c ) { return a > b ? (a > c ? a : (b > c ? b : c)) : (b > c ? b : (a > c ? a : c));  }
+	
+
+	/** \brief  Вычислить и вернуть среднее АРИФМЕТИЧЕСКОЕ массива pf размером num */
+	inline float aver(const float* pf, const unsigned int num) 
+	{
+		float r =0.0f;
+		if(num==0) return r;
+		for(unsigned int c=0; c<num; c++) 
+		{
+			r +=  *( pf + c );
+		};
+
+		return r/(float)num;  
+	}
+
+	//!  \brief  Вычислить и вернуть среднее ГЕОМЕТРИЧЕСКОЕ массива pf размером num 
+	inline float aver_g(const float* pf, const unsigned int num) 
+	{
+		float r = 1.0f;
+		if(num==0) return r;
+		for(unsigned int c=0; c<num; c++) 
+		{
+			r *=  *( pf + c );
+		};
+
+		return   pow(r, 1.0f/(float)num);  
+	}
+
+
+	
+	/** \brief Проверка float f   на корректное значение  */
 	inline bool check(float f) 
 	{
        if( f == 0.0f ) return true;
        if( (f < FLT_MAX) && (f > FLT_MIN) ) return true;
+	       return false;
+    };
+
+	/** \brief Проверка double d   на корректное значение  */
+	inline bool check(double d) 
+	{
+       if( d == 0.0 ) return true;
+       if( (d < DBL_MAX) && (d > DBL_MIN) ) return true;
 	       return false;
     };
 	
