@@ -28,6 +28,7 @@ set( GAMEBOOST_SOURCES
 
 		loaders/images/ImageLoader.h
 		loaders/images/BmpLoader.h loaders/images/BmpLoader.cpp
+		loaders/images/JpegLoader.h loaders/images/JpegLoader.cpp
 
 		io/DDSParser.cpp io/DDSParser.h io/FileStream.cpp io/FileStream.h io/IStream.h io/MemoryStream.cpp io/MemoryStream.h
 		fs/FileSystem.h fs/Helpers.cpp fs/Helpers.h fs/LocalFS.cpp fs/LocalFS.h fs/SeekType.h fs/Stream.h
