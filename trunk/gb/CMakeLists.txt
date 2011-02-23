@@ -23,6 +23,12 @@ set( GAMEBOOST_SOURCES
 
 		containers/IResource.cpp containers/IResource.h containers/Texture2D.cpp containers/Texture2D.h
 
+		containers/Image2d.h containers/Image2d.cpp
+		containers/PixelFormat.h containers/PixelFormat.cpp
+
+		loaders/images/ImageLoader.h
+		loaders/images/BmpLoader.h loaders/images/BmpLoader.cpp
+
 		io/DDSParser.cpp io/DDSParser.h io/FileStream.cpp io/FileStream.h io/IStream.h io/MemoryStream.cpp io/MemoryStream.h
 		fs/FileSystem.h fs/Helpers.cpp fs/Helpers.h fs/LocalFS.cpp fs/LocalFS.h fs/SeekType.h fs/Stream.h
 		
@@ -62,6 +68,7 @@ source_group( base REGULAR_EXPRESSION "base/" )
 source_group( fs REGULAR_EXPRESSION "fs/" )
 source_group( mt REGULAR_EXPRESSION "mt/" )
 source_group( io REGULAR_EXPRESSION "io/" )
+source_group( loaders REGULAR_EXPRESSION "loaders/" )
 source_group( math REGULAR_EXPRESSION "math/" )
 source_group( system REGULAR_EXPRESSION "system/" )
 source_group( i18n REGULAR_EXPRESSION "i18n/" )
