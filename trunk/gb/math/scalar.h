@@ -79,7 +79,8 @@ namespace gb
 	
     #if defined (_MSC_VER)	
 	/** \brief ассемблерный способ получить синус и косинус */
-	inline void sincosAsm (float a, float& s, float& c) {
+	inline void sincosAsm (float a, float& s, float& c) 
+	{
 		__asm  {
 			fld a;
 			fsincos;
@@ -98,7 +99,26 @@ namespace gb
 	     // throw std::runtime_error("Inv arg"); 
 	   return atan(1.0f / f); 
 	};
-	
+
+	/** \brief  Same as acos(x), but if x is out of range, it is "clamped"
+	to the nearest valid value.  The value returned is in range 0...pi, 
+	the same as the standard C acos() function   */
+	inline float safeAcos(float x) 
+	{
+		// Check limit conditions
+		if (x <= -1.0f) 
+		{
+			return gb::constPi <float>(); // kPi;
+		}
+		if (x >= 1.0f) 
+		{
+			return 0.0f;
+		}
+
+		// Value is in the domain - use standard C function
+		return acos(x);
+	}
+
 	/**  \brief Вычислить котангенс  */
     inline float cotan(const float f) {  return   1.0f / tanf(f); };
 	
