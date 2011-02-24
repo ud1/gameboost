@@ -198,7 +198,7 @@ namespace gb
 
 			inline float     dot(const vec3_s& v) const { return x*v.x + y*v.y + z*v.z; };
 
-            #pragma message ("KS777:  NEED CHECK !!!"  __FILE__)
+#pragma message ("KS777:  MATH: NEED CHECK VEC3 CROSS !!!"  __FILE__)
 			inline vec3_s    cross (const vec3_s &v) const
 			{
 				vec3_s r;
@@ -211,6 +211,7 @@ namespace gb
 			inline vec3_s&   normalize ()	  { register float fl=length(); x/=fl; y/=fl; z/=fl; return *this; }
 			inline vec3_s    getNormalized() const { vec3_s r=*this; r.normalize(); return r; };
  
+			//! \brief Получить наибольшее абсолютное из каждой компоненты
 			inline float     getMaxLength () const {   return scalar::max3 ( fabs (x), fabs (y), fabs (z) );   }
 
 			inline vec3_s&   invert() {x=-x; y=-y; z=-z; return *this; };
@@ -294,7 +295,7 @@ namespace gb
 
 			inline float   dot (const vec4_s& v) const { return x*v.x + y*v.y + z*v.z + w*v.w; }
 
-            #pragma message ("KS777:  NEED CHECK !!!"  __FILE__)
+#pragma message ("KS777: MATH::VEC4 >> NEED CHECK CROSS METHOD !!!"  __FILE__)
 			inline vec4_s  cross ( const vec4_s & v) const
 			{
 				  vec4_s r;
