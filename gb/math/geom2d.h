@@ -20,6 +20,23 @@ namespace gb
     /** \brief  геометрия в 2d  */
     namespace geom2d
 	{
+
+        /** \brief 2-х мерный размер. */
+		struct Size2d {
+
+			union {
+				float x;
+				float width;	
+			};
+
+			union {
+				float y;
+				float height;
+			};
+
+
+		};
+
 	
 
 
