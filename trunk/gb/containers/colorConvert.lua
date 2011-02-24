@@ -22,7 +22,7 @@ io.write("// Do not include this file\n\n")
 for i=1, #pf do
 	for j=1, #pf do
 		io.write(string.format("template <>\n"))
-		io.write(string.format("void convert<ePixelFormat::%s, ePixelFormat::%s>(const Image2d &from, Image2d &to)\n", pf[i], pf[j]))
+		io.write(string.format("void convert<ePixelFormat::%s, ePixelFormat::%s>(const Image &from, Image &to)\n", pf[i], pf[j]))
 		io.write("{\n")
 		io.write(string.format("\tcopyImageData<%s, %s>(from, to);\n", cf[i], cf[j]))
 		io.write("}\n\n")

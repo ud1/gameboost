@@ -1,4 +1,4 @@
-#include "Image2d.h"
+#include "Image.h"
 #include <gb/containers/PixelFormat.h>
 
 namespace
@@ -8,7 +8,7 @@ namespace
 	
 	// Создаем массив преобразований из одного формата пикселя в другой
 	
-	typedef void (*F) (const Image2d &from, Image2d &to);
+	typedef void (*F) (const Image &from, Image &to);
 	
 	template<int cnt, int from, int to>
 	struct conv_array : public conv_array<cnt, from, to - 1>
@@ -49,7 +49,7 @@ namespace
 			new (reinterpret_cast<conv_array<cnt-1, cnt-1, cnt-1>*>(f)) conv_array<cnt-1, cnt-1, cnt-1>;
 		}
 		
-		void call(const Image2d &im_from, Image2d &im_to)
+		void call(const Image &im_from, Image &im_to)
 		{
 			f[im_from.pixel_format*cnt + im_to.pixel_format](im_from, im_to);
 		}
@@ -71,7 +71,7 @@ namespace
 	}
 	
 	template <typename L, typename R>
-	void copyImageData(const Image2d &from, Image2d &to)
+	void copyImageData(const Image &from, Image &to)
 	{
 		L *f = reinterpret_cast<L *>(from.data);
 		R *t = reinterpret_cast<R *>(to.data);
@@ -90,7 +90,7 @@ namespace gb
 		
 		// --------------------------------------------
 		
-		void convert(const Image2d &from, Image2d &to)
+		void convert(const Image &from, Image &to)
 		{
 			ConvCaller.call(from, to);
 		}

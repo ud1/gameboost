@@ -125,7 +125,7 @@ namespace
 		WARNING_LOG(buffer);
 	}
 	
-	void loadHeader(DecompressData &ddata, Image2dHeader &header_out)
+	void loadHeader(DecompressData &ddata, ImageHeader &header_out)
 	{
 		ddata.my_data.was_error = false;
 		ddata.cinfo.client_data = (void *) &ddata.my_data;
@@ -170,7 +170,7 @@ namespace gb
 		using namespace gb::fs;
 		using namespace gb::containers;
 		
-		bool JpegLoader::loadImage2dHeader(InputStream &input, Image2dHeader &header_out)
+		bool JpegLoader::loadImageHeader(InputStream &input, ImageHeader &header_out)
 		{
 			DecompressData ddata;
 			ddata.my_data.in = &input;
@@ -180,7 +180,7 @@ namespace gb
 			return !ddata.my_data.was_error;
 		}
 		
-		bool JpegLoader::loadImage2d(fs::InputStream &input, containers::Image2d &image_out)
+		bool JpegLoader::loadImage(fs::InputStream &input, containers::Image &image_out)
 		{
 			DecompressData ddata;
 			ddata.my_data.in = &input;
@@ -204,11 +204,11 @@ namespace gb
 			return !ddata.my_data.was_error;
 		}
 		
-		bool JpegLoader::saveImage2d(fs::OutputStream &output, const containers::Image2d &image)
+		bool JpegLoader::saveImage(fs::OutputStream &output, const containers::Image &image)
 		{
 			if (!(image.pixel_format == ePixelFormat::RGB_888 || image.pixel_format == ePixelFormat::R_8))
 			{
-				Image2d temp;
+				Image temp;
 				temp.width = image.width;
 				temp.height = image.height;
 				
@@ -221,7 +221,7 @@ namespace gb
 				
 				convert(image, temp);
 				
-				bool res = saveImage2d(output, temp);
+				bool res = saveImage(output, temp);
 				
 				delete []temp.data;
 				return res;
