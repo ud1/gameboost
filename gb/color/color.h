@@ -7,6 +7,14 @@
 *   Поправлен кодстайл.. Прочие незначительные поправки улучшающие читаемость .
 */
 
+/******************************************************************
+
+STORY:
+
+--- поправлены методы классов. Некоторая коррекция.
+
+******************************************************************/
+
 #pragma once
 
 #include <stdio.h>
@@ -15,6 +23,7 @@
 #include <cfloat>
 #include <cmath>
 #include <cassert>
+#include <string>
 
 #include <gb\base\Types.h>
 
@@ -196,15 +205,14 @@ public:
     float floats[3];
   };
 
-  Color3f() {};
-  Color3f(const Color3f& col)           { r=col.r;   g=col.g;   b=col.b;   };
-  Color3f(const Color3f* col)           { r=col->r;  g=col->g;  b=col->b;  };
-  Color3f(float _r, float _g, float _b) { r=_r;      g=_g;      b=_b;      };
+  inline Color3f() {};
+  inline Color3f(const Color3f& col)           { r=col.r;   g=col.g;   b=col.b;   };
+  inline Color3f(const Color3f* col)           { r=col->r;  g=col->g;  b=col->b;  };
+  inline Color3f(float _r, float _g, float _b) { r=_r;      g=_g;      b=_b;      };
 
-  /** \brief  альфа игнорируется. */
-  Color3f(const color4f_s& col)         { r=col.r;   g=col.g;   b=col.b;   };
+  inline Color3f(const color4f_s& col )         { r=col.r;   g=col.g;   b=col.b;   };
 
-  inline void make(float _r, float _g, float _b) { r=_r; g=_g; b=_b;  };
+  inline Color3f& set(float _r, float _g, float _b) { r=_r; g=_g; b=_b;  return *this;  };
 
   /** \brief Проверка каждого на ноль. */
   inline bool empty() const { return (r==0.0f) && (g==0.0f) && (b==0.0f); };
@@ -212,45 +220,50 @@ public:
   inline void setzero() { r=g=b=0.0f; };
 
   /** \brief Установить как белый цвет */
-  inline void setWhite( ) { r=g=b=1.0f;   };
+  inline Color3f& setWhite( ) { r=g=b=1.0f;  return *this; };
   /** \brief Установить как чёрный цвет */
-  inline void setBlack( ) { r=g=b=0.0f;   };
+  inline Color3f& setBlack( ) { r=g=b=0.0f;   return *this; };
   /** \brief  масштабирование . Изменение яркости. */
-  inline void scale(float f) { r*=f; g*=f; b*=f; };
+  inline Color3f& scale(float f) { r*=f; g*=f; b*=f;  return *this; };
 
 
   /** \brief Отсечение значений в пределах 0.0 ... 1.0  */
-  inline void saturate() {
+  inline Color3f& saturate() {
     if(r>1.0f) r=1.0f;   if(r<0.0f) r=0.0f;
     if(g>1.0f) g=1.0f;   if(g<0.0f) g=0.0f; 
     if(b>1.0f) b=1.0f;   if(b<0.0f) b=0.0f; 
+	return *this;
   };
 
  
   inline bool compare(const Color3f& c) const { return (r==c.r) && (g==c.g) && (b==c.b) ; };
 
-  inline void operator = (const uicolor32_t col) {
+  inline Color3f& operator = (const uicolor32_t col) 
+  {
 	  r = colorExtractRf(col);
 	  g = colorExtractGf(col);
-	  b = colorExtractBf(col);  
+	  b = colorExtractBf(col); 
+	   return *this;
   };
 
-  inline void operator = (const color_rgb24_s col) {
+  inline Color3f& operator = (const color_rgb24_s col) 
+  {
 	  r = ( (float)col.r ) / 255.0f ;
 	  g = ( (float)col.g ) / 255.0f ;
 	  b = ( (float)col.b ) / 255.0f ;
+	   return *this;
   };
 
   inline bool operator == (const Color3f& c) const  { return (r==c.r) && (g==c.g) && (b==c.b);  };
   inline bool operator != (const Color3f& c) const  { return (r!=c.r) && (g!=c.g) && (b!=c.b);  };
 
-  inline void operator *= (const Color3f& c)        { r*=c.r; g*=c.g;  b*=c.b;  };
-  inline void operator *= (float f)                 { r*=f;   g*=f;    b*=f;    };
-  inline void operator += (const Color3f& c)        { r+=c.r; g+=c.g;  b+=c.b;  };
-  inline void operator += (float f)                 { r+=f;   g+=f;    b+=f;    };
+  inline Color3f& operator *= (const Color3f& c)        { r*=c.r; g*=c.g;  b*=c.b;   return *this;  };
+  inline Color3f& operator *= (float f)                 { r*=f;   g*=f;    b*=f;     return *this;  };
+  inline Color3f& operator += (const Color3f& c)        { r+=c.r; g+=c.g;  b+=c.b;   return *this;  };
+  inline Color3f& operator += (float f)                 { r+=f;   g+=f;    b+=f;     return *this;  };
 
   inline Color3f operator *  (const Color3f& c) const  { Color3f res(r*c.r, g*c.g, b*c.b );   return res;  };
-  inline Color3f operator *  (float f)                 { Color3f res(r*f,   g*f,   b*f   );   return res;  };
+  inline Color3f operator *  (float f)   const         { Color3f res(r*f,   g*f,   b*f   );   return res;  };
   inline Color3f operator +  (const Color3f& c) const  { Color3f res(r+c.r, g+c.g, b+c.b );   return res;  };
   inline Color3f operator +  (float f) const           { Color3f res(r+f,   g+f,   b+f   );   return res;  };
 
@@ -260,16 +273,20 @@ public:
 
 
     /** \brief Конвертация в строку.  Разделитель:  пробел */
-    const char* tostr() const {
-       static char ss[32];
-       ss[0] = 0;
+    std::string tostr() const 
+	{
+		 std::string r;
+         char ss[32];
+         ss[0] = 0;
          sprintf(ss, "%f  %f  %f", r, g, b );
-            return ss;
+		 r = ss;
+         return r;
     };
 
     /** \brief   Чтение значений из строки разд. пробелами  */
-    bool fromstr(const char*  s) {
-      const int SCRES = sscanf(s, "%f  %f  %f", &r, &g, &b );
+	inline bool fromstr(const std::string&  s) 
+	{
+      const int SCRES = sscanf(s.c_str(), "%f  %f  %f", &r, &g, &b );
        if( SCRES != 3  ) return false;
         return true;
     };
@@ -278,7 +295,7 @@ public:
      #pragma warning (pop)
 
 	/** \brief печать значений на консоль */
-    void print() const { printf("%s\n", tostr() ); };
+    inline void print() const { printf( "%f  %f  %f", r, g, b);  };
  
 
 };
@@ -297,39 +314,53 @@ public:
     float floats[4];
     };  
 
-  Color4f() {};
-    Color4f(const Color4f* color) {r=color->r; g=color->g; b=color->b; a=color->a; };
-  Color4f(const Color4f& col) { r=col.r; g=col.g; b=col.b; a=col.a;  };  
-  Color4f(float vr, float vg, float vb) {r=vr; g=vg; b=vb; a=1.0f; };   
-  Color4f(float vr, float vg, float vb, float va) {r=vr; g=vg; b=vb; a=va; }; 
+    inline Color4f() {};
+    inline Color4f(const Color4f* color) {r=color->r; g=color->g; b=color->b; a=color->a; };
+    inline Color4f(const Color4f& col) { r=col.r; g=col.g; b=col.b; a=col.a;  };  
+    inline Color4f(float _r, float _g, float _b) {r=_r; g=_g; b=_b; a=1.0f; };   
+    inline Color4f(float _r, float _g, float _b, float _a) {r=_r; g=_g; b=_b; a=_a; }; 
 
   /** \brief Конструктор по байтам ( 0->0.0f   ,  255->1.0f ) */
-  Color4f(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a) {r=(float)_r/255.5f; g=(float)_g/255.0f; b=(float)_b/255.0f; a=(float)_a/255.0f; };
+  inline Color4f( uint8_t _r,  uint8_t _g,  uint8_t _b,  uint8_t _a ) 
+  {
+	  r=(float)_r/255.5f; 
+	  g=(float)_g/255.0f; 
+	  b=(float)_b/255.0f; 
+	  a=(float)_a/255.0f; 
+  }
 
  
-  inline void set   (const Color4f* cSrc)   {r=cSrc->r;  g=cSrc->g;  b=cSrc->b;  a=cSrc->a;  };
-  inline void set_to(Color4f* cDest) const  {cDest->r=r; cDest->g=g; cDest->b=b; cDest->a=a; };
+ // inline void set   (const Color4f* cSrc)   {r=cSrc->r;  g=cSrc->g;  b=cSrc->b;  a=cSrc->a;  };
+  //inline void set_to(Color4f* cDest) const  {cDest->r=r; cDest->g=g; cDest->b=b; cDest->a=a; };
 
   /** \brief  проверка  каждый компонент ноль */
   inline bool empty() const { return (r==0.0f) && (g==0.0f) && (b==0.0f) && (a==0.0f); };
   /** \brief  занулить каждый компонент. */
   inline void setzero() { r=g=b=a=0.0f; };
 
-    /** \brief  uint8_t(0-255) > float(0.0f - 1.0f)  */
-  inline void setFromBytes(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a) { r=(float)_r/255.5f; g=(float)_g/255.0f; b=(float)_b/255.0f; a=(float)_a/255.0f; };
+    /** \brief установка значений из байт с переводом в float формат (0.0f ... 1.0f)  */
+  inline Color4f& set_bytes(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a) 
+  { 
+	  r=(float)_r/255.5f; 
+	  g=(float)_g/255.0f; 
+	  b=(float)_b/255.0f;
+	  a=(float)_a/255.0f; 
+	   return *this;
+  }
  
   /** \brief Построение цвета  из целочисленого 4-x  байтового цвета.  */
-  inline void operator =  (const uicolor32_t val) {
+  inline void operator =  (const uicolor32_t val) 
+  {
      a =  (float)  (val >> 24)         / 255.0f;
      r =  (float)( (val << 8 ) >> 24 ) / 255.0f;
      g =  (float)( (val << 16) >> 24 ) / 255.0f;
      b =  (float)( (val << 24) >> 24 ) / 255.0f;
-  };
+  }
 
   /** \brief Установить белый цвет  */
-  inline void setWhite(float _a=1.0f) {r=g=b=1.0f; a=_a; };
+  inline Color4f& setWhite(float _a=1.0f) {r=g=b=1.0f; a=_a;  return *this; };
   /** \brief Установить чёрный цвет  */
-  inline void setBlack(float _a=1.0f) {r=g=b=0.0f; a=_a; };
+  inline Color4f& setBlack(float _a=1.0f) {r=g=b=0.0f; a=_a;  return *this; };
 
   inline operator    uicolor32_t() const   
   { 
@@ -377,120 +408,151 @@ public:
   };
 
   /** \brief сложение  */
-  inline void add(const Color4f* color)     
+  inline Color4f& add(const Color4f& color)     
   {
-	  r+=color->r; 
-	  g+=color->g; 
-	  b+=color->b; 
-	  a+=color->a; 
+	  r+=color.r; 
+	  g+=color.g; 
+	  b+=color.b; 
+	  a+=color.a;
+	   return *this;
   };
 
   /** \brief сложение только rgb. альфа не изменятеся.  */
-  inline void addRGB(const Color4f* color)  
+  inline Color4f& addRGB(const Color4f& color)  
   {
-	  r+=color->r; 
-	  g+=color->g; 
-	  b+=color->b; 
+	  r+=color.r; 
+	  g+=color.g; 
+	  b+=color.b;
+	  return *this;
   };
 
   /** \brief Вычитание  */
-  inline void sub(const Color4f* color)     
+  inline Color4f& sub(const Color4f& color)     
   {
-	  r-=color->r; 
-	  g-=color->g; 
-	  b-=color->b; 
-	  a-=color->a; 
+	  r-=color.r; 
+	  g-=color.g; 
+	  b-=color.b; 
+	  a-=color.a; 
+	  return *this;
   };
 
   /** \brief Вычитание только rgb. альфа не изменятеся.   */
-  inline void subRGB(const Color4f* color)  
+  inline Color4f& subRGB(const Color4f& color)  
   {
-	  r-=color->r; 
-	  g-=color->g; 
-	  b-=color->b; 
+	  r-=color.r; 
+	  g-=color.g; 
+	  b-=color.b; 
+	  return *this;
   };
 
   /** \brief Масштабирование   */
-  inline void scale(float s)                
+  inline Color4f& scale(float s)                
   {
 	  r*=s; 
 	  g*=s; 
 	  b*=s; 
 	  a*=s; 
+	  return *this;
   };
 
   /** \brief Масштабирование только rgb. альфа не изменятеся.    */
-  inline void scaleRGB(float s)             
+  inline Color4f& scaleRGB(float s)             
   {
 	  r*=s; 
 	  g*=s; 
 	  b*=s; 
+	  return *this;
   };
 
   /** \brief  установить по  c1 и c2 по  линейной  интерполяции. */
-  void setLerp(const Color4f& c1, const Color4f& c2, float s) 
+  inline Color4f& setLerp(const Color4f& c1, const Color4f& c2, float k) 
   {
-    r  = c1.r + s * (c2.r - c1.r);
-    g  = c1.g + s * (c2.g - c1.g);
-    b  = c1.b + s * (c2.b - c1.b);
-    a  = c1.a + s * (c2.a - c1.a);
+    r  = c1.r + k * (c2.r - c1.r);
+    g  = c1.g + k * (c2.g - c1.g);
+    b  = c1.b + k * (c2.b - c1.b);
+    a  = c1.a + k * (c2.a - c1.a);
+	return *this;
   };
 
-  /** \brief  линейная интерполяция. */
-  void setLerp(const Color4f& color, float s) 
+  /** \brief  установить: линейная интерполяция между this и color. */
+  inline Color4f& setLerp(const Color4f& color, float k) 
   {
-    r = color.r + s * ( r - color.r);
-    g = color.g + s * ( g - color.g);
-    b = color.b + s * ( b - color.b);
-    a = color.a + s * ( a - color.a);
+    r = color.r + k * ( r - color.r);
+    g = color.g + k * ( g - color.g);
+    b = color.b + k * ( b - color.b);
+    a = color.a + k * ( a - color.a);
+	 return *this;
   };
 
 
-   /** \brief  насыщенность */
-  inline void setAdjustSaturation(const Color4f* cSrc, float s)  
+   /** \brief изменить насыщенность . Альфа игнорируется. */
+  inline Color4f& setAdjustSaturation(const Color4f& cSrc, float s)  
   {
-       const float grey  = cSrc->r * 0.2125f  +  cSrc->g * 0.7154f  +  cSrc->b * 0.0721f;
-    r  = grey + s * (cSrc->r - grey);
-    g  = grey + s * (cSrc->g - grey);
-    b  = grey + s * (cSrc->b - grey);
+       const float grey  = cSrc.r * 0.2125f  +  cSrc.g * 0.7154f  +  cSrc.b * 0.0721f;
+    r  = grey + s * (cSrc.r - grey);
+    g  = grey + s * (cSrc.g - grey);
+    b  = grey + s * (cSrc.b - grey);
+	return *this;
   };
 
 
    /** \brief изменить насыщенность */
-  inline void adjustSaturation( float s )  
+  inline Color4f& adjustSaturation( float s )  
   {
      const float grey  =  r * 0.2125f +  g * 0.7154f +  b * 0.0721f;
     r  = grey + s * ( r - grey );
     g  = grey + s * ( g - grey );
     b  = grey + s * ( b - grey );
+	 return *this;
   };
 
   /** \brief Масштабирование цвета. Изменение яркости. */
-  inline void modulate(const Color4f* color) 
+  inline Color4f& modulate(const Color4f& color) 
   {
-    r *= color->r;
-    g *= color->g; 
-    b *= color->b; 
-    a *= color->a; 
+    r *= color.r;
+    g *= color.g; 
+    b *= color.b; 
+    a *= color.a; 
+	return *this;
   };
+
+  /** \brief Масштабирование цвета. Изменение яркости. */
+  inline Color4f& modulate(const Color3f& color) 
+  {
+    r *= color.r;
+    g *= color.g; 
+    b *= color.b; 
+	return *this;
+  };
+
+
+  /** \brief   Негатив. */
+  inline Color4f& negative(bool bIncludeAlpha=true) 
+  {
+   r = 1.0f - r;
+   g = 1.0f - g;
+   b = 1.0f - b;
+   if(bIncludeAlpha) a = 1.0f - a;
+     return *this;
+  }
+
+  inline Color4f getNegatived() const 
+  {
+    Color4f res(*this);
+	res.negative();
+    return res;
+  }
 
   /** \brief  Установить  негативный. */
-  inline void setNegative(const Color4f* color) 
+  inline Color4f& setNegative(const Color4f& color) 
   {
-    r = 1.0f - color->r;
-    g = 1.0f - color->g;
-    b = 1.0f - color->b;
-    a = 1.0f - color->a;  
+    r = 1.0f - color.r;
+    g = 1.0f - color.g;
+    b = 1.0f - color.b;
+    a = 1.0f - color.a; 
+	 return *this;
   };
-
-  /** \brief Обратить цвета . Негатив. */
-  inline void negative() 
-  {
-    r = 1.0f - r;
-    g = 1.0f - g;
-    b = 1.0f - b;
-    a = 1.0f - a; 
-  };
+ 
 
   /** \brief получить негативный цвет */
   inline Color4f getNegative() const 
@@ -501,59 +563,64 @@ public:
   };
 
   /** \brief изменить контраст */
-  inline void adjustContrast(float s) 
+  inline Color4f& adjustContrast(float s) 
   {
     r = 0.5f + s * ( r - 0.5f);
     g = 0.5f + s * ( g - 0.5f);
     b = 0.5f + s * ( b - 0.5f);
+	return *this;
   };
 
 
   /** \brief получить цвет с изменённым контрастом */
   inline Color4f getAdjustContrast(float s) const 
   {
-     Color4f res(this);
+     Color4f res(*this);
      res.adjustContrast(s);
      return res;
   };
 
 
   /** \brief Отсечение значений в пределах 0.0 ... 1.0  */
-  inline void saturate() {
+  inline Color4f saturate() {
     if(r>1.0f) r=1.0f;   if(r<0.0f) r=0.0f;
     if(g>1.0f) g=1.0f;   if(g<0.0f) g=0.0f; 
     if(b>1.0f) b=1.0f;   if(b<0.0f) b=0.0f;
     if(a>1.0f) a=1.0f;   if(a<0.0f) a=0.0f; 
+	return *this;
   };
 
   /** \brief Получить сатурированый цвет из this . */
   inline Color4f getSaturated() const 
   { 
-	  Color4f res(this); 
+	  Color4f res(*this); 
 	  res.saturate(); 
 	  return res;  
   };
 
   /** \brief Установить как средний цвет между this и col  . */
-  inline void setAverage(const Color4f& col) 
+  inline Color4f& setAverage(const Color4f& col) 
   {
     r = (r+col.r) / 2.0f;
     g = (g+col.g) / 2.0f;
     b = (b+col.b) / 2.0f;
     a = (a+col.a) / 2.0f;
+	  return *this;
   };
 
   /** \brief Установить как средний цвет между  c1 и с2 . */
-  inline void setAverage( const Color4f& c1 , const Color4f& c2 ) 
+  inline Color4f& setAverage( const Color4f& c1 , const Color4f& c2 ) 
   {
     r = (c2.r+c1.r) / 2.0f;
     g = (c2.g+c1.g) / 2.0f;
     b = (c2.b+c1.b) / 2.0f;
     a = (c2.a+c1.a) / 2.0f;
+	 return *this;
   };
 
   /** \brief Получить как средний цвет между this и col  . */
-  inline Color4f getAveraged(const Color4f& col) {
+  inline Color4f getAveraged(const Color4f& col) const
+  {
     Color4f res;
     res.setAverage(*this , col);
     return res;
@@ -562,8 +629,8 @@ public:
   inline  operator float*()                { return &r; };
   inline  operator const float*() const    { return &r; };
 
-  inline const float* getFloats() const    { return &r; };
-  inline int size()                        { return sizeof(float) * 4; };
+ // inline const float* getFloats() const    { return &r; };
+ // inline int size()                        { return sizeof(float) * 4; };
 
   inline void operator = (const Color4f& color) 
   { 
@@ -586,10 +653,17 @@ public:
   inline bool operator == (const Color4f& c) const { return (r==c.r) && (g==c.g) && (b==c.b) && (a==c.a);  };
   inline bool operator != (const Color4f& c) const { return (r!=c.r) && (g!=c.g) && (b!=c.b) && (a!=c.a);  };
  
-  inline void operator *= (const float s) {r*=s; b*=s; g*=s; a*=s; };
-  inline void operator /= (const float s) {r/=s; b/=s; g/=s; a/=s; };
-  inline void operator += (const float s) {r+=s; b+=s; g+=s; a+=s; };
-  inline void operator -= (const float s) {r-=s; b-=s; g-=s; a-=s; };
+  inline Color4f& operator *= (const float s)    { r*=s; b*=s; g*=s; a*=s; return *this; };
+  inline Color4f& operator *= (const Color4f& c) { r*=c.r; b*=c.b; g*=c.g; a*=c.a; return *this; };
+
+  inline Color4f& operator /= (const float s)    { r/=s; b/=s; g/=s; a/=s; return *this; };
+  inline Color4f& operator /= (const Color4f& c) { r/=c.r; b/=c.b; g/=c.g; a/=c.a; return *this; };
+
+  inline Color4f& operator += (const float s)    { r+=s; b+=s; g+=s; a+=s; return *this; };
+  inline Color4f& operator += (const Color4f& c) { r+=c.r; b+=c.b; g+=c.g; a+=c.a; return *this; };
+
+  inline Color4f& operator -= (const float s)    { r-=s; b-=s; g-=s; a-=s; return *this; };
+  inline Color4f& operator -= (const Color4f& c) { r-=c.r; b-=c.b; g-=c.g; a-=c.a; return *this; };
 
   inline Color4f  operator + (const Color4f& color) const  
   { 
@@ -601,6 +675,17 @@ public:
      return res;   
   };
 
+  inline Color4f  operator + (const float f) const  
+  { 
+     Color4f res;
+     res.r=r+f; 
+	 res.g=g+f; 
+	 res.b=b+f; 
+	 res.a=a+f;  
+     return res;   
+  };
+
+
   inline Color4f   operator - (const Color4f& color) const  
   { 
      Color4f res;
@@ -610,6 +695,17 @@ public:
 	 res.a=a-color.a;  
      return res;   
   };
+
+  inline Color4f   operator - (const float f) const  
+  { 
+     Color4f res;
+     res.r=r-f; 
+	 res.g=g-f; 
+	 res.b=b-f; 
+	 res.a=a-f;  
+     return res;   
+  };
+
 
   Color4f   operator / (const Color4f& color) const  
   { 
@@ -621,6 +717,17 @@ public:
      return res;   
   };
 
+  Color4f   operator / (const float f) const  
+  { 
+     Color4f res;
+     res.r = r / f; 
+	 res.g = g / f; 
+	 res.b = b / f; 
+	 res.a = a / f;  
+     return res;   
+  };
+
+
   Color4f   operator * (const Color4f& color) const  
   { 
      Color4f res;
@@ -630,6 +737,20 @@ public:
 	 res.a = a*color.a;  
      return res;   
   };
+
+  Color4f   operator * (const float f) const  
+  { 
+     Color4f res;
+     res.r = r*f; 
+	 res.g = g*f; 
+	 res.b = b*f; 
+	 res.a = a*f;  
+     return res;   
+  };
+
+
+
+
 
     #pragma warning(push)
       #pragma warning (disable : 4996)
@@ -655,15 +776,14 @@ public:
 
 
 
-#pragma message("ПОМЕНЯТЬ СТАРОЕ ОПРЕДЕЛЕНИЕ ДЛЯ DIRECTX НА НОВОЕ "  __FILE__ )
-#ifdef KSMTC_DIRECTX
+#ifdef GB_D3D9
 
   inline void operator = (const D3DCOLORVALUE& val) { r=val.r; g=val.g; b=val.b; a=val.a; };
   inline operator const D3DCOLORVALUE*() const { return (D3DCOLORVALUE*)&r; };
   inline operator       D3DCOLORVALUE () const { D3DCOLORVALUE res;  res.a = a; res.r = r; res.g = g; res.b = b; return res; };
  
 
-#endif   // KSMTC_DIRECTX
+#endif   // GB_D3D9
 
 
 }; 
