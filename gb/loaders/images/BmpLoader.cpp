@@ -78,7 +78,7 @@ namespace gb
 		
 		using namespace gb::containers;
 		
-		bool BmpLoader::loadImage2dHeader(InputStream &input, Image2dHeader &header_out)
+		bool BmpLoader::loadImageHeader(InputStream &input, ImageHeader &header_out)
 		{
 			BitmapFileHeader fheader;
 			BitmapInfoHeader iheader;
@@ -110,9 +110,9 @@ namespace gb
 			return true;
 		}
 		
-		bool BmpLoader::loadImage2d(fs::InputStream &input, containers::Image2d &image_out)
+		bool BmpLoader::loadImage(fs::InputStream &input, containers::Image &image_out)
 		{
-			if (!loadImage2dHeader(input, image_out))
+			if (!loadImageHeader(input, image_out))
 				return false;
 			
 			int row_len = image_out.row_size_in_bytes;
@@ -125,7 +125,7 @@ namespace gb
 			return true;
 		}
 		
-		bool BmpLoader::saveImage2d(fs::OutputStream &output, const containers::Image2d &image)
+		bool BmpLoader::saveImage(fs::OutputStream &output, const containers::Image &image)
 		{
 			assert(image.data);
 			assert(image.row_size_in_bytes == ((image.width*getPFDescription(image.pixel_format)->bits/8 + 3) & ~3));
@@ -133,7 +133,7 @@ namespace gb
 			
 			if (image.pixel_format != ePixelFormat::BGR_888 && image.pixel_format != ePixelFormat::BGRA_8888)
 			{
-				Image2d temp;
+				Image temp;
 				temp.width = image.width;
 				temp.height = image.height;
 				if (getPFDescription(image.pixel_format)->components <= 3)
@@ -145,7 +145,7 @@ namespace gb
 				
 				convert(image, temp);
 				
-				bool res = saveImage2d(output, temp);
+				bool res = saveImage(output, temp);
 				
 				delete []temp.data;
 				return res;

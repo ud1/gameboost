@@ -23,7 +23,7 @@ set( GAMEBOOST_SOURCES
 
 		containers/IResource.cpp containers/IResource.h containers/Texture2D.cpp containers/Texture2D.h
 
-		containers/Image2d.h containers/Image2d.cpp
+		containers/Image.h containers/Image.cpp
 		containers/PixelFormat.h containers/PixelFormat.cpp
 
 		loaders/images/ImageLoader.h

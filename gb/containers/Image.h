@@ -1,3 +1,7 @@
+/**	\file  Image.h
+ *	\author ud1 (ud1@mail.ru)
+*/
+
 #pragma once
 
 #include "PixelFormat.h"
@@ -8,9 +12,13 @@ namespace gb
 {
 	namespace containers
 	{
-		struct Image2dHeader
+		struct ImageHeader
 		{
-			int width, height;
+			ImageHeader()
+			{
+				depth = 1;
+			}
+			int width, height, depth;
 			ePixelFormat::PixelFormat pixel_format;
 			int row_size_in_bytes;
 			int data_size;
@@ -18,13 +26,13 @@ namespace gb
 			void calculateDataSize()
 			{
 				row_size_in_bytes = (width*getPFDescription(pixel_format)->bits/8 + 3) & ~3;
-				data_size = height * row_size_in_bytes;
+				data_size = depth * height * row_size_in_bytes;
 			}
 		};
 		
-		struct Image2d : public Image2dHeader
+		struct Image : public ImageHeader
 		{
-			Image2d()
+			Image()
 			{
 				data = 0;
 			}
@@ -35,7 +43,7 @@ namespace gb
 		/**
 		 * Копирование данных изображения с учетом pixel_format
 		 */
-		void convert(const Image2d &from, Image2d &to);
+		void convert(const Image &from, Image &to);
 		
 		/**
 		 * Конвертирование данных изображения из одного формата пикселя в другой
@@ -44,12 +52,12 @@ namespace gb
 		 * эту функцию для преобразований pf-->RGBA_8888 pf-->FRGBA RGBA_8888-->pf и FRGBA-->pf
 		 */
 		template <int from_pf, int to_pf>
-		void convert(const Image2d &from, Image2d &to)
+		void convert(const Image &from, Image &to)
 		{
 			// Применяем двойную конвертацию через промежуточный
 			// формат пикселя RGBA_8888 или FRGBA, чтобы избежать написания COUNT^2 функций
 			// достаточно всего 4*COUNT функций
-			Image2d temp;
+			Image temp;
 			temp.width = from.width;
 			temp.height = from.height;
 			bool floating_point = getPFDescription(to.pixel_format)->floationg_point;

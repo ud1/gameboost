@@ -1,3 +1,7 @@
+/**	\file  PixelFormat.h
+ *	\author ud1 (ud1@mail.ru)
+*/
+
 #pragma once
 
 namespace gb
