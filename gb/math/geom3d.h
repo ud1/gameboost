@@ -1,7 +1,7 @@
-/** \file geom3d.h
- \brief геометрия в 3d.
+п»ї/** \file geom3d.h
+ \brief РіРµРѕРјРµС‚СЂРёСЏ РІ 3d.
 *
-*  Наполнение на основе выложеного ребятами в папку бранч,   опенсурсных движков,   выуженого из гугла , своих наработок.
+*  РќР°РїРѕР»РЅРµРЅРёРµ РЅР° РѕСЃРЅРѕРІРµ РІС‹Р»РѕР¶РµРЅРѕРіРѕ СЂРµР±СЏС‚Р°РјРё РІ РїР°РїРєСѓ Р±СЂР°РЅС‡,   РѕРїРµРЅСЃСѓСЂСЃРЅС‹С… РґРІРёР¶РєРѕРІ,   РІС‹СѓР¶РµРЅРѕРіРѕ РёР· РіСѓРіР»Р° , СЃРІРѕРёС… РЅР°СЂР°Р±РѕС‚РѕРє.
 *
 *
 */
@@ -13,18 +13,19 @@
 #include <assert.h>
 
 
+
 namespace gb 
 {
 
   namespace math
   {
   
-    /** \brief  геометрия в 3d  */
+    /** \brief  РіРµРѕРјРµС‚СЂРёСЏ РІ 3d  */
     namespace geom3d
 	{
 
 
-        /** \brief 3-х мерный размер */
+        /** \brief 3-С… РјРµСЂРЅС‹Р№ СЂР°Р·РјРµСЂ */
 		struct Size3d {
 
 			union {
@@ -45,20 +46,20 @@ namespace gb
 
 		};
 
-        //! \brief  Сборка  ось повотора и угол
+        //! \brief  РЎР±РѕСЂРєР°  РѕСЃСЊ РїРѕРІРѕС‚РѕСЂР° Рё СѓРіРѕР»
 		struct AxiesAngle {
 
-			base::vec3_s   axies; ///< ось повотора (должен быть нормализован)
-			       float   angle; ///< угол поворота
+			base::vec3_s   axies; ///< РѕСЃСЊ РїРѕРІРѕС‚РѕСЂР° (РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅ)
+			       float   angle; ///< СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р°
 		
 		};
 	
 	
-	//! \brief Сфера по центральной точке и радиусу. Она же Bounding sphere.
+	//! \brief РЎС„РµСЂР° РїРѕ С†РµРЅС‚СЂР°Р»СЊРЅРѕР№ С‚РѕС‡РєРµ Рё СЂР°РґРёСѓСЃСѓ. РћРЅР° Р¶Рµ Bounding sphere.
 	class Sphere {
 	public:
-	  base::vec3_s  center;  ///<  центральная координата сферы.
-	  float   radius;  ///<  радиус сферы.
+	  base::vec3_s  center;  ///<  С†РµРЅС‚СЂР°Р»СЊРЅР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° СЃС„РµСЂС‹.
+	  float   radius;  ///<  СЂР°РґРёСѓСЃ СЃС„РµСЂС‹.
 	  
 	  inline Sphere() {}
 	  inline Sphere(const Sphere& s) {center=s.center; radius=s.radius; }
@@ -70,11 +71,11 @@ namespace gb
 	};
 	
 	
-	//! \brief Бокс по мин. и макс. координатам. Axis aligned bounding box.
+	//! \brief Р‘РѕРєСЃ РїРѕ РјРёРЅ. Рё РјР°РєСЃ. РєРѕРѕСЂРґРёРЅР°С‚Р°Рј. Axis aligned bounding box.
 	class AABB {
 	public:
-	  base::vec3_s   min; ///< минимальная точка бокса
-	  base::vec3_s   max; ///< максимальная точка бокса
+	  base::vec3_s   min; ///< РјРёРЅРёРјР°Р»СЊРЅР°СЏ С‚РѕС‡РєР° Р±РѕРєСЃР°
+	  base::vec3_s   max; ///< РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ С‚РѕС‡РєР° Р±РѕРєСЃР°
 	  
 	  inline AABB() {}
 	  inline AABB(const AABB& aabb) {min=aabb.min; max=aabb.max;}	  
@@ -85,11 +86,11 @@ namespace gb
 	};
 	
 	
-	//! \brief Луч в трёхмерном пространстве по позиции и направлению   
+	//! \brief Р›СѓС‡ РІ С‚СЂС‘С…РјРµСЂРЅРѕРј РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРµ РїРѕ РїРѕР·РёС†РёРё Рё РЅР°РїСЂР°РІР»РµРЅРёСЋ   
 	class Ray {
 	public:
-	   base::vec3_s   orig; ///< точка центр луча
-	   base::vec3_s   dir;  ///< направление луча ( должен быть нормализован)
+	   base::vec3_s   orig; ///< С‚РѕС‡РєР° С†РµРЅС‚СЂ Р»СѓС‡Р°
+	   base::vec3_s   dir;  ///< РЅР°РїСЂР°РІР»РµРЅРёРµ Р»СѓС‡Р° ( РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅ)
 	   
 	   inline Ray() {}
 	   inline Ray(const Ray& r) {orig=r.orig; dir=r.dir; }
@@ -101,13 +102,13 @@ namespace gb
 	   }	   
 	
 	
-	//! \brief  вывод на консоль.
+	//! \brief  РІС‹РІРѕРґ РЅР° РєРѕРЅСЃРѕР»СЊ.
     inline void print() const { orig.print(); printf("  "); dir.print(); printf("  "); };
 	
 	};
  
 
-	/** \brief   Линия в трёхмерном пространстве по двум точкам  */
+	/** \brief   Р›РёРЅРёСЏ РІ С‚СЂС‘С…РјРµСЂРЅРѕРј РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРµ РїРѕ РґРІСѓРј С‚РѕС‡РєР°Рј  */
 	class Line {
 	public:
 		base::vec3_s   src; 
@@ -119,19 +120,19 @@ namespace gb
 
 
 
-      #ifdef GB_OPENGL
-		//! \brief Вывод вершин для OpenGl по старинке.
+      #if ( defined(GB_OPENGL) &&  defined(__GL_H__) )
+		//! \brief Р’С‹РІРѕРґ РІРµСЂС€РёРЅ РґР»СЏ OpenGl РїРѕ СЃС‚Р°СЂРёРЅРєРµ.
 		inline void glVertex() { glVertex3f(src.x, src.y, src.z); glVertex3f(dest.x, dest.y, dest.z);   };
       #endif
 
 
-		//! вывод на консоль.
+		//! РІС‹РІРѕРґ РЅР° РєРѕРЅСЃРѕР»СЊ.
 		inline void print() const { src.print(); printf("  "); dest.print(); printf("  "); };
 
 	}; // Line
 
 
-	/** \brief  Углы Элера */
+	/** \brief  РЈРіР»С‹ Р­Р»РµСЂР° */
 	class EulerAngles {
 	public:
 		float yaw;
@@ -203,7 +204,7 @@ namespace gb
 
 
 		//---------------------------------------------------------------------
-		//                        ОПЕРАТОРЫ
+		//                        РћРџР•Р РђРўРћР Р«
 		//---------------------------------------------------------------------
 
 		inline operator        float*()       { return &a; };
@@ -254,7 +255,7 @@ namespace gb
 
 
 		//---------------------------------------------------------------------
-		//                         МЕТОДЫ
+		//                         РњР•РўРћР”Р«
 		//---------------------------------------------------------------------
 
 
@@ -276,12 +277,13 @@ namespace gb
 	};
 
 
+
 	class Quaternion : public quat_s {
 	public:
 
-		inline Quaternion() {x=y=z=0.0f; w=1.0f; };
+		inline Quaternion() { x=y=z=0.0f; w=1.0f; };
 		inline Quaternion(const Quaternion& q) { x=q.x; y=q.y; z=q.z; w=q.w; };
-		inline Quaternion(float _x, float _y, float _z, float _w) {x=_x; y=_y; z=_z; w=_w; };
+		inline Quaternion(float _x, float _y, float _z, float _w) { x=_x; y=_y; z=_z; w=_w; };
 		inline Quaternion(const float* pfArray)
 		{
 			 x = pfArray[0];
@@ -291,7 +293,7 @@ namespace gb
 		}
 
 		//-----------------------------------------------------------------
-		//                     ОПЕРАТОРЫ
+		//                     РћРџР•Р РђРўРћР Р«
 		//-----------------------------------------------------------------
 
 		inline operator         float*()         { return &x; };
@@ -345,7 +347,7 @@ namespace gb
 
 		inline Quaternion& operator /= ( const float f )
 		{
-			const float  fInverse = 1.0f / f;
+			const float  fInverse = 1.0f/f;
 			x *= fInverse;
 			y *= fInverse;
 			z *= fInverse;
@@ -443,7 +445,7 @@ namespace gb
 
 
 		//-----------------------------------------------------------------
-		//                     МЕТОДЫ
+		//                     РњР•РўРћР”Р«
 		//-----------------------------------------------------------------
  
 
@@ -475,7 +477,7 @@ namespace gb
 			return *this;
 		}
 
-		inline Quaternion conjugate(const Quaternion &q) 
+		inline Quaternion conjugate(const Quaternion &q) const
 		{
 			  Quaternion res;
 			    res.w = q.w;
@@ -599,11 +601,11 @@ namespace gb
 		inline Quaternion& setRotationX(float theta) {
 
 			// Compute the half angle
-			float	thetaOver2 = theta * .5f;
+			const float k = theta*0.5f;
 
 			// Set the values
-			w = cos(thetaOver2);
-			x = sin(thetaOver2);
+			w = cos(k);
+			x = sin(k);
 			y = 0.0f;
 			z = 0.0f;
 			return *this;
@@ -646,7 +648,7 @@ namespace gb
 
 
     //---------------------------------------------------------------------
-	//                    КОНСТАНТЫ
+	//                    РљРћРќРЎРўРђРќРўР«
 	//---------------------------------------------------------------------
 
 
