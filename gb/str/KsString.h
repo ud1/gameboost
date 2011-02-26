@@ -31,11 +31,13 @@
 
 
 namespace gb {
+
+	//! \brief Операции со строками , символами.
 	namespace str {
 
-static const char CSTR_ZERO[]    = "0";
-static const char CSTR_ONE[]     = "1";
-static const char CSTR_TWO[]     = "2";
+static const char CSTR_ZERO []     = "0";
+static const char CSTR_ONE  []     = "1";
+static const char CSTR_TWO  []     = "2";
  
 #ifdef GB_ALLOW_BOOST_LIBRARY
 
