@@ -63,9 +63,13 @@ namespace gb
 			{
 				components = 3,
 				pixel_format = containers::ePixelFormat::RGB_888,
+				rbits = 8,
+				gbits = 8,
+				bbits = 8,
+				abits = 0,
 			};
-			typedef char value_type;
-			char r, g, b;
+			typedef unsigned char value_type;
+			value_type r, g, b;
 			
 			void set_zero()
 			{
@@ -81,16 +85,20 @@ namespace gb
 			{
 				components = 4,
 				pixel_format = containers::ePixelFormat::RGBA_8888,
+				rbits = 8,
+				gbits = 8,
+				bbits = 8,
+				abits = 8,
 			};
-			typedef char value_type;
-			char r, g, b, a;
+			typedef unsigned char value_type;
+			value_type r, g, b, a;
 			
 			void set_zero()
 			{
 				r = 0;
 				g = 0;
 				b = 0;
-				a = 0;
+				a = (1 << abits) - 1;
 			}
 		};
 		
@@ -100,9 +108,13 @@ namespace gb
 			{
 				components = 3,
 				pixel_format = containers::ePixelFormat::BGR_888,
+				rbits = 8,
+				gbits = 8,
+				bbits = 8,
+				abits = 0,
 			};
-			typedef char value_type;
-			char b, g, r;
+			typedef unsigned char value_type;
+			value_type b, g, r;
 			
 			void set_zero()
 			{
@@ -118,16 +130,20 @@ namespace gb
 			{
 				components = 4,
 				pixel_format = containers::ePixelFormat::BGRA_8888,
+				rbits = 8,
+				gbits = 8,
+				bbits = 8,
+				abits = 8,
 			};
-			typedef char value_type;
-			char b, g, r, a;
+			typedef unsigned char value_type;
+			value_type b, g, r, a;
 			
 			void set_zero()
 			{
 				r = 0;
 				g = 0;
 				b = 0;
-				a = 0;
+				a = (1 << abits) - 1;
 			}
 		};
 		
@@ -137,9 +153,13 @@ namespace gb
 			{
 				components = 1,
 				pixel_format = containers::ePixelFormat::R_8,
+				rbits = 8,
+				gbits = 0,
+				bbits = 0,
+				abits = 0,
 			};
-			typedef char value_type;
-			char r;
+			typedef unsigned char value_type;
+			value_type r;
 			
 			void set_zero()
 			{
@@ -153,9 +173,13 @@ namespace gb
 			{
 				components = 2,
 				pixel_format = containers::ePixelFormat::RG_88,
+				rbits = 8,
+				gbits = 8,
+				bbits = 0,
+				abits = 0,
 			};
-			typedef char value_type;
-			char r, g;
+			typedef unsigned value_type;
+			value_type r, g;
 			
 			void set_zero()
 			{
@@ -170,11 +194,15 @@ namespace gb
 			{
 				components = 3,
 				pixel_format = containers::ePixelFormat::RGB_332,
+				rbits = 3,
+				gbits = 3,
+				bbits = 2,
+				abits = 0,
 			};
-			typedef char value_type;
-			char r : 3;
-			char g : 3;
-			char b : 2;
+			typedef unsigned value_type;
+			value_type r : rbits;
+			value_type g : gbits;
+			value_type b : bbits;
 			
 			void set_zero()
 			{
@@ -190,11 +218,15 @@ namespace gb
 			{
 				components = 3,
 				pixel_format = containers::ePixelFormat::RGB_233,
+				rbits = 2,
+				gbits = 3,
+				bbits = 3,
+				abits = 0,
 			};
-			typedef char value_type;
-			char r : 2;
-			char g : 3;
-			char b : 3;
+			typedef unsigned char value_type;
+			value_type r : rbits;
+			value_type g : gbits;
+			value_type b : bbits;
 			
 			void set_zero()
 			{
@@ -210,11 +242,15 @@ namespace gb
 			{
 				components = 3,
 				pixel_format = containers::ePixelFormat::RGB_565,
+				rbits = 5,
+				gbits = 6,
+				bbits = 5,
+				abits = 0,
 			};
-			typedef char value_type;
-			char r : 5;
-			char g : 6;
-			char b : 5;
+			typedef unsigned char value_type;
+			value_type r : rbits;
+			value_type g : gbits;
+			value_type b : bbits;
 			
 			void set_zero()
 			{
@@ -230,19 +266,23 @@ namespace gb
 			{
 				components = 4,
 				pixel_format = containers::ePixelFormat::RGBA_4444,
+				rbits = 4,
+				gbits = 4,
+				bbits = 4,
+				abits = 4,
 			};
-			typedef char value_type;
-			char r : 4;
-			char g : 4;
-			char b : 4;
-			char a : 4;
+			typedef unsigned char value_type;
+			value_type r : rbits;
+			value_type g : gbits;
+			value_type b : bbits;
+			value_type a : abits;
 			
 			void set_zero()
 			{
 				r = 0;
 				g = 0;
 				b = 0;
-				a = 0;
+				a = (1 << abits) - 1;
 			}
 		};
 		
@@ -252,19 +292,23 @@ namespace gb
 			{
 				components = 4,
 				pixel_format = containers::ePixelFormat::RGBA_5551,
+				rbits = 5,
+				gbits = 5,
+				bbits = 5,
+				abits = 1,
 			};
-			typedef char value_type;
-			char r : 5;
-			char g : 5;
-			char b : 5;
-			char a : 1;
+			typedef unsigned char value_type;
+			value_type r : rbits;
+			value_type g : gbits;
+			value_type b : bbits;
+			value_type a : abits;
 			
 			void set_zero()
 			{
 				r = 0;
 				g = 0;
 				b = 0;
-				a = 0;
+				a = (1 << abits) - 1;
 			}
 		};
 		
@@ -274,19 +318,23 @@ namespace gb
 			{
 				components = 4,
 				pixel_format = containers::ePixelFormat::RGBA_10_10_10_2,
+				rbits = 10,
+				gbits = 10,
+				bbits = 10,
+				abits = 2,
 			};
-			typedef short value_type;
-			short r : 10;
-			short g : 10;
-			short b : 10;
-			short a : 2;
+			typedef unsigned short value_type;
+			value_type r : 10;
+			value_type g : 10;
+			value_type b : 10;
+			value_type a : 2;
 			
 			void set_zero()
 			{
 				r = 0;
 				g = 0;
 				b = 0;
-				a = 0;
+				a = (1 << abits) - 1;
 			}
 		};
 		
@@ -296,6 +344,10 @@ namespace gb
 			{
 				components = 1,
 				pixel_format = containers::ePixelFormat::FR,
+				rbits = 8*sizeof(float),
+				gbits = 0,
+				bbits = 0,
+				abits = 0,
 			};
 			typedef float value_type;
 			float r;
@@ -312,6 +364,10 @@ namespace gb
 			{
 				components = 2,
 				pixel_format = containers::ePixelFormat::FRG,
+				rbits = 8*sizeof(float),
+				gbits = 8*sizeof(float),
+				bbits = 0,
+				abits = 0,
 			};
 			typedef float value_type;
 			float r, g;
@@ -328,6 +384,10 @@ namespace gb
 			{
 				components = 3,
 				pixel_format = containers::ePixelFormat::FRGB,
+				rbits = 8*sizeof(float),
+				gbits = 8*sizeof(float),
+				bbits = 8*sizeof(float),
+				abits = 0,
 			};
 			typedef float value_type;
 			float r, g, b;
@@ -344,18 +404,81 @@ namespace gb
 			{
 				components = 4,
 				pixel_format = containers::ePixelFormat::FRGBA,
+				rbits = 8*sizeof(float),
+				gbits = 8*sizeof(float),
+				bbits = 8*sizeof(float),
+				abits = 8*sizeof(float),
 			};
 			typedef float value_type;
 			float r, g, b, a;
 			
 			void set_zero()
 			{
-				r = g = b = a = 0.0f;
+				r = g = b = 0.0f;
+				a = 1.0f;
 			}
 		};
 		
 		namespace details
 		{
+			template <int s, bool positive_s, typename T>
+			struct signedShift;
+			
+			template <int s, typename T>
+			struct signedShift<s, true, T>
+			{
+				T leftShift(T t)
+				{
+					return t << s;
+				}
+			};
+			
+			template <int s, typename T>
+			struct signedShift<s, false, T>
+			{
+				T leftShift(T t)
+				{
+					return t >> -s;
+				}
+			};
+			
+			template<int ls, int rs, typename L, typename R>
+			struct convertColorComponent
+			{
+				L operator()(R r)
+				{
+					return signedShift<ls - rs, ((ls - rs) > 0), R>().leftShift(r);
+				}
+			};
+			
+			template<>
+			struct convertColorComponent<8*sizeof(float), 8*sizeof(float), float, float>
+			{
+				float operator()(float r)
+				{
+					return r;
+				}
+			};
+			
+			template<int ls, typename L>
+			struct convertColorComponent<ls, 8*sizeof(float), L, float>
+			{
+				L operator()(float r)
+				{
+					return (L) (r * ((1 << ls) - 1));
+				}
+			};
+			
+			template<int rs, typename R>
+			struct convertColorComponent<8*sizeof(float), rs, float, R>
+			{
+				float operator()(R r)
+				{
+					return (float) r / (float) ((1 << rs) - 1);
+				}
+			};
+			
+			
 			template <int lc, int rc, bool lc_less_rc, typename L, typename R>
 			struct copy;
 			
@@ -365,7 +488,7 @@ namespace gb
 				L &operator()(L &l, const R &r)
 				{
 					l.set_zero();
-					l.r = (typename L::value_type) r.r;
+					l.r = convertColorComponent<L::rbits, R::rbits, typename L::value_type, typename R::value_type>()(r.r);
 					return l;
 				}
 			};
@@ -376,8 +499,8 @@ namespace gb
 				L &operator()(L &l, const R &r)
 				{
 					l.set_zero();
-					l.r = (typename L::value_type) r.r;
-					l.g = (typename L::value_type) r.g;
+					l.r = convertColorComponent<L::rbits, R::rbits, typename L::value_type, typename R::value_type>()(r.r);
+					l.g = convertColorComponent<L::gbits, R::gbits, typename L::value_type, typename R::value_type>()(r.g);
 					return l;
 				}
 			};
@@ -388,9 +511,9 @@ namespace gb
 				L &operator()(L &l, const R &r)
 				{
 					l.set_zero();
-					l.r = (typename L::value_type) r.r;
-					l.g = (typename L::value_type) r.g;
-					l.b = (typename L::value_type) r.b;
+					l.r = convertColorComponent<L::rbits, R::rbits, typename L::value_type, typename R::value_type>()(r.r);
+					l.g = convertColorComponent<L::gbits, R::gbits, typename L::value_type, typename R::value_type>()(r.g);
+					l.b = convertColorComponent<L::bbits, R::bbits, typename L::value_type, typename R::value_type>()(r.b);
 					return l;
 				}
 			};
@@ -400,10 +523,10 @@ namespace gb
 			{
 				L &operator()(L &l, const R &r)
 				{
-					l.r = (typename L::value_type) r.r;
-					l.g = (typename L::value_type) r.g;
-					l.b = (typename L::value_type) r.b;
-					l.a = (typename L::value_type) r.a;
+					l.r = convertColorComponent<L::rbits, R::rbits, typename L::value_type, typename R::value_type>()(r.r);
+					l.g = convertColorComponent<L::gbits, R::gbits, typename L::value_type, typename R::value_type>()(r.g);
+					l.b = convertColorComponent<L::bbits, R::bbits, typename L::value_type, typename R::value_type>()(r.b);
+					l.a = convertColorComponent<L::abits, R::abits, typename L::value_type, typename R::value_type>()(r.a);
 					return l;
 				}
 			};
@@ -413,7 +536,7 @@ namespace gb
 			{
 				L &operator()(L &l, const R &r)
 				{
-					l.r = (typename L::value_type) r.r;
+					l.r = convertColorComponent<L::rbits, R::rbits, typename L::value_type, typename R::value_type>()(r.r);
 					return l;
 				}
 			};
@@ -423,8 +546,8 @@ namespace gb
 			{
 				L &operator()(L &l, const R &r)
 				{
-					l.r = (typename L::value_type) r.r;
-					l.g = (typename L::value_type) r.g;
+					l.r = convertColorComponent<L::rbits, R::rbits, typename L::value_type, typename R::value_type>()(r.r);
+					l.g = convertColorComponent<L::gbits, R::gbits, typename L::value_type, typename R::value_type>()(r.g);
 					return l;
 				}
 			};
@@ -434,9 +557,9 @@ namespace gb
 			{
 				L &operator()(L &l, const R &r)
 				{
-					l.r = (typename L::value_type) r.r;
-					l.g = (typename L::value_type) r.g;
-					l.b = (typename L::value_type) r.b;
+					l.r = convertColorComponent<L::rbits, R::rbits, typename L::value_type, typename R::value_type>()(r.r);
+					l.g = convertColorComponent<L::gbits, R::gbits, typename L::value_type, typename R::value_type>()(r.g);
+					l.b = convertColorComponent<L::bbits, R::bbits, typename L::value_type, typename R::value_type>()(r.b);
 					return l;
 				}
 			};
@@ -446,10 +569,10 @@ namespace gb
 			{
 				L &operator()(L &l, const R &r)
 				{
-					l.r = (typename L::value_type) r.r;
-					l.g = (typename L::value_type) r.g;
-					l.b = (typename L::value_type) r.b;
-					l.a = (typename L::value_type) r.a;
+					l.r = convertColorComponent<L::rbits, R::rbits, typename L::value_type, typename R::value_type>()(r.r);
+					l.g = convertColorComponent<L::gbits, R::gbits, typename L::value_type, typename R::value_type>()(r.g);
+					l.b = convertColorComponent<L::bbits, R::bbits, typename L::value_type, typename R::value_type>()(r.b);
+					l.a = convertColorComponent<L::abits, R::abits, typename L::value_type, typename R::value_type>()(r.a);
 					return l;
 				}
 			};
