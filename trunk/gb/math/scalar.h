@@ -13,6 +13,7 @@
 #include <float.h>
 #include <stdexcept>
 
+#include <gb/Config.h>
 #include <gb/base/Constants.h>
 
 /*******************************************************
@@ -28,6 +29,7 @@ STORY:
 namespace gb 
 {
 
+  //! \brief  Математические операции
   namespace math
   {
   
@@ -66,7 +68,7 @@ namespace gb
 	
 	/**  \brief Возвращает единицу с соответствующим знаком   */
     inline float  sign (const float val) { if(val>=0.0f) return 1.0f; return -1.0f; };
-	/** \brief Отсечение значения в пределаз между минимумом и максимумом включительно. */
+	/** \brief Отсечение значения в пределах между минимумом и максимумом включительно. */
 	inline float clump(float val, float _min, float _max)
 	{
 	      float r = val;

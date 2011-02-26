@@ -12,6 +12,7 @@
 /***********************************************************************
 
 
+
  TODO:  
    --- Поправить операторы для сравнения по эпсилону.
    --- Перенести в cpp методы матрицы 4x4 .
@@ -1100,15 +1101,17 @@ namespace gb
 
 
 
-			#ifdef GB_OPENGL
+			#if ( defined GB_OPENGL  && defined __GL_H__ )
 			   /** \brief Старый способ загрузки матрицы в OpenGL */
                inline void glMul()  { glMultMatrixf( (GLfloat*)&_11  ); };
+
 			   /** \brief Старый способ перемножения матрицы  с текущей в OpenGL */
                inline void glLoad() { glLoadMatrixf( (GLfloat*)&_11  ); };
             #endif
 
-            #ifdef GB_D3D9
-			   inline operator = (const D3DMATRIX& m) { *this=(mat44_s)m; };
+
+            #if ( defined GB_D3D9 &&  defined _d3d9TYPES_H_  )
+			  // inline operator = (const D3DMATRIX& m) { *this=(mat44_s)m; };
 			   inline operator const D3DMATRIX*() const { return (D3DMATRIX*)&_11; };
 			   inline operator       D3DMATRIX*()       { return (D3DMATRIX*)&_11; };
 			#endif
