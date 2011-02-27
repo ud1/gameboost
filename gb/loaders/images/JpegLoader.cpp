@@ -1,5 +1,7 @@
 #include "JpegLoader.h"
 #include <gb/base/Types.h>
+#include <gb/fs/Stream.h>
+#include <gb/containers/Image.h>
 
 #include <cassert>
 #include <cstring>
@@ -206,14 +208,14 @@ namespace gb
 		
 		bool JpegLoader::saveImage(fs::OutputStream &output, const containers::Image &image)
 		{
-			if (!(image.pixel_format == ePixelFormat::RGB_888 || image.pixel_format == ePixelFormat::R_8))
+			if (!(image.pixel_format == ePixelFormat::RGB_888 || image.pixel_format == ePixelFormat::GRAYSCALE8))
 			{
 				Image temp;
 				temp.width = image.width;
 				temp.height = image.height;
 				
 				if (getPFDescription(image.pixel_format)->components == 1)
-					temp.pixel_format = ePixelFormat::R_8;
+					temp.pixel_format = ePixelFormat::GRAYSCALE8;
 				else temp.pixel_format = ePixelFormat::RGB_888;
 				
 				temp.calculateDataSize();
@@ -247,7 +249,7 @@ namespace gb
 			cinfo.image_width = image.width; 	/* image width and height, in pixels */
 			cinfo.image_height = image.height;
 
-			if (image.pixel_format == ePixelFormat::R_8)
+			if (image.pixel_format == ePixelFormat::GRAYSCALE8)
 			{
 				cinfo.input_components = 1;
 				cinfo.in_color_space = JCS_GRAYSCALE;

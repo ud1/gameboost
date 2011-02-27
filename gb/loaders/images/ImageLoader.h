@@ -4,11 +4,20 @@
 
 #pragma once
 
-#include <gb/containers/Image.h>
-#include <gb/fs/Stream.h>
-
 namespace gb
 {
+	namespace containers
+	{
+		struct ImageHeader;
+		struct Image;
+	}
+	
+	namespace fs
+	{
+		class InputStream;
+		class OutputStream;
+	}
+	
 	namespace loaders
 	{
 		class ImageLoader

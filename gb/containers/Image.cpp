@@ -94,5 +94,39 @@ namespace gb
 		{
 			ConvCaller.call(from, to);
 		}
+		
+		void AutoImage::copyFrom(const Image &o, ePixelFormat::PixelFormat pf)
+		{
+			width = o.width;
+			height = o.height;
+			pixel_format = pf;
+			if (data)
+				delete []data;
+			calculateDataSize();
+			data = new char[data_size];
+			convert(o, *this);
+		}
+		
+		bool AutoImage::load(loaders::ImageLoader &loader, fs::InputStream &input)
+		{
+			if (data)
+				delete []data;
+			data = NULL;
+			
+			if (!loader.loadImageHeader(input, *this))
+				return false;
+			
+			data = new char[data_size];
+			
+			return loader.loadImage(input, *this);
+		}
+		
+		bool AutoImage::save(loaders::ImageLoader &loader, fs::OutputStream &output)
+		{
+			if (!data)
+				return false;
+			
+			return loader.saveImage(output, *this);
+		}
 	}
 }

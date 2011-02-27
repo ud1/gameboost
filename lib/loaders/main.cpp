@@ -1,6 +1,6 @@
 #include <gb/fs/LocalFS.h>
-#include <gb/loaders/images/BmpLoader.h>
 #include <gb/loaders/images/JpegLoader.h>
+#include <gb/containers/Image.h>
 
 using namespace gb::fs;
 using namespace gb::loaders;
@@ -8,29 +8,23 @@ using namespace gb::containers;
 
 int main()
 {
-	Image image;
-	BmpLoader bmpLoader;
+	AutoImage image, image_gr;
 	JpegLoader jpegLoader;
 	LocalFS fs;
 	InputStream *file = fs.getInputStream("../data/gnom.jpg");
 	if (!file)
 		return 0;
 	
-	if (!jpegLoader.loadImageHeader(*file, image))
+	if (!image.load(jpegLoader, *file))
 		return 0;
 	
-	image.data = new char[image.data_size];
+	image_gr.copyFrom(image, ePixelFormat::GRAYSCALE8);
 	
-	if (!jpegLoader.loadImage(*file, image))
-		return 0;
-		
-	OutputStream *out = fs.getOutputStream("../data/gnom.bmp", true);
+	OutputStream *out = fs.getOutputStream("../data/gnom_gr.jpg", true);
 	if (!out)
 		return 0;
-	bmpLoader.saveImage(*out, image);
 	
-	delete []image.data;
-	
+	image_gr.save(jpegLoader, *out);	
 	file->release();
 	out->release();
 	return 0;

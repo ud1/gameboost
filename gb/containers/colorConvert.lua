@@ -4,11 +4,13 @@ filename = "colorConvert.h"
 
 pf = {"RGB_888", "BGR_888", "RGBA_8888", "BGRA_8888", "R_8", "RG_88", 
 		"RGB_332", "RGB_233", "RGB_565", "RGBA_4444", "RGBA_5551", "RGBA_10_10_10_2",
-		"FR", "FRG", "FRGB", "FRGBA"}
+		"FR", "FRG", "FRGB", "FRGBA",
+		"RGBA_16_16_16_16", "GRAYSCALE8", "GRAYSCALE16", "FGRAYSCALE"}
 
 cf = {"rgb", "bgr", "rgba", "bgra", "r_8", "rg_88",
 		"rgb_332", "rgb_233", "rgb_565", "rgba_4444", "rgba_5551", "rgba_10_10_10_2",
-		"fr", "frg", "frgb", "frgba"}
+		"fr", "frg", "frgb", "frgba",
+		"rgba_16_16_16_16", "grayscale8", "grayscale16", "fgrayscale"}
 
 if #pf ~= #cf then
 	print("Syntax error")

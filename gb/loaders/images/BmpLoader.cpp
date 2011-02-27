@@ -1,4 +1,6 @@
 #include "BmpLoader.h"
+#include <gb/containers/Image.h>
+#include <gb/fs/Stream.h>
 #include <gb/base/Types.h>
 
 #include <cassert>

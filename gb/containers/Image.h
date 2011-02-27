@@ -5,8 +5,8 @@
 #pragma once
 
 #include "PixelFormat.h"
+#include <gb/loaders/images/ImageLoader.h>
 #include <cassert>
-#include <boost/concept_check.hpp>
 
 namespace gb
 {
@@ -45,6 +45,19 @@ namespace gb
 		 */
 		void convert(const Image &from, Image &to);
 		
+		struct AutoImage : public Image
+		{
+			AutoImage()
+			{
+				if (data)
+					delete []data;
+			}
+			
+			void copyFrom(const Image &o, ePixelFormat::PixelFormat pf);
+			bool load(loaders::ImageLoader &loader, fs::InputStream &input);
+			bool save(loaders::ImageLoader &loader, fs::OutputStream &output);
+		};
+		
 		/**
 		 * Конвертирование данных изображения из одного формата пикселя в другой
 		 * используется функцией convert()
@@ -57,18 +70,14 @@ namespace gb
 			// Применяем двойную конвертацию через промежуточный
 			// формат пикселя RGBA_8888 или FRGBA, чтобы избежать написания COUNT^2 функций
 			// достаточно всего 4*COUNT функций
-			Image temp;
-			temp.width = from.width;
-			temp.height = from.height;
+			AutoImage temp;
 			bool floating_point = getPFDescription(to.pixel_format)->floationg_point;
 			if (floating_point)
 				temp.pixel_format = ePixelFormat::FRGBA;
 			else temp.pixel_format = ePixelFormat::RGBA_8888;
 
-			temp.calculateDataSize();
-			temp.data = new char[temp.data_size];
+			temp.copyFrom(from, temp.pixel_format);
 			
-			convert(from, temp);
 			convert(temp, to);
 			delete []temp.data;
 		}
