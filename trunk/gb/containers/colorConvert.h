@@ -98,6 +98,30 @@ void convert<ePixelFormat::RGB_888, ePixelFormat::FRGBA>(const Image &from, Imag
 }
 
 template <>
+void convert<ePixelFormat::RGB_888, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rgb, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_888, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rgb, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_888, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rgb, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_888, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rgb, fgrayscale>(from, to);
+}
+
+template <>
 void convert<ePixelFormat::BGR_888, ePixelFormat::RGB_888>(const Image &from, Image &to)
 {
 	copyImageData<bgr, rgb>(from, to);
@@ -191,6 +215,30 @@ template <>
 void convert<ePixelFormat::BGR_888, ePixelFormat::FRGBA>(const Image &from, Image &to)
 {
 	copyImageData<bgr, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::BGR_888, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<bgr, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::BGR_888, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<bgr, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::BGR_888, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<bgr, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::BGR_888, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<bgr, fgrayscale>(from, to);
 }
 
 template <>
@@ -290,6 +338,30 @@ void convert<ePixelFormat::RGBA_8888, ePixelFormat::FRGBA>(const Image &from, Im
 }
 
 template <>
+void convert<ePixelFormat::RGBA_8888, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rgba, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_8888, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rgba, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_8888, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rgba, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_8888, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rgba, fgrayscale>(from, to);
+}
+
+template <>
 void convert<ePixelFormat::BGRA_8888, ePixelFormat::RGB_888>(const Image &from, Image &to)
 {
 	copyImageData<bgra, rgb>(from, to);
@@ -383,6 +455,30 @@ template <>
 void convert<ePixelFormat::BGRA_8888, ePixelFormat::FRGBA>(const Image &from, Image &to)
 {
 	copyImageData<bgra, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::BGRA_8888, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<bgra, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::BGRA_8888, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<bgra, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::BGRA_8888, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<bgra, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::BGRA_8888, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<bgra, fgrayscale>(from, to);
 }
 
 template <>
@@ -482,6 +578,30 @@ void convert<ePixelFormat::R_8, ePixelFormat::FRGBA>(const Image &from, Image &t
 }
 
 template <>
+void convert<ePixelFormat::R_8, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<r_8, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::R_8, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<r_8, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::R_8, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<r_8, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::R_8, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<r_8, fgrayscale>(from, to);
+}
+
+template <>
 void convert<ePixelFormat::RG_88, ePixelFormat::RGB_888>(const Image &from, Image &to)
 {
 	copyImageData<rg_88, rgb>(from, to);
@@ -575,6 +695,30 @@ template <>
 void convert<ePixelFormat::RG_88, ePixelFormat::FRGBA>(const Image &from, Image &to)
 {
 	copyImageData<rg_88, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RG_88, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rg_88, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RG_88, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rg_88, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RG_88, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rg_88, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RG_88, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rg_88, fgrayscale>(from, to);
 }
 
 template <>
@@ -674,6 +818,30 @@ void convert<ePixelFormat::RGB_332, ePixelFormat::FRGBA>(const Image &from, Imag
 }
 
 template <>
+void convert<ePixelFormat::RGB_332, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rgb_332, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_332, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rgb_332, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_332, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rgb_332, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_332, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rgb_332, fgrayscale>(from, to);
+}
+
+template <>
 void convert<ePixelFormat::RGB_233, ePixelFormat::RGB_888>(const Image &from, Image &to)
 {
 	copyImageData<rgb_233, rgb>(from, to);
@@ -767,6 +935,30 @@ template <>
 void convert<ePixelFormat::RGB_233, ePixelFormat::FRGBA>(const Image &from, Image &to)
 {
 	copyImageData<rgb_233, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_233, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rgb_233, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_233, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rgb_233, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_233, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rgb_233, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_233, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rgb_233, fgrayscale>(from, to);
 }
 
 template <>
@@ -866,6 +1058,30 @@ void convert<ePixelFormat::RGB_565, ePixelFormat::FRGBA>(const Image &from, Imag
 }
 
 template <>
+void convert<ePixelFormat::RGB_565, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rgb_565, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_565, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rgb_565, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_565, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rgb_565, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGB_565, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rgb_565, fgrayscale>(from, to);
+}
+
+template <>
 void convert<ePixelFormat::RGBA_4444, ePixelFormat::RGB_888>(const Image &from, Image &to)
 {
 	copyImageData<rgba_4444, rgb>(from, to);
@@ -959,6 +1175,30 @@ template <>
 void convert<ePixelFormat::RGBA_4444, ePixelFormat::FRGBA>(const Image &from, Image &to)
 {
 	copyImageData<rgba_4444, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_4444, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rgba_4444, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_4444, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rgba_4444, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_4444, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rgba_4444, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_4444, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rgba_4444, fgrayscale>(from, to);
 }
 
 template <>
@@ -1058,6 +1298,30 @@ void convert<ePixelFormat::RGBA_5551, ePixelFormat::FRGBA>(const Image &from, Im
 }
 
 template <>
+void convert<ePixelFormat::RGBA_5551, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rgba_5551, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_5551, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rgba_5551, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_5551, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rgba_5551, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_5551, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rgba_5551, fgrayscale>(from, to);
+}
+
+template <>
 void convert<ePixelFormat::RGBA_10_10_10_2, ePixelFormat::RGB_888>(const Image &from, Image &to)
 {
 	copyImageData<rgba_10_10_10_2, rgb>(from, to);
@@ -1151,6 +1415,30 @@ template <>
 void convert<ePixelFormat::RGBA_10_10_10_2, ePixelFormat::FRGBA>(const Image &from, Image &to)
 {
 	copyImageData<rgba_10_10_10_2, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_10_10_10_2, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rgba_10_10_10_2, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_10_10_10_2, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rgba_10_10_10_2, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_10_10_10_2, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rgba_10_10_10_2, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_10_10_10_2, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rgba_10_10_10_2, fgrayscale>(from, to);
 }
 
 template <>
@@ -1250,6 +1538,30 @@ void convert<ePixelFormat::FR, ePixelFormat::FRGBA>(const Image &from, Image &to
 }
 
 template <>
+void convert<ePixelFormat::FR, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<fr, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FR, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<fr, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FR, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<fr, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FR, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<fr, fgrayscale>(from, to);
+}
+
+template <>
 void convert<ePixelFormat::FRG, ePixelFormat::RGB_888>(const Image &from, Image &to)
 {
 	copyImageData<frg, rgb>(from, to);
@@ -1343,6 +1655,30 @@ template <>
 void convert<ePixelFormat::FRG, ePixelFormat::FRGBA>(const Image &from, Image &to)
 {
 	copyImageData<frg, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRG, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<frg, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRG, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<frg, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRG, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<frg, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRG, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<frg, fgrayscale>(from, to);
 }
 
 template <>
@@ -1442,6 +1778,30 @@ void convert<ePixelFormat::FRGB, ePixelFormat::FRGBA>(const Image &from, Image &
 }
 
 template <>
+void convert<ePixelFormat::FRGB, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<frgb, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRGB, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<frgb, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRGB, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<frgb, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRGB, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<frgb, fgrayscale>(from, to);
+}
+
+template <>
 void convert<ePixelFormat::FRGBA, ePixelFormat::RGB_888>(const Image &from, Image &to)
 {
 	copyImageData<frgba, rgb>(from, to);
@@ -1535,5 +1895,509 @@ template <>
 void convert<ePixelFormat::FRGBA, ePixelFormat::FRGBA>(const Image &from, Image &to)
 {
 	copyImageData<frgba, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRGBA, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<frgba, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRGBA, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<frgba, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRGBA, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<frgba, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FRGBA, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<frgba, fgrayscale>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RGB_888>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rgb>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::BGR_888>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, bgr>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RGBA_8888>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::BGRA_8888>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, bgra>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::R_8>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, r_8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RG_88>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rg_88>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RGB_332>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rgb_332>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RGB_233>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rgb_233>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RGB_565>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rgb_565>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RGBA_4444>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rgba_4444>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RGBA_5551>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rgba_5551>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RGBA_10_10_10_2>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rgba_10_10_10_2>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::FR>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, fr>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::FRG>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, frg>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::FRGB>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, frgb>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::FRGBA>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::RGBA_16_16_16_16, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<rgba_16_16_16_16, fgrayscale>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RGB_888>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rgb>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::BGR_888>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, bgr>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RGBA_8888>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::BGRA_8888>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, bgra>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::R_8>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, r_8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RG_88>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rg_88>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RGB_332>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rgb_332>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RGB_233>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rgb_233>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RGB_565>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rgb_565>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RGBA_4444>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rgba_4444>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RGBA_5551>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rgba_5551>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RGBA_10_10_10_2>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rgba_10_10_10_2>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::FR>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, fr>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::FRG>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, frg>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::FRGB>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, frgb>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::FRGBA>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE8, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<grayscale8, fgrayscale>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RGB_888>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rgb>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::BGR_888>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, bgr>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RGBA_8888>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::BGRA_8888>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, bgra>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::R_8>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, r_8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RG_88>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rg_88>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RGB_332>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rgb_332>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RGB_233>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rgb_233>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RGB_565>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rgb_565>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RGBA_4444>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rgba_4444>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RGBA_5551>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rgba_5551>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RGBA_10_10_10_2>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rgba_10_10_10_2>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::FR>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, fr>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::FRG>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, frg>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::FRGB>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, frgb>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::FRGBA>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::GRAYSCALE16, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<grayscale16, fgrayscale>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RGB_888>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rgb>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::BGR_888>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, bgr>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RGBA_8888>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::BGRA_8888>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, bgra>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::R_8>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, r_8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RG_88>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rg_88>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RGB_332>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rgb_332>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RGB_233>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rgb_233>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RGB_565>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rgb_565>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RGBA_4444>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rgba_4444>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RGBA_5551>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rgba_5551>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RGBA_10_10_10_2>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rgba_10_10_10_2>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::FR>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, fr>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::FRG>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, frg>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::FRGB>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, frgb>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::FRGBA>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, frgba>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::RGBA_16_16_16_16>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, rgba_16_16_16_16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::GRAYSCALE8>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, grayscale8>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::GRAYSCALE16>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, grayscale16>(from, to);
+}
+
+template <>
+void convert<ePixelFormat::FGRAYSCALE, ePixelFormat::FGRAYSCALE>(const Image &from, Image &to)
+{
+	copyImageData<fgrayscale, fgrayscale>(from, to);
 }
 

@@ -8,12 +8,14 @@ namespace
 	
 	PixelFormatDescription descrs[] = 
 	{
-		{"RGB_888",		24, 8, 8, 8, 0, 3, false, false},
-		{"BGR_888",		24, 8, 8, 8, 0, 3, false, false},
-		{"RGBA_8888",	32, 8, 8, 8, 8, 4, false, false},
-		{"BGRA_8888",	32, 8, 8, 8, 8, 4, false, false},
 		{"R_8",			 8, 8, 0, 0, 0, 1, false, false},
 		{"RG_88",		16, 8, 8, 0, 0, 2, false, false},
+		{"RGB_888",		24, 8, 8, 8, 0, 3, false, false},
+		{"RGBA_8888",	32, 8, 8, 8, 8, 4, false, false},
+		{"RGBA_16_16_16_16",	64, 16, 16, 16, 16, 4, false, false},
+
+		{"BGR_888",		24, 8, 8, 8, 0, 3, false, false},
+		{"BGRA_8888",	32, 8, 8, 8, 8, 4, false, false},
 		
 		{"RGB_332",		 8, 3, 3, 2, 0, 3, false, false},
 		{"RGB_233",		 8, 2, 3, 3, 0, 3, false, false},
@@ -22,6 +24,10 @@ namespace
 		{"RGBA_4444",	16, 4, 4, 4, 4, 4, false, false},
 		{"RGBA_5551",	16, 5, 5, 5, 1, 4, false, false},
 		{"RGBA_10_10_10_2",	32, 10, 10, 10, 2, 4, false, false},
+		
+		{"GRAYSCALE8",	 8, 0, 0, 0, 0, 1, false, false},
+		{"GRAYSCALE16",	16, 0, 0, 0, 0, 1, false, false},
+		{"FGRAYSCALE",	FLOAT_BITS, 0, 0, 0, 0, 1, false, true},
 		
 		{"FR", FLOAT_BITS, FLOAT_BITS, 0, 0, 0, 1, false, true},
 		{"FRG", 2*FLOAT_BITS, FLOAT_BITS, FLOAT_BITS, 0, 0, 2, false, true},
