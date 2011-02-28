@@ -36,6 +36,10 @@
 #include <gb/math/scalar.h>
 #include <assert.h>
 
+#ifdef GB_D3D9
+  //#include <d3d9types.h>
+#endif
+
 namespace gb 
 {
 

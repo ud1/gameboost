@@ -27,6 +27,10 @@ STORY:
 
 #include <gb\base\Types.h>
 
+#ifdef GB_D3D9
+ //  #include <d3d9types.h>
+#endif
+
 namespace gb
 {
 
@@ -638,7 +642,6 @@ public:
 	g=color.g; 
 	b=color.b; 
 	a=color.a;  
-    //  return *this;
   };
  
   inline void operator = (const color4f_s& color) 
@@ -647,7 +650,6 @@ public:
 	g=color.g; 
 	b=color.b; 
 	a=color.a;  
-   // return *this;
   };
  
   inline bool operator == (const Color4f& c) const { return (r==c.r) && (g==c.g) && (b==c.b) && (a==c.a);  };
@@ -776,7 +778,7 @@ public:
 
 
 
-#ifdef GB_D3D9
+#if ( defined(GB_D3D9)  && defined (_d3d9TYPES_H_)  )
 
   inline void operator = (const D3DCOLORVALUE& val) { r=val.r; g=val.g; b=val.b; a=val.a; };
   inline operator const D3DCOLORVALUE*() const { return (D3DCOLORVALUE*)&r; };

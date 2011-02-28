@@ -143,7 +143,19 @@ namespace gb
 		inline EulerAngles(const EulerAngles& ea  ) {yaw=ea.yaw; pitch=ea.pitch; roll=ea.roll; };
 		inline EulerAngles(float fyaw, float fpitch, float froll) { yaw=fyaw;  pitch=fpitch;  roll=froll; };
  
-	};	
+	};
+
+	//! \brief Трейгольник по трём точкам . 
+	class Triangle {
+	public:
+		base::vec3_s    p1,  p2,  p3;
+
+
+		inline Triangle() {}
+
+
+
+	};
 
 
 	struct plane_s {

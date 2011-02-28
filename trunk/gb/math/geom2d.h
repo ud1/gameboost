@@ -58,6 +58,17 @@ namespace gb
 		};
 
 
+		//! Линия в 2d по двум точкам
+		class Line {
+		public:
+			base::vec2_s   src;
+			base::vec2_s   dest;
+
+
+			inline Line() {}
+		};
+
+
 	
 
 
