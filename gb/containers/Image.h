@@ -47,7 +47,7 @@ namespace gb
 		
 		struct AutoImage : public Image
 		{
-			AutoImage()
+			~AutoImage()
 			{
 				if (data)
 					delete []data;
