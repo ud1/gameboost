@@ -18,6 +18,7 @@ set( GAMEBOOST_SOURCES
 		base/Types.h  base/Constants.h  base/Constants.cpp
 		base/Logger.h base/Logger.cpp
 		base/Factory.h 
+		base/Atlas.h base/Atlas.cpp
 
 		color/color.h
 
