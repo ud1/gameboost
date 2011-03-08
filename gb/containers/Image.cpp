@@ -59,12 +59,12 @@ namespace
 	
 	// ------------------------------------------
 	template <typename L, typename R>
-	void copyImageData(L *l, R *r, int width, int height, int l_row_len, int r_row_len)
+	void copyImageData(L *l, R *r, int width, int height, int l_pitch, int r_pitch)
 	{
 		for (int i = 0; i < height; ++i)
 		{
-			L *l_row = reinterpret_cast<L *>(reinterpret_cast<char *>(l) + l_row_len * i);
-			R *r_row = reinterpret_cast<R *>(reinterpret_cast<char *>(r) + r_row_len * i);
+			L *l_row = reinterpret_cast<L *>(reinterpret_cast<char *>(l) + l_pitch * i);
+			R *r_row = reinterpret_cast<R *>(reinterpret_cast<char *>(r) + r_pitch * i);
 			for (int j = 0; j < width; ++j)
 				copyPixel(l_row[j], r_row[j]);
 		}
@@ -75,7 +75,7 @@ namespace
 	{
 		L *f = reinterpret_cast<L *>(from.data);
 		R *t = reinterpret_cast<R *>(to.data);
-		copyImageData(t, f, from.width, from.height, to.row_size_in_bytes, from.row_size_in_bytes);
+		copyImageData(t, f, from.width, from.height, to.pitch, from.pitch);
 	}
 }
 
@@ -97,36 +97,38 @@ namespace gb
 		
 		void AutoImage::copyFrom(const Image &o, ePixelFormat::PixelFormat pf)
 		{
-			width = o.width;
-			height = o.height;
-			pixel_format = pf;
-			if (data)
-				delete []data;
-			calculateDataSize();
-			data = new char[data_size];
-			convert(o, *this);
+			image.width = o.width;
+			image.height = o.height;
+			image.pixel_format = pf;
+			if (image.data)
+				delete []image.data;
+			image.calculateDataSize();
+			image.pitch = image.row_size + image.padding_bytes;
+			image.data = new char[image.data_size];
+			convert(o, image);
 		}
 		
 		bool AutoImage::load(loaders::ImageLoader &loader, fs::InputStream &input)
 		{
-			if (data)
-				delete []data;
-			data = NULL;
+			if (image.data)
+				delete []image.data;
+			image.data = NULL;
 			
-			if (!loader.loadImageHeader(input, *this))
+			if (!loader.loadImageHeader(input, image))
 				return false;
 			
-			data = new char[data_size];
+			image.pitch = image.row_size + image.padding_bytes;
+			image.data = new char[image.data_size];
 			
-			return loader.loadImage(input, *this);
+			return loader.loadImage(input, image);
 		}
 		
 		bool AutoImage::save(loaders::ImageLoader &loader, fs::OutputStream &output)
 		{
-			if (!data)
+			if (!image.data)
 				return false;
 			
-			return loader.saveImage(output, *this);
+			return loader.saveImage(output, image);
 		}
 	}
 }

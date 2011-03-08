@@ -20,13 +20,17 @@ namespace gb
 			}
 			int width, height, depth;
 			ePixelFormat::PixelFormat pixel_format;
-			int row_size_in_bytes;
+			int row_size, padding_bytes;
 			int data_size;
 			
 			void calculateDataSize()
 			{
-				row_size_in_bytes = (width*getPFDescription(pixel_format)->bits/8 + 3) & ~3;
-				data_size = depth * height * row_size_in_bytes;
+				row_size = width*getPFDescription(pixel_format)->bits/8;
+				padding_bytes = (row_size + 3) & ~3;
+				// Добавляем хвостик в 4 байта, чтобы можно было
+				// создавать подизображения использующие туже пямять,
+				// и не беспокоится о паддинге
+				data_size = depth * height * (row_size + padding_bytes) + 4;
 			}
 		};
 		
@@ -37,7 +41,23 @@ namespace gb
 				data = 0;
 			}
 			
-			char *data;
+			int pitch; // Расстояние между строками в байтах
+			char *data; // Размер data должен быть не меньше data_size байтов
+			
+			bool subImage(Image &out, int offset_x, int offset_y)
+			{
+				if (offset_x + out.width > width)
+					return false;
+				
+				if (offset_y + out.height > height)
+					return false;
+				
+				out.pixel_format = pixel_format;
+				out.calculateDataSize();
+				out.pitch = pitch;
+				out.data = data + offset_y * pitch + offset_x * getPFDescription(pixel_format)->bits/8;
+				return true;
+			}
 		};
 		
 		/**
@@ -45,17 +65,25 @@ namespace gb
 		 */
 		void convert(const Image &from, Image &to);
 		
-		struct AutoImage : public Image
+		class AutoImage
 		{
+		public:
 			~AutoImage()
 			{
-				if (data)
-					delete []data;
+				if (image.data)
+					delete []image.data;
 			}
 			
 			void copyFrom(const Image &o, ePixelFormat::PixelFormat pf);
 			bool load(loaders::ImageLoader &loader, fs::InputStream &input);
 			bool save(loaders::ImageLoader &loader, fs::OutputStream &output);
+			operator const Image & () const
+			{
+				return image;
+			}
+			
+		private:
+			Image image;
 		};
 		
 		/**
@@ -72,14 +100,14 @@ namespace gb
 			// достаточно всего 4*COUNT функций
 			AutoImage temp;
 			bool floating_point = getPFDescription(to.pixel_format)->floationg_point;
+			ePixelFormat::PixelFormat pixel_format;
 			if (floating_point)
-				temp.pixel_format = ePixelFormat::FRGBA;
-			else temp.pixel_format = ePixelFormat::RGBA_8888;
+				pixel_format = ePixelFormat::FRGBA;
+			else pixel_format = ePixelFormat::RGBA_8888;
 
-			temp.copyFrom(from, temp.pixel_format);
+			temp.copyFrom(from, pixel_format);
 			
 			convert(temp, to);
-			delete []temp.data;
 		}
 	}
 }

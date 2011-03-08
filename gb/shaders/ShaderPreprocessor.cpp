@@ -35,7 +35,7 @@ namespace gb
 			bool load(const std::string &file_name, const std::vector<std::string> macro_definitions, std::string &out)
 			{
 				std::string instring;
-				if (!readEntireFile(file_system, file_name, instring))
+				if (!readEntireFile(*file_system, file_name, instring))
 					return false;
 
 				boost::wave::util::file_position_type current_position;
@@ -225,7 +225,7 @@ namespace gb
 
 				bool readEntireFile(const std::string &file_name, std::string &out)
 				{ // Used by load_file_to_string
-					return gb::fs::readEntireFile(file_system, file_name, out);
+					return gb::fs::readEntireFile(*file_system, file_name, out);
 				}
 
 				void foundIncludeDirective(const std::string &filename, bool system_path)

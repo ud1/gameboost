@@ -31,6 +31,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <cstdio>
 #include <math.h>
 #include <string.h>
 #include <gb/math/scalar.h>
@@ -560,7 +561,7 @@ namespace gb
 			inline operator        float*()        { return &_11; };
 
 
-			mat33_s& mat33_s::operator = ( float a );
+			mat33_s& operator = ( float a );
 
 		    /**  \brief Обращение знака всех элементов матрицы	*/
 	        inline mat33_s operator - () const

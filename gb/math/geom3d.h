@@ -404,7 +404,7 @@ namespace gb
 		*/
 
 		// book
-		inline Quaternion Quaternion::operator * ( const Quaternion &q ) const 
+		inline Quaternion operator * ( const Quaternion &q ) const 
 		{
 			Quaternion res;
 			res.x = w*q.x + x*q.w + z*q.y - y*q.z;
