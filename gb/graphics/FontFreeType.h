@@ -12,6 +12,7 @@ namespace gb
 		{
 		public:
 			FontFreeType();
+			~FontFreeType();
 			bool init();
 			Font *create(fs::InputStream &input, int height, int width = 0);
 			
