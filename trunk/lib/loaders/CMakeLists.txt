@@ -7,8 +7,8 @@ set( Loaders_Test_SOURCES
 		main.cpp
 		)
 
-#find_package(JPEG)
-#set(Loaders_Test_EXTRA_LIBS ${JPEG_LIBRARY})
+find_package(JPEG)
+set(Loaders_Test_EXTRA_LIBS ${JPEG_LIBRARY})
 
 #------ target -----
 add_executable( Loaders_Test ${Loaders_Test_SOURCES} )

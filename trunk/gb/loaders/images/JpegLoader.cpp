@@ -195,7 +195,7 @@ namespace gb
 				JSAMPROW row_pointers[max_rows_per_read];
 				for(int row = 0; row < max_rows_per_read; ++row)
 				{
-					row_pointers[row] = (JSAMPLE *) &image_out.data[(rows + row) * image_out.row_size_in_bytes];
+					row_pointers[row] = (JSAMPLE *) &image_out.data[(rows + row) * image_out.pitch];
 				}
 				
 				rows += jpeg_read_scanlines(&ddata.cinfo, row_pointers, max_rows_per_read);
@@ -269,7 +269,7 @@ namespace gb
 			
 			while (cinfo.next_scanline < cinfo.image_height && !my_data.was_error)
 			{
-				row_pointer[0] = (JSAMPLE *) &image.data[cinfo.next_scanline * image.row_size_in_bytes];
+				row_pointer[0] = (JSAMPLE *) &image.data[cinfo.next_scanline * image.pitch];
 				jpeg_write_scanlines(&cinfo, row_pointer, 1);
 			}
 			

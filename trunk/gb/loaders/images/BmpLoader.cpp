@@ -117,10 +117,15 @@ namespace gb
 			if (!loadImageHeader(input, image_out))
 				return false;
 			
-			int row_len = image_out.row_size_in_bytes;
+			int row_len = image_out.row_size;
+			int padding_bytes = image_out.padding_bytes;
+			char padding[4];
 			for (int i = image_out.height; i --> 0;)
 			{
-				if (input.read(image_out.data + i*row_len, row_len) != row_len)
+				if (input.read(image_out.data + i*image_out.pitch, row_len) != row_len)
+					return false;
+				
+				if (padding_bytes && input.read(padding, padding_bytes) != padding_bytes)
 					return false;
 			}
 			
@@ -130,8 +135,6 @@ namespace gb
 		bool BmpLoader::saveImage(fs::OutputStream &output, const containers::Image &image)
 		{
 			assert(image.data);
-			assert(image.row_size_in_bytes == ((image.width*getPFDescription(image.pixel_format)->bits/8 + 3) & ~3));
-			assert(image.data_size == image.row_size_in_bytes*image.height);
 			
 			if (image.pixel_format != ePixelFormat::BGR_888 && image.pixel_format != ePixelFormat::BGRA_8888)
 			{
@@ -181,10 +184,16 @@ namespace gb
 				return false;
 			}
 			
-			int row_len = image.row_size_in_bytes;
+			int row_len = image.row_size;
+			int padding_bytes = image.padding_bytes;
+			char padding[4] = {0, 0, 0, 0};
+			
 			for (int i = image.height; i --> 0;)
 			{
-				if (output.write(image.data + i*row_len, row_len) != row_len)
+				if (output.write(image.data + i*image.pitch, row_len) != row_len)
+					return false;
+				
+				if (padding_bytes && output.write(padding, padding_bytes) != padding_bytes)
 					return false;
 			}
 			

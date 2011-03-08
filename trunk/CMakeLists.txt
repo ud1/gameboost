@@ -12,9 +12,11 @@ if (MSVC)
 endif()
 set(Boost_USE_MULTITHREADED ON)
 find_package(Boost)
+find_package(Freetype)
 
 include_directories( ${GAMEBOOST_SOURCE_DIR} )
 include_directories( ${Boost_INCLUDE_DIRS} )
+include_directories( ${FREETYPE_INCLUDE_DIRS} )
 
 link_directories( ${GAMEBOOST_SOURCE_DIR}/linklib )
 link_directories( ${Boost_LIBRARY_DIRS} )
