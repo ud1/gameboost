@@ -219,6 +219,7 @@ namespace gb
 				else temp.pixel_format = ePixelFormat::RGB_888;
 				
 				temp.calculateDataSize();
+				temp.pitch = temp.row_size + temp.padding_bytes;
 				temp.data = new char[temp.data_size];
 				
 				convert(image, temp);

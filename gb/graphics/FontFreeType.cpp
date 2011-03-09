@@ -51,6 +51,7 @@ namespace
 				ERROR_LOG(ft_errors[error].err_msg);
 				return false;
 			}
+			return true;
 		}
 		
 		bool getGlyphInfo(wchar_t ch, GlyphInfo &out)
@@ -92,9 +93,9 @@ namespace
 			im.width = new_glyph->bitmap.width;
 			im.height = new_glyph->bitmap.rows;
 			
-			if (new_glyph->bitmap.num_grays == FT_PIXEL_MODE_GRAY)
+			if (new_glyph->bitmap.pixel_mode == FT_PIXEL_MODE_GRAY)
 				im.pixel_format = gb::containers::ePixelFormat::GRAYSCALE8;
-			else if (new_glyph->bitmap.num_grays == FT_PIXEL_MODE_LCD)
+			else if (new_glyph->bitmap.pixel_mode == FT_PIXEL_MODE_LCD)
 				im.pixel_format = gb::containers::ePixelFormat::RGB_888;
 			else goto at_error;
 			

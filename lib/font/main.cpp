@@ -18,12 +18,15 @@ int main()
 	LocalFS fs;
 	Atlas atlas(im_size, im_size);
 	
-	InputStream *input = fs.getInputStream("../data/FreeSans.ttf");
+	InputStream *input = fs.getInputStream("../data/BaroqueScript.ttf");
 	if (!input)
 		return 0;
 	
 	FontFreeType free_type;
-	Font *font = free_type.create(*input, 16);
+	if (!free_type.init())
+		return 0;
+	
+	Font *font = free_type.create(*input, 16*64);
 	if (!font)
 		return 0;
 	
@@ -33,6 +36,7 @@ int main()
 	image.calculateDataSize();
 	image.pitch = image.row_size + image.padding_bytes;
 	image.data = new char[image.data_size];
+	memset(image.data, 0, image.data_size);
 	
 	for (wchar_t ch = L'a'; ch <= L'z'; ++ch)
 	{
