@@ -26,7 +26,7 @@ namespace gb
 			void calculateDataSize()
 			{
 				row_size = width*getPFDescription(pixel_format)->bits/8;
-				padding_bytes = (row_size + 3) & ~3;
+				padding_bytes = ((row_size + 3) & ~3) - row_size;
 				// Добавляем хвостик в 4 байта, чтобы можно было
 				// создавать подизображения использующие туже пямять,
 				// и не беспокоится о паддинге
