@@ -77,12 +77,12 @@ namespace
 			XMoveWindow(info.display, info.window, left, top);
 		}
 		
-		void setTitle(const std::wstring &title)
+		void setTitle(const std::string &title)
 		{
 			if (!windowExist)
 				return;
 			
-			XStoreName(info.display, info.window, "GL Window");
+			XStoreName(info.display, info.window, title.c_str());
 		}
 		
 		void show(bool show_ = true)
