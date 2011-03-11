@@ -45,7 +45,8 @@ namespace gb
 		#else
 		struct WindowOSSpecParams
 		{
-			WindowOSSpecParams() {
+			WindowOSSpecParams()
+			{
 				display = NULL;
 				window = NULL;
 			}
@@ -111,7 +112,7 @@ namespace gb
 			size_t	width, height;
 			int		x, y;
 			bool	is_visible;
-			std::wstring	title;
+			std::string	title;
 		};
 
 		class Input;
@@ -122,7 +123,7 @@ namespace gb
 			virtual const WindowInfo *getWindowInfo() = 0;
 			virtual void setSize(size_t width, size_t height) = 0;
 			virtual void setPosition(int left, int top) = 0;
-			virtual void setTitle(const std::wstring &title) = 0;
+			virtual void setTitle(const std::string &title) = 0;
 			virtual void show(bool show = true) = 0;
 			virtual bool close() = 0;
 			virtual	void attachInputHandler(Input *input) = 0;
