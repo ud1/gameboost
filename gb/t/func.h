@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <gb/config.h>
+#include <gb/Config.h>
 #include <gb/base/Types.h>
 
 #include <stdlib.h>
@@ -79,50 +79,50 @@ void print_vector(const std::vector<T>& v)
 	};
 };
 
-template<typename T>
-void print_list(const std::list<T>& l)
-{
-	for(std::list<T>::iterator it = l.begin(); it != l.end(); ++it)
-	{
-	 T val = *it;
-	 printf( "%s\n", val.tostr().c_str()  );
-	}
-}
+// template<typename T>
+// void print_list(const std::list<T>& l)
+// {
+// 	for(std::list<T>::const_iterator it = l.begin(); it != l.end(); ++it)
+// 	{
+// 		T val = *it;
+// 		printf( "%s\n", val.tostr().c_str()  );
+// 	}
+// }
 
-template<typename T>
-/** \brief вычисление кол-ва пустых элементов в массиве p размером num. 
-     Требует bool empty() const  */
-int compute_empty(const T* parray, const int num)   
-{
-	int res =0;
-	for(int c=0; c<tnum; c++) 
-	{
-		if( parray[c].empty() ) 
-		{
-			++res;
-		};
-	};
+// template<typename T>
+// /** \brief вычисление кол-ва пустых элементов в массиве p размером num. 
+//      Требует bool empty() const  */
+// int compute_empty(const T* parray, const int num)   
+// {
+// 	int res =0;
+// 	for(int c=0; c<tnum; c++) 
+// 	{
+// 		if( parray[c].empty() ) 
+// 		{
+// 			++res;
+// 		};
+// 	};
+// 
+// 	return res;
+// }
 
-	return res;
-}
-
-template<typename T>
-/** \brief вычисление кол-ва пустых элементов в  векторе. 
-     Требует bool empty() const  */
-int compute_empty(const std::vector<T>& v)
-{
- if (v.empty() ) return 0;
- int res = 0;
- const size_t NSIZE = v.size();
- for(size_t =0; c<NSIZE; c++)
- {
-   if( v.at(c).empty() )
-   {
-   res++;
-   }
- }
- return res;
-}
+// template<typename T>
+// /** \brief вычисление кол-ва пустых элементов в  векторе. 
+//      Требует bool empty() const  */
+// int compute_empty(const std::vector<T>& v)
+// {
+//  if (v.empty() ) return 0;
+//  int res = 0;
+//  const size_t NSIZE = v.size();
+//  for(size_t =0; c<NSIZE; c++)
+//  {
+//    if( v.at(c).empty() )
+//    {
+//    res++;
+//    }
+//  }
+//  return res;
+// }
 
 
 template <typename T>
@@ -140,20 +140,20 @@ void deleteBuffer( T** ppBuf )
  }
 }
 
-template <typename T>
-/** \brief  удаление  объекта. Для дружбы с блоком try ... catch   */
-void deleteObject( T** ppObj ) 
-{
- if(ppBuf)
- {
-   if(*ppBuf)
-   {
-	   T* p = *ppObj;
-	   delete  p;
-	   *ppObj = NULL; 
-   }
-  }
-}
+// template <typename T>
+// /** \brief  удаление  объекта. Для дружбы с блоком try ... catch   */
+// void deleteObject( T** ppObj ) 
+// {
+//  if(ppBuf)
+//  {
+//    if(*ppBuf)
+//    {
+// 	   T* p = *ppObj;
+// 	   delete  p;
+// 	   *ppObj = NULL; 
+//    }
+//   }
+// }
 
 
 
