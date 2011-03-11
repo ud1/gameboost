@@ -1,5 +1,4 @@
 #pragma once
-#include "func.h"
 
 namespace gb
 {
@@ -10,10 +9,11 @@ namespace gb
 		{
 			if( val < minVal )
 				return minVal;
-			else if( val > maxVal )
+			
+			if( val > maxVal )
 				return maxVal;
-			else
-				return val;
+			
+			return val;
 		}
 	}
 }
