@@ -16,9 +16,11 @@ namespace gb
 			virtual void quit() = 0;
 		};
 		
+		typedef base::RefCntHolder<WindowManager> PWindowManager;
+		
 		/**
 		 * @param graphics_library может принимать значения например "OpenGL" или "DirectX"
 		 */
-		WindowManager *createWindowManager(const std::string &graphics_library);
+		WindowManager *createWindowManager(const char *graphics_library);
 	}
 }

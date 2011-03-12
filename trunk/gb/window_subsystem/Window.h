@@ -132,6 +132,7 @@ namespace gb
 			virtual void finishRendering() = 0;
 		};
 
+		typedef base::RefCntHolder<Window> PWindow;
 	}
 }
 
