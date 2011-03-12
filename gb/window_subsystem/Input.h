@@ -62,16 +62,16 @@ namespace gb
 
 		class Window;
 
-		class  Input
+		class Input
 		{
 		public:
-			virtual bool mouse(MouseMessage msg) = 0;
-			virtual bool kbd(KbdMessage msg) = 0;
-			virtual bool close() = 0;
-			virtual bool reshape() = 0;
-			virtual bool windowMinimized() = 0;
-			virtual bool onAttach(Window *wnd) = 0;
-			virtual bool onDetach() = 0;
+			virtual bool mouse(MouseMessage msg) {return true;}
+			virtual bool kbd(KbdMessage msg) {return true;}
+			virtual bool close() {return true;}
+			virtual bool reshape() {return true;}
+			virtual bool windowMinimized() {return true;}
+			virtual bool onAttach(Window *wnd) {return true;}
+			virtual bool onDetach() {return true;}
 		};
 
 	}

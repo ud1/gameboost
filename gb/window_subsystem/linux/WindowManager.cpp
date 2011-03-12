@@ -184,8 +184,11 @@ namespace
 			ws::KbdMessage kbd;
 			if (last_release_event_set) {
 				last_release_event_set = false;
-				kbd.init(ws::KbdMessage::KEY_UP, convertKey(last_release_event.keycode));
-				return input->kbd(kbd);
+				if (input)
+				{
+					kbd.init(ws::KbdMessage::KEY_UP, convertKey(last_release_event.keycode));
+					return input->kbd(kbd);
+				}
 			}
 		}
 		
@@ -713,7 +716,7 @@ namespace gb
 {
 	namespace window_subsystem
 	{
-		WindowManager *createWindowManager(const std::string &)
+		WindowManager *createWindowManager(const char *)
 		{
 			return new GLXWindowManager;
 		}

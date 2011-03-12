@@ -1048,7 +1048,7 @@ namespace
 // 		}
 
 		GLDevice *device;
-		RefCntHolder<ws::Window> wnd;
+		ws::PWindow wnd;
 		bool viewport_changed;
 	};
 

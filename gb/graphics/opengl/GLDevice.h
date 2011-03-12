@@ -10,7 +10,6 @@ namespace gb
 		class GLDevice : public Device
 		{
 		public:
-			GLDevice();
 			RenderTarget *createWindowRenderTarget(window_subsystem::Window *wnd);
 			bool getSize(int &width, int &height);
 			void setScissorRect(const base::Rectangle &rc);
@@ -27,7 +26,7 @@ namespace gb
 			void forDeletion_(IRefCountable *res);
 
 		protected:
-			base::RefCntHolder<ShaderProgram> activated_program;
+			PShaderProgram activated_program;
 			std::vector<IRefCountable *> for_deletion;
 			boost::mutex for_deletion_guard;
 		};

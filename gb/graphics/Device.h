@@ -15,6 +15,8 @@ namespace gb
 			virtual void setSource(const char *str) = 0;
 			virtual bool compile() = 0;
 		};
+		
+		typedef base::RefCntHolder<Shader> PShader;
 
 		struct Layout
 		{
@@ -56,6 +58,8 @@ namespace gb
 			bool is_created;
 			size_t nelements, element_size;
 		};
+		
+		typedef base::RefCntHolder<Buffer> PBuffer;
 
 		class Attribute
 		{
@@ -105,6 +109,8 @@ namespace gb
 			virtual size_t getAttributesNumber() = 0;
 			virtual Attribute *getAttribute(size_t i) = 0;
 		};
+		
+		typedef base::RefCntHolder<ShaderProgram> PShaderProgram;
 
 		class ShaderServer : public base::IRefCountable
 		{
@@ -115,6 +121,8 @@ namespace gb
 
 			virtual ShaderProgram *createShaderProgram() = 0;
 		};
+		
+		typedef base::RefCntHolder<ShaderServer> PShaderServer;
 
 		class RenderTarget : public base::IRefCountable
 		{
@@ -141,6 +149,8 @@ namespace gb
 			float cl_r, cl_g, cl_b, cl_a;
 			bool isClearColor, isClearDepth;
 		};
+		
+		typedef base::RefCntHolder<RenderTarget> PRenderTarget;
 
 		class RenderState
 		{
@@ -180,5 +190,7 @@ namespace gb
 		};
 		
 		Device *createDevice(const char *graphics_library);
+		
+		typedef base::RefCntHolder<Device> PDevice;
 	}
 }
