@@ -4,6 +4,7 @@
 
 #include "Image.h"
 #include <gb/containers/PixelFormat.h>
+#include <gb/base/alignedMalloc.h>
 #include <new>
 
 namespace
@@ -100,30 +101,36 @@ namespace gb
 			ConvCaller.call(from, to);
 		}
 		
+		AutoImage::~AutoImage()
+		{
+			if (image.data)
+				base::alignedFree((void *) image.data);
+		}
+		
 		void AutoImage::copyFrom(const Image &o, ePixelFormat::PixelFormat pf)
 		{
 			image.width = o.width;
 			image.height = o.height;
 			image.pixel_format = pf;
 			if (image.data)
-				delete []image.data;
+				base::alignedFree((void *) image.data);
 			image.calculateDataSize();
 			image.pitch = image.row_size + image.padding_bytes;
-			image.data = new char[image.data_size];
+			image.data = (char *) base::alignedMalloc(image.data_size, 4);
 			convert(o, image);
 		}
 		
 		bool AutoImage::load(loaders::ImageLoader &loader, fs::InputStream &input)
 		{
 			if (image.data)
-				delete []image.data;
+				base::alignedFree((void *) image.data);
 			image.data = NULL;
 			
 			if (!loader.loadImageHeader(input, image))
 				return false;
 			
 			image.pitch = image.row_size + image.padding_bytes;
-			image.data = new char[image.data_size];
+			image.data = (char *) base::alignedMalloc(image.data_size, 4);
 			
 			return loader.loadImage(input, image);
 		}

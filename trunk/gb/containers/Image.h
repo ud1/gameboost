@@ -21,7 +21,7 @@ namespace gb
 			int width, height, depth;
 			ePixelFormat::PixelFormat pixel_format;
 			int row_size, padding_bytes;
-			int data_size;
+			size_t data_size;
 			
 			void calculateDataSize()
 			{
@@ -68,12 +68,7 @@ namespace gb
 		class AutoImage
 		{
 		public:
-			~AutoImage()
-			{
-				if (image.data)
-					delete []image.data;
-			}
-			
+			~AutoImage();
 			void copyFrom(const Image &o, ePixelFormat::PixelFormat pf);
 			bool load(loaders::ImageLoader &loader, fs::InputStream &input);
 			bool save(loaders::ImageLoader &loader, fs::OutputStream &output);
