@@ -21,6 +21,7 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include <sstream>
+#include <boost/concept_check.hpp>
 
 #ifdef WIN32
 #pragma comment( lib, "opengl32.lib" )
@@ -200,6 +201,14 @@ namespace
 
 		bool setImageOnCubeFace(const Image *im, CubeFace face, size_t mipLevel)
 		{
+			if ((size_t) im->data & 3)
+			{
+				// Данные не выровнены, придется сначала скопировать
+				AutoImage auto_image;
+				auto_image.copyFrom(*im, im->pixel_format);
+				return setImageOnCubeFace(&(const Image &)auto_image, face, mipLevel);
+			}
+			
 			bind();
 
 			GLuint internal_format;
@@ -209,6 +218,9 @@ namespace
 			if (!getGLPixelFormat(im->pixel_format, data_format, data_type, internal_format))
 				return false;
 
+			GLint row_len = im->pitch / (getPFDescription(im->pixel_format)->bits/8);
+			glPixelStorei(GL_UNPACK_ROW_LENGTH, row_len);
+			
 			switch (type)
 			{
 				case Texture2D:
@@ -260,6 +272,14 @@ namespace
 
 		bool setSubImageOnCubeFace(const Image *im, int xoff, int yoff, int zoff, CubeFace face, size_t mipLevel)
 		{
+			if ((size_t) im->data & 3)
+			{
+				// Данные не выровнены, придется сначала скопировать
+				AutoImage auto_image;
+				auto_image.copyFrom(*im, im->pixel_format);
+				return setImageOnCubeFace(&(const Image &)auto_image, face, mipLevel);
+			}
+			
 			bind();
 
 			GLuint internal_format;
@@ -268,6 +288,9 @@ namespace
 
 			getGLPixelFormat(im->pixel_format, data_format, data_type, internal_format);
 
+			GLint row_len = im->pitch / (getPFDescription(im->pixel_format)->bits/8);
+			glPixelStorei(GL_UNPACK_ROW_LENGTH, row_len);
+			
 			switch (type)
 			{
 				case Texture2D:

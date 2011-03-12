@@ -19,6 +19,7 @@ set( GAMEBOOST_SOURCES
 		base/Logger.h base/Logger.cpp
 		base/Factory.h 
 		base/Atlas.h base/Atlas.cpp
+		base/alignedMalloc.h base/alignedMalloc.cpp
 		graphics/Font.h graphics/FontFreeType.h graphics/FontFreeType.cpp
 
 		t/clamp.h t/debug_cast.h
