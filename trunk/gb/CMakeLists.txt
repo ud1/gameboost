@@ -21,8 +21,10 @@ set( GAMEBOOST_SOURCES
 		base/Atlas.h base/Atlas.cpp
 		graphics/Font.h graphics/FontFreeType.h graphics/FontFreeType.cpp
 
+		t/clamp.h t/debug_cast.h
 		window_subsystem/Input.h window_subsystem/KeyCodes.h window_subsystem/Window.h
 		window_subsystem/WindowManager.h window_subsystem/linux/WindowManager.cpp
+		graphics/Device.h graphics/Texture.h graphics/opengl/GLDevice.h graphics/opengl/GLDevice.cpp
 
 		color/color.h
 

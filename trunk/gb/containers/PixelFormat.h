@@ -3,7 +3,7 @@
 */
 
 #include <gb/base/Types.h>
-#include <boost/concept_check.hpp>
+#include <cstdlib>
 
 #pragma once
 
@@ -16,7 +16,6 @@ namespace gb
 			enum PixelFormat
 			{
 				R_8,
-				RG_88,
 				RGB_888,
 				RGBA_8888,
 				RGBA_16_16_16_16,
@@ -25,7 +24,6 @@ namespace gb
 				BGRA_8888,
 				
 				RGB_332,
-				RGB_233,
 				RGB_565,
 				
 				RGBA_4444,
@@ -37,7 +35,6 @@ namespace gb
 				FGRAYSCALE,
 				
 				FR,
-				FRG,
 				FRGB,
 				FRGBA,
 				
@@ -163,12 +160,10 @@ namespace gb
 		}
 		
 		struct r_8 : public details::r_type<uint8_t, containers::ePixelFormat::R_8> {};
-		struct rg_88 : public details::rg_type<uint8_t, containers::ePixelFormat::RG_88> {};
 		struct rgb : public details::rgb_type<uint8_t, containers::ePixelFormat::RGB_888> {};
 		struct rgba : public details::rgba_type<uint8_t, containers::ePixelFormat::RGBA_8888> {};
 		struct rgba_16_16_16_16 : public details::rgba_type<uint16_t, containers::ePixelFormat::RGBA_16_16_16_16> {};
 		struct fr : public details::r_type<float, containers::ePixelFormat::FR> {};
-		struct frg : public details::rg_type<float, containers::ePixelFormat::FRG> {};
 		struct frgb : public details::rgb_type<float, containers::ePixelFormat::FRGB> {};
 		struct frgba : public details::rgba_type<float, containers::ePixelFormat::FRGBA> {};
 		
@@ -246,7 +241,6 @@ namespace gb
 		}
 		
 		struct rgb_332 : public details::base_rgb_bit_field_type<uint8_t, containers::ePixelFormat::RGB_332, 3, 3, 2> {};
-		struct rgb_233 : public details::base_rgb_bit_field_type<uint8_t, containers::ePixelFormat::RGB_233, 2, 3, 3> {};
 		struct rgb_565 : public details::base_rgb_bit_field_type<uint8_t, containers::ePixelFormat::RGB_565, 5, 6, 5> {};
 
 		namespace details
@@ -632,21 +626,9 @@ namespace gb
 		};
 		
 		template <>
-		struct color_type<containers::ePixelFormat::RG_88>
-		{
-			typedef rg_88 value_type;
-		};
-		
-		template <>
 		struct color_type<containers::ePixelFormat::RGB_332>
 		{
 			typedef rgb_332 value_type;
-		};
-		
-		template <>
-		struct color_type<containers::ePixelFormat::RGB_233>
-		{
-			typedef rgb_233 value_type;
 		};
 		
 		template <>
@@ -677,12 +659,6 @@ namespace gb
 		struct color_type<containers::ePixelFormat::FR>
 		{
 			typedef fr value_type;
-		};
-		
-		template <>
-		struct color_type<containers::ePixelFormat::FRG>
-		{
-			typedef frg value_type;
 		};
 		
 		template <>

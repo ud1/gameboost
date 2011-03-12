@@ -1,5 +1,10 @@
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wenum-compare"
+#endif
+
 #include "Image.h"
 #include <gb/containers/PixelFormat.h>
+#include <new>
 
 namespace
 {
