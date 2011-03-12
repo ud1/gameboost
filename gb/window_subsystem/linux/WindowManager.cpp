@@ -270,7 +270,7 @@ namespace
 			
 			if (!xic)
 				xic = XCreateIC (xim, XNInputStyle, XIMPreeditNothing | XIMStatusNothing,
-								XNClientWindow, e.window, 0);
+								XNClientWindow, e.window, NULL);
 			if (!xic)
 			{
 				return false;

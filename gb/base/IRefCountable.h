@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gb/base/Atomic.h>
+#include <cstdlib>
 
 namespace gb
 {
@@ -50,6 +51,59 @@ namespace gb
 			{
 				delete this;
 			}
+		};
+		
+		template <typename T>
+		struct RefCntHolder
+		{
+			RefCntHolder()
+			{
+				ptr = NULL;
+			}
+			
+			RefCntHolder(T *t)
+			{
+				ptr = t;
+				if (ptr)
+					ptr->addRef();
+			}
+			
+			RefCntHolder(const RefCntHolder<T> *o)
+			{
+				ptr = o->ptr;
+				if (ptr)
+					ptr->addRef();
+			}
+			
+			~RefCntHolder()
+			{
+				if (ptr)
+					ptr->release();
+			}
+			
+			T *operator = (T *t)
+			{
+				if (ptr)
+					ptr->release();
+				
+				ptr = t;
+				
+				if (ptr)
+					ptr->addRef();
+			}
+			
+			operator T *()
+			{
+				return ptr;
+			}
+			
+			T *operator -> ()
+			{
+				return ptr;
+			}
+			
+		private:
+			T *ptr;
 		};
 
 	} // namespace
