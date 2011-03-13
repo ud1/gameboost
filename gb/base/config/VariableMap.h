@@ -70,11 +70,12 @@ class VariableMap {
                 Parser parser;
                 const char *text = openFile(filename);
                 parser.parse(text, this);
-                delete text;
             }
             catch (parseException ex) {
                 puts(ex.what());
+                delete text;
             }
+            delete text;
         }
 
         /**
