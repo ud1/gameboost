@@ -8,6 +8,8 @@
 *  - Удалены почти все зависимости от типов windows
 *  - Поправлен код стиль.
 *  - Поправлено под многопоточку. Удалено использование стат. буферов.
+
+ \todo УДАЛИТЬ FORMATER  В ФУНКЦИИ  gb::str::
 *
 */
 
@@ -20,6 +22,10 @@
 #include <cstring>
 #include <string>
 #include <cstdio>
+
+#ifdef WIN32
+#include <windows.h> 
+#endif
 
 
 namespace gb {
@@ -104,7 +110,7 @@ namespace gb {
 	static void printByteAsBin(uint8_t value) ;
 	
 
-#ifdef _WIN32
+#if defined (_WIN32)
 
 	/** \brief  Хэндл окна в строку */
 	static uint32_t hwndAsUint(const HWND hwnd) ;
