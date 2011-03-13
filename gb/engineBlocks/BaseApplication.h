@@ -3,6 +3,7 @@
 #include <gb/window_subsystem/WindowManager.h>
 #include <gb/window_subsystem/Input.h>
 #include <gb/graphics/Device.h>
+#include <gb/fs/FileSystem.h>
 
 namespace gb
 {
@@ -15,7 +16,7 @@ namespace gb
 			BaseApplication();
 			~BaseApplication();
 			
-			bool init();
+			bool init(const char *config_file_name);
 			void run();
 			void stop() {is_running = false;}
 			
@@ -27,6 +28,7 @@ namespace gb
 			window_subsystem::PWindow main_window;
 			graphics::PDevice device;
 			graphics::PRenderTarget main_window_rt;
+			fs::PFileSystem file_system;
 			
 			bool is_running;
 		};

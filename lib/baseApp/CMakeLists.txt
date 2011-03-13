@@ -12,4 +12,4 @@ set(BaseApp_EXTRA_LIBS ${Boost_LIBRARIES} GL X11 GLEW)
 
 #------ target -----
 add_executable( BaseApp_Test ${BaseApp_Test_SOURCES} )
-target_link_libraries(BaseApp_Test gameboost ${BaseApp_EXTRA_LIBS})
+target_link_libraries(BaseApp_Test gameboost yaml-cpp ${BaseApp_EXTRA_LIBS})

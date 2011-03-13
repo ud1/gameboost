@@ -14,5 +14,7 @@ namespace gb
 			virtual OutputStream *getOutputStream(const std::string &path, bool truncate) = 0;
 			virtual IOStream *getIOStream(const std::string &path, bool truncate) = 0;
 		};
+		
+		typedef base::RefCntHolder<FileSystem> PFileSystem;
 	}
 }
