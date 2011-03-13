@@ -5,7 +5,7 @@
  * @author Шаров Сергей, Zefick 2010-2011
  */
 
-#include "pch.h"
+//#include "pch.h"
 
 #include <cstdio>
 #include <string>
@@ -25,8 +25,8 @@ VariableMap::~VariableMap () {}
 
 std::string VariableMap::getParamStr (std::string paramName) const {
 
-    if (vmap.find(paramName) != vmap.end()) {
-        return vmap.at(paramName);
+    if (find(paramName) != end()) {
+        return at(paramName);
     }
     return std::string();
 }
@@ -35,7 +35,7 @@ std::string VariableMap::getParamStr (std::string paramName) const {
 void VariableMap::setParamStr (
             const std::string & paramName,
             const std::string & paramValue) {
-    vmap[paramName] = paramValue;
+    (*this)[paramName] = paramValue;
 }
 
 
