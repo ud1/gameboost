@@ -1,3 +1,21 @@
+/**
+ * Данный модуль является интерфесом к графической библиотеке, и
+ * любые вызовы графических функций должны производиться исключительно
+ * с помощью него, и нигде больше в программе.
+ * Для создания устройсва к графической библиотеке применяется
+ * функция createDevice(), чей параметр является именем библиотеки,
+ * например "OpenGL", "DirectX", "Software". На данный момент
+ * этот параметр игнориуется, и создается OpenGL устройство.
+ * 
+ * Большинство функций можно вызывать только из Render потока,
+ * IRefCountable объекты могут освобождаться из любого потока,
+ * при этом если освобождение происходит из Render потока, то
+ * объект уничтожается незамедлительно, в противном случае
+ * он помещается во внутренюю очередь, и может быть позже
+ * уничтожен функцией Device::deleteUnusedObjects().
+ */
+
+
 #pragma once
 
 #include <gb/base/IRefCountable.h>
@@ -18,6 +36,9 @@ namespace gb
 		
 		typedef base::RefCntHolder<Shader> PShader;
 
+		/**
+		 * Определяет формат хранения данных в буфере.
+		 */
 		struct Layout
 		{
 			enum Type
@@ -81,9 +102,16 @@ namespace gb
 		class Uniform
 		{
 		public:
+			/**
+			 * Функции setFloat/setFloats устанавливают внутрение переменные и
+			 * не вызывают напрямую никаких функций графической библиотеки, тем
+			 * самым могут вызываться из любого, не обязательно Render потока.
+			 * Непостредственная установка юниформов происходит при вызове 
+			 * Device::draw().
+			 */
 			bool setFloat(float v) {return setFloats(&v, 1, false);}
-
 			virtual bool setFloats(const float *values, size_t count, bool transpose) = 0;
+			
 			virtual bool setSamplerTexture(Texture *tex) = 0;
 			
 			size_t getWidth() {return width;}
@@ -124,6 +152,10 @@ namespace gb
 		
 		typedef base::RefCntHolder<ShaderServer> PShaderServer;
 
+		/**
+		 * Интерфейс к поверхности, в которую происходить рендеринг,
+		 * пока таком качестве может спользоваться только окно.
+		 */
 		class RenderTarget : public base::IRefCountable
 		{
 		public:
@@ -152,6 +184,21 @@ namespace gb
 		
 		typedef base::RefCntHolder<RenderTarget> PRenderTarget;
 
+		/**
+		 * Данный класс предназначен для удобной установки глобальных
+		 * состояний отрисовки, принимает на вход текст, каждая строка которого
+		 * является устанавливаемым состоянием, например:
+		 * <div>
+		 * DepthTest enable
+		 * ScissorTest disable
+		 * Wireframe enable
+		 * </div>
+		 * Основной целью является уменьшение количества необходимых
+		 * в интерфейсах функций, а так же удобная групировка
+		 * состояний.
+		 * Можно создавать в программе сколько угодно RenderState,
+		 * для активации используется функция apply().
+		 */
 		class RenderState
 		{
 		public:
@@ -182,6 +229,13 @@ namespace gb
 			virtual Buffer *createIndexBuffer() = 0;
 			virtual Buffer *createVertexBuffer() = 0;
 			virtual RenderState *createRenderState() = 0;
+			
+			/**
+			 * При выхове данной функции происходит установка всех параметров
+			 * и текстур в списке юниформов, биндятся все буферы для атрибутов
+			 * шейдерной программы, и вызывается непосредственно функция отрисовки
+			 * графической библиотеки.
+			 */
 			virtual void draw(ShaderProgram *prg, size_t count, size_t first, PrimitiveType type, Buffer *indexBuffer, int base = 0) = 0;
 
 			virtual ShaderServer *createShaderServer() = 0;
