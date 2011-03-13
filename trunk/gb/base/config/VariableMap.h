@@ -37,7 +37,7 @@ protected:
 /**
  * Класс для хранения именованных значений
  */
-class VariableMap {
+class VariableMap : public std::map<std::string, std::string> {
 
     public:
 
@@ -66,9 +66,10 @@ class VariableMap {
          */
         template <class Parser>
         void parseFile (const char * filename) {
+            const char *text = NULL;
             try {
                 Parser parser;
-                const char *text = openFile(filename);
+                text = openFile(filename);
                 parser.parse(text, this);
             }
             catch (parseException ex) {
@@ -125,8 +126,6 @@ class VariableMap {
         }
 
     private:
-
-        std::map<std::string, std::string> vmap;
 
         char * openFile (const char *filename);
 };
