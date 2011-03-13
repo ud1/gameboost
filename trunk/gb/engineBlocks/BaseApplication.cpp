@@ -1,4 +1,10 @@
 #include "BaseApplication.h"
+#include <gb/fs/LocalFS.h>
+#include <gb/fs/Helpers.h>
+#include <gb/base/Logger.h>
+
+#include <yaml-cpp/yaml.h>
+#include <sstream>
 
 namespace gb
 {
@@ -26,6 +32,7 @@ namespace gb
 		{
 			is_running = true;
 			input = new BaseInputHandler(this);
+			file_system = new fs::LocalFS;
 		}
 		
 		BaseApplication::~BaseApplication()
@@ -33,20 +40,45 @@ namespace gb
 			delete input;
 		}
 		
-		bool BaseApplication::init()
+		bool BaseApplication::init(const char *config_file_name)
 		{
+			std::string config_text;
+			if (!fs::readEntireFile(*file_system, config_file_name, config_text))
+				return false;
+			
+			std::istringstream iss(config_text);
+			
+			std::vector<std::string> wnd_opts;
+			
+			try
+			{
+				YAML::Parser parser(iss);
+				YAML::Node doc;
+				parser.GetNextDocument(doc);
+				
+				const YAML::Node *window_node = doc.FindValue("window");
+				if (window_node)
+				{
+					const YAML::Node *window_options_node = window_node->FindValue("options");
+					if (window_options_node)
+					{
+						for (YAML::Iterator it = window_options_node->begin(); it != window_options_node->end(); ++it)
+							wnd_opts.push_back(*it);
+					}
+				}
+			}
+			catch (YAML::ParserException& e)
+			{
+				ERROR_LOG(e.what());
+				return false;
+			}
+			
 			window_manager = window_subsystem::createWindowManager("OpenGL");
 			if (!window_manager)
 				return false;
 			
 			if (!window_manager->init(std::vector<std::string>()))
 				return false;
-			
-			std::vector<std::string> wnd_opts;
-			wnd_opts.push_back("--rel_width=0.5");
-			wnd_opts.push_back("--rel_height=0.5");
-			wnd_opts.push_back("--rel_x=0.25");
-			wnd_opts.push_back("--rel_y=0.25");
 			
 			main_window = window_manager->createWindow(wnd_opts, NULL);
 			if (!main_window)

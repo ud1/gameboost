@@ -1,0 +1,9 @@
+window: {
+	options: [
+		--rel_width=0.5,
+		--rel_height=0.5,
+		--rel_x=0.25,
+		--rel_y=0.25
+	]
+}
+

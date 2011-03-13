@@ -20,6 +20,7 @@ set( GAMEBOOST_SOURCES
 		base/Factory.h 
 		base/Atlas.h base/Atlas.cpp
 		base/alignedMalloc.h base/alignedMalloc.cpp
+		base/config/VariableMap.h base/config/VariableMap.cpp base/config/ConfigParser1.h base/config/ConfigParser1.cpp
 		graphics/Font.h graphics/FontFreeType.h graphics/FontFreeType.cpp
 
 		t/clamp.h t/debug_cast.h
@@ -89,6 +90,7 @@ source_group( shaders REGULAR_EXPRESSION "shaders/" )
 source_group( random/m_twister REGULAR_EXPRESSION "deplib/mt/" )
 
 include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
+include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/yaml-cpp/include )
 
 if (MSVC)
 	set_source_files_properties( pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h" )

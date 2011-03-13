@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include <map>
+#include <gb/base/Logger.h>
 
 namespace gb {
 namespace base {
@@ -65,17 +66,20 @@ class VariableMap : public std::map<std::string, std::string> {
          * @param filename путь к файлу
          */
         template <class Parser>
-        void parseFile (const char * filename) {
+        bool parseFile (const char * filename) {
+			bool result = false;
             const char *text = NULL;
             try {
                 Parser parser;
                 text = openFile(filename);
                 parser.parse(text, this);
+				result = true;
             }
             catch (parseException ex) {
-                puts(ex.what());
+                ERROR_LOG(ex.what());
             }
             delete[] text;
+			return result;
         }
 
         /**
@@ -84,14 +88,16 @@ class VariableMap : public std::map<std::string, std::string> {
          * @param filename путь к файлу
          */
         template <class Parser>
-        void parse (const char * text) {
+        bool parse (const char * text) {
             try {
                 Parser parser;
                 parser.parse(text, this);
             }
             catch (parseException ex) {
-                puts(ex.what());
+                ERROR_LOG(ex.what());
+				return false;
             }
+            return true;
         }
 
         /**
