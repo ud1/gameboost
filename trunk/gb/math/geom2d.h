@@ -37,6 +37,18 @@ namespace gb
 
 		};
 
+		//! Прямоугольник по мин. и макс координате
+		class Rect {
+		public:
+			float x1, y1;
+			float x2, y2;
+
+			inline Rect() {}
+			inline Rect(const Rect& r) {x1=r.x1; y1=r.y1;  x2=r.x2; y2=r.y2; }
+		
+		
+		};
+
 	
 
 

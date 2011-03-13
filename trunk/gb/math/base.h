@@ -41,6 +41,12 @@
   //#include <d3d9types.h>
 #endif
 
+// temp
+#ifdef GB_D3DX9
+  #include <d3dx9Math.h>
+#endif
+
+
 namespace gb 
 {
 
@@ -52,7 +58,7 @@ namespace gb
 		namespace base
 		{
 
-		/** \brief Базовый 2d-вектор. декларировать класс от него для методов  Поправить операторы по эпислону   */
+		/** \brief Базовый 2d-вектор.  Поправить операторы по эпислону   */
 		struct vec2_s {
 
 			union {
@@ -101,6 +107,14 @@ namespace gb
  			    inline operator  const float*() const  { return &x; };
 			    inline operator        float*()        { return &x; };
 
+#ifdef GB_D3DX9
+			inline operator const D3DXVECTOR2*() const { return (D3DXVECTOR2*)&x; }
+			inline operator   D3DXVECTOR2*()   { return (D3DXVECTOR2*)&x; }
+			inline operator   D3DXVECTOR2() const  { return D3DXVECTOR2(x,y); }
+#endif
+
+
+
 				inline void setzero() {x=y=0.0f; };
 				inline bool empty() const { return ( (x==0.0f) && (y==0.0f) ); };
 
@@ -138,7 +152,7 @@ namespace gb
 			};
 
 
-		/** \brief Базовый 3d-вектор. декларировать класс от него для методов  Поправить операторы по эпислону */		
+		/** \brief Базовый 3d-вектор.  Поправить операторы по эпислону */		
 		struct vec3_s  {
 
 		    union {
@@ -187,6 +201,19 @@ namespace gb
 
 			inline operator  const float*() const  { return &x; }
 			inline operator        float*()        { return &x; }
+
+#ifdef GB_D3D9
+			inline operator D3DVECTOR*() { return (D3DVECTOR*)&x; }
+			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&x; }
+			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=x; r.y=y; r.z=z; return r;  }
+#endif
+
+#ifdef GB_D3DX9
+			inline operator D3DXVECTOR3*() { return (D3DXVECTOR3*)&x; }
+			inline operator const D3DXVECTOR3*() const { return (D3DXVECTOR3*)&x; }
+			inline operator D3DXVECTOR3() const  {  return D3DXVECTOR3(x,y,z); }// r; r.x=x;r.y=y;r.z=z; return r;  }
+#endif
+
 
 		    inline void setzero() {x=y=z=0.0f; }
 			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) ); }
@@ -237,7 +264,7 @@ namespace gb
 		
 
 
-		/** \brief Базовый 4d-вектор.  декларировать класс от него для методов. Поправить операторы по эпислону   */		
+		/** \brief Базовый 4d-вектор. Поправить операторы по эпислону   */		
 		struct vec4_s  {
 
 		    union {
@@ -674,6 +701,43 @@ namespace gb
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
 
+#ifdef GB_D3D9
+			inline operator D3DMATRIX*()   { return (D3DMATRIX*)&_11; }
+			inline operator const D3DMATRIX*() const  { return (D3DMATRIX*)&_11; }
+			inline operator const D3DMATRIX() const 
+			{
+			   D3DMATRIX res;
+			   for(int c=0;c<4; c++)
+			   {
+			     for(int j=0; j<4; j++)
+				 {
+				  res.m[c][j] = floats[c][j];
+				 }
+			   }
+			   return res;
+			}
+#endif
+ 
+
+
+#ifdef GB_D3DX9
+			inline operator D3DXMATRIX*()   { return (D3DXMATRIX*)&_11; }
+			inline operator const D3DXMATRIX*() const  { return (D3DXMATRIX*)&_11; }
+			inline operator const D3DXMATRIX() const 
+			{
+			   D3DXMATRIX res;
+			   for(int c=0;c<4; c++)
+			   {
+			     for(int j=0; j<4; j++)
+				 {
+				  res.m[c][j] = floats[c][j];
+				 }
+			   }
+			   return res;
+			}
+#endif
+
+
 			/**    \brief Строгое сравнение    */
 			inline bool operator == ( const mat44_s& m ) const
 			{
@@ -697,6 +761,8 @@ namespace gb
 					  ( _43 == m._43) &&
 					  ( _44 == m._44) );
 			}
+
+
 
 
 
@@ -1115,11 +1181,7 @@ namespace gb
             #endif
 
 
-            #if ( defined GB_D3D9 &&  defined _d3d9TYPES_H_  )
-			  // inline operator = (const D3DMATRIX& m) { *this=(mat44_s)m; };
-			   inline operator const D3DMATRIX*() const { return (D3DMATRIX*)&_11; };
-			   inline operator       D3DMATRIX*()       { return (D3DMATRIX*)&_11; };
-			#endif
+
 		
 		};
  
