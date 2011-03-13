@@ -130,7 +130,7 @@ GB_D3D9_API bool D3DSTENCILOP_fromstr( D3DSTENCILOP& valOut, const std::string& 
 		 
 //-------------------------------------------------------------------------		 
 
-	     } // end ns draw
+	     } // end ns dataconv
 
       } // end ns d3d9
 
