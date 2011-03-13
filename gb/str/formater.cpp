@@ -2,16 +2,12 @@
 *
 *
 *   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
+
+ \todo УДАЛИТЬ FORMATER  В ФУНКЦИИ  gb::str::
 *
 */
 
-//#pragma  message("ВЕРНУТЬ ПРЕКОМП ХЕДЕР"   __FILE__ )
-
-//#include "stdafx.h"
-
-//#pragma  message("ВЕРНУТЬ ПРАВИЛЬНЫЙ ПУТЬ"  __FILE__ )
-#include "gb/str/formater.h"
-//#include "z:\\!!GB_TOADD\\new_formater\\formater.h"
+#include <gb/str/formater.h>
 
 #include <string.h>
 #include <stdlib.h>
