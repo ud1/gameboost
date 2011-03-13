@@ -13,10 +13,8 @@
 #include <gb/Config.h>
 #include <gb/base/Types.h>
 
-#include <gb/math/scalar.h>
-#include <gb/math/base.h>
-#include <gb/math/geom2d.h> 
-#include <gb/math/geom3d.h>
+#include <gb/math.h>
+ 
 
   // незнаю как там в линухе и пр..  поправьте пожста
 #if defined(WIN32) 
@@ -37,13 +35,27 @@ namespace gb
   namespace opengl
   {
   //--------------------------------------------------------------------------------
+ 
+ 
   
-   // опа ...
+inline void set_GL_ALPHA_TEST (bool val)   { if(val){ glEnable(GL_ALPHA_TEST); } else { glDisable(GL_ALPHA_TEST);};  }
+inline void set_GL_DEPTH_TEST (bool val)   { if(val){ glEnable(GL_DEPTH_TEST); } else { glDisable(GL_DEPTH_TEST);};  }  
+inline void set_GL_DITHER     (bool val)   { if(val){ glEnable(GL_DITHER); } else { glDisable(GL_DITHER);};  }  
+inline void set_GL_FOG        (bool val)   { if(val){ glEnable(GL_FOG); } else { glDisable(GL_FOG);};  } 
+
+inline void set_GL_LINE_SMOOTH(bool val)   { if(val){ glEnable(GL_LINE_SMOOTH); } else { glDisable(GL_LINE_SMOOTH);};  } 
+inline void set_GL_LOGIC_OP   (bool val)   { if(val){ glEnable(GL_LOGIC_OP); } else { glDisable(GL_LOGIC_OP);};  }	 
   
-  
-  
-  
-  
+inline void set_GL_NORMALIZE  (bool val)   { if(val){ glEnable(GL_NORMALIZE); } else { glDisable(GL_NORMALIZE);};  }
+	     
+inline void set_GL_STENCIL_TEST(bool val)   { if(val){ glEnable(GL_STENCIL_TEST); } else { glDisable(GL_STENCIL_TEST);};  }
+ /*
+inline void set_xxx  (bool val)   { if(val){ glEnable(xxx); } else { glDisable(xxx);};  }
+inline void set_xxx  (bool val)   { if(val){ glEnable(xxx); } else { glDisable(xxx);};  }	
+ */
+	 
+
+
   
   
   
