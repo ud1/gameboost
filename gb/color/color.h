@@ -778,14 +778,17 @@ public:
 
 
 
-#if ( defined(GB_D3D9)  && defined (_d3d9TYPES_H_)  )
-
-  inline void operator = (const D3DCOLORVALUE& val) { r=val.r; g=val.g; b=val.b; a=val.a; };
-  inline operator const D3DCOLORVALUE*() const { return (D3DCOLORVALUE*)&r; };
-  inline operator       D3DCOLORVALUE () const { D3DCOLORVALUE res;  res.a = a; res.r = r; res.g = g; res.b = b; return res; };
- 
-
+#if ( defined(GB_D3D9) ) //  && defined (_d3d9TYPES_H_)  )
+  inline void operator = (const D3DCOLORVALUE& val) { r=val.r; g=val.g; b=val.b; a=val.a; }
+  inline operator const D3DCOLORVALUE*() const { return (D3DCOLORVALUE*)&r; }
+  inline operator       D3DCOLORVALUE () const { D3DCOLORVALUE res;  res.a=a; res.r=r; res.g=g; res.b=b; return res; }
 #endif   // GB_D3D9
+
+#ifdef GB_D3DX9
+  inline void operator = (const D3DXCOLOR& c) {r=c.r; g=c.g; b=c.b; a=c.a; }
+  inline operator const D3DXCOLOR*() const { return (D3DXCOLOR*)&r; }
+  inline operator       D3DXCOLOR () const { return D3DXCOLOR(r,g,b,a); }
+#endif
 
 
 }; 
