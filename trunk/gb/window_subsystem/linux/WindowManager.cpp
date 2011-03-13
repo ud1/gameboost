@@ -535,6 +535,7 @@ namespace
 			("rel_height", po::value<double>(), "window relative height in range [0..1]")
 			("gl_version", po::value<int>(&gl_version), "gl version = 10 * major_version + minor_version")
 			("forward_compatible", po::value<bool>(&forward_compatible), "if gl_version >= 30, create forward compatible context")
+			("title", po::value<std::string>(&win_info.title), "window title")
 			;
 			
 		po::variables_map vm;
