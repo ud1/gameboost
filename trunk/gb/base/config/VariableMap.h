@@ -74,9 +74,8 @@ class VariableMap : public std::map<std::string, std::string> {
             }
             catch (parseException ex) {
                 puts(ex.what());
-                delete text;
             }
-            delete text;
+            delete[] text;
         }
 
         /**
