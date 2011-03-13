@@ -140,25 +140,25 @@ void deleteBuffer( T** ppBuf )
  }
 }
 
-// template <typename T>
-// /** \brief  удаление  объекта. Для дружбы с блоком try ... catch   */
-// void deleteObject( T** ppObj ) 
-// {
-//  if(ppBuf)
-//  {
-//    if(*ppBuf)
-//    {
-// 	   T* p = *ppObj;
-// 	   delete  p;
-// 	   *ppObj = NULL; 
-//    }
-//   }
-// }
+ template <typename T>
+ /** \brief  удаление  объекта. Для дружбы с блоком try ... catch   */
+ void deleteObject( T** ppObj ) 
+ {
+  if(ppObj)
+  {
+    if(*ppObj)
+    {
+ 	   T* p = *ppObj;
+ 	   delete  p;
+ 	   *ppObj = NULL; 
+    }
+   }
+ }
 
 
 
 template <typename T>
-/** \brief Функция незащищённого освобождения интерфейса */
+/** \brief Функция незащищённого освобождения  windows COM-интерфейса */
 void unsafeRelease(T** pp) 
 {
   if(pp)
@@ -174,7 +174,7 @@ void unsafeRelease(T** pp)
 
 
 template <typename T>
-/** \brief Безопасное  освобождение интерфейса */
+/** \brief Безопасное  освобождение интерфейса. Если ошибка  вернёт (-1)  */
 long safeExceptionRelease(T** pp) 
 {
 	//__try 
@@ -384,9 +384,9 @@ namespace sort
 		} while(i <= j);
 
 		if(i < right)
-			SortBuffer_quick(items, i, right);
+			sortBuffer_quick(items, i, right);
 		if(left < j)
-			SortBuffer_quick(items, left, j);
+			sortBuffer_quick(items, left, j);
 
 	};
 
@@ -397,7 +397,7 @@ namespace sort
 	void sortBuffer_quick(T* items, const int nLen) 
 	{
 		if(0==nLen) return;
-		SortBuffer_quick(items, 0, nLen-1);
+		sortBuffer_quick(items, 0, nLen-1);
 	};
 
 
