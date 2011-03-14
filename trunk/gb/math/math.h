@@ -14,6 +14,7 @@
 
 
 // Временно подключаем glm, так как не вся математика реализованна
+// http://glm.g-truc.net/
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
