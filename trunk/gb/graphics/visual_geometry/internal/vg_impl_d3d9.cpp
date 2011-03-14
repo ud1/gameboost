@@ -18,8 +18,8 @@ namespace internal {
 
 
 //=========================================================================
-HRESULT VGSaveRestoreDataD3D9::SaveDeviceData(IDirect3DDevice9 *pdevice, const
-  VGCOLOR &newColor, float pointSize, IDirect3DTexture9 *newTxtr)
+HRESULT VGSaveRestoreDataD3D9::SaveDeviceData(IDirect3DDevice9 *pdevice, 
+				const VGCOLOR &newColor, float pointSize, IDirect3DTexture9 *newTxtr)
 {
   HRESULT hr = S_OK;
   D3DMATERIAL9 newMat;

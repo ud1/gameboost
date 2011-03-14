@@ -77,11 +77,18 @@ namespace gb
   // !  temp 
 #if (1)
 
-#define VGCOLOR  gb::color::Color4f   
-#define VGVEC2  gb::math::base::vec2_s 
-#define VGVEC3  gb::math::base::vec3_s 
-#define VGVEC4  gb::math::base::vec4_s 
-#define VGMATRIX  gb::math::base::mat44_s 
+//#define VGCOLOR  gb::color::Color4f   
+//#define VGVEC2  gb::math::base::vec2_s 
+//#define VGVEC3  gb::math::base::vec3_s 
+//#define VGVEC4  gb::math::base::vec4_s 
+//#define VGMATRIX  gb::math::base::mat44_s 
+
+typedef gb::color::Color4f        VGCOLOR;     
+typedef gb::math::base::vec2_s    VGVEC2;   
+typedef gb::math::base::vec3_s    VGVEC3;   
+typedef gb::math::base::vec4_s    VGVEC4;   
+typedef gb::math::base::mat44_s   VGMATRIX;  
+
 
 #else
 

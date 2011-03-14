@@ -569,11 +569,12 @@ public:
 //-------------------------------------------------------------------------
 
 static const DWORD  VG_FVF_3DLINES     =  D3DFVF_XYZ ;
-static const DWORD  VG_FVF_HEOSPHERE   = (D3DFVF_XYZ    | D3DFVF_PSIZE);
+static const DWORD  VG_FVF_HEOSPHERE   = (D3DFVF_XYZ  | D3DFVF_PSIZE);
 
-class VGDraw3DGeometry_Impl_D3D9  : public gb::graphics::visual_geometry::IDraw3DGeometry {
+class VGDraw3DGeometry_Impl_D3D9  : public gb::graphics::visual_geometry::IDraw3DGeometry 
+{
 public:
-	mutable VG_COLOR m_color;
+	mutable  VGCOLOR m_color;
 	IDirect3DDevice9* m_pdevice; // conts ???
 	mutable VGSaveRestoreDataD3D9 m_DeviceData;
 
@@ -584,7 +585,6 @@ public:
 		 : m_pdevice(pdevice)  
 	{ 
 		assert(pdevice);
-		m_pdevice = pdevice;
 		m_color.setWhite();  
 	}
 
