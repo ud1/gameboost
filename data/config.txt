@@ -8,3 +8,9 @@ window: {
 	]
 }
 
+camera: {
+	znear: 1,
+	zfar: 5000,
+	fov: 54,
+	speed: 10
+}

@@ -6,6 +6,34 @@
 #include <yaml-cpp/yaml.h>
 #include <sstream>
 
+#include <cmath>
+
+namespace
+{
+	void setupCamera(gb::base::Camera &camera, const YAML::Node &config)
+	{
+		const YAML::Node *camera_node = config.FindValue("camera");
+		if (camera_node)
+		{
+			const YAML::Node *node;
+			if (node = camera_node->FindValue("znear"))
+				*node >> camera.znear;
+			
+			if (node = camera_node->FindValue("zfar"))
+				*node >> camera.zfar;
+			
+			if (node = camera_node->FindValue("fov"))
+			{
+				*node >> camera.fov;
+				camera.fov *= M_PI;
+			}
+			
+			if (node = camera_node->FindValue("speed"))
+				*node >> camera.speed;
+		}
+	}
+}
+
 namespace gb
 {
 	namespace engine_blocks
@@ -66,6 +94,8 @@ namespace gb
 							wnd_opts.push_back(*it);
 					}
 				}
+				
+				setupCamera(camera, doc);
 			}
 			catch (YAML::ParserException& e)
 			{
