@@ -15,14 +15,18 @@
 
 // Временно подключаем glm, так как не вся математика реализованна
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/transform2.hpp>
+#include <glm/gtc/matrix_projection.hpp>
 
 namespace gb
 {
 	namespace math
 	{
+		using namespace glm;
 		
-		using glm::ivec2;
-		
+		typedef vec3::value_type vec_t;
 	}
 }
 

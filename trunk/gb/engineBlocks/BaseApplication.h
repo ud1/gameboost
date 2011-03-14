@@ -4,6 +4,7 @@
 #include <gb/window_subsystem/Input.h>
 #include <gb/graphics/Device.h>
 #include <gb/fs/FileSystem.h>
+#include <gb/base/Camera.h>
 
 namespace gb
 {
@@ -29,6 +30,7 @@ namespace gb
 			graphics::PDevice device;
 			graphics::PRenderTarget main_window_rt;
 			fs::PFileSystem file_system;
+			base::Camera camera;
 			
 			bool is_running;
 		};
