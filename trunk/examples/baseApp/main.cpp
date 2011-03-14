@@ -4,7 +4,7 @@ int main()
 {
 	gb::engine_blocks::BaseApplication application;
 	
-	if (!application.init())
+	if (!application.init("../data/config.txt"))
 		return 0;
 	
 	application.run();
