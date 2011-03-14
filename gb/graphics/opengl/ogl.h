@@ -13,7 +13,7 @@
 #include <gb/Config.h>
 #include <gb/base/Types.h>
 
-#include <gb/math.h>
+#include <gb/math/math.h>
  
 
   // незнаю как там в линухе и пр..  поправьте пожста
