@@ -1,4 +1,5 @@
 #include "BaseApplication.h"
+#include "InputHandlerMap.h"
 #include <gb/fs/LocalFS.h>
 #include <gb/fs/Helpers.h>
 #include <gb/base/Logger.h>
@@ -38,28 +39,9 @@ namespace gb
 {
 	namespace engine_blocks
 	{
-
-		class BaseApplication::BaseInputHandler : public window_subsystem::Input
-		{
-		public:
-			BaseInputHandler(BaseApplication *app_)
-			{
-				app = app_;
-			}
-			
-			bool close()
-			{
-				app->stop();
-			}
-			
-		private:
-			BaseApplication *app;
-		};
-			
 		BaseApplication::BaseApplication()
 		{
 			is_running = true;
-			input = new BaseInputHandler(this);
 			file_system = new fs::LocalFS;
 		}
 		
@@ -114,6 +96,7 @@ namespace gb
 			if (!main_window)
 				return false;
 			
+			setupInputHandler();
 			main_window->attachInputHandler(input);
 			
 			device = graphics::createDevice("OpenGL");
@@ -141,6 +124,17 @@ namespace gb
 				main_window_rt->beginFrame();
 				main_window_rt->endFrame();
 			}
+		}
+		
+		void BaseApplication::setupInputHandler()
+		{
+			input = new BaseApplicationInputHandler(this);
+		}
+		
+		bool BaseApplication::onClose()
+		{
+			stop();
+			return false; // Выполнить закрытие окна
 		}
 		
 	}

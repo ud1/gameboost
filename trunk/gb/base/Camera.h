@@ -70,11 +70,11 @@ namespace gb
 			{
 				math::quat turn;
 				turn = math::angleAxis(z, up);
-				orientation = math::cross(turn, orientation);
+				orientation = turn * orientation;
 				turn = math::angleAxis(y, right);
-				orientation = math::cross(orientation, turn);
+				orientation = orientation * turn;
 				turn = math::angleAxis(-x, forward);
-				orientation = math::cross(orientation, turn);
+				orientation = orientation * turn;
 			}
 
 			void move(math::vec3 delta)
