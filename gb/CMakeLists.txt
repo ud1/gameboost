@@ -29,7 +29,8 @@ set( GAMEBOOST_SOURCES
 		window_subsystem/WindowManager.h window_subsystem/linux/WindowManager.cpp
 		graphics/Device.h graphics/Device.cpp graphics/Texture.h graphics/opengl/GLDevice.h graphics/opengl/GLDevice.cpp
 
-		engineBlocks/BaseApplication.h engineBlocks/BaseApplication.cpp
+		engineBlocks/BaseApplication.h engineBlocks/BaseApplication.cpp engineBlocks/GameApplication.h engineBlocks/GameApplication.cpp
+		engineBlocks/EventTranslator.h engineBlocks/EventTranslator.cpp engineBlocks/InputHandlerContainer.h engineBlocks/InputHandlerMap.h
 
 		color/color.h
 

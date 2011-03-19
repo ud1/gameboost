@@ -1,8 +1,8 @@
-#include <gb/engineBlocks/BaseApplication.h>
+#include <gb/engineBlocks/GameApplication.h>
 
 int main()
 {
-	gb::engine_blocks::BaseApplication application;
+	gb::engine_blocks::GameApplication application(true);
 	
 	if (!application.init("../data/config.txt"))
 		return 0;

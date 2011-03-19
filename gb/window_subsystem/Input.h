@@ -62,16 +62,25 @@ namespace gb
 
 		class Window;
 
+		/**
+		 * Обработчик ввода. Большинство функций возвращают bool'еаново значение,
+		 * которое показывает, было ли данное сообщение обработано
+		 * или нет. В случае, если возвращаемое значение - false, то
+		 * будет выполнен стандартный обработчик оконной системы. Например,
+		 * чтобы предотвратить закрытие окна достаточно чтобы функция close()
+		 * возвращала true.
+		 */
 		class Input
 		{
 		public:
-			virtual bool mouse(MouseMessage msg) {return true;}
-			virtual bool kbd(KbdMessage msg) {return true;}
-			virtual bool close() {return true;}
-			virtual bool reshape() {return true;}
-			virtual bool windowMinimized() {return true;}
-			virtual bool onAttach(Window *wnd) {return true;}
-			virtual bool onDetach() {return true;}
+			virtual ~Input() {}
+			virtual bool mouse(MouseMessage msg) {return false;}
+			virtual bool kbd(KbdMessage msg) {return false;}
+			virtual bool close() {return false;}
+			virtual bool reshape() {return false;}
+			virtual bool windowMinimized() {return false;}
+			virtual void onAttach(Window *wnd) {}
+			virtual void onDetach() {}
 		};
 
 	}
