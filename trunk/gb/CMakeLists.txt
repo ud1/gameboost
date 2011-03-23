@@ -31,6 +31,7 @@ set( GAMEBOOST_SOURCES
 
 		engineBlocks/BaseApplication.h engineBlocks/BaseApplication.cpp engineBlocks/GameApplication.h engineBlocks/GameApplication.cpp
 		engineBlocks/EventTranslator.h engineBlocks/EventTranslator.cpp engineBlocks/InputHandlerContainer.h engineBlocks/InputHandlerMap.h
+		engineBlocks/CacheBase.h engineBlocks/CacheNoGarbage.h
 
 		color/color.h
 

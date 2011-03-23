@@ -8,6 +8,12 @@ namespace gb
 	namespace base
 	{
 
+		/**
+		 * Базовый класс для объектов, время жизни которых определяется
+		 * счетчиком ссылок на них. При достижении счетчиком нуля вызывается
+		 * функция destroyThis(), которую можно при необходимости переопределить
+		 * в наследуемых классах.
+		 */
 		class IRefCountable
 		{
 		public:
@@ -21,17 +27,17 @@ namespace gb
 
 			virtual ~IRefCountable() {}
 
-			RefCount_t addRef()
+			RefCount_t addRef() const
 			{
 				return atomicIncrAndFetchInt(&refCount);
 			}
 
-			RefCount_t release()
+			RefCount_t release() const
 			{
 				RefCount_t count = atomicDecrAndFetchInt(&refCount);
 				if (count <= 0)
 				{
-					destroyThis();
+					const_cast<IRefCountable *>(this)->destroyThis();
 					return 0;
 				}
 				return refCount;
@@ -43,16 +49,18 @@ namespace gb
 			}
 
 		private:
-			RefCount_t refCount;
+			mutable RefCount_t refCount;
 
 		protected:
-			// override this if you do not want to destroy object
 			virtual void destroyThis()
 			{
 				delete this;
 			}
 		};
 		
+		/**
+		 * RefCntHolder используется для хранения IRefCountable объектов.
+		 */
 		template <typename T>
 		struct RefCntHolder
 		{
@@ -61,10 +69,10 @@ namespace gb
 				ptr = NULL;
 			}
 			
-			RefCntHolder(T *t)
+			RefCntHolder(T *t, bool inc_counter = true)
 			{
 				ptr = t;
-				if (ptr)
+				if (ptr && inc_counter)
 					ptr->addRef();
 			}
 			
@@ -92,6 +100,14 @@ namespace gb
 					ptr->addRef();
 			}
 			
+			void set0(T *t)
+			{
+				if (ptr)
+					ptr->release();
+				
+				ptr = t;
+			}
+			
 			operator T *()
 			{
 				return ptr;
@@ -105,6 +121,16 @@ namespace gb
 		private:
 			T *ptr;
 		};
-
+		
+		/**
+		 * Данную функцию следует использовать для сохранения
+		 * IRefCountable объекта полученного из фабрики непосредственно
+		 * в RefCntHolder.
+		 */
+		template <typename T>
+		RefCntHolder<T> CreateRFHolder(T *t)
+		{
+			return RefCntHolder<T>(t, false);
+		}
 	} // namespace
 } // namespace

@@ -42,7 +42,7 @@ namespace gb
 		BaseApplication::BaseApplication()
 		{
 			is_running = true;
-			file_system = new fs::LocalFS;
+			file_system = base::CreateRFHolder(new fs::LocalFS);
 		}
 		
 		BaseApplication::~BaseApplication()
@@ -85,25 +85,25 @@ namespace gb
 				return false;
 			}
 			
-			window_manager = window_subsystem::createWindowManager("OpenGL");
+			window_manager = base::CreateRFHolder(window_subsystem::createWindowManager("OpenGL"));
 			if (!window_manager)
 				return false;
 			
 			if (!window_manager->init(std::vector<std::string>()))
 				return false;
 			
-			main_window = window_manager->createWindow(wnd_opts, NULL);
+			main_window = base::CreateRFHolder(window_manager->createWindow(wnd_opts, NULL));
 			if (!main_window)
 				return false;
 			
 			setupInputHandler();
 			main_window->attachInputHandler(input);
 			
-			device = graphics::createDevice("OpenGL");
+			device = base::CreateRFHolder(graphics::createDevice("OpenGL"));
 			if (!device)
 				return false;
 			
-			main_window_rt = device->createWindowRenderTarget(main_window);
+			main_window_rt = base::CreateRFHolder(device->createWindowRenderTarget(main_window));
 			if (!main_window_rt)
 				return false;
 			

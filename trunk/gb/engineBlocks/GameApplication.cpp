@@ -31,6 +31,8 @@ namespace gb
 			{
 				game_input_handler->addTransition(eKeyCodes::KEY_TILDE, GAME, CONSOLE);
 				game_input_handler->addTransition(eKeyCodes::KEY_ESCAPE, CONSOLE, GAME);
+				game_input_handler->addTransition(eKeyCodes::KEY_TILDE, CONSOLE, MENU);
+				game_input_handler->addTransition(eKeyCodes::KEY_TILDE, MENU, CONSOLE);
 			}
 		}
 	}
