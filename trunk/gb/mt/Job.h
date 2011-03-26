@@ -20,17 +20,26 @@ namespace gb
 	namespace mt
 	{
 		
+		/** \brief Задача
+		 *
+		 * Представляет собой ссылку на функцию, которую нужно выполнить,
+		 * а так же стратегию выбора групп потоков.
+		 * Задача для выполнения принимает один агрумент типа Action
+		 */
 		struct JobTask
 		{
+			/**
+			 * Используется для указания типа выполнения
+			 */
 			enum Action
 			{
-				DO_JOB,
-				CANCEL_JOB
+				DO_JOB, /// Обычное выполнение задачи
+				CANCEL_JOB /// Задача была отменена
 			};
 			
 			typedef boost::function<void (Action)> RunFunc;
-			RunFunc run;
-			const ThreadPolicy *policy;
+			RunFunc run; /// Функция для выполнения
+			const ThreadPolicy *policy; /// Стратегия выбора потоков, которые могут выполнять данную задачу
 			
 			JobTask()
 			{
@@ -52,15 +61,31 @@ namespace gb
 		};
 
 
+		/**
+		 * \brief Описатель задачи, используется для отслеживания и контроля выполнения задачи.
+		 */
 		class Job : public base::IRefCountable
 		{
 		public:
-			// status = JOB_WAITING at start
-			// JOB_WAITING -> JOB_RUNNING when job starts to be carried out
-			// JOB_WAITING -> JOB_CANCELING at Cancel()
-			// JOB_RUNNING -> JOB_FINISHED then job(DO_JOB) ends
-			// JOB_CANCELING -> JOB_CANCELED then job(CANCEL_JOB) ends
-			// running job cannot be canceled
+			/**
+			 * \brief Статус задачи
+			 * 
+			 * При создании статус устанавливается в JOB_WAITING.
+			 * 
+			 * Когда задача начинает выполняться, статус меняется на JOB_RUNNING,
+			 * при этом вызывается функция задачи с параметром DO_JOB.
+			 * Задача может начать выполнение только, если статус был JOB_WAITING.
+			 * 
+			 * При отмене задачи, статус меняется на JOB_CANCELING, при этом
+			 * вызывается функция задачи с параметром CANCEL_JOB.
+			 * Задача может быть отменена только, если статус был JOB_WAITING.
+			 * 
+			 * После завершения выполнения задачи (когда завершается вызов
+			 * функции задачи с параметром DO_JOB), статус переходит в JOB_FINISHED.
+			 * 
+			 * После отмены задачи (когда завершается вызов
+			 * функции задачи с параметром CANCEL_JOB), статус переходит в JOB_CANCELED.
+			 */
 			enum JobStatus : base::atomic_int_t
 			{
 				JOB_WAITING,
@@ -70,24 +95,36 @@ namespace gb
 				JOB_CANCELED
 			};
 
+			/** Возвращает текущий статус */
 			JobStatus getStatus() const
 			{
 				return status;
 			}
 
-			// try to cancel job
+			/** Пытается отменить задачу */
 			JobStatus cancel();
 
-			// wait until status won't become JOB_FINISHED or JOB_CANCELED
-			// may do the job by self
+			/**
+			 * Ожидание до тех пор пока задача не перейдет в состояние JOB_FINISHED
+			 * или JOB_CANCELED, или не закончится интервал времени millisecs (не гарантируется).
+			 * Если задача еще не начала выполнение (т.е. имеет статус JOB_WAITING), и если текущему
+			 * потоку стратегией разрешенно выполнять эту задачу, то вместо усыпления текущего потока,
+			 * он может попытаться выполнить задачу самостоятельно.
+			 */
 			JobStatus wait(int millisecs = -1);
 
+			/**
+			 * Отмена и ожидание.
+			 */
 			JobStatus cancelAndWait()
 			{
 				cancel();
 				return wait();
 			}
 			
+			/**
+			 * Возвращает используемую стратегию выбора групп потоков.
+			 */
 			const ThreadPolicy *getThreadPolicy() const
 			{
 				return job_task.policy;
@@ -103,7 +140,11 @@ namespace gb
 				job_task = task;
 			}
 
-			// Overrided by scheduler
+			/**
+			 * Эта функция может быть переопределена в дочерних классах,
+			 * предназначение - перехватить задачу на себя для выполнения
+			 * при вызове функции wait()
+			 */
 			virtual bool getJobOwnership(JobTask::Action)
 			{
 				return false;
@@ -121,6 +162,13 @@ namespace gb
 		
 		class IJobScheduler;
 		
+		/**
+		 * \brief Описатель псевдозадачи.
+		 * 
+		 * Иногда нужно вернуть описатель типа Job, но мы при этом не хотим или
+		 * не можем установить задачу. Для этой цели и существует JobProxy, задачу
+		 * можно установить в более позднее время.
+		 */
 		class JobProxy : public Job
 		{
 		protected:

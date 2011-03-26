@@ -10,6 +10,9 @@
 namespace gb {
 	namespace mt {
 		
+		/**
+		 * Группы потоков
+		 */
 		enum ThreadGroup
 		{
 			RENDER_THREAD_GROUP,
@@ -19,14 +22,22 @@ namespace gb {
 			THREAD_GROUP_NUMBER,
 		};
 		
+		/**
+		 * \brief Стратегия выбора групп потоков для выполнения задач
+		 * 
+		 * Определяет какая группа потоков предпочтительна для выполнения задачи,
+		 * а так же список групп, которым разрешено выполнять задачу.
+		 */
 		class ThreadPolicy
 		{
 		public:
+			/** Возвращает группу потоков, предпочтительной для данной задачи */
 			ThreadGroup getDesirableThreadGroup() const
 			{
 				return desirableThreadGroup;
 			}
 			
+			/** Проверяет входит ли данная группа в список разрешённых */
 			bool checkThreadGroup(ThreadGroup group) const
 			{
 				return
@@ -39,15 +50,38 @@ namespace gb {
 			std::vector<ThreadGroup> acceptableThreadGroups;
 		};
 		
-		const ThreadPolicy *getRenderOnlyThreadPolicy(); // jobs could be executed by render thread only
-		const ThreadPolicy *getIOThreadPolicy(); // jobs could be executed by render thread and IO threads
+		/**
+		 * Возвращает RenderOnly стратегию. Задачи для неё могут выполнять только
+		 * потоками из RENDER_THREAD_GROUP (обычно существует только один такой поток).
+		 */
+		const ThreadPolicy *getRenderOnlyThreadPolicy();
+		
+		/**
+		 * Возвращает IOThread стратегию. Предпочтительной группой является IO_THREAD_GROUP.
+		 * Но задачи также могут выполняться потоками из RENDER_THREAD_GROUP.
+		 */
+		const ThreadPolicy *getIOThreadPolicy();
+		
+		/**
+		 * Возвращает CPUIntensive стратегию. Предпочтительной группой является CPU_INTENSIVE_THREAD_GROUP.
+		 * Но задачи также могут выполняться потоками из RENDER_THREAD_GROUP, IO_THREAD_GROUP.
+		 */
 		const ThreadPolicy *getCPUIntensiveThreadPolicy(); // jobs could be executed by render, IO and CPU intensive threads
 		
+		/** \brief Определяет, в какую группу входит текущий поток
+		 *
+		 * Каждый поток может входить только в одну группу.
+		 */
 		class ThreadMapping
 		{
 		public:
+			/** Регистрирует текущий поток в данной группе */
 			static void registerCurrentThread(ThreadGroup g);
+			
+			/** Удаляет текущий поток из списка */
 			static void unregisterCurrentThread();
+			
+			/** Возвращает группу для текущего потока */
 			static ThreadGroup getCurrentThreadGroup();
 			
 		private:
