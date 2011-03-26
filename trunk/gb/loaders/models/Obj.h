@@ -13,7 +13,7 @@ namespace gb
 	{
 		namespace models
 		{
-			/** Простенькая структура для загрузки *.obj файлов */
+			/** \brief Простенькая структура для загрузки *.obj файлов */
 			struct Obj
 			{
 				std::vector<gb::math::vec3> vertices, normals, texture_coords;
