@@ -20,7 +20,7 @@ find_package(Boost COMPONENTS system filesystem REQUIRED)
 include_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/utfcpp.sourceforge.net )
 include_directories( ${GBTEST_SOURCE_DIR}/deplib/gtest-1.5.0/include )
 
-link_libraries( gtest gtest_main gameboost ${Boost_FILESYSTEM_LIBRARY} )
+link_libraries( gtest gtest_main gameboost ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 
 if (MSVC)
 	set_source_files_properties( pch_test.cpp PROPERTIES COMPILE_FLAGS "/Ycpch_test.h" )

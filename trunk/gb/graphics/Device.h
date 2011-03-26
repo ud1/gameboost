@@ -221,6 +221,11 @@ namespace gb
 				PRIMITIVE_TYPES_COUNT
 			};
 			
+			/** Возвращает PrimitiveType по его имени, и PRIMITIVE_TYPES_COUNT если такой тип не найден */
+			static PrimitiveType getPrimTypeByName(const std::string &name);
+			/** Возвращает строковое представление типа примитива */
+			static const char *getPrimTypeName(PrimitiveType type);
+			
 			virtual RenderTarget *createWindowRenderTarget(window_subsystem::Window *wnd) = 0;
 			virtual bool getSize(int &width, int &height) = 0;
 			virtual void setScissorRect(const base::Rectangle &rc) = 0;

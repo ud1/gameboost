@@ -153,9 +153,9 @@ namespace gb
 					pos.set_column(1);
 					pos.set_file(context.getCurrentFileName().c_str());
 					
-					pending.push_back(ContainerT::value_type(boost::wave::T_CPPCOMMENT, oss.str().c_str(), pos));
+					pending.push_back(typename ContainerT::value_type(boost::wave::T_CPPCOMMENT, oss.str().c_str(), pos));
 					pos.set_column(pos.get_column() + oss.str().size());
-					pending.push_back(ContainerT::value_type(boost::wave::T_GENERATEDNEWLINE, "\n", pos));
+					pending.push_back(typename ContainerT::value_type(boost::wave::T_GENERATEDNEWLINE, "\n", pos));
 					return true;
 				}
 

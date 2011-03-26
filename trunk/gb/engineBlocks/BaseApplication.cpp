@@ -121,6 +121,7 @@ namespace gb
 			while (is_running)
 			{
 				window_manager->processMessages();
+				device->deleteUnusedObjects();
 				main_window_rt->beginFrame();
 				main_window_rt->endFrame();
 			}
