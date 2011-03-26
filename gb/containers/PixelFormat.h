@@ -13,6 +13,7 @@ namespace gb
 	{
 		namespace ePixelFormat
 		{
+			/** \brief Форматы пиксела для изображений */
 			enum PixelFormat
 			{
 				R_8,
@@ -44,6 +45,7 @@ namespace gb
 			};
 		}
 		
+		/** \brief Описание формата пиксела для изображений */
 		struct PixelFormatDescription
 		{
 			const char *name;
@@ -57,6 +59,7 @@ namespace gb
 			bool floationg_point;
 		};
 		
+		/** Возвращает описание формата пиксела по его коду */
 		const PixelFormatDescription *getPFDescription(ePixelFormat::PixelFormat f);
 	}
 	
