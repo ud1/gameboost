@@ -6,6 +6,9 @@ namespace gb
 {
 	namespace fs
 	{
+		/**
+		 * \brief Реализация интерфейса файловой системы для доступа к локальной файловой системе.
+		 */
 		class LocalFS : public FileSystem
 		{
 		public:

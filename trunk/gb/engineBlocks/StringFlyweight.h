@@ -1,11 +1,3 @@
-/**
- * StringFlyweight представляет собой класс строк, при этом
- * одинаковым строкам соотвествует один экземпляр StringFlyweight.
- * Таким образом для сравнения StringFlyweight на равенство достаточно
- * сравнить их указатели. Для создания StringFlyweight объектов
- * следует использовать StringFlyweightFactory::create()
- */
-
 #pragma once
 
 #include <gb/base/IRefCountable.h>
@@ -20,6 +12,13 @@ namespace gb
 	namespace engine_blocks
 	{
 		
+		/**
+		* \brief StringFlyweight представляет собой класс строк, при этом одинаковым строкам соотвествует один экземпляр StringFlyweight.
+		* 
+		* Таким образом для сравнения двух объектов типа StringFlyweight на равенство достаточно
+		* сравнить их указатели. Для создания StringFlyweight объектов
+		* следует использовать StringFlyweightFactory::create()
+		*/		
 		class StringFlyweight : public std::string, public base::IRefCountable
 		{
 		public:
@@ -64,6 +63,9 @@ namespace gb
 			void update(const std::string &req, StringFlyweight &res) {}
 		};
 		
+		/**
+		* \brief Фабрика объектов типа StringFlyweight
+		*/
 		class StringFlyweightFactory : private CacheNoGarbage<StringFlyweight, boost::mutex, StringFlyweightLoader>
 		{
 		public:

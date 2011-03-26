@@ -12,17 +12,32 @@ namespace gb
 {
 	namespace containers
 	{
+		/**
+		 * \brief Заголовок изображения.
+		 * 
+		 * Хранит основные параметры изображения: размеры, формат пиксела и т.д.
+		 */
 		struct ImageHeader
 		{
 			ImageHeader()
 			{
 				depth = 1;
 			}
+			/** Размеры */
 			int width, height, depth;
+			/** Формат пикселя */
 			ePixelFormat::PixelFormat pixel_format;
+			/**
+			 * Размер строки изображения в пикселях а также выравнивание 
+			 * Практически используется лишь для вспомогательных целей,
+			 * для получения расстояния между строками следует использовать
+			 * pitch класса изображения.
+			 */
 			int row_size, padding_bytes;
+			/** Размер данных изображения */
 			size_t data_size;
 			
+			/** Вычисляет размер данных изображения по его линейным размерам и формату пикселя */
 			void calculateDataSize()
 			{
 				row_size = width*getPFDescription(pixel_format)->bits/8;
@@ -34,6 +49,14 @@ namespace gb
 			}
 		};
 		
+		/**
+		 * \brief Класс изображения
+		 * 
+		 * Хранит указатель на данные изображения. Следует заметить, что логически
+		 * эти данные не принадлежат объектам этого класса, а принадлежат тому, кто создал их.
+		 * В частности объекты типа Image могут ссылаться на область внутри более большого
+		 * изображения.
+		 */
 		struct Image : public ImageHeader
 		{
 			Image()
@@ -41,9 +64,13 @@ namespace gb
 				data = 0;
 			}
 			
-			int pitch; // Расстояние между строками в байтах
-			char *data; // Размер data должен быть не меньше data_size байтов
+			int pitch; /// Расстояние между строками в байтах
+			char *data; /// Размер data должен быть не меньше data_size байтов
 			
+			/**
+			 * Инициализирует объект out так, чтобы он ссылался на подобласть изображения,
+			 * на которое ссылаемся мы.
+			 */
 			bool subImage(Image &out, int offset_x, int offset_y)
 			{
 				if (offset_x + out.width > width)
@@ -65,12 +92,28 @@ namespace gb
 		 */
 		void convert(const Image &from, Image &to);
 		
+		/**
+		 * \brief Класс изображения с автоматическим управленим памятью.
+		 * 
+		 * AutoImage в отличие от Image владеет данными изображения,
+		 * он сам их создает и уничтожает при необходимости.
+		 */
 		class AutoImage
 		{
 		public:
 			~AutoImage();
+			/**
+			 * Копирует в себя данные изображения применяя конвертацию данных
+			 * с учетом формата пикселя.
+			 */
 			void copyFrom(const Image &o, ePixelFormat::PixelFormat pf);
+			/**
+			 * Загружает данные изображения используя загрузчик
+			 */
 			bool load(loaders::ImageLoader &loader, fs::InputStream &input);
+			/**
+			 * Сохраняет данные изображения используя загрузчик
+			 */
 			bool save(loaders::ImageLoader &loader, fs::OutputStream &output);
 			operator const Image & () const
 			{
@@ -82,10 +125,12 @@ namespace gb
 		};
 		
 		/**
-		 * Конвертирование данных изображения из одного формата пикселя в другой
+		 * \brief Конвертирование данных изображения из одного формата пикселя в другой
 		 * используется функцией convert()
+		 * 
 		 * Для каждого формата пикселя pf необходимо специализировать
-		 * эту функцию для преобразований pf-->RGBA_8888 pf-->FRGBA RGBA_8888-->pf и FRGBA-->pf
+		 * эту функцию как минимум для преобразований pf-->RGBA_8888 pf-->FRGBA RGBA_8888-->pf и FRGBA-->pf
+		 * чтобы иметь возможность производить любые конвертации.
 		 */
 		template <int from_pf, int to_pf>
 		void convert(const Image &from, Image &to)
