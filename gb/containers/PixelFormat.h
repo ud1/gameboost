@@ -62,6 +62,7 @@ namespace gb
 	
 	namespace colors
 	{
+		/// @cond include_details
 		namespace details
 		{
 			enum ColorType
@@ -158,6 +159,7 @@ namespace gb
 				}
 			};
 		}
+		/// @endcond
 		
 		struct r_8 : public details::r_type<uint8_t, containers::ePixelFormat::R_8> {};
 		struct rgb : public details::rgb_type<uint8_t, containers::ePixelFormat::RGB_888> {};
@@ -214,6 +216,7 @@ namespace gb
 			}
 		};
 		
+		/// @cond include_details
 		namespace details
 		{
 			template <typename Type, containers::ePixelFormat::PixelFormat pf, size_t rb, size_t gb, size_t bb>
@@ -239,10 +242,12 @@ namespace gb
 				}
 			};
 		}
+		/// @endcond
 		
 		struct rgb_332 : public details::base_rgb_bit_field_type<uint8_t, containers::ePixelFormat::RGB_332, 3, 3, 2> {};
 		struct rgb_565 : public details::base_rgb_bit_field_type<uint8_t, containers::ePixelFormat::RGB_565, 5, 6, 5> {};
 
+		/// @cond include_details
 		namespace details
 		{
 			template <typename Type, containers::ePixelFormat::PixelFormat pf, size_t rb, size_t gb, size_t bb, size_t ab>
@@ -270,11 +275,13 @@ namespace gb
 				}
 			};
 		}
+		/// @endcond
 		
 		struct rgba_4444 : public details::base_rgba_bit_field_type<uint8_t, containers::ePixelFormat::RGBA_4444, 4, 4, 4, 4> {};
 		struct rgba_5551 : public details::base_rgba_bit_field_type<uint8_t, containers::ePixelFormat::RGBA_5551, 5, 5, 5, 1> {};
 		struct rgba_10_10_10_2 : public details::base_rgba_bit_field_type<uint16_t, containers::ePixelFormat::RGBA_10_10_10_2, 10, 10, 10, 2> {};
 
+		/// @cond include_details
 		namespace details
 		{
 			template <typename Type, containers::ePixelFormat::PixelFormat pf>
@@ -298,11 +305,13 @@ namespace gb
 				}
 			};
 		}
+		/// @endcond
 		
 		struct grayscale8 : public details::base_graysclae_type<uint8_t, containers::ePixelFormat::GRAYSCALE8> {};
 		struct grayscale16 : public details::base_graysclae_type<uint16_t, containers::ePixelFormat::GRAYSCALE16> {};
 		struct fgrayscale : public details::base_graysclae_type<float, containers::ePixelFormat::FGRAYSCALE> {};
 		
+		/// @cond include_details
 		namespace details
 		{
 			template <int s, bool positive_s, typename T>
@@ -585,6 +594,7 @@ namespace gb
 				}
 			};
 		}
+		/// @endcond
 		
 		template <typename L, typename R>
 		L &copyPixel(L &l, const R &r)

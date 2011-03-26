@@ -29,16 +29,23 @@ namespace gb
 		}
 		
 		/**
-		 * CacheBase является основой для различных алгоритмов кэширования ресурсов.
-		 * Управляет объектами типа Resource. Resource должен определять (typedef)
-		 * у себя тип Request, являющимся уникальным идентификатором ресурса,
-		 * и имеющим оператор <.
+		 * \brief CacheBase является основой для различных алгоритмов кэширования ресурсов.
+		 * 
+		 * Управляет объектами типа Resource, являющимся объектом типа IRefCountabe.
+		 * Resource должен определять (typedef) у себя тип Request, являющимся уникальным идентификатором ресурса,
+		 * и имеющим оператор <. Реально операции происходят с производными от Resource объектами,
+		 * у них переопределяется метод IRefCountabe::destroyThis() для управления временем жизни
+		 * ресурса. В зависимости от конкретной реализации при обнулении счетчика ссылок
+		 * у ресурса, он может быть как уничтожен незамедлительно, так и продолжать
+		 * существовать некоторое время, на случай если опять возникнет в нем необходимость.
+		 * 
 		 * Loader непосредственно выполянет загрузку ресурсов. Он должен реализовывать следующие функции:
-		 * bool checkRequest(const Resource::Request &req); - проверяет валидность запроса.
-		 * void load(const Resource::Request &req, Resouce &res); - непосредственная загрузка ресурса
-		 * void update(const Resource::Request &req, Resouce &res); - обновление состояния ресурса.
+		 * @code
+		 * bool checkRequest(const Resource::Request &req); // проверяет валидность запроса.
+		 * void load(const Resource::Request &req, Resouce &res); // непосредственная загрузка ресурса
+		 * void update(const Resource::Request &req, Resouce &res); // обновление состояния ресурса.
+		 * @endcode
 		 */
-		
 		template <typename Resource, typename Mutex, typename Loader, typename Derived>
 		class CacheBase
 		{
@@ -46,11 +53,18 @@ namespace gb
 			typedef typename Resource::Request Request;
 			typedef CacheBase<Resource, Mutex, Loader, Derived> This;
 			
+			/** Задание загрузчика ресурсов */
 			void setLoader(Loader &loader)
 			{
 				res_loader = &loader;
 			}
 			
+			/**
+			 * \brief Получение ресурса по его идентификатору.
+			 * 
+			 * Если ресурс с данным идентификатором находится в кэше, то возвращается он.
+			 * В противном случае возвращается новый ресурс, который инициализируется загрузчиком и помещается в кэш.
+			 */
 			Resource *get(const Request &req)
 			{
 				ResourceImplBase *res;
@@ -124,6 +138,7 @@ namespace gb
 			Loader *res_loader;
 			Mutex guard_mutex;
 			
+			/** Ищет ресурс в кэше */
 			ResourceImplBase *getResourceCached(const Request &req)
 			{
 				typename ResourceCache::iterator it = res_cache.find(req, ElemComp());
