@@ -1,7 +1,8 @@
-/** \file
- \brief windows-Приложение на OpenGL
+п»ї/** \file
+ \brief windows-РџСЂРёР»РѕР¶РµРЅРёРµ РЅР° OpenGL
 *
 *
+
 *
 *
  \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
@@ -91,7 +92,7 @@ public:
 
 
 
-//* \brief  Для отрисовки текста
+//* \brief  Р”Р»СЏ РѕС‚СЂРёСЃРѕРІРєРё С‚РµРєСЃС‚Р°
 class DrawFontData {
 public:
 	unsigned int m_fontListBase ; 
@@ -103,7 +104,7 @@ public:
 		m_hfont = 0;
 	};
 
-	//* удалить если не удалён
+	//* СѓРґР°Р»РёС‚СЊ РµСЃР»Рё РЅРµ СѓРґР°Р»С‘РЅ
 	void release()
 	{
 		if (m_fontListBase != 0)
@@ -119,7 +120,7 @@ public:
 		}
 	}
 
-	//* созданы ли данные , если нет тогда создать.
+	//* СЃРѕР·РґР°РЅС‹ Р»Рё РґР°РЅРЅС‹Рµ , РµСЃР»Рё РЅРµС‚ С‚РѕРіРґР° СЃРѕР·РґР°С‚СЊ.
 	HRESULT check_created(HDC hdc)
 	{
 		HRESULT hr = 0;
@@ -166,7 +167,7 @@ public:
 		return hr;
 	}
 
-	//* подготовка трансформации к выводу строк
+	//* РїРѕРґРіРѕС‚РѕРІРєР° С‚СЂР°РЅСЃС„РѕСЂРјР°С†РёРё Рє РІС‹РІРѕРґСѓ СЃС‚СЂРѕРє
 	HRESULT doPrepareTransform(uint32_t nClientWidth, uint32_t nClientHeight)
 	{
 
