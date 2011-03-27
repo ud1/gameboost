@@ -169,9 +169,9 @@ namespace gb
 					ptr->addRef();
 			}
 			
-			RefCntHolder(const RefCntHolder<T> *o)
+			RefCntHolder(const RefCntHolder<T> &o)
 			{
-				ptr = o->ptr;
+				ptr = o.ptr;
 				if (ptr)
 					ptr->addRef();
 			}
@@ -182,7 +182,7 @@ namespace gb
 					ptr->release();
 			}
 			
-			T *operator = (T *t)
+			RefCntHolder<T> &operator = (T *t)
 			{
 				if (ptr)
 					ptr->release();
@@ -191,6 +191,21 @@ namespace gb
 				
 				if (ptr)
 					ptr->addRef();
+				
+				return *this;
+			}
+			
+			RefCntHolder<T> &operator = (const RefCntHolder<T> &o)
+			{
+				if (ptr)
+					ptr->release();
+				
+				ptr = o.ptr;
+				
+				if (ptr)
+					ptr->addRef();
+				
+				return *this;
 			}
 			
 			void set0(T *t)
