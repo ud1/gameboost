@@ -117,13 +117,13 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
 
 
 //=========================================================================
-int32_t gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(gb
+int32_t gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(gb
   ::graphics::visual_geometry::IDraw3DGeometry **ppOut, const gb::graphics
   ::visual_geometry::CreteDrawValuesOptions *opt)
 {
   int32_t hr = 0;
   *ppOut = NULL;
-  assert(false);
+//  assert(false);
 
   assert(opt->pdevice);
   assert(opt->api);

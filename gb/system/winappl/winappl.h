@@ -483,11 +483,19 @@ inline float getDeltaTime() const { return m_timeData.m_fDeltaTime;  };
 virtual uint32_t getFps() const { return  m_fpsMonData.nCapturedFps; }; 
 
 inline HWND  getWindowHandle() const { return m_hwnd; };
-inline uint32_t getWindowClientWidth() const { return m_windowinfo.rcClient.right-m_windowinfo.rcClient.left; };
+inline uint32_t getWindowClientWidth() const  { return m_windowinfo.rcClient.right-m_windowinfo.rcClient.left; };
 inline uint32_t getWindowClientHeight() const { return m_windowinfo.rcClient.bottom-m_windowinfo.rcClient.top; };
 
 
 inline POINT getPointCursorPosOnWindow() const  { return m_pntCursorPos; };
+
+void setClearColor(float r, float g, float b)
+{
+	APPL_3D_INIT_DATA* pidata = getAppl3dInitData(); 
+	  pidata->clearColor.red=r;
+	  pidata->clearColor.green=g;
+	  pidata->clearColor.blue=b;
+}
 
 protected:
 

@@ -5,6 +5,11 @@
 *
   Вывод для OpenGL пока не готов. но ОБЯЗАТЕЛЬНО будет.
 *
+ \todo Переделать функции создания интерфейсов на бросающие исключения
+ \todo Переделать все функции интерфейсов на void и бросающие исключения
+ \todo Убрать с отрисовщиков в 3d параметр матрицы трансформации.
+
+
 * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
 */
 
@@ -77,17 +82,17 @@ namespace gb
   // !  temp 
 #if (1)
 
-//#define VGCOLOR  gb::color::Color4f   
-//#define VGVEC2  gb::math::base::vec2_s 
-//#define VGVEC3  gb::math::base::vec3_s 
-//#define VGVEC4  gb::math::base::vec4_s 
-//#define VGMATRIX  gb::math::base::mat44_s 
+#define VGCOLOR  gb::color::Color4f   
+#define VGVEC2  gb::math::base::vec2_s 
+#define VGVEC3  gb::math::base::vec3_s 
+#define VGVEC4  gb::math::base::vec4_s 
+#define VGMATRIX  gb::math::base::mat44_s 
 
-typedef gb::color::Color4f        VGCOLOR;     
-typedef gb::math::base::vec2_s    VGVEC2;   
-typedef gb::math::base::vec3_s    VGVEC3;   
-typedef gb::math::base::vec4_s    VGVEC4;   
-typedef gb::math::base::mat44_s   VGMATRIX;  
+//typedef gb::color::Color4f        VGCOLOR;     
+//typedef gb::math::base::vec2_s    VGVEC2;   
+//typedef gb::math::base::vec3_s    VGVEC3;   
+//typedef gb::math::base::vec4_s    VGVEC4;   
+//typedef gb::math::base::mat44_s   VGMATRIX;  
 
 
 #else
@@ -374,7 +379,7 @@ int32_t CreateInterfaceDraw2DGeometry(IDraw2DGeometry** ppOut,
 				
 
 //! \brief Создать интерфейс вывода 3-х мерных объектов  
-int32_t CreateInterfaceDraw2DGeometry(IDraw3DGeometry** ppOut,
+int32_t CreateInterfaceDraw3DGeometry(IDraw3DGeometry** ppOut,
 				const CreteDrawValuesOptions* opt);
 
 				
