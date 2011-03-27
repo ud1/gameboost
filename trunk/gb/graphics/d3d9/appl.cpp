@@ -1760,7 +1760,7 @@ HRESULT ApplD3D9::doRenderind()
 	{ 
 
 		DWORD dwVldres = 1;
-		HRESULT hrValDvc = m_pd3dDevice->ValidateDevice( &dwVldres  );
+		HRESULT hrValDvc = 0; // m_pd3dDevice->ValidateDevice( &dwVldres  );
 		if FAILED(hrValDvc)
 		{
 			printf("Failed: m_pd3dDevice->ValidateDevice()\n");
@@ -1857,9 +1857,11 @@ HRESULT ApplD3D9::doRenderind()
 	hr |= doBeginFrameDraw ();
 
 
-
-	hr |= m_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, 
-		D3DCOLOR_XRGB(0,0,255),  1.0f,  0 );
+ hr |= m_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, 
+	 D3DCOLOR_COLORVALUE(m_initdata.clearColor.red, 
+	 m_initdata.clearColor.green, 
+	 m_initdata.clearColor.blue, 0.0f ), 
+ 1.0f,  0 );
 
 
 	if(m_initdata.bUsePrepareRenderBeforeFrameDraw)
