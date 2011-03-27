@@ -5,6 +5,7 @@
 *
   Вывод для OpenGL пока не готов. но ОБЯЗАТЕЛЬНО будет.
 *
+ \todo Дорефракторить IDraw2DGeometry 
  \todo Переделать функции создания интерфейсов на бросающие исключения
  \todo Переделать все функции интерфейсов на void и бросающие исключения
  \todo Убрать с отрисовщиков в 3d параметр матрицы трансформации.
@@ -112,45 +113,59 @@ namespace gb
   //! \brief  Интерфейс вывода значений
   class IDrawValues {
   public:
-	  virtual ~IDrawValues() {};
+	virtual ~IDrawValues() {};
 
-	  virtual HRESULT setPos( int x, int y ) const =0;
+	//! \brief Установить позицию вывода 
+	virtual HRESULT setPos( int x, int y ) const =0;
 
-	 // virtual HRESULT setFontSmall() const =0;
-	  //virtual HRESULT setFontNormal() const =0;
-	  //virtual HRESULT setFontBig() const =0;
+	// virtual HRESULT setFontSmall() const =0;
+	//virtual HRESULT setFontNormal() const =0;
+	//virtual HRESULT setFontBig() const =0;
 
+	//! \brief Установить цвет вывода  
+	virtual HRESULT setColor( const VGCOLOR& color ) const =0;
+	//! \brief Установить цвет вывода  красным 
+	virtual HRESULT setColorRed() const =0;
+	//! \brief Установить цвет вывода  зелёным
+	virtual HRESULT setColorGreen() const =0;
+	//! \brief Установить цвет вывода синим	
+	virtual HRESULT setColorBlue() const =0;
+	//! \brief Установить цвет вывода желтым
+	virtual HRESULT setColorYellow() const =0;
+	//! \brief Установить цвет вывода белым
+	virtual HRESULT setColorWhite() const =0;
+	//! \brief Установить цвет вывода серым
+	virtual HRESULT setColorGray() const =0;
  
-	  virtual HRESULT setColor( const VGCOLOR& color ) const =0;
-	  virtual HRESULT setColorRed() const =0;
-	  virtual HRESULT setColorGreen() const =0;
-	  virtual HRESULT setColorBlue() const =0;
-	  virtual HRESULT setColorYellow() const =0;
-	  virtual HRESULT setColorWhite() const =0;
-	  virtual HRESULT setColorGray() const =0;
- 
-	  virtual HRESULT drawS(const char* s) const =0;
-	  virtual HRESULT drawF(const char* _Format, ... ) const =0;
+ 	//! \brief Вывести строчку
+	virtual HRESULT drawS(const char* s) const =0;
+    //! \brief Вывод с форматированием
+	virtual HRESULT drawF(const char* _Format, ... ) const =0;
+	
+    //! \brief Вывод bool значения в подсказкой promt
+	virtual HRESULT drawBool  (bool  val, const char* promt=NULL) const =0;
+    //! \brief Вывод int значения в подсказкой promt	
+	virtual HRESULT drawInt   (int   val, const char* promt=NULL) const =0;
+    //! \brief Вывод float значения в подсказкой promt	
+	virtual HRESULT drawFloat (float val, const char* promt=NULL) const =0;
+	
+	
+    //! \brief Вывод массива int в подсказкой promt	
+	virtual HRESULT drawIntArray   (const int*   p, int num, const char* promt=NULL) const =0;
+	//! \brief Вывод массива float с подсказкой promt
+	virtual HRESULT drawFloatArray (const float* p, int num, const char* promt=NULL) const =0;
 
-	  virtual HRESULT drawBool  (bool  val, const char* promt=NULL) const =0;
-	  virtual HRESULT drawInt   (int   val, const char* promt=NULL) const =0;
-	  virtual HRESULT drawFloat (float val, const char* promt=NULL) const =0;
+	//---------------------------------------------------------------------------
 
-	  virtual HRESULT drawIntArray   (const int*   p, int num, const char* promt=NULL) const =0;
-	  virtual HRESULT drawFloatArray (const float* p, int num, const char* promt=NULL) const =0;
+	virtual HRESULT drawVec2(const VGVEC2* v, const char* promt=NULL) const =0;
+	virtual HRESULT drawVec3(const VGVEC3* v, const char* promt=NULL) const =0;
+	virtual HRESULT drawVec4(const VGVEC4* v, const char* promt=NULL) const =0;
 
- 
-	  //---------------------------------------------------------------------
+	virtual HRESULT drawMatrix(const VGMATRIX* m, const char* promt=NULL) const =0;
 
-	  virtual HRESULT drawVec2(const VGVEC2* v, const char* promt=NULL) const =0;
-	  virtual HRESULT drawVec3(const VGVEC3* v, const char* promt=NULL) const =0;
-	  virtual HRESULT drawVec4(const VGVEC4* v, const char* promt=NULL) const =0;
-
-	  virtual HRESULT drawMatrix(const VGMATRIX* m, const char* promt=NULL) const =0;
-
-	  virtual HRESULT drawPoint(const POINT pnt, const char* promt=NULL) const =0;
-	  virtual HRESULT drawPoint(int x, int y,    const char* promt=NULL) const =0;
-	  virtual HRESULT drawPoint(const VGVEC2* pos, const char* promt=NULL) const =0;
+	virtual HRESULT drawPoint(const POINT pnt, const char* promt=NULL) const =0;
+	virtual HRESULT drawPoint(int x, int y,    const char* promt=NULL) const =0;
+	virtual HRESULT drawPoint(const VGVEC2* pos, const char* promt=NULL) const =0;
 
 	 /************************
 	//  virtual ID3DXFont*  GetInterfaceFontSmall()  const =0;
@@ -166,23 +181,32 @@ namespace gb
 //! \brief Вывод двухмерных объектов 
 class   IDraw2DGeometry   {
 public:
-
+  //! \brief Установить цвет отрисовки 
   virtual HRESULT setColor(const VGCOLOR& color) const =0;
 
 #ifdef GB_D3D9
+  //! \brief Установить цвет отрисовки 
   virtual HRESULT setColor(const D3DCOLORVALUE& color) const =0;
 #endif
 
 //  virtual HRESULT SetColor(const D3DXCOLOR* color) const =0;
 
+  //! \brief Установить цвет отрисовки 
   virtual HRESULT setColor(float r, float g, float b, float a) const=0;
 
+  //! \brief Установить цвет отрисовки красным 
   virtual HRESULT setColorRed    ()  const =0;
+  //! \brief Установить цвет отрисовки зелёным
   virtual HRESULT setColorGreen  ()  const =0;
+  //! \brief Установить цвет отрисовки синим
   virtual HRESULT setColorBlue   ()  const =0;
+  //! \brief Установить цвет отрисовки жёлтым
   virtual HRESULT setColorYellow ()  const =0;
+  //! \brief Установить цвет отрисовки белым
   virtual HRESULT setColorWhite  ()  const =0;
+  //! \brief Установить цвет отрисовки серым
   virtual HRESULT setColorGray   ()  const =0;
+  //! \brief Установить цвет отрисовки розовым
   virtual HRESULT setColorPink   ()  const =0;
 
   //-----------------------------------------------------------------------
