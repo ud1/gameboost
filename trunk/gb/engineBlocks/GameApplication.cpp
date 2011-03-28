@@ -19,6 +19,7 @@ namespace gb
 				typedef InputHandlerMap<ApplicationState> Parent;
 				GameInputHandler(GameApplication *app) : Parent(MENU), app_handler(app) {}
 				bool close() {return app_handler.close();}
+				bool reshape() {return app_handler.reshape();}
 				BaseApplicationInputHandler app_handler;
 			};
 			
@@ -34,6 +35,8 @@ namespace gb
 				game_input_handler->addTransition(eKeyCodes::KEY_TILDE, CONSOLE, MENU);
 				game_input_handler->addTransition(eKeyCodes::KEY_TILDE, MENU, CONSOLE);
 			}
+			
+			game_input_handler->addInputHandler(GAME, &camera);
 		}
 	}
 }

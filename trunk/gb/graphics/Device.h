@@ -206,12 +206,14 @@ namespace gb
 		 * Можно создавать в программе сколько угодно RenderState,
 		 * для активации используется функция apply().
 		 */
-		class RenderState
+		class RenderState : public base::IRefCountable
 		{
 		public:
 			virtual bool setSource(const char *code) = 0;
 			virtual void apply() = 0;
 		};
+		
+		typedef base::RefCntHolder<RenderState> PRenderState;
 		
 		class Device : public base::IRefCountable
 		{

@@ -466,7 +466,6 @@ namespace
 			for (;it != it_end; ++it)
 			{
 				(*it)->is_binded = false;
-				(*it)->release();
 			}
 			binded_buffers.clear();
 			glBindBuffer(target, 0);
@@ -736,7 +735,7 @@ namespace
 
 			GLint len;
 			glGetProgramiv(gl_program, GL_INFO_LOG_LENGTH, &len);
-			if (len)
+			if (len && status == GL_FALSE)
 			{
 				char *buf = new char[len+1];
 				glGetProgramInfoLog(gl_program, len+1, NULL, buf);
@@ -1248,6 +1247,8 @@ namespace gb
 				}
 				char *ptr = NULL;
 				ptr += ind_buf->getElementSize() * first;
+				if (!count)
+					count = indexBuffer->getElementsNumber();
 				if (!base)
 					glDrawElements(PrimitiveTypes[ptype], count, type, ptr);
 				else glDrawElementsBaseVertex(PrimitiveTypes[ptype], count, type, ptr, base);

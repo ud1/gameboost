@@ -25,6 +25,10 @@ namespace gb
 			InputHandlerMap<ApplicationState> *game_input_handler;
 			
 			void setupInputHandler();
+			ApplicationState getState() {return game_input_handler->getState();}
+			
+			virtual void render(ApplicationState, float dt){}
+			void renderFrame(float dt) {render(getState(), dt);}
 		};
 	}
 }

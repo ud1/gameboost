@@ -85,10 +85,10 @@ namespace gb
 
 				VR = math::cross(VF, VU);
 				delta *= speed;
-				VF *= delta;
-				position -= VF;
-				position += VU;
-				position += VR;
+				
+				position -= VF*delta.x;
+				position += VU*delta.z;
+				position += VR*delta.y;
 			}
 			
 			math::mat4 getViewMatrix() const
@@ -99,7 +99,7 @@ namespace gb
 				return math::lookAt(position, center, up);
 			}
 
-			math::mat4 getViewPRojectionMatrix() const
+			math::mat4 getViewProjectionMatrix() const
 			{
 				math::mat4 proj = math::perspective(fov, aspect_ratio, znear, zfar);
 				return proj * getViewMatrix();

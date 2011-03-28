@@ -3,6 +3,7 @@
 #include <gb/fs/LocalFS.h>
 #include <gb/fs/Helpers.h>
 #include <gb/base/Logger.h>
+#include <gb/base/Timer.h>
 
 #include <yaml-cpp/yaml.h>
 #include <sstream>
@@ -26,7 +27,6 @@ namespace
 			if (node = camera_node->FindValue("fov"))
 			{
 				*node >> camera.fov;
-				camera.fov *= M_PI;
 			}
 			
 			if (node = camera_node->FindValue("speed"))
@@ -103,6 +103,10 @@ namespace gb
 			if (!device)
 				return false;
 			
+			shader_server = base::CreateRFHolder(device->createShaderServer());
+			if (!shader_server)
+				return false;
+			
 			main_window_rt = base::CreateRFHolder(device->createWindowRenderTarget(main_window));
 			if (!main_window_rt)
 				return false;
@@ -110,20 +114,30 @@ namespace gb
 			main_window_rt->clearColor(true);
 			main_window_rt->setClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 			main_window_rt->clearDepth(true);
-			
+			main_window_rt->reshape();
 			return true;
 		}
 		
 		void BaseApplication::run()
 		{
+			static base::Timer timer;
 			main_window->show(true);
 			
+			timer.reset();
+			double dt = 0.0;
 			while (is_running)
 			{
+				timer.reset();
 				window_manager->processMessages();
 				device->deleteUnusedObjects();
 				main_window_rt->beginFrame();
+				renderFrame(dt);
 				main_window_rt->endFrame();
+				
+				dt = timer.getTime();
+				if (1000.0*dt < 15)
+					base::Timer::sleep(20.0 - 1000.0*dt);
+				dt = timer.getTime();
 			}
 		}
 		

@@ -4,7 +4,7 @@
 #include <gb/window_subsystem/Input.h>
 #include <gb/graphics/Device.h>
 #include <gb/fs/FileSystem.h>
-#include <gb/base/Camera.h>
+#include <gb/engineBlocks/CameraInput.h>
 
 namespace gb
 {
@@ -27,9 +27,10 @@ namespace gb
 			window_subsystem::PWindowManager window_manager;
 			window_subsystem::PWindow main_window;
 			graphics::PDevice device;
+			graphics::PShaderServer shader_server;
 			graphics::PRenderTarget main_window_rt;
 			fs::PFileSystem file_system;
-			base::Camera camera;
+			CameraInput camera;
 			
 			bool is_running;
 			
@@ -47,14 +48,22 @@ namespace gb
 					return app->onClose();
 				}
 				
+				bool reshape()
+				{
+					app->main_window_rt->reshape();
+					return true;
+				}
+				
 			private:
 				BaseApplication *app;
-			}; 
+			};
 			
 			/** Должна проинициализировать input, который после этого автоматически установится к окну */
 			virtual void setupInputHandler();
 			
 			virtual bool onClose();
+			
+			virtual void renderFrame(float dt){}
 		};
 		
 	}
