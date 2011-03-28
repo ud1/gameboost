@@ -29,7 +29,7 @@ namespace gb
 			
 			bool kbd(window_subsystem::KbdMessage msg)
 			{
-				if (msg.type = window_subsystem::KbdMessage::KEY_DOWN)
+				if (msg.type == window_subsystem::KbdMessage::KEY_DOWN)
 				{
 					typename Transitions::iterator it = transitions.find(std::make_pair(msg.key, Parent::getState()));
 					if (it != transitions.end())
