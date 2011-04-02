@@ -347,15 +347,16 @@ namespace
 		
 		void destroyWindow()
 		{
-			if (windowExist)
-			{
-				windowExist = false;
-				glXMakeCurrent(info.display, 0, 0);
-				glXDestroyContext(info.display, ctx);
-				XDestroyWindow(info.display, info.window);
-				XFreeColormap(info.display, cmap);
-				unregisterWindow(info.window);
-			}
+			if (!windowExist)
+				return;
+			
+			windowExist = false;
+			glXMakeCurrent(info.display, 0, 0);
+			glXDestroyContext(info.display, ctx);
+			XDestroyWindow(info.display, info.window);
+			XFreeColormap(info.display, cmap);
+			unregisterWindow(info.window);
+		
 			
 			if (xic)
 				XDestroyIC(xic);
