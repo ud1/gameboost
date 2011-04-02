@@ -54,13 +54,13 @@ namespace gb
 			const math::vec3& getForwardVector() {return forward;}
 			const math::vec3& getRightVector() {return right;}
 			
-			void setUpVector(math::vec3 &v)
+			void setUpVector(const math::vec3 &v)
 			{
 				up = v;
 				forward = math::cross(up, right);
 			}
 			
-			void setForwardVector(math::vec3 &v)
+			void setForwardVector(const math::vec3 &v)
 			{
 				forward = v;
 				right = math::cross(forward, up);
@@ -94,7 +94,7 @@ namespace gb
 			math::mat4 getViewMatrix() const
 			{
 				math::normalize(orientation);
-				math::vec3 up = orientation * up;
+				math::vec3 up = orientation * this->up;
 				math::vec3 center = orientation * forward + position;
 				return math::lookAt(position, center, up);
 			}
