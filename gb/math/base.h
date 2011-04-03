@@ -1021,6 +1021,7 @@ namespace gb
 				 return *this;
 	        };
 
+			//! \brief Транспонирование. (Отражение элементов по главной диагонали)
 			inline mat44_s& transpone() 
 			{  
 				   register float f;
@@ -1052,6 +1053,7 @@ namespace gb
 			mat44_s&  invert () throw();
 
 
+			//! \brief Построение матрицы отражения по оси X
 			inline mat44_s& setMirrorX ()
 			{
 				setIdentity();
@@ -1059,7 +1061,7 @@ namespace gb
 				return *this;
 			}
 
-
+			//! \brief Построение матрицы отражения по оси Y 
 			inline mat44_s& setMirrorY ()
 			{
 				setIdentity();
@@ -1067,7 +1069,7 @@ namespace gb
 				return *this;
 			}
 
-
+			//! \brief Построение матрицы отражения по оси Z
 			inline mat44_s& setMirrorZ ()
 			{
 				setIdentity();
@@ -1075,6 +1077,7 @@ namespace gb
 				return *this;
 			}
 
+			//! \brief Построение матрицы поворота по оси X на угол angle
 			inline mat44_s&  setRotationX( const float angle )  
 			{ 
 				setIdentity();  
@@ -1087,7 +1090,7 @@ namespace gb
                   return *this;
 			}
 
-
+			//! \brief Построение матрицы поворота по оси Y на угол angle
 			inline mat44_s&  setRotationY( const float angle )  
 			{
 				setIdentity(); 
@@ -1100,6 +1103,7 @@ namespace gb
 				return *this;
 			};
 
+			//! \brief Построение матрицы поворота по оси Z на угол angle
 			inline mat44_s&  setRotationZ( const float angle ) 
 			{
 				setIdentity(); 
@@ -1113,7 +1117,7 @@ namespace gb
 			};
 
 
-
+			//! \brief Построение матрицы поворота по оси vAx на угол angle
 			inline mat44_s&  setRotationAxis( const vec3_s& vAx,  const float angle ) 
 			{
 				float sina, cosa, mcosa; 
@@ -1147,6 +1151,7 @@ namespace gb
 			};
 
 
+			//! \brief Построение матрицы поворота по оси по компонентам(axX,axY,axZ) на угол angle
 			inline mat44_s&  setRotationAxis( float axX, float axY, float axZ, float angle )  
 			{
 				vec3_s vax;
@@ -1155,7 +1160,7 @@ namespace gb
 				return setRotationAxis(  vax, angle);
 			};
 
-
+			//! \brief Построение матрицы сдвига (позиции) 
 			inline mat44_s&  setTranslation( float x, float y, float z )  
 			{
 				setIdentity();
@@ -1163,10 +1168,46 @@ namespace gb
 				return *this;
 			};
 
+			//! \brief Построение матрицы сдвига (позиции) 
 			inline mat44_s&  setTranslation( const vec3_s& vTransl) 
 			{
 				return  setTranslation(  vTransl.x, vTransl.y, vTransl.z);
 			};
+
+
+
+
+			//! \brief Построение ортографической левосторонней проекционной матрицы
+			inline void setOrthoLH(float w, float h, float zn, float zf)
+			{
+				_11=2.0f/w;    _12=0.0f;       _13=0.0f;           _14=0.0f;
+				_21=0.0f;      _22=2.0f/h;     _23=0.0f;           _24=0.0f;
+				_31=0.0f;      _32=0.0f;       _33=1.0f/(zf-zn);   _34=0.0f;
+				_41=0.0f;      _42=0.0f;       _43= -zn/(zf-zn);   _44=1.0f;
+				/* *****************
+				2/w  0    0           0
+				0    2/h  0           0
+				0    0    1/(zf-zn)   0
+				0    0   -zn/(zf-zn)  1
+				*********************/
+			}
+
+			//! \brief Построение ортографической правосторонней проекционной матрицы
+			inline void setOrthoRH(float w, float h, float zn, float zf)
+			{
+				_11=2.0f/w;     _12=0.0f;    _13=0.0f;          _14=0.0f;
+				_21=0.0f;       _22=2.0f/h;  _23=0.0f;          _24=0.0f;
+				_31=0.0f;       _32=0.0f;    _33=1.0f/(zn-zf);  _34=0.0f;
+				_41=0.0f;       _42=0.0f;    _43=zn/(zn-zf);    _44=1.0f;
+
+				/*  **************************
+				2/w  0    0           0
+				0    2/h  0           0
+				0    0    1/(zn-zf)   0
+				0    0    zn/(zn-zf)  l
+				*/
+			}
+
 
 
 
