@@ -13,7 +13,13 @@ namespace gb
 		/** Читает файл целиком в строку */
 		void readEntireFile(InputStream &input, std::string &out);
 		
+		/** Читает файл целиком в utf8-строку */
+		void readEntireFileToUtf8(InputStream &input, std::string &out);
+		
 		/** Читает файл целиком в строку */
 		bool readEntireFile(FileSystem &file_system, const std::string &file_name, std::string &out);
+		
+		/** Читает файл целиком в utf8-строку */
+		bool readEntireFileToUtf8(FileSystem &file_system, const std::string &file_name, std::string &out);
 	}
 }
