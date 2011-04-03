@@ -575,14 +575,10 @@ class VGDraw3DGeometry_Impl_D3D9  : public gb::graphics::visual_geometry::IDraw3
 {
 public:
 	mutable  VGCOLOR m_color;
-	IDirect3DDevice9* m_pdevice; // conts ???
+	IDirect3DDevice9* m_pdevice;  
 	mutable VGSaveRestoreDataD3D9 m_DeviceData;
-
-	//const IDAPLIB_RenderContext* m_pcontext;
-
-
-	VGDraw3DGeometry_Impl_D3D9(IDirect3DDevice9* pdevice) 
-		 : m_pdevice(pdevice)  
+ 
+	VGDraw3DGeometry_Impl_D3D9(IDirect3DDevice9* pdevice) : m_pdevice(pdevice)  
 	{ 
 		assert(pdevice);
 		m_color.setWhite();  
@@ -646,33 +642,31 @@ public:
 
 	//-----------------------------------------------------------------------
 
-	virtual HRESULT draw3dPoint  (const VGVEC3* pos,          float pointSize,  _in_opt  VGMATRIX* pTransf) const ;
-	virtual HRESULT draw3dPoint  (float _x, float _y, float _z,    float pointSize,  _in_opt  VGMATRIX* pTransf) const ;
+	virtual HRESULT draw3dPoint  (const VGVEC3* pos,          float pointSize) const ;
+	virtual HRESULT draw3dPoint  (float _x, float _y, float _z,    float pointSize) const ;
 //	virtual HRESULT draw3dPoint  (const VGVEC3*,          float pointSize,  _in_opt  VGMATRIX* pTransf) const ;
-	virtual HRESULT draw3dPoints (const VGVEC3* pv, int num, float pointSize,  _in_opt  VGMATRIX* pTransf) const ;
+	virtual HRESULT draw3dPoints (const VGVEC3* pv, int num, float pointSize) const ;
 
-	virtual HRESULT draw3dLine(const VGVEC3* p1, const VGVEC3* p2,_in_opt VGMATRIX* mTransf) const;
-	virtual HRESULT draw3dLine(float x1, float y1, float z1,   float x2, float y2, float z2,_in_opt VGMATRIX* mTransf) const;
+	virtual HRESULT draw3dLine(const VGVEC3* p1, const VGVEC3* p2) const;
+	virtual HRESULT draw3dLine(float x1, float y1, float z1,   float x2, float y2, float z2) const;
 	virtual HRESULT draw3dLines( const VGVEC3* pv, int num ) const;
 
 
-	virtual HRESULT draw3dAABB(const VGVEC3* min, const VGVEC3* max,_in_opt VGMATRIX* mTransf) const ;
+	virtual HRESULT draw3dAABB(const VGVEC3* min, const VGVEC3* max) const ;
 	virtual HRESULT draw3dAABB(const math::geom3d::AABB* aabb) const 
 	{
-       return draw3dAABB(&aabb->min, &aabb->max, NULL );
+       return draw3dAABB(&aabb->min, &aabb->max  );
 	};
 
-	virtual HRESULT draw3dRay(const VGVEC3* orig, const VGVEC3* normal ,_in_opt VGMATRIX* mTransf) const ;
-	virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, float nrmlY, float nrmlZ, _in_opt VGMATRIX* mTransf) const ;
-	virtual HRESULT draw3dRay(const gb::math::geom3d::Ray* ray, _in_opt VGMATRIX* mTransf ) const ;
+	virtual HRESULT draw3dRay(const VGVEC3* orig, const VGVEC3* normal ) const ;
+	virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, float nrmlY, float nrmlZ) const ;
+	virtual HRESULT draw3dRay(const gb::math::geom3d::Ray* ray) const ;
 
-	virtual HRESULT draw3dTraingle(const VGVEC3* v1, const VGVEC3* v2, const VGVEC3* v3, 
-		_in_opt VGMATRIX* mTransf ) const ;
+	virtual HRESULT draw3dTraingle(const VGVEC3* v1, const VGVEC3* v2, const VGVEC3* v3) const ;
 
-	virtual HRESULT draw3dTraingle(const gb::math::geom3d::Triangle* tri, 
-		_in_opt VGMATRIX* mTransf ) const ;
+	virtual HRESULT draw3dTraingle(const gb::math::geom3d::Triangle* tri) const ;
 
-	virtual HRESULT draw3dArrow(const VGVEC3* src, const VGVEC3* dest, _in_opt VGMATRIX* mTransf ) const ;  
+	virtual HRESULT draw3dArrow(const VGVEC3* src, const VGVEC3* dest) const ;  
 
 	virtual HRESULT draw3dAxies(const VGVEC3* coord, float axiesLen) const ;
 

@@ -6,12 +6,23 @@
   Вывод для OpenGL пока не готов. но ОБЯЗАТЕЛЬНО будет.
 *
  \todo Дорефракторить IDraw2DGeometry 
- \todo Переделать функции создания интерфейсов на бросающие исключения
  \todo Переделать все функции интерфейсов на void и бросающие исключения
- \todo Убрать с отрисовщиков в 3d параметр матрицы трансформации.
+
 
 
 * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
+
+<br><br>
+
+\code
+ СДЕЛАНО:
+   - Переделать функции создания интерфейсов на бросающие исключения
+   - Убрать с отрисовщиков в 3d параметр матрицы трансформации.
+
+
+\endcode
+
+
 */
 
 #pragma once
@@ -304,9 +315,6 @@ public:
 #endif
 
 
-  // TODO : remove
-//  virtual HRESULT SetColor(const D3DXCOLOR* color) const =0;
-
 
   virtual HRESULT setColor(float r, float g, float b, float a) const=0;
 
@@ -320,41 +328,34 @@ public:
 
 //-------------------------------------------------------------------
 
-  virtual HRESULT draw3dPoint  (const VGVEC3* pos,          float pointSize,  _in_opt  VGMATRIX* pTransf) const =0;
-//virtual HRESULT draw3dPoint  (const VGVEC3* pos,      float pointSize,  _in_opt  VGMATRIX* pTransf) const =0;
-  virtual HRESULT draw3dPoint  (float _x, float _y, float _z,    float pointSize,  _in_opt  VGMATRIX* pTransf) const =0;
+  virtual HRESULT draw3dPoint  (const VGVEC3* pos,          float pointSize ) const =0;
+  virtual HRESULT draw3dPoint  (float _x, float _y, float _z,    float pointSize ) const =0;
 
-
-  virtual HRESULT draw3dPoints (const VGVEC3* pv, int num, float pointSize,  _in_opt  VGMATRIX* pTransf) const =0;
+  virtual HRESULT draw3dPoints (const VGVEC3* pv, int num, float pointSize ) const =0;
 
   //-------------------------------------
 
-  virtual HRESULT draw3dLine(const VGVEC3* p1, const VGVEC3* p2,_in_opt VGMATRIX* mTransf) const =0;
-  virtual HRESULT draw3dLine(float x1, float y1, float z1,   float x2, float y2, float z2,_in_opt VGMATRIX* mTransf) const =0;
+  virtual HRESULT draw3dLine(const VGVEC3* p1, const VGVEC3* p2 ) const =0;
+  virtual HRESULT draw3dLine(float x1, float y1, float z1,   float x2, float y2, float z2 ) const =0;
   virtual HRESULT draw3dLines( const VGVEC3* pv, int num ) const =0;
 
-  virtual HRESULT draw3dAABB(const VGVEC3* min, const VGVEC3* max,_in_opt VGMATRIX* mTransf) const =0;
+  virtual HRESULT draw3dAABB(const VGVEC3* min, const VGVEC3* max ) const =0;
   virtual HRESULT draw3dAABB(const math::geom3d::AABB* aabb) const =0;
 
 
-  virtual HRESULT draw3dRay(const VGVEC3* orig, const VGVEC3* normal,
-							_in_opt VGMATRIX* mTransf) const =0;
+  virtual HRESULT draw3dRay(const VGVEC3* orig, const VGVEC3* normal ) const =0;
 
-  virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, 
-							float nrmlY, float nrmlZ, 
-							_in_opt VGMATRIX* mTransf) const =0;
+  virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, float nrmlY, float nrmlZ ) const =0;
 
-  virtual HRESULT draw3dRay(const math::geom3d::Ray * ray, _in_opt VGMATRIX* mTransf ) const =0;
+  virtual HRESULT draw3dRay(const math::geom3d::Ray * ray ) const =0;
 
-  virtual HRESULT draw3dTraingle(const VGVEC3* v1, const VGVEC3* v2, const VGVEC3* v3, 
-									_in_opt VGMATRIX* mTransf ) const =0;
+  virtual HRESULT draw3dTraingle(const VGVEC3* v1, const VGVEC3* v2, const VGVEC3* v3 ) const =0;
 
-  virtual HRESULT draw3dTraingle(const math::geom3d::Triangle*  tri, 
-									_in_opt VGMATRIX* mTransf ) const =0;
+  virtual HRESULT draw3dTraingle(const math::geom3d::Triangle* tri) const =0;
 
 
 
-  virtual HRESULT draw3dArrow(const VGVEC3* src, const VGVEC3* dest, _in_opt VGMATRIX* mTransf ) const =0;  
+  virtual HRESULT draw3dArrow(const VGVEC3* src, const VGVEC3* dest ) const =0;  
 
 
   virtual HRESULT draw3dAxies(const VGVEC3* coord, float axiesLen) const =0;

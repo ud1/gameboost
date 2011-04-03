@@ -64,11 +64,11 @@ HRESULT FrameDraw(ApplD3D9* const appl, void* pUserParam)
   g_pIDraw3d->draw3dAxies( &VGVEC3(  0.0f,   0.0f  ,  0.0f ), 1.0f  );
 
   // draw line
-g_pIDraw3d->draw3dLine( 0.35f,-0.5f, -0.8f,    1.0f,1.0f,1.0f,     NULL );
+g_pIDraw3d->draw3dLine( 0.35f,-0.5f, -0.8f,    1.0f,1.0f,1.0f  );
 
  // draw point
 g_pIDraw3d->setColorGreen();
-g_pIDraw3d->draw3dPoint(2.0f, 1.9f, 2.2f, 2.0f, NULL  );
+g_pIDraw3d->draw3dPoint(2.0f, 1.9f, 2.2f, 2.0f);
 
 // draw points
 g_pIDraw3d->setColorPink();
@@ -76,9 +76,9 @@ VGVEC3  varr[4];
 varr[0].x = 1.5f; varr[0].y = -0.2f; varr[0].z = 0.70f;
 varr[1].x = -1.9f; varr[1].y = 1.8f; varr[1].z = -0.1f;
 varr[2].x = 0.2f; varr[2].y = -0.4f; varr[2].z = 0.3f;
-g_pIDraw3d->draw3dPoints(varr, 3, 4.0f, NULL );
+g_pIDraw3d->draw3dPoints(varr, 3, 4.0f );
 
-// draw ray'
+// draw ray
 gb::math::geom3d::Ray ray(
 						  vec3_s(0.2f, -1.56f, 1.98f) , 
 						  vec3_s(4.5f, 0.8f, -1.5f) ,
@@ -86,7 +86,7 @@ gb::math::geom3d::Ray ray(
 						  );
  //ray.dir.normalize();
  g_pIDraw3d->setColorBlue();
- g_pIDraw3d->draw3dRay(&ray, NULL );
+ g_pIDraw3d->draw3dRay(&ray );
 
 // draw aabb
  g_pIDraw3d->setColorYellow();
@@ -113,6 +113,66 @@ hr |= appl->getD3D9Device()->Clear(0,NULL, D3DCLEAR_ZBUFFER,  0, 1.0, 0);
  //========================================================================
 int main() 
 {
+ // test math func
+	D3DXMATRIX  mdx;
+	//D3DXMATRIX * D3DXMatrixPerspectiveFovLH(
+	//	 &mdx,
+	//	 1.35f, //FLOAT fovy,
+	//	1.1f, //FLOAT Aspect,
+	//	0.22f, //FLOAT zn,
+	//	1123.0f // FLOAT zf
+	//	);
+
+
+	gb::math::base::mat44_s mgb;
+	//mgb.setOrthoLH(   
+	//	800.0f,
+	//	600.0,
+	//	0.1f,
+	//	100.0f	
+	//	
+	//	);
+
+	//**************************************************************
+	//D3DXMatrixOrthoOffCenterLH
+	//(
+	//&mdx,
+ // FLOAT xx, // l,
+ // FLOAT xx, // r,
+ // FLOAT xx, // b,
+ // FLOAT xx, // t,
+ //  0.125f, // zn,
+ //  10.45748f, // zf
+	//);
+
+
+
+
+
+
+	//*****************************************************************
+
+
+	/*
+	 D3DXMatrixLookAtRH(
+  &mdx,
+    &D3DXVECTOR3(1.0f, 4.48f, 5.484f),// eye
+    &D3DXVECTOR3(6.4f, -5.485f, -6.15f),  // pAt,
+    &D3DXVECTOR3(0.78f,  -2.68f, 7.8) // pUp
+);
+
+	 mgb.setViewLookAtRH(
+    vec3_s(1.0f, 4.48f, 5.484f),// eye
+    vec3_s(6.4f, -5.485f, -6.15f),  // pAt,
+    vec3_s(0.78f,  -2.68f, 7.8) // pUp
+
+
+		 );
+*/
+
+
+
+
 
 #ifdef _DEBUG
 	_CrtMemState _ms; 
