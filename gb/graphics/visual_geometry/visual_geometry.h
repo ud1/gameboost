@@ -25,7 +25,7 @@
 
 
 #if ( !defined(GB_OPENGL) && !defined(GB_D3D9) )
-#error graph api not defined
+#error graph api not defined. ДОЛЖЕН БЫТЬ ОПРЕДЕЛЁН ОДИН ИЗ МАКРОСОВ GB_OPENGL или GB_D3D9.
 #endif
 
 // temp !
@@ -333,7 +333,9 @@ public:
   virtual HRESULT draw3dLine(float x1, float y1, float z1,   float x2, float y2, float z2,_in_opt VGMATRIX* mTransf) const =0;
   virtual HRESULT draw3dLines( const VGVEC3* pv, int num ) const =0;
 
-  virtual HRESULT drawAABB(const VGVEC3* min, const VGVEC3* max,_in_opt VGMATRIX* mTransf) const =0;
+  virtual HRESULT draw3dAABB(const VGVEC3* min, const VGVEC3* max,_in_opt VGMATRIX* mTransf) const =0;
+  virtual HRESULT draw3dAABB(const math::geom3d::AABB* aabb) const =0;
+
 
   virtual HRESULT draw3dRay(const VGVEC3* orig, const VGVEC3* normal,
 							_in_opt VGMATRIX* mTransf) const =0;
@@ -392,19 +394,19 @@ public:
 //-------------------------------------------------------------------------
 
 //! \brief Создать интерфейс вывода значений  
-int32_t CreateInterfaceDrawValues(IDrawValues** ppOut, 
-				const CreteDrawValuesOptions* opt);
+void CreateInterfaceDrawValues(IDrawValues** ppOut, 
+				const CreteDrawValuesOptions* opt) throw();
 
 
 //! \brief Создать интерфейс вывода 2-х мерных объектов  
-int32_t CreateInterfaceDraw2DGeometry(IDraw2DGeometry** ppOut, 
-				const CreteDrawValuesOptions* opt);
+void CreateInterfaceDraw2DGeometry(IDraw2DGeometry** ppOut, 
+				const CreteDrawValuesOptions* opt) throw();
 
 				
 
 //! \brief Создать интерфейс вывода 3-х мерных объектов  
-int32_t CreateInterfaceDraw3DGeometry(IDraw3DGeometry** ppOut,
-				const CreteDrawValuesOptions* opt);
+void CreateInterfaceDraw3DGeometry(IDraw3DGeometry** ppOut,
+				const CreteDrawValuesOptions* opt) throw();
 
 				
 

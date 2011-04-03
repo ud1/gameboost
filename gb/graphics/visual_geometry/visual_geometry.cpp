@@ -18,13 +18,11 @@ using namespace gb::graphics::visual_geometry::internal;
 
 
 //=========================================================================
-int32_t gb::graphics::visual_geometry::CreateInterfaceDrawValues(
+void gb::graphics::visual_geometry::CreateInterfaceDrawValues(
 	gb::graphics::visual_geometry::IDrawValues **ppOut, 
-	const gb::graphics::visual_geometry::CreteDrawValuesOptions *opt)
+	const gb::graphics::visual_geometry::CreteDrawValuesOptions *opt)  throw()
 {
-  int32_t hr = 0;
-
-
+ 
   switch (opt->api)
   {
 
@@ -32,7 +30,7 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDrawValues(
       case visual_geometry::vg_graph_api_e::VG_GAPY_D3D9: 
       {
         *ppOut = (IDrawValues*)new VGDrawValuesImpl_D3D9(opt->pdevice);
-        return 0;
+        return ;
 
       }
       break;
@@ -40,7 +38,8 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDrawValues(
 
 
 
-    #ifdef GB_OPENGL  
+    #ifdef GB_OPENGL 
+#error  OpenGL пока не поддерживается
       case visual_geometry::vg_graph_api_e::xxxxopengl
       {
         *ppOut = (IDrawValues*)new VGImpl_OpenGL();
@@ -52,7 +51,8 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDrawValues(
     default:
       {
         // invalid param
-        return  - 1;
+     	throw std::runtime_error("Invalid input param");
+        return ;
 
       }
 
@@ -61,16 +61,15 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDrawValues(
 
 
 
-
-  return hr;
+  // ok
 }
 
 //=========================================================================
-int32_t gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
+void gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
 	gb::graphics::visual_geometry::IDraw2DGeometry **ppOut, 
-	const gb::graphics::visual_geometry::CreteDrawValuesOptions *opt)
+	const gb::graphics::visual_geometry::CreteDrawValuesOptions *opt)  throw()
 {
-  int32_t hr = 0;
+
   *ppOut = NULL;
 
   switch (opt->api)
@@ -80,14 +79,15 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
       case visual_geometry::vg_graph_api_e::VG_GAPY_D3D9: 
       {
         *ppOut = (IDraw2DGeometry*)new VGDraw2DGeometry_Impl_D3D9(opt->pdevice);
-        return 0;
+        return ;
 
       }
       break;
     #endif 
 
 
-    #ifdef GB_OPENGL  
+    #ifdef GB_OPENGL 
+	  #error  OpenGL пока не поддерживается
       case _opengl:
         {
           *ppOut = (IDraw2DGeometry*)new VGImpl_OpenGL();
@@ -101,7 +101,8 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
     default:
       {
         // invalid param
-        return  - 1;
+       throw std::runtime_error("Invalid input param");
+        return ;
 
       }
 
@@ -109,21 +110,17 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
   } // switch
 
 
-
-
-
-  return hr;
+ // ok
 };
 
 
 //=========================================================================
-int32_t gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(gb
+void gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(gb
   ::graphics::visual_geometry::IDraw3DGeometry **ppOut, const gb::graphics
-  ::visual_geometry::CreteDrawValuesOptions *opt)
+  ::visual_geometry::CreteDrawValuesOptions *opt)  throw()
 {
-  int32_t hr = 0;
+
   *ppOut = NULL;
-//  assert(false);
 
   assert(opt->pdevice);
   assert(opt->api);
@@ -137,7 +134,7 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(gb
       case visual_geometry::vg_graph_api_e::VG_GAPY_D3D9: 
       {
         *ppOut = (IDraw3DGeometry*)new VGDraw3DGeometry_Impl_D3D9(opt->pdevice);
-        return 0;
+        return ;
 
       }
       break;
@@ -146,6 +143,7 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(gb
 
 
     #ifdef GB_OPENGL  
+	  #error  OpenGL пока не поддерживается
       case _opengl:
         {
           *ppOut = (IDraw3DGeometry*)new xxxxxx_ogl();
@@ -157,7 +155,8 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(gb
     default:
       {
         // invalid param
-        return  - 1;
+		  throw std::runtime_error("Invalid input param");
+        return ;
 
       }
 
@@ -166,7 +165,7 @@ int32_t gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(gb
 
 
 
-  return hr;
+ // ok
 };
 
 

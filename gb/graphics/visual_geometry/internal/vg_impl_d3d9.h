@@ -656,7 +656,11 @@ public:
 	virtual HRESULT draw3dLines( const VGVEC3* pv, int num ) const;
 
 
-	virtual HRESULT drawAABB(const VGVEC3* min, const VGVEC3* max,_in_opt VGMATRIX* mTransf) const ;
+	virtual HRESULT draw3dAABB(const VGVEC3* min, const VGVEC3* max,_in_opt VGMATRIX* mTransf) const ;
+	virtual HRESULT draw3dAABB(const math::geom3d::AABB* aabb) const 
+	{
+       return draw3dAABB(&aabb->min, &aabb->max, NULL );
+	};
 
 	virtual HRESULT draw3dRay(const VGVEC3* orig, const VGVEC3* normal ,_in_opt VGMATRIX* mTransf) const ;
 	virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, float nrmlY, float nrmlZ, _in_opt VGMATRIX* mTransf) const ;

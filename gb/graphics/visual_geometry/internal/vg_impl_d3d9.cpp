@@ -782,7 +782,8 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dPoint(const VGVEC3 *pos, float
   HRESULT hr = 0;
   assert(m_pdevice);
 
-  hr |= draw3dPoint(&VGVEC3(pos->x, pos->y, pos->z), pointSize, pTransf);
+  VGVEC3 v = *pos;
+  hr |= draw3dPoints(&v, 1, pointSize, pTransf);
 
   return hr;
 };
@@ -912,7 +913,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dLines(const VGVEC3 *pv, int num)const
 };
 
 //=====================================================================
-HRESULT VGDraw3DGeometry_Impl_D3D9::drawAABB(const VGVEC3 *min, const VGVEC3
+HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const VGVEC3 *min, const VGVEC3
   *max, _in_opt VGMATRIX *mTransf)const
 {
   HRESULT hr = S_OK;
