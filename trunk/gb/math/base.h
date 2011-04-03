@@ -38,7 +38,7 @@
 #include <assert.h>
 
 #ifdef GB_D3D9
-  //#include <d3d9types.h>
+  #include <d3d9.h>
 #endif
 
 // temp

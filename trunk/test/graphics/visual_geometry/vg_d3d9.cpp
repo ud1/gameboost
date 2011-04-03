@@ -5,13 +5,27 @@
 #define _CRTDBG_MAP_ALLOC
 #endif
 
+#include <gb/Config.h>
+#include <gb/base/Types.h >
+
+
 #include <gb/graphics/d3d9/appl.h>
+
+//#include <>
+
 #include <gb/graphics/visual_geometry/visual_geometry.h>
 #include <gb/macro.h>
  
 
 using namespace gb::graphics::d3d9::appl;
 using namespace gb::graphics::visual_geometry;
+using namespace gb::math;
+using namespace gb::math::base;
+using namespace gb::math::geom3d;
+using namespace gb::math::geom2d;
+
+
+
 
  IDraw3DGeometry* g_pIDraw3d =NULL;
 
@@ -28,11 +42,13 @@ HRESULT FrameDraw(ApplD3D9* const appl, void* pUserParam)
 	  opt.pdevice = appl->getD3D9Device();
 	  opt.api =  ::vg_graph_api_e::VG_GAPY_D3D9;
 
- int32_t res =  CreateInterfaceDraw3DGeometry(&g_pIDraw3d ,&opt );
-  if(res <0)
-  {
+	  try {
+  CreateInterfaceDraw3DGeometry(&g_pIDraw3d ,&opt );
+	  }
+	  catch(...)
+	  {
 	  GB_MBOX("Error create");
-  }
+	  } // catch
 
   } // if
 
@@ -42,12 +58,49 @@ HRESULT FrameDraw(ApplD3D9* const appl, void* pUserParam)
 
   //  =====================  draw 3d   ==========================
 
+  g_pIDraw3d->setColorWhite();
+
+  // draw axies
   g_pIDraw3d->draw3dAxies( &VGVEC3(  0.0f,   0.0f  ,  0.0f ), 1.0f  );
-g_pIDraw3d->draw3dLine(0.0f,0.0f,0.0f,    1.0f,1.0f,1.0f,     NULL );
+
+  // draw line
+g_pIDraw3d->draw3dLine( 0.35f,-0.5f, -0.8f,    1.0f,1.0f,1.0f,     NULL );
+
+ // draw point
+g_pIDraw3d->setColorGreen();
+g_pIDraw3d->draw3dPoint(2.0f, 1.9f, 2.2f, 2.0f, NULL  );
+
+// draw points
+g_pIDraw3d->setColorPink();
+VGVEC3  varr[4];
+varr[0].x = 1.5f; varr[0].y = -0.2f; varr[0].z = 0.70f;
+varr[1].x = -1.9f; varr[1].y = 1.8f; varr[1].z = -0.1f;
+varr[2].x = 0.2f; varr[2].y = -0.4f; varr[2].z = 0.3f;
+g_pIDraw3d->draw3dPoints(varr, 3, 4.0f, NULL );
+
+// draw ray'
+gb::math::geom3d::Ray ray(
+						  vec3_s(0.2f, -1.56f, 1.98f) , 
+						  vec3_s(4.5f, 0.8f, -1.5f) ,
+						  true
+						  );
+ //ray.dir.normalize();
+ g_pIDraw3d->setColorBlue();
+ g_pIDraw3d->draw3dRay(&ray, NULL );
+
+// draw aabb
+ g_pIDraw3d->setColorYellow();
+// AABB  aabb(vec3_s(-0.48f, -1.547f, -0.89f) , vec3_s(0.78f, 1.78f, 0.98f)  );
+ AABB  aabb(vec3_s( 0.1f, 0.1f, 0.1f ) , vec3_s( 1.1f, 1.1f, 1.1f )  );
+
+ g_pIDraw3d->draw3dAABB(&aabb  );
+
 
 
 
 // =========================  draw 2d ===========================
+hr |= appl->getD3D9Device()->Clear(0,NULL, D3DCLEAR_ZBUFFER,  0, 1.0, 0);
+
 
 
 
@@ -57,7 +110,7 @@ g_pIDraw3d->draw3dLine(0.0f,0.0f,0.0f,    1.0f,1.0f,1.0f,     NULL );
   return hr;
 }
 
- 
+ //========================================================================
 int main() 
 {
 
