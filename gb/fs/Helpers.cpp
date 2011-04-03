@@ -1,6 +1,7 @@
 
 
 #include <gb/fs/Helpers.h>
+#include <gb/str/UnicodeHelpers.h>
 
 namespace gb
 {
@@ -15,6 +16,13 @@ namespace gb
 			delete []data;
 		}
 		
+		void readEntireFileToUtf8(InputStream &input, std::string &out)
+		{
+			std::string raw_string;
+			readEntireFile(input, raw_string);
+			str::rawStringToUtf8(raw_string, out);
+		}
+		
 		bool readEntireFile(FileSystem &file_system, const std::string &file_name, std::string &out)
 		{
 			InputStream *input = file_system.getInputStream(file_name);
@@ -24,6 +32,13 @@ namespace gb
 			readEntireFile(*input, out);
 			input->release();
 			return true;
+		}
+		
+		bool readEntireFileToUtf8(FileSystem &file_system, const std::string &file_name, std::string &out)
+		{
+			std::string raw_string;
+			readEntireFile(file_system, file_name, raw_string);
+			str::rawStringToUtf8(raw_string, out);
 		}
 	}
 }
