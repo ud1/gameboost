@@ -729,8 +729,7 @@ HRESULT VGDrawValuesImpl_D3D9::drawMatrix(const VGMATRIX *m, const char *promt)
 
 //=====================================================================
 /*
-HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dPoint  (const VGVEC3* pos,   float pointSize,  
-_in_opt  VGMATRIX* pTransf) const 
+HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dPoint (const VGVEC3* pos, float pointSize) const 
 {
 HRESULT hr =0;
 
@@ -765,32 +764,32 @@ return hr;
 
 //=====================================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dPoint(float _x, float _y, float _z,
-  float pointSize, _in_opt VGMATRIX *pTransf)const
+  float pointSize )const
 {
   HRESULT hr = 0;
   assert(m_pdevice);
 
-  hr |= draw3dPoint(&VGVEC3(_x, _y, _z), pointSize, pTransf);
+  hr |= draw3dPoint(&VGVEC3(_x, _y, _z), pointSize );
 
   return hr;
 };
 
 //=========================================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dPoint(const VGVEC3 *pos, float
-  pointSize, _in_opt VGMATRIX *pTransf)const
+  pointSize )const
 {
   HRESULT hr = 0;
   assert(m_pdevice);
 
   VGVEC3 v = *pos;
-  hr |= draw3dPoints(&v, 1, pointSize, pTransf);
+  hr |= draw3dPoints(&v, 1, pointSize );
 
   return hr;
 };
 
 //=========================================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dPoints(const VGVEC3 *pv, int num,
-  float pointSize, _in_opt VGMATRIX *pTransf)const
+  float pointSize )const
 {
   HRESULT hr = 0;
   assert(m_pdevice);
@@ -822,7 +821,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dPoints(const VGVEC3 *pv, int num,
 
 //=============================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dLine(const VGVEC3 *p1, const VGVEC3
-  *p2, _in_opt VGMATRIX *mTransf)const
+  *p2 )const
 {
   HRESULT hr = S_OK;
   assert(m_pdevice);
@@ -841,15 +840,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dLine(const VGVEC3 *p1, const VGVEC3
   varr[1] =  *p2;
 
 
-
-  //if ( mTransf )
-  //{
-  //	hr |=  m_pcontext->SetMatrixWorld(mTransf);
-  //}
-  //else
-  //{
-  //	hr |=  m_pcontext->SetMatrixWorld(&D3DXMATRIX_IDENTITY);
-  //}
+ 
 
   // draw
   //
@@ -866,7 +857,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dLine(const VGVEC3 *p1, const VGVEC3
 
 //=====================================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dLine(float x1, float y1, float z1,
-  float x2, float y2, float z2, _in_opt VGMATRIX *mTransf)const
+  float x2, float y2, float z2 )const
 {
   HRESULT hr = 0;
   assert(m_pdevice);
@@ -881,7 +872,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dLine(float x1, float y1, float z1,
   varr[1].y = y2;
   varr[1].z = z2;
 
-  hr |= draw3dLine(&varr[0], &varr[1], mTransf);
+  hr |= draw3dLine(&varr[0], &varr[1] );
 
   return hr;
 };
@@ -913,8 +904,8 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dLines(const VGVEC3 *pv, int num)const
 };
 
 //=====================================================================
-HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const VGVEC3 *min, const VGVEC3
-  *max, _in_opt VGMATRIX *mTransf)const
+HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const VGVEC3 *min, 
+											   const VGVEC3 *max ) const
 {
   HRESULT hr = S_OK;
 
@@ -1072,8 +1063,8 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const VGVEC3 *min, const VGVEC3
 
 
 //=====================================================================
-HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(const VGVEC3 *orig, const VGVEC3
-  *normal, _in_opt VGMATRIX *mTransf)const
+HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(const VGVEC3 *orig, 
+											  const VGVEC3 *normal )const
 {
   HRESULT hr = S_OK;
 
@@ -1108,36 +1099,33 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(const VGVEC3 *orig, const VGVEC3
 //=====================================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(
 					float orgX, float orgY, float  orgZ, 
-					float nrmlX, float nrmlY, float nrmlZ, 
-					_in_opt VGMATRIX *mTransf)const
+					float nrmlX, float nrmlY, float nrmlZ )const
 {
   HRESULT hr = 0;
   assert(m_pdevice);
   VGVEC3 orig = VGVEC3(orgX, orgY, orgZ);
   VGVEC3 nrml = VGVEC3(nrmlX, nrmlY, nrmlZ);
 
-  hr |= draw3dRay(&orig, &nrml, mTransf);
+  hr |= draw3dRay(&orig, &nrml);
   return hr;
 };
 
 //=====================================================================
-HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(const gb::math::geom3d::Ray *ray,
-  _in_opt VGMATRIX *mTransf)const
+HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(const gb::math::geom3d::Ray *ray )const
 {
   HRESULT hr = 0;
   assert(m_pdevice);
   VGVEC3 orig = VGVEC3(ray->orig.x, ray->orig.y, ray->orig.z);
   VGVEC3 nrml = VGVEC3(ray->dir.x, ray->dir.y, ray->dir.z);
 
-  hr |= draw3dRay(&orig, &nrml, mTransf);
+  hr |= draw3dRay(&orig, &nrml );
 
   return hr;
 };
 
 //=====================================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dTraingle(
-				const VGVEC3 *v1, const VGVEC3 *v2, const VGVEC3 *v3,
-				_in_opt VGMATRIX *mTransf)const
+				const VGVEC3 *v1, const VGVEC3 *v2, const VGVEC3 *v3 )const
 {
   HRESULT hr = 0;
 
@@ -1166,7 +1154,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dTraingle(
 
 //=====================================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dTraingle(const gb::math::geom3d
-  ::Triangle *tri, _in_opt VGMATRIX *mTransf)const
+  ::Triangle *tri )const
 {
   HRESULT hr = 0;
   assert(m_pdevice);
@@ -1185,7 +1173,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dTraingle(const gb::math::geom3d
   varr[2].y = tri->p3.y;
   varr[2].z = tri->p3.z;
 
-  hr |= draw3dTraingle(&varr[0], &varr[1], &varr[2], mTransf);
+  hr |= draw3dTraingle(&varr[0], &varr[1], &varr[2] );
 
 
   return hr;
@@ -1193,7 +1181,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dTraingle(const gb::math::geom3d
 
 //===========================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dArrow(const VGVEC3 *src, const VGVEC3
-  *dest, _in_opt VGMATRIX *mTransf)const
+  *dest )const
 {
   HRESULT hr = 0;
 
@@ -1265,17 +1253,18 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dArrow(const VGVEC3 *src, const VGVEC3
   VGMATRIX matrix; // final matrix
   matrix = msc * mrot * mtr;
 
-  if (mTransf)
-  {
-    matrix = matrix **mTransf;
-
-  }
-  else
-  {
 
 
-  }
-    ;
+  //if (mTransf)
+  //{
+  //  matrix = matrix **mTransf;
+
+  //}
+  //else
+  //{
+
+
+  //} ;
 
   hr |= m_pdevice->SetTransform(D3DTS_WORLD, matrix);
 
@@ -1291,9 +1280,9 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dArrow(const VGVEC3 *src, const VGVEC3
   return hr;
 };
 
-//=======================================================
-HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAxies(const VGVEC3 *coord, float
-  axiesLen)const
+//=========================================================================
+HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAxies(const VGVEC3 *coord, 
+												float  axiesLen) const
 {
   HRESULT hr = 0;
   VGCOLOR oldcolor = m_color;
@@ -1358,7 +1347,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAxies(const VGVEC3 *coord, float
 };
 
 
-//==============================================================
+//=========================================================================
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dSolidSphere(const VGVEC3 *center,
   float radius)const
 {
@@ -1427,7 +1416,7 @@ HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dPoint(float x, float y, float
   return hr;
 };
 
-//======================================================================
+//=========================================================================
 HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dPoints(const VGVEC2 *pv, int num,
   float pointSize)const
 {
@@ -1466,7 +1455,7 @@ HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dPoints(const VGVEC2 *pv, int num,
   return hr;
 };
 
-//=========================================================
+//=========================================================================
 HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dLine(const VGVEC2 *p1, const VGVEC2
   *p2)const
 {
@@ -1505,7 +1494,7 @@ HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dLine(const VGVEC2 *p1, const VGVEC2
   return hr;
 };
 
-//=======================================================
+//=========================================================================
 HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dLines(const VGVEC2 *pv, int num)const
 {
   HRESULT hr = 0;
@@ -1525,11 +1514,9 @@ HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dLines(const VGVEC2 *pv, int num)const
     varr[c].y = (pv + c)->y;
     varr[c].z = 0.0f;
     varr[c].rhw = 2.0f;
-    varr[c].color = D3DCOLOR_COLORVALUE(m_color.r, m_color.g, m_color.b,
-                                        m_color.a);
+    varr[c].color = D3DCOLOR_COLORVALUE(m_color.r, m_color.g, m_color.b, m_color.a);
 
   };
-
 
 
   hr |= m_DeviceData.SaveDeviceData(m_pdevice, &m_color);
@@ -1546,8 +1533,10 @@ HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dLines(const VGVEC2 *pv, int num)const
 
   // D3DPT_LINELIST              = 2,
   // D3DPT_LINESTRIP
-  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, numpoints, (void*)varr,
-                                   sizeof(TVgVert2D));
+  hr |= m_pdevice->DrawPrimitiveUP(
+	  D3DPT_LINESTRIP, numpoints, 
+	  (void*)varr, sizeof(TVgVert2D)   
+	  );
 
 
 

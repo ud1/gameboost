@@ -1176,7 +1176,6 @@ namespace gb
 
 
 
-
 			//! \brief Построение ортографической левосторонней проекционной матрицы
 			inline void setOrthoLH(float w, float h, float zn, float zf)
 			{
@@ -1184,12 +1183,11 @@ namespace gb
 				_21=0.0f;      _22=2.0f/h;     _23=0.0f;           _24=0.0f;
 				_31=0.0f;      _32=0.0f;       _33=1.0f/(zf-zn);   _34=0.0f;
 				_41=0.0f;      _42=0.0f;       _43= -zn/(zf-zn);   _44=1.0f;
-				/* *****************
-				2/w  0    0           0
-				0    2/h  0           0
-				0    0    1/(zf-zn)   0
-				0    0   -zn/(zf-zn)  1
-				*********************/
+
+				// 2/w  0    0           0
+				// 0    2/h  0           0
+				// 0    0    1/(zf-zn)   0
+				// 0    0   -zn/(zf-zn)  1
 			}
 
 			//! \brief Построение ортографической правосторонней проекционной матрицы
@@ -1200,12 +1198,89 @@ namespace gb
 				_31=0.0f;       _32=0.0f;    _33=1.0f/(zn-zf);  _34=0.0f;
 				_41=0.0f;       _42=0.0f;    _43=zn/(zn-zf);    _44=1.0f;
 
-				/*  **************************
-				2/w  0    0           0
-				0    2/h  0           0
-				0    0    1/(zn-zf)   0
-				0    0    zn/(zn-zf)  l
-				*/
+				// 2/w  0    0           0
+				// 0    2/h  0           0
+				// 0    0    1/(zn-zf)   0
+				// 0    0    zn/(zn-zf)  l
+			}
+
+
+/**********************************************************
+
+			//! \brief Builds a customized, left-handed orthographic projection matrix.  
+			inline void setOrthoOffCenterLH(float l, float r, float b, float t, float zn, float zf)
+			{
+				_11=2.0f/(r-l);     _12=0.0f;         _13=0.0f;          _14=0.0f;
+				_21=0.0f;           _22=2.0f/(t-b);   _23=0.0f;          _24=0.0f;
+				_31=0.0f;           _32=0.0f;         _33=1.0f/(zf-zn);  _34=0.0f;  
+				_41=(l+r)/(l-r); 	_42=(t+b)/(b-t);  _43=zn/(zn-zf);    _44=1.0f;  
+
+				// 2/(r-l)      0            0           0
+				// 0            2/(t-b)      0           0
+				// 0            0            1/(zf-zn)   0
+				// (l+r)/(l-r)  (t+b)/(b-t)  zn/(zn-zf)  l
+			}
+
+
+
+
+			//! \brief Builds a customized, right-handed orthographic projection matrix.   
+			inline void setOrthoOffCenterRH(float l, float r, float b, float t, float zn, float zf)
+			{
+				_11=2.0f/(r-l);     _12=0.0f;           _13=0.0f;            _14=0.0f;
+				_21=0.0f;           _22=2.0f/(t-b);     _23=0.0f;            _24=0.0f;
+				_31=0.0f;           _32=0.0f;           _33=1.0f/(zn-zf);    _34=0.0f;  
+				_41=(l+r)/(l-r);    _42=(t+b)/(b-t);    _43=zn/(zn-zf);      _44=1.0f;  
+
+				// 2/(r-l)      0            0           0
+				// 0            2/(t-b)      0           0
+				// 0            0            1/(zn-zf)   0
+				// (l+r)/(l-r)  (t+b)/(b-t)  zn/(zn-zf)  l
+			}
+
+****************************************************************/
+
+			/** \brief Построение левосторонней матрицы вида  */
+			void setViewLookAtLH(const vec3_s& eye, const vec3_s& at, const vec3_s& up)
+			{
+            vec3_s  zaxis = (at - eye);  zaxis.normalize(); 
+		    vec3_s  xaxis = up.cross(zaxis); xaxis.normalize();
+		    vec3_s  yaxis =  zaxis.cross(xaxis); 
+
+		   _11=xaxis.x;           _12=yaxis.x;            _13=zaxis.x;            _14=0.0f;
+		   _21=xaxis.y;           _22=yaxis.y;            _23=zaxis.y;            _24=0.0f;
+		   _31=xaxis.z;           _32=yaxis.z;            _33=zaxis.z;            _34=0.0f;
+		   _41= -xaxis.dot(eye);  _42= -yaxis.dot(eye);   _43= -zaxis.dot(eye);   _44=1.0f;
+
+			// zaxis = normal(At - Eye)
+			// xaxis = normal(cross(Up, zaxis))
+			// yaxis = cross(zaxis, xaxis)
+			// xaxis.x           yaxis.x           zaxis.x          0
+			// xaxis.y           yaxis.y           zaxis.y          0
+			// xaxis.z           yaxis.z           zaxis.z          0
+			// -dot(xaxis, eye)  -dot(yaxis, eye)  -dot(zaxis, eye)  l	
+			}
+
+
+			/** \brief Построение правосторонней матрицы вида  */
+			void setViewLookAtRH(const vec3_s& eye, const vec3_s& at, const vec3_s& up)
+			{
+            vec3_s  zaxis = (eye - at);  zaxis.normalize(); 
+		    vec3_s  xaxis = up.cross(zaxis); xaxis.normalize();
+		    vec3_s  yaxis =  zaxis.cross(xaxis); 			
+			
+		   _11=xaxis.x;           _12=yaxis.x;            _13=zaxis.x;            _14=0.0f;
+		   _21=xaxis.y;           _22=yaxis.y;            _23=zaxis.y;            _24=0.0f;
+		   _31=xaxis.z;           _32=yaxis.z;            _33=zaxis.z;            _34=0.0f;
+		   _41= -xaxis.dot(eye);  _42= -yaxis.dot(eye);   _43= -zaxis.dot(eye);   _44=1.0f;			
+			
+	    	// zaxis = normal(Eye - At)
+	    	// xaxis = normal(cross(Up, zaxis))
+	    	// yaxis = cross(zaxis, xaxis)	    
+	    	//  xaxis.x           yaxis.x           zaxis.x          0
+	    	//  xaxis.y           yaxis.y           zaxis.y          0
+	    	//  xaxis.z           yaxis.z           zaxis.z          0
+	     	// -dot(xaxis, eye)  -dot(yaxis, eye)  -dot(zaxis, eye)  	
 			}
 
 
@@ -1266,16 +1341,16 @@ static const mat44_s     MATRIX44_IDENTITY =  mat44_s
 
 
 
-		// sample
-		class Vector2 : public base::vec2_s
-		{
-		public:
-			Vector2() {};
-			Vector2(const Vector2& v) {  x=v.x; y=v.y; };
-			Vector2(float _x, float _y) { x=_x; y=_y; };
-		
-		
-		};
+		//// sample
+		//class Vector2 : public base::vec2_s
+		//{
+		//public:
+		//	Vector2() {};
+		//	Vector2(const Vector2& v) {  x=v.x; y=v.y; };
+		//	Vector2(float _x, float _y) { x=_x; y=_y; };
+		//
+		//
+		//};
 
 	}
 	// end namespace math
