@@ -15,6 +15,15 @@
 
 #include <gb/graphics/visual_geometry/visual_geometry.h>
 #include <gb/macro.h>
+
+
+//  experiment
+#include <gb/graphics/d3d9/stack/RenderTargetStack.h>
+#include <gb/graphics/d3d9/stack/StatesValueStack.h>
+#include <gb/graphics/d3d9/stack/ViewPortStack.h>
+
+
+
  
 
 using namespace gb::graphics::d3d9::appl;

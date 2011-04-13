@@ -37,8 +37,19 @@
 #define GB_MAKE_STR(s)  # s
 #define GB_MAKE_STR2(x) GB_MAKE_STR(x)
 
-//! \brief Для windows: Выбросить окошко с сообщением msg
-#define GB_MBOX(msg)  MessageBoxA(0,  (msg), "GB_MBOX", MB_OK | MB_ICONINFORMATION  | MB_TASKMODAL | MB_TOPMOST );
+
+#ifdef WIN32
+  //! \brief Для windows: Выбросить окошко с сообщением msg
+  #define GB_MBOX(msg)  MessageBoxA(0,  (msg), "GB_MBOX", MB_OK | MB_ICONINFORMATION  | MB_TASKMODAL | MB_TOPMOST );
+#endif
+
+
+#define GB_SAFE_EXC_RELEASE(p) { if(NULL != (p) ) { try { (p)->Release(); } catch(...) { (p)=NULL; }; (p)=NULL; } }
+
+
+
+#define GB_MONPRINT(msg)  printf("%s\n" , (msg) );
+
 
 
 
