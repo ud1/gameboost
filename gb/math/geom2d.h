@@ -45,6 +45,15 @@ namespace gb
 
 			inline Rect() {}
 			inline Rect(const Rect& r) {x1=r.x1; y1=r.y1;  x2=r.x2; y2=r.y2; }
+
+
+			inline void translate(int x, int y)
+			{
+			x1+=x;
+			y1+=y;
+			x2+=x;
+			y2+=y;
+			}
 		
 		
 		};

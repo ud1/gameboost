@@ -31,6 +31,10 @@ STORY:
  //  #include <d3d9types.h>
 #endif
 
+#ifdef GB_D3DX9
+  #include <d3dx9math.h>
+#endif
+
 namespace gb
 {
 

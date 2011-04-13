@@ -172,6 +172,25 @@ void unsafeRelease(T** pp)
   }
 }
 
+//-----------------------
+template <typename T>
+/** \brief Безопасное  освобождение объекта. Если ошибка  вернёт false  */
+bool safeExceptionDelete(T** pp) 
+{
+	//__try 
+	try
+	{
+	  deleteObject(pp);
+	}
+	//__except(1)
+	catch(...)
+	{
+		return false;
+	}
+
+ return true;
+}
+
 
 template <typename T>
 /** \brief Безопасное  освобождение интерфейса. Если ошибка  вернёт (-1)  */
