@@ -37,23 +37,23 @@ namespace gb
 //-------------------------------------------------------------------------
 
   
- 	template<typename T>
-	/** \brief Обмен указателей по адресам */
-	inline void swap_ptrs(T** pp1, T** pp2) 
-	{
-		T* temp = *pp1;
-		*pp1 = *pp2;
-		*pp2 = temp;
-	};
+ 	// template<typename T>
+	// /** \brief Обмен указателей по адресам */
+	// inline void swap_ptrs(T** pp1, T** pp2) 
+	// {
+		// T* temp = *pp1;
+		// *pp1 = *pp2;
+		// *pp2 = temp;
+	// };
 
-	template<typename T>
-	/** \brief Обмен элементов по ссылке */
-	inline void swap_refs(T& a1, T& a2) 
-	{
-		T temp = a1;
-		a1 = a2;
-		a2 = temp;  
-	}; 
+	// template<typename T>
+	// /** \brief Обмен элементов по ссылке */
+	// inline void swap_refs(T& a1, T& a2) 
+	// {
+		// T temp = a1;
+		// a1 = a2;
+		// a2 = temp;  
+	// }; 
   
   
   
@@ -205,6 +205,8 @@ T* newArray(const size_t num)
 {
    return new T [num];
 }
+
+
 
 
 
