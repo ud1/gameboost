@@ -43,6 +43,9 @@
   #define GB_MBOX(msg)  MessageBoxA(0,  (msg), "GB_MBOX", MB_OK | MB_ICONINFORMATION  | MB_TASKMODAL | MB_TOPMOST );
 #endif
 
+#ifdef WIN32
+  #define GB_RETFAIL  if FAILED(hr) { return hr;  }
+#endif
 
 #define GB_SAFE_EXC_RELEASE(p) { if(NULL != (p) ) { try { (p)->Release(); } catch(...) { (p)=NULL; }; (p)=NULL; } }
 
