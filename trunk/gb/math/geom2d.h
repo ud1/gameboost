@@ -34,6 +34,8 @@ namespace gb
 				float height;
 			};
 
+			inline operator base::vec2_s () const { base::vec2_s r(x,y); return r;  };
+
 
 		};
 

@@ -81,8 +81,21 @@ namespace gb
 	  inline AABB(const AABB& aabb) {min=aabb.min; max=aabb.max;}	  
 	  inline AABB(const base::vec3_s& _min, const base::vec3_s& _max) { min=_min; max=_max;  }
 	
+
+	  inline bool operator == (const AABB& aabb) { return (min == aabb.min) && (max == aabb.max); }
 	
 	
+/*	inline void  make(int nminx, int nminy, int nminz, int nmaxx, int nmaxy, int nmaxz) 
+	{
+	  min.x = (float)nminx;	min.y = (float)nminy; min.z = (float)nminz;
+	  max.x = (float)nmaxx; max.y = (float)nmaxy; max.z = (float)nmaxz;
+	  min.minimize(&max); max.maximize(&min);
+	};
+*/
+
+
+
+
 	};
 	
 	
@@ -108,7 +121,7 @@ namespace gb
 	};
  
 
-	/** \brief   Линия в трёхмерном пространстве по двум точкам  */
+	//! \brief   Линия в трёхмерном пространстве по двум точкам  
 	class Line {
 	public:
 		base::vec3_s   src; 
@@ -664,14 +677,14 @@ namespace gb
 	//---------------------------------------------------------------------
 
 
-const Quaternion QUATERNION_IDENTITY = Quaternion( 0.0f, 0.0f, 0.0f, 1.0f );
+// static const Quaternion QUATERNION_IDENTITY = Quaternion( 0.0f, 0.0f, 0.0f, 1.0f );
 
 
 
 
 
     } // end ns
-  } // end ns
-} // end ns
+  } // end ns math
+} // end ns gb
 
 // end file

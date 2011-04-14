@@ -18,7 +18,7 @@ using namespace gb::graphics::visual_geometry::internal;
 
 
 //=========================================================================
-void gb::graphics::visual_geometry::CreateInterfaceDrawValues(
+GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDrawValues(
 	gb::graphics::visual_geometry::IDrawValues **ppOut, 
 	const gb::graphics::visual_geometry::CreteDrawValuesOptions *opt)  throw()
 {
@@ -65,7 +65,7 @@ void gb::graphics::visual_geometry::CreateInterfaceDrawValues(
 }
 
 //=========================================================================
-void gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
+GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
 	gb::graphics::visual_geometry::IDraw2DGeometry **ppOut, 
 	const gb::graphics::visual_geometry::CreteDrawValuesOptions *opt)  throw()
 {
@@ -115,9 +115,9 @@ void gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
 
 
 //=========================================================================
-void gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(gb
-  ::graphics::visual_geometry::IDraw3DGeometry **ppOut, const gb::graphics
-  ::visual_geometry::CreteDrawValuesOptions *opt)  throw()
+GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(
+	gb::graphics::visual_geometry::IDraw3DGeometry **ppOut, 
+	const gb::graphics::visual_geometry::CreteDrawValuesOptions *opt) throw()
 {
 
   *ppOut = NULL;
