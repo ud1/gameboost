@@ -59,7 +59,8 @@ namespace gb
 		namespace base
 		{
 
-		/** \brief Базовый 2d-вектор.  Поправить операторы по эпислону   */
+
+		/** \brief Базовый 2d-вектор.  Поправить операторы по эпислону */
 		struct vec2_s {
 
 			union {
@@ -105,15 +106,14 @@ namespace gb
 
 
 
- 			    inline operator  const float*() const  { return &x; };
-			    inline operator        float*()        { return &x; };
+ 			    inline operator  const float*() const  { return (float*)&x; };
+			    inline operator        float*()        { return (float*)&x; };
 
 #ifdef GB_D3DX9
 			inline operator const D3DXVECTOR2*() const { return (D3DXVECTOR2*)&x; }
 			inline operator   D3DXVECTOR2*()   { return (D3DXVECTOR2*)&x; }
 			inline operator   D3DXVECTOR2() const  { return D3DXVECTOR2(x,y); }
 #endif
-
 
 
 				inline void setzero() {x=y=0.0f; };
@@ -124,7 +124,7 @@ namespace gb
 
 				inline bool isZero(float epsilon) const
 				{
-					return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon ) ;
+					return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon );
 				}
 
 				inline float     length () const  {	return (float)sqrt ( x*x + y*y );	}
@@ -132,16 +132,18 @@ namespace gb
 
 				inline vec2_s&   normalize() { register float fl=length(); x/=fl; y/=fl;  return *this; }
 
-				inline float     dot(const vec2_s& v) const { return x*v.x + y*v.y; };
-							
+				inline float     dot(const vec2_s& v) const { return x*v.x + y*v.y; }
+
+				// !!!!! float cross(const vec2_s& v) const {  ......  }
+
+				//
+ 		
 
 				inline float     getMaxLength () const {  if( fabs (x) >= fabs (y) ) return x; else return y;   }
 
+  			    inline vec2_s&   invert() {x=-x; y=-y;  return *this; }
 
-  			    inline vec2_s&   invert() {x=-x; y=-y;  return *this; };
-
-
-				inline vec2_s    lerp(const vec2_s& v, const float k) 
+				inline vec2_s    lerp(const vec2_s& v, const float k) const
 				{
 					vec2_s r;
 					r.x = x + (v.x - x) * k;
@@ -149,7 +151,80 @@ namespace gb
 					return r;			
 				};
 
-				inline void print() const { printf(" %f %f ", x, y); };
+				
+
+				//! \brief  Получить минимальную компоненту   
+				inline float minVal() const { if(x<y) return x;   return y; }
+				//! \brief  Получить Максимальную компоненту   
+				inline float maxVal() const { if(x>y) return x;   return y; }
+
+				//! \brief  Сравнить два вектора v1 и v2 и присвоить минимальный 
+				inline vec2_s& minimize(const vec2_s& v1, const vec2_s& v2) 
+				{
+					if (v1.x < v2.x) x = v1.x; else  x = v2.x;
+					if (v1.y < v2.y) y = v1.y; else  y = v2.y;
+					return *this;
+				}
+
+				//! \brief  Сравнить вектор v и собственное значение и присвоить минимальный  
+				inline vec2_s& minimize(const vec2_s& v) 
+				{
+					if (v.x < x) x = v.x;
+					if (v.y < y) y = v.y;
+					return *this;
+				}
+
+				//! \brief  Сравнить два вектора v1 и v2 и присвоить максимальный  
+				inline vec2_s& maximize(const vec2_s& v1, const vec2_s& v2) 
+				{
+					if (v1.x > v2.x) x = v1.x; else  x = v2.x;
+					if (v1.y > v2.y) y = v1.y; else  y = v2.y;
+					return *this;
+				}
+
+				//! \brief  Сравнить вектор v и собственное значение и присвоить максимальный 
+				inline vec2_s& maximize(const vec2_s& v) 
+				{
+					if (v.x > x) x = v.x;
+					if (v.y > y) y = v.y;
+					return *this;
+				}
+
+				//! \brief Вернуть минимальный вектор между this и v
+				inline vec2_s minimized(const vec2_s& v) const { vec2_s r; r.minimize(*this, v); return r; };
+				//! \brief Вернуть максимальный вектор между this и v
+				inline vec2_s maximized(const vec2_s& v) const { vec2_s r; r.maximize(*this, v); return r; };
+
+
+				//! \brief  вычислить мин. абсолютное значение компонент. 
+				inline float minAbsVal() const { float ax=abs(x); float ay=abs(y); float res=ax; if(ay<res) res=ay; return res; }
+				//! \brief  вычислить макс. абсолютное значение компонент 
+				inline float maxAbsVal() const { float ax=abs(x); float ay=abs(y); float res=ax;  if(ay>res) res=ay; return res; }
+
+
+				//! \brief  вычисление миним, компоненты 
+				inline float minval() const { if(x<y) return x; return y;	}
+				//! \brief  вычисление. макс компоненты 
+				inline float maxval() const { if(x>y) return x; return y;	}
+
+
+				//! \brief  Отсеч значения в пределах vmin и vmax
+				inline void Clump(const vec2_s& vmin, const vec2_s& vmax) 
+				{
+					if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
+					if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
+				};
+
+
+				//!  \brief   Вернёт true если все компоненты положительные.
+				inline bool isPositive() const {  return ( (x>=0.0f) && (y>=0.0f) );  }
+
+
+				//! \brief     Вывод значений на консоль.
+				inline void print() const { printf(" %f %f ", x, y); }
+
+
+ 
 			};
 
 
@@ -250,7 +325,7 @@ namespace gb
 
 			inline vec3_s&   invert() {x=-x; y=-y; z=-z; return *this; };
 
-			inline vec3_s    lerp(const vec3_s& v, const float k) 
+			inline vec3_s    lerp(const vec3_s& v, const float k) const 
 			{
 				vec3_s r;
 				r.x = x + (v.x - x) * k;
@@ -259,7 +334,124 @@ namespace gb
 				return r;			
 			};
 
- 			inline void print() const { printf(" %f %f %f ", x, y, z); };
+			//! \brief     получить минимальную компоненту
+			inline float minval() const   
+			{ 
+				float ret = x;
+				if (y < ret) ret = y;
+				if (z < ret) ret = z;
+				return ret;
+			};
+
+			//! \brief     получить максимальную компоненту
+			inline float maxval()  const
+			{  
+				float ret = x;
+				if (ret < y) ret = y;
+				if (ret < z) ret = z;
+				return ret;
+			}
+
+
+
+			//* \brief   вычисл. мин. абсолютное из компонент.
+			inline float minAbsVal() const 
+			{
+				float ax=abs(x);
+				float ay=abs(y); 
+				float az=abs(z); 
+				float res=ax;
+				if(ay<res) res=ay;
+				if(az<res) res=az;
+				return res;
+			}
+
+			//* \brief   вычисл. макс. абсолютное из компонент.
+			inline float maxAbsVal() const
+			{
+				float ax=abs(x);
+				float ay=abs(y); 
+				float az=abs(z); 
+				float res=ax;
+				if(ay>res) res=ay;
+				if(az>res) res=az;
+				return res;
+			}
+
+
+
+			//! \brief  Сравнить два вектора v1 и v2 и присвоить максимальный 
+			vec3_s& maximize(const vec3_s& v1, const vec3_s& v2) 
+			{
+				if (v1.x > v2.x) x = v1.x; else x = v2.x;
+				if (v1.y > v2.y) y = v1.y; else y = v2.y;
+				if (v1.z > v2.z) z = v1.z; else z = v2.z;
+				return *this;
+			}
+
+			//! \brief  Сравнить вектор v и собственное значение и присвоить максимальный
+			vec3_s& maximize(const vec3_s& v)
+			{
+				if (v.x > x) x = v.x; 
+				if (v.y > y) y = v.y; 
+				if (v.z > z) z = v.z; 
+				return *this;
+			}
+
+			//! \brief  Сравнить два вектора v1 и v2 и присвоить минимальный 
+			vec3_s& minimize(const vec3_s& v1, const vec3_s& v2) 
+			{
+				if (v1.x < v2.x) x = v1.x; else x = v2.x;
+				if (v1.y < v2.y) y = v1.y; else y = v2.y;
+				if (v1.z < v2.z) z = v1.z; else z = v2.z;
+				return *this;
+			}
+
+			//! \brief  Сравнить вектор v и собственное значение и присвоить минимальный  
+			vec3_s& minimize(const vec3_s& v) 
+			{
+				if (v.x < x) x = v.x;
+				if (v.y < y) y = v.y;
+				if (v.z < z) z = v.z;
+				return *this;
+			}
+
+			//! \brief Вернуть минимальный вектор между this и v
+			inline vec3_s minimized(const vec3_s& v) const { vec3_s r; r.minimize(*this, v); return r; };
+			//! \brief Вернуть максимальный вектор между this и v
+			inline vec3_s maximized(const vec3_s& v) const { vec3_s r; r.maximize(*this, v); return r; };
+
+
+
+			//! \brief  отсеч значения в диапазоне между vmin и vmax
+			inline void clump(const vec3_s& vmin, const vec3_s& vmax) 
+			{
+				if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
+				if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
+				if( z < vmin.z) z=vmin.z;  if(z > vmax.z) z=vmax.z;
+			}
+
+			//! \brief  Вернёт true если все компоненты положительные.
+			inline bool IsPositive() const {  return ( (x>=0.0f) && (y>=0.0f) && (z>=0.0f) );	}
+
+
+			inline void toCstr(char* buf) const 
+			{
+				*buf = '\0';
+				sprintf(buf, "%f %f %f", x, y, z);
+			}
+
+			bool fromCstr(const char* s) 
+			{
+				const int res = sscanf(s, "%f %f %f", &x, &y, &z);
+				if(res != 3)
+					return false;
+				return true;
+			}
+
+
+			//! \brief Вывод значений на консоль
+			inline void print() const { printf(" %f %f %f ", x, y, z); };
 
 		}; // end vec3_s
 		
@@ -284,8 +476,10 @@ namespace gb
 
 			inline vec4_s(const vec3_s& v, float _w)  { x=v.x;  y=v.y; z=v.z; w=_w;  };
 
-			inline vec4_s(float _x, float _y, float _z, float _w)   { x=_x;   y=_y; z=_z; w=_w;  };
-			inline vec4_s(int   _x, int   _y, int   _z, int   _w)   { x=(float)_x;   y=(float)_y;  z=(float)_z; w=(float)_w;};
+			inline vec4_s(const vec2_s& v, float _z, float _w) {x=v.x; y=v.y; z=_z; w=_w; }
+
+			inline vec4_s(float _x, float _y, float _z, float _w)   { x=_x;   y=_y; z=_z; w=_w;  }
+			inline vec4_s(int   _x, int   _y, int   _z, int   _w)   { x=(float)_x;   y=(float)_y;  z=(float)_z; w=(float)_w;}
 
 					 
 			inline bool  operator == (const vec4_s &v) const {	return (x == v.x && y == v.y && z == v.z && w == v.w); }
@@ -630,14 +824,20 @@ namespace gb
 					            _21, _22 );
 			}
 
- 
+			//! \brief  Занулить все элементы
 			inline void setzero() { _11=_12=_13=_21=_22=_23=_31=_32=_33=0.0f; };
+
+			//! \brief Сбросить в идентичную
 			inline void setIdentity() {
 				_11=1.0f; _12=0.0f; _13=0.0f;
 				_21=0.0f; _22=1.0f; _23=0.0f;
 				_31=0.0f; _32=0.0f; _33=1.0f;
 		    };
 
+			//! \brief Сбросить в идентичную
+			inline void reset() { setIdentity(); }
+
+			 //! \brief  Транспонировать матрицу 
 			inline mat33_s&   transpone() 
 			{ 
 				 register float t;
@@ -646,6 +846,14 @@ namespace gb
 			    t=_23;  _23=_32; _32=t; 
 				  return *this;
 			};
+
+			//! \brief    Вернуть транспонированую матрицу
+			inline mat33_s getTransponed() const 
+			{
+				mat33_s res = *this;
+				res.transpone();
+				return res;			
+			}
 
 			float  determinant () const;
 			mat33_s& invert ();
@@ -662,6 +870,16 @@ namespace gb
 			mat33_s&  setMirrorX();
 			mat33_s&  setMirrorY();
 			mat33_s&  setMirrorZ();
+
+
+			//! \brief  Вывод значений на консоль
+			inline void print() const 
+			{
+			 printf("%f  %f  %f  \n%f  %f  %f  \n%f  %f  %f", 
+				 _11, _12, _13, 
+				 _21, _22, _23, 
+				 _31, _32, _33 );
+			}
  
 		
 		};

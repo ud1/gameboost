@@ -7,6 +7,7 @@
 *
  \todo Дорефракторить IDraw2DGeometry 
  \todo Переделать все функции интерфейсов на void и бросающие исключения
+ \todo Переделать парметры (вектора и матрицы)  на float*     
 
 
 
@@ -50,11 +51,11 @@
 
 
 
-
-
-
 // \todo убрать !!
 #define _in_opt 
+
+//! \brief Декларатор экспорта функций. Пока пустышка.
+#define GB_VG_API 
 
 
 namespace gb
@@ -395,18 +396,18 @@ public:
 //-------------------------------------------------------------------------
 
 //! \brief Создать интерфейс вывода значений  
-void CreateInterfaceDrawValues(IDrawValues** ppOut, 
+GB_VG_API void CreateInterfaceDrawValues(IDrawValues** ppOut, 
 				const CreteDrawValuesOptions* opt) throw();
 
 
 //! \brief Создать интерфейс вывода 2-х мерных объектов  
-void CreateInterfaceDraw2DGeometry(IDraw2DGeometry** ppOut, 
+GB_VG_API void CreateInterfaceDraw2DGeometry(IDraw2DGeometry** ppOut, 
 				const CreteDrawValuesOptions* opt) throw();
 
 				
 
 //! \brief Создать интерфейс вывода 3-х мерных объектов  
-void CreateInterfaceDraw3DGeometry(IDraw3DGeometry** ppOut,
+GB_VG_API void CreateInterfaceDraw3DGeometry(IDraw3DGeometry** ppOut,
 				const CreteDrawValuesOptions* opt) throw();
 
 				

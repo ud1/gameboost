@@ -236,12 +236,12 @@ public:
 		return hr; 
 	};
 
-	virtual HRESULT setColorRed()    const   { HRESULT hr =0;  m_color=gb::color::COLOR4F_RED;     return hr; };
-	virtual HRESULT setColorGreen()  const   { HRESULT hr =0;  m_color=gb::color::COLOR4F_GREEN;   return hr; };
-	virtual HRESULT setColorBlue()   const   { HRESULT hr =0;  m_color=gb::color::COLOR4F_BLUE;    return hr; };
-	virtual HRESULT setColorYellow() const   { HRESULT hr =0;  m_color=gb::color::COLOR4F_YELLOW;  return hr; };
-	virtual HRESULT setColorWhite()  const   { HRESULT hr =0;  m_color=gb::color::COLOR4F_WHITE;   return hr; };
-	virtual HRESULT setColorGray()   const   { HRESULT hr =0;  m_color=gb::color::COLOR4F_GRAY;    return hr; };
+	virtual HRESULT setColorRed()    const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_RED;     return hr; };
+	virtual HRESULT setColorGreen()  const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_GREEN;   return hr; };
+	virtual HRESULT setColorBlue()   const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_BLUE;    return hr; };
+	virtual HRESULT setColorYellow() const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_YELLOW;  return hr; };
+	virtual HRESULT setColorWhite()  const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_WHITE;   return hr; };
+	virtual HRESULT setColorGray()   const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_GRAY;    return hr; };
 
 	virtual HRESULT drawS(const char* s) const ;
 	virtual HRESULT drawF( const char* _Format, ... ) const ;

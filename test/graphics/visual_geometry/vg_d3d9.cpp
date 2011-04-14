@@ -16,6 +16,7 @@
 #include <gb/graphics/visual_geometry/visual_geometry.h>
 #include <gb/macro.h>
 
+#include <gb/math/math.h>
 #include <gb/math/geom2d.h>
 
 
