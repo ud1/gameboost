@@ -801,6 +801,10 @@ public:
 //-------------------------------------------------------------------------
 
 
+    //! \brief  Дочернее пространство от gb::color.  Цветовые константы.
+    namespace color_const 
+	{
+
 //-------------------------------------------------------------------------
 //                   COLOR CONST	 color4f_s
 //-------------------------------------------------------------------------
@@ -1065,6 +1069,8 @@ static const uicolor32_t      CUICOLOR_YELLOW           = 0xFFFFFF00;
 static const uicolor32_t      CUICOLOR_YELLOWGREEN      = 0xFF9ACD32;
 
 
+       } 
+	   // end namespace color_const
 
      }
      // end namespace color
