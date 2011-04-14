@@ -93,7 +93,7 @@ public:
 	HRESULT GetUnused(IRenderTarget** ppOut,  UINT nWidth, UINT nHeight, IDirect3DDevice9* pdevice) {
 		HRESULT hr =0;
  
-      #pragma message ("NEED CHECK CODE" __FILE__ "[" MAKE_STR2(__LINE__) "]")
+      #pragma message ("NEED CHECK CODE" __FILE__  )
 
 			*ppOut = NULL;
 
