@@ -65,6 +65,43 @@ namespace gb
 // 	
 // 	static const float CE           = 2.718281828459f; ///<  e
 	
+
+
+		template<typename T> 
+		//! \brief   Вычислить линейную интерполяцию
+		inline T lerp( float alpha, const T& v0, const T& v1 ) throw()
+		{
+			return( (T)(v0 + alpha * ( v1 - v0 )) );
+		}
+
+		template<class T> 
+		//! \brief   отсечение
+		inline T clamp( const T& v, const T& l, const T& u ) throw()
+		{
+			return min(u, max(l,v));
+		}
+
+		template<typename T>
+		//! \brief   заполнение буфера dest значением val   количеством num
+		inline void fill( T * dest, const T val, const int num ) throw()
+		{
+			for (int i = 0; i < num; i++)
+			{
+				dest[i] = val;
+			}
+		}
+
+		template<typename T, const unsigned int Count>
+		//! \brief  Копирование массива val в dest   количество  num
+		inline void copy( T * dest, const T * val, const int num ) throw()
+		{
+			for (int i = 0; i < num; i++)
+			{
+				dest[i] = val[i];
+			}
+		}
+
+
 	
 	/**  \brief Возвращает единицу с соответствующим знаком   */
     inline float  sign (const float val) { if(val>=0.0f) return 1.0f; return -1.0f; };
