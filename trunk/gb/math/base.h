@@ -16,6 +16,7 @@
  TODO:  
    --- Поправить операторы для сравнения по эпсилону.
    --- Перенести в cpp методы матрицы 4x4 .
+   --- Тяжелые методы перенести в cpp
 
 
    STORY:
@@ -667,7 +668,7 @@ namespace gb
  
 		
 
-		/** Декларировать самые главные методы можно здесь Остальные лучше наследованием  */
+		/** \brief Матрица 4x4. Декларировать самые главные методы можно здесь Остальные лучше наследованием  */
 		struct mat44_s
 		{
 			union 
@@ -1010,9 +1011,10 @@ namespace gb
 				return r;
 			}
 
-
-
+			//! \brief Зануление всех элементов.
 			inline void       setzero() { memset(&_11, 0, sizeof(mat44_s)  ); };
+
+			//! \brief Установить в идентичную
 			inline mat44_s&   setIdentity() {
 				_11=1.0f; _12=0.0f; _13=0.0f; _14=0.0f;
 				_21=0.0f; _22=1.0f; _23=0.0f; _24=0.0f; 
@@ -1020,6 +1022,9 @@ namespace gb
 				_41=0.0f; _42=0.0f; _43=0.0f; _44=1.0f; 
 				 return *this;
 	        };
+
+			//! \brief Установить в идентичную
+			inline void reset() { setIdentity(); }
 
 			//! \brief Транспонирование. (Отражение элементов по главной диагонали)
 			inline mat44_s& transpone() 
@@ -1172,8 +1177,22 @@ namespace gb
 			inline mat44_s&  setTranslation( const vec3_s& vTransl) 
 			{
 				return  setTranslation(  vTransl.x, vTransl.y, vTransl.z);
-			};
-
+			}
+			
+			//! \brief Построение матрицы масштабирования			
+			inline mat44_s&  setScaling( float x, float y, float z)  
+			{
+				_11 = x;   _12=0.0f;   _13=0.0f;   _14=0.0f; 
+				_21=0.0f;  _22 = y;    _23=0.0f;   _24=0.0f;	
+				_31=0.0f;  _32=0.0f;   _33 = z;    _34=0.0f;	
+				_41=0.0f;  _42=0.0f;   _43=0.0f;   _44 = 1.0f;
+			}
+			
+			//! \brief Построение матрицы масштабирования			
+			inline mat44_s&  setScaling( const vec3_s& vScaling) 
+			{
+			  return setScaling( vScaling.x, vScaling.y, vScaling.z );
+			}
 
 
 			//! \brief Построение ортографической левосторонней проекционной матрицы
@@ -1207,6 +1226,18 @@ namespace gb
 
 /**********************************************************
 
+ // из ksmtc !!!!!!!!!1
+static void MakeOrthoOffCenterLH( Matrix4x4f* pout,  float l, float r, float b, float t, float zn, float zf) 
+{
+	_11 = 2.0f/(r-l);        _12 = 0.0f,           _13 = 0.0f,            _14 = 0.0f;
+	_21 = 0.0f,              _22 = 2.0f/(t-b);     _23 = 0.0f,            _24 = 0.0f;
+	_31 = 0.0f,              _32 = 0.0f,           _33 = 1.0f/(zf-zn);    _34 = 0.0f;
+	_41 = (l+r)/(l-r);       _42 = (t+b)/(b-t);    _43 = zn/(zn-zf);      _44 = l  ;
+};
+
+
+
+
 			//! \brief Builds a customized, left-handed orthographic projection matrix.  
 			inline void setOrthoOffCenterLH(float l, float r, float b, float t, float zn, float zf)
 			{
@@ -1239,6 +1270,47 @@ namespace gb
 			}
 
 ****************************************************************/
+
+
+			//-------------------------------------------------------------
+
+			//! \brief построение перспективной матрицы
+			void setPerspectiveFovLH(float fov, float asp, float zn, float zf) 
+			{
+				float yScale, xScale;
+
+				yScale =   gb::math::scalar::cotan(fov/2.0f); //yScale = cot(fovY/2)
+				xScale = yScale / asp;     //xScale = yScale / aspect ratio
+
+				//xScale     0          0               0
+				//0        yScale       0               0
+				//0          0       zf/(zf-zn)         1
+				//0          0       -zn*zf/(zf-zn)     0
+				_11 = xScale;   _12 = 0.0f;    _13 = 0.0f;             _14 = 0.0f;
+				_21 = 0.0f;     _22 = yScale;  _23 = 0.0f;             _24 = 0.0f;
+				_31 = 0.0f;     _32 = 0.0f;    _33 =  zn*zf/(zf-zn);   _34 = 1.0f;
+				_41 = 0.0f;     _42 = 0.0f;    _43 = -zn*zf/(zf-zn);   _44 = 0.0f;
+			};
+
+
+			//! \brief Построение перспективной матрицы по высоте и ширине
+			void setPerspectiveLH(float w, float h, float zn, float zf) 
+			{
+				// 2*zn/w  0       0              0
+				// 0       2*zn/h  0              0
+				// 0       0       zf/(zf-zn)     1
+				// 0       0       zn*zf/(zn-zf)  0
+
+				_11 = 2.0f*zn/w;  _12 = 0.0f,        _13 = 0.0f,           _14 = 0.0f;
+				_21 = 0.0f,       _22 = 2.0f*zn/h;   _23 = 0.0f,           _24 = 0.0f;
+				_31 = 0.0f,       _32 = 0.0f,        _33 = zf/(zf-zn);     _34 = 1.0f;
+				_41 = 0.0f,       _42 = 0.0f,        _43 = zn*zf/(zn-zf);  _44 = 0.0f;
+			};
+
+
+
+
+			//-------------------------------------------------------------
 
 			/** \brief Построение левосторонней матрицы вида  */
 			void setViewLookAtLH(const vec3_s& eye, const vec3_s& at, const vec3_s& up)
@@ -1284,6 +1356,23 @@ namespace gb
 			}
 
 
+			/** \brief Построение правосторонней матрицы вида  по направлению взгляда */
+			inline  void setViewDirLH(const vec3_s& eye, const vec3_s& dir, const vec3_s& up) 
+			{ 
+                #pragma message ("KS777 MATH::MAT44 warn ПРОВЕРИТЬ КОРРЕКТНОСТЬ setViewDirLH" __FILE__ )
+
+				vec3_s to = dir;
+				to.normalize();
+				const float flen = eye.length();
+				to.x += flen;
+				to.y += flen;
+				to.z += flen;
+
+				vec3_s at = eye + to;
+				setViewLookAtLH( eye, at, up);
+			};
+
+
 
 
 
@@ -1297,6 +1386,16 @@ namespace gb
             #endif
 
 
+				//! \brief Вывод значений на консоль
+			   inline void print()
+			   {
+				   printf("\n%f   %f   %f   %f  \n  %f   %f   %f   %f  \n%f   %f   %f   %f  \n%f   %f   %f   %f  \n  ", 
+					   _11, _12, _13, _14, 
+					   _21, _22, _23, _24,
+					   _31, _32, _33, _34,	 
+					   _41, _42, _43, _44	 
+					   );
+			   };
 
 		
 		};
