@@ -53,19 +53,19 @@ public:
 
 	
 
-	virtual UINT GetWidth()  const { return m_width; };
-	virtual UINT GetHeight() const { return m_height; };
+	virtual UINT getWidth()  const { return m_width; };
+	virtual UINT getHeight() const { return m_height; };
 
-	virtual IDirect3DTexture9*  GetITexture() const { return  m_pITexture; };
-	virtual IDirect3DSurface9* GetISurface() const { return  m_pISurface; };
-	virtual D3DFORMAT GetFormat() const { return m_format; };
+	virtual IDirect3DTexture9*  getITexture() const { return  m_pITexture; };
+	virtual IDirect3DSurface9* getISurface() const { return  m_pISurface; };
+	virtual D3DFORMAT getFormat() const { return m_format; };
 
 	virtual void  SetUsed(bool bUsed) const { m_bUsed = bUsed; };
 	virtual bool IsUsed() const { return m_bUsed; };
 
 	virtual bool IsSameInterfaces(const IRenderTarget* prt) const 
 	{
-	     return ( (m_pITexture == prt->GetITexture() ) && (m_pISurface == prt->GetISurface() ) );
+	     return ( (m_pITexture == prt->getITexture() ) && (m_pISurface == prt->getISurface() ) );
 	};
 
 	virtual HRESULT MakeAsCurrentRender()  const ;
@@ -91,7 +91,7 @@ public:
  
 	   hr |=  DAPLIB_RT_CreateInterfaces( &m_pISurface, &m_pITexture,   pdevice, 
 			  m_width, m_height,
-			  GetFormat()
+			  getFormat()
 			 );
 
 	   if FAILED(hr) {
