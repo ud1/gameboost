@@ -107,7 +107,7 @@ HRESULT RenderTarget::StretchFrom(const IRenderTarget* rtarget,
 {
    HRESULT hr=0;
    __try {
-	    hr |= StretchFrom( rtarget->GetISurface() , ft );
+	    hr |= StretchFrom( rtarget->getISurface() , ft );
 	  } __except(1) { hr |= E_FAIL; };
   return  hr;
 };
@@ -158,7 +158,7 @@ HRESULT RenderTarget::StretchTo(const IRenderTarget* rtarget,
 {
  	HRESULT hr=0;
 	__try {
-	 hr |= StretchTo( rtarget->GetISurface() , ft );
+	 hr |= StretchTo( rtarget->getISurface() , ft );
 	} __except(1) { hr |= E_FAIL; };
     return hr;
 };

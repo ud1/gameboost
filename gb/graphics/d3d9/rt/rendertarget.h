@@ -20,6 +20,7 @@
 
 #include <gb/base/Types.h>
 #include <gb/color/color.h>
+#include <gb/base/Rectangle.h>
 
 #include <gb/math/math.h>
 
@@ -47,7 +48,7 @@
 
 /// end ---------------------------------------
 
-#include <gb/base/Rectangle.h>
+
 
 
 //#ifndef  DAPPLLIBR_H
@@ -72,11 +73,11 @@
 #endif
 
 
-/** \brief Максимальное кол-во рендертаргетов в пуле */
+/** \brief Максимальное кол-во рендертаргетов в пуле  ПЕРЕИМЕНОВАТЬ!!!! */
 #define DAPPL_MAX_RENDERTARGETS_ONPOOL     32
 
 
-/** \brief Размер поверхность рендертаргета в виде перечисления  */
+/** \brief Размер поверхность рендертаргета в виде перечисления   ПЕРЕИМЕНОВАТЬ !!! */
 enum DAPLIB_RT_SIZE_ENM 
 {
   RTSZ_UNDEF = 0,  ///< не определено
@@ -123,24 +124,19 @@ DAPP_RT_API DAPLIB_RT_ComputeAverSurfaceColor(
 DAPP_RT_API DAPLIB_RT_ComputeSurfacePixelColor(_out gb::color::Color4f* pColorOut, _in POINT& pntCoord, _inout_opt IDirect3DSurface9* pSrf);
 
 
-class IRenderTarget;
-
-
+ 
 
 /** \brief  Рендер таргет. Поверхность для отрисовки в неё / 
     Старое название IDAPLIB_RenderTarget  */
-class IRenderTarget 
-{
+class IRenderTarget {
 public:
-//protected:
-	  virtual   ~IRenderTarget() {};
+	  virtual   ~IRenderTarget() {}
 
-public:
 
 	/** \brief Ширина поверхности. Если ноль тогда полноэкранная ширина */
-	virtual UINT GetWidth()  const =0;
+	virtual UINT getWidth()  const =0;
 	/** \brief Высота поверхности. Если ноль тогда полноэкранная высота */
-	virtual UINT GetHeight() const =0;
+	virtual UINT getHeight() const =0;
 
 	//DAPP_RT_CONSTRUCT IDAPLIB_RenderTarget(const UINT nWidth, const UINT nHeight, 
 	    //const D3DFORMAT format=D3DFMT_UNKNOWN);
@@ -148,11 +144,11 @@ public:
 
 
 	/** \brief Получить интерфейс  текстуры */
-	virtual IDirect3DTexture9*  GetITexture() const  =0;
+	virtual IDirect3DTexture9*  getITexture() const  =0;
     /** \brief Получить интерфейс   поверхности */
-	virtual IDirect3DSurface9* GetISurface() const  =0;
+	virtual IDirect3DSurface9* getISurface() const  =0;
 	/** \brief Получить формат поверхности */
-	virtual D3DFORMAT GetFormat() const =0;
+	virtual D3DFORMAT getFormat() const =0;
 
 	/** \brief Установить флаг использования . 
 	   Если true (используется), то по запросу на свободный рендертаргет он не будет возвращаться */

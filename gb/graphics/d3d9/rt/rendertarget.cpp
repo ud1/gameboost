@@ -111,7 +111,7 @@ public:
 				   prt = m_arr[c];
 
 				   if(prt)  {
-						   if( (prt->GetWidth() == nWidth) && (prt->GetHeight() == nHeight) && ( !prt->IsUsed() ) )
+						   if( (prt->getWidth() == nWidth) && (prt->getHeight() == nHeight) && ( !prt->IsUsed() ) )
 						   {
 								// found !!
 								 if FAILED(prt->ValidateInterfaces()  ) {
