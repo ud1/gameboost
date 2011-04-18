@@ -25,7 +25,7 @@ namespace gb
 	{
 
 
-        /** \brief 3-х мерный размер */
+		/** \brief 3-х мерный размер */
 		struct Size3d {
 
 			union {
@@ -43,18 +43,20 @@ namespace gb
 				float depth;
 			};
 
+			inline operator base::vec3_s() const { return base::vec3_s(x,y,z); }
+
 
 		};
 
-        //! \brief  Сборка  ось повотора и угол
+
+		//! \brief  Сборка  ось повотора и угол
 		struct AxiesAngle {
 
 			base::vec3_s   axies; ///< ось повотора (должен быть нормализован)
-			       float   angle; ///< угол поворота
-		
+			float   angle; ///< угол поворота
+
 		};
-	
-	
+		
 	//! \brief Сфера по центральной точке и радиусу. Она же Bounding sphere.
 	class Sphere {
 	public:
@@ -66,11 +68,25 @@ namespace gb
 	  inline Sphere(const base::vec3_s& _center, const float _radius) {center=_center; radius=_radius; }	  
 	  
 	
-	
+	  inline void set(const base::vec3_s& vCenter, float fRadius) {center=vCenter; radius=fRadius; }
+	  inline void set( float centerX, float centerY, float centerZ, float fRadius) { center.x=centerX;  center.y=centerY;  center.z=centerZ;  radius=fRadius; 	}
+	  inline void set(int ix, int iy, int iz, int r) { center.x=(float)ix;  center.y=(float)iy;  center.z=(float)iz;	radius = (float)r; }
+
+	  //! \brief Проверка пересечения сфер
+	  inline bool checkIntersectSphere(const Sphere* s) 
+	  {
+		  float d;
+		  {  base::vec3_s t(center-s->center); d=t.length();  }
+		  if (d > (radius + s->radius) ) 
+			  return false;
+		  return true;
+	  };
+
+
+
 	
 	};
-	
-	
+		
 	//! \brief Бокс по мин. и макс. координатам. Axis aligned bounding box.
 	class AABB {
 	public:
@@ -97,8 +113,7 @@ namespace gb
 
 
 	};
-	
-	
+		
 	//! \brief Луч в трёхмерном пространстве по позиции и направлению   
 	class Ray {
 	public:
@@ -120,7 +135,6 @@ namespace gb
 	
 	};
  
-
 	//! \brief   Линия в трёхмерном пространстве по двум точкам  
 	class Line {
 	public:
@@ -131,6 +145,8 @@ namespace gb
 		inline Line(const Line& l) {src=l.src; dest=l.dest; };	
 		inline Line(const base::vec3_s& _src, const base::vec3_s& _dest) {src=_src; dest=_dest; };
 
+		inline base::vec3_s getDirection() const { base::vec3_s r (dest - src); r.normalize(); return r; }
+
 
 
       #if ( defined(GB_OPENGL) &&  defined(__GL_H__) )
@@ -140,9 +156,13 @@ namespace gb
 
 
 		//! вывод на консоль.
-		inline void print() const { src.print(); printf("  "); dest.print(); printf("  "); };
+		inline void print() const { src.print(); printf("  "); dest.print(); printf("  \n"); };
 
 	}; // Line
+
+
+
+
 
 
 	/** \brief  Углы Элера */
@@ -158,7 +178,11 @@ namespace gb
  
 	};
 
+
+
+
 	//! \brief Трейгольник по трём точкам . 
+
 	class Triangle {
 	public:
 		base::vec3_s    p1,  p2,  p3;
@@ -166,9 +190,26 @@ namespace gb
 
 		inline Triangle() {}
 
+		/** \brief Вычислить и вернуть среднюю точку треугольника */
+		inline base::vec3_s middlePoint() const 
+		{ 
+			base::vec3_s res;
+		res.x= (p1.x+p2.x+p3.x) /3.0f;
+		res.y= (p1.y+p2.y+p3.y) /3.0f;
+		res.z= (p1.z+p2.z+p3.z) /3.0f;
+		 return res;
+		}
+
+		// /** \brief Вычислить и вернуть плоскость по точкам треугольника */
+		// Plane ComputePlane() ;
+
+
+
+
 
 
 	};
+
 
 
 	struct plane_s {
@@ -209,9 +250,18 @@ namespace gb
 			return *this;
 		}
 
+		// void normalize() {.....}
+
+
+		inline float dot(const base::vec4_s& v) const { return a*x + b*y + c*z + d*w ;}
+		inline float dotCoord  (const base::vec3_s& v) const { return a*x + b*y + c*z + d*1.0f; }
+		inline float dotNormal (const base::vec3_s& v) const { return a*x + b*y + c*z + d*0.0f; }
+
+
 
 
 	};
+
 
 
 	class Plane : public plane_s {
@@ -219,13 +269,7 @@ namespace gb
 		inline Plane() {};
 		inline Plane(const Plane& p) {a=p.a; b=p.b; c=p.c; d=p.d; }
 
-		inline Plane(float _a, float _b, float _c, float _d) 
-		{
-			a=_a;
-			b=_b;
-			c=_c;
-			d=_d;
-		}
+		inline Plane(float _a, float _b, float _c, float _d) { a=_a; b=_b; c=_c; d=_d; }
 
 
 		//---------------------------------------------------------------------
@@ -288,7 +332,10 @@ namespace gb
 
 
 
+	inline void print() const { printf("%f  %f  %f  %f",  a, b, c, d); }
+
 	};
+
 
 
 	struct quat_s {
@@ -303,6 +350,9 @@ namespace gb
 
 
 
+
+
+	//! \brief Стандартный  кватернион.
 	class Quaternion : public quat_s {
 	public:
 
@@ -669,6 +719,76 @@ namespace gb
 
 
 	};
+
+
+
+
+
+	//!  \brief Клас бесконечный прожектор по лучу (точка основания) и углу прожектора 
+	class  Projector {
+	public:
+		Ray ray;   ///< луч (центр и направление прожектора)
+		float phi; ///< угол конуса
+
+		Projector() {};
+		Projector(const Projector& pr) {ray=pr.ray; phi=pr.phi;  };
+
+
+	}; // Projector
+
+
+
+   //! \brief Стандартная пирамида видимости
+   class Frustum  {
+   public:
+
+	   union {
+		   struct {
+			   Plane  front;
+			   Plane  back;  
+			   Plane  left;   
+			   Plane  right;   
+			   Plane  top;
+			   Plane  bottom;  
+		   };
+
+		   plane_s  planes[6] ;
+	   };
+
+	   inline Frustum() {}
+	   inline Frustum(const Frustum& f) { *this=f; }
+
+
+	   /** \brief Выполнить построение из матричного произведения view * proj */
+	   void make(const base::mat44_s& mViewProj);	
+
+	   /** \brief Выполнить построение из матриц   view и proj */
+	   void make(const base::mat44_s& mView, const base::mat44_s& mProj) 
+	   {
+		   base::mat44_s mViewProj = mView * mProj;
+		   make(mViewProj);
+	   }
+
+
+
+
+
+     //! \brief Отладочный вывод на консоль
+     inline void print() const 
+	 {
+		 printf("front=");  front.print();  printf("\n");
+		 printf("back=");   back.print();   printf("\n");
+		 printf("left= ");  left.print();   printf("\n");
+		 printf("right=");  right.print();  printf("\n");
+		 printf("top=");    top.print();    printf("\n");
+		 printf("bottom="); bottom.print(); printf("\n");
+ 	 }
+
+
+   };
+
+
+
 
 
 
