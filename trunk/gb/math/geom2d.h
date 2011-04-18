@@ -2,11 +2,17 @@
  \brief геометрия в 2d.
 *
 *
-* *  Наполнение на основе выложеного ребятами в папку бранч,   опенсурсных движков,   выуженого из гугла , своих наработок.
+* 
+*  Наполнение на основе выложеного ребятами в папку бранч,  
+*		опенсурсных движков,   выуженого из гугла , своих наработок.
+
+
+ \todo Написать для circle построение внутреннего и внешнего прямоуголника.
 *
 */
 
 #pragma once
+
 
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>
@@ -58,8 +64,14 @@ namespace gb
 			inline Rect(float _x1, float _y1, float _x2, float _y2) { x1=_x1; y1=_y1; x2=_x2; y2=_y2; }
 
 #ifdef WIN32	
-			Rect(  POINT p1,   POINT p2)              { x1=(float)p1.x;  y1=(float)p1.y;  x2=(float)p2.x;  y2=(float)p2.y;  };
-			Rect(const RECT& rec) {  *this = rec; };
+			Rect(const POINT p1, const POINT p2)  
+			{ 
+				x1=(float)p1.x;  
+				y1=(float)p1.y;  
+				x2=(float)p2.x;  
+				y2=(float)p2.y;  
+			}
+			Rect(const RECT& rec) {  *this = rec; }
 #endif 
 
 
@@ -254,7 +266,7 @@ namespace gb
   /** \brief Получить  в виде указателя  D3DRECT */
   inline operator const D3DRECT* ()  const {  return (D3DRECT*)&x1;  }
 
-  /** \brief  Установить из вьпорта d3d9 девайса */
+  /** \brief  Установить из вьпорта d3d9 устройства */
   inline void operator =  ( const D3DVIEWPORT9& vp ) 
   {
 	  x1 = (float)vp.X;
@@ -264,7 +276,7 @@ namespace gb
   }
 
   //*  \brief Присвоить вьюпорту vpInOut  размеры и позицию прямоугольника.
-  void to_vieport(D3DVIEWPORT9& vpInOut) const
+  void to_viewport(D3DVIEWPORT9& vpInOut) const
   {
     vpInOut.X = (DWORD)x1;
 	vpInOut.Y = (DWORD)y1;
@@ -300,8 +312,29 @@ namespace gb
 			inline Circle(const Circle& c) {center=c.center; radius=c.radius; };
 			inline Circle(const base::vec2_s & _center, const float _radius) { center=_center; radius=_radius; }
 
+			inline void set(int iCenterX, int iCenterY, int iRadius) { center.x=(float)iCenterY; center.y=(float)iCenterY; radius=(float)iRadius;	}
+			inline void set(const base::vec2_s& vCenter, float fRadius)    { center=vCenter; radius=fRadius; }
+			inline void set(float fcx, float fcy,  float fRadius)    { center.x=fcx; center.y=fcy;   radius=fRadius; }
 
 
+			//! \brief Проверка пересечения окружностей
+			bool checkIntersect(const Circle& c) 
+			{
+				float fDist;
+				{ base::vec2_s t(center - c.center); fDist = t.length();  }
+				if (fDist >= (radius + c.radius))	return false;
+				return true;
+			}
+
+			//! \brief Проверка попадания точки   point
+			inline bool checkContainPoint(const base::vec2_s point) 
+			{
+				float fDist;
+				{ base::vec2_s t(center - point); fDist = t.length();  }
+				if( fDist > radius ) 
+					return false; 
+				return true;
+			}
 
 
 		};

@@ -17,6 +17,7 @@
    --- Поправить операторы для сравнения по эпсилону.
    --- Перенести в cpp методы матрицы 4x4 .
    --- Тяжелые методы перенести в cpp
+   ---   transformCoord   transformNormal   для vec3 
 
 
    STORY:
@@ -137,11 +138,14 @@ namespace gb
 				// !!!!! float cross(const vec2_s& v) const {  ......  }
 
 				//
+
+				inline vec2_s& inverse() { x=-x; y=-y; return *this; }
+				inline vec2_s  inverted() const { return vec2_s (-x, -y); }
  		
 
 				inline float     getMaxLength () const {  if( fabs (x) >= fabs (y) ) return x; else return y;   }
 
-  			    inline vec2_s&   invert() {x=-x; y=-y;  return *this; }
+  			   // inline vec2_s&   invert() {x=-x; y=-y;  return *this; }
 
 				inline vec2_s    lerp(const vec2_s& v, const float k) const
 				{
@@ -209,7 +213,7 @@ namespace gb
 
 
 				//! \brief  Отсеч значения в пределах vmin и vmax
-				inline void Clump(const vec2_s& vmin, const vec2_s& vmax) 
+				inline void clump(const vec2_s& vmin, const vec2_s& vmax) 
 				{
 					if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
 					if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
@@ -305,7 +309,10 @@ namespace gb
 			inline float     length () const {	return (float)sqrt ( x*x + y*y + z*z );	}
 			inline float     lengthSq() const {	 return (x*x + y*y + z*z);  }
 
-			inline float     dot(const vec3_s& v) const { return x*v.x + y*v.y + z*v.z; };
+			inline float     dot(const vec3_s& v) const { return x*v.x + y*v.y + z*v.z; }
+
+			inline vec3_s& inverse() { x=-x; y=-y; z=-z; return *this; }
+			inline vec3_s  inverted() const { return vec3_s (-x, -y, -z); }
 
 #pragma message ("KS777:  MATH: NEED CHECK VEC3 CROSS !!!"  __FILE__)
 			inline vec3_s    cross (const vec3_s &v) const
@@ -548,7 +555,67 @@ namespace gb
 			};
 
 
-			inline void print() const { printf(" %f %f %f %f ", x, y, z, w); };
+
+	//! \brief  Получить минимальную компоненту.
+	inline float minval() const 
+	{ 	  
+		float res = x;
+	   if(y<res) res=y;
+	   if(z<res) res=z;
+	   if(w<res) res=w;
+	      return res;
+	};
+
+	//! \brief Получить максимальную компоненту.
+	inline float maxval() const
+	{   float res = x;
+	   if(res<y) res=y;
+	   if(res<z) res=z;
+	   if(res<w) res=w;
+	       return res;
+	};	
+ 
+	/** \brief  вычисл. минимальной абсолютной компоненты.  */
+	inline float minAbsVal() const 
+	{ 
+		float ax=abs(x); 
+		float ay=abs(y); 
+		float az=abs(z); 
+		float aw=abs(w);
+		      float res=ax;    
+			  if(ay<res) res=ay; 
+			  if(az<res) res=az; 
+			  if(aw<res) res=aw; 
+			  return res; 
+	}
+
+	/** \brief  вычисл. максимальной абсолютной компоненты.  */
+	inline float maxAbsVal() const 
+	{ 
+		float ax=abs(x); 
+		float ay=abs(y); 
+		float az=abs(z); 
+		float aw=abs(w);
+	          float res=ax;
+			  if(ay>res) res=ay; 
+			  if(az>res) res=az;	 
+			  if(aw>res) res=aw;	
+			  return res;	
+	}
+
+
+	//! \brief Выполнить отсечение значений в диапазоне между vmin и vmax
+	inline void clump(const vec4_s& vmin, const vec4_s& vmax) 
+	{
+		if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
+		if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
+		if( z < vmin.z) z=vmin.z;  if(z > vmax.z) z=vmax.z;
+		if( w < vmin.w) w=vmin.w;  if(w > vmax.w) w=vmax.w;
+	};
+
+
+    //! \brief Вывод значений на консоль
+	inline void print() const { printf(" %f  %f  %f  %f ", x, y, z, w); };
 
 		}; // end vec4_s
 		
