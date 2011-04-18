@@ -81,6 +81,9 @@ namespace gb
 			    inline vec2_s(float _x, float _y)   { x=_x;   y=_y;   };
 			    inline vec2_s(int   _x, int   _y)   { x=(float)_x;   y=(float)_y; };
 
+				//! \brief Присваивание из float-массива 
+				inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; }
+
 				inline bool  operator == (const vec2_s & v) const {	return (x == v.x && y == v.y  ); }
 				inline bool  operator != (const vec2_s & v) const {	return (x != v.x || y != v.y  ); }
 
@@ -232,6 +235,7 @@ namespace gb
 			};
 
 
+
 		/** \brief Базовый 3d-вектор.  Поправить операторы по эпислону */		
 		struct vec3_s  {
 
@@ -254,7 +258,9 @@ namespace gb
 			inline vec3_s(float _x, float _y, float _z)   { x=_x;    y=_y;    z=_z;  };
 			inline vec3_s(int   _x, int   _y, int   _z)   { x=(float)_x;   y=(float)_y;  z=(float)_z; };
 
-					 
+			//! \brief Присваивание из float-массива 
+			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; }
+				 
 			inline bool  operator == (const vec3_s &v) const { return (x == v.x && y == v.y && z == v.z ); }
 			inline bool  operator != (const vec3_s &v) const { return (x != v.x || y != v.y || z != v.z ); }
 
@@ -463,7 +469,6 @@ namespace gb
 		}; // end vec3_s
 		
 
-
 		/** \brief Базовый 4d-вектор. Поправить операторы по эпислону   */		
 		struct vec4_s  {
 
@@ -488,6 +493,8 @@ namespace gb
 			inline vec4_s(float _x, float _y, float _z, float _w)   { x=_x;   y=_y; z=_z; w=_w;  }
 			inline vec4_s(int   _x, int   _y, int   _z, int   _w)   { x=(float)_x;   y=(float)_y;  z=(float)_z; w=(float)_w;}
 
+			//! \brief Присваивание из float-массива 
+			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; w=pf[3]; }
 					 
 			inline bool  operator == (const vec4_s &v) const {	return (x == v.x && y == v.y && z == v.z && w == v.w); }
 			inline bool  operator != (const vec4_s &v) const {	return (x != v.x || y != v.y || z != v.z || w != v.w); }
