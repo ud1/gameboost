@@ -181,39 +181,9 @@ namespace gb
 
 
 
-	//! \brief Трейгольник по трём точкам . 
-
-	class Triangle {
-	public:
-		base::vec3_s    p1,  p2,  p3;
-
-
-		inline Triangle() {}
-
-		/** \brief Вычислить и вернуть среднюю точку треугольника */
-		inline base::vec3_s middlePoint() const 
-		{ 
-			base::vec3_s res;
-		res.x= (p1.x+p2.x+p3.x) /3.0f;
-		res.y= (p1.y+p2.y+p3.y) /3.0f;
-		res.z= (p1.z+p2.z+p3.z) /3.0f;
-		 return res;
-		}
-
-		// /** \brief Вычислить и вернуть плоскость по точкам треугольника */
-		// Plane ComputePlane() ;
-
-
-
-
-
-
-	};
-
-
 
 	struct plane_s {
-		union {
+		  union {
 
 			//union {
 			//	struct { float x, y, z; };
@@ -223,41 +193,100 @@ namespace gb
 		   struct { float x , y , z , w ;   };
 
 		   struct { float a , b , c , d ;   };
+
 	       float floats [4];
 
-		};
+		  };
 
+	   //! \brief  Присваивание из float-массива
+	   inline void operator = (const float* pfArray)
+	   {
+		   a = pfArray[0]; 
+		   b = pfArray[1];
+		   c = pfArray[2];
+		   d = pfArray[3];	   
+	   }
+
+	   inline operator        float*()       { return &a; };
+	   inline operator const  float*() const { return &a; };
+
+
+	   inline void set(float _a, float _b, float _c, float _d)  { a=_a; b=_b; c=_c; d=_d; }
+
+
+	    //! \brief Построение плоскости по координате point и направлению normal.
 		inline plane_s& makeFromPointNormal(const base::vec3_s& point, const base::vec3_s& normal) 
 		{
-			a=normal.x;  
-			b=normal.y;  
-			c=normal.z;  
+			base::vec3_s nn(normal);
+			nn.normalize();
+			a=nn.x;  
+			b=nn.y;  
+			c=nn.z;  
 			d= -( normal.dot(point) ); 
 			return *this;
 		};
 
-
+        //! \brief Построение плоскости по точкам.
 		inline plane_s& makeFromPoints(const base::vec3_s& p1, const base::vec3_s& p2, const base::vec3_s& p3 ) 
 		{
-			base::vec3_s vsub1 =   p1 - p2;    	 
+			base::vec3_s vsub1 = p1 - p2;    	 
 			vsub1.normalize();
-			base::vec3_s vsub2  = p1 - p3;	 
+
+			base::vec3_s vsub2 = p1 - p3;	 
 			vsub2.normalize();
 
 			base::vec3_s nrml = vsub1.cross(vsub2);   
 			nrml.normalize();
+
 			makeFromPointNormal(p1, &nrml);
 			return *this;
 		}
 
-		// void normalize() {.....}
+		//! \brief   Нормализовать плоскость.
+		inline void normalize() 
+		{
+			register const float fm = sqrt(a*a + b*b + c*c); 
+			a/= fm;	
+			b/= fm; 
+			c/= fm; 
+			d/= fm; 
+		}
 
 
-		inline float dot(const base::vec4_s& v) const { return a*x + b*y + c*z + d*w ;}
+		inline float dot(const base::vec4_s& v) const        { return a*v.x + b*v.y + c*v.z + d*v.w ; }
 		inline float dotCoord  (const base::vec3_s& v) const { return a*x + b*y + c*z + d*1.0f; }
 		inline float dotNormal (const base::vec3_s& v) const { return a*x + b*y + c*z + d*0.0f; }
 
+		//! \brief   Масштабировать плоскость.
+		inline void scale(float s) {a*=s; b*=s; c*=s; d*=s; }
 
+
+		//! \brief  Вернуть нормаль плоскости.  ПРОВЕРИТЬ !!!!
+		inline base::vec3_s  getNormal() const  
+		{ 
+			base::vec3_s res; 
+			res.x=a; 
+			res.y=b; 
+			res.z=c; 
+			return res; 
+		}
+
+		//! \brief  Инвертировать плоскость
+		inline void inverse() { a*=-a; b*=-b; c*=-c;  }
+
+		//! \brief  Получить инвертированую плоскость
+		inline plane_s inverted() const { plane_s res = *this; res.inverse(); return res; }
+
+
+#ifdef GB_D3DX9
+  inline void operator = (const D3DXPLANE& p)  { a=p.a; b=p.b; c=p.c; d=p.d; }
+  inline operator D3DXPLANE() const { return D3DXPLANE(a, b, c, d); }
+#endif
+
+
+
+		//! \brief  Вывод на консоль.
+		void print() const 	{ printf( "%f  %f  %f  %f", a, b, c, d); 	}
 
 
 	};
@@ -276,8 +305,7 @@ namespace gb
 		//                        ОПЕРАТОРЫ
 		//---------------------------------------------------------------------
 
-		inline operator        float*()       { return &a; };
-		inline operator const  float*() const { return &a; };
+
 
 
 		inline bool operator == ( const Plane& p ) const
@@ -332,7 +360,7 @@ namespace gb
 
 
 
-	inline void print() const { printf("%f  %f  %f  %f",  a, b, c, d); }
+//	inline void print() const { printf("%f  %f  %f  %f",  a, b, c, d); }
 
 	};
 
@@ -723,6 +751,61 @@ namespace gb
 
 
 
+	//! \brief Треугольник по трём точкам . 
+	class Triangle {
+	public:
+		base::vec3_s   p1; ///< первая точка(вершина) треугольника 
+		base::vec3_s   p2; ///< вторая точка(вершина) треугольника   
+		base::vec3_s   p3; ///< третья точка(вершина) треугольника 
+
+
+		inline Triangle() {}
+		inline Triangle(const Triangle& t) { *this = t; }
+		inline Triangle(const base::vec3_s _p1, const base::vec3_s _p2, const base::vec3_s _p3) 
+		{
+			p1=_p1;	p2=_p2;	p3=_p3;	
+		}
+
+		inline void set(const base::vec3_s _p1, const base::vec3_s _p2, const base::vec3_s _p3) 
+		{
+			p1=_p1;	p2=_p2;	p3=_p3;	
+		}
+
+		/** \brief Вычислить и вернуть среднюю точку треугольника */
+		inline base::vec3_s middlePoint() const 
+		{ 
+			base::vec3_s res;
+			res.x= (p1.x + p2.x + p3.x) / 3.0f;
+			res.y= (p1.y + p2.y + p3.y) / 3.0f;
+			res.z= (p1.z + p2.z + p3.z) / 3.0f;
+			return res;
+		}
+
+		//! \brief Вычислить и вернуть плоскость по точкам треугольника 
+		plane_s getPlane() const
+		{
+			plane_s plane; 
+			plane.makeFromPoints(p1,p2,p3); 	
+			return plane;
+		}
+
+
+#ifdef GB_OPENGL
+		//! \brief Вывод вершин по OpenGL  по старинке.
+		inline void glDraw()   {
+			glVertex3f(p1.x, p1.y, p1.z);
+			glVertex3f(p2.x, p2.y, p2.z);
+			glVertex3f(p3.x, p3.y, p3.z); 
+		}
+#endif
+
+
+
+
+
+	};
+
+
 
 	//!  \brief Клас бесконечный прожектор по лучу (точка основания) и углу прожектора 
 	class  Projector {
@@ -769,6 +852,14 @@ namespace gb
 		   make(mViewProj);
 	   }
 
+       //! \brief Проверка попадания точки в пирамиду 
+	   bool checkPoint(const base::vec3_s& point) const; 
+
+       //! \brief Проверка попадания сферы в пирамиду
+	   bool checkSphere(const Sphere& sphere)  const; 
+
+	   //! \brief Проверка попадания бокса в пирамиду
+       bool checkAABB(const AABB& aabb) const;
 
 
 
