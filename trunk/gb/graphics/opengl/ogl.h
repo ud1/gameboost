@@ -3,6 +3,7 @@
   Я хз  пока пусто...   Коммитете ^=^
 
 
+  \todo Сделать функции вывода xy-квада  и куба как и сделано в d3d9 графе
 
 */
 
@@ -13,8 +14,6 @@
 #include <gb/Config.h>
 #include <gb/base/Types.h>
 
-#include <gb/math/math.h>
- 
 
   // незнаю как там в линухе и пр..  поправьте пожста
 #if defined(WIN32) 
@@ -24,6 +23,13 @@
 #include <gl/GLAux.h>
 
 #endif
+
+
+
+#include <gb/math/math.h>
+ 
+
+
 
 
 namespace gb
@@ -55,8 +61,19 @@ inline void set_xxx  (bool val)   { if(val){ glEnable(xxx); } else { glDisable(x
  */
 	 
 
-
-  
+/** \brief Построение ортографической трансформации с началом координат в верхнем левом углу. <br>
+  Параметры: ширина и высота области вывода  */
+inline void setOrthoTopLeft(int nClientWidth, int nClientHeight)
+{
+		glOrtho(
+			0.0f, 
+			(GLdouble)nClientWidth , // - 1.0, 
+			(GLdouble)nClientHeight, // - 1.0, 
+			0.0f, 
+			-1.0, 
+		     1.0
+			);
+}  
   
   
    //-------------------------------------------------------------------------------- 

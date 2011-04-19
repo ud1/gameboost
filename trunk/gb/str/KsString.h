@@ -3,7 +3,13 @@
  * Класс на основе STL и BOOST
  * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
  * \author Reviewer/imported by: kvakvs (kvakvs@yandex.ru)
+ 
+ \todo привести к правилам кода
+ \todo сделать функции с декларатором импорта/экспорта
+ 
+ 
  */
+ 
 #pragma once
 
 #include <iostream>
@@ -84,7 +90,7 @@ bool strVectorTo(KS_OUT std::vector<T>& vOut,  const std::vector<std::string>& v
 #endif // #ifdef GB_ALLOW_BOOST_LIBRARY
 
 
-/** \brief Заполнение вектора по строке делёной символом конца строки  \n */
+/** \brief Заполнение вектора по строке делёной символом конца строки  '\n' */
 void splitLines(KS_OUT std::vector<std::string>& vOut, const std::string& s) ;
 
 /** \brief сделать все символы в верхнем регистре. Строка должна завершаться нулём */
@@ -101,7 +107,6 @@ void changeCase1251(char* buff, bool bUpReg);
 
 /** \brief Поиск индексов вхождения символа chToBeSearch в строке src
 с позиции  nStartIndex */
-//==============================================
 bool searchCharPos(KS_OUT std::vector<int32_t>& vPosOut, const std::string& src,
 	KS_IN char chToBeSearch, KS_IN int32_t nStartIndex);
 
@@ -129,12 +134,12 @@ bool saveStrToFileW   (KS_IN std::string& s,   const wchar_t* fname);
 /** \brief Сравнение буферов без учёта регистра   НЕ ПРОВЕРЯЛАСЬ !!! */
 bool iCompareCstr(const char* src1, const char* src2, uint32_t nMax );
 
-/** \brief  удалить из текста  все C++ комментарии, Если  chRepl != 0,<br>
-то закомментированый текст будет заменён этим символом	 <br>
+/** \brief  удалить из текста  все C++ комментарии. <br> 
+ Если  chRepl != 0, то закомментированый текст будет заменён этим символом	 <br>
 (табы, пробелы и переносы строк не меняются)  */
 void preprocessCppComments(KS_OUT std::string& sDest, const std::string& sSrc, KS_IN_OPTIONAL char chRepl=0 );
 
-/** \brief  удалить из текста  все C++ комментарии.  */
+/** \brief  удалить из текста  все C++ комментарии. Подробнее смотреть в одноимённой функции выше  */
 void preprocessCppComments(KS_INOUT std::string& s, KS_IN_OPTIONAL char chRepl=0);
 
 
@@ -197,8 +202,7 @@ void replaceAnyChar(KS_INOUT std::string &s, const std::string& sAny, const char
  
 
 /** \brief Проверка строчки на открывающий xml/html таг    */
-bool check_OpenXmlTag(KS_OUT std::string& sOutTag, 
-	const std::string& src);
+bool check_OpenXmlTag(KS_OUT std::string& sOutTag, const std::string& src);
 	
 /** \brief Проверка строчки на открывающий xml/html таг по индексу     */
 bool check_OpenXmlTag_pos(KS_OUT std::string& sOutTag, 
@@ -206,8 +210,7 @@ bool check_OpenXmlTag_pos(KS_OUT std::string& sOutTag,
 	KS_INOUT int32_t& posit);
 
 /** \brief Проверка строчки на закрывающий xml/html таг     */
-bool check_CloseXmlTag(KS_OUT std::string& sOutTag,
-	const std::string& src);
+bool check_CloseXmlTag(KS_OUT std::string& sOutTag,	const std::string& src);
 
 /** \brief Проверка строчки на закрывающий xml/html таг  по индексу    */
 bool check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
@@ -218,8 +221,7 @@ bool check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
  
 
 /** \brief Удаление символов начиная с "//" (с++ однострочный комментарий) */
-void skipCppOnelineComment(KS_OUT std::string& dest,
-	KS_IN std::string& src );
+void skipCppOnelineComment(KS_OUT std::string& dest,	KS_IN std::string& src );
 
 /** \brief Удаление символов начиная с "//" (с++ однострочный комментарий) */
 void skipCppOnelineComment(KS_INOUT std::string& s);

@@ -7,7 +7,7 @@
 #endif 
 
 #ifdef GB_OPENGL
-  #include <gb/graphics/visual_geometry/internal/vg_drval_impl_opengl.h>
+  #include <gb/graphics/visual_geometry/internal/vg_impl_opengl.h>
 #endif 
 
 
@@ -22,6 +22,9 @@ GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDrawValues(
 	gb::graphics::visual_geometry::IDrawValues **ppOut, 
 	const gb::graphics::visual_geometry::CreteDrawValuesOptions *opt)  throw()
 {
+	*ppOut = NULL;
+
+	  assert(opt->api && "API не определено");
  
   switch (opt->api)
   {
@@ -39,10 +42,10 @@ GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDrawValues(
 
 
     #ifdef GB_OPENGL 
-#error  OpenGL пока не поддерживается
-      case visual_geometry::vg_graph_api_e::xxxxopengl
+   //#error  OpenGL пока не поддерживается
+	  case visual_geometry::vg_graph_api_e::VG_GAPY_OPENGL:
       {
-        *ppOut = (IDrawValues*)new VGImpl_OpenGL();
+		  *ppOut = (IDrawValues*)new internal::VGDrawValuesImpl_ogl();
       }
       break;
     #endif 
@@ -72,10 +75,13 @@ GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
 
   *ppOut = NULL;
 
+    assert(opt->api && "API не определено");
+
   switch (opt->api)
   {
 
     #ifdef GB_D3D9
+	  	  assert(opt->pdevice && "Устройство d3d9 == NULL");
       case visual_geometry::vg_graph_api_e::VG_GAPY_D3D9: 
       {
         *ppOut = (IDraw2DGeometry*)new VGDraw2DGeometry_Impl_D3D9(opt->pdevice);
@@ -87,11 +93,11 @@ GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDraw2DGeometry(
 
 
     #ifdef GB_OPENGL 
-	  #error  OpenGL пока не поддерживается
-      case _opengl:
-        {
-          *ppOut = (IDraw2DGeometry*)new VGImpl_OpenGL();
-        }
+	 // #error  OpenGL пока не поддерживается
+	  case visual_geometry::vg_graph_api_e::VG_GAPY_OPENGL:
+       {
+          *ppOut = (IDraw2DGeometry*)new VGDraw2DGeometry_Impl_ogl();
+       }
         break;
       #endif 
 
@@ -122,8 +128,7 @@ GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(
 
   *ppOut = NULL;
 
-  assert(opt->pdevice);
-  assert(opt->api);
+  assert(opt->api && "API не определено");
 
   switch (opt->api)
   {
@@ -131,6 +136,7 @@ GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(
 
 
     #ifdef GB_D3D9
+	  assert(opt->pdevice && "Устройство d3d9 == NULL");
       case visual_geometry::vg_graph_api_e::VG_GAPY_D3D9: 
       {
         *ppOut = (IDraw3DGeometry*)new VGDraw3DGeometry_Impl_D3D9(opt->pdevice);
@@ -143,13 +149,14 @@ GB_VG_API void gb::graphics::visual_geometry::CreateInterfaceDraw3DGeometry(
 
 
     #ifdef GB_OPENGL  
-	  #error  OpenGL пока не поддерживается
-      case _opengl:
-        {
-          *ppOut = (IDraw3DGeometry*)new xxxxxx_ogl();
-        }
-        break;
-      #endif 
+	 // #error  OpenGL пока не поддерживается
+	  case visual_geometry::vg_graph_api_e::VG_GAPY_OPENGL:
+      {
+          *ppOut = (IDraw3DGeometry*)new VGDraw3DGeometry_Impl_ogl();
+      }
+      break;
+
+    #endif 
 
 
     default:

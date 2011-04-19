@@ -26,6 +26,8 @@
 
 */
 
+#ifdef GB_VG // макрозащита
+
 #pragma once
 
 #include <gb/Config.h>
@@ -37,16 +39,16 @@
 
 
 #if ( !defined(GB_OPENGL) && !defined(GB_D3D9) )
-#error graph api not defined. ДОЛЖЕН БЫТЬ ОПРЕДЕЛЁН ОДИН ИЗ МАКРОСОВ GB_OPENGL или GB_D3D9.
+  #error graph api not defined. ДОЛЖЕН БЫТЬ ОПРЕДЕЛЁН ОДИН ИЗ МАКРОСОВ GB_OPENGL или GB_D3D9.
 #endif
 
 // temp !
 #ifdef WIN32
-#include <windows.h>
+  #include <windows.h>
 #endif
 
 #ifdef GB_D3D9
-#include <d3d9.h>
+  #include <d3d9.h>
 #endif
 
 
@@ -71,7 +73,8 @@ namespace gb
 //--------------------------------------------------------------------------------------
 
 
-  //! \brief Перечисление тип графического API вывода виз. геомтрии.
+  /**  \brief Дочернее от gb::graphics::vesual_geometry . 
+         Перечисление тип графического API вывода визуальной геометрии. */
   namespace vg_graph_api_e 
   {
 	    enum  grarh_api_e 
@@ -79,13 +82,18 @@ namespace gb
 
 		  VG_GAPY_UNDEF   = 0, ///< API не определено
 
+
+           #ifdef GB_OPENGL
+		  VG_GAPY_OPENGL, ///< Вывод через OpenGL
+          #endif
+
+
           #if ( defined(GB_D3D9) && defined(WIN32) )
 		  VG_GAPY_D3D9, ///< Вывод через D3D9
           #endif 
 
-          #ifdef GB_OPENGL
-		  VG_GAPY_OPENGL, ///< Вывод через OpenGL
-          #endif
+
+
 
 	    };
   };
@@ -417,8 +425,10 @@ GB_VG_API void CreateInterfaceDraw3DGeometry(IDraw3DGeometry** ppOut,
 
 //-------------------------------------------------------------------------
  
-  } // end ns
- } // end ns
-} // end ns
+  } // end namespace
+ } // end namespace
+} // end namespace
 
+
+#endif // #ifdef GB_VG
 // end file

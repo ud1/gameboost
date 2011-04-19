@@ -66,6 +66,16 @@ namespace gb
 // 	static const float CE           = 2.718281828459f; ///<  e
 	
 
+		inline float abs(float val)
+		{
+		    if(val<0.0f) 
+			{
+				return -val;
+			}
+
+			return val;
+		}
+
 
 		template<typename T> 
 		//! \brief   Вычислить линейную интерполяцию
@@ -138,6 +148,16 @@ namespace gb
 	     // throw std::runtime_error("Inv arg"); 
 	   return atan(1.0f / f); 
 	};
+	
+	//! \brief Вычислить арк тангенс 
+	inline float arctg(float y, float x) 
+	{
+			//#ifdef __BCPLUSPLUS__
+			//	return atan2(y, x);
+			//#else
+				return atan2f(y, x);
+			//#endif
+	}
 
 	/** \brief  Same as acos(x), but if x is out of range, it is "clamped"
 	to the nearest valid value.  The value returned is in range 0...pi, 
@@ -197,9 +217,10 @@ namespace gb
     /** \brief Получить среднее из 3-х  значений */
 	inline float   max3 ( float a, float b, float c ) { return a > b ? (a > c ? a : (b > c ? b : c)) : (b > c ? b : (a > c ? a : c));  }
 	
+	
 
 	/** \brief  Вычислить и вернуть среднее АРИФМЕТИЧЕСКОЕ массива pf размером num */
-	inline float aver(const float* pf, const unsigned int num) 
+	inline float aver_a(const float* pf, const unsigned int num) 
 	{
 		float r =0.0f;
 		if(num==0) return r;
