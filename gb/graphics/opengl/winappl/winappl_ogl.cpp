@@ -372,7 +372,7 @@ LRESULT CALLBACK ApplOpenGL::mainWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam,
 		// window creation
 		pApplOpenGL->m_hDC = GetDC(hWnd);
 		pApplOpenGL->setupPixelFormat( pApplOpenGL->m_hDC );
-		//SetupPalette();
+ 
 
 		pApplOpenGL->m_hRC = wglCreateContext(pApplOpenGL->m_hDC);
 		if(!pApplOpenGL->m_hRC)
@@ -545,8 +545,8 @@ HRESULT ApplOpenGL::init(const APPL_OPENGL_INIT_DATA* pInitData)
 
     if(m_initdata.bWindowed == FALSE)
 	{
-		MessageBoxA(NULL, "Полноэкранный режим пока отключён", "ApplOpenGL", 
-			MB_OK | MB_ICONINFORMATION | MB_TASKMODAL | MB_TOPMOST );
+ 
+		GB_MBOX( "Полноэкранный режим пока отключён" );
     m_initdata.bWindowed = TRUE;
 	}
 
@@ -587,7 +587,7 @@ HRESULT ApplOpenGL::init(const APPL_OPENGL_INIT_DATA* pInitData)
 
 	// class registered, so now create our window
 	 
-#pragma message("НЕ ОТОБРАЖАЕТСЯ НАДПИСЬ ОКНА ПРИ MULTIBYTE" __FILE__) 
+#pragma message("KS777: openglAppl:: НЕ ОТОБРАЖАЕТСЯ НАДПИСЬ ОКНА ПРИ MULTIBYTE" __FILE__) 
 	m_hwnd = CreateWindowExW (
 		NULL,                                 // extended style
 		CWSTR_CL_CLASSNAME, //  L"GLClass",                          // class name

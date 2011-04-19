@@ -72,13 +72,24 @@ namespace gb
 	  inline void set( float centerX, float centerY, float centerZ, float fRadius) { center.x=centerX;  center.y=centerY;  center.z=centerZ;  radius=fRadius; 	}
 	  inline void set(int ix, int iy, int iz, int r) { center.x=(float)ix;  center.y=(float)iy;  center.z=(float)iz;	radius = (float)r; }
 
-	  //! \brief Проверка пересечения сфер
-	  inline bool checkIntersectSphere(const Sphere* s) 
+	  //! \brief Получить расстояние между краями сфер. Вернёт отрицательное если сферы пересекаются.
+      inline float distanceBetweenSphere(const Sphere& s) const 
 	  {
-		  float d;
-		  {  base::vec3_s t(center-s->center); d=t.length();  }
-		  if (d > (radius + s->radius) ) 
+		  float res = 0.0f;
+		  {  base::vec3_s t(center-s.center); res=t.length();  }
+		  res = res - ( radius + s.radius );
+		  return res;
+	  }
+
+	  //! \brief Проверка пересечения сфер
+	  inline bool checkIntersectSphere(const Sphere& s) 
+	  {
+		  float dist;
+		  {  base::vec3_s t(center-s.center); dist=t.length();  }
+
+		  if (dist < (radius + s.radius) ) 
 			  return false;
+
 		  return true;
 	  };
 
@@ -276,7 +287,7 @@ namespace gb
 
 		//! \brief  Получить инвертированую плоскость
 		inline plane_s inverted() const { plane_s res = *this; res.inverse(); return res; }
-
+ 
 
 #ifdef GB_D3DX9
   inline void operator = (const D3DXPLANE& p)  { a=p.a; b=p.b; c=p.c; d=p.d; }
@@ -356,7 +367,7 @@ namespace gb
 		//---------------------------------------------------------------------
 
 
-	inline base::vec3_s getOrigin() const { base::vec3_s r; r.x=x; r.y=y; r.z=z; return r;  };
+	
 
 
 
@@ -790,7 +801,7 @@ namespace gb
 		}
 
 
-#ifdef GB_OPENGL
+#if ( defined(GB_OPENGL) && defined(__GL_H__)   )
 		//! \brief Вывод вершин по OpenGL  по старинке.
 		inline void glDraw()   {
 			glVertex3f(p1.x, p1.y, p1.z);

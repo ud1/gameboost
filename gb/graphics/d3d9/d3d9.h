@@ -6,7 +6,10 @@
   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
 */
 
-#if ( defined(GB_D3D9) && defined(WIN32) )
+
+//#if ( defined(GB_D3D9) && defined(WIN32) )
+#ifdef WIN32
+#ifdef GB_D3D9
 
 #pragma once
 #define __GB_D3D9_H__
@@ -49,5 +52,9 @@ namespace gb
  } // end ns graphics
 } // end ns gb
 
-#endif // #if
+#endif
+#endif
+
+//#endif // #if ( defined(GB_D3D9) && defined(WIN32) )
+
 // end file

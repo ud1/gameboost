@@ -103,18 +103,24 @@ public:
 	virtual HRESULT shutDown(int nExitCode);
 	virtual HRESULT finalize();
 
+	//! \brief Получить пример текстуру. Отладочную текстуру. НЕЛЬЗЯ РЕЛИЗИТЬ.
 	IDirect3DTexture9*  getSampleTexture() const  throw();
  
+	//! \brief Получить указатель на устройства d3d9. НЕЛЬЗЯ РЕЛИЗИТЬ.
 	inline IDirect3DDevice9* getD3D9Device() const { return m_pd3dDevice; }
-	inline IDirect3D9* GetDirect3D9() const { return m_pd3d; }
-	inline const D3DPRESENT_PARAMETERS* GetPresentParameters() const { return &m_d3dpp; }
-	inline const D3DSURFACE_DESC* GetBackBufferSurfDesrc() const { return &m_bbsd; }
+	//! \brief Получить указатель на интерфейс IDirect3D9, с которым создано устройство. НЕЛЬЗЯ РЕЛИЗИТЬ.
+	inline IDirect3D9* getDirect3D9() const { return m_pd3d; }
+		//! \brief Получить презент-параметры устройства
+	inline const D3DPRESENT_PARAMETERS* getPresentParameters() const { return &m_d3dpp; }
+		//! \brief Получить описание заднего буфера устройства.
+	inline const D3DSURFACE_DESC* getBackBufferSurfDesrc() const { return &m_bbsd; }
  
 
 
-	virtual HRESULT PostShutDownCommand()    { m_bShutDownFlag = TRUE ; return 0; };
+	//! \brief ?????
+	virtual HRESULT postShutDownCommand()    { m_bShutDownFlag = TRUE ; return 0; };
 
-	// temp 
+	//! \brief  Отрисовка внутренней отладочной сцены. 
 	HRESULT DrawInternalSampleScene() const ;
 
 
@@ -126,7 +132,7 @@ protected:
 	virtual gb::system::winappl::APPL_3D_INIT_DATA* getAppl3dInitData() 
 	{
 	    return (gb::system::winappl::APPL_3D_INIT_DATA*)&m_initdata;
-	};
+	}
 
 	virtual HRESULT doBeginFrameDraw();
 	virtual HRESULT doHandleResizeWindow(int nNewWidth, int nNewHeight);
@@ -134,13 +140,13 @@ protected:
 
 	HRESULT  destroyDevice();
 	HRESULT  initD3D();
-	HRESULT  createRenderingWindow(const APPL_D3D9_INIT_DATA* intiData)  ;
+	HRESULT  createRenderingWindow(const APPL_D3D9_INIT_DATA* intiData);
 
 	static LRESULT WINAPI mainWindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
 	HRESULT  reset( int w, int h );
 	HRESULT  doRenderind()  ;
-	HRESULT  MakeMonDrawText(std::string& sOut, IDirect3D9* pd3d, const D3DSURFACE_DESC* backSurf)  ;
+	HRESULT  MakeMonDrawText(std::string& sOut, IDirect3D9* pd3d, const D3DSURFACE_DESC* backSurf);
 	HRESULT SetupMatrices(const ApplD3D9* pRender) const;
 	
 

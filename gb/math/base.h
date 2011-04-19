@@ -110,8 +110,11 @@ namespace gb
 
 
 
- 			    inline operator  const float*() const  { return (float*)&x; };
-			    inline operator        float*()        { return (float*)&x; };
+ 			    inline operator  const float*() const  { return (float*)&x; }
+			    inline operator        float*()        { return (float*)&x; }
+
+				float &operator[] (int i) { return floats[i]; }
+				float operator[] (int i) const { return floats[i]; }
 
 #ifdef GB_D3DX9
 			inline operator const D3DXVECTOR2*() const { return (D3DXVECTOR2*)&x; }
@@ -640,6 +643,8 @@ namespace gb
 				};
 
 				float floats [2][2];
+
+				float array [4];
 			};
 
 			inline mat22_s() {};
@@ -669,7 +674,7 @@ namespace gb
 
 
 
-			/** \breief  Покомпонентное сложение   (this = this + m) */
+			/** \brief  Покомпонентное сложение   (this = this + m) */
 			inline mat22_s&  operator += ( const mat22_s& m)
 			{
 				floats [0][0] += m.floats [0][0];
@@ -679,7 +684,7 @@ namespace gb
 				return *this;
 			};
 
-			/** \breief  Покомпонентное вычитанние (this = this - m) */
+			/** \brief  Покомпонентное вычитанние (this = this - m) */
 			inline mat22_s&  operator -= ( const mat22_s& m)
 			{
 				floats [0][0] -= m.floats [0][0];
@@ -699,7 +704,7 @@ namespace gb
 				return *this;
 			};
 
-			/** \breief  Покомпонентное умножение (this = this * m) */            
+			/** \brief  Покомпонентное умножение (this = this * m) */            
 			inline mat22_s&  operator *= ( float f)
 			{
 				floats [0][0] *= f;
@@ -709,7 +714,7 @@ namespace gb
 				return *this;
 			};
 
-			/** \breief  Покомпонентное деление (this = this / m) */
+			/** \brief  Покомпонентное деление (this = this / m) */
 			inline mat22_s&  operator /= ( float f)
 			{
 				floats [0][0] /= f;
@@ -838,6 +843,8 @@ namespace gb
 				};
 
 				   float floats [3][3];
+
+				   float array [9];
 			};
 
 
@@ -930,7 +937,10 @@ namespace gb
 			}
 
 			float  determinant () const;
+
+
 			mat33_s& invert ();
+			mat33_s  inverted() const { mat33_s res; res=*this; res.invert(); return res; }
 
 			mat33_s& setScaling ( float x, float y, float z );
 			mat33_s& setScaling ( const vec3_s& v );
@@ -974,6 +984,8 @@ namespace gb
 				};
 
 				   float floats [4][4];
+
+				   float array[16];
 			};
 
 
@@ -1348,6 +1360,21 @@ namespace gb
 
 			/** \brief Инверсия. Бросает исключение если инверсия невозможна */
 			mat44_s&  invert () throw();
+
+
+			vec4_s getRow(int index) const 
+			{
+				assert( (index>=0 && index<=4  ) && "invalid index" );
+				return vec4_s(floats[index][0], floats[index][1], floats[index][2], floats[index][3]);
+			}
+ 
+			vec4_s getColumn(int index) const 
+			{
+				assert( (index>=0 && index<4  ) && "invalid index" );
+				return vec4_s(floats[0][index], floats[1][index], floats[2][index], floats[3][index]);
+			}
+
+			//void decompose(vec3_s& pos, geom3d::Quaternion& rot, vec3_s& scale) const;
 
 
 			//! \brief Построение матрицы отражения по оси X

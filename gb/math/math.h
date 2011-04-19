@@ -10,6 +10,8 @@
 
 #include <gb/Config.h>
 
+#include <math.h>
+
 #include <gb/math/forw_decl.h>
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>

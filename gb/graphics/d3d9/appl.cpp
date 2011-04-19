@@ -1402,9 +1402,7 @@ LRESULT WINAPI ApplD3D9::mainWindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPA
 	static ApplD3D9* pD9Render = NULL;
 	LPCREATESTRUCT pcrstr = NULL;
 
-	WMPARAMS wparams;
-	wparams.wPar = wParam;
-	wparams.lPar = lParam;
+ 
 	unsigned int vkey;
 
 	int t=0;
@@ -1413,9 +1411,7 @@ LRESULT WINAPI ApplD3D9::mainWindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 	if(pD9Render)
 	{
-	BOOL bProcessAgain = TRUE;
-		// __try  {
-
+	   BOOL bProcessAgain = TRUE;
 
 		if( pD9Render->m_initdata.basecallback.funcOnMessage )
 		{
@@ -1426,13 +1422,8 @@ LRESULT WINAPI ApplD3D9::mainWindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPA
 			 hWnd,  msg,  wParam,  lParam, &bProcessAgain  
 			 );
 
-		}
-
-		// }  __except(1)    {
-		// // except
-		// hr |= E_FAIL;
-		//};
-
+		} 
+ 
 	if(!bProcessAgain) return 0;
 	} // if
 
@@ -1444,8 +1435,7 @@ LRESULT WINAPI ApplD3D9::mainWindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_CREATE:
 		pcrstr  = (LPCREATESTRUCT)lParam;
 		pD9Render = (ApplD3D9*)pcrstr->lpCreateParams;
-		//pXXX->test();
-
+ 
 		break;
 
 	case WM_CLOSE:
@@ -1553,7 +1543,17 @@ HRESULT ApplD3D9::doHandleResizeWindow(int nNewWidth, int nNewHeight)
 {
   HRESULT hr =0;
 
-  return reset( nNewWidth , nNewHeight );
+   hr |=  reset( nNewWidth , nNewHeight );
+
+   // handle callback
+		   
+   if( m_initdata.basecallback.funcOnResize )
+   {
+	 hr |= m_initdata.basecallback.funcOnResize(m_initdata.basecallback.pUserParam, nNewWidth, nNewHeight );
+   }
+
+
+   return hr;
 };
 
 

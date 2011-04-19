@@ -13,11 +13,16 @@
 
 #pragma once
 
+#ifdef WIN32
+   #include <windows.h>
+#endif
 
+
+#include <gb/base/Types.h>
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>
 
-#include <gb/base/Types.h>
+
 
 
 

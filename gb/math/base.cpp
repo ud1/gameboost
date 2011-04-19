@@ -468,7 +468,9 @@ mat33_s&  mat33_s::setMirrorZ()
 
 
 
+
 // bool invert ()
+//=========================================================================
 mat44_s& mat44_s::invert () throw()
 {
 #define SWAP_ROWS(a, b) {  float * _tmp = a; (a)=(b); (b)=_tmp; }
@@ -707,6 +709,33 @@ mat44_s& mat44_s::invert () throw()
 	return *this;
 }
 
+
+//====================================================================
+
+/*******  Evel ***********
+void mat44_s::decompose(vec3_s& pos, geom3d::Quaternion& rot, vec3_s& scale) const 
+{
+
+		mat44_s m = *this;
+
+		pos = m.getPos();
+
+		scale.x = math::sqrt(math::sqr(m.data[0][0]) + math::sqr(m.data[0][1]) + math::sqr(m.data[0][2]));
+		scale.y = math::sqrt(math::sqr(m.data[1][0]) + math::sqr(m.data[1][1]) + math::sqr(m.data[1][2]));
+		scale.z = math::sqrt(math::sqr(m.data[2][0]) + math::sqr(m.data[2][1]) + math::sqr(m.data[2][2]));
+
+		for (int i=0; i<3; i++) {
+			if (scale.v[i] > EPSILON) {
+				m.data[i][0] /= scale.v[i];
+				m.data[i][1] /= scale.v[i];
+				m.data[i][2] /= scale.v[i];
+			}
+		}
+
+		rot.fromMatrix(m);
+		
+}
+ ******************************/
 
 }
 // end ns

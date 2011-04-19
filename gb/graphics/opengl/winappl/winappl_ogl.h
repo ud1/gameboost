@@ -13,6 +13,11 @@
 #ifdef WIN32
 
 #pragma once
+
+#include <gb/base/Types.h>
+#include <gb/Config.h>
+
+#include <gb/macro.h>
  
  
 #include <gb/system/winappl/winappl.h>
@@ -174,14 +179,7 @@ public:
 		glMatrixMode(GL_PROJECTION); 
 		glLoadIdentity(); 
 
-		glOrtho(
-			0.0f, 
-			nClientWidth - 1.0, 
-			nClientHeight - 1.0, 
-			0.0f, 
-			-1.0, 
-			1.0
-			);
+		graphics::opengl::setOrthoTopLeft(nClientWidth, nClientHeight);
 
 		glMatrixMode(GL_MODELVIEW); 
 		glLoadIdentity(); 
@@ -245,6 +243,8 @@ protected:
 	virtual HRESULT doHandleResizeWindow(int nNewWidth, int nNewHeight);
 
 	HRESULT                   doRendering();
+
+
 	HRESULT                   setupPixelFormat(HDC hDC);
 	static LRESULT CALLBACK   mainWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	//HRESULT                   keybMsgProc(const unsigned int nvkey, bool bDown ) const;
