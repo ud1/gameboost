@@ -10,6 +10,10 @@
   #include <gb/graphics/visual_geometry/internal/vg_impl_opengl.h>
 #endif 
 
+#include <stdexcept>
+#include <assert.h>
+#include <string.h>
+#include <string>
 
 using namespace gb::graphics::visual_geometry;
 using namespace gb::graphics::visual_geometry::internal;
