@@ -73,13 +73,15 @@ namespace gb
 				float floats [2];
 			};
 
-			    inline vec2_s() {};
+			    inline vec2_s() {}
 
-			    inline vec2_s(const vec2_s& v)      { x=v.x;  y=v.y;  };
-				inline vec2_s(const vec2_s* v)      { x=v->x;  y=v->y;    };
+			    inline vec2_s(const vec2_s& v)      { x=v.x;  y=v.y;  }
+				inline vec2_s(const vec2_s* v)      { x=v->x;  y=v->y;    }
 
-			    inline vec2_s(float _x, float _y)   { x=_x;   y=_y;   };
-			    inline vec2_s(int   _x, int   _y)   { x=(float)_x;   y=(float)_y; };
+			    inline vec2_s(float _x, float _y)   { x=_x;   y=_y;   }
+			    inline vec2_s(int   _x, int   _y)   { x=(float)_x;   y=(float)_y; }
+
+				inline vec2_s(const float* pfArray) { *this = pfArray; }
 
 				//! \brief Присваивание из float-массива 
 				inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; }
@@ -218,7 +220,7 @@ namespace gb
 				inline float maxval() const { if(x>y) return x; return y;	}
 
 
-				//! \brief  Отсеч значения в пределах vmin и vmax
+				//! \brief  Отсечение значений в пределах vmin и vmax
 				inline void clump(const vec2_s& vmin, const vec2_s& vmax) 
 				{
 					if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
@@ -251,15 +253,17 @@ namespace gb
 				float floats [3];
 			};
 
-			inline vec3_s() {};
+			inline vec3_s() {}
 
-			inline vec3_s(const vec3_s& v)             { x=v.x;   y=v.y;   z=v.z;   };
-			inline vec3_s(const vec3_s* v)             { *this=*v; }; // x=v->x;  y=v->y; z=v->z;   };
+			inline vec3_s(const vec3_s& v)             { x=v.x;   y=v.y;   z=v.z;   }
+			inline vec3_s(const vec3_s* v)             { *this=*v; } // x=v->x;  y=v->y; z=v->z;   };
 
-			inline vec3_s(const vec2_s& v, float _z)   { x=v.x;  y=v.y; z=_z;     };
+			inline vec3_s(const vec2_s& v, float _z)   { x=v.x;  y=v.y; z=_z;     }
 
-			inline vec3_s(float _x, float _y, float _z)   { x=_x;    y=_y;    z=_z;  };
-			inline vec3_s(int   _x, int   _y, int   _z)   { x=(float)_x;   y=(float)_y;  z=(float)_z; };
+			inline vec3_s(float _x, float _y, float _z)   { x=_x;    y=_y;    z=_z;  }
+			inline vec3_s(int   _x, int   _y, int   _z)   { x=(float)_x;   y=(float)_y;  z=(float)_z; }
+
+			inline vec3_s(const float* pfArray) { *this = pfArray; }
 
 			//! \brief Присваивание из float-массива 
 			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; }
@@ -287,6 +291,12 @@ namespace gb
 			inline vec3_s &  operator /= (float f)            {	x /= f;	y /= f;	z /= f;	return *this; }
 			inline vec3_s &  operator /= (const vec3_s &v)    {	x /= v.x;	y /= v.y;	z /= v.z;	return *this; }
 
+			inline float operator [] (unsigned int index) //throw(std::runtime_error&) 
+			{ 
+				if(index>2) throw std::runtime_error("invalid index");  
+				float* pf = &x;
+				return pf[index];			
+			}
 
 			inline operator  const float*() const  { return &x; }
 			inline operator        float*()        { return &x; }

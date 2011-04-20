@@ -11,18 +11,129 @@
 #include <d3dx9core.h>
 
 
-
-
 #include <gb/graphics/visual_geometry/visual_geometry.h>
 #include <assert.h>
 
-// ks777: temp
+// ks777: temp   УБРАТЬ !!!
 #define MONPRINTB(m) 
+
+//\brief вставить код 
+#define anone  assert(false && "NEED INSERT CODE");
 
 namespace gb {
 namespace graphics {
 namespace visual_geometry {
 namespace internal {
+
+
+	//! \brief цвет для реализаторов визуальной геометрии
+	class VGCOLOR  {
+	public:
+		float r, g, b, a;
+
+		VGCOLOR () { r=g=b=a=1.0f; }
+		inline void set(float _r, float _g, float _b, float _a)	{ r=_r; g=_g; b=_b; a=_a; }
+		inline void set_rgb(float _r, float _g, float _b)	{ r=_r; g=_g; b=_b;   a=1.0f;  }
+
+  #ifdef GB_COLOR 
+		inline void set(const gb::color::Color4f& c) {r=c.r; g=c.g; b=c.b; a=c.a; }
+  #endif
+
+#ifdef GB_D3D9
+		inline void operator = (const D3DCOLORVALUE& c) { r=c.r; g=c.g; b=c.b; a=c.a; }
+#endif
+
+		inline void setWhite() {r=g=b=a=1.0f; }
+		inline void setBlack() {r=g=b=0.0f; a=1.0f; }
+
+
+	  inline void setRed()        {  set_rgb( 1.0f, 0.0f , 0.0f );    }
+	  inline void setGreen()      {  set_rgb( 0.0f, 1.0f , 0.0f );  }
+	  inline void setBlue()       {  set_rgb( 0.0f, 0.0f , 1.0f );    }
+	  inline void setYellow()     {  set_rgb( 1.0f, 1.0f , 0.0f );   }
+
+	  inline void setPink()    { set_rgb(0.737255f,  0.560784f,  0.560784f); }
+
+	  inline void setGray() { set_rgb(0.0f, 0.5f, 0.0f ); }
+
+
+
+	};
+	// end class VGCOLOR
+
+
+	class VGVEC2 {
+	public:
+		float x, y;
+
+		VGVEC2() {x=y=0.0f; }
+		VGVEC2(const VGVEC2& v) {x=v.x; y=v.y;}
+		VGVEC2(float _x, float _y) {x=_x; y=_y;}
+		VGVEC2(const float* pf) {*this = pf; }
+		VGVEC2(const POINT& p) { *this = p; }
+
+		inline void operator = (const float* pf) { x=pf[0]; y=pf[1]; }
+
+		inline void operator = (const POINT& p) { x=(float)p.x; y=(float)p.y; }
+
+		inline operator const float*() const {return &x;}
+	};
+
+
+	class VGVEC3 {
+	public:
+		float x, y, z;
+
+		VGVEC3() {x=y=z=0.0f; }
+		VGVEC3(const VGVEC3& v) {x=v.x; y=v.y; z=v.z;}
+		VGVEC3(float _x, float _y, float _z) {x=_x; y=_y;z=_z;}
+		VGVEC3(const float* pf) {*this = pf; }
+
+		inline void operator = (const float* pf) { x=pf[0]; y=pf[1]; z=pf[2]; }
+
+		inline operator const float*() const {return &x;}
+	};
+
+	class VGVEC4 {
+	public:
+		float x, y, z, w ;
+
+		VGVEC4() {x=y=z=w=0.0f; }
+		VGVEC4(const VGVEC4& v) {x=v.x; y=v.y; z=v.z; w=v.w; }
+		VGVEC4(float _x, float _y, float _z, float _w) {x=_x; y=_y;z=_z; w=_w;}
+		VGVEC4(const float* pf) {*this = pf; }
+
+		inline void operator = (const float* pf) { x=pf[0]; y=pf[1]; z=pf[2]; w=pf[3]; }
+
+		inline operator const float*() const {return &x;}
+	};
+
+
+	class VGMAT4 {
+	public:
+		union {
+			float  _11,_12,_13,_14,   _21,_22,_23,_24,   _31,_32,_33,_34,   _41,_42,_43,_44;
+		    float array[16];
+		    float m[4][4];
+		};
+
+		VGMAT4() {}
+		VGMAT4(const float* pf) { *this = pf; }
+
+
+
+		inline void operator  = (const float* pf)
+		{
+			for(int c=0; c<16; c++)
+			{
+				array[c] = pf[c];
+			}
+		}
+
+		inline operator const float* () const { return array; }
+	};
+
+
 
 //------------------------------------------------------------------------------
 
@@ -49,7 +160,7 @@ public:
 
   //! сохранение состояния девайса
   HRESULT SaveDeviceData(IDirect3DDevice9* pdevice, 
-						const VGCOLOR& newColor, 
+						const VGCOLOR* newColor, 
 						float pointSize=1.0f, 
 						IDirect3DTexture9 *newTxtr=NULL );
 
@@ -77,7 +188,7 @@ class VGDrawValuesImpl_D3D9 : public gb::graphics::visual_geometry::IDrawValues
 public:
 	// members
 	mutable VGDrawValuesFontSize_e   m_lastFontSize;
-	mutable gb::color::Color4f m_color;
+	mutable VGCOLOR m_color;
 	mutable RECT m_Rec;
 
 	mutable ID3DXFont*  pIFontNormal; 
@@ -119,7 +230,6 @@ virtual ~VGDrawValuesImpl_D3D9()
 }
  
  
-
 //*  check create font interfces
 HRESULT  checkFontInterfaces() const;
 
@@ -196,7 +306,7 @@ virtual ID3DXFont*  GetInterfaceFontBig()    const
 
 private:
 
-	HRESULT drawStrEx(  const char* str ) const ;
+
 	void ComputeNextPos( ) const;  
 
 	// const
@@ -207,86 +317,83 @@ private:
 	static const int  CONST_DRWVAL_BIGFONT_NEWSTR_OFFSET  = 14; 
 
 
+HRESULT drawStrEx(  const char* str ) const ;
 
 //===================  IMPLEMENTATION ABSTRACT METHODS ====================
 public:
 
-	virtual HRESULT setPos(int x, int y) const 
+	virtual void setPos(int x, int y) const 
  	{ 
 		HRESULT hr =0; 
 	m_Rec.left=x;
 	m_Rec.top=y;
 	m_Rec.right = 2000;
 	m_Rec.bottom = 2000;
-	m_bChangePos=true; 
-	return hr; 
+	m_bChangePos=true;  
 	};
 
 	virtual HRESULT setFontSmall() const         { HRESULT hr =0;  m_lastFontSize= FS_SMALL;    return hr;  };
 	virtual HRESULT setFontNormal() const        { HRESULT hr =0;  m_lastFontSize= FS_NORMAL;   return hr;  };
 	virtual HRESULT setFontBig() const           { HRESULT hr =0;  m_lastFontSize= FS_BIG;      return hr;  };
 
-	virtual HRESULT setColor( const VGCOLOR& color) const  
+   //======================================================================
+
+	virtual void setColor( float r, float g, float b, float a ) const 
+	//virtual HRESULT setColor( const VGCOLOR& color) const  
 	{ 
-		HRESULT hr =0; 
-		m_color.r = color.r;
-		m_color.g = color.g;		
-		m_color.b = color.b;
-		m_color.a = color.a;
-		return hr; 
+		m_color.r =  r;
+		m_color.g =  g;		
+		m_color.b =  b;
+		m_color.a =  a;
 	};
 
-	virtual HRESULT setColorRed()    const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_RED;     return hr; };
-	virtual HRESULT setColorGreen()  const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_GREEN;   return hr; };
-	virtual HRESULT setColorBlue()   const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_BLUE;    return hr; };
-	virtual HRESULT setColorYellow() const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_YELLOW;  return hr; };
-	virtual HRESULT setColorWhite()  const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_WHITE;   return hr; };
-	virtual HRESULT setColorGray()   const   { HRESULT hr =0;  m_color=gb::color::color_const::COLOR4F_GRAY;    return hr; };
+	virtual void setColorRed()    const   { m_color.setRed();   }
+	virtual void setColorGreen()  const   { m_color.setGreen();}
+	virtual void setColorBlue()   const   { m_color.setBlue();  }
+	virtual void setColorYellow() const   { m_color.setYellow(); }
+	virtual void setColorWhite()  const   { m_color.setWhite();  }
+	virtual void setColorGray()   const   { m_color.setGray();   }
 
-	virtual HRESULT drawS(const char* s) const ;
-	virtual HRESULT drawF( const char* _Format, ... ) const ;
+	virtual void drawS(const char* s) const ;
+	virtual void drawF( const char* _Format, ... ) const ;
 
-	virtual HRESULT drawBool  (bool  val, const char* promt=NULL) const ;
-	virtual HRESULT drawInt   (int   val, const char* promt=NULL) const ;
-	virtual HRESULT drawFloat (float val, const char* promt=NULL) const ;
+	virtual void drawBool  (bool  val, const char* promt=NULL) const ;
+	virtual void drawInt   (int   val, const char* promt=NULL) const ;
+	virtual void drawFloat (float val, const char* promt=NULL) const ;
 
-	virtual HRESULT drawIntArray   (const int*   p, int num, const char* promt=NULL) const ;
-	virtual HRESULT drawFloatArray (const float* p, int num, const char* promt=NULL) const ;
+	virtual void drawIntArray   (const int*   p, int num, const char* promt=NULL) const ;
+	virtual void drawFloatArray (const float* p, int num, const char* promt=NULL) const ;
 
-	virtual HRESULT drawVec2(const VGVEC2* v, const char* promt=NULL) const ;
-	virtual HRESULT drawVec3(const VGVEC3* v, const char* promt=NULL) const ;
-	virtual HRESULT drawVec4(const VGVEC4* v, const char* promt=NULL) const ; 
+	virtual void drawVec2(const float* vect2, const char* promt=NULL) const ;
+	virtual void drawVec3(const float* vect3, const char* promt=NULL) const ;
+	virtual void drawVec4(const float* vect4, const char* promt=NULL) const ; 
 
 	//-----------------------------------
 
-	virtual HRESULT drawMatrix(const VGMATRIX* m, const char* promt=NULL) const ;
+	virtual void drawMatrix4x4(const float* matrix4x4, const char* promt=NULL) const ;
 
-	virtual HRESULT drawPoint(const POINT pnt, const char* promt=NULL) const 
+	virtual void drawPoint(const POINT pnt, const char* promt=NULL) const 
 	{
-		HRESULT hr =0;
 		if(promt)
 		{
 			 
-			hr |=  drawF("%s %i  %i", promt, pnt.x, pnt.y  );
+			  drawF("%s %i  %i", promt, pnt.x, pnt.y  );
 		}
 		else
 		{
-			hr |=  drawF("%i  %i",  pnt.x, pnt.y  );
+			  drawF("%i  %i",  pnt.x, pnt.y  );
 		};
 
-		return hr;
-	};
+	}
 
-	virtual HRESULT drawPoint(int x, int y,    const char* promt=NULL) const 
+	virtual void drawPoint(int x, int y,   const char* promt=NULL) const 
 	{
 		POINT pnt = {x, y};
-		return drawPoint(pnt, promt);	
-	};
+		  drawPoint(pnt, promt);	
+	}
 
-	virtual HRESULT drawPoint(const VGVEC2* pos, const char* promt=NULL) const 
-	{
-		return drawPoint(math::scalar::round(pos->x) , math::scalar::round(pos->y) , promt);
-	};
+	virtual void drawPoint(const float* vec2_pointcoord, const char* promt=NULL) const;
+
 
 
 
@@ -336,37 +443,36 @@ public:
 
   // --------------------  override  color ------------------------------
  
-	 
-	virtual HRESULT setColor(const VGCOLOR& color) const { m_color=color; return 0; }
-	virtual HRESULT setColor(const D3DCOLORVALUE& color) const  { m_color=color; return 0; }
- 
+#ifdef GB_COLOR 
+	virtual HRESULT setColor(const gb::color::Color4f& color) const { m_color=color;  }
+#endif
 
-	virtual HRESULT setColor(const D3DXCOLOR* color) const 
+	virtual void setColor(const D3DCOLORVALUE& color) const  { m_color=color;   }
+ 
+#ifdef GB_D3DX9
+	virtual void setColor(const D3DXCOLOR* color) const 
 	{
    	 m_color.r=color->r;
 	 m_color.g=color->g;
 	 m_color.b=color->b;
 	 m_color.a=color->a;
-	    return 0;	
-	};
+ 	
+	}
+#endif
 
-	virtual HRESULT setColor(float r, float g, float b, float a) const 
+
+	virtual void setColor(float r, float g, float b, float a) const 
 	{
-	 m_color.r=r;
-	 m_color.g=g;
-	 m_color.b=b;
-	 m_color.a=a;
+	 m_color.r=r; m_color.g=g;  m_color.b=b; m_color.a=a; 
+	}
 
-	 return 0;
-	};
-
-  virtual HRESULT setColorRed    ()  const { m_color.setBlack(); m_color.r=1.0f;  return 0; }
-  virtual HRESULT setColorGreen  ()  const { m_color.setBlack(); m_color.g=1.0f;  return 0; }
-  virtual HRESULT setColorBlue   ()  const { m_color.setBlack(); m_color.b=1.0f;  return 0; }
-  virtual HRESULT setColorYellow ()  const { m_color = gb::color::Color4f(  1.0f,   1.0f,   0.0f,  1.0f);  return 0; }
-  virtual HRESULT setColorWhite  ()  const { m_color.setWhite();  return 0; }
-  virtual HRESULT setColorGray   ()  const { m_color = gb::color::Color4f(0.752941f,  0.752941f,  0.752941f,  1.0f);  return 0; } 
-  virtual HRESULT setColorPink   ()  const { m_color = gb::color::Color4f(1.0f,  0.0f,  1.0f,  1.0f);  return 0; }    
+  virtual void setColorRed    ()  const { m_color.setBlack();   }
+  virtual void setColorGreen  ()  const { m_color.setBlack();   }
+  virtual void setColorBlue   ()  const { m_color.setBlack();   }
+  virtual void setColorYellow ()  const { m_color.setYellow();  }
+  virtual void setColorWhite  ()  const { m_color.setWhite();   }
+  virtual void setColorGray   ()  const { m_color.setGray();    } 
+  virtual void setColorPink   ()  const { m_color.setPink();    }    
  
 #pragma endregion IMPLEM_COLOR_METHODS
 
@@ -374,86 +480,103 @@ public:
 	//--------------------  override other  -------------------------------
  
 
-  virtual HRESULT draw2dPoint(int x, int y,                float pointSize) const { return  draw2dPoint( (float)x, (float)y, pointSize ); };
-  virtual HRESULT draw2dPoint(float x, float y,            float pointSize) const;
-  virtual HRESULT draw2dPoint(const VGVEC2* pos,      float pointSize) const { return draw2dPoint(pos->x, pos->y, pointSize ); };
-//  virtual HRESULT draw2dPoint(const VGVEC2* pos,  float pointSize) const { return draw2dPoint(pos->x, pos->y, pointSize );};
-  virtual HRESULT draw2dPoint(const POINT p,  float pointSize) const              { return draw2dPoint( (float)p.x, (float)p.y   , pointSize );  };
 
-  virtual HRESULT draw2dPoints(const VGVEC2* pv, int num, float pointSize) const ;
+  virtual HRESULT draw2dPoint(float x, float y,    float pointSize) const;
+
+  virtual HRESULT draw2dPoint(int x, int y,        float pointSize) const { return  draw2dPoint( (float)x, (float)y, pointSize ); }
+
+  virtual HRESULT draw2dPoint(const float* vec2_pos,      float pointSize) const 
+  { 
+	  VGVEC2 v(vec2_pos);
+	  return draw2dPoint(v.x, v.y, pointSize ); 
+  }
+
+  //  virtual HRESULT draw2dPoint(const float* pos,  float pointSize) const { return draw2dPoint(pos->x, pos->y, pointSize );};
+  virtual HRESULT draw2dPoint(const POINT p,  float pointSize) const  { return draw2dPoint( (float)p.x, (float)p.y   , pointSize );  };
+
+  virtual HRESULT draw2dPoints(const float* pv, int num, float pointSize) const ;
 
   //-----------------------------------------------------------
 
- virtual HRESULT draw2dLine(const VGVEC2* p1, const VGVEC2* p2) const;
+ virtual HRESULT draw2dLine(const float* p1, const float* p2) const;
  virtual HRESULT draw2dLine(const POINT p1, const POINT p2) const 
  {
-   //return Draw2dLine( &VGVEC2(),  &VGVEC2() );
-   return draw2dLine( &VGVEC2( (float)p1.x, (float)p1.y ), &VGVEC2( (float)p2.x, (float)p2.y ) );
+    VGVEC2 v1(p1);  VGVEC2 v2(p2);  
+  // return draw2dLine( &float*( (float)p1.x, (float)p1.y ), &float*( (float)p2.x, (float)p2.y ) );
+   return draw2dLine( v1 , v2 );
  };
 
- //virtual HRESULT draw2dLine(const VGVEC2* p1, const VGVEC2* p2) const 
+ //virtual HRESULT draw2dLine(const float* p1, const float* p2) const 
  //{
- //  return draw2dLine( &VGVEC2(p1->x, p1->y),  &VGVEC2(p2->x, p2->y) );
+ //  return draw2dLine( &float*(p1->x, p1->y),  &float*(p2->x, p2->y) );
  //};
 
+
+#ifdef GB_MATH
  virtual HRESULT draw2dLine(const gb::math::geom2d::Line* line) const
  {
-   return draw2dLine( &VGVEC2(line->src.x, line->src.y),  &VGVEC2(line->dest.x, line->dest.y) );
- };
+   return draw2dLine( &float*(line->src.x, line->src.y),  &float*(line->dest.x, line->dest.y) );
+ }
+#endif
 
- virtual HRESULT draw2dLine(int x1, int y1, int x2, int y2) const 
- {
-    return draw2dLine( &VGVEC2( (float)x1, (float)y1 ),  &VGVEC2( (float)x2, (float)y2 ) );
- };
+ //virtual HRESULT draw2dLine(int x1, int y1, int x2, int y2) const 
+ //{
+ //   return draw2dLine( &float*( (float)x1, (float)y1 ),  &float*( (float)x2, (float)y2 ) );
+ //};
 
  virtual HRESULT draw2dLine(float x1, float y1, float x2, float y2) const 
  {
-   return draw2dLine( &VGVEC2(x1, y1),  &VGVEC2(x2, y2) );
+	 VGVEC2 v1(x1,y1);   VGVEC2 v2(x2,y2); 
+   return draw2dLine(  v1 , v2 );
  };
 
-  virtual HRESULT draw2dLines(const VGVEC2* pv, int num) const ;
+  virtual HRESULT draw2dLines(const float* pv, int num) const ;
 
  //---------------------------------------------------------------------
 
 
-  virtual HRESULT draw2dRect(const D3DRECT* rect) const ;
+  virtual HRESULT draw2dRect(const D3DRECT& rect) const ;
   virtual HRESULT draw2dRect(int x1,   int y1,     int x2,   int y2) const 
   {
 	  D3DRECT rect = { x1, y1, x2, y2 };
-	  return draw2dRect(&rect);
+	  return draw2dRect(rect);
   };
 
 
  virtual HRESULT draw2dRect(float x1, float y1,   float x2, float y2) const 
  {
  	  D3DRECT rect = { (int)x1, (int)y1, (int)x2, (int)y2 };
-	  return draw2dRect(&rect); 
+	  return draw2dRect(rect); 
  };
 
  virtual HRESULT draw2dRect(const POINT p1, POINT p2) const 
  {
    	  D3DRECT rect = { p1.x, p1.y,   p2.x, p2.y };
-	  return draw2dRect(&rect); 
+	  return draw2dRect(rect); 
  };
 
  virtual HRESULT draw2dRect(const RECT rect) const 
  {
       D3DRECT nrect = { rect.left, rect.top, rect.right, rect.bottom   };
-	  return draw2dRect(&nrect); 
+	  return draw2dRect(nrect); 
  };
 
  
+#ifdef GB_MATH
  virtual HRESULT draw2dRect(gb::math::geom2d::Rect* rect) const 
  {
 	  return draw2dRect( rect->x1, rect->y1,   rect->x2, rect->y2 ); 
- };
+ }
+#endif
 
 
  //--------------------------------------------------------------------
 
 #pragma message("ks777: Сделать базовый метод просто по точкам "  __FILE__ )
+
  virtual HRESULT draw2dSolidRect(int x1, int y1,   int x2, int y2) const ; //const D3DRECT* rect) const ;
- virtual HRESULT draw2dSolidRect(const POINT p1, const POINT p2) const 
+
+ virtual HRESULT draw2dSolidRect(const POINT& p1, const POINT& p2) const 
  {
 	 return draw2dSolidRect( p1.x,   p1.y,     p2.x,   p2.y  );
  };
@@ -463,97 +586,110 @@ public:
 	 return draw2dSolidRect(rect.x1, rect.y1, rect.x2, rect.y2  );
  };
 
- virtual HRESULT draw2dSolidRect(const RECT rect) const 
+ virtual HRESULT draw2dSolidRect(const RECT& rect) const 
  {
 	 return draw2dSolidRect( rect.left, rect.top, rect.right, rect.bottom  );
  };
 
- virtual HRESULT draw2dSolidRect(const gb::math::geom2d::Rect* rect) const 
- {
-	 return draw2dSolidRect( (int)rect->x1, (int)rect->y1, (int)rect->x2,  (int)rect->y2 );
- };
+#ifdef GB_MATH
+ virtual HRESULT draw2dSolidRect(const gb::math::geom2d::Rect& rect) const ;
+#endif
 
  //------------------------------------------------------------
 
- virtual HRESULT draw2dCircle(const VGVEC2* pos, float radius) const ;
+ virtual HRESULT draw2dCircle(const float* pos, float radius) const ;
 
  virtual HRESULT draw2dCircle(float x, float y,       float radius) const 
  {
-   return draw2dCircle( &VGVEC2(x, y) , radius );
- };
+	 VGVEC2 v(x,y);
+   return draw2dCircle( v , radius );
+ }
 
- virtual HRESULT draw2dCircle(int x, int y,           float radius) const 
- {
-   return draw2dCircle( &VGVEC2( (float)x, (float)y) , radius );
- };
+ //virtual HRESULT draw2dCircle(int x, int y,           float radius) const 
+ //{
+//   return draw2dCircle( &float*( (float)x, (float)y) , radius );
+ //};
 
  virtual HRESULT draw2dCircle(const POINT pos,        float radius) const 
  {
-   return draw2dCircle( &VGVEC2((float)pos.x, (float)pos.y) , radius );
- };
+	 VGVEC2 v(pos);
+   return draw2dCircle( v, radius); // &float*((float)pos.x, (float)pos.y) , radius );
+ }
 
+ #ifdef GB_MATH
  virtual HRESULT draw2dCircle(const gb::math::geom2d::Circle*   c) const 
  {
-   return draw2dCircle( &VGVEC2( c->center.x, c->center.y ) , c->radius );
- };
+   return draw2dCircle( &float*( c->center.x, c->center.y ) , c->radius );
+ }
+#endif
 
  //-----------------------------------------------------------
 
- virtual HRESULT draw2dAxies(const VGVEC2 coord) const ;
+ virtual HRESULT draw2dAxies(const float* vec2_coord) const ;
  virtual HRESULT draw2dAxies(float x, float y) const 
  {
-   return draw2dAxies( VGVEC2( x   ,  y )  );
- };
+	 VGVEC2 v( x ,y );
+    return draw2dAxies(  v );
+ }
 
- virtual HRESULT draw2dAxies(int x, int y) const 
- {
-   return draw2dAxies( VGVEC2( (float)x   ,  (float)y )  ); 
- };
+ //virtual HRESULT draw2dAxies(int x, int y) const 
+ //{
+ //   return draw2dAxies( float*( (float)x   ,  (float)y )  ); 
+ //};
 
  virtual HRESULT draw2dAxies(const POINT p) const 
  {
-    return draw2dAxies( VGVEC2( (float)p.x   ,  (float)p.y )  ); 
- };
+    return draw2dAxies(  VGVEC2(p) ); 
+ }
 
- //virtual HRESULT draw2dAxies(const VGVEC2 coord) const 
+ //virtual HRESULT draw2dAxies(const float* coord) const 
  //{
- //    return draw2dAxies( VGVEC2( coord.x   ,  coord.y )  ); 
+ //    return draw2dAxies( float*( coord.x   ,  coord.y )  ); 
  //};
 
 
  //------------------------------------------------------------
 
- virtual HRESULT draw2dTriangle(const VGVEC2* p1, const VGVEC2* p2,const VGVEC2* p3) const ;
- virtual HRESULT draw2dTriangle(const POINT p1, const POINT p2, const POINT p3) const 
+ virtual HRESULT draw2dTriangle(const float* p1, const float* p2,const float* p3) const ;
+
+
+ virtual HRESULT draw2dTriangle(const POINT& p1, const POINT& p2, const POINT& p3) const 
  {
-  return draw2dTriangle( &VGVEC2((float)p1.x , (float)p1.x), &VGVEC2((float)p2.x , (float)p2.x), &VGVEC2((float)p3.x , (float)p3.x)  );
+  return draw2dTriangle( 
+	  VGVEC2((float)p1.x , (float)p1.y), 
+	  VGVEC2((float)p2.x , (float)p2.y), 
+	  VGVEC2((float)p3.x , (float)p3.y)  
+	  );
  };
 
  //-----------------------------------------------------------
 
- virtual HRESULT draw2dSolidTriangle(const VGVEC2* p1, const VGVEC2* p2,const VGVEC2* p3) const ;
+ virtual HRESULT draw2dSolidTriangle(const float* p1, const float* p2,const float* p3) const ;
 
  //-------------------------------------------------------
 
- virtual HRESULT draw2dPromtString(const VGVEC2 coord, const char* s) const;
+ virtual HRESULT draw2dPromtString(const float* vec2_coord, const char* s) const;
  virtual HRESULT draw2dPromtString(const   POINT p,         const char* s) const 
  {
-   return draw2dPromtString( VGVEC2( (float)p.x, (float)p.y ), s );
- };
+	 VGVEC2 v( (float)p.x, (float)p.y );
+   return draw2dPromtString( v, s );
+ }
 
  virtual HRESULT draw2dPromtString(int x,   int y,          const char* s) const 
  {
-   return draw2dPromtString( VGVEC2( (float) x, (float)y ), s );
- };
+	VGVEC2 v( (float)x, (float)y );
+   return draw2dPromtString(  v , s );
+ }
 
  virtual HRESULT draw2dPromtString(float x, float y,        const char* s) const 
  {
-  return draw2dPromtString( VGVEC2(x, y), s );
- };
+   VGVEC2 v(  x, y );
+  return draw2dPromtString( v, s );
+ }
 
  //--------------------------------------------------------------
 
- virtual HRESULT draw2dRay(const VGVEC2* orig, const VGVEC2* nrml) const ;
+ virtual HRESULT draw2dRay(const float* orig, const float* normal) const ;
 
  
  
@@ -592,85 +728,114 @@ public:
 	void releaseInterfaces()
 	{
        // none 
-	};
+	}
 
 #pragma region COLOR_METHODS
 
-	//-----------------------------------------------------------
 
-	virtual HRESULT setColor(const VGCOLOR* color) const { m_color=*color; return 0; };
-	virtual HRESULT setColor(const D3DCOLORVALUE* color) const 
+//-------------------------------------------------------------------------
+//         implementation abstract methods
+//-------------------------------------------------------------------------
+
+#ifdef GB_COLOR
+  //! \brief Установить цвет отрисовки 
+	virtual HRESULT setColor(const gb::color::Color4f& color) const =0;
+#endif
+
+
+
+	virtual void setColor(const D3DCOLORVALUE* color) const 
 	{   
-		m_color.r=color->r;
-		m_color.g=color->g;
-		m_color.b=color->b;
-		m_color.a=color->a;
-		return 0;
-	};
+		m_color.r=color->r;	m_color.g=color->g;	m_color.b=color->b;	m_color.a=color->a;
+	}
 
-	/*
-	virtual HRESULT SetColor(const D3DXCOLOR* color) const 
+	
+#ifdef GB_D3DX9
+	virtual void setColor(const D3DXCOLOR* color) const 
 	{
 		m_color.r=color->r;
 		m_color.g=color->g;
 		m_color.b=color->b;
-		m_color.a=color->a;
-		return 0;	
-	};
-	*/
+		m_color.a=color->a;	
+	}
+#endif
+	
 
-	virtual HRESULT setColor(float r, float g, float b, float a) const 
+	virtual void setColor(float r, float g, float b, float a) const 
 	{
-		m_color.r=r;
-		m_color.g=g;
-		m_color.b=b;
-		m_color.a=a;
+		m_color.r=r; m_color.g=g; m_color.b=b; m_color.a=a;
+	}
 
-		return 0;
-	};
-
-	virtual HRESULT setColorRed    ()  const { m_color.setBlack(); m_color.r=1.0f;  return 0; }
-	virtual HRESULT setColorGreen  ()  const { m_color.setBlack(); m_color.g=1.0f;  return 0; }
-	virtual HRESULT setColorBlue   ()  const { m_color.setBlack(); m_color.b=1.0f;  return 0; }
-	virtual HRESULT setColorYellow ()  const { m_color = VGCOLOR(  1.0f,   1.0f,   0.0f,  1.0f);  return 0; }
-	virtual HRESULT setColorWhite  ()  const { m_color.setWhite();  return 0; }
-	virtual HRESULT setColorGray   ()  const { m_color = VGCOLOR(0.752941f,  0.752941f,  0.752941f,  1.0f);  return 0; } 
-	virtual HRESULT setColorPink   ()  const { m_color = VGCOLOR(1.0f,  0.0f,  1.0f,  1.0f);  return 0; }    
-
+  virtual void setColorRed    ()  const { m_color.setBlack();   }
+  virtual void setColorGreen  ()  const { m_color.setBlack();   }
+  virtual void setColorBlue   ()  const { m_color.setBlack();   }
+  virtual void setColorYellow ()  const { m_color.setYellow();  }
+  virtual void setColorWhite  ()  const { m_color.setWhite();   }
+  virtual void setColorGray   ()  const { m_color.setGray();    } 
+  virtual void setColorPink   ()  const { m_color.setPink();    } 
 
 #pragma endregion COLOR_METHODS
 
-	//-----------------------------------------------------------------------
+	//---------------------------------------------------------------------
 
-	virtual HRESULT draw3dPoint  (const VGVEC3* pos,          float pointSize) const ;
-	virtual HRESULT draw3dPoint  (float _x, float _y, float _z,    float pointSize) const ;
-//	virtual HRESULT draw3dPoint  (const VGVEC3*,          float pointSize,  _in_opt  VGMATRIX* pTransf) const ;
-	virtual HRESULT draw3dPoints (const VGVEC3* pv, int num, float pointSize) const ;
+  virtual HRESULT  draw3dPoint(const float* vec3_coord, float  pointSize ) const
+  {
+	  HRESULT hr = 0;
+	  assert(m_pdevice);
+ 
+	  hr |= draw3dPoints( vec3_coord, 1, pointSize );
 
-	virtual HRESULT draw3dLine(const VGVEC3* p1, const VGVEC3* p2) const;
+	  return hr;
+  }
+
+
+
+	virtual HRESULT draw3dPoint  (float _x, float _y, float _z,    float pointSize) const 
+	{
+		HRESULT hr = 0;
+		assert(m_pdevice);
+
+		hr |= draw3dPoint( VGVEC3(_x, _y, _z), pointSize );
+
+		return hr;
+	}
+
+
+//	virtual HRESULT draw3dPoint  (const float**,          float pointSize,  _in_opt  float* * pTransf) const ;
+	virtual HRESULT draw3dPoints (const float* pv, int num, float pointSize) const ;
+
+	virtual HRESULT draw3dLine(const float* p1, const float* p2) const;
 	virtual HRESULT draw3dLine(float x1, float y1, float z1,   float x2, float y2, float z2) const;
-	virtual HRESULT draw3dLines( const VGVEC3* pv, int num ) const;
+	virtual HRESULT draw3dLines( const float* pv, int num ) const;
 
 
-	virtual HRESULT draw3dAABB(const VGVEC3* min, const VGVEC3* max) const ;
+	virtual HRESULT draw3dAABB(const float* min, const float* max) const ;
+
+#ifdef GB_MATH
 	virtual HRESULT draw3dAABB(const math::geom3d::AABB* aabb) const 
 	{
        return draw3dAABB(&aabb->min, &aabb->max  );
-	};
+	}
+#endif
 
-	virtual HRESULT draw3dRay(const VGVEC3* orig, const VGVEC3* normal ) const ;
+	virtual HRESULT draw3dRay(const float* orig, const float* normal ) const ;
 	virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, float nrmlY, float nrmlZ) const ;
+
+#ifdef GB_MATH
 	virtual HRESULT draw3dRay(const gb::math::geom3d::Ray* ray) const ;
+#endif
 
-	virtual HRESULT draw3dTraingle(const VGVEC3* v1, const VGVEC3* v2, const VGVEC3* v3) const ;
+	virtual HRESULT draw3dTraingle(const float* v1, const float* v2, const float* v3) const ;
 
+#ifdef GB_MATH
 	virtual HRESULT draw3dTraingle(const gb::math::geom3d::Triangle* tri) const ;
+#endif
 
-	virtual HRESULT draw3dArrow(const VGVEC3* src, const VGVEC3* dest) const ;  
+	virtual HRESULT draw3dArrow(const float* src, const float* dest) const ;  
 
-	virtual HRESULT draw3dAxies(const VGVEC3* coord, float axiesLen) const ;
+	virtual HRESULT draw3dAxies(const float* coord, float axiesLen) const ;
 
-	virtual HRESULT draw3dSolidSphere(const VGVEC3* center, float radius) const ;
+	virtual HRESULT draw3dSolidSphere(const float* center, float radius) const ;
  
 };
 //end class

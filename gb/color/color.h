@@ -12,8 +12,11 @@
 STORY:
 
 --- поправлены методы классов. Некоторая коррекция.
+--- обёрнуто макрозащитой GB_COLOR
 
 ******************************************************************/
+
+#ifdef GB_COLOR	// макрозащита
 
 #pragma once
 
@@ -1079,4 +1082,5 @@ static const uicolor32_t      CUICOLOR_YELLOWGREEN      = 0xFF9ACD32;
 // end namespace gb
 
 
+#endif // #ifdef GB_COLOR
 // end file
