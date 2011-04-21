@@ -309,9 +309,9 @@ void VGDrawValuesImpl_D3D9::drawS(const char *s)const
 };
 
 //=========================================================================
-void VGDrawValuesImpl_D3D9::drawPoint(const float* vec2_pointcoord, const char* promt) const 
+void VGDrawValuesImpl_D3D9::drawPoint(const float* vec2_point, const char* promt) const 
 {
-	VGVEC2 pos(vec2_pointcoord);
+	VGVEC2 pos(vec2_point);
 	drawPoint(gb::math::scalar::round(pos.x) , gb::math::scalar::round(pos.y) , promt);
 }
 
@@ -706,6 +706,116 @@ void VGDrawValuesImpl_D3D9::drawMatrix4x4(const float* matrix4x4, const char *pr
 }
 
 
+void VGDrawValuesImpl_D3D9::drawMatrix2x2(const float* matrix2x2, const char* promt) const 
+{
+
+	static char sdigit[16];
+	sdigit[0] = 0;
+
+	static std::string str;
+	str = "";
+
+	if (promt)
+	{
+		str += promt;
+		str += "\n";
+	};
+
+	const gb::math::base::mat22_s mat =  (matrix2x2);
+	const gb::math::base::mat22_s* m = &mat;
+
+
+	// row 1
+	__FormatFloatMatrix(sdigit, m->_11);
+	str += sdigit;
+	str += "  ";
+
+	__FormatFloatMatrix(sdigit, m->_12);
+	str += sdigit;
+	str += "\n";
+
+
+
+	// row 2
+	__FormatFloatMatrix(sdigit, m->_21);
+	str += sdigit;
+	str += "  ";
+
+	__FormatFloatMatrix(sdigit, m->_22);
+	str += sdigit;
+	str += "\n";
+
+	drawS(str.c_str());
+
+}
+
+void VGDrawValuesImpl_D3D9::drawMatrix3x3(const float* matrix3x3, const char* promt) const 
+{
+	static char sdigit[16];
+	sdigit[0] = 0;
+
+	static std::string str;
+	str = "";
+
+	if (promt)
+	{
+		str += promt;
+		str += "\n";
+	};
+
+	const gb::math::base::mat33_s mat (matrix3x3);
+	const gb::math::base::mat33_s* m = &mat;
+
+
+	// row 1
+	__FormatFloatMatrix(sdigit, m->_11);
+	str += sdigit;
+	str += "  ";
+
+	__FormatFloatMatrix(sdigit, m->_12);
+	str += sdigit;
+	str += "  ";
+
+	__FormatFloatMatrix(sdigit, m->_13);
+	str += "\n";
+
+
+
+	// row 2
+	__FormatFloatMatrix(sdigit, m->_21);
+	str += sdigit;
+	str += "  ";
+
+	__FormatFloatMatrix(sdigit, m->_22);
+	str += sdigit;
+	str += "  ";
+
+	__FormatFloatMatrix(sdigit, m->_23);
+	str += sdigit;
+	str += "\n";
+
+
+
+	// row 3
+	__FormatFloatMatrix(sdigit, m->_31);
+	str += sdigit;
+	str += "  ";
+
+	__FormatFloatMatrix(sdigit, m->_32);
+	str += sdigit;
+	str += "  ";
+
+	__FormatFloatMatrix(sdigit, m->_33);
+	str += sdigit;
+	str += "\n";
+
+
+
+	drawS(str.c_str());
+
+}
+
+
 //=====================================================================
 /*
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dPoint (const float* pos, float pointSize) const 
@@ -1071,14 +1181,15 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(
 
 //=====================================================================
 #ifdef GB_MATH
-HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(const gb::math::geom3d::Ray *ray )const
+HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(const gb::math::geom3d::Ray& ray )const
 {
   HRESULT hr = 0;
   assert(m_pdevice);
-  float* orig = float*(ray->orig.x, ray->orig.y, ray->orig.z);
-  float* nrml = float*(ray->dir.x, ray->dir.y, ray->dir.z);
 
-  hr |= draw3dRay(&orig, &nrml );
+  gb::math::base::vec3_s orig =  ray.orig ;
+  gb::math::base::vec3_s nrml =  ray.dir ;
+
+  hr |= draw3dRay(orig, nrml );
 
   return hr;
 };
@@ -1117,26 +1228,26 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dTraingle(
 //=====================================================================
 #ifdef GB_MATH
 HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dTraingle(
-			const gb::math::geom3d::Triangle *tri )const
+			const gb::math::geom3d::Triangle& tri )const
 {
   HRESULT hr = 0;
   assert(m_pdevice);
 
-  float* varr[3];
+  VGVEC3 varr[3];
 
-  varr[0].x = tri->p1.x;
-  varr[0].y = tri->p1.y;
-  varr[0].z = tri->p1.z;
+  varr[0].x = tri.p1.x;
+  varr[0].y = tri.p1.y;
+  varr[0].z = tri.p1.z;
 
-  varr[1].x = tri->p2.x;
-  varr[1].y = tri->p2.y;
-  varr[1].z = tri->p2.z;
+  varr[1].x = tri.p2.x;
+  varr[1].y = tri.p2.y;
+  varr[1].z = tri.p2.z;
 
-  varr[2].x = tri->p3.x;
-  varr[2].y = tri->p3.y;
-  varr[2].z = tri->p3.z;
+  varr[2].x = tri.p3.x;
+  varr[2].y = tri.p3.y;
+  varr[2].z = tri.p3.z;
 
-  hr |= draw3dTraingle(&varr[0], &varr[1], &varr[2] );
+  hr |= draw3dTraingle(varr[0], varr[1], varr[2] );
 
 
   return hr;
@@ -1522,16 +1633,7 @@ HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dRect(const D3DRECT& rect)const
 };
 
 //=========================================================
-#ifdef GB_MATH
- virtual HRESULT draw2dSolidRect(const gb::math::geom2d::Rect& rect) const 
- {
-	 return draw2dSolidRect( 
-		 gb::math::scalar::round(rect.x1), 
-		 gb::math::scalar::round(rect.y1), 
-		 gb::math::scalar::round(rect.x2),  
-		 gb::math::scalar::round(rect.y2) );
- };
-#endif
+
 
 //============================================================
 HRESULT VGDraw2DGeometry_Impl_D3D9::draw2dSolidRect(int x1, int y1, int x2, int y2)const 

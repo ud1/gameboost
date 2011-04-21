@@ -4,7 +4,7 @@
 #pragma once
 
 #ifndef GB_D3DX9
-#error Пока d3dx9 нужна. Определить GB_D3DX9.
+   #error Пока d3dx9 нужна. Определить GB_D3DX9.
 #endif
 
 #include <d3dx9.h>
@@ -21,6 +21,12 @@
 #define anone  assert(false && "NEED INSERT CODE");
 
 #include <gb/graphics/visual_geometry/internal/vg_impl_common.h>
+
+#ifndef GB_MATH
+#define GB_MATH
+#endif
+
+#include <gb/math/math.h>
 
 namespace gb {
 namespace graphics {
@@ -263,9 +269,13 @@ public:
 	virtual void drawVec3(const float* vect3, const char* promt=NULL) const ;
 	virtual void drawVec4(const float* vect4, const char* promt=NULL) const ; 
 
-	//-----------------------------------
+	//---------------------------------------------------------------------
 
-	virtual void drawMatrix4x4(const float* matrix4x4, const char* promt=NULL) const ;
+	virtual void drawMatrix4x4(const float* matrix4x4, const char* promt=NULL) const;
+	virtual void drawMatrix2x2(const float* matrix2x2, const char* promt=NULL) const ;
+	virtual void drawMatrix3x3(const float* matrix3x3, const char* promt=NULL) const ;
+
+	//----------------------------------------------------------
 
 	virtual void drawPoint(const POINT pnt, const char* promt=NULL) const 
 	{
@@ -287,7 +297,7 @@ public:
 		  drawPoint(pnt, promt);	
 	}
 
-	virtual void drawPoint(const float* vec2_pointcoord, const char* promt=NULL) const;
+	virtual void drawPoint(const float* vec2_point, const char* promt=NULL) const;
 
 
 
@@ -322,11 +332,12 @@ public:
 	{ 
 		assert(m_pdevice);
 		m_color.setWhite(); 
-	};
+	}
+
 	virtual ~VGDraw2DGeometry_Impl_D3D9() 
 	{   
 	  releaseInterfaces();
-	};
+	}
 
 	void releaseInterfaces()
 	{
@@ -338,24 +349,22 @@ public:
 
   // --------------------  override  color ------------------------------
  
+#if ( defined(GB_D3DX9) && defined(__D3DX9MATH_H__) )
+	virtual void setColor(const D3DXCOLOR& color) const 
+	{
+      m_color.r=color.r;
+      m_color.g=color.g;
+      m_color.b=color.b;
+      m_color.a=color.a;
+	}
+#endif
+
 #ifdef GB_COLOR 
 	virtual HRESULT setColor(const gb::color::Color4f& color) const { m_color=color;  }
 #endif
 
 	virtual void setColor(const D3DCOLORVALUE& color) const  { m_color=color;   }
  
-#ifdef GB_D3DX9
-	virtual void setColor(const D3DXCOLOR* color) const 
-	{
-   	 m_color.r=color->r;
-	 m_color.g=color->g;
-	 m_color.b=color->b;
-	 m_color.a=color->a;
- 	
-	}
-#endif
-
-
 	virtual void setColor(float r, float g, float b, float a) const 
 	{
 	 m_color.r=r; m_color.g=g;  m_color.b=b; m_color.a=a; 
@@ -396,21 +405,16 @@ public:
  virtual HRESULT draw2dLine(const float* p1, const float* p2) const;
  virtual HRESULT draw2dLine(const POINT p1, const POINT p2) const 
  {
-    VGVEC2 v1(p1);  VGVEC2 v2(p2);  
-  // return draw2dLine( &float*( (float)p1.x, (float)p1.y ), &float*( (float)p2.x, (float)p2.y ) );
+    VGVEC2 v1(p1);  
+	VGVEC2 v2(p2);  
    return draw2dLine( v1 , v2 );
  };
-
- //virtual HRESULT draw2dLine(const float* p1, const float* p2) const 
- //{
- //  return draw2dLine( &float*(p1->x, p1->y),  &float*(p2->x, p2->y) );
- //};
-
+ 
 
 #ifdef GB_MATH
- virtual HRESULT draw2dLine(const gb::math::geom2d::Line* line) const
+ virtual HRESULT draw2dLine(const gb::math::geom2d::Line& line) const
  {
-   return draw2dLine( &float*(line->src.x, line->src.y),  &float*(line->dest.x, line->dest.y) );
+   return draw2dLine( line.src , line.dest  );
  }
 #endif
 
@@ -431,6 +435,24 @@ public:
 
 
   virtual HRESULT draw2dRect(const D3DRECT& rect) const ;
+
+  virtual HRESULT draw2dRect(const float* vec2_min, const float* vec2_max) const
+  {
+	  D3DVECTOR v1; 
+	  D3DVECTOR v2;
+
+	  v1.x = vec2_min[0];
+	  v1.y = vec2_min[1];
+	  v1.z = vec2_min[2];
+
+	  v2.x = vec2_max[0];
+	  v2.y = vec2_max[1];
+	  v2.z = vec2_max[2];
+
+    anone
+		return 0;
+  }
+
   virtual HRESULT draw2dRect(int x1,   int y1,     int x2,   int y2) const 
   {
 	  D3DRECT rect = { x1, y1, x2, y2 };
@@ -444,13 +466,13 @@ public:
 	  return draw2dRect(rect); 
  };
 
- virtual HRESULT draw2dRect(const POINT p1, POINT p2) const 
+ virtual HRESULT draw2dRect(const POINT& p1, POINT& p2) const 
  {
    	  D3DRECT rect = { p1.x, p1.y,   p2.x, p2.y };
 	  return draw2dRect(rect); 
  };
 
- virtual HRESULT draw2dRect(const RECT rect) const 
+ virtual HRESULT draw2dRect(const RECT& rect) const 
  {
       D3DRECT nrect = { rect.left, rect.top, rect.right, rect.bottom   };
 	  return draw2dRect(nrect); 
@@ -458,9 +480,9 @@ public:
 
  
 #ifdef GB_MATH
- virtual HRESULT draw2dRect(gb::math::geom2d::Rect* rect) const 
+ virtual HRESULT draw2dRect(gb::math::geom2d::Rect& rect) const 
  {
-	  return draw2dRect( rect->x1, rect->y1,   rect->x2, rect->y2 ); 
+	  return draw2dRect( rect.x1, rect.y1,   rect.x2, rect.y2 ); 
  }
 #endif
 
@@ -470,6 +492,28 @@ public:
 #pragma message("ks777: Сделать базовый метод просто по точкам "  __FILE__ )
 
  virtual HRESULT draw2dSolidRect(int x1, int y1,   int x2, int y2) const ; //const D3DRECT* rect) const ;
+
+ virtual HRESULT draw2dSolidRect(const float* vec2_min, const float* vec2_max) const 
+ {
+
+	 int x1 = gb::math::scalar::round( vec2_min[0] );
+	 int y1 = gb::math::scalar::round( vec2_min[1] );
+	 int x2 = gb::math::scalar::round( vec2_max[0] );
+	 int y2 = gb::math::scalar::round( vec2_max[1] );
+
+	 return draw2dSolidRect(x1, y1, x2, y2  );
+ }
+
+#ifdef GB_MATH
+ virtual HRESULT draw2dSolidRect(const gb::math::geom2d::Rect& rect) const 
+ {
+	 return draw2dSolidRect( 
+		 gb::math::scalar::round(rect.x1), 
+		 gb::math::scalar::round(rect.y1), 
+		 gb::math::scalar::round(rect.x2),  
+		 gb::math::scalar::round(rect.y2) );
+ }
+#endif
 
  virtual HRESULT draw2dSolidRect(const POINT& p1, const POINT& p2) const 
  {
@@ -485,10 +529,7 @@ public:
  {
 	 return draw2dSolidRect( rect.left, rect.top, rect.right, rect.bottom  );
  };
-
-#ifdef GB_MATH
- virtual HRESULT draw2dSolidRect(const gb::math::geom2d::Rect& rect) const ;
-#endif
+ 
 
  //------------------------------------------------------------
 
@@ -499,12 +540,7 @@ public:
 	 VGVEC2 v(x,y);
    return draw2dCircle( v , radius );
  }
-
- //virtual HRESULT draw2dCircle(int x, int y,           float radius) const 
- //{
-//   return draw2dCircle( &float*( (float)x, (float)y) , radius );
- //};
-
+ 
  virtual HRESULT draw2dCircle(const POINT pos,        float radius) const 
  {
 	 VGVEC2 v(pos);
@@ -512,9 +548,12 @@ public:
  }
 
  #ifdef GB_MATH
- virtual HRESULT draw2dCircle(const gb::math::geom2d::Circle*   c) const 
+ virtual HRESULT draw2dCircle(const gb::math::geom2d::Circle&   c) const 
  {
-   return draw2dCircle( &float*( c->center.x, c->center.y ) , c->radius );
+	 VGVEC2 v;
+	 v.x = c.center.x;
+	 v.y = c.center.y;
+   return draw2dCircle( v , c.radius );
  }
 #endif
 
@@ -637,21 +676,21 @@ public:
 	virtual HRESULT setColor(const gb::color::Color4f& color) const =0;
 #endif
 
+virtual void setColor(const D3DCOLORVALUE& color) const 
+{   
+   m_color.r=color.r; 
+   m_color.g=color.g;	
+   m_color.b=color.b;	
+   m_color.a=color.a;
+}
 
-
-	virtual void setColor(const D3DCOLORVALUE* color) const 
-	{   
-		m_color.r=color->r;	m_color.g=color->g;	m_color.b=color->b;	m_color.a=color->a;
-	}
-
-	
 #ifdef GB_D3DX9
-	virtual void setColor(const D3DXCOLOR* color) const 
+	virtual void setColor(const D3DXCOLOR& color) const 
 	{
-		m_color.r=color->r;
-		m_color.g=color->g;
-		m_color.b=color->b;
-		m_color.a=color->a;	
+		m_color.r=color.r;
+		m_color.g=color.g;
+		m_color.b=color.b;
+		m_color.a=color.a;	
 	}
 #endif
 	
@@ -696,7 +735,6 @@ public:
 	}
 
 
-//	virtual HRESULT draw3dPoint  (const float**,          float pointSize,  _in_opt  float* * pTransf) const ;
 	virtual HRESULT draw3dPoints (const float* pv, int num, float pointSize) const ;
 
 	virtual HRESULT draw3dLine(const float* p1, const float* p2) const;
@@ -707,9 +745,9 @@ public:
 	virtual HRESULT draw3dAABB(const float* min, const float* max) const ;
 
 #ifdef GB_MATH
-	virtual HRESULT draw3dAABB(const math::geom3d::AABB* aabb) const 
+	virtual HRESULT draw3dAABB(const math::geom3d::AABB& aabb) const 
 	{
-       return draw3dAABB(&aabb->min, &aabb->max  );
+       return draw3dAABB(aabb.min, aabb.max  );
 	}
 #endif
 
@@ -717,13 +755,13 @@ public:
 	virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, float nrmlY, float nrmlZ) const ;
 
 #ifdef GB_MATH
-	virtual HRESULT draw3dRay(const gb::math::geom3d::Ray* ray) const ;
+	virtual HRESULT draw3dRay(const gb::math::geom3d::Ray& ray) const ;
 #endif
 
-	virtual HRESULT draw3dTraingle(const float* v1, const float* v2, const float* v3) const ;
+	virtual HRESULT draw3dTraingle(const float* vec3_v1, const float* vec3_v2, const float* vec3_v3) const ;
 
 #ifdef GB_MATH
-	virtual HRESULT draw3dTraingle(const gb::math::geom3d::Triangle* tri) const ;
+	virtual HRESULT draw3dTraingle(const gb::math::geom3d::Triangle& tri) const ;
 #endif
 
 	virtual HRESULT draw3dArrow(const float* src, const float* dest) const ;  
