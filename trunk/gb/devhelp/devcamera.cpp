@@ -83,14 +83,14 @@ double MYUTGetTime()
 //========================================================================
 ArcBall::ArcBall()
 {
-    Reset();
+    reset();
     m_vDownPt = D3DXVECTOR3(0,0,0);
     m_vCurrentPt = D3DXVECTOR3(0,0,0);
     m_Offset.x = m_Offset.y = 0;
 
     RECT rc;
     GetClientRect( GetForegroundWindow(), &rc );
-    SetWindow( rc.right, rc.bottom );
+    setWindow( rc.right, rc.bottom );
 }
 
 
@@ -98,7 +98,7 @@ ArcBall::ArcBall()
 
 
 //========================================================================
-void ArcBall::Reset()
+void ArcBall::reset()
 {
     D3DXQuaternionIdentity( &m_qDown );
     D3DXQuaternionIdentity( &m_qNow );
@@ -114,7 +114,7 @@ void ArcBall::Reset()
 
 
 //========================================================================
-D3DXVECTOR3 ArcBall::ScreenToVector( float fScreenPtX, float fScreenPtY )
+D3DXVECTOR3 ArcBall::screenToVector( float fScreenPtX, float fScreenPtY )
 {
     // Scale to screen
     FLOAT x   = -(fScreenPtX - m_Offset.x - m_nWidth/2)  / (m_fRadius*m_nWidth/2);
@@ -140,7 +140,7 @@ D3DXVECTOR3 ArcBall::ScreenToVector( float fScreenPtX, float fScreenPtY )
 
 
 //========================================================================
-D3DXQUATERNION ArcBall::QuatFromBallPoints(const D3DXVECTOR3 &vFrom, const D3DXVECTOR3 &vTo)
+D3DXQUATERNION ArcBall::quatFromBallPoints(const D3DXVECTOR3 &vFrom, const D3DXVECTOR3 &vTo)
 {
     D3DXVECTOR3 vPart;
     float fDot = D3DXVec3Dot(&vFrom, &vTo);
@@ -152,7 +152,7 @@ D3DXQUATERNION ArcBall::QuatFromBallPoints(const D3DXVECTOR3 &vFrom, const D3DXV
 
 
 //========================================================================
-void ArcBall::OnBegin( int nX, int nY )
+void ArcBall::onBegin( int nX, int nY )
 {
     // Only enter the drag state if the click falls
     // inside the click rectangle.
@@ -163,18 +163,18 @@ void ArcBall::OnBegin( int nX, int nY )
     {
         m_bDrag = true;
         m_qDown = m_qNow;
-        m_vDownPt = ScreenToVector( (float)nX, (float)nY );
+        m_vDownPt = screenToVector( (float)nX, (float)nY );
     }
 }
 
 
 //========================================================================
-void ArcBall::OnMove( int nX, int nY )
+void ArcBall::onMove( int nX, int nY )
 {
     if (m_bDrag) 
     { 
-        m_vCurrentPt = ScreenToVector( (float)nX, (float)nY );
-        m_qNow = m_qDown * QuatFromBallPoints( m_vDownPt, m_vCurrentPt );
+        m_vCurrentPt = screenToVector( (float)nX, (float)nY );
+        m_qNow = m_qDown * quatFromBallPoints( m_vDownPt, m_vCurrentPt );
     }
 }
 
@@ -182,14 +182,14 @@ void ArcBall::OnMove( int nX, int nY )
 
 
 //========================================================================
-void ArcBall::OnEnd()
+void ArcBall::onEnd()
 {
     m_bDrag = false;
 }
 
 
 //========================================================================
-LRESULT ArcBall::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT ArcBall::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
     // Current mouse position
     int iMouseX = (short)LOWORD(lParam);
@@ -200,19 +200,19 @@ LRESULT ArcBall::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_LBUTTONDOWN:
 	case WM_LBUTTONDBLCLK:
 		SetCapture( hWnd );
-		OnBegin( iMouseX, iMouseY );
+		onBegin( iMouseX, iMouseY );
 		return TRUE;
 
 	case WM_LBUTTONUP:
 		ReleaseCapture();
-		OnEnd();
+		onEnd();
 		return TRUE;
 
 	case WM_CAPTURECHANGED:
 		if( (HWND)lParam != hWnd )
 		{
 			ReleaseCapture();
-			OnEnd();
+			onEnd();
 		}
 		return TRUE;
 
@@ -234,7 +234,7 @@ LRESULT ArcBall::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_MOUSEMOVE:
 		if( MK_LBUTTON & wParam )
 		{
-			OnMove( iMouseX, iMouseY );
+			onMove( iMouseX, iMouseY );
 		}
 		else if( (MK_RBUTTON & wParam) || (MK_MBUTTON & wParam) )
 		{
@@ -276,10 +276,10 @@ BaseCamera::BaseCamera()
     D3DXVECTOR3 vLookatPt = D3DXVECTOR3(0.0f,0.0f,1.0f);
 
     // Setup the view matrix
-    SetViewParams( &vEyePt, &vLookatPt );
+    setViewParams( &vEyePt, &vLookatPt );
 
     // Setup the projection matrix
-    SetProjParams( D3DX_PI/4, 1.0f, 1.0f, 1000.0f );
+    setProjParams( D3DX_PI/4, 1.0f, 1.0f, 1000.0f );
 
     GetCursorPos( &m_ptLastMousePosition );
     m_bMouseLButtonDown = false;
@@ -318,7 +318,7 @@ BaseCamera::BaseCamera()
 //========================================================================
 // Client can call this to change the position and direction of camera
 //========================================================================
-VOID BaseCamera::SetViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt )
+VOID BaseCamera::setViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt )
 {
     if( NULL == pvEyePt || NULL == pvLookatPt )
         return;
@@ -349,7 +349,7 @@ VOID BaseCamera::SetViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt )
 //========================================================================
 // Calculates the projection matrix based on input params
 //========================================================================
-VOID BaseCamera::SetProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane,
+VOID BaseCamera::setProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane,
                                    FLOAT fFarPlane )
 {
     // Set attributes for the projection matrix
@@ -367,7 +367,7 @@ VOID BaseCamera::SetProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane,
 //========================================================================
 // Call this from your message proc so this class can handle window messages
 //========================================================================
-LRESULT BaseCamera::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT BaseCamera::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
     UNREFERENCED_PARAMETER( hWnd );
     UNREFERENCED_PARAMETER( lParam );
@@ -667,7 +667,7 @@ void BaseCamera::UpdateVelocity( float fElapsedTime )
 //========================================================================
 // Clamps pV to lie inside m_vMinBoundary & m_vMaxBoundary
 //========================================================================
-void BaseCamera::ConstrainToBoundary( D3DXVECTOR3* pV )
+void BaseCamera::constrainToBoundary( D3DXVECTOR3* pV )
 {
     // Constrain vector to a bounding box 
     pV->x = __max(pV->x, m_vMinBoundary.x);
@@ -725,9 +725,9 @@ D3DUtil_CameraKeys BaseCamera::MapKey( UINT nKey )
 //========================================================================
 // Reset the camera's position back to the default
 //========================================================================
-VOID BaseCamera::Reset()
+VOID BaseCamera::reset()
 {
-    SetViewParams( &m_vDefaultEye, &m_vDefaultLookAt );
+    setViewParams( &m_vDefaultEye, &m_vDefaultLookAt );
 }
 
 
@@ -750,7 +750,7 @@ FirstPersonCamera::FirstPersonCamera() :
 //========================================================================
 // Update the view matrix based on user input & elapsed time
 //========================================================================
-VOID FirstPersonCamera::FrameMove( FLOAT fElapsedTime )
+VOID FirstPersonCamera::frameMove( FLOAT fElapsedTime )
 {
 
 #pragma message("!!!!!!"  __FILE__)
@@ -762,7 +762,7 @@ VOID FirstPersonCamera::FrameMove( FLOAT fElapsedTime )
 
 
     if( IsKeyDown(m_aKeys[CAM_RESET]) )
-        Reset();
+        reset();
 
     // Get keyboard/mouse/gamepad input
     GetInput( m_bEnablePositionMovement, (m_nActiveButtonMask & m_nCurrentButtonMask) || m_bRotateWithoutButtonDown, true, m_bResetCursorAfterMove );
@@ -819,7 +819,7 @@ VOID FirstPersonCamera::FrameMove( FLOAT fElapsedTime )
     // Move the eye position 
     m_vEye += vPosDeltaWorld;
     if( m_bClipToBoundary )
-        ConstrainToBoundary( &m_vEye );
+        constrainToBoundary( &m_vEye );
 
     // Update the lookAt position based on the eye position 
     m_vLookAt = m_vEye + vWorldAhead;
@@ -872,10 +872,10 @@ ModelViewerCamera::ModelViewerCamera()
 // Update the view matrix & the model's world matrix based 
 //       on user input & elapsed time
 //========================================================================
-VOID ModelViewerCamera::FrameMove( FLOAT fElapsedTime )
+VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
 {
     if( IsKeyDown(m_aKeys[CAM_RESET]) )
-        Reset();
+        reset();
 
     // If no dragged has happend since last time FrameMove is called,
     // and no camera key is held down, then no need to handle again.
@@ -901,7 +901,7 @@ VOID ModelViewerCamera::FrameMove( FLOAT fElapsedTime )
 
     // Get the inverse of the arcball's rotation matrix
     D3DXMATRIX mCameraRot;
-    D3DXMatrixInverse( &mCameraRot, NULL, m_ViewArcBall.GetRotationMatrix() );
+    D3DXMatrixInverse( &mCameraRot, NULL, m_ViewArcBall.getRotationMatrix() );
 
     // Transform vectors based on camera's rotation matrix
     D3DXVECTOR3 vWorldUp, vWorldAhead;
@@ -917,7 +917,7 @@ VOID ModelViewerCamera::FrameMove( FLOAT fElapsedTime )
     // Move the lookAt position 
     m_vLookAt += vPosDeltaWorld;
     if( m_bClipToBoundary )
-        ConstrainToBoundary( &m_vLookAt );
+        constrainToBoundary( &m_vLookAt );
 
     // Update the eye point based on a radius away from the lookAt position
     m_vEye = m_vLookAt - vWorldAhead * m_fRadius;
@@ -935,10 +935,10 @@ VOID ModelViewerCamera::FrameMove( FLOAT fElapsedTime )
     // Accumulate the delta of the arcball's rotation in view space.
     // Note that per-frame delta rotations could be problematic over long periods of time.
     D3DXMATRIX mModelRot;
-    mModelRot = *m_WorldArcBall.GetRotationMatrix();
+    mModelRot = *m_WorldArcBall.getRotationMatrix();
     m_mModelRot *= m_mView * mModelLastRotInv * mModelRot * mInvView;
 
-    if( m_ViewArcBall.IsBeingDragged() && m_bAttachCameraToModel && !IsKeyDown(m_aKeys[CAM_CONTROLDOWN]) )
+    if( m_ViewArcBall.isBeingDragged() && m_bAttachCameraToModel && !IsKeyDown(m_aKeys[CAM_CONTROLDOWN]) )
     {
         // Attach camera to model by inverse of the model rotation
         D3DXMATRIX mCameraLastRotInv;
@@ -972,12 +972,12 @@ VOID ModelViewerCamera::FrameMove( FLOAT fElapsedTime )
 }
 
 
-void ModelViewerCamera::SetDragRect( RECT &rc )
+void ModelViewerCamera::setDragRect( RECT &rc )
 {
-    BaseCamera::SetDragRect( rc );
+    BaseCamera::setDragRect( rc );
 
-    m_WorldArcBall.SetOffset( rc.left, rc.top );
-    m_ViewArcBall.SetOffset( rc.left, rc.top );
+    m_WorldArcBall.setOffset( rc.left, rc.top );
+    m_ViewArcBall.setOffset( rc.left, rc.top );
     SetWindow( rc.right - rc.left, rc.bottom - rc.top );
 }
 
@@ -985,9 +985,9 @@ void ModelViewerCamera::SetDragRect( RECT &rc )
 //========================================================================
 // Reset the camera's position back to the default
 //========================================================================
-VOID ModelViewerCamera::Reset()
+VOID ModelViewerCamera::reset()
 {
-    BaseCamera::Reset();
+    BaseCamera::reset();
 
     D3DXMatrixIdentity( &m_mWorld );
     D3DXMatrixIdentity( &m_mModelRot );
@@ -995,17 +995,17 @@ VOID ModelViewerCamera::Reset()
     D3DXMatrixIdentity( &m_mCameraRotLast );    
 
     m_fRadius = m_fDefaultRadius;
-    m_WorldArcBall.Reset();
-    m_ViewArcBall.Reset();
+    m_WorldArcBall.reset();
+    m_ViewArcBall.reset();
 }
 
 
 //========================================================================
 // Override for setting the view parameters
 //========================================================================
-void ModelViewerCamera::SetViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt )
+void ModelViewerCamera::setViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt )
 {
-    BaseCamera::SetViewParams( pvEyePt, pvLookatPt );
+    BaseCamera::setViewParams( pvEyePt, pvLookatPt );
 
     // Propogate changes to the member arcball
     D3DXQUATERNION quat;
@@ -1013,7 +1013,7 @@ void ModelViewerCamera::SetViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLook
     D3DXVECTOR3 vUp(0,1,0);
     D3DXMatrixLookAtLH( &mRotation, pvEyePt, pvLookatPt, &vUp );
     D3DXQuaternionRotationMatrix( &quat, &mRotation );
-    m_ViewArcBall.SetQuatNow( quat );
+    m_ViewArcBall.setQuatNow( quat );
 
     // Set the radius according to the distance
     D3DXVECTOR3 vEyeToPoint;
@@ -1029,9 +1029,9 @@ void ModelViewerCamera::SetViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLook
 //========================================================================
 // Call this from your message proc so this class can handle window messages
 //========================================================================
-LRESULT ModelViewerCamera::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT ModelViewerCamera::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-    BaseCamera::HandleMessages( hWnd, uMsg, wParam, lParam );
+    BaseCamera::handleMessages( hWnd, uMsg, wParam, lParam );
 
     if( ( (uMsg == WM_LBUTTONDOWN || uMsg == WM_LBUTTONDBLCLK ) && m_nRotateModelButtonMask & MOUSE_LEFT_BUTTON) ||
         ( (uMsg == WM_MBUTTONDOWN || uMsg == WM_MBUTTONDBLCLK ) && m_nRotateModelButtonMask & MOUSE_MIDDLE_BUTTON) ||
@@ -1039,7 +1039,7 @@ LRESULT ModelViewerCamera::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, 
     {
         int iMouseX = (short)LOWORD(lParam);
         int iMouseY = (short)HIWORD(lParam);
-        m_WorldArcBall.OnBegin( iMouseX, iMouseY );
+        m_WorldArcBall.onBegin( iMouseX, iMouseY );
     }
 
     if( ( (uMsg == WM_LBUTTONDOWN || uMsg == WM_LBUTTONDBLCLK ) && m_nRotateCameraButtonMask & MOUSE_LEFT_BUTTON) ||
@@ -1048,29 +1048,29 @@ LRESULT ModelViewerCamera::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, 
     {
         int iMouseX = (short)LOWORD(lParam);
         int iMouseY = (short)HIWORD(lParam);
-        m_ViewArcBall.OnBegin( iMouseX, iMouseY );
+        m_ViewArcBall.onBegin( iMouseX, iMouseY );
     }
 
     if( uMsg == WM_MOUSEMOVE )
     {
         int iMouseX = (short)LOWORD(lParam);
         int iMouseY = (short)HIWORD(lParam);
-        m_WorldArcBall.OnMove( iMouseX, iMouseY );
-        m_ViewArcBall.OnMove( iMouseX, iMouseY );
+        m_WorldArcBall.onMove( iMouseX, iMouseY );
+        m_ViewArcBall.onMove( iMouseX, iMouseY );
     }
 
     if( (uMsg == WM_LBUTTONUP && m_nRotateModelButtonMask & MOUSE_LEFT_BUTTON) ||
         (uMsg == WM_MBUTTONUP && m_nRotateModelButtonMask & MOUSE_MIDDLE_BUTTON) ||
         (uMsg == WM_RBUTTONUP && m_nRotateModelButtonMask & MOUSE_RIGHT_BUTTON) )
     {
-        m_WorldArcBall.OnEnd();
+        m_WorldArcBall.onEnd();
     }
 
     if( (uMsg == WM_LBUTTONUP && m_nRotateCameraButtonMask & MOUSE_LEFT_BUTTON) ||
         (uMsg == WM_MBUTTONUP && m_nRotateCameraButtonMask & MOUSE_MIDDLE_BUTTON) ||
         (uMsg == WM_RBUTTONUP && m_nRotateCameraButtonMask & MOUSE_RIGHT_BUTTON) )
     {
-        m_ViewArcBall.OnEnd();
+        m_ViewArcBall.onEnd();
     }
 
     if( uMsg == WM_CAPTURECHANGED )
@@ -1081,14 +1081,14 @@ LRESULT ModelViewerCamera::HandleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, 
                 (m_nRotateModelButtonMask & MOUSE_MIDDLE_BUTTON) ||
                 (m_nRotateModelButtonMask & MOUSE_RIGHT_BUTTON) )
             {
-                m_WorldArcBall.OnEnd();
+                m_WorldArcBall.onEnd();
             }
         
             if( (m_nRotateCameraButtonMask & MOUSE_LEFT_BUTTON) ||
                 (m_nRotateCameraButtonMask & MOUSE_MIDDLE_BUTTON) ||
                 (m_nRotateCameraButtonMask & MOUSE_RIGHT_BUTTON) )
             {
-                m_ViewArcBall.OnEnd();
+                m_ViewArcBall.onEnd();
             }
         }
     }

@@ -643,7 +643,6 @@ namespace gb
 		/** Декларировать самые главные методы можно здесь Остальные лучше наследованием */
 		struct mat22_s 
 		{
-
 			union 
 			{
 				struct {
@@ -660,6 +659,7 @@ namespace gb
 			inline mat22_s() {};
 			inline mat22_s(const mat22_s& m) { *this=m; };
 			inline mat22_s(float _11_, float _12_, float _21_, float _22_) {_11=_11_; _12=_12_; _21=_21_; _22=_22_;  };
+			inline mat22_s(const float* pfArray) { *this = pfArray; }
 
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
@@ -673,6 +673,15 @@ namespace gb
 				floats [1][1] = m.floats [1][1];
 				return *this;
 			};
+
+			//! \brief Присвоить значения из массива
+			inline void operator = (const float* pfArray)
+			{
+				_11 = pfArray[0];
+				_12 = pfArray[1];
+				_21 = pfArray[2];
+				_22 = pfArray[3];
+			}
 
 			/** \brief   В главную диагональ установить f   остальное занулить.*/
 			inline mat22_s&  operator =  ( float f) { 	floats [0][1] = floats [1][0] = 0.0; floats [0][0] = floats [1][1] = f; };
@@ -868,11 +877,26 @@ namespace gb
 								_21( _21_ ), _22( _22_ ), _23( _23_ ),
 								_31( _31_ ), _32( _32_ ), _33( _33_ ) {}
 
-
+			inline mat33_s(const float* pfArray) { *this = pfArray; }
 
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
 
+			inline mat33_s&  operator =  ( const mat22_s& m)
+			{
+				floats [0][0] = m.floats [0][0]; 
+				floats [0][1] = m.floats [0][1]; 
+				floats [1][0] = m.floats [1][0];
+				floats [1][1] = m.floats [1][1];
+				return *this;
+			};
+
+			inline void operator = (const float* pfArray)
+			{
+			 _11=  pfArray[0]; _12= pfArray[1];  _13= pfArray[2];
+			 _21=  pfArray[3]; _22= pfArray[4];  _23= pfArray[5];
+			 _31=  pfArray[6]; _32= pfArray[7];  _33= pfArray[8];	
+			}
 
 			mat33_s& operator = ( float a );
 
@@ -1030,6 +1054,18 @@ namespace gb
 				 }
 			   }
 			   return res;
+			}
+
+#pragma message("KS777 gb::MATH::mat4  проверить корректность метода")
+			inline void operator = (const D3DMATRIX& m)
+			{
+				for(int i=0; i<4; i++)
+				{
+					for(int j=0; j<4; j++)
+					{
+                       floats[i][j] = m.m[i][j];
+					}	 
+				}
 			}
 #endif
  

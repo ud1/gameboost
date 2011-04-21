@@ -17,9 +17,11 @@
 #define GB_SAFE_DEL_OBJ(p) { if(NULL != p) { delete   (p);  (p)=NULL; } }
 //! Безопасное удаление буфера
 #define GB_SAFE_DEL_BUF(p) { if(NULL != p) { delete [](p);  (p)=NULL; } }
-//! Безопасное удаление COM-интерфейса
-#define GB_SAFE_REL(p) { if(NULL != p) { (p)->Release(); (p)=NULL; } }
 
+#ifdef WIN32
+   //! Безопасное удаление COM-интерфейса
+   #define GB_SAFE_REL(p) { if(NULL != p) { (p)->Release(); (p)=NULL; } }
+#endif
 
 //! \brief проверка на вхождение в диапазон  включительно 
 #define CHECK_RANGE(i,min,max) ((i) >= (min)) && ((i) <= (max)) ? 1 : 0
@@ -44,11 +46,14 @@
 #endif
 
 #ifdef WIN32
+  //! \brief Выход из функции если результат неудачный
   #define GB_RETFAIL  if FAILED(hr) { return hr;  }
 #endif
 
-#define GB_SAFE_EXC_RELEASE(p) { if(NULL != (p) ) { try { (p)->Release(); } catch(...) { (p)=NULL; }; (p)=NULL; } }
-
+#ifdef WIN32
+  //! \brief  Безопастное по исулючению удаление com-интерфейса
+  #define GB_SAFE_EXC_RELEASE(p) { if(NULL != (p) ) { try { (p)->Release(); } catch(...) { (p)=NULL; }; (p)=NULL; } }
+#endif
 
 
 #define GB_MONPRINT(msg)  printf("%s\n" , (msg) );

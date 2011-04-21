@@ -5,6 +5,8 @@
 *
   Вывод для OpenGL пока не готов. но ОБЯЗАТЕЛЬНО будет.
 *
+
+ \todo все параметры-структуры должны быть ссылками (где возможно)
  \todo Дорефракторить IDraw2DGeometry 
  \todo draw2dRect(const RECT rect) - переделать по ссылке параметр
  \todo Переделать все функции интерфейсов на void и бросающие исключения
@@ -81,11 +83,9 @@ namespace gb
   /** \brief Отрисовка математических примитивов. Математика/Геометрия на мониторе.  */
   namespace visual_geometry
   {
-
-
-    
+  
  
-//--------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------
 
 
   /**  \brief Дочернее от gb::graphics::vesual_geometry . 
@@ -122,6 +122,7 @@ namespace gb
   public:
 	virtual ~IDrawValues() {};
 
+
 	//! \brief Установить позицию вывода 
 	virtual void setPos( int x, int y ) const =0;
 
@@ -152,6 +153,8 @@ namespace gb
     //! \brief Вывод с форматированием
 	virtual void drawF(const char* _Format, ... ) const =0;
 	
+//-------------------------------------------------------
+
     //! \brief Вывод bool значения в подсказкой promt
 	virtual void drawBool  (bool  val, const char* promt=NULL) const =0;
     //! \brief Вывод int значения в подсказкой promt	
@@ -166,6 +169,7 @@ namespace gb
 	//! \brief Вывод массива float с подсказкой promt
 	virtual void drawFloatArray (const float* p, int num, const char* promt=NULL) const =0;
 
+
 	//---------------------------------------------------------------------
 
 	virtual void drawVec2(const float* vect2, const char* promt=NULL) const =0;
@@ -173,21 +177,26 @@ namespace gb
 	virtual void drawVec4(const float* vect4, const char* promt=NULL) const =0;
 
 	virtual void drawMatrix4x4(const float* matrix4x4, const char* promt=NULL) const =0;
+ 
+	virtual void drawMatrix2x2(const float* matrix2x2, const char* promt=NULL) const =0;
+	virtual void drawMatrix3x3(const float* matrix3x3, const char* promt=NULL) const =0;
+
+
 
 	//---------------------------------------------------------------------
  
 	virtual void drawPoint(const POINT pnt,  const char* promt=NULL) const =0;
 	virtual void drawPoint(int x, int y,     const char* promt=NULL) const =0;
-	virtual void drawPoint(const float* vec2_pos, const char* promt=NULL) const =0;
+	virtual void drawPoint(const float* vec2_point, const char* promt=NULL) const =0;
 
+ 	/*********************************
  
-
  
 	//  virtual ID3DXFont*  GetInterfaceFontSmall()  const =0;
 	//  virtual ID3DXFont*  GetInterfaceFontNormal() const =0;
 	//  virtual ID3DXFont*  GetInterfaceFontBig()    const =0;
- 
 
+ ****************************************************************/
   };
   // end class 
   
@@ -195,10 +204,13 @@ namespace gb
 //! \brief Вывод двухмерных объектов 
 class   IDraw2DGeometry   {
 public:
+	virtual ~IDraw2DGeometry() {}
+
+
 
 #ifdef GB_COLOR
   //! \brief Установить цвет отрисовки 
-	virtual void setColor(const gb::color::Color4f& color) const =0;
+	virtual void setColor(const gb::color::Color4f& c) const =0;
 #endif
 
 #ifdef GB_D3D9
@@ -206,7 +218,9 @@ public:
   virtual void setColor(const D3DCOLORVALUE& color) const =0;
 #endif
 
-//  virtual void SetColor(const D3DXCOLOR* color) const =0;
+#if ( defined(GB_D3DX9) && defined(__D3DX9MATH_H__) )
+    virtual void setColor(const D3DXCOLOR& color) const =0;
+#endif
 
   //! \brief Установить цвет отрисовки 
   virtual void setColor(float r, float g, float b, float a) const=0;
@@ -227,64 +241,65 @@ public:
   virtual void setColorPink   ()  const =0;
 
   //-----------------------------------------------------------------------
-			 
-		
+		 
+	 
  virtual HRESULT draw2dPoint(float x, float y,            float pointSize) const =0;
  virtual HRESULT draw2dPoint(const float* vec2_coord,     float pointSize) const =0;
-// virtual HRESULT Draw2dPoint(const float* pos,  float pointSize) const =0;
  virtual HRESULT draw2dPoint(const POINT p,               float pointSize) const =0;
 
  //------------------------------------------------------------------------
 	
  virtual HRESULT draw2dPoints(const float* vec2Array_points, int num, float pointSize) const =0;
-
+//----------------------------------------------------------------
+   
 
  virtual HRESULT draw2dLine(const float* vec2_p1, const float* vec2_p2) const =0;
- //virtual HRESULT Draw2dLine(const float* p1,    const float* p2) const =0;
  virtual HRESULT draw2dLine(const POINT p1, const POINT p2) const =0;
 
 #ifdef GB_MATH
- virtual HRESULT draw2dLine(const math::geom2d::Line* line) const =0;
+ virtual HRESULT draw2dLine(const math::geom2d::Line& line) const =0;
 #endif 
 
- //virtual HRESULT draw2dLine(int x1,   int y1,      int x2,   int y2   ) const =0;
  virtual HRESULT draw2dLine(float x1, float y1,    float x2, float y2 ) const =0;
 
-
-     
-
+	
+ //------------------------------------------------------    
  virtual HRESULT draw2dLines(const float* vec2Array_points, int num) const =0;
+ //----------------------------------------------------------
+  
 
 #ifdef GB_D3D9
  virtual HRESULT draw2dRect(const D3DRECT& rect) const =0;
 #endif
 
- virtual HRESULT draw2dRect(int x1,   int y1,     int x2,   int y2) const =0;
+ virtual HRESULT draw2dRect(const float* vec2_min, const float* vec2_max) const =0;
+
  virtual HRESULT draw2dRect(float x1, float y1,   float x2, float y2) const =0;
- virtual HRESULT draw2dRect(const POINT p1, POINT p2) const =0;
- virtual HRESULT draw2dRect(const RECT rect) const =0;
+ virtual HRESULT draw2dRect(const POINT& p1, POINT& p2) const =0;
+ virtual HRESULT draw2dRect(const RECT& rect) const =0;
+
 
 #ifdef GB_MATH
-   virtual HRESULT Draw2dRect(gb::math::geom2d::Rect* rect) const =0;
+   virtual HRESULT draw2dRect(gb::math::geom2d::Rect& rect) const =0;
 #endif
 
-   
+ //-----------------------------------------------  
  
 #ifdef GB_D3D9
    virtual HRESULT draw2dSolidRect(const D3DRECT& rect) const =0;
 #endif
 
+ virtual HRESULT draw2dSolidRect(const float* vec2_min, const float* vec2_max) const =0;
  virtual HRESULT draw2dSolidRect(const POINT& p1, const POINT& p2) const =0;
  virtual HRESULT draw2dSolidRect(int x1, int y1,   int x2, int y2) const =0;
  virtual HRESULT draw2dSolidRect(const RECT& rect) const =0;
-
- //------------------------------------------------------------------------
-
-#pragma message("ks777: insert code rect")
+ 
+ 	
 
 #ifdef GB_MATH
- virtual HRESULT draw2dSolidRect(const gb::math::geom2d::Rect* rect) const =0;
+ virtual HRESULT draw2dSolidRect(const gb::math::geom2d::Rect& rect) const =0;
 #endif
+
 
  //------------------------------------------------------------------------
 
@@ -294,18 +309,16 @@ public:
 
     
 #ifdef GB_MATH
-  virtual HRESULT draw2dCircle(const math::geom2d::Circle*   c) const =0;
+  virtual HRESULT draw2dCircle(const math::geom2d::Circle&  c) const =0;
 #endif
 
-  
+
 
 //---------------------------------------------------------------
-
+ 
  virtual HRESULT draw2dAxies(const float* vec2_coord) const =0;
- //virtual HRESULT Draw2dAxies(const float* coord) const =0;
 
  virtual HRESULT draw2dAxies(float x, float y) const =0;
- //virtual HRESULT draw2dAxies(int x, int y) const =0;
  virtual HRESULT draw2dAxies(const POINT p) const =0;
 
 	
@@ -317,7 +330,9 @@ public:
  //--------------------------------------------------------------
 		
  virtual HRESULT draw2dSolidTriangle(const float* vec2_p1, const float* vec2_p2, const float* vec2_p3) const =0;
-	 
+
+ //-------------------------------------------------------------
+
  virtual HRESULT draw2dPromtString(const float* vec2_coord, const char* s) const =0;
  virtual HRESULT draw2dPromtString(const   POINT p,         const char* s) const =0;
  virtual HRESULT draw2dPromtString(int x,   int y,          const char* s) const =0;
@@ -325,13 +340,8 @@ public:
 	    
  //----------------------------------------------------------------------
 
-
  virtual HRESULT draw2dRay(const float* vec2_orig, const float* vec2_normal) const =0;
-
-
-
-		  /********************************************* 
-		  ********************************************/
+ 
 
 };
 // end class
@@ -340,6 +350,7 @@ public:
 //! \brief Вывод трёхмерных объектов.
 class   IDraw3DGeometry   {
 public:
+	virtual ~IDraw3DGeometry() {}
 
 #ifdef GB_COLOR
   //! \brief Установить цвет отрисовки 
@@ -348,7 +359,7 @@ public:
 
 
 #ifdef GB_D3D9 
-  virtual void setColor(const D3DCOLORVALUE* color) const =0;
+  virtual void setColor(const D3DCOLORVALUE& color) const =0;
 #endif
 
 
@@ -379,7 +390,7 @@ public:
   virtual HRESULT draw3dAABB(const float* vec3_min, const float* vec3_max ) const =0;
 
 #ifdef GB_MATH
-  virtual HRESULT draw3dAABB(const math::geom3d::AABB* aabb) const =0;
+  virtual HRESULT draw3dAABB(const math::geom3d::AABB& aabb) const =0;
 #endif
 
   virtual HRESULT draw3dRay(const float* vec3_orig, const float* vec3_normal ) const =0;
@@ -387,7 +398,7 @@ public:
   virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, float nrmlY, float nrmlZ ) const =0;
 
 #ifdef GB_MATH
-  virtual HRESULT draw3dRay(const math::geom3d::Ray * ray ) const =0;
+  virtual HRESULT draw3dRay(const math::geom3d::Ray& ray ) const =0;
 #endif
 
   virtual HRESULT draw3dTraingle(const float* vec3_p1, const float* vec3_p2, const float* vec3_p3 ) const =0;
@@ -403,8 +414,7 @@ public:
   virtual HRESULT draw3dAxies(const float* vec3_coord, float axiesLen) const =0;
 
   virtual HRESULT draw3dSolidSphere(const float* vec3_center, float radius) const =0;
-
-
+ 
 };
 // end class
  

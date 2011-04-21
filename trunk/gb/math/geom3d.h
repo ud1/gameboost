@@ -803,7 +803,8 @@ namespace gb
 
 #if ( defined(GB_OPENGL) && defined(__GL_H__)   )
 		//! \brief Вывод вершин по OpenGL  по старинке.
-		inline void glDraw()   {
+		inline void glDraw()   
+		{
 			glVertex3f(p1.x, p1.y, p1.z);
 			glVertex3f(p2.x, p2.y, p2.z);
 			glVertex3f(p3.x, p3.y, p3.z); 
