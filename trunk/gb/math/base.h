@@ -1066,18 +1066,30 @@ namespace gb
 			   return res;
 			}
 
-#pragma message("KS777 gb::MATH::mat4  проверить корректность метода")
+
 			inline void operator = (const D3DMATRIX& m)
 			{
-				for(int i=0; i<4; i++)
-				{
-					for(int j=0; j<4; j++)
-					{
-                       floats[i][j] = m.m[i][j];
-					}	 
-				}
+				_11 = m._11;
+				_12 = m._12;
+				_13 = m._13;
+				_14 = m._14;
+
+				_21 = m._21;
+				_22 = m._22;
+				_23 = m._23;
+				_24 = m._24;
+
+				_31 = m._31;
+				_32 = m._32;
+				_33 = m._33;
+				_34 = m._34;
+
+				_41 = m._41;
+				_42 = m._42;
+				_43 = m._43;
+				_44 = m._44;
 			}
-#endif
+#endif // GB_D3D9
  
 
 
@@ -1109,7 +1121,7 @@ namespace gb
 			}
 
 
-#endif
+#endif // GB_D3DX9
 
 
 			/**    \brief Строгое сравнение    */
@@ -1831,7 +1843,7 @@ namespace gb
 			/** \brief Построение левосторонней матрицы вида  по направлению взгляда */
 			inline  void setViewDirLH(const vec3_s& eye, const vec3_s& dir, const vec3_s& up) 
 			{ 
-                #pragma message ("KS777 MATH::MAT44 warn ПРОВЕРИТЬ КОРРЕКТНОСТЬ setViewDirLH" __FILE__ )
+                #pragma message ("KS777 MATH::MAT44  need check setViewDirLH" __FILE__ )
 
 				vec3_s to = dir.getNormalized();
 				const float flen = eye.length();
@@ -1846,7 +1858,7 @@ namespace gb
 			/** \brief Построение правосторонней матрицы вида  по направлению взгляда */
 			inline  void setViewDirRH(const vec3_s& eye, const vec3_s& dir, const vec3_s& up) 
 			{ 
-				#pragma message ("KS777 MATH::MAT44 warn ПРОВЕРИТЬ КОРРЕКТНОСТЬ setViewDirRH" __FILE__ )
+				#pragma message ("KS777 MATH::MAT44 warn  need check setViewDirRH" __FILE__ )
 
 				vec3_s to = dir.getNormalized();
 				const float flen = eye.length();
