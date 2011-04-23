@@ -122,6 +122,8 @@ namespace gb
 			inline operator const D3DXVECTOR2*() const { return (D3DXVECTOR2*)&x; }
 			inline operator   D3DXVECTOR2*()   { return (D3DXVECTOR2*)&x; }
 			inline operator   D3DXVECTOR2() const  { return D3DXVECTOR2(x,y); }
+			
+			inline void operator = (const D3DXVECTOR2& v) {	x=v.x; y=v.y; }
 #endif
 
 
@@ -305,12 +307,14 @@ namespace gb
 			inline operator D3DVECTOR*() { return (D3DVECTOR*)&x; }
 			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&x; }
 			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=x; r.y=y; r.z=z; return r;  }
+			inline void operator = (const D3DXVECTOR3& v) {	x=v.x; y=v.y; z=v.z; }
 #endif
 
 #ifdef GB_D3DX9
 			inline operator D3DXVECTOR3*() { return (D3DXVECTOR3*)&x; }
 			inline operator const D3DXVECTOR3*() const { return (D3DXVECTOR3*)&x; }
-			inline operator D3DXVECTOR3() const  {  return D3DXVECTOR3(x,y,z); }// r; r.x=x;r.y=y;r.z=z; return r;  }
+			inline operator D3DXVECTOR3() const  {  return D3DXVECTOR3(x,y,z); }
+		   	inline void operator = (const D3DXVECTOR3& v) {	x=v.x; y=v.y; z=v.z; }
 #endif
 
 
@@ -333,14 +337,13 @@ namespace gb
 			inline vec3_s& inverse() { x=-x; y=-y; z=-z; return *this; }
 			inline vec3_s  inverted() const { return vec3_s (-x, -y, -z); }
 
-#pragma message ("KS777:  MATH: NEED CHECK VEC3 CROSS !!!"  __FILE__)
 			inline vec3_s    cross (const vec3_s &v) const
 			{
-				vec3_s r;
-				   r.x = y * v.z - z * v.y;
-				   r.y = z * v.x - x * v.z;
-				   r.z = x * v.y - y * v.x;
-				return r;
+				      vec3_s r;
+			        r.x = y * v.z  -  z * v.y;
+			        r.y = z * v.x  -  x * v.z;
+			        r.z = x * v.y  -  y * v.x;
+					return r;		 
 			}
 
 			inline vec3_s&   normalize ()	  { register float fl=length(); x/=fl; y/=fl; z/=fl; return *this; }
@@ -477,7 +480,7 @@ namespace gb
 
 
 			//! \brief Вывод значений на консоль
-			inline void print() const { printf(" %f %f %f ", x, y, z); };
+			inline void print() const { printf("%f  %f  %f ", x, y, z); };
 
 		}; // end vec3_s
 		
@@ -534,6 +537,13 @@ namespace gb
 			inline operator  const float*() const  { return &x; };
 			inline operator        float*()        { return &x; };
 
+#ifdef GB_D3DX9
+			inline operator D3DXVECTOR4*() { return (D3DXVECTOR4*)&x; }
+			inline operator const D3DXVECTOR4*() const { return (D3DXVECTOR4*)&x; }
+			inline operator D3DXVECTOR4() const  {  return D3DXVECTOR4(x,y,z,w); }
+		   	inline void operator = (const D3DXVECTOR4& v) {	x=v.x; y=v.y; z=v.z; w=v.w; }	
+#endif					
+			
 		    inline void setzero() {x=y=z=w=0.0f; };
 			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) && (w==0.0f) ); };
 
@@ -1086,6 +1096,19 @@ namespace gb
 			   }
 			   return res;
 			}
+			inline void operator = (const D3DXMATRIX& m)
+			{
+			   for(int c=0;c<4; c++)
+			   {
+			     for(int j=0; j<4; j++)
+				 {
+				  floats[c][j] = m.m [c][j];
+				 }
+			   }		
+			
+			}
+
+
 #endif
 
 
@@ -1300,7 +1323,9 @@ namespace gb
 			inline mat44_s&  operator *= ( const mat44_s& m )
 			{
 				mat44_s t;
+				t = *this * m;
 
+				/*
 				t._11 = _11 * m._11 + _12 * m._21 + _13 * m._31 + _14 * m._41;
 				t._12 = _11 * m._12 + _12 * m._22 + _13 * m._32 + _14 * m._42;
 				t._13 = _11 * m._13 + _12 * m._23 + _13 * m._33 + _14 * m._43;
@@ -1317,33 +1342,106 @@ namespace gb
 				t._42 = _41 * m._12 + _42 * m._22 + _43 * m._32 + _44 * m._42;
 				t._43 = _41 * m._13 + _42 * m._23 + _43 * m._33 + _44 * m._43;
 				t._44 = _41 * m._14 + _42 * m._24 + _43 * m._34 + _44 * m._44;
+				*/
 
 				*this = t;
 				return *this;
 			}
 
  
+			// ПРОВЕРЕНО !
 			inline mat44_s operator * ( const mat44_s& m ) const
 			{
 				mat44_s r;
 
-				r._11 =  _11 *  m._11 +  _12 *  m._21 +  _13 *  m._31 +  _14 *  m._41;
-				r._12 =  _11 *  m._12 +  _12 *  m._22 +  _13 *  m._32 +  _14 *  m._42;
-				r._13 =  _11 *  m._13 +  _12 *  m._23 +  _13 *  m._33 +  _14 *  m._43;
-				r._14 =  _11 *  m._14 +  _12 *  m._24 +  _13 *  m._34 +  _14 *  m._44;
-				r._21 =  _21 *  m._11 +  _22 *  m._21 +  _23 *  m._31 +  _24 *  m._41;
-				r._22 =  _22 *  m._22 +  _21 *  m._12 +  _23 *  m._32 +  _24 *  m._42;
-				r._23 =  _22 *  m._23 +  _21 *  m._13 +  _23 *  m._33 +  _24 *  m._43;
-				r._24 =  _22 *  m._24 +  _21 *  m._14 +  _23 *  m._34 +  _24 *  m._44;
-				r._31 =  _31 *  m._11 +  _32 *  m._21 +  _33 *  m._31 +  _34 *  m._41;
-				r._32 =  _32 *  m._22 +  _31 *  m._12 +  _33 *  m._32 +  _34 *  m._42;
-				r._33 =  _32 *  m._23 +  _31 *  m._13 +  _33 *  m._43 +  _34 *  m._33;
-				r._34 =  _32 *  m._24 +  _31 *  m._14 +  _33 *  m._34 +  _34 *  m._44;
-				r._41 =  _42 *  m._21 +  _41 *  m._11 +  _43 *  m._31 +  _44 *  m._41;
-				r._42 =  _41 *  m._12 +  _42 *  m._22 +  _43 *  m._32 +  _44 *  m._42;
-				r._43 =  _41 *  m._13 +  _42 *  m._23 +  _43 *  m._33 +  _44 *  m._43;
-				r._44 =  _41 *  m._14 +  _42 *  m._24 +  _43 *  m._34 +  _44 *  m._44;
+				// //  barabus
+				//r._11 =  _11 *  m._11 +  _12 *  m._21 +  _13 *  m._31 +  _14 *  m._41;
+				//r._12 =  _11 *  m._12 +  _12 *  m._22 +  _13 *  m._32 +  _14 *  m._42;
+				//r._13 =  _11 *  m._13 +  _12 *  m._23 +  _13 *  m._33 +  _14 *  m._43;
+				//r._14 =  _11 *  m._14 +  _12 *  m._24 +  _13 *  m._34 +  _14 *  m._44;
 
+				//r._21 =  _21 *  m._11 +  _22 *  m._21 +  _23 *  m._31 +  _24 *  m._41;
+				//r._22 =  _22 *  m._22 +  _21 *  m._12 +  _23 *  m._32 +  _24 *  m._42;
+				//r._23 =  _22 *  m._23 +  _21 *  m._13 +  _23 *  m._33 +  _24 *  m._43;
+				//r._24 =  _22 *  m._24 +  _21 *  m._14 +  _23 *  m._34 +  _24 *  m._44;
+
+				//r._31 =  _31 *  m._11 +  _32 *  m._21 +  _33 *  m._31 +  _34 *  m._41;
+				//r._32 =  _32 *  m._22 +  _31 *  m._12 +  _33 *  m._32 +  _34 *  m._42;
+				//r._33 =  _32 *  m._23 +  _31 *  m._13 +  _33 *  m._43 +  _34 *  m._33;
+				//r._34 =  _32 *  m._24 +  _31 *  m._14 +  _33 *  m._34 +  _34 *  m._44;
+
+				//r._41 =  _42 *  m._21 +  _41 *  m._11 +  _43 *  m._31 +  _44 *  m._41;
+				//r._42 =  _41 *  m._12 +  _42 *  m._22 +  _43 *  m._32 +  _44 *  m._42;
+				//r._43 =  _41 *  m._13 +  _42 *  m._23 +  _43 *  m._33 +  _44 *  m._43;
+				//r._44 =  _41 *  m._14 +  _42 *  m._24 +  _43 *  m._34 +  _44 *  m._44;
+ 
+				// // new
+		  //r._11  =  _11*m._11+ _12*m._21+ _13*m._41+ _14*m._41;
+		  //r._12  =  _11*m._12+ _12*m._22+ _13*m._32+ _14*m._42;
+		  //r._13  =  _11*m._13+ _12*m._23+ _13*m._33+ _14*m._43;
+		  //r._14  =  _11*m._14+ _12*m._24+ _13*m._34+ _14*m._44;
+
+		  //r._21  =  _21*m._11+ _22*m._21+ _23*m._31+ _24*m._41;
+		  //r._22  =  _21*m._12+ _22*m._22+ _23*m._31+ _24*m._42;
+		  //r._23  =  _21*m._13+ _22*m._23+ _23*m._33+ _24*m._43;
+		  //r._24  =  _21*m._14+ _22*m._24+ _23*m._34+ _24*m._44;
+
+		  //r._31  =  _31*m._11+ _32*m._21+ _33*m._31+ _34*m._41;
+		  //r._32  =  _31*m._12+ _32*m._22+ _33*m._32+ _34*m._42;
+		  //r._33  =  _31*m._13+ _32*m._23+ _33*m._33+ _34*m._43;
+		  //r._34  =  _31*m._14+ _32*m._24+ _33*m._34+ _34*m._44;
+
+		  //r._41  =  _41*m._11+ _42*m._21+ _43*m._31+ _44*m._41;
+		  //r._42  =  _41*m._12+ _42*m._22+ _43*m._32+ _44*m._42;
+		  //r._43  =  _41*m._13+ _42*m._23+ _43*m._33+ _44*m._43;
+		  //r._44  =  _41*m._14+ _42*m._24+ _43*m._34+ _44*m._44;
+ 
+ 
+
+				/*****************************************
+	 r.floats[0][0] = floats[0][0] * m.floats[0][0] + floats[0][1] * m.floats[1][0] + floats[0][2] * m.floats[2][0] + floats[0][3] * m.floats[3][0];
+	 r.floats[0][1] = floats[0][0] * m.floats[0][1] + floats[0][1] * m.floats[1][1] + floats[0][2] * m.floats[2][1] + floats[0][3] * m.floats[3][1];
+	 r.floats[0][2] = floats[0][0] * m.floats[0][2] + floats[0][1] * m.floats[1][2] + floats[0][2] * m.floats[2][2] + floats[0][3] * m.floats[3][2];
+	 r.floats[0][3] = floats[0][0] * m.floats[0][3] + floats[0][1] * m.floats[1][3] + floats[0][2] * m.floats[2][3] + floats[0][3] * m.floats[3][3];
+
+	 r.floats[1][0] = floats[1][0] * m.floats[0][0] + floats[1][1] * m.floats[1][0] + floats[1][2] * m.floats[2][0] + floats[1][3] * m.floats[3][0];
+	 r.floats[1][1] = floats[1][0] * m.floats[0][1] + floats[1][1] * m.floats[1][1] + floats[1][2] * m.floats[2][1] + floats[1][3] * m.floats[3][1];
+	 r.floats[1][2] = floats[1][0] * m.floats[0][2] + floats[1][1] * m.floats[1][2] + floats[1][2] * m.floats[2][2] + floats[1][3] * m.floats[3][2];
+	 r.floats[1][3] = floats[1][0] * m.floats[0][3] + floats[1][1] * m.floats[1][3] + floats[1][2] * m.floats[2][3] + floats[1][3] * m.floats[3][3];
+
+	 r.floats[2][0] = floats[2][0] * m.floats[0][0] + floats[2][1] * m.floats[1][0] + floats[2][2] * m.floats[2][0] + floats[2][3] * m.floats[3][0];
+	 r.floats[2][1] = floats[2][0] * m.floats[0][1] + floats[2][1] * m.floats[1][1] + floats[2][2] * m.floats[2][1] + floats[2][3] * m.floats[3][1];
+	 r.floats[2][2] = floats[2][0] * m.floats[0][2] + floats[2][1] * m.floats[1][2] + floats[2][2] * m.floats[2][2] + floats[2][3] * m.floats[3][2];
+	 r.floats[2][3] = floats[2][0] * m.floats[0][3] + floats[2][1] * m.floats[1][3] + floats[2][2] * m.floats[2][3] + floats[2][3] * m.floats[3][3];
+
+	 r.floats[3][0] = floats[3][0] * m.floats[0][0] + floats[3][1] * m.floats[1][0] + floats[3][2] * m.floats[2][0] + floats[3][3] * m.floats[3][0];
+	 r.floats[3][1] = floats[3][0] * m.floats[0][1] + floats[3][1] * m.floats[1][1] + floats[3][2] * m.floats[2][1] + floats[3][3] * m.floats[3][1];
+	 r.floats[3][2] = floats[3][0] * m.floats[0][2] + floats[3][1] * m.floats[1][2] + floats[3][2] * m.floats[2][2] + floats[3][3] * m.floats[3][2];
+	 r.floats[3][3] = floats[3][0] * m.floats[0][3] + floats[3][1] * m.floats[1][3] + floats[3][2] * m.floats[2][3] + floats[3][3] * m.floats[3][3];
+
+	 *********************************/
+
+				
+	 r._11 = floats[0][0] * m.floats[0][0] + floats[0][1] * m.floats[1][0] + floats[0][2] * m.floats[2][0] + floats[0][3] * m.floats[3][0];
+	 r._12 = floats[0][0] * m.floats[0][1] + floats[0][1] * m.floats[1][1] + floats[0][2] * m.floats[2][1] + floats[0][3] * m.floats[3][1];
+	 r._13 = floats[0][0] * m.floats[0][2] + floats[0][1] * m.floats[1][2] + floats[0][2] * m.floats[2][2] + floats[0][3] * m.floats[3][2];
+	 r._14 = floats[0][0] * m.floats[0][3] + floats[0][1] * m.floats[1][3] + floats[0][2] * m.floats[2][3] + floats[0][3] * m.floats[3][3];
+
+	 r._21 = floats[1][0] * m.floats[0][0] + floats[1][1] * m.floats[1][0] + floats[1][2] * m.floats[2][0] + floats[1][3] * m.floats[3][0];
+	 r._22 = floats[1][0] * m.floats[0][1] + floats[1][1] * m.floats[1][1] + floats[1][2] * m.floats[2][1] + floats[1][3] * m.floats[3][1];
+	 r._23 = floats[1][0] * m.floats[0][2] + floats[1][1] * m.floats[1][2] + floats[1][2] * m.floats[2][2] + floats[1][3] * m.floats[3][2];
+	 r._24 = floats[1][0] * m.floats[0][3] + floats[1][1] * m.floats[1][3] + floats[1][2] * m.floats[2][3] + floats[1][3] * m.floats[3][3];
+
+	 r._31 = floats[2][0] * m.floats[0][0] + floats[2][1] * m.floats[1][0] + floats[2][2] * m.floats[2][0] + floats[2][3] * m.floats[3][0];
+	 r._32 = floats[2][0] * m.floats[0][1] + floats[2][1] * m.floats[1][1] + floats[2][2] * m.floats[2][1] + floats[2][3] * m.floats[3][1];
+	 r._33 = floats[2][0] * m.floats[0][2] + floats[2][1] * m.floats[1][2] + floats[2][2] * m.floats[2][2] + floats[2][3] * m.floats[3][2];
+	 r._34 = floats[2][0] * m.floats[0][3] + floats[2][1] * m.floats[1][3] + floats[2][2] * m.floats[2][3] + floats[2][3] * m.floats[3][3];
+	 
+	 r._41 = floats[3][0] * m.floats[0][0] + floats[3][1] * m.floats[1][0] + floats[3][2] * m.floats[2][0] + floats[3][3] * m.floats[3][0];
+	 r._42 = floats[3][0] * m.floats[0][1] + floats[3][1] * m.floats[1][1] + floats[3][2] * m.floats[2][1] + floats[3][3] * m.floats[3][1];
+	 r._43 = floats[3][0] * m.floats[0][2] + floats[3][1] * m.floats[1][2] + floats[3][2] * m.floats[2][2] + floats[3][3] * m.floats[3][2];
+	 r._44 = floats[3][0] * m.floats[0][3] + floats[3][1] * m.floats[1][3] + floats[3][2] * m.floats[2][3] + floats[3][3] * m.floats[3][3];
+ 
 				return  r;
 			}
 
@@ -1362,16 +1460,17 @@ namespace gb
 			}
 
 			//! \brief Зануление всех элементов.
-			inline void       setzero() { memset(&_11, 0, sizeof(mat44_s)  ); };
+			inline void       setzero() { memset(&_11, 0, sizeof(mat44_s)  ); }
 
 			//! \brief Установить в идентичную
-			inline mat44_s&   setIdentity() {
+			inline mat44_s&   setIdentity() 
+			{
 				_11=1.0f; _12=0.0f; _13=0.0f; _14=0.0f;
 				_21=0.0f; _22=1.0f; _23=0.0f; _24=0.0f; 
 				_31=0.0f; _32=0.0f; _33=1.0f; _34=0.0f;  
 				_41=0.0f; _42=0.0f; _43=0.0f; _44=1.0f; 
 				 return *this;
-	        };
+	        }
 
 			//! \brief Установить в идентичную
 			inline void reset() { setIdentity(); }
@@ -1387,7 +1486,7 @@ namespace gb
 				f = _24;  _24 = _42;  _42 = f;
 				f = _34;  _34 = _43;  _43 = f; 
 				  return *this;
-			};
+			}
 
 			/** \brief Вычислить и вернуть транспонированое значение .  */
 			inline mat44_s getTransponed() const { mat44_s r=*this; r.transpone(); return r; };
@@ -1404,13 +1503,13 @@ namespace gb
 					( _13 *  _24 -  _14 *  _23) * ( _31 *  _42 -  _32 *  _41);
 			};
 
-			/** \brief Инверсия. Бросает исключение если инверсия невозможна */
+			/** \brief Инверсия. Бросает исключение если инверсия невозможна. ПРОВЕРЕНА. */
 			mat44_s&  invert () throw();
 
 
 			vec4_s getRow(int index) const 
 			{
-				assert( (index>=0 && index<=4  ) && "invalid index" );
+				assert( (index>=0 && index<4  ) && "invalid index" );
 				return vec4_s(floats[index][0], floats[index][1], floats[index][2], floats[index][3]);
 			}
  
@@ -1551,6 +1650,7 @@ namespace gb
 				_21=0.0f;  _22 = y;    _23=0.0f;   _24=0.0f;	
 				_31=0.0f;  _32=0.0f;   _33 = z;    _34=0.0f;	
 				_41=0.0f;  _42=0.0f;   _43=0.0f;   _44 = 1.0f;
+				return *this;
 			}
 			
 			//! \brief Построение матрицы масштабирования			
@@ -1560,7 +1660,7 @@ namespace gb
 			}
 
 
-			//! \brief Построение ортографической левосторонней проекционной матрицы
+			//! \brief Построение ортографической левосторонней проекционной матрицы. ПРОВЕРЕНА.
 			inline void setOrthoLH(float w, float h, float zn, float zf)
 			{
 				_11=2.0f/w;    _12=0.0f;       _13=0.0f;           _14=0.0f;
@@ -1574,7 +1674,7 @@ namespace gb
 				// 0    0   -zn/(zf-zn)  1
 			}
 
-			//! \brief Построение ортографической правосторонней проекционной матрицы
+			//! \brief Построение ортографической правосторонней проекционной матрицы. ПРОВЕРЕНА.
 			inline void setOrthoRH(float w, float h, float zn, float zf)
 			{
 				_11=2.0f/w;     _12=0.0f;    _13=0.0f;          _14=0.0f;
@@ -1589,63 +1689,38 @@ namespace gb
 			}
 
 
-/**********************************************************
-
- // из ksmtc !!!!!!!!!1
-static void MakeOrthoOffCenterLH( Matrix4x4f* pout,  float l, float r, float b, float t, float zn, float zf) 
-{
-	_11 = 2.0f/(r-l);        _12 = 0.0f,           _13 = 0.0f,            _14 = 0.0f;
-	_21 = 0.0f,              _22 = 2.0f/(t-b);     _23 = 0.0f,            _24 = 0.0f;
-	_31 = 0.0f,              _32 = 0.0f,           _33 = 1.0f/(zf-zn);    _34 = 0.0f;
-	_41 = (l+r)/(l-r);       _42 = (t+b)/(b-t);    _43 = zn/(zn-zf);      _44 = l  ;
-};
-
-
-
-
-			//! \brief Builds a customized, left-handed orthographic projection matrix.  
-			inline void setOrthoOffCenterLH(float l, float r, float b, float t, float zn, float zf)
+			//! \brief Построение ортографической матрицы 
+			inline void setOrthoOffCenterLH(float minX, float maxX, float minY, float maxY, float zn, float zf) 
 			{
-				_11=2.0f/(r-l);     _12=0.0f;         _13=0.0f;          _14=0.0f;
-				_21=0.0f;           _22=2.0f/(t-b);   _23=0.0f;          _24=0.0f;
-				_31=0.0f;           _32=0.0f;         _33=1.0f/(zf-zn);  _34=0.0f;  
-				_41=(l+r)/(l-r); 	_42=(t+b)/(b-t);  _43=zn/(zn-zf);    _44=1.0f;  
-
-				// 2/(r-l)      0            0           0
-				// 0            2/(t-b)      0           0
-				// 0            0            1/(zf-zn)   0
-				// (l+r)/(l-r)  (t+b)/(b-t)  zn/(zn-zf)  l
+				_11 = 2.0f/(maxX-minX);         _12 = 0.0f,                     _13 = 0.0f,            _14 = 0.0f;
+				_21 = 0.0f,                     _22 = 2.0f/(maxY-minY);         _23 = 0.0f,            _24 = 0.0f;
+				_31 = 0.0f,                     _32 = 0.0f,                     _33 = 1.0f/(zf-zn);    _34 = 0.0f;
+				_41 = (minX+maxX)/(minX-maxX);  _42 = (maxY+minY)/(minY-maxY);  _43 = zn/(zn-zf);      _44 = 1.0f;
 			}
-
-
-
+ 
 
 			//! \brief Builds a customized, right-handed orthographic projection matrix.   
-			inline void setOrthoOffCenterRH(float l, float r, float b, float t, float zn, float zf)
+			inline void setOrthoOffCenterRH(float minX, float maxX, float minY, float maxY, float zn, float zf)
 			{
-				_11=2.0f/(r-l);     _12=0.0f;           _13=0.0f;            _14=0.0f;
-				_21=0.0f;           _22=2.0f/(t-b);     _23=0.0f;            _24=0.0f;
-				_31=0.0f;           _32=0.0f;           _33=1.0f/(zn-zf);    _34=0.0f;  
-				_41=(l+r)/(l-r);    _42=(t+b)/(b-t);    _43=zn/(zn-zf);      _44=1.0f;  
+				_11=2.0f/(maxX-minX);        _12=0.0f;                     _13=0.0f;            _14=0.0f;
+				_21=0.0f;                    _22=2.0f/(maxY-minY);         _23=0.0f;            _24=0.0f;
+				_31=0.0f;                    _32=0.0f;                     _33=1.0f/(zn-zf);    _34=0.0f;  
+				_41=(minX+maxX)/(minX-maxX); _42=(maxY+minY)/(minY-maxY);  _43=zn/(zn-zf);      _44=1.0f;  
 
 				// 2/(r-l)      0            0           0
 				// 0            2/(t-b)      0           0
 				// 0            0            1/(zn-zf)   0
 				// (l+r)/(l-r)  (t+b)/(b-t)  zn/(zn-zf)  l
 			}
-
-****************************************************************/
-
+ 
 
 			//-------------------------------------------------------------
 
-			//! \brief построение перспективной матрицы
+			//! \brief построение перспективной левосторонней матрицы. ПРОВЕРЕНА.
 			void setPerspectiveFovLH(float fov, float asp, float zn, float zf) 
 			{
-				float yScale, xScale;
-
-				yScale =   gb::math::scalar::cotan(fov/2.0f); //yScale = cot(fovY/2)
-				xScale = yScale / asp;     //xScale = yScale / aspect ratio
+				const float yScale =   gb::math::scalar::cotan(fov/2.0f); //yScale = cot(fovY/2)
+				const float xScale = yScale / asp;     //xScale = yScale / aspect ratio
 
 				//xScale     0          0               0
 				//0        yScale       0               0
@@ -1653,12 +1728,32 @@ static void MakeOrthoOffCenterLH( Matrix4x4f* pout,  float l, float r, float b, 
 				//0          0       -zn*zf/(zf-zn)     0
 				_11 = xScale;   _12 = 0.0f;    _13 = 0.0f;             _14 = 0.0f;
 				_21 = 0.0f;     _22 = yScale;  _23 = 0.0f;             _24 = 0.0f;
-				_31 = 0.0f;     _32 = 0.0f;    _33 =  zn*zf/(zf-zn);   _34 = 1.0f;
+				_31 = 0.0f;     _32 = 0.0f;    _33 =  zf/(zf-zn);      _34 = 1.0f;
 				_41 = 0.0f;     _42 = 0.0f;    _43 = -zn*zf/(zf-zn);   _44 = 0.0f;
-			};
+			}
+
+			//! \brief построение перспективной правосторонней матрицы. ПРОВЕРЕНА.
+			void setPerspectiveFovRH(float fov, float asp, float zn, float zf)
+			{
+			 const float yScale =   gb::math::scalar::cotan(fov/2.0f);
+			 const float xScale = yScale / asp; 
+				
+			    _11 = xScale;   _12 = 0.0f;    _13 = 0.0f;           _14 = 0.0f;
+				_21 = 0.0f;     _22 = yScale;  _23 = 0.0f;           _24 = 0.0f;
+				_31 = 0.0f;     _32 = 0.0f;    _33 = zf/(zn-zf);     _34 = -1.0f;
+				_41 = 0.0f;     _42 = 0.0f;    _43 = zn*zf/(zn-zf);  _44 = 0.0f;					
+				// xScale     0          0              0
+				// 0        yScale       0              0
+				// 0        0        zf/(zn-zf)        -1
+				// 0        0        zn*zf/(zn-zf)      0
+				// where:
+				// yScale = cot(fovY/2)
+				//    
+				// xScale = yScale / aspect ratio
+			}
 
 
-			//! \brief Построение перспективной матрицы по высоте и ширине
+			//! \brief Построение перспективной левосторонней матрицы по высоте и ширине .ПРОВЕРЕНА.
 			void setPerspectiveLH(float w, float h, float zn, float zf) 
 			{
 				// 2*zn/w  0       0              0
@@ -1670,14 +1765,26 @@ static void MakeOrthoOffCenterLH( Matrix4x4f* pout,  float l, float r, float b, 
 				_21 = 0.0f,       _22 = 2.0f*zn/h;   _23 = 0.0f,           _24 = 0.0f;
 				_31 = 0.0f,       _32 = 0.0f,        _33 = zf/(zf-zn);     _34 = 1.0f;
 				_41 = 0.0f,       _42 = 0.0f,        _43 = zn*zf/(zn-zf);  _44 = 0.0f;
-			};
+			}
 
+			//! \brief Построение перспективной правосторонней матрицы по высоте и ширине. ПРОВЕРЕНА.
+			void setPerspectiveRH(float w, float h, float zn, float zf) 
+			{
+				// 2*zn/w  0       0              0
+				// 0       2*zn/h  0              0
+				// 0       0       zf/(zn-zf)    -1
+				// 0       0       zn*zf/(zn-zf)  0
 
-
+				_11 = 2.0f*zn/w;  _12 = 0.0f,       _13 = 0.0f,            _14 = 0.0f;
+				_21 = 0.0f,       _22 = 2.0f*zn/h;  _23 = 0.0f,            _24 = 0.0f;
+				_31 = 0.0f,       _32 = 0.0f,        _33 = zf/(zn-zf);     _34 = -1.0f;
+				_41 = 0.0f,       _42 = 0.0f,        _43 = zn*zf/(zn-zf);  _44 = 0.0f;
+			}
+ 
 
 			//-------------------------------------------------------------
 
-			/** \brief Построение левосторонней матрицы вида  */
+			/** \brief Построение левосторонней матрицы вида. ПРОВЕРЕНА.  */
 			void setViewLookAtLH(const vec3_s& eye, const vec3_s& at, const vec3_s& up)
 			{
             vec3_s  zaxis = (at - eye);  zaxis.normalize(); 
@@ -1699,7 +1806,7 @@ static void MakeOrthoOffCenterLH( Matrix4x4f* pout,  float l, float r, float b, 
 			}
 
 
-			/** \brief Построение правосторонней матрицы вида  */
+			/** \brief Построение правосторонней матрицы вида. ПРОВЕРЕНА.  */
 			void setViewLookAtRH(const vec3_s& eye, const vec3_s& at, const vec3_s& up)
 			{
             vec3_s  zaxis = (eye - at);  zaxis.normalize(); 
@@ -1721,13 +1828,12 @@ static void MakeOrthoOffCenterLH( Matrix4x4f* pout,  float l, float r, float b, 
 			}
 
 
-			/** \brief Построение правосторонней матрицы вида  по направлению взгляда */
+			/** \brief Построение левосторонней матрицы вида  по направлению взгляда */
 			inline  void setViewDirLH(const vec3_s& eye, const vec3_s& dir, const vec3_s& up) 
 			{ 
                 #pragma message ("KS777 MATH::MAT44 warn ПРОВЕРИТЬ КОРРЕКТНОСТЬ setViewDirLH" __FILE__ )
 
-				vec3_s to = dir;
-				to.normalize();
+				vec3_s to = dir.getNormalized();
 				const float flen = eye.length();
 				to.x += flen;
 				to.y += flen;
@@ -1735,7 +1841,23 @@ static void MakeOrthoOffCenterLH( Matrix4x4f* pout,  float l, float r, float b, 
 
 				vec3_s at = eye + to;
 				setViewLookAtLH( eye, at, up);
-			};
+			}
+
+			/** \brief Построение правосторонней матрицы вида  по направлению взгляда */
+			inline  void setViewDirRH(const vec3_s& eye, const vec3_s& dir, const vec3_s& up) 
+			{ 
+				#pragma message ("KS777 MATH::MAT44 warn ПРОВЕРИТЬ КОРРЕКТНОСТЬ setViewDirRH" __FILE__ )
+
+				vec3_s to = dir.getNormalized();
+				const float flen = eye.length();
+				to.x += flen;
+				to.y += flen;
+				to.z += flen;
+
+				vec3_s at = eye + to;
+				setViewLookAtRH( eye, at, up);
+			}
+
 
 
 
@@ -1752,9 +1874,9 @@ static void MakeOrthoOffCenterLH( Matrix4x4f* pout,  float l, float r, float b, 
 
 
 				//! \brief Вывод значений на консоль
-			   inline void print()
+			   inline void print() const
 			   {
-				   printf("\n%f   %f   %f   %f  \n  %f   %f   %f   %f  \n%f   %f   %f   %f  \n%f   %f   %f   %f  \n  ", 
+				   printf("\n%f   %f   %f   %f  \n%f   %f   %f   %f  \n%f   %f   %f   %f  \n%f   %f   %f   %f  \n  ", 
 					   _11, _12, _13, _14, 
 					   _21, _22, _23, _24,
 					   _31, _32, _33, _34,	 

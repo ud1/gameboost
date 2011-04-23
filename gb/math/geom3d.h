@@ -98,7 +98,7 @@ namespace gb
 	
 	};
 		
-	//! \brief Бокс по мин. и макс. координатам. Axis aligned bounding box.
+	//! \brief Бокс по мин. и макс. координатам. Axis Aligned Bounding Box.
 	class AABB {
 	public:
 	  base::vec3_s   min; ///< минимальная точка бокса
@@ -110,7 +110,14 @@ namespace gb
 	
 
 	  inline bool operator == (const AABB& aabb) { return (min == aabb.min) && (max == aabb.max); }
-	
+	  
+	  inline void set(float min_x, float min_y, float min_z,
+					  float max_x, float max_y, float max_z)
+					  {
+					     min.x=min_x; min.y=min_y; min.z=min_z;
+					     max.x=max_x; max.y=max_y; max.z=max_z;					  
+					  }
+	//
 	
 /*	inline void  make(int nminx, int nminy, int nminz, int nmaxx, int nmaxy, int nmaxz) 
 	{
@@ -128,16 +135,18 @@ namespace gb
 	//! \brief Луч в трёхмерном пространстве по позиции и направлению   
 	class Ray {
 	public:
-	   base::vec3_s   orig; ///< точка центр луча
-	   base::vec3_s   dir;  ///< направление луча ( должен быть нормализован)
+	   base::vec3_s   orig; ///< точка центр луча (позиция)
+	   base::vec3_s   dir;  ///< направление луча. Должен быть нормализован.
 	   
 	   inline Ray() {}
 	   inline Ray(const Ray& r) {orig=r.orig; dir=r.dir; }
+	   
+	   // возможно нужно убрать параметр bNeedNormalizeDir
 	   inline Ray(const base::vec3_s& _orig, const base::vec3_s& _dir, bool bNeedNormalizeDir)
        {
-	    orig=_orig;
-	    dir=_dir;
-	    if(bNeedNormalizeDir) dir.normalize();	   
+	      orig=_orig;
+	      dir=_dir;
+	      if(bNeedNormalizeDir) dir.normalize();	   
 	   }	   
 	
 	
@@ -193,6 +202,7 @@ namespace gb
 
 
 
+	//! \brief   Проскость 
 	struct plane_s {
 		  union {
 
@@ -221,6 +231,13 @@ namespace gb
 	   inline operator        float*()       { return &a; };
 	   inline operator const  float*() const { return &a; };
 
+#ifdef GB_D3DX9
+    inline operator       D3DXPLANE*()       { return (D3DXPLANE*)&a; }
+    inline operator const D3DXPLANE*() const { return (D3DXPLANE*)&a; }	
+    inline operator D3DXPLANE () { return D3DXPLANE(a,b,c,d); }
+	inline 	void operator = (const D3DXPLANE& p) {a=p.a; b=p.b; c=p.c; d=p.d; }
+	
+#endif	   
 
 	   inline void set(float _a, float _b, float _c, float _d)  { a=_a; b=_b; c=_c; d=_d; }
 
@@ -228,12 +245,12 @@ namespace gb
 	    //! \brief Построение плоскости по координате point и направлению normal.
 		inline plane_s& makeFromPointNormal(const base::vec3_s& point, const base::vec3_s& normal) 
 		{
-			base::vec3_s nn(normal);
+			base::vec3_s nn(normal);  //< возможно принудительную нормализацию надо убрать .
 			nn.normalize();
 			a=nn.x;  
 			b=nn.y;  
 			c=nn.z;  
-			d= -( normal.dot(point) ); 
+			d= -( nn.dot(point) );    // -( normal.dot(point) ); 
 			return *this;
 		};
 
@@ -265,8 +282,8 @@ namespace gb
 
 
 		inline float dot(const base::vec4_s& v) const        { return a*v.x + b*v.y + c*v.z + d*v.w ; }
-		inline float dotCoord  (const base::vec3_s& v) const { return a*x + b*y + c*z + d*1.0f; }
-		inline float dotNormal (const base::vec3_s& v) const { return a*x + b*y + c*z + d*0.0f; }
+		inline float dotCoord  (const base::vec3_s& vCoord) const { return a*vCoord.x + b*vCoord.y + c*vCoord.z + d*1.0f; }
+		inline float dotNormal (const base::vec3_s& vNormal) const { return a*vNormal.x + b*vNormal.y + c*vNormal.z + d*0.0f; }
 
 		//! \brief   Масштабировать плоскость.
 		inline void scale(float s) {a*=s; b*=s; c*=s; d*=s; }
@@ -288,14 +305,7 @@ namespace gb
 		//! \brief  Получить инвертированую плоскость
 		inline plane_s inverted() const { plane_s res = *this; res.inverse(); return res; }
  
-
-#ifdef GB_D3DX9
-  inline void operator = (const D3DXPLANE& p)  { a=p.a; b=p.b; c=p.c; d=p.d; }
-  inline operator D3DXPLANE() const { return D3DXPLANE(a, b, c, d); }
-#endif
-
-
-
+ 
 		//! \brief  Вывод на консоль.
 		void print() const 	{ printf( "%f  %f  %f  %f", a, b, c, d); 	}
 
@@ -358,21 +368,11 @@ namespace gb
 		{
 			return Plane(f*p.a, f*p.b, f*p.c, f*p.d);
 		}
-
-
-
-
+ 
 		//---------------------------------------------------------------------
 		//                         МЕТОДЫ
 		//---------------------------------------------------------------------
-
-
-	
-
-
-
-//	inline void print() const { printf("%f  %f  %f  %f",  a, b, c, d); }
-
+ 
 	};
 
 
@@ -563,7 +563,9 @@ namespace gb
 		//-----------------------------------------------------------------
  
 
-		inline void setIdentity() {  x = y = z = 0.0f; w = 1.0f; }
+		inline void setIdentity() { x=y=z=0.0f; w=1.0f; }
+		
+		inline void reset() { setIdentity(); }
 
 		inline bool isIdentity(float eps = 0.0f) const
 		{ 

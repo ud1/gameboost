@@ -12,6 +12,10 @@
 
 #include <math.h>
 
+#ifdef GB_D3DX9
+    #include <d3dx9math.h>
+#endif 
+
 #include <gb/math/forw_decl.h>
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>
