@@ -7,6 +7,7 @@
 */
 
 #pragma once
+#include <gb/math/forw_decl.h>
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>
 
@@ -47,6 +48,83 @@ namespace gb
 
 
 		};
+
+
+		/** \brief Сущность описывает направление/нормаль в 3х-мерном пространстве. 
+		   Уровень выше, чем вектор.  Всегда нормализован.  */
+		class Normal3 {
+		private:
+			float _x;
+			float _y;
+			float _z;
+
+			inline void _normalize() 
+			{
+				register float len = sqrt ( _x*_x + _y*_y + _z*_z );
+				_x/=len; _y/=len; _z/=len;
+			}
+
+		public:
+
+
+			//! \brief  По дефолту нормаль смотрит в Z .
+			inline Normal3() { _x=0.0f; _y=0.0f; _z=1.0f;  }
+			inline Normal3(const Normal3& n) { _x=n._x; _y=n._y; _z=n._z; }
+			inline Normal3(float x, float y, float z) { _x=x; _y=y; _z=z; _normalize(); }
+
+		
+			inline operator  const float*() const  { return &_x; };
+			inline operator        float*()        { return &_x; };
+
+			inline float x() const { return _x; }
+			inline float y() const { return _y; }
+			inline float z() const { return _z; }
+
+
+			inline void operator = (const base::vec3_s& vn)
+			{
+				  _x = vn.x;
+				  _y = vn.y;
+				  _z = vn.z;
+				_normalize();		
+			}
+
+#ifdef GB_D3D9
+			inline operator D3DVECTOR*() { return (D3DVECTOR*)&_x; }
+			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&_x; }
+			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=_x; r.y=_y; r.z=_z; return r;  }
+			inline void operator = (const D3DXVECTOR3& v) {	_x=v.x; _y=v.y; _z=v.z; _normalize(); }
+#endif		
+
+
+		};
+
+
+		/** \brief Сущность описывает точку/координату/позицию в 3х-мерном пространстве.
+		   Уровень выше, чем вектор */
+		class Point3 {
+		public:
+			float _x;
+			float _y;
+			float _z;
+
+			//! \brief  По дефолту координата нулевая .
+			inline Point3() { _x=0.0f; _y=0.0f; _z=0.0f;  }
+
+			inline operator  const float*() const  { return &_x; };
+			inline operator        float*()        { return &_x; };
+
+			inline void operator = (const base::vec3_s& vPoint) { _x=vPoint.x; _y=vPoint.y; _z=vPoint.z; }
+	
+#ifdef GB_D3D9
+			inline operator D3DVECTOR*() { return (D3DVECTOR*)&_x; }
+			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&_x; }
+			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=_x; r.y=_y; r.z=_z; return r;  }
+			inline void operator = (const D3DXVECTOR3& v) {	_x=v.x; _y=v.y; _z=v.z; }
+#endif
+		
+		};
+
 
 
 		//! \brief  Сборка  ось повотора и угол
@@ -185,17 +263,19 @@ namespace gb
 
 
 
-	/** \brief  Углы Элера */
+	/** \brief  Углы Элера. Сборка углов поворота по всем трём осям. */
 	class EulerAngles {
 	public:
-		float yaw;
-		float pitch;
-		float roll;
-
+		float yaw;    ///<   Yaw around the y-axis, in radians. 
+		float pitch;  ///<   Pitch around the x-axis, in radians.
+		float roll;   ///<   Roll around the z-axis, in radians.
+ 
 		inline EulerAngles() {};
 		inline EulerAngles(const EulerAngles& ea  ) {yaw=ea.yaw; pitch=ea.pitch; roll=ea.roll; };
-		inline EulerAngles(float fyaw, float fpitch, float froll) { yaw=fyaw;  pitch=fpitch;  roll=froll; };
+		inline EulerAngles(float fYaw, float fPitch, float fRoll) { yaw=fYaw;  pitch=fPitch;  roll=fRoll; };
  
+
+
 	};
 
 
@@ -505,7 +585,7 @@ namespace gb
 		}
 		*/
 
-		// book
+		//!   ПРОВЕРЕНО
 		inline Quaternion operator * ( const Quaternion &q ) const 
 		{
 			Quaternion res;
@@ -525,13 +605,11 @@ namespace gb
 		}
 
 
-
 		inline Quaternion operator / ( const float f ) const
 		{
 			const float fInverse = 1.0f / f;
 			return Quaternion(x * fInverse, y * fInverse, z * fInverse, w * fInverse);
 		}
-
 
 		//inline Quaternion operator * (const float f, const Quaternion& q )
 		//{
@@ -539,22 +617,14 @@ namespace gb
 		//}
 
 
-
-
 		inline Quaternion&   operator *= (const Quaternion &q) { Quaternion r(*this); *this=r*q; return *this;   } 
-		//{
-		//	Quaternion res;
-		//	res.x = w * q.x + x * q.w + y * q.z - z * q.y;
-		//	res.y = w * q.y + y * q.w + z * q.x - x * q.z;
-		//	res.z = w * q.z + z * q.w + x * q.y - y * q.x;
-		//	res.w = w * q.w - x * q.x - y * q.y - z * q.z;
-		//	*this = res;
-		//	return *this;
-		//}
+ 
 
-
-
-
+#ifdef GB_D3DX9
+		inline operator D3DXQUATERNION*()             { return (D3DXQUATERNION*)&x; }
+		inline operator const D3DXQUATERNION*() const { return (D3DXQUATERNION*)&x; }
+		inline void operator = (const D3DXQUATERNION& q) { x=q.x; y=q.y; z=q.z; w=q.w; }
+#endif // #ifdef GB_D3DX9
 
 
 
@@ -562,24 +632,30 @@ namespace gb
 		//                     МЕТОДЫ
 		//-----------------------------------------------------------------
  
-
-		inline void setIdentity() { x=y=z=0.0f; w=1.0f; }
-		
-		inline void reset() { setIdentity(); }
-
-		inline bool isIdentity(float eps = 0.0f) const
-		{ 
-			return 
-				abs(x) <= eps && 
-				abs(y) <= eps && 
-				abs(z) <= eps && 
-				abs(w) - 1.0f <= eps;
+		// \brief  Присвоить значения  затем нормализовать
+		inline void set(float _x, float _y, float _z, float _w)
+		{
+			x=_x; y=_y; z=_z; w=_w;
+			normalize();
 		}
 
-		inline float length() const	{ return sqrt(x * x + y * y + z * z + w * w); }
+		// \brief Сбросить в идентичный
+		inline void setIdentity() { x=y=z=0.0f; w=1.0f; }
+		// \brief Сбросить в идентичный
+		inline void reset() { setIdentity(); }
 
+		// \brief Проверка на идентичное значение
+		inline bool isIdentity(float eps = 0.0f) const
+		{ 
+			return abs(x) <= eps && abs(y) <= eps && abs(z) <= eps && abs(w) - 1.0f <= eps;
+		}
+
+		//! \brief  Получить длинну
+		inline float length() const	{ return sqrt(x * x + y * y + z * z + w * w); }
+		//! \brief  Получить квадрат длинны
 		inline float lengthSq() const {	return  (x * x + y * y + z * z + w * w);  }
 
+		// \brief   Нормализовать   ПРОВЕРЕНО!
 		inline Quaternion&  normalize()
 		{
 			const float len = length();
@@ -593,104 +669,141 @@ namespace gb
 			return *this;
 		}
 
+		//! \brief Получить нормализованый кватернион
+		inline Quaternion getNormalized() const { Quaternion r = *this; r.normalize(); return r;  }
+
+		//! \brief  вернуть сопряженный кватернион   ПРОВЕРЕНО
 		inline Quaternion conjugate(const Quaternion &q) const
 		{
 			  Quaternion res;
-			    res.w = q.w;
+			    res.w =  q.w;
 			    res.x = -q.x;
 			    res.y = -q.y;
 			    res.z = -q.z;
 			  return  res;
 		}
 
-		inline float dot( const Quaternion &g) const 
+		//! \brief Вернуть скалярное произведение 
+		inline float dot(const Quaternion &g) const 
 		{
 			return w*g.w + x*g.x + y*g.y + z*g.z;
 		}
 
+		//! \brief return  exponentiation
 		Quaternion  pow(const Quaternion &q, float exponent) const;
 
-/*****************************************************
-
-		Quaternion  exp() const 
+		//! \brief  Инвертировать.  ПРОВЕРЕНО !
+		void inverse () 
 		{
-			//			Given a pure quaternion defined by:
-			//q = (0, theta * v); 
-			//    
+			const float fNorm = x*x + y*y + z*z + w*w;
+			if ( fNorm > 0.0 )
+			{
+				const float fin = 1.0f/fNorm;
+				w =   w * fin;
+				x = - x * fin;
+				y = - y * fin;
+				z = - z * fin;
+
+			}
+			else
+			{
+
+			}
+		}
+
+
+ 
+
+		////*  natural log
+		//Quaternion  logn () const
+		//{
+		//	Quaternion res;
+
+		//	//		A unit quaternion, is defined by:
+		//	//Q == (cos(theta), sin(theta) * v) where |v| = 1
+		//	//The natural logarithm of Q is, ln(Q) = (0, theta * v)
+
+
+		//	//????
+		//		return res;
+
+		//}
+
+
+
+		// todo !!!!!!!!!!!!!!!!!!!
+	//	Quaternion& setFromRotationMatrix(const base::mat44_s& m);
+
+
+
+
+
+#ifdef GB_D3DX9
+
+
+		//! \brief Сделать без d3dx  return calculates the natural logarithm.
+		Quaternion ln(const Quaternion& q)
+		{
+		//A unit quaternion, is defined by:
+		//Q == (cos(theta), sin(theta) * v) where |v| = 1
+		//The natural logarithm of Q is, ln(Q) = (0, theta * v)
+             Quaternion res;
+			D3DXQuaternionLn(res , *this );
+			return res;
+		}
+
+
+
+		// todo Сделать без d3dx
+		Quaternion  exp(const Quaternion& qu) const 
+		{
+			//Given a pure quaternion defined by:
+			// q = (0, theta * v); 
 			//This method calculates the exponential result.
 			//exp(Q) = (cos(theta), sin(theta) * v)
-			//
-			?????
-
-		}
-
-		Quaternion&  inverse()
-		{
-		
-         // A unit quaternion, is defined by:
-         // Q == (cos(theta), sin(theta) * v) where |v| = 1
-         // The natural logarithm of Q is, ln(Q) = (0, theta * v)
-
-         ????
-		   return *this;
-		}
-
-		//*  natural log
-		Quaternion  logn () const
-		{
-            Quaternion res;
-		 
-//		A unit quaternion, is defined by:
-//Q == (cos(theta), sin(theta) * v) where |v| = 1
-//The natural logarithm of Q is, ln(Q) = (0, theta * v)
-
-
-		????
+			Quaternion res;
+			D3DXQuaternionExp(  res , qu  );
 			return res;
-		
-		}
+		};
 
 
-		Quaternion& setFromRotationMatrix(const base::mat44_s& m);
+		// todo Сделать без d3dx
+	   Quaternion& setBaryCentric(const Quaternion& q1,	const Quaternion& q2,const Quaternion& q3, float f,	float g	)
+	   {
+		   D3DXQuaternionBaryCentric( *this, q1, q2, q3, f,	g);
+           return *this;
+	   };
 
-		 
-		static Quaternion BaryCentric(
-			const Quaternion& q1,
-			const Quaternion& q2,
-			const Quaternion& q3,
-			float f,
-			float g	);
 
-   Quaternion& setRotationYawPitchRoll( float yaw,  float pitch,  float roll );
+      // todo Сделать без d3dx
+      Quaternion& setSquad(const Quaternion& q1, const Quaternion& a,  const Quaternion& b,  const Quaternion& c, float t )
+	  {
+		  D3DXQuaternionSquad( *this, q1, a, b, c, t);
+		  return *this;
+	  };
 
-  
-   static Quaternion Squad(
-	   const Quaternion&  q1,
-	   const Quaternion&  gA,
-	   const Quaternion&  gB,
-	   const Quaternion&  gC,
-	   float t
-	   );
 
-   static void  SquadSetup(
-	   Quaternion& AOut,
-	   Quaternion& BOut,
-	   Quaternion& COut,
-	   const Quaternion& Q0,
-	   const Quaternion& Q1,
-	   const Quaternion& Q2,
-	   const Quaternion& Q3
-	   );
+      static void  squadSetup( Quaternion& AOut, Quaternion& BOut, Quaternion& COut,
+	             const Quaternion& Q0, const Quaternion& Q1, const Quaternion& Q2, const Quaternion& Q3 )
+	   {
+		     D3DXQuaternionSquadSetup( AOut,  BOut, COut, Q0,  Q1, Q2 , Q3  );
+	   };
 
 
 
-***************************************************/
+#endif GB_D3DX9
 
 
 
-		static Quaternion slerp(const Quaternion &q0, const Quaternion &q1, float t);
+		/**  имеются небольшие несоответствия с d3dx  
+		-------------------------------------
+		0.606882  0.275320  0.666870  0.333432
+		-------------------------------------
+		0.610759  0.206986  0.689953  0.328778
+		*/
+	    Quaternion slerp(const Quaternion&q, float t);
 
-		inline Quaternion slerp(const Quaternion &q, float t) const { Quaternion r = slerp(*this, q, t); return r;  };
+		//inline Quaternion slerp(const Quaternion &q, float t) const { Quaternion r = slerp(*this, q, t); return r;  };
 
 
 		inline float getRotationAngle() const 
@@ -756,8 +869,74 @@ namespace gb
 
 
 
+		//// ПРОВЕРИТЬ !!!!
+		//void  setFromMatrix(const base::mat44_s& m) 
+		//{
+
+		//	float fTrace = m.floats[0][0] + m.floats[1][1] + m.floats [2][2];
+		//	float fRoot;
+
+		//	if (fTrace > 0.0) 
+		//	{
+
+		//		fRoot =   sqrt(fTrace + 1.0f);//  math::sqrt(fTrace + 1.0f);
+		//		w = 0.5f * fRoot;
+
+		//		fRoot = 0.5f / fRoot;
+
+		//		x = ( m.floats[1][2] - m.floats[2][1]) * fRoot;
+		//		y = ( m.floats[2][0] - m.floats[0][2]) * fRoot;
+		//		z = ( m.floats[0][1] - m.floats[1][0]) * fRoot;
+		//	}
+		//	else
+		//	{
+		//		static size_t s_iNext[3] = { 1, 2, 0 };
+		//		size_t i = 0;
+
+		//		if (m.floats[1][1] > m.floats[0][0]) i = 1;
+		//		if (m.floats[2][2] > m.floats[i][i]) i = 2;
+
+		//		size_t j = s_iNext[i];
+		//		size_t k = s_iNext[j];
+
+		//		fRoot = sqrt(m.floats[i][i] - m.floats[j][j] - m.floats[k][k] + 1.0f);//math::sqrt(m.data[i][i] - m.data[j][j] - m.data[k][k] + 1.0f);
+
+		//		v[i] = 0.5f * fRoot;
+		//		fRoot = 0.5f / fRoot;
+		//		w    = (m.floats[j][k] - m.floats[k][j]) * fRoot;
+		//		v[j] = (m.floats[i][j] + m.floats[j][i]) * fRoot;
+		//		v[k] = (m.floats[i][k] + m.floats[k][i]) * fRoot;
+		//	}
 
 
+		//}
+
+
+
+		//! \brief  Построить поворотный по углам эллера
+		void setRotationYawPitchRoll( float yaw, float pitch, float roll)
+		{
+			float	sp, sb, sh;
+			float	cp, cb, ch;
+			gb::math::scalar::sincos(pitch * 0.5f , sp , cp  ); 
+			gb::math::scalar::sincos(roll * 0.5f  , sb , cb  );
+			gb::math::scalar::sincos(yaw * 0.5f   , sh , ch  );
+			  x =  -(-ch*sp*cb - sh*cp*sb);
+			  y =  -(ch*sp*sb  - sh*cb*cp);
+			  z =  -(sh*sp*cb  - ch*cp*sb);
+			  w =  ch*cp*cb + sh*sp*sb;
+		}
+		//! \brief  Построить поворотный по углам эллера  
+		inline void setRotationEulersAngles(const EulerAngles& ea)
+		{
+		     setRotationYawPitchRoll(ea.yaw, ea.pitch, ea.roll);
+		}
+
+
+
+
+		//! \brief  Вывод на консоль
+		void print() const { printf("%f  %f  %f  %f" , x , y, z, w ); }
 
 	};
 
@@ -893,7 +1072,13 @@ namespace gb
    };
 
 
-
+   //! \brief Сборка из данных трансформации: скалирование(вектор) + поворот(кват.) + позиция(вектор).
+   struct TransformData
+   {
+	   base::vec3_s     vScaling;     ///< масштабирование
+	   Quaternion       qRotation;    ///< вращение
+	   base::vec3_s     vTranslation; ///<  позиция
+   };
 
 
 

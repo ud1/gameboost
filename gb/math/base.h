@@ -650,7 +650,8 @@ namespace gb
 		}; // end vec4_s
 		
 
-		/** Декларировать самые главные методы можно здесь Остальные лучше наследованием */
+
+		//! brief Матрица 2x2
 		struct mat22_s 
 		{
 			union 
@@ -858,7 +859,7 @@ namespace gb
 
 
 
-		/** Декларировать самые главные методы можно здесь Остальные лучше наследованием */
+		//! brief Матрица 3x3 
 		struct mat33_s
 		{
 		
@@ -1014,7 +1015,7 @@ namespace gb
  
 		
 
-		/** \brief Матрица 4x4. Декларировать самые главные методы можно здесь Остальные лучше наследованием  */
+		//! \brief Матрица 4x4. 
 		struct mat44_s
 		{
 			union 
@@ -1487,7 +1488,7 @@ namespace gb
 			//! \brief Установить в идентичную
 			inline void reset() { setIdentity(); }
 
-			//! \brief Транспонирование. (Отражение элементов по главной диагонали)
+			//! \brief Транспонирование. (Отражение элементов по главной диагонали)  ПРОВЕРЕНА!
 			inline mat44_s& transpone() 
 			{  
 				   register float f;
@@ -1558,7 +1559,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief Построение матрицы поворота по оси X на угол angle
+			//! \brief Построение матрицы поворота по оси X на угол angle . ПРОВЕРЕНО!
 			inline mat44_s&  setRotationX( const float angle )  
 			{ 
 				setIdentity();  
@@ -1571,7 +1572,7 @@ namespace gb
                   return *this;
 			}
 
-			//! \brief Построение матрицы поворота по оси Y на угол angle
+			//! \brief Построение матрицы поворота по оси Y на угол angle . ПРОВЕРЕНО!
 			inline mat44_s&  setRotationY( const float angle )  
 			{
 				setIdentity(); 
@@ -1584,7 +1585,7 @@ namespace gb
 				return *this;
 			};
 
-			//! \brief Построение матрицы поворота по оси Z на угол angle
+			//! \brief Построение матрицы поворота по оси Z на угол angle . ПРОВЕРЕНО!
 			inline mat44_s&  setRotationZ( const float angle ) 
 			{
 				setIdentity(); 
@@ -1598,7 +1599,7 @@ namespace gb
 			};
 
 
-			//! \brief Построение матрицы поворота по оси vAx на угол angle
+			//! \brief Построение матрицы поворота по оси vAx на угол angle . ПРОВЕРЕНО!
 			inline mat44_s&  setRotationAxis( const vec3_s& vAx,  const float angle ) 
 			{
 				float sina, cosa, mcosa; 
@@ -1628,11 +1629,13 @@ namespace gb
 				_43 = 0.0f;
 				_44 = 1.0f;
 
+				transpone(); // need
+
 				return *this;
 			};
 
 
-			//! \brief Построение матрицы поворота по оси по компонентам(axX,axY,axZ) на угол angle
+			//! \brief Построение матрицы поворота по оси по компонентам(axX,axY,axZ) на угол angle  . ПРОВЕРЕНО!
 			inline mat44_s&  setRotationAxis( float axX, float axY, float axZ, float angle )  
 			{
 				vec3_s vax;
@@ -1641,7 +1644,9 @@ namespace gb
 				return setRotationAxis(  vax, angle);
 			};
 
-			//! \brief Построение матрицы сдвига (позиции) 
+
+
+			//! \brief Построение матрицы сдвига (позиции)  . ПРОВЕРЕНО!
 			inline mat44_s&  setTranslation( float x, float y, float z )  
 			{
 				setIdentity();
@@ -1649,13 +1654,13 @@ namespace gb
 				return *this;
 			};
 
-			//! \brief Построение матрицы сдвига (позиции) 
+			//! \brief Построение матрицы сдвига (позиции)  ПРОВЕРЕНО!
 			inline mat44_s&  setTranslation( const vec3_s& vTransl) 
 			{
 				return  setTranslation(  vTransl.x, vTransl.y, vTransl.z);
 			}
 			
-			//! \brief Построение матрицы масштабирования			
+			//! \brief Построение матрицы масштабирования ПРОВЕРЕНО!			
 			inline mat44_s&  setScaling( float x, float y, float z)  
 			{
 				_11 = x;   _12=0.0f;   _13=0.0f;   _14=0.0f; 
@@ -1665,11 +1670,13 @@ namespace gb
 				return *this;
 			}
 			
-			//! \brief Построение матрицы масштабирования			
+			//! \brief Построение матрицы масштабирования	 ПРОВЕРЕНО!		
 			inline mat44_s&  setScaling( const vec3_s& vScaling) 
 			{
 			  return setScaling( vScaling.x, vScaling.y, vScaling.z );
 			}
+
+			// void mat44_s& setRotationQuaternion(const Q& q) ;
 
 
 			//! \brief Построение ортографической левосторонней проекционной матрицы. ПРОВЕРЕНА.

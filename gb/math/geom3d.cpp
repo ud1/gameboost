@@ -18,95 +18,137 @@ namespace geom3d
 
 
 //=========================================================================
-Quaternion Quaternion::slerp(const Quaternion &q0, const Quaternion &q1, float t)
+Quaternion Quaternion::slerp( const Quaternion &q1, float t )
 {
+ 
+//
+//	// Check for out-of range parameter and return edge points if so
+//
+//	if (t <= 0.0f) return q0;
+//	if (t >= 1.0f) return q1;
+//
+//	// Compute "cosine of angle between quaternions" using dot product
+//
+//	float cosOmega =   q0.dot(q1); //  xx  dotProduct(q0, q1);
+//
+//	// If negative dot, use -q1.  Two quaternions q and -q
+//	// represent the same rotation, but may produce
+//	// different slerp.  We chose q or -q to rotate using
+//	// the acute angle.
+//
+//	float q1w = q1.w;
+//	float q1x = q1.x;
+//	float q1y = q1.y;
+//	float q1z = q1.z;
+//
+//	if (cosOmega < 0.0f) 
+//	{
+//		q1w = -q1w;
+//		q1x = -q1x;
+//		q1y = -q1y;
+//		q1z = -q1z;
+//		cosOmega = -cosOmega;
+//	}
+//
+//	// We should have two unit quaternions, so dot should be <= 1.0
+//
+//#pragma message("ks777::  gb::math::quat slerp ассерт отключён"  __FILE__)
+////	assert(cosOmega < 1.1f);
+//
+//
+//	// Compute interpolation fraction, checking for quaternions
+//	// almost exactly the same
+//
+//	float k0, k1;
+//	if (cosOmega > 0.9999f) 
+//	{
+//
+//		// Very close - just use linear interpolation,
+//		// which will protect againt a divide by zero
+//
+//		k0 = 1.0f-t;
+//		k1 = t;
+//
+//	} 
+//	else 
+//	{
+//
+//		// Compute the sin of the angle using the
+//		// trig identity sin^2(omega) + cos^2(omega) = 1
+//
+//		float sinOmega = sqrt(1.0f - cosOmega*cosOmega);
+//
+//		// Compute the angle from its sin and cosine
+//
+//		float omega = atan2(sinOmega, cosOmega);
+//
+//		// Compute inverse of denominator, so we only have
+//		// to divide once
+//
+//		float oneOverSinOmega = 1.0f / sinOmega;
+//
+//		// Compute interpolation parameters
+//
+//		k0 = sin((1.0f - t) * omega) * oneOverSinOmega;
+//		k1 = sin(t * omega) * oneOverSinOmega;
+//	}
+//
+//	// Interpolate
+//
+//	Quaternion result;
+//	result.x = k0*q0.x + k1*q1x;
+//	result.y = k0*q0.y + k1*q1y;
+//	result.z = k0*q0.z + k1*q1z;
+//	result.w = k0*q0.w + k1*q1w;
+//
+//	// Return it
+//
+//	return result;
+// 
 
-	// Check for out-of range parameter and return edge points if so
+	Quaternion res;
 
-	if (t <= 0.0f) return q0;
-	if (t >= 1.0f) return q1;
-
-	// Compute "cosine of angle between quaternions" using dot product
-
-	float cosOmega =   q0.dot(q1); //  xx  dotProduct(q0, q1);
-
-	// If negative dot, use -q1.  Two quaternions q and -q
-	// represent the same rotation, but may produce
-	// different slerp.  We chose q or -q to rotate using
-	// the acute angle.
-
-	float q1w = q1.w;
-	float q1x = q1.x;
-	float q1y = q1.y;
-	float q1z = q1.z;
-
-	if (cosOmega < 0.0f) 
+	float k0,k1,cosomega = this->x * q1.x + this->y * q1.y + this->z * q1.z + this->w * q1.w;
+	Quaternion q;
+	if(cosomega < 0.0) 
 	{
-		q1w = -q1w;
-		q1x = -q1x;
-		q1y = -q1y;
-		q1z = -q1z;
-		cosOmega = -cosOmega;
-	}
-
-	// We should have two unit quaternions, so dot should be <= 1.0
-
-	assert(cosOmega < 1.1f);
-
-	// Compute interpolation fraction, checking for quaternions
-	// almost exactly the same
-
-	float k0, k1;
-	if (cosOmega > 0.9999f) 
-	{
-
-		// Very close - just use linear interpolation,
-		// which will protect againt a divide by zero
-
-		k0 = 1.0f-t;
-		k1 = t;
-
+		cosomega = -cosomega;
+		q.x = -q1.x;
+		q.y = -q1.y;
+		q.z = -q1.z;
+		q.w = -q1.w;
 	} 
 	else 
 	{
-
-		// Compute the sin of the angle using the
-		// trig identity sin^2(omega) + cos^2(omega) = 1
-
-		float sinOmega = sqrt(1.0f - cosOmega*cosOmega);
-
-		// Compute the angle from its sin and cosine
-
-		float omega = atan2(sinOmega, cosOmega);
-
-		// Compute inverse of denominator, so we only have
-		// to divide once
-
-		float oneOverSinOmega = 1.0f / sinOmega;
-
-		// Compute interpolation parameters
-
-		k0 = sin((1.0f - t) * omega) * oneOverSinOmega;
-		k1 = sin(t * omega) * oneOverSinOmega;
+		q.x = q1.x;
+		q.y = q1.y;
+		q.z = q1.z;
+		q.w = q1.w;
 	}
+	if(1.0 - cosomega > 1e-6) 
+	{
+		float omega = acos(cosomega);
+		float sinomega = sin(omega);
+		k0 = sin((1.0f - t) * omega) / sinomega;
+		k1 = sin(t * omega) / sinomega;
+	} 
+	else 
+	{
+		k0 = 1.0f - t;
+		k1 = t;
+	}
+	res.x = this->x * k0 + q.x * k1;
+	res.y = this->y * k0 + q.y * k1;
+	res.z = this->z * k0 + q.z * k1;
+	res.w = this->w * k0 + q.w * k1;
+	return res;
 
-	// Interpolate
-
-	Quaternion result;
-	result.x = k0*q0.x + k1*q1x;
-	result.y = k0*q0.y + k1*q1y;
-	result.z = k0*q0.z + k1*q1z;
-	result.w = k0*q0.w + k1*q1w;
-
-	// Return it
-
-	return result;
 };
 
 //=======================================================================
 Quaternion Quaternion::pow(const Quaternion &q, float exponent) const 
 {
-
+ 
 	// Check for the case of an identity quaternion.
 	// This will protect against divide by zero
 
@@ -137,6 +179,8 @@ Quaternion Quaternion::pow(const Quaternion &q, float exponent) const
 	// Return it
 
 	return result;
+ 
+
 }
 
 //=========================================================================
