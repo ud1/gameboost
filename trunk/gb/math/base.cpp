@@ -14,7 +14,8 @@
 
 #include <gb/math/base.h>
 
-
+#include <gb/math/geom2d.h>
+#include <gb/math/geom3d.h>
 
 namespace gb 
 {
@@ -24,6 +25,20 @@ namespace math
 
 namespace base
 {
+
+
+//=========================================================================
+//  vec3_s
+//=========================================================================
+
+	//=====================================================================
+	void  vec3_s::operator = (const geom3d::Point3& pnt)
+	{
+     x=pnt._x;
+	 y=pnt._y;
+	 z=pnt._z;
+	};
+
 
 //=========================================================================
 //    mat22_s
@@ -467,6 +482,30 @@ mat33_s&  mat33_s::setMirrorZ()
 //=========================================================================
 
 
+//=========================================================================
+mat44_s& mat44_s::setTransformation(const vec3_s& vScale, 
+								const geom3d::Quaternion& qRotation,
+								const vec3_s& vTranslation)
+{
+   mat44_s ms; 
+   ms.setScaling( vScale );
+
+   mat44_s mr; 
+   mr.setRotationQuaternion(  qRotation );
+
+   mat44_s mt; 
+   mt.setTranslation(  vTranslation );
+
+   *this = mt * mr * ms;
+
+   return *this;
+};
+
+//=========================================================================
+mat44_s& mat44_s::setWorldTransform(const geom3d::TransformData& t)
+{
+	return setTransformation(t.vScaling, t.qRotation, t.vTranslation );
+}
 
 
 // bool invert ()

@@ -54,13 +54,14 @@ class Ray;
 }
 // end namespace geom2d
 
+
 namespace geom3d
 {
 
 struct Size3d;
 class Normal3;
 class Point3;
-struct TransformData;
+
 struct AxiesAngle;
 class Sphere;
 class AABB;
@@ -70,17 +71,19 @@ class EulerAngles;
 class Triangle;
 
 struct plane_s;
-class Plane;
+class  Plane;
 
 struct quat_s;
-class Quaternion;
+class  Quaternion;
 
 class  Projector;
-class Frustum;
-
+class  Frustum;
+class  Cilinder;
+struct TransformData;
 
 }
 // end namespace geom3d
+
 
 namespace proj
 {

@@ -89,6 +89,20 @@ namespace gb
 				_normalize();		
 			}
 
+			//! \brief  Вычислить угол между векторами
+			// float angle (const Normal3& n) {...}
+
+
+			// void setDirectionBetweenPointer(const Point3& pntSrc, const Point3& pntDest); 
+
+			// void transform(const base::mat44_s& m) {...}
+
+			inline void inverse() {_x=-_x; _y=-_y; _z=-_z; }
+
+
+
+
+
 #ifdef GB_D3D9
 			inline operator D3DVECTOR*() { return (D3DVECTOR*)&_x; }
 			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&_x; }
@@ -122,6 +136,10 @@ namespace gb
 			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=_x; r.y=_y; r.z=_z; return r;  }
 			inline void operator = (const D3DXVECTOR3& v) {	_x=v.x; _y=v.y; _z=v.z; }
 #endif
+
+
+
+			// void transform(const base::mat44_s& m) {...}
 		
 		};
 
@@ -669,8 +687,8 @@ namespace gb
 			return *this;
 		}
 
-		//! \brief Получить нормализованый кватернион
-		inline Quaternion getNormalized() const { Quaternion r = *this; r.normalize(); return r;  }
+		// //! \brief Получить нормализованый кватернион
+		// inline Quaternion getNormalized() const { Quaternion r = *this; r.normalize(); return r;  }
 
 		//! \brief  вернуть сопряженный кватернион   ПРОВЕРЕНО
 		inline Quaternion conjugate(const Quaternion &q) const
@@ -1060,6 +1078,7 @@ namespace gb
      //! \brief Отладочный вывод на консоль
      inline void print() const 
 	 {
+		 printf("\n");
 		 printf("front=");  front.print();  printf("\n");
 		 printf("back=");   back.print();   printf("\n");
 		 printf("left= ");  left.print();   printf("\n");
@@ -1072,12 +1091,49 @@ namespace gb
    };
 
 
+   //! \brief Класс цилиндр по точкам координатам центров основания и радиусу  
+   class Cilinder {
+   public:
+	   base::vec3_s  p1;  ///< Первая центральная координата в основании цилиндра.
+	   base::vec3_s  p2;  ///< Вторая центральная координата в основании цилиндра.
+
+	   float      radius; ///< Радиус цилиндра
+
+	   Cilinder() {}
+	   Cilinder(const Cilinder& c) { p1=c.p1; p2=c.p2; radius=c.radius;  }
+	   Cilinder(const base::vec3_s& _p1, const base::vec3_s& _p2, float _radius) 
+	   {
+		   p1=_p1; 
+		   p2=_p2; 
+		   radius = _radius;   
+	   }
+
+
+	   //! \brief Вывод значений на консоль. 
+	   void print() const 
+	   {
+	     printf("\n");
+		 printf("p1= "); p1.print(); printf("\n");
+		 printf("p2= "); p2.print(); printf("\n");
+		 printf("r= %f", radius);    printf("\n");
+	   }
+
+
+
+
+   };
+   //  end class Cilinder
+
+
    //! \brief Сборка из данных трансформации: скалирование(вектор) + поворот(кват.) + позиция(вектор).
    struct TransformData
    {
 	   base::vec3_s     vScaling;     ///< масштабирование
 	   Quaternion       qRotation;    ///< вращение
 	   base::vec3_s     vTranslation; ///<  позиция
+
+
+
    };
 
 
