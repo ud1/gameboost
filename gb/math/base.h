@@ -36,7 +36,10 @@
 #include <cstdio>
 #include <math.h>
 #include <string.h>
+
+#include <gb/math/forw_decl.h>
 #include <gb/math/scalar.h>
+
 #include <assert.h>
 
 #ifdef GB_D3D9
@@ -316,6 +319,8 @@ namespace gb
 			inline operator D3DXVECTOR3() const  {  return D3DXVECTOR3(x,y,z); }
 		   	inline void operator = (const D3DXVECTOR3& v) {	x=v.x; y=v.y; z=v.z; }
 #endif
+
+			void operator = (const gb::math::geom3d::Point3& pnt);
 
 
 		    inline void setzero() {x=y=z=0.0f; }
@@ -651,7 +656,7 @@ namespace gb
 		
 
 
-		//! brief Матрица 2x2
+		//! \brief Матрица 2x2
 		struct mat22_s 
 		{
 			union 
@@ -859,7 +864,8 @@ namespace gb
 
 
 
-		//! brief Матрица 3x3 
+
+		//! \brief Матрица 3x3 
 		struct mat33_s
 		{
 		
@@ -1676,7 +1682,22 @@ namespace gb
 			  return setScaling( vScaling.x, vScaling.y, vScaling.z );
 			}
 
-			// void mat44_s& setRotationQuaternion(const Q& q) ;
+			//! \brief Построить матрицу поворота по кватерниону.
+			mat44_s& setRotationQuaternion(const geom3d::Quaternion& q) 
+			{
+#pragma message("ks777  math::mat44_s   НЕТ КОДА ПОСТРОЕНИЯ МАТРИЦЫ ПО КВАТЕРНИОНУ  " __FILE__)
+             assert(false && "NO CODE");
+			 return *this;
+			}
+
+
+			//! \brief Построить как матрицу трансформации 
+			mat44_s& setTransformation(const vec3_s& vScale, 
+								            const geom3d::Quaternion& qRotation,
+								            const vec3_s& vTranslation);
+
+			//! \brief Построить как матрицу трансформации 
+			mat44_s& setWorldTransform(const geom3d::TransformData& t);
 
 
 			//! \brief Построение ортографической левосторонней проекционной матрицы. ПРОВЕРЕНА.
@@ -1708,7 +1729,7 @@ namespace gb
 			}
 
 
-			//! \brief Построение ортографической матрицы 
+			//! \brief Построение ортографической матрицы   ПРОВЕРЕНА 
 			inline void setOrthoOffCenterLH(float minX, float maxX, float minY, float maxY, float zn, float zf) 
 			{
 				_11 = 2.0f/(maxX-minX);         _12 = 0.0f,                     _13 = 0.0f,            _14 = 0.0f;
@@ -1718,7 +1739,7 @@ namespace gb
 			}
  
 
-			//! \brief Builds a customized, right-handed orthographic projection matrix.   
+			//! \brief Построение ортографической матрицы  ПРОВЕРЕНА   
 			inline void setOrthoOffCenterRH(float minX, float maxX, float minY, float maxY, float zn, float zf)
 			{
 				_11=2.0f/(maxX-minX);        _12=0.0f;                     _13=0.0f;            _14=0.0f;
@@ -1794,10 +1815,10 @@ namespace gb
 				// 0       0       zf/(zn-zf)    -1
 				// 0       0       zn*zf/(zn-zf)  0
 
-				_11 = 2.0f*zn/w;  _12 = 0.0f,       _13 = 0.0f,            _14 = 0.0f;
-				_21 = 0.0f,       _22 = 2.0f*zn/h;  _23 = 0.0f,            _24 = 0.0f;
-				_31 = 0.0f,       _32 = 0.0f,        _33 = zf/(zn-zf);     _34 = -1.0f;
-				_41 = 0.0f,       _42 = 0.0f,        _43 = zn*zf/(zn-zf);  _44 = 0.0f;
+				_11 = 2.0f*zn/w;  _12 = 0.0f,       _13 = 0.0f,           _14 = 0.0f;
+				_21 = 0.0f,       _22 = 2.0f*zn/h;  _23 = 0.0f,           _24 = 0.0f;
+				_31 = 0.0f,       _32 = 0.0f,       _33 = zf/(zn-zf);     _34 = -1.0f;
+				_41 = 0.0f,       _42 = 0.0f,       _43 = zn*zf/(zn-zf);  _44 = 0.0f;
 			}
  
 
@@ -1884,11 +1905,11 @@ namespace gb
 
 
 			#if ( defined GB_OPENGL  && defined __GL_H__ )
-			   /** \brief Старый способ загрузки матрицы в OpenGL */
-               inline void glMul()  { glMultMatrixf( (GLfloat*)&_11  ); };
+			   /** \brief Старый способ  перемножения матрицы с текущей в OpenGL */
+               inline void glMul()  { glMultMatrixf( (GLfloat*)&_11  ); }
 
-			   /** \brief Старый способ перемножения матрицы  с текущей в OpenGL */
-               inline void glLoad() { glLoadMatrixf( (GLfloat*)&_11  ); };
+			   /** \brief Старый способ загрузки матрицы  в OpenGL */
+               inline void glLoad() { glLoadMatrixf( (GLfloat*)&_11  ); }
             #endif
 
 
@@ -1901,7 +1922,7 @@ namespace gb
 					   _31, _32, _33, _34,	 
 					   _41, _42, _43, _44	 
 					   );
-			   };
+			   }
 
 		
 		};
