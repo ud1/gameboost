@@ -492,6 +492,126 @@ void test_setPerspectiveRH()
 	print_matrices(mdx , mgb); 
 }
 
+//======================================
+void test_scaling()
+{
+	PRINTFUNC
+	MDX mdx;
+	MGB mgb;
+
+	D3DXMatrixScaling(  &mdx , 1.54f , 0.955f , 0.645f );
+
+	mgb.setScaling(   1.54f , 0.955f , 0.645f  );
+
+		print_matrices(mdx , mgb); 
+}
+
+//======================================
+void test_rotationX()
+{
+	PRINTFUNC
+	MDX mdx;
+	MGB mgb;
+
+  D3DXMatrixRotationX( &mdx , 1.45f ) ;
+  mgb.setRotationX( 1.45f );
+
+ print_matrices(mdx , mgb); 
+}
+
+//======================================
+void test_rotationY()
+{
+	PRINTFUNC
+	MDX mdx;
+	MGB mgb;
+
+	D3DXMatrixRotationY( &mdx , 1.45f ) ;
+	mgb.setRotationY( 1.45f );
+
+ print_matrices(mdx , mgb); 
+}
+
+//======================================
+void test_rotationZ()
+{
+	PRINTFUNC
+	MDX mdx;
+	MGB mgb;
+
+	D3DXMatrixRotationZ( &mdx , 1.45f ) ;
+	mgb.setRotationZ( 1.45f );
+ 
+  print_matrices(mdx , mgb); 
+}
+
+//======================================
+void test_rotationAxies()
+{
+  PRINTFUNC
+  MDX mdx;
+  MGB mgb;
+
+	  gb::math::base::vec3_s nrml = gb::math::base::vec3_s(  );
+	  nrml.normalize();
+  D3DXMatrixRotationAxis( &mdx, nrml , 0.845f  );
+
+  mgb.setRotationAxis( nrml ,  0.845f  );
+
+
+ 
+	print_matrices(mdx , mgb); 
+
+  //printf("\n\n ----- \n   transponed: \n");
+  //mgb.transpone();
+  //mgb.print();
+
+}
+
+//=========================================
+void test_translation()
+{
+	PRINTFUNC
+	MDX mdx;
+	MGB mgb;
+
+  D3DXMatrixTranslation(  &mdx , 15.48f  , 135.488f , 16.485f   );
+  mgb.setTranslation(  15.48f  , 135.488f , 16.485f     );
+
+	print_matrices(mdx , mgb); 
+}
+
+/*****************************
+//========================================================
+void Quaternion::setRotationMatrix (Matrix3& kRot , const gb::math::geom3d::Quaternion& qrot) const
+{
+	float fTx  = x+x;
+	float fTy  = y+y;
+	float fTz  = z+z;
+	float fTwx = fTx*w;
+	float fTwy = fTy*w;
+	float fTwz = fTz*w;
+	float fTxx = fTx*x;
+	float fTxy = fTy*x;
+	float fTxz = fTz*x;
+	float fTyy = fTy*y;
+	float fTyz = fTz*y;
+	float fTzz = fTz*z;
+
+	kRot.floats [0][0] = 1.0f-(fTyy+fTzz);
+	kRot.floats [0][1] = fTxy-fTwz;
+	kRot.floats [0][2] = fTxz+fTwy;
+	kRot.floats [1][0] = fTxy+fTwz;
+	kRot.floats [1][1] = 1.0f-(fTxx+fTzz);
+	kRot.floats [1][2] = fTyz-fTwx;
+	kRot.floats [2][0] = fTxz-fTwy;
+	kRot.floats [2][1] = fTyz+fTwx;
+	kRot.floats [2][2] = 1.0f-(fTxx+fTyy);
+}
+
+****************************************************/
+
+
 
 //=========================================================================
 int main( )
@@ -516,8 +636,12 @@ test_setPerspectiveFovRH();
 test_setPerspectiveLH();
 test_setPerspectiveRH();
 
- 
-
+  test_scaling ();
+test_rotationX ();
+test_rotationY ();
+test_rotationZ ();
+test_rotationAxies ();
+test_translation();
 
 
  printf(" \n\n  ######################   end program   ##################### \n");

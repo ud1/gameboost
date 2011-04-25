@@ -58,6 +58,9 @@ namespace geom3d
 {
 
 struct Size3d;
+class Normal3;
+class Point3;
+struct TransformData;
 struct AxiesAngle;
 class Sphere;
 class AABB;
