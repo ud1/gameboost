@@ -310,7 +310,7 @@ namespace gb
 			inline operator D3DVECTOR*() { return (D3DVECTOR*)&x; }
 			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&x; }
 			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=x; r.y=y; r.z=z; return r;  }
-			inline void operator = (const D3DXVECTOR3& v) {	x=v.x; y=v.y; z=v.z; }
+			inline void operator = (const D3DVECTOR& v) {	x=v.x; y=v.y; z=v.z; }
 #endif
 
 #ifdef GB_D3DX9
@@ -466,8 +466,7 @@ namespace gb
 			}
 
 			//! \brief  Вернёт true если все компоненты положительные.
-			inline bool IsPositive() const {  return ( (x>=0.0f) && (y>=0.0f) && (z>=0.0f) );	}
-
+			inline bool isPositive() const {  return ( (x>=0.0f) && (y>=0.0f) && (z>=0.0f) );	}
 
 			inline void toCstr(char* buf) const 
 			{
@@ -478,9 +477,9 @@ namespace gb
 			bool fromCstr(const char* s) 
 			{
 				const int res = sscanf(s, "%f %f %f", &x, &y, &z);
-				if(res != 3)
-					return false;
-				return true;
+				if( 3 != res )
+					   return false;
+				   return true;
 			}
 
 
@@ -1332,10 +1331,10 @@ namespace gb
 			}
 
 
-			inline mat44_s&     operator += (const mat44_s& m) { mat44_s t=*this + m; *this=t; return *this;  };
-			inline mat44_s&     operator -= (const mat44_s& m) { mat44_s t=*this - m; *this=t; return *this;  };
-			inline mat44_s&     operator *= (float f)          { mat44_s t=*this * f; *this=t; return *this;  };
-			inline mat44_s&     operator /= (float f)          { mat44_s t=*this / f; *this=t; return *this;  };
+			inline mat44_s&     operator += (const mat44_s& m) { mat44_s t=*this + m; *this=t; return *this;  }
+			inline mat44_s&     operator -= (const mat44_s& m) { mat44_s t=*this - m; *this=t; return *this;  }
+			inline mat44_s&     operator *= (float f)          { mat44_s t=*this * f; *this=t; return *this;  }
+			inline mat44_s&     operator /= (float f)          { mat44_s t=*this / f; *this=t; return *this;  }
 
 
 
@@ -1343,26 +1342,6 @@ namespace gb
 			{
 				mat44_s t;
 				t = *this * m;
-
-				/*
-				t._11 = _11 * m._11 + _12 * m._21 + _13 * m._31 + _14 * m._41;
-				t._12 = _11 * m._12 + _12 * m._22 + _13 * m._32 + _14 * m._42;
-				t._13 = _11 * m._13 + _12 * m._23 + _13 * m._33 + _14 * m._43;
-				t._14 = _11 * m._14 + _12 * m._24 + _13 * m._34 + _14 * m._44;
-				t._21 = _21 * m._11 + _22 * m._21 + _23 * m._31 + _24 * m._41;
-				t._22 = _22 * m._22 + _21 * m._12 + _23 * m._32 + _24 * m._42;
-				t._23 = _22 * m._23 + _21 * m._13 + _23 * m._33 + _24 * m._43;
-				t._24 = _22 * m._24 + _21 * m._14 + _23 * m._34 + _24 * m._44;
-				t._31 = _31 * m._11 + _32 * m._21 + _33 * m._31 + _34 * m._41;
-				t._32 = _32 * m._22 + _31 * m._12 + _33 * m._32 + _34 * m._42;
-				t._33 = _32 * m._23 + _31 * m._13 + _33 * m._43 + _34 * m._33;
-				t._34 = _32 * m._24 + _31 * m._14 + _33 * m._34 + _34 * m._44;
-				t._41 = _42 * m._21 + _41 * m._11 + _43 * m._31 + _44 * m._41;
-				t._42 = _41 * m._12 + _42 * m._22 + _43 * m._32 + _44 * m._42;
-				t._43 = _41 * m._13 + _42 * m._23 + _43 * m._33 + _44 * m._43;
-				t._44 = _41 * m._14 + _42 * m._24 + _43 * m._34 + _44 * m._44;
-				*/
-
 				*this = t;
 				return *this;
 			}
@@ -1372,95 +1351,27 @@ namespace gb
 			inline mat44_s operator * ( const mat44_s& m ) const
 			{
 				mat44_s r;
+					
+			 r._11 = floats[0][0] * m.floats[0][0] + floats[0][1] * m.floats[1][0] + floats[0][2] * m.floats[2][0] + floats[0][3] * m.floats[3][0];
+			 r._12 = floats[0][0] * m.floats[0][1] + floats[0][1] * m.floats[1][1] + floats[0][2] * m.floats[2][1] + floats[0][3] * m.floats[3][1];
+			 r._13 = floats[0][0] * m.floats[0][2] + floats[0][1] * m.floats[1][2] + floats[0][2] * m.floats[2][2] + floats[0][3] * m.floats[3][2];
+			 r._14 = floats[0][0] * m.floats[0][3] + floats[0][1] * m.floats[1][3] + floats[0][2] * m.floats[2][3] + floats[0][3] * m.floats[3][3];
 
-				// //  barabus
-				//r._11 =  _11 *  m._11 +  _12 *  m._21 +  _13 *  m._31 +  _14 *  m._41;
-				//r._12 =  _11 *  m._12 +  _12 *  m._22 +  _13 *  m._32 +  _14 *  m._42;
-				//r._13 =  _11 *  m._13 +  _12 *  m._23 +  _13 *  m._33 +  _14 *  m._43;
-				//r._14 =  _11 *  m._14 +  _12 *  m._24 +  _13 *  m._34 +  _14 *  m._44;
+			 r._21 = floats[1][0] * m.floats[0][0] + floats[1][1] * m.floats[1][0] + floats[1][2] * m.floats[2][0] + floats[1][3] * m.floats[3][0];
+			 r._22 = floats[1][0] * m.floats[0][1] + floats[1][1] * m.floats[1][1] + floats[1][2] * m.floats[2][1] + floats[1][3] * m.floats[3][1];
+			 r._23 = floats[1][0] * m.floats[0][2] + floats[1][1] * m.floats[1][2] + floats[1][2] * m.floats[2][2] + floats[1][3] * m.floats[3][2];
+			 r._24 = floats[1][0] * m.floats[0][3] + floats[1][1] * m.floats[1][3] + floats[1][2] * m.floats[2][3] + floats[1][3] * m.floats[3][3];
 
-				//r._21 =  _21 *  m._11 +  _22 *  m._21 +  _23 *  m._31 +  _24 *  m._41;
-				//r._22 =  _22 *  m._22 +  _21 *  m._12 +  _23 *  m._32 +  _24 *  m._42;
-				//r._23 =  _22 *  m._23 +  _21 *  m._13 +  _23 *  m._33 +  _24 *  m._43;
-				//r._24 =  _22 *  m._24 +  _21 *  m._14 +  _23 *  m._34 +  _24 *  m._44;
-
-				//r._31 =  _31 *  m._11 +  _32 *  m._21 +  _33 *  m._31 +  _34 *  m._41;
-				//r._32 =  _32 *  m._22 +  _31 *  m._12 +  _33 *  m._32 +  _34 *  m._42;
-				//r._33 =  _32 *  m._23 +  _31 *  m._13 +  _33 *  m._43 +  _34 *  m._33;
-				//r._34 =  _32 *  m._24 +  _31 *  m._14 +  _33 *  m._34 +  _34 *  m._44;
-
-				//r._41 =  _42 *  m._21 +  _41 *  m._11 +  _43 *  m._31 +  _44 *  m._41;
-				//r._42 =  _41 *  m._12 +  _42 *  m._22 +  _43 *  m._32 +  _44 *  m._42;
-				//r._43 =  _41 *  m._13 +  _42 *  m._23 +  _43 *  m._33 +  _44 *  m._43;
-				//r._44 =  _41 *  m._14 +  _42 *  m._24 +  _43 *  m._34 +  _44 *  m._44;
- 
-				// // new
-		  //r._11  =  _11*m._11+ _12*m._21+ _13*m._41+ _14*m._41;
-		  //r._12  =  _11*m._12+ _12*m._22+ _13*m._32+ _14*m._42;
-		  //r._13  =  _11*m._13+ _12*m._23+ _13*m._33+ _14*m._43;
-		  //r._14  =  _11*m._14+ _12*m._24+ _13*m._34+ _14*m._44;
-
-		  //r._21  =  _21*m._11+ _22*m._21+ _23*m._31+ _24*m._41;
-		  //r._22  =  _21*m._12+ _22*m._22+ _23*m._31+ _24*m._42;
-		  //r._23  =  _21*m._13+ _22*m._23+ _23*m._33+ _24*m._43;
-		  //r._24  =  _21*m._14+ _22*m._24+ _23*m._34+ _24*m._44;
-
-		  //r._31  =  _31*m._11+ _32*m._21+ _33*m._31+ _34*m._41;
-		  //r._32  =  _31*m._12+ _32*m._22+ _33*m._32+ _34*m._42;
-		  //r._33  =  _31*m._13+ _32*m._23+ _33*m._33+ _34*m._43;
-		  //r._34  =  _31*m._14+ _32*m._24+ _33*m._34+ _34*m._44;
-
-		  //r._41  =  _41*m._11+ _42*m._21+ _43*m._31+ _44*m._41;
-		  //r._42  =  _41*m._12+ _42*m._22+ _43*m._32+ _44*m._42;
-		  //r._43  =  _41*m._13+ _42*m._23+ _43*m._33+ _44*m._43;
-		  //r._44  =  _41*m._14+ _42*m._24+ _43*m._34+ _44*m._44;
- 
- 
-
-				/*****************************************
-	 r.floats[0][0] = floats[0][0] * m.floats[0][0] + floats[0][1] * m.floats[1][0] + floats[0][2] * m.floats[2][0] + floats[0][3] * m.floats[3][0];
-	 r.floats[0][1] = floats[0][0] * m.floats[0][1] + floats[0][1] * m.floats[1][1] + floats[0][2] * m.floats[2][1] + floats[0][3] * m.floats[3][1];
-	 r.floats[0][2] = floats[0][0] * m.floats[0][2] + floats[0][1] * m.floats[1][2] + floats[0][2] * m.floats[2][2] + floats[0][3] * m.floats[3][2];
-	 r.floats[0][3] = floats[0][0] * m.floats[0][3] + floats[0][1] * m.floats[1][3] + floats[0][2] * m.floats[2][3] + floats[0][3] * m.floats[3][3];
-
-	 r.floats[1][0] = floats[1][0] * m.floats[0][0] + floats[1][1] * m.floats[1][0] + floats[1][2] * m.floats[2][0] + floats[1][3] * m.floats[3][0];
-	 r.floats[1][1] = floats[1][0] * m.floats[0][1] + floats[1][1] * m.floats[1][1] + floats[1][2] * m.floats[2][1] + floats[1][3] * m.floats[3][1];
-	 r.floats[1][2] = floats[1][0] * m.floats[0][2] + floats[1][1] * m.floats[1][2] + floats[1][2] * m.floats[2][2] + floats[1][3] * m.floats[3][2];
-	 r.floats[1][3] = floats[1][0] * m.floats[0][3] + floats[1][1] * m.floats[1][3] + floats[1][2] * m.floats[2][3] + floats[1][3] * m.floats[3][3];
-
-	 r.floats[2][0] = floats[2][0] * m.floats[0][0] + floats[2][1] * m.floats[1][0] + floats[2][2] * m.floats[2][0] + floats[2][3] * m.floats[3][0];
-	 r.floats[2][1] = floats[2][0] * m.floats[0][1] + floats[2][1] * m.floats[1][1] + floats[2][2] * m.floats[2][1] + floats[2][3] * m.floats[3][1];
-	 r.floats[2][2] = floats[2][0] * m.floats[0][2] + floats[2][1] * m.floats[1][2] + floats[2][2] * m.floats[2][2] + floats[2][3] * m.floats[3][2];
-	 r.floats[2][3] = floats[2][0] * m.floats[0][3] + floats[2][1] * m.floats[1][3] + floats[2][2] * m.floats[2][3] + floats[2][3] * m.floats[3][3];
-
-	 r.floats[3][0] = floats[3][0] * m.floats[0][0] + floats[3][1] * m.floats[1][0] + floats[3][2] * m.floats[2][0] + floats[3][3] * m.floats[3][0];
-	 r.floats[3][1] = floats[3][0] * m.floats[0][1] + floats[3][1] * m.floats[1][1] + floats[3][2] * m.floats[2][1] + floats[3][3] * m.floats[3][1];
-	 r.floats[3][2] = floats[3][0] * m.floats[0][2] + floats[3][1] * m.floats[1][2] + floats[3][2] * m.floats[2][2] + floats[3][3] * m.floats[3][2];
-	 r.floats[3][3] = floats[3][0] * m.floats[0][3] + floats[3][1] * m.floats[1][3] + floats[3][2] * m.floats[2][3] + floats[3][3] * m.floats[3][3];
-
-	 *********************************/
-
-				
-	 r._11 = floats[0][0] * m.floats[0][0] + floats[0][1] * m.floats[1][0] + floats[0][2] * m.floats[2][0] + floats[0][3] * m.floats[3][0];
-	 r._12 = floats[0][0] * m.floats[0][1] + floats[0][1] * m.floats[1][1] + floats[0][2] * m.floats[2][1] + floats[0][3] * m.floats[3][1];
-	 r._13 = floats[0][0] * m.floats[0][2] + floats[0][1] * m.floats[1][2] + floats[0][2] * m.floats[2][2] + floats[0][3] * m.floats[3][2];
-	 r._14 = floats[0][0] * m.floats[0][3] + floats[0][1] * m.floats[1][3] + floats[0][2] * m.floats[2][3] + floats[0][3] * m.floats[3][3];
-
-	 r._21 = floats[1][0] * m.floats[0][0] + floats[1][1] * m.floats[1][0] + floats[1][2] * m.floats[2][0] + floats[1][3] * m.floats[3][0];
-	 r._22 = floats[1][0] * m.floats[0][1] + floats[1][1] * m.floats[1][1] + floats[1][2] * m.floats[2][1] + floats[1][3] * m.floats[3][1];
-	 r._23 = floats[1][0] * m.floats[0][2] + floats[1][1] * m.floats[1][2] + floats[1][2] * m.floats[2][2] + floats[1][3] * m.floats[3][2];
-	 r._24 = floats[1][0] * m.floats[0][3] + floats[1][1] * m.floats[1][3] + floats[1][2] * m.floats[2][3] + floats[1][3] * m.floats[3][3];
-
-	 r._31 = floats[2][0] * m.floats[0][0] + floats[2][1] * m.floats[1][0] + floats[2][2] * m.floats[2][0] + floats[2][3] * m.floats[3][0];
-	 r._32 = floats[2][0] * m.floats[0][1] + floats[2][1] * m.floats[1][1] + floats[2][2] * m.floats[2][1] + floats[2][3] * m.floats[3][1];
-	 r._33 = floats[2][0] * m.floats[0][2] + floats[2][1] * m.floats[1][2] + floats[2][2] * m.floats[2][2] + floats[2][3] * m.floats[3][2];
-	 r._34 = floats[2][0] * m.floats[0][3] + floats[2][1] * m.floats[1][3] + floats[2][2] * m.floats[2][3] + floats[2][3] * m.floats[3][3];
-	 
-	 r._41 = floats[3][0] * m.floats[0][0] + floats[3][1] * m.floats[1][0] + floats[3][2] * m.floats[2][0] + floats[3][3] * m.floats[3][0];
-	 r._42 = floats[3][0] * m.floats[0][1] + floats[3][1] * m.floats[1][1] + floats[3][2] * m.floats[2][1] + floats[3][3] * m.floats[3][1];
-	 r._43 = floats[3][0] * m.floats[0][2] + floats[3][1] * m.floats[1][2] + floats[3][2] * m.floats[2][2] + floats[3][3] * m.floats[3][2];
-	 r._44 = floats[3][0] * m.floats[0][3] + floats[3][1] * m.floats[1][3] + floats[3][2] * m.floats[2][3] + floats[3][3] * m.floats[3][3];
- 
+			 r._31 = floats[2][0] * m.floats[0][0] + floats[2][1] * m.floats[1][0] + floats[2][2] * m.floats[2][0] + floats[2][3] * m.floats[3][0];
+			 r._32 = floats[2][0] * m.floats[0][1] + floats[2][1] * m.floats[1][1] + floats[2][2] * m.floats[2][1] + floats[2][3] * m.floats[3][1];
+			 r._33 = floats[2][0] * m.floats[0][2] + floats[2][1] * m.floats[1][2] + floats[2][2] * m.floats[2][2] + floats[2][3] * m.floats[3][2];
+			 r._34 = floats[2][0] * m.floats[0][3] + floats[2][1] * m.floats[1][3] + floats[2][2] * m.floats[2][3] + floats[2][3] * m.floats[3][3];
+			 
+			 r._41 = floats[3][0] * m.floats[0][0] + floats[3][1] * m.floats[1][0] + floats[3][2] * m.floats[2][0] + floats[3][3] * m.floats[3][0];
+			 r._42 = floats[3][0] * m.floats[0][1] + floats[3][1] * m.floats[1][1] + floats[3][2] * m.floats[2][1] + floats[3][3] * m.floats[3][1];
+			 r._43 = floats[3][0] * m.floats[0][2] + floats[3][1] * m.floats[1][2] + floats[3][2] * m.floats[2][2] + floats[3][3] * m.floats[3][2];
+			 r._44 = floats[3][0] * m.floats[0][3] + floats[3][1] * m.floats[1][3] + floats[3][2] * m.floats[2][3] + floats[3][3] * m.floats[3][3];
+		 
 				return  r;
 			}
 
@@ -1492,7 +1403,7 @@ namespace gb
 	        }
 
 			//! \brief Установить в идентичную
-			inline void reset() { setIdentity(); }
+			inline mat44_s& reset() { setIdentity(); return *this; }
 
 			//! \brief Транспонирование. (Отражение элементов по главной диагонали)  ПРОВЕРЕНА!
 			inline mat44_s& transpone() 
@@ -1526,21 +1437,18 @@ namespace gb
 			mat44_s&  invert () throw();
 
 
-			vec4_s getRow(int index) const 
+			vec4_s getRow(unsigned int index) const 
 			{
-				assert( (index>=0 && index<4  ) && "invalid index" );
-				return vec4_s(floats[index][0], floats[index][1], floats[index][2], floats[index][3]);
+				assert(index<4  && "invalid index" );
+				return vec4_s( floats[index][0], floats[index][1], floats[index][2], floats[index][3] );
 			}
  
-			vec4_s getColumn(int index) const 
+			vec4_s getColumn(unsigned int index) const 
 			{
-				assert( (index>=0 && index<4  ) && "invalid index" );
-				return vec4_s(floats[0][index], floats[1][index], floats[2][index], floats[3][index]);
+				assert( index<4 && "invalid index" );
+				return vec4_s( floats[0][index], floats[1][index], floats[2][index], floats[3][index] );
 			}
-
-			//void decompose(vec3_s& pos, geom3d::Quaternion& rot, vec3_s& scale) const;
-
-
+ 
 			//! \brief Построение матрицы отражения по оси X
 			inline mat44_s& setMirrorX ()
 			{
