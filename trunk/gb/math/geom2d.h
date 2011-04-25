@@ -54,6 +54,63 @@ namespace gb
 
 		};
 
+
+  
+
+//! \brief  Нормаль, направление в двухмерном измерении /xx
+class Normal2 {
+private:
+   float _x;
+   float _y;
+   
+  inline void __normalize() { float fm = sqrt(_x*_x+_y*_y); _x/=fm; _y/=fm;  }
+
+public:
+	Normal2() { _x=0.0f; _y=1.0f;  }
+	Normal2(const Normal2& n) {  _x=n._x;   _y=n._y;  }
+	
+	Normal2(float x, float y) { _x=x; _y=y; __normalize();  }
+ 
+
+	inline float x() const { return _x; }
+	inline float y() const { return _y; }
+
+
+	inline void operator = (base::vec2_s& v) {_x=v.x; _y=v.y; __normalize(); }
+	inline void inverse() {_x=-_x; _y=-_y; }
+    // void transform(const base::mat44_s& m) {....}
+	// float cross(){...}
+	
+}; 
+
+
+
+
+
+//! \brief   Позиция, точка в двухмерном измерении 
+class Point2 {
+public:
+   float _x;
+   float _y;
+   
+   Point2() { _x=0.0f; _y=0.0f; }
+   Point2(const Point2& p) {_x=p._x ; _y=p._y ; }
+   Point2(const float x, const float y) { _x=x;  _y=y; }
+   
+ 
+   // moveAlongNormal(const Normal2& normal, float distance) {....}
+   // void transform(const base::mat44_s& m) {....}
+
+
+}; 
+
+
+
+
+
+
+
+
 		//! Прямоугольник по мин. и макс координате
 		class Rect {
 		public:

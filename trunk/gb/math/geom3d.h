@@ -58,7 +58,7 @@ namespace gb
 			float _y;
 			float _z;
 
-			inline void _normalize() 
+			inline void __normalize() 
 			{
 				register float len = sqrt ( _x*_x + _y*_y + _z*_z );
 				_x/=len; _y/=len; _z/=len;
@@ -70,7 +70,7 @@ namespace gb
 			//! \brief  По дефолту нормаль смотрит в Z .
 			inline Normal3() { _x=0.0f; _y=0.0f; _z=1.0f;  }
 			inline Normal3(const Normal3& n) { _x=n._x; _y=n._y; _z=n._z; }
-			inline Normal3(float x, float y, float z) { _x=x; _y=y; _z=z; _normalize(); }
+			inline Normal3(float x, float y, float z) { _x=x; _y=y; _z=z; __normalize(); }
 
 		
 			inline operator  const float*() const  { return &_x; };
@@ -86,29 +86,32 @@ namespace gb
 				  _x = vn.x;
 				  _y = vn.y;
 				  _z = vn.z;
-				_normalize();		
+				__normalize();		
 			}
 
 			//! \brief  Вычислить угол между векторами
 			// float angle (const Normal3& n) {...}
 
 
-			// void setDirectionBetweenPointer(const Point3& pntSrc, const Point3& pntDest); 
+			// void setDirectionBetweenPointer(const Point3& pntSrc, const Point3& pntDest) {....}; 
 
 			// void transform(const base::mat44_s& m) {...}
 
 			inline void inverse() {_x=-_x; _y=-_y; _z=-_z; }
 
 
-
-
-
 #ifdef GB_D3D9
 			inline operator D3DVECTOR*() { return (D3DVECTOR*)&_x; }
 			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&_x; }
 			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=_x; r.y=_y; r.z=_z; return r;  }
-			inline void operator = (const D3DXVECTOR3& v) {	_x=v.x; _y=v.y; _z=v.z; _normalize(); }
-#endif		
+			inline void operator = (const D3DXVECTOR3& v) {	_x=v.x; _y=v.y; _z=v.z; __normalize(); }
+#endif	
+
+
+#ifdef GB_D3DX9
+			inline operator const D3DXVECTOR3*() const { return (D3DXVECTOR3*)&_x; }
+
+#endif
 
 
 		};
@@ -138,7 +141,7 @@ namespace gb
 #endif
 
 
-
+		   // void moveAlongNormal(const N& normal, float distance) {...}
 			// void transform(const base::mat44_s& m) {...}
 		
 		};
@@ -586,22 +589,7 @@ namespace gb
 		{
 			return Quaternion(x - q.x, y - q.y, z - q.z, w - q.w);
 		}
-
-
-#pragma message ("KS777: MATH::QUAT >> NEED CHECK MUL OPERATOR " __FILE__)
-
-	   // babar
-		/*inline Quaternion   operator * (const Quaternion &q) const 
-		{
-			Quaternion res;
-			res.x =  w*q.x + x*q.w + y*q.z - z*q.y;
-			res.y =  w*q.y + y*q.w + z*q.x - x*q.z;
-			res.z =  w*q.z + z*q.w + x*q.y - y*q.x;
-
-			res.w =  w * q.w - x * q.x - y * q.y - z * q.z;
-			return res;
-		}
-		*/
+ 
 
 		//!   ПРОВЕРЕНО
 		inline Quaternion operator * ( const Quaternion &q ) const 
@@ -614,9 +602,7 @@ namespace gb
 			res.w = w*q.w - x*q.x - y*q.y - z*q.z;
 			return res;
 		}
-		//////////////////////////////////////////////////////////////////////
-
-
+ 
 		inline Quaternion operator * ( const float f ) const
 		{
 			return Quaternion( x*f, y*f, z*f, w*f );
@@ -628,27 +614,22 @@ namespace gb
 			const float fInverse = 1.0f / f;
 			return Quaternion(x * fInverse, y * fInverse, z * fInverse, w * fInverse);
 		}
-
-		//inline Quaternion operator * (const float f, const Quaternion& q )
-		//{
-		//	return Quaternion( f*q.x, f*q.y, f*q.z, f*q.w );
-		//}
-
-
+ 
 		inline Quaternion&   operator *= (const Quaternion &q) { Quaternion r(*this); *this=r*q; return *this;   } 
  
 
 #ifdef GB_D3DX9
 		inline operator D3DXQUATERNION*()             { return (D3DXQUATERNION*)&x; }
 		inline operator const D3DXQUATERNION*() const { return (D3DXQUATERNION*)&x; }
+		inline operator D3DXQUATERNION() { return D3DXQUATERNION( x , y , z , w ); }
 		inline void operator = (const D3DXQUATERNION& q) { x=q.x; y=q.y; z=q.z; w=q.w; }
-#endif // #ifdef GB_D3DX9
+#endif //#ifdef GB_D3DX9
 
 
 
-		//-----------------------------------------------------------------
-		//                     МЕТОДЫ
-		//-----------------------------------------------------------------
+		//----------------------------------------------------------------//
+		//                           МЕТОДЫ		        	              //
+		//----------------------------------------------------------------//
  
 		// \brief  Присвоить значения  затем нормализовать
 		inline void set(float _x, float _y, float _z, float _w)
