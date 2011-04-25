@@ -198,24 +198,24 @@ public:
     float getNearClipPlane() const { return m_fNearPlane; }
     float getFarClipPlane() const { return m_fFarPlane; }
 
-    bool IsBeingDragged() const         { return (m_bMouseLButtonDown || m_bMouseMButtonDown || m_bMouseRButtonDown); }
-    bool IsMouseLButtonDown() const     { return m_bMouseLButtonDown; } 
-    bool IsMouseMButtonDown() const     { return m_bMouseMButtonDown; } 
-    bool IsMouseRButtonDown() const     { return m_bMouseRButtonDown; } 
+    bool isBeingDragged() const         { return (m_bMouseLButtonDown || m_bMouseMButtonDown || m_bMouseRButtonDown); }
+    bool isMouseLButtonDown() const     { return m_bMouseLButtonDown; } 
+    bool isMouseMButtonDown() const     { return m_bMouseMButtonDown; } 
+    bool isMouseRButtonDown() const     { return m_bMouseRButtonDown; } 
 
 
 
 protected:
     // Functions to map a WM_KEYDOWN key to a D3DUtil_CameraKeys enum
     // >>>>  old  : virtual 
-		static D3DUtil_CameraKeys MapKey( UINT nKey );  
+		static D3DUtil_CameraKeys mapKey( UINT nKey );  
 
-    bool IsKeyDown( BYTE key ) const { return( (key & KEY_IS_DOWN_MASK) == KEY_IS_DOWN_MASK ); }
-    bool WasKeyDown( BYTE key ) const { return( (key & KEY_WAS_DOWN_MASK) == KEY_WAS_DOWN_MASK ); }
+    bool isKeyDown( BYTE key ) const { return( (key & KEY_IS_DOWN_MASK) == KEY_IS_DOWN_MASK ); }
+    bool wasKeyDown( BYTE key ) const { return( (key & KEY_WAS_DOWN_MASK) == KEY_WAS_DOWN_MASK ); }
 
     void constrainToBoundary( D3DXVECTOR3* pV );
-    void UpdateVelocity( float fElapsedTime );
-    void GetInput( bool bGetKeyboardInput, bool bGetMouseInput, bool bGetGamepadInput, bool bResetCursorAfterMove );
+    void updateVelocity( float fElapsedTime );
+    void getInput( bool bGetKeyboardInput, bool bGetMouseInput, bool bGetGamepadInput, bool bResetCursorAfterMove );
 
 	/*
 	void MYUTGetMonitorInfo( UnknownType param1, MONITORINFO* mi ) 
@@ -298,13 +298,13 @@ public:
       return hr;
 	}; 
 
-    //* \brief Call these from client and use Get*Matrix() to read new matrices
+    //! \brief Call these from client and use Get*Matrix() to read new matrices
     virtual void frameMove( FLOAT fElapsedTime );
 
     //  Functions to change behavior
-    void SetRotateButtons( bool bLeft, bool bMiddle, bool bRight, bool bRotateWithoutButtonDown = false );
+    void setRotateButtons( bool bLeft, bool bMiddle, bool bRight, bool bRotateWithoutButtonDown = false );
 
-    void SetResetCursorAfterMove( bool bResetCursorAfterMove ) { m_bResetCursorAfterMove = bResetCursorAfterMove; }
+    void setResetCursorAfterMove( bool bResetCursorAfterMove ) { m_bResetCursorAfterMove = bResetCursorAfterMove; }
 
     // Functions to get state
     D3DXMATRIX*  getWorldMatrix()            { return &m_mCameraWorld; }
@@ -352,15 +352,15 @@ public:
     virtual void setDragRect( RECT &rc );
     void reset(); 
     void setViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt );
-    void SetButtonMasks( int nRotateModelButtonMask = MOUSE_LEFT_BUTTON, int nZoomButtonMask = MOUSE_WHEEL, int nRotateCameraButtonMask = MOUSE_RIGHT_BUTTON ) { m_nRotateModelButtonMask = nRotateModelButtonMask, m_nZoomButtonMask = nZoomButtonMask; m_nRotateCameraButtonMask = nRotateCameraButtonMask; }
+    void setButtonMasks( int nRotateModelButtonMask = MOUSE_LEFT_BUTTON, int nZoomButtonMask = MOUSE_WHEEL, int nRotateCameraButtonMask = MOUSE_RIGHT_BUTTON ) { m_nRotateModelButtonMask = nRotateModelButtonMask, m_nZoomButtonMask = nZoomButtonMask; m_nRotateCameraButtonMask = nRotateCameraButtonMask; }
     
-    void SetAttachCameraToModel( bool bEnable = false ) { m_bAttachCameraToModel = bEnable; }
-    void SetWindow( int nWidth, int nHeight, float fArcballRadius=0.9f ) { m_WorldArcBall.setWindow( nWidth, nHeight, fArcballRadius ); m_ViewArcBall.setWindow( nWidth, nHeight, fArcballRadius ); }
-    void SetRadius( float fDefaultRadius=5.0f, float fMinRadius=1.0f, float fMaxRadius=FLT_MAX  ) { m_fDefaultRadius = m_fRadius = fDefaultRadius; m_fMinRadius = fMinRadius; m_fMaxRadius = fMaxRadius; m_bDragSinceLastUpdate = true; }
-    void SetModelCenter( D3DXVECTOR3 vModelCenter ) { m_vModelCenter = vModelCenter; }
-    void SetLimitPitch( bool bLimitPitch ) { m_bLimitPitch = bLimitPitch; }
-    void SetViewQuat( D3DXQUATERNION q ) { m_ViewArcBall.setQuatNow( q ); m_bDragSinceLastUpdate = true; }
-    void SetWorldQuat( D3DXQUATERNION q ) { m_WorldArcBall.setQuatNow( q ); m_bDragSinceLastUpdate = true; }
+    void setAttachCameraToModel( bool bEnable = false ) { m_bAttachCameraToModel = bEnable; }
+    void setWindow( int nWidth, int nHeight, float fArcballRadius=0.9f ) { m_WorldArcBall.setWindow( nWidth, nHeight, fArcballRadius ); m_ViewArcBall.setWindow( nWidth, nHeight, fArcballRadius ); }
+    void setRadius( float fDefaultRadius=5.0f, float fMinRadius=1.0f, float fMaxRadius=FLT_MAX  ) { m_fDefaultRadius = m_fRadius = fDefaultRadius; m_fMinRadius = fMinRadius; m_fMaxRadius = fMaxRadius; m_bDragSinceLastUpdate = true; }
+    void setModelCenter( D3DXVECTOR3 vModelCenter ) { m_vModelCenter = vModelCenter; }
+    void setLimitPitch( bool bLimitPitch ) { m_bLimitPitch = bLimitPitch; }
+    void setViewQuat( D3DXQUATERNION q ) { m_ViewArcBall.setQuatNow( q ); m_bDragSinceLastUpdate = true; }
+    void setWorldQuat( D3DXQUATERNION q ) { m_WorldArcBall.setQuatNow( q ); m_bDragSinceLastUpdate = true; }
 
     // Functions to get state
     const D3DXMATRIX* getWorldMatrix() const { return &m_mWorld; }
@@ -401,3 +401,6 @@ protected:
 
 #endif // #ifdef WIN32
 // end file
+
+
+// end  file
