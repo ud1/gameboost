@@ -383,10 +383,10 @@ LRESULT BaseCamera::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 			{
 			  int _stop = 0;
 			};
-            D3DUtil_CameraKeys mappedKey = MapKey( (UINT)wParam );
+            D3DUtil_CameraKeys mappedKey = mapKey( (UINT)wParam );
             if( mappedKey != CAM_UNKNOWN )
             {
-                if( FALSE == IsKeyDown(m_aKeys[mappedKey]) )
+                if( FALSE == isKeyDown(m_aKeys[mappedKey]) )
                 {
                     m_aKeys[ mappedKey ] = KEY_WAS_DOWN_MASK | KEY_IS_DOWN_MASK;
                     ++m_cKeysDown;
@@ -399,7 +399,7 @@ LRESULT BaseCamera::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
         {
             // Map this key to a D3DUtil_CameraKeys enum and update the
             // state of m_aKeys[] by removing the KEY_IS_DOWN_MASK mask.
-            D3DUtil_CameraKeys mappedKey = MapKey( (UINT)wParam );
+            D3DUtil_CameraKeys mappedKey = mapKey( (UINT)wParam );
             if( mappedKey != CAM_UNKNOWN && (DWORD)mappedKey < 8 )
             {
                 m_aKeys[ mappedKey ] &= ~KEY_IS_DOWN_MASK;
@@ -485,27 +485,27 @@ LRESULT BaseCamera::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 //========================================================================
 // Figure out the velocity based on keyboard input & drag if any
 //========================================================================
-void BaseCamera::GetInput( bool bGetKeyboardInput, bool bGetMouseInput, 
+void BaseCamera::getInput( bool bGetKeyboardInput, bool bGetMouseInput, 
 						   bool bGetGamepadInput, bool bResetCursorAfterMove )
 {
     m_vKeyboardDirection = D3DXVECTOR3(0,0,0);
     if( bGetKeyboardInput )
     {
         // Update acceleration vector based on keyboard state
-        if( IsKeyDown(m_aKeys[CAM_MOVE_FORWARD]) )
+        if( isKeyDown(m_aKeys[CAM_MOVE_FORWARD]) )
             m_vKeyboardDirection.z += 1.0f;
-        if( IsKeyDown(m_aKeys[CAM_MOVE_BACKWARD]) )
+        if( isKeyDown(m_aKeys[CAM_MOVE_BACKWARD]) )
             m_vKeyboardDirection.z -= 1.0f;
         if( m_bEnableYAxisMovement )
         {
-            if( IsKeyDown(m_aKeys[CAM_MOVE_UP]) )
+            if( isKeyDown(m_aKeys[CAM_MOVE_UP]) )
                 m_vKeyboardDirection.y += 1.0f;
-            if( IsKeyDown(m_aKeys[CAM_MOVE_DOWN]) )
+            if( isKeyDown(m_aKeys[CAM_MOVE_DOWN]) )
                 m_vKeyboardDirection.y -= 1.0f;
         }
-        if( IsKeyDown(m_aKeys[CAM_STRAFE_RIGHT]) )
+        if( isKeyDown(m_aKeys[CAM_STRAFE_RIGHT]) )
             m_vKeyboardDirection.x += 1.0f;
-        if( IsKeyDown(m_aKeys[CAM_STRAFE_LEFT]) )
+        if( isKeyDown(m_aKeys[CAM_STRAFE_LEFT]) )
             m_vKeyboardDirection.x -= 1.0f;
     }
 
@@ -609,7 +609,7 @@ void BaseCamera::GetInput( bool bGetKeyboardInput, bool bGetMouseInput,
 //========================================================================
 // Figure out the velocity based on keyboard input & drag if any
 //========================================================================
-void BaseCamera::UpdateVelocity( float fElapsedTime )
+void BaseCamera::updateVelocity( float fElapsedTime )
 {
     D3DXMATRIX mRotDelta;
 
@@ -685,7 +685,7 @@ void BaseCamera::constrainToBoundary( D3DXVECTOR3* pV )
 //========================================================================
 // Maps a windows virtual key to an enum
 //========================================================================
-D3DUtil_CameraKeys BaseCamera::MapKey( UINT nKey )
+D3DUtil_CameraKeys BaseCamera::mapKey( UINT nKey )
 {
     // This could be upgraded to a method that's user-definable but for 
     // simplicity, we'll use a hardcoded mapping.
@@ -761,14 +761,14 @@ VOID FirstPersonCamera::frameMove( FLOAT fElapsedTime )
 
 
 
-    if( IsKeyDown(m_aKeys[CAM_RESET]) )
+    if( isKeyDown(m_aKeys[CAM_RESET]) )
         reset();
 
     // Get keyboard/mouse/gamepad input
-    GetInput( m_bEnablePositionMovement, (m_nActiveButtonMask & m_nCurrentButtonMask) || m_bRotateWithoutButtonDown, true, m_bResetCursorAfterMove );
+    getInput( m_bEnablePositionMovement, (m_nActiveButtonMask & m_nCurrentButtonMask) || m_bRotateWithoutButtonDown, true, m_bResetCursorAfterMove );
 
     // Get amount of velocity based on the keyboard input and drag (if any)
-    UpdateVelocity( fElapsedTime );
+    updateVelocity( fElapsedTime );
 
     // Simple euler method to calculate position delta
     D3DXVECTOR3 vPosDelta = m_vVelocity * fElapsedTime;
@@ -834,7 +834,7 @@ VOID FirstPersonCamera::frameMove( FLOAT fElapsedTime )
 //========================================================================
 // Enable or disable each of the mouse buttons for rotation drag.
 //========================================================================
-void FirstPersonCamera::SetRotateButtons( bool bLeft, bool bMiddle, bool bRight, bool bRotateWithoutButtonDown )
+void FirstPersonCamera::setRotateButtons( bool bLeft, bool bMiddle, bool bRight, bool bRotateWithoutButtonDown )
 {
     m_nActiveButtonMask = ( bLeft ? MOUSE_LEFT_BUTTON : 0 ) |
                           ( bMiddle ? MOUSE_MIDDLE_BUTTON : 0 ) |
@@ -874,7 +874,7 @@ ModelViewerCamera::ModelViewerCamera()
 //========================================================================
 VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
 {
-    if( IsKeyDown(m_aKeys[CAM_RESET]) )
+    if( isKeyDown(m_aKeys[CAM_RESET]) )
         reset();
 
     // If no dragged has happend since last time FrameMove is called,
@@ -884,10 +884,10 @@ VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
     m_bDragSinceLastUpdate = false;
 
     // Get keyboard/mouse/gamepad input
-    GetInput( m_bEnablePositionMovement, m_nCurrentButtonMask != 0, true, false );
+    getInput( m_bEnablePositionMovement, m_nCurrentButtonMask != 0, true, false );
 
     // Get amount of velocity based on the keyboard input and drag (if any)
-    UpdateVelocity( fElapsedTime );
+    updateVelocity( fElapsedTime );
 
     // Simple euler method to calculate position delta
     D3DXVECTOR3 vPosDelta = m_vVelocity * fElapsedTime;
@@ -938,7 +938,7 @@ VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
     mModelRot = *m_WorldArcBall.getRotationMatrix();
     m_mModelRot *= m_mView * mModelLastRotInv * mModelRot * mInvView;
 
-    if( m_ViewArcBall.isBeingDragged() && m_bAttachCameraToModel && !IsKeyDown(m_aKeys[CAM_CONTROLDOWN]) )
+    if( m_ViewArcBall.isBeingDragged() && m_bAttachCameraToModel && !isKeyDown(m_aKeys[CAM_CONTROLDOWN]) )
     {
         // Attach camera to model by inverse of the model rotation
         D3DXMATRIX mCameraLastRotInv;
@@ -978,7 +978,7 @@ void ModelViewerCamera::setDragRect( RECT &rc )
 
     m_WorldArcBall.setOffset( rc.left, rc.top );
     m_ViewArcBall.setOffset( rc.left, rc.top );
-    SetWindow( rc.right - rc.left, rc.bottom - rc.top );
+    setWindow( rc.right - rc.left, rc.bottom - rc.top );
 }
 
 
@@ -1018,7 +1018,7 @@ void ModelViewerCamera::setViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLook
     // Set the radius according to the distance
     D3DXVECTOR3 vEyeToPoint;
     D3DXVec3Subtract( &vEyeToPoint, pvLookatPt, pvEyePt );
-    SetRadius( D3DXVec3Length( &vEyeToPoint ) );
+    setRadius( D3DXVec3Length( &vEyeToPoint ) );
 
     // View information changed. FrameMove should be called.
     m_bDragSinceLastUpdate = true;
