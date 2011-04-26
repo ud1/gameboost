@@ -88,6 +88,7 @@ struct TransformData;
 namespace proj
 {
 
+struct ProjectionData;
 struct Viewport;
 
 }

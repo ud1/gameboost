@@ -81,13 +81,8 @@ namespace gb
 			inline float z() const { return _z; }
 
 
-			inline void operator = (const base::vec3_s& vn)
-			{
-				  _x = vn.x;
-				  _y = vn.y;
-				  _z = vn.z;
-				__normalize();		
-			}
+			inline void operator = (const base::vec3_s& vn)	{ _x = vn.x; _y = vn.y; _z = vn.z; __normalize(); }
+			inline operator base::vec3_s() const { return base::vec3_s (_x,_y,_z);  }
 
 			//! \brief  Вычислить угол между векторами
 			// float angle (const Normal3& n) {...}
@@ -115,6 +110,7 @@ namespace gb
 
 
 		};
+		// end class
 
 
 		/** \brief Сущность описывает точку/координату/позицию в 3х-мерном пространстве.
@@ -132,6 +128,7 @@ namespace gb
 			inline operator        float*()        { return &_x; };
 
 			inline void operator = (const base::vec3_s& vPoint) { _x=vPoint.x; _y=vPoint.y; _z=vPoint.z; }
+			inline operator base::vec3_s() const { return base::vec3_s (_x,_y,_z);  }
 	
 #ifdef GB_D3D9
 			inline operator D3DVECTOR*() { return (D3DVECTOR*)&_x; }
@@ -141,10 +138,51 @@ namespace gb
 #endif
 
 
-		   // void moveAlongNormal(const N& normal, float distance) {...}
+			//! \brief установка  средней точки  
+			inline Point3& setMiddle(const base::vec3_s& p1, const base::vec3_s& p2)
+			{
+				_x = (p1.x + p2.x) / 2.0f;
+				_y = (p1.y + p2.y) / 2.0f;
+				_z = (p1.z + p2.z) / 2.0f;
+				return *this;
+			}
+
+
+			//! \brief установка  средней точки  
+			inline Point3& setMiddle(const base::vec3_s& p)
+			{
+				_x = (_x + p.x) / 2.0f;
+				_y = (_y + p.y) / 2.0f;
+				_z = (_z + p.z) / 2.0f;
+				return *this;
+			}
+
+
+			//! \brief  Движение к точке posTo на расстояние distance
+			Point3& moveTo(const Point3& posTo, float distance)
+			{
+				base::vec3_s vn = (base::vec3_s)posTo - (base::vec3_s)*this;
+				vn.normalize();
+				vn *= distance;
+				 _x += vn.x; _y=vn.y; _z=vn.z;
+				return *this;
+			}
+
+
+			//! \breif  Перемещение точки по направлению normal на расстояние distance
+			Point3& moveAlongNormal(const Normal3& normal, float distance) 
+			{
+				base::vec3_s vn = normal; 
+				vn *= distance;
+				_x += vn.x; _y=vn.y; _z=vn.z;
+				return *this;
+			}
+
+ 
 			// void transform(const base::mat44_s& m) {...}
 		
 		};
+		// end class
 
 
 
@@ -371,7 +409,7 @@ namespace gb
 			return *this;
 		}
 
-		//! \brief   Нормализовать плоскость.
+		//! \brief   Нормализовать плоскость.  ПРОВЕРЕНО!
 		inline void normalize() 
 		{
 			register const float fm = sqrt(a*a + b*b + c*c); 
@@ -381,17 +419,17 @@ namespace gb
 			d/= fm; 
 		}
 
-
+		// ПРОВЕРЕНО!
 		inline float dot(const base::vec4_s& v) const        { return a*v.x + b*v.y + c*v.z + d*v.w ; }
 		inline float dotCoord  (const base::vec3_s& vCoord) const { return a*vCoord.x + b*vCoord.y + c*vCoord.z + d*1.0f; }
 		inline float dotNormal (const base::vec3_s& vNormal) const { return a*vNormal.x + b*vNormal.y + c*vNormal.z + d*0.0f; }
 
-		//! \brief   Масштабировать плоскость.
+		//! \brief   Масштабировать плоскость. ПРОВЕРЕНО!
 		inline void scale(float s) {a*=s; b*=s; c*=s; d*=s; }
 
 
 		//! \brief  Вернуть нормаль плоскости.  ПРОВЕРИТЬ !!!!
-		inline base::vec3_s  getNormal() const  
+		inline base::vec3_s  normal() const  
 		{ 
 			base::vec3_s res; 
 			res.x=a; 
@@ -859,11 +897,11 @@ namespace gb
 			return *this;
 		}
 
-		Quaternion&         setRotationAboutAxisAngle(const base::vec3_s &axis, float theta) ;
+		Quaternion&         setRotationAxis(const base::vec3_s &axis, float theta) ;
 
-		inline Quaternion&  setRotationAboutAxisAngle(const AxiesAngle& aa)
+		inline Quaternion&  setRotationAxis(const AxiesAngle& aa)
 		{
-		  return setRotationAboutAxisAngle( aa.axies , aa.angle );
+		  return setRotationAxis( aa.axies , aa.angle );
 		}
 
 
@@ -983,7 +1021,7 @@ namespace gb
 
 #if ( defined(GB_OPENGL) && defined(__GL_H__)   )
 		//! \brief Вывод вершин по OpenGL  по старинке.
-		inline void glDraw()   
+		inline void glVertex()   
 		{
 			glVertex3f(p1.x, p1.y, p1.z);
 			glVertex3f(p2.x, p2.y, p2.z);
