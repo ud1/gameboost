@@ -458,15 +458,23 @@ namespace gb
 
 
 			//! \brief  отсеч значения в диапазоне между vmin и vmax
-			inline void clump(const vec3_s& vmin, const vec3_s& vmax) 
+			inline vec3_s& clump(const vec3_s& vmin, const vec3_s& vmax) 
 			{
 				if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
 				if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
 				if( z < vmin.z) z=vmin.z;  if(z > vmax.z) z=vmax.z;
+				  return *this;
 			}
 
 			//! \brief  Вернёт true если все компоненты положительные.
 			inline bool isPositive() const {  return ( (x>=0.0f) && (y>=0.0f) && (z>=0.0f) );	}
+
+			//! \brief Тарнсформировать по матрице m   как координату. ПРОВЕРЕНО!
+			vec3_s&  transformCoord(const mat44_s& m);
+			//! \brief Тарнсформировать по матрице m   как нормаль. ПРОВЕРЕНО!
+			vec3_s&  transformNormal(const mat44_s& m);
+
+
 
 			inline void toCstr(char* buf) const 
 			{
@@ -1590,13 +1598,8 @@ namespace gb
 			  return setScaling( vScaling.x, vScaling.y, vScaling.z );
 			}
 
-			//! \brief Построить матрицу поворота по кватерниону.
-			mat44_s& setRotationQuaternion(const geom3d::Quaternion& q) 
-			{
-#pragma message("ks777  math::mat44_s   НЕТ КОДА ПОСТРОЕНИЯ МАТРИЦЫ ПО КВАТЕРНИОНУ  " __FILE__)
-             assert(false && "NO CODE");
-			 return *this;
-			}
+			//! \brief Построить матрицу поворота по кватерниону.  ПРОВЕРЕНО!
+			mat44_s& setRotationQuaternion(const geom3d::Quaternion& q) ;
 
 
 			//! \brief Построить как матрицу трансформации 
@@ -1695,8 +1698,7 @@ namespace gb
 				// 0        0        zf/(zn-zf)        -1
 				// 0        0        zn*zf/(zn-zf)      0
 				// where:
-				// yScale = cot(fovY/2)
-				//    
+				// yScale = cot(fovY/2)   
 				// xScale = yScale / aspect ratio
 			}
 
@@ -1872,19 +1874,7 @@ static const mat44_s     MATRIX44_IDENTITY =  mat44_s
 
 		}
 		// end namespace base
-
-
-
-		//// sample
-		//class Vector2 : public base::vec2_s
-		//{
-		//public:
-		//	Vector2() {};
-		//	Vector2(const Vector2& v) {  x=v.x; y=v.y; };
-		//	Vector2(float _x, float _y) { x=_x; y=_y; };
-		//
-		//
-		//};
+ 
 
 	}
 	// end namespace math

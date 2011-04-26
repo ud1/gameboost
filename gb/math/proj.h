@@ -11,8 +11,13 @@
 
 //#include <gb/math/math.h>
 #include <math.h>
+#include <gb/math/scalar.h>
+#include <gb/math/base.h>
 #include <gb/math/forw_decl.h>
 
+#ifdef GB_D3D9
+   #include <d3d9.h>
+#endif
 
 
 namespace gb 
@@ -29,7 +34,13 @@ namespace gb
 //--------------------------------------------------------------------------------------
   
   
-  
+	  struct ProjectionData
+	  {
+		float fovy;
+		float aspect;
+		float zn;
+		float zf;
+	  };
 
   
   

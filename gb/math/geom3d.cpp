@@ -216,7 +216,7 @@ base::vec3_s	Quaternion::getRotationAxis() const
 }
 
 //=========================================================================
-Quaternion&  Quaternion::setRotationAboutAxisAngle(const base::vec3_s &axis, float theta) 
+Quaternion&  Quaternion::setRotationAxis(const base::vec3_s &axis, float theta) 
 {
 
 	// The axis of rotation must be normalized

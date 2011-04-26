@@ -39,6 +39,66 @@ namespace base
 	 z=pnt._z;
 	};
 
+	//=====================================================================
+	mat44_s& mat44_s::setRotationQuaternion(const geom3d::Quaternion& q) 
+	{
+
+		mat44_s t  (
+			1.0f - 2.0f*q.y*q.y - 2.0f*q.z*q.z,   2.0f*q.x*q.y - 2.0f*q.z*q.w,         2.0f*q.x*q.z + 2.0f*q.y*q.w,          0.0f,
+			2.0f*q.x*q.y + 2.0f*q.z*q.w,          1.0f - 2.0f*q.x*q.x - 2.0f*q.z*q.z,  2.0f*q.y*q.z - 2.0f*q.x*q.w,          0.0f,
+			2.0f*q.x*q.z - 2.0f*q.y*q.w,          2.0f*q.y*q.z + 2.0f*q.x*q.w,         1.0f - 2.0f*q.x*q.x - 2.0f*q.y*q.y,   0.0f,
+			0.0f,                                 0.0f,                                0.0f,                                 1.0f);
+
+		t.transpone();
+
+		*this = t;
+
+		return *this;	
+	};
+
+
+//=============================================================
+vec3_s&  vec3_s::transformCoord(const mat44_s& m)
+{
+	vec4_s v;
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	v.w = 1.0f;
+
+	v = m * v;
+
+	x = v.x;
+	y = v.y;
+	z = v.z;
+ 
+    return *this;
+};
+
+//=============================================================
+vec3_s&  vec3_s::transformNormal(const mat44_s& m) 
+{
+	vec4_s v;
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	v.w = 0.0f;
+
+	v = m * v;
+
+	x = v.x;
+	y = v.y;
+	z = v.z;
+ 
+    return *this;
+};
+
+
+
+
+
+
+
 
 //=========================================================================
 //    mat22_s
