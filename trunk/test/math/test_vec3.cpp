@@ -241,7 +241,7 @@ int main()
   test_cross();
 
   test_transformCoord();
-	  test_transformNormal();
+  test_transformNormal();
 
 
 
