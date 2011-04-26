@@ -4,7 +4,22 @@
 *  Наполнение на основе выложеного ребятами в папку бранч,   опенсурсных движков,   выуженого из гугла , своих наработок.
 *
 *
+ \todo Сделать перечечения: луч, сфера, бокс, плоскость,
 */
+
+/* *************************************
+
+bool checkIntersectRay(const Ray& ray) {....}
+bool checkIntersecеSphere(const Sphere& sph) {....}
+bool checkIntersectAABB(const AABB& aabb) {....}
+bool checkIntersectPlane(const Plane& aabb) {....}
+
+
+
+
+
+
+*****************************************/ 
 
 #pragma once
 #include <gb/math/forw_decl.h>
@@ -71,6 +86,7 @@ namespace gb
 			inline Normal3() { _x=0.0f; _y=0.0f; _z=1.0f;  }
 			inline Normal3(const Normal3& n) { _x=n._x; _y=n._y; _z=n._z; }
 			inline Normal3(float x, float y, float z) { _x=x; _y=y; _z=z; __normalize(); }
+			inline Normal3(const base::vec3_s& v) { _x=v.x; _y=v.y; _z=v.z; __normalize();  }
 
 		
 			inline operator  const float*() const  { return &_x; };
@@ -84,15 +100,27 @@ namespace gb
 			inline void operator = (const base::vec3_s& vn)	{ _x = vn.x; _y = vn.y; _z = vn.z; __normalize(); }
 			inline operator base::vec3_s() const { return base::vec3_s (_x,_y,_z);  }
 
-			//! \brief  Вычислить угол между векторами
+			//! \brief  Вычислить угол между нормалями
 			// float angle (const Normal3& n) {...}
 
-
-			// void setDirectionBetweenPointer(const Point3& pntSrc, const Point3& pntDest) {....}; 
+			// //! \brief Установить как направление между точками pntDest и pntSrc .  
+			//Normal3& setDirectionBetweenPoints(const Point3& pntSrc, const Point3& pntDest) 
+			//{
+			//	base::vec3_s v = (base::vec3_s)pntDest - (base::vec3_s)pntSrc;
+			//	*this = v;
+			//	return *this;
+			//}
 
 			// void transform(const base::mat44_s& m) {...}
 
 			inline void inverse() {_x=-_x; _y=-_y; _z=-_z; }
+			
+			Normal3& transform(const base::mat44_s& m) 
+			{ 
+			   base::vec3_s v = *this;
+			   v.transformNormal(m);
+				return *this;
+			}
 
 
 #ifdef GB_D3D9
@@ -123,6 +151,7 @@ namespace gb
 
 			//! \brief  По дефолту координата нулевая .
 			inline Point3() { _x=0.0f; _y=0.0f; _z=0.0f;  }
+			inline Point3(float x, float y, float z) {_x=x; _y=y; _z=z; }
 
 			inline operator  const float*() const  { return &_x; };
 			inline operator        float*()        { return &_x; };
@@ -177,9 +206,32 @@ namespace gb
 				_x += vn.x; _y=vn.y; _z=vn.z;
 				return *this;
 			}
+			
+			//! \brief Вернуть расстояние между точками.
+			inline float distanceBetween(const Point3& p) const    
+			{
+		      base::vec3_s sub = (base::vec3_s)*this - (base::vec3_s)p;
+			  return sub.length();
+		    }
+			
+			/**  \brief  Изменить расстояние меж ду this и точкой pnt по коэф. k.
+			 Если k меньше нуля то производится сближение, если больше , то удаление   */
+			Point3& adjustDistancePoint(const base::vec3_s& pnt, const float k) 
+			{
+			  base::vec3_s dv = pnt - *this; 
+			  float dist = dv.length();
+			   Normal3 n  =  dv.normalize();
+			  moveAlongNormal( n,  dist - (dist * k) );
+			  return *this;
+			}
 
  
-			// void transform(const base::mat44_s& m) {...}
+			Point3& transform(const base::mat44_s& m) 
+			{ 
+			   base::vec3_s v = *this;
+			   v.transformCoord(m);
+				return *this;
+			}
 		
 		};
 		// end class
@@ -228,9 +280,17 @@ namespace gb
 			  return false;
 
 		  return true;
-	  };
+	  }
+	  
+	  
+//bool checkIntersectRay(const Ray& ray) {....}
+//bool checkIntersecеSphere(const Sphere& sph) {....}
+//bool checkIntersectAABB(const AABB& aabb) {....}
+//bool checkIntersectPlane(const Plane& aabb) {....}
 
 
+	  
+	  
 
 	
 	};
@@ -250,20 +310,82 @@ namespace gb
 	  
 	  inline void set(float min_x, float min_y, float min_z,
 					  float max_x, float max_y, float max_z)
-					  {
-					     min.x=min_x; min.y=min_y; min.z=min_z;
-					     max.x=max_x; max.y=max_y; max.z=max_z;					  
-					  }
-	//
-	
-/*	inline void  make(int nminx, int nminy, int nminz, int nmaxx, int nmaxy, int nmaxz) 
-	{
-	  min.x = (float)nminx;	min.y = (float)nminy; min.z = (float)nminz;
-	  max.x = (float)nmaxx; max.y = (float)nmaxy; max.z = (float)nmaxz;
-	  min.minimize(&max); max.maximize(&min);
-	};
-*/
+	  {
+		 min.x=min_x; min.y=min_y; min.z=min_z;
+		 max.x=max_x; max.y=max_y; max.z=max_z;					  
+	  }
+	  
+	  //! \brief ПОлучить центр бокса
+	  base::vec3_s center() const 
+	  { 
+	    base::vec3_s res;
+		  res.x = (max.x + min.x)/2.0f;
+		  res.y = (max.y + min.y)/2.0f;		
+		  res.z = (max.z + min.z)/2.0f;		
+	    return res; 
+	  }
+	  
+	  //! \brief  Включить координату pnt в бокс
+	  AABB& includePoint(const base::vec3_s& pnt) 
+	  {
+	    if (pnt.x < min.x) min.x = pnt.x;
+		if (pnt.y < min.y) min.y = pnt.y;
+		if (pnt.z < min.z) min.z = pnt.z;
 
+		if (pnt.x > max.x) max.x = pnt.x;
+		if (pnt.y > max.y) max.y = pnt.y;
+		if (pnt.z > max.z) max.z = pnt.z;
+	       return *this;
+	  }
+	  
+	  //! \brief Привести координаты coord в пределах бокса и вернуть результат 
+	  base::vec3_s clumpCoord(const base::vec3_s& coord) const
+	  {
+	     base::vec3_s r = coord;
+		 
+		   if(coord.x > max.x) r.x = max.x;
+		   if(coord.x < min.x) r.x = min.x;		   
+		 
+		   if(coord.y > max.y) r.y = max.y;
+		   if(coord.y < min.y) r.y = min.y;		 
+		 
+		   if(coord.z > max.z) r.z = max.z;
+		   if(coord.z < min.z) r.z = min.z;		 
+	   
+	          return r;
+	  }
+	  
+	  //! \brief  Размер по X
+	  inline float size_x() const { return max.x - min.x; }
+	  //! \brief  Размер по Y	  
+	  inline float size_y() const { return max.y - min.y; }	
+	  //! \brief  Размер по Z	  
+	  inline float size_z() const { return max.z - min.z; }	  
+	  
+	  //! \brief ПОлучить объём 
+	  inline float volume() const { return size_x() * size_y() * size_z(); }
+	  
+	  
+      // plane  plane_positive_x() const {.....}
+      // plane  plane_negative_x() const {.....}
+      // plane  plane_positive_y() const {.....}
+      // plane  plane_negative_y() const {.....} 
+      // plane  plane_positive_z() const {.....}
+      // plane  plane_negative_z() const {.....}
+	  
+	  /*     AABB& union(const AABB& b) 
+	  {
+	      if(b.min.x  min.x)
+	  
+	  }   
+	  */
+
+
+//bool checkIntersectRay(const Ray& ray) {....}
+//bool checkIntersecеSphere(const Sphere& sph) {....}
+//bool checkIntersectAABB(const AABB& aabb) {....}
+//bool checkIntersectAABB(Plane& outContactPlane, const AABB& aabb) {....}
+	
 
 
 
@@ -287,8 +409,17 @@ namespace gb
 	   }	   
 	
 	
-	//! \brief  вывод на консоль.
-    inline void print() const { orig.print(); printf("  "); dir.print(); printf("  "); };
+//bool checkIntersectRay(const Ray& ray) {....}   < ненадо
+//bool checkIntersecеSphere(const Sphere& sph) {....}
+//bool checkIntersectAABB( const AABB& aabb) {....}
+//bool checkIntersectPlane(vec3& outContactCoord, const Plane& aabb) {....}  
+	  
+	  
+	
+	
+	
+	   //! \brief  вывод на консоль.
+       inline void print() const { orig.print(); printf("  "); dir.print(); printf("  "); };
 	
 	};
  
@@ -381,7 +512,7 @@ namespace gb
 	   inline void set(float _a, float _b, float _c, float _d)  { a=_a; b=_b; c=_c; d=_d; }
 
 
-	    //! \brief Построение плоскости по координате point и направлению normal.
+	    //! \brief Построение плоскости по координате point и нормали normal.
 		inline plane_s& makeFromPointNormal(const base::vec3_s& point, const base::vec3_s& normal) 
 		{
 			base::vec3_s nn(normal);  //< возможно принудительную нормализацию надо убрать .
