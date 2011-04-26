@@ -611,6 +611,75 @@ void Quaternion::setRotationMatrix (Matrix3& kRot , const gb::math::geom3d::Quat
 
 ****************************************************/
 
+class M
+{
+public:
+	union
+	{
+		struct {
+	 float m00, m01, m02, m03,
+		   m10, m11, m12, m13,
+		   m20, m21, m22, m23,
+		   m30, m31, m32, m33 ;
+		};
+ 
+	float a[4][4];
+
+	};
+ 
+	M(){}
+
+
+
+
+
+	operator gb::math::base::mat44_s () 
+	{
+	   gb::math::base::mat44_s  r;
+
+	   r.floats[0] [0]  = a[0] [0];
+	   r.floats[0] [1]  = a[0] [1];
+	   r.floats[0] [2]  = a[0] [2];
+	   r.floats[0] [3]  = a[0] [3];
+
+	   r.floats[1] [0]  = a[1] [0];
+	   r.floats[1] [1]  = a[1] [1];
+	   r.floats[1] [2]  = a[1] [2];
+	   r.floats[1] [3]  = a[1] [3];
+
+ 	   r.floats[2] [0]  = a[2] [0];
+	   r.floats[2] [1]  = a[2] [1];
+	   r.floats[2] [2]  = a[2] [2];
+	   r.floats[2] [3]  = a[2] [3];
+
+	   r.floats[3] [0]  = a[3] [0];
+	   r.floats[3] [1]  = a[3] [1];
+	   r.floats[3] [2]  = a[3] [2];
+	   r.floats[3] [3]  = a[3] [3];
+ 
+	  return r;
+	}
+
+};
+
+//=========================================
+void test_rotationQuaternion()
+{
+ 	PRINTFUNC
+	MDX mdx;
+	MGB mgb;
+
+	    D3DXQUATERNION qdx ( 0.365f , 0.245f , 0.645f,  0.2035f  );
+		D3DXQuaternionNormalize(  &qdx, &qdx );
+  D3DXMatrixRotationQuaternion(   &mdx,  &qdx );
+
+  		 gb::math::geom3d::Quaternion q (  0.365f , 0.245f , 0.645f,  0.2035f   );
+		q.normalize();
+ 
+    mgb.setRotationQuaternion(q);
+
+	print_matrices(mdx , mgb); 
+};
 
 
 //=========================================================================
@@ -642,6 +711,8 @@ test_rotationY ();
 test_rotationZ ();
 test_rotationAxies ();
 test_translation();
+
+test_rotationQuaternion();
 
 
  printf(" \n\n  ######################   end program   ##################### \n");
