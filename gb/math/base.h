@@ -118,17 +118,20 @@ namespace gb
  			    inline operator  const float*() const  { return (float*)&x; }
 			    inline operator        float*()        { return (float*)&x; }
 
-				float &operator [] (unsigned int index) 
-				{ 
-				   assert(index<2 && "invalid index");
-				    return floats[index]; 
+				inline float operator [] (unsigned int index) const
+				{
+					assert(index<2 && "invalid index");
+					const float* pf = &x;
+					return pf[index];
 				}
-				
-				float operator [] (unsigned int index) const 
-				{ 
-				   assert(index<2 && "invalid index");
-				    return floats[index]; 
+
+				inline  float& operator [] (unsigned int index) 
+				{
+					assert(index<2 && "invalid index");
+					float* pf = &x;
+					return *(pf + index);
 				}
+
 
 #ifdef GB_D3DX9
 			inline operator const D3DXVECTOR2*() const { return (D3DXVECTOR2*)&x; }
@@ -304,16 +307,27 @@ namespace gb
 			inline vec3_s &  operator *= (const vec3_s &v)    {	x *= v.x;	y *= v.y;	z *= v.z;	return *this; }
 			inline vec3_s &  operator /= (float f)            {	x /= f;	y /= f;	z /= f;	return *this; }
 			inline vec3_s &  operator /= (const vec3_s &v)    {	x /= v.x;	y /= v.y;	z /= v.z;	return *this; }
-
-			inline float operator [] (unsigned int index) const //throw(std::runtime_error&) 
-			{ 
-				if(index>2) throw std::runtime_error("invalid index");  
-				const float* pf = &x;
-				return pf[index];			
-			}
-
+ 
 			inline operator  const float*() const  { return &x; }
 			inline operator        float*()        { return &x; }
+
+
+  inline float operator [] (unsigned int index) const
+  {
+	  assert(index<3 && "invalid index");
+	  const float* pf = &x;
+	  return pf[index];
+  }
+
+  inline  float& operator [] (unsigned int index) 
+  {
+	  assert(index<3 && "invalid index");
+	  float* pf = &x;
+	  return *(pf + index);
+  }
+
+
+
 
 #ifdef GB_D3D9
 			inline operator D3DVECTOR*() { return (D3DVECTOR*)&x; }
@@ -532,12 +546,7 @@ namespace gb
 
 			//! \brief Присваивание из float-массива 
 			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; w=pf[3]; }
-			
-			float operator [] (unsigned int index) const 
-			{ 
-			     assert(index<4 && "invalid index");
-				 return floats[index]; 
-			}
+ 
 					 
 			inline bool  operator == (const vec4_s &v) const {	return (x == v.x && y == v.y && z == v.z && w == v.w); }
 			inline bool  operator != (const vec4_s &v) const {	return (x != v.x || y != v.y || z != v.z || w != v.w); }
@@ -561,8 +570,26 @@ namespace gb
 
 			inline vec4_s &  operator /= (float f)         {	x /= f;	y /= f;	z /= f;	w /= f;	return *this; }
 
-			inline operator  const float*() const  { return &x; };
-			inline operator        float*()        { return &x; };
+			inline operator  const float*() const  { return &x; }
+			inline operator        float*()        { return &x; }
+
+
+			inline float operator [] (unsigned int index) const
+			{
+				assert(index<4 && "invalid index");
+				const float* pf = &x;
+				return pf[index];
+			}
+
+			inline  float& operator [] (unsigned int index) 
+			{
+				assert(index<4 && "invalid index");
+				float* pf = &x;
+				return *(pf + index);
+			}
+
+
+
 
 #ifdef GB_D3DX9
 			inline operator D3DXVECTOR4*() { return (D3DXVECTOR4*)&x; }
