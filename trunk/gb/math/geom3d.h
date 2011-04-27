@@ -516,68 +516,9 @@ bool checkIntersectAABB(const AABB& b) const
 
 	};
 		
-	//! \brief Луч в трёхмерном пространстве по позиции и направлению   
-	class Ray {
-	public:
-	   base::vec3_s   orig; ///< точка центр луча (позиция)
-	   base::vec3_s   dir;  ///< направление луча. Должен быть нормализован.
-	   
-	   inline Ray() {}
-	   inline Ray(const Ray& r) {orig=r.orig; dir=r.dir; }
-	   
-	   // возможно нужно убрать параметр bNeedNormalizeDir
-	   inline Ray(const base::vec3_s& _orig, const base::vec3_s& _dir, bool bNeedNormalizeDir)
-       {
-	      orig=_orig;
-	      dir=_dir;
-	      if(bNeedNormalizeDir) dir.normalize();	   
-	   }
-
-	//! \brief  Трансформировать луч по матрице m
-	inline void transform(const base::mat44_s& m)
-	{
-	     orig.transformCoord(m);
-	     dir.transformNormal(m);
-	}
-	
-	
-//bool checkIntersectRay(const Ray& ray) {....}   < ненадо
-//bool checkIntersecеSphere(const Sphere& sph) {....}
-//bool checkIntersectAABB( const AABB& aabb) {....}
-//bool checkIntersectPlane(vec3& outContactCoord, const Plane& aabb) {....}  
-	  
-/* *************************************************************	  
-http://www.gamespp.com/algorithms/collisionDetectionTutorial02.html
-// find the distance between a ray and a plane.
-inline float distRayPlane(vec3 vRayOrigin,
-                          vec3 vnRayVector,
-                          vec3 vnPlaneNormal,
-                          float planeD)
-{
-    float cosAlpha;
-    float deltaD;
 
 
-    cosAlpha = DotProduct( 
-        vnRayVector ,  vnPlaneNormal );
 
-    // parallel to the plane (alpha=90)
-    if (cosAlpha==0) return -1.0f;
-
-
-    deltaD = planeD - 
-        DotProduct(vRayOrigin,vnPlaneNormal);
-    
-    return (deltaD/cosAlpha);
-}
-************************************************************/	
-	
-	
-	   //! \brief  вывод на консоль.
-       inline void print() const { orig.print(); printf("  "); dir.print(); printf("  "); };
-	
-	};
- 
 	//! \brief   Линия в трёхмерном пространстве по двум точкам  
 	class Line {
 	public:
@@ -756,7 +697,313 @@ inline float distRayPlane(vec3 vRayOrigin,
 	};
 
 
+	
 
+	//! \brief Луч в трёхмерном пространстве по позиции и направлению   
+	class Ray {
+	public:
+	   base::vec3_s   orig; ///< точка центр луча (позиция)
+	   base::vec3_s   dir;  ///< направление луча. Должен быть нормализован.
+	   
+	   inline Ray() {}
+	   inline Ray(const Ray& r) {orig=r.orig; dir=r.dir; }
+	   
+	   // возможно нужно убрать параметр bNeedNormalizeDir
+	   inline Ray(const base::vec3_s& _orig, const base::vec3_s& _dir, bool bNeedNormalizeDir=true)
+       {
+	      orig=_orig;
+	      dir=_dir;
+	      if(bNeedNormalizeDir) 
+			  dir.normalize();	   
+	   }
+
+	//! \brief  Трансформировать луч по матрице m
+	inline void transform(const base::mat44_s& m)
+	{
+	     orig.transformCoord(m);
+	     dir.transformNormal(m);
+	}
+	
+ 
+
+//>>>>>>>>>>>>>>>       checkIntersectSphere  >>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+//  http://netlib.narod.ru/library/book0032/ch15_04.htm
+bool  checkIntersectSphere(const Sphere& sphere) const
+{
+	base::vec3_s v =  this->orig - sphere.center;
+
+     float b = 2.0f * this->dir.dot(v);
+     float c =    v.dot(v) - (sphere.radius * sphere.radius);
+
+     // Находим дискриминант
+     float discriminant = (b * b) - (4.0f * c);
+
+     // Проверяем на мнимые числа
+     if(discriminant < 0.0f)
+	 {
+          return false;
+	 }
+
+     discriminant = sqrtf(discriminant);
+
+     float s0 = (-b + discriminant) / 2.0f;
+     float s1 = (-b - discriminant) / 2.0f;
+
+     // Если есть решение >= 0, луч пересекает сферу
+     if(s0 >= 0.0f || s1 >= 0.0f)
+	 {
+          return true;
+	 }
+
+     return false;
+}
+
+	 
+		// http://www.gamecoder.ru/2011/04/3d-3d.html
+bool checkIntersectSphere_2 (const Sphere& sphere, float* result)
+{
+	base::vec3_s vect( orig.x - sphere.center.x,
+                       orig.y - sphere.center.y, 
+                       orig.z - sphere.center.z );
+
+
+   const float c =  vect.lengthSq()   -  ( sphere.radius * sphere.radius );
+
+
+   if(c < 0.0f)
+   {
+     *result = 0.0f;
+      return true;
+   }
+
+
+   const float b =  vect.dot(dir);   //  dotProduct(vect, ray.direction);
+
+
+   const float d =  b * b - c;
+
+
+   if (d < 0.0f)
+   {
+      return (false);
+   }
+
+
+   float root1 = -b - sqrt(c);
+   float root2 = -b + sqrt(c);
+
+
+   if(root1 >= root2)
+   {
+      *result = root1;
+   }
+   else
+   {
+      *result = root2;
+   }
+  
+   return (*result >= 0.0f);
+}
+
+
+
+//
+//>>>>>>>>>>>>>>      checkIntersectAABB        >>>>>>>>>>>>>>>>>>>>>>>>>>>
+//
+
+//bool checkIntersectAABB( const AABB& aabb) {....}
+
+
+// http://www.gamecoder.ru/2011/04/3d-3d.html
+bool checkIntersectAABB(const AABB& aabb,  float* result)
+{
+   //Проверим если луч находится внутри параллелепипеда.
+   if (   orig.x >= aabb.min.x
+       && orig.x <= aabb.max.x
+       && orig.y >= aabb.min.y
+       && orig.y <= aabb.max.y
+       && orig.z >= aabb.min.z
+       && orig.z <= aabb.max.z)
+   {
+      *result = 0.0f;
+      return true;
+   }
+
+
+   float t_near = FLT_MIN;
+   float t_far = FLT_MAX;
+   float t1;
+   float t2;
+   float tmp;
+
+
+
+   if(dir.x != 0.0f)
+   {
+      t1 = (aabb.min.x - orig.x) / dir.x;
+      t2 = (aabb.max.x - orig.x) / dir.x;
+
+      if(t1 > t2)
+      {
+         tmp = t1;
+         t2 = t1;
+         t2 = tmp;         
+      }
+      
+      if(t1 > t_near)
+      {
+         t_near = t1;
+      }
+
+      if(t2 < t_far)
+      {
+         t_far = t2;
+      }
+
+      if(t_near > t_far) return false;
+      if(t_far < 0) return false;
+
+   }
+
+
+
+
+   if(dir.y != 0.0f)
+   {
+      t1 = (aabb.min.y - orig.y) / dir.y;
+      t2 = (aabb.max.y - orig.y) / dir.y;
+
+      if(t1 > t2)
+      {
+         tmp = t1;
+         t2 = t1;
+         t2 = tmp;         
+      }
+      
+      if(t1 > t_near)
+      {
+         t_near = t1;
+      }
+
+      if(t2 < t_far)
+      {
+         t_far = t2;
+      }
+
+      if(t_near > t_far) return false;
+      if(t_far < 0) return false;
+
+   }
+
+   if(dir.z != 0.0f)
+   {
+      t1 = (aabb.min.y - orig.y) / dir.y;
+      t2 = (aabb.max.y - orig.y) / dir.y;
+
+      if(t1 > t2)
+      {
+         tmp = t1;
+         t2 = t1;
+         t2 = tmp;         
+      }
+      
+      if(t1 > t_near)
+      {
+         t_near = t1;
+      }
+
+      if(t2 < t_far)
+      {
+         t_far = t2;
+      }
+
+      if(t_near >= t_far) return false;
+      if(t_far < 0) return false;
+   }
+
+   *result = t_near;
+
+   return (*result < t_far && *result >= 0);
+}
+
+
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+ 
+//
+//>>>>>>>>>>>>>>>>>  checkIntersectPlane  >>>>>>>>>>>>>>>>>>>>>>>>>
+//
+
+//bool checkIntersectPlane(vec3& outContactCoord, const Plane& aabb) {....} 
+
+// http://www.gamecoder.ru/2011/04/3d-3d.html
+
+bool checkIntersectPlane( const plane_s& plane , float* pfOutResult=NULL) const
+{
+	const base::vec3_s plNrml = plane.normal();
+   const float alpha = plNrml.dot(dir); //    dotProduct(plane.normal, dir);
+
+   float fres = 0.0f;
+
+   if(alpha != 0.0f)
+   {
+	    fres  = //   ( - dotProduct(plane.normal(), orig ) + plane.d )/alpha;
+		 ( -  plNrml.dot(orig)  + plane.d ) / alpha;
+
+	   if(pfOutResult)
+	   {
+         *pfOutResult = fres ;
+	   }
+
+      return ( fres >= 0.0f );
+   }
+
+
+   return false;
+}
+
+ //--------------------------------------------------------
+
+// http://www.gamespp.com/algorithms/collisionDetectionTutorial02.html
+// find the distance between a ray and a plane.
+inline float distanceToPlane( plane_s& plane )   const
+{
+
+	const base::vec3_s vRayOrigin = orig;
+	const base::vec3_s vnRayVector = dir;
+
+	const  base::vec3_s& vnPlaneNormal = plane.normal();
+	const float planeD = plane.d;
+
+
+
+	float cosAlpha = vnRayVector.dot(vnPlaneNormal);
+
+	// parallel to the plane (alpha=90)
+	if (cosAlpha==0)
+	{
+		return -1.0f;
+	}
+
+
+	float  deltaD = planeD -  vRayOrigin.dot(vnPlaneNormal); //  DotProduct(vRayOrigin,vnPlaneNormal);
+
+	return (deltaD/cosAlpha);
+}
+ 
+	
+	   //! \brief  вывод на консоль.
+       inline void print() const { orig.print(); printf("  "); dir.print(); printf("  "); };
+	
+	};
+ 
+   //----------------------------------------------------------------------
+
+
+
+	// ! УБРАТЬ !!!
 	class Plane : public plane_s {
 	public:
 		inline Plane() {};

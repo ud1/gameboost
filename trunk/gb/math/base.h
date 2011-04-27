@@ -312,19 +312,19 @@ namespace gb
 			inline operator        float*()        { return &x; }
 
 
-  inline float operator [] (unsigned int index) const
-  {
-	  assert(index<3 && "invalid index");
-	  const float* pf = &x;
-	  return pf[index];
-  }
+			inline float operator [] (unsigned int index) const
+			{
+				assert(index<3 && "invalid index");
+				const float* pf = &x;
+				return pf[index];
+			}
 
-  inline  float& operator [] (unsigned int index) 
-  {
-	  assert(index<3 && "invalid index");
-	  float* pf = &x;
-	  return *(pf + index);
-  }
+			inline  float& operator [] (unsigned int index) 
+			{
+				assert(index<3 && "invalid index");
+				float* pf = &x;
+				return *(pf + index);
+			}
 
 
 
@@ -496,7 +496,10 @@ namespace gb
 			vec3_s&  transformCoord(const mat44_s& m);
 			//! \brief Тарнсформировать по матрице m   как нормаль. ПРОВЕРЕНО!
 			vec3_s&  transformNormal(const mat44_s& m);
-
+				
+			 // TODO: 
+			    // void transformCoordArray(float* pfOut, int strideOut, const float* pvInput, int strideInput,  const M44& m, const int num) {...} 
+			    // void transformNormalArray(float* pfOut, int strideOut, const float* pvInput, int strideInput,  const M44& m, const int num) {...} 
 
 
 			inline void toCstr(char* buf) const 
