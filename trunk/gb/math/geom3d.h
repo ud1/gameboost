@@ -86,7 +86,7 @@ namespace gb
 			inline Normal3() { _x=0.0f; _y=0.0f; _z=1.0f;  }
 			inline Normal3(const Normal3& n) { _x=n._x; _y=n._y; _z=n._z; }
 			inline Normal3(float x, float y, float z) { _x=x; _y=y; _z=z; __normalize(); }
-			inline Normal3(const base::vec3_s& v) { _x=v.x; _y=v.y; _z=v.z; __normalize();  }
+			inline Normal3(const base::vec3_s& v) { *this = v;  }
 
 		
 			inline operator  const float*() const  { return &_x; };
@@ -101,24 +101,27 @@ namespace gb
 			inline operator base::vec3_s() const { return base::vec3_s (_x,_y,_z);  }
 
 			//! \brief  Вычислить угол между нормалями
-			// float angle (const Normal3& n) {...}
+			inline float angle (const Normal3& n) 
+			{
+				const float fdot = _x*n._x + _y*n._y + _z*n._z;
+                return acos(  fdot );
+			}
 
-			// //! \brief Установить как направление между точками pntDest и pntSrc .  
-			//Normal3& setDirectionBetweenPoints(const Point3& pntSrc, const Point3& pntDest) 
-			//{
-			//	base::vec3_s v = (base::vec3_s)pntDest - (base::vec3_s)pntSrc;
-			//	*this = v;
-			//	return *this;
-			//}
-
-			// void transform(const base::mat44_s& m) {...}
-
-			inline void inverse() {_x=-_x; _y=-_y; _z=-_z; }
+			 //! \brief Установить как направление между точками pntDest и pntSrc .  
+			Normal3& setDirectionBetweenPoints(const Point3& pntSrc, const Point3& pntDest);
+ 
+			//! \brief Изменить направление на противоположное
+			inline void negate() {_x=-_x; _y=-_y; _z=-_z; }
 			
+			//! \brief  Трансформировать нормаль по матрице m
 			Normal3& transform(const base::mat44_s& m) 
 			{ 
 			   base::vec3_s v = *this;
 			   v.transformNormal(m);
+			   //*this = v;
+			   _x = v.x;
+			   _y = v.y;
+			   _z = v.z;
 				return *this;
 			}
 
@@ -156,7 +159,7 @@ namespace gb
 			inline operator  const float*() const  { return &_x; };
 			inline operator        float*()        { return &_x; };
 
-			inline void operator = (const base::vec3_s& vPoint) { _x=vPoint.x; _y=vPoint.y; _z=vPoint.z; }
+			inline void operator = (const base::vec3_s& v) { _x=v.x; _y=v.y; _z=v.z; }
 			inline operator base::vec3_s() const { return base::vec3_s (_x,_y,_z);  }
 	
 #ifdef GB_D3D9
@@ -178,14 +181,13 @@ namespace gb
 
 
 			//! \brief установка  средней точки  
-			inline Point3& setMiddle(const base::vec3_s& p)
+			inline Point3& setMiddle(const Point3& p)
 			{
-				_x = (_x + p.x) / 2.0f;
-				_y = (_y + p.y) / 2.0f;
-				_z = (_z + p.z) / 2.0f;
+				_x = (_x + p._x) / 2.0f;
+				_y = (_y + p._y) / 2.0f;
+				_z = (_z + p._z) / 2.0f;
 				return *this;
 			}
-
 
 			//! \brief  Движение к точке posTo на расстояние distance
 			Point3& moveTo(const Point3& posTo, float distance)
@@ -196,7 +198,6 @@ namespace gb
 				 _x += vn.x; _y=vn.y; _z=vn.z;
 				return *this;
 			}
-
 
 			//! \breif  Перемещение точки по направлению normal на расстояние distance
 			Point3& moveAlongNormal(const Normal3& normal, float distance) 
@@ -214,22 +215,25 @@ namespace gb
 			  return sub.length();
 		    }
 			
-			/**  \brief  Изменить расстояние меж ду this и точкой pnt по коэф. k.
-			 Если k меньше нуля то производится сближение, если больше , то удаление   */
-			Point3& adjustDistancePoint(const base::vec3_s& pnt, const float k) 
+			
+			/**  \brief  Изменить расстояние между this и точкой pnt по коэф. k.
+			 Если k меньше 1 то производится сближение, если больше , то удаление   */ 
+			Point3& adjustDistancePoint(const Point3& pnt, const float k) 
 			{
-			  base::vec3_s dv = pnt - *this; 
+				base::vec3_s dv  = (base::vec3_s)pnt - (base::vec3_s)*this; 
 			  float dist = dv.length();
-			   Normal3 n  =  dv.normalize();
+			   Normal3 n  =  dv ;
 			  moveAlongNormal( n,  dist - (dist * k) );
 			  return *this;
 			}
 
  
+			//! \brief Трансформировать точку по матрице m
 			Point3& transform(const base::mat44_s& m) 
 			{ 
 			   base::vec3_s v = *this;
 			   v.transformCoord(m);
+			   *this = v;
 				return *this;
 			}
 		
@@ -262,7 +266,7 @@ namespace gb
 	  inline void set(int ix, int iy, int iz, int r) { center.x=(float)ix;  center.y=(float)iy;  center.z=(float)iz;	radius = (float)r; }
 
 	  //! \brief Получить расстояние между краями сфер. Вернёт отрицательное если сферы пересекаются.
-      inline float distanceBetweenSphere(const Sphere& s) const 
+      inline float distanceBetweenSpheres(const Sphere& s) const 
 	  {
 		  float res = 0.0f;
 		  {  base::vec3_s t(center-s.center); res=t.length();  }
@@ -289,11 +293,16 @@ namespace gb
 //bool checkIntersectPlane(const Plane& aabb) {....}
 
 
-	  
-	  
 
+//! \brief  Получить бокс построеный по краю сферы
+AABB toAabbOutside() ;		  
+	 
+//! \brief  Получить бокс построеный 	внутри сферы.
+AABB toAabbInside();
 	
 	};
+	// end class
+	
 		
 	//! \brief Бокс по мин. и макс. координатам. Axis Aligned Bounding Box.
 	class AABB {
@@ -360,9 +369,19 @@ namespace gb
 	  //! \brief  Размер по Y	  
 	  inline float size_y() const { return max.y - min.y; }	
 	  //! \brief  Размер по Z	  
-	  inline float size_z() const { return max.z - min.z; }	  
+	  inline float size_z() const { return max.z - min.z; }	
+
+	  //! \brief Получить 3d-размер бокса
+	  inline Size3d size3d() const 
+	  {
+	   Size3d res;
+	   res.x = size_x();
+	   res.y = size_y();	   
+	   res.z = size_z();	   
+	   return res;
+	  }
 	  
-	  //! \brief ПОлучить объём 
+	  //! \brief Получить объём 
 	  inline float volume() const { return size_x() * size_y() * size_z(); }
 	  
 	  
@@ -380,13 +399,23 @@ namespace gb
 	  }   
 	  */
 
+	  
+	 // Sphere toSphere() const
+	 // {
+	 //   Sphere res;
+		
+	//	cccc
+	 //   return res;
+	 // }
+	  
 
 //bool checkIntersectRay(const Ray& ray) {....}
 //bool checkIntersecеSphere(const Sphere& sph) {....}
 //bool checkIntersectAABB(const AABB& aabb) {....}
-//bool checkIntersectAABB(Plane& outContactPlane, const AABB& aabb) {....}
+//bool checkIntersectAABBex(Plane& outContactPlane, const AABB& aabb) {....}
 	
 
+	
 
 
 	};
@@ -406,7 +435,14 @@ namespace gb
 	      orig=_orig;
 	      dir=_dir;
 	      if(bNeedNormalizeDir) dir.normalize();	   
-	   }	   
+	   }
+
+	//! \brief  Трансформировать луч по матрице m
+	inline void transform(const base::mat44_s& m)
+	{
+	     orig.transformCoord(m);
+	     dir.transformNormal(m);
+	}
 	
 	
 //bool checkIntersectRay(const Ray& ray) {....}   < ненадо
@@ -414,8 +450,31 @@ namespace gb
 //bool checkIntersectAABB( const AABB& aabb) {....}
 //bool checkIntersectPlane(vec3& outContactCoord, const Plane& aabb) {....}  
 	  
-	  
-	
+/* *************************************************************	  
+http://www.gamespp.com/algorithms/collisionDetectionTutorial02.html
+// find the distance between a ray and a plane.
+inline float distRayPlane(vec3 vRayOrigin,
+                          vec3 vnRayVector,
+                          vec3 vnPlaneNormal,
+                          float planeD)
+{
+    float cosAlpha;
+    float deltaD;
+
+
+    cosAlpha = DotProduct( 
+        vnRayVector ,  vnPlaneNormal );
+
+    // parallel to the plane (alpha=90)
+    if (cosAlpha==0) return -1.0f;
+
+
+    deltaD = planeD - 
+        DotProduct(vRayOrigin,vnPlaneNormal);
+    
+    return (deltaD/cosAlpha);
+}
+************************************************************/	
 	
 	
 	   //! \brief  вывод на консоль.
@@ -433,7 +492,8 @@ namespace gb
 		inline Line(const Line& l) {src=l.src; dest=l.dest; };	
 		inline Line(const base::vec3_s& _src, const base::vec3_s& _dest) {src=_src; dest=_dest; };
 
-		inline base::vec3_s getDirection() const { base::vec3_s r (dest - src); r.normalize(); return r; }
+		//! \brief Получить направление от src к dest
+		inline base::vec3_s direction() const { base::vec3_s r (dest - src); r.normalize(); return r; }
 
 
 
@@ -476,13 +536,7 @@ namespace gb
 	struct plane_s {
 		  union {
 
-			//union {
-			//	struct { float x, y, z; };
-			//	float  d;
-			//};
-
 		   struct { float x , y , z , w ;   };
-
 		   struct { float a , b , c , d ;   };
 
 	       float floats [4];
@@ -509,7 +563,14 @@ namespace gb
 	
 #endif	   
 
-	   inline void set(float _a, float _b, float _c, float _d)  { a=_a; b=_b; c=_c; d=_d; }
+	   inline void make(float _a, float _b, float _c, float _d)  
+	   { 
+	       a=_a; 
+		   b=_b; 
+		   c=_c; 
+		   d=_d; 
+		   normalize(); 
+	   }
 
 
 	    //! \brief Построение плоскости по координате point и нормали normal.
@@ -569,11 +630,27 @@ namespace gb
 			return res; 
 		}
 
-		//! \brief  Инвертировать плоскость
+		//! \brief  Инвертировать плоскость  ПРОВЕРИТЬ !!!!
 		inline void inverse() { a*=-a; b*=-b; c*=-c;  }
 
 		//! \brief  Получить инвертированую плоскость
 		inline plane_s inverted() const { plane_s res = *this; res.inverse(); return res; }
+ 
+		//! \brief Проверка точки содержится ли она внутри плоскости.
+		inline bool checkPointInside(const base::vec3_s& point)
+		{
+		  if( dotCoord(point) < 0.0f ) return true;
+		  return false;
+		}
+		
+		//! \brief ПОлучить минимальное расстояние от точки pnt до плоскости .
+		inline float distance(const base::vec3_s& point)
+		{
+		   return abs( dotCoord(point) ); 
+		}
+ 
+ 
+ 
  
  
 		//! \brief  Вывод на консоль.

@@ -11,6 +11,28 @@ namespace math
 namespace geom3d
 {
 
+
+//=========================================================================
+//                          Normal3
+//=========================================================================
+
+//=========================================================================
+	Normal3& Normal3::setDirectionBetweenPoints(const Point3& pntSrc, const Point3& pntDest) 
+	{
+		base::vec3_s v;
+		v.x=  pntDest._x - pntSrc._x; // пусть пока так будет
+		v.y=  pntDest._y - pntSrc._y;
+		v.z=  pntDest._z - pntSrc._z;
+		*this = v;
+		return *this;
+	}
+
+
+
+
+
+
+
 //=========================================================================
 //                          Quaternion
 //=========================================================================
@@ -235,6 +257,33 @@ Quaternion&  Quaternion::setRotationAxis(const base::vec3_s &axis, float theta)
 	z = axis.z * sinThetaOver2;
 	return *this;
 }
+
+
+
+
+
+//=========================================================================
+//  Sphere
+//=========================================================================
+
+//=========================================================================
+AABB Sphere::toAabbOutside()
+{
+  AABB res;
+  res.min.x = center.x - radius;
+  res.min.y = center.y - radius;  
+  res.min.z = center.z - radius;  
+  
+  res.max.x = center.x + radius;
+  res.max.y = center.y + radius;  
+  res.max.z = center.z + radius;   
+  
+  return res;
+ }
+
+
+
+//=========================================================================
 
 
 

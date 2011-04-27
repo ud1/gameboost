@@ -118,8 +118,17 @@ namespace gb
  			    inline operator  const float*() const  { return (float*)&x; }
 			    inline operator        float*()        { return (float*)&x; }
 
-				float &operator[] (int i) { return floats[i]; }
-				float operator[] (int i) const { return floats[i]; }
+				float &operator [] (unsigned int index) 
+				{ 
+				   assert(index<2 && "invalid index");
+				    return floats[index]; 
+				}
+				
+				float operator [] (unsigned int index) const 
+				{ 
+				   assert(index<2 && "invalid index");
+				    return floats[index]; 
+				}
 
 #ifdef GB_D3DX9
 			inline operator const D3DXVECTOR2*() const { return (D3DXVECTOR2*)&x; }
@@ -296,10 +305,10 @@ namespace gb
 			inline vec3_s &  operator /= (float f)            {	x /= f;	y /= f;	z /= f;	return *this; }
 			inline vec3_s &  operator /= (const vec3_s &v)    {	x /= v.x;	y /= v.y;	z /= v.z;	return *this; }
 
-			inline float operator [] (unsigned int index) //throw(std::runtime_error&) 
+			inline float operator [] (unsigned int index) const //throw(std::runtime_error&) 
 			{ 
 				if(index>2) throw std::runtime_error("invalid index");  
-				float* pf = &x;
+				const float* pf = &x;
 				return pf[index];			
 			}
 
@@ -523,6 +532,12 @@ namespace gb
 
 			//! \brief Присваивание из float-массива 
 			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; w=pf[3]; }
+			
+			float operator [] (unsigned int index) const 
+			{ 
+			     assert(index<4 && "invalid index");
+				 return floats[index]; 
+			}
 					 
 			inline bool  operator == (const vec4_s &v) const {	return (x == v.x && y == v.y && z == v.z && w == v.w); }
 			inline bool  operator != (const vec4_s &v) const {	return (x != v.x || y != v.y || z != v.z || w != v.w); }
@@ -572,6 +587,7 @@ namespace gb
 
 			inline float   dot (const vec4_s& v) const { return x*v.x + y*v.y + z*v.z + w*v.w; }
 
+			
 #pragma message ("KS777: MATH::VEC4 >> NEED CHECK CROSS METHOD !!!"  __FILE__)
 			inline vec4_s  cross ( const vec4_s & v) const
 			{
@@ -601,7 +617,7 @@ namespace gb
 	//! \brief  Получить минимальную компоненту.
 	inline float minval() const 
 	{ 	  
-		float res = x;
+	   float res = x;
 	   if(y<res) res=y;
 	   if(z<res) res=z;
 	   if(w<res) res=w;
@@ -610,7 +626,8 @@ namespace gb
 
 	//! \brief Получить максимальную компоненту.
 	inline float maxval() const
-	{   float res = x;
+	{   
+	   float res = x;
 	   if(res<y) res=y;
 	   if(res<z) res=z;
 	   if(res<w) res=w;
@@ -659,8 +676,10 @@ namespace gb
     //! \brief Вывод значений на консоль
 	inline void print() const { printf(" %f  %f  %f  %f ", x, y, z, w); };
 
-		}; // end vec4_s
+		}; 
+		// end vec4_s
 		
+		//------------------------------------------------------------------
 
 
 		//! \brief Матрица 2x2
@@ -686,7 +705,7 @@ namespace gb
 
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
-
+			
 
 			inline mat22_s&  operator =  ( const mat22_s& m)
 			{
@@ -712,10 +731,7 @@ namespace gb
 	        /**	 \brief Обращение знака всех элементов матрицы	*/
 			inline mat22_s operator - () const { mat22_s r=*this; r._11=-r._11; r._12=-r._12; r._21=-r._21; r._22=-r._22; return r; };
 
-
-
-
-
+ 
 			/** \brief  Покомпонентное сложение   (this = this + m) */
 			inline mat22_s&  operator += ( const mat22_s& m)
 			{
@@ -812,7 +828,34 @@ namespace gb
 				res.x =  floats [0][0]*v.x + floats [0][1]*v.y ;
 				res.y =  floats [1][0]*v.x + floats [1][1]*v.y ;
 				return res;
-			};
+			}
+			
+			inline vec2_s row(unsigned int index)
+			{
+			   assert(index<2 && "invalid index");
+			   vec2_s res;
+			   switch(index)
+			   {
+			    case 0: { res.x=_11; res.y=_12; } break;
+			    case 1: { res.x=_21; res.y=_22; } break;
+				default: {}				
+			   }
+			   return res;
+			}
+			
+			inline vec2_s column(unsigned int index)
+			{
+			   assert(index<2 && "invalid index");			
+			   vec2_s res;
+			   switch(index)
+			   {
+			    case 0: { res.x=_11; res.y=_21; } break;
+			    case 1: { res.x=_12; res.y=_22; } break;
+				default: {}				
+			   }			   
+			   return res;
+			}			
+			
 
 
 			inline mat22_s&  setzero()     { _11=_12=_21=_22=0.0f; return *this; };
