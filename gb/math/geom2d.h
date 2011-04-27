@@ -70,6 +70,10 @@ public:
 	Normal2(const Normal2& n) {  _x=n._x;   _y=n._y;  }
 	
 	Normal2(float x, float y) { _x=x; _y=y; __normalize();  }
+	Normal2(const base::vec2_s& vn) 
+	{
+	 *this = vn;
+	}
  
 
 	inline float x() const { return _x; }
@@ -98,8 +102,8 @@ public:
    Point2(const float x, const float y) { _x=x;  _y=y; }
    
  
-   // moveAlongNormal(const Normal2& normal, float distance) {....}
-   // void transform(const base::mat44_s& m) {....}
+   // void moveAlongNormal(const Normal2& normal, float distance) {....}
+   // void transform(const base::mat22_s& m) {....}
 
 
 }; 
@@ -153,7 +157,8 @@ public:
 				y2 = (float)rec.bottom;    
 			};
 
-			inline operator RECT () const {
+			inline operator RECT () const 
+			{
 				RECT res;
 				res.left   = (long)x1;
 				res.top    = (long)y1;
@@ -387,6 +392,10 @@ public:
 				if (fDist >= (radius + c.radius))	return false;
 				return true;
 			}
+			
+			
+			// bool checkIntersectContactPoints(vec2_s& outp1, vec2_s& outp2, const Circle& c) {...}
+			// http://algolist.manual.ru/maths/geom/intersect/circlecircle2d.php
 
 			//! \brief Проверка попадания точки   point
 			inline bool checkContainPoint(const base::vec2_s point) 
@@ -403,13 +412,28 @@ public:
 
 
 		//! Линия в 2d по двум точкам
-		class Line {
+		class Line2d {
 		public:
 			base::vec2_s   src;
 			base::vec2_s   dest;
 
 
-			inline Line() {}
+			inline Line2d() {}
+			inline Line2d(const Line2d& l) {src=l.src;  dest=l.dest; }
+			inline Line2d(const base::vec2_s& _src, const base::vec2_s& _dest)
+			{
+			   src=_src;
+			   dest=_dest;
+			}
+			
+			Normal2 direction() const 
+			{
+			    Normal2 res = (dest - src);
+			    return res;	
+			}
+				
+			
+			
 		};
 
 

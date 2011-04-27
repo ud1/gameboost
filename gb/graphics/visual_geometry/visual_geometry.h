@@ -414,6 +414,8 @@ public:
   virtual HRESULT draw3dAxies(const float* vec3_coord, float axiesLen) const =0;
 
   virtual HRESULT draw3dSolidSphere(const float* vec3_center, float radius) const =0;
+
+  //virtual HRESULT draw3dPlaneRect
  
 };
 // end class
