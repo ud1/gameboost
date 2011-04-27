@@ -279,10 +279,8 @@ protected:
 // end class
 
 
-/** \brief  Simple first person camera class that moves and rotates.
-        It allows yaw and pitch but not roll.  It uses WM_KEYDOWN and 
-        GetCursorPos() to respond to keyboard and mouse input and updates the 
-       view matrix based on input.  */
+/** \brief Камера от первого лица. 
+   Использует сообщения окну для чтения клавиатуры: вперёд,назад,влево,вправо,вверх,вниз  */
 class FirstPersonCamera : public BaseCamera {
 public:
     FirstPersonCamera();
@@ -326,7 +324,7 @@ protected:
 
 
 
-/** \brief  Simple model viewing camera class that rotates around the object. */
+/** \brief Простая модель класс камеры , которая вращается вокруг объекта и вращает объект. */
 class ModelViewerCamera : public BaseCamera
 {
 public:
@@ -390,6 +388,58 @@ protected:
 
 };
 // end class
+
+
+class TargetCamera {
+public:
+
+	TargetCamera() { m_pvTarget=NULL; m_bNeedUpdateView=true; }
+
+ void setViewTarget( D3DXVECTOR3* pvTarget ) { m_pvTarget=pvTarget; m_bNeedUpdateView=true; }
+ void setViewPosition( const D3DXVECTOR3& vPos ) { m_vEyePt=vPos;  m_bNeedUpdateView=true; }
+ void setViewUp( const D3DXVECTOR3& vUp ) { m_vUp=vUp; m_bNeedUpdateView=true; }
+
+ void setProjParams( float fFOV, float fAspect, float fNearPlane, float fFarPlane )
+ {
+   D3DXMatrixPerspectiveFovLH(&m_mProj, fFOV, fAspect, fNearPlane, fFarPlane );
+ }
+
+
+ const D3DXMATRIX* getViewMatrix() const { return &m_mView; }
+ const D3DXMATRIX* getProjMatrix() const { return &m_mProj; }
+
+
+ void updateView() 
+ {
+	 // make view matrix
+	 D3DXVECTOR3 vLookAt;
+	 if(m_pvTarget) 
+	 { 
+		 vLookAt = *m_pvTarget;  
+	 }
+	 else
+	 {
+		 vLookAt.x = vLookAt.y = vLookAt.z = 0.0f;
+	 }
+
+	 D3DXMatrixLookAtLH( &m_mView, &m_vEyePt, &vLookAt, &m_vUp );
+
+    m_bNeedUpdateView = false;
+ }
+
+
+private:
+    D3DXVECTOR3*     m_pvTarget; ///< pointer to target coord
+	D3DXMATRIX            m_mView;              ///< View matrix 
+	D3DXMATRIX            m_mProj;              ///< Projection matrix
+
+	D3DXVECTOR3  m_vEyePt;
+	D3DXVECTOR3  m_vUp;
+
+
+	bool m_bNeedUpdateView;
+};
+
 
 
 

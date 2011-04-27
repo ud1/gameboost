@@ -96,7 +96,6 @@ namespace gb
 			inline float y() const { return _y; }
 			inline float z() const { return _z; }
 
-
 			inline void operator = (const base::vec3_s& vn)	{ _x = vn.x; _y = vn.y; _z = vn.z; __normalize(); }
 			inline operator base::vec3_s() const { return base::vec3_s (_x,_y,_z);  }
 
@@ -199,7 +198,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \breif  Перемещение точки по направлению normal на расстояние distance
+			//! \brief  Перемещение точки по направлению normal на расстояние distance
 			Point3& moveAlongNormal(const Normal3& normal, float distance) 
 			{
 				base::vec3_s vn = normal; 
@@ -317,6 +316,54 @@ AABB toAabbInside();
 
 	  inline bool operator == (const AABB& aabb) { return (min == aabb.min) && (max == aabb.max); }
 	  
+	  /*
+	  inline AABB operator + (const AABB& aabb) const
+	  {
+	    AABB res = *this;
+	    if (aabb.min.x < min.x)   min.x = aabb.min.x;
+	    if (aabb.min.y < min.y)   min.y = aabb.min.y;
+	    if (aabb.min.z < min.z)   min.z = aabb.min.z;
+	   
+	    if (aabb.max.x > max.x)   max.x = aabb.max.x;
+	    if (aabb.max.y > max.y)   max.y = aabb.max.y;
+	    if (aabb.max.z > max.z)   max.z = aabb.max.z;  
+		 return res;  
+	  }
+	  
+	  inline AABB operator + (const vec3_s& pnt) const	  
+	  {
+	     AABB res = *this;
+	  	if(pnt.x < res.min.x) res.min.x = pnt.x;
+		if(pnt.y < res.min.y) res.min.y = pnt.y;
+		if(pnt.z < res.min.z) res.min.z = pnt.z;
+
+		if(pnt.x > res.max.x) res.max.x = pnt.x;
+		if(pnt.y > res.max.y) res.max.y = pnt.y;
+		if(pnt.z > res.max.z) res.max.z = pnt.z;
+		  return res;	  
+	  }
+	  
+	  inline AABB& operator += (const AABB& aabb)
+	  {
+	    if (aabb.min.x <   min.x)     min.x=aabb.min.x;
+	    if (aabb.min.y <   min.y)     min.y=aabb.min.y;
+	    if (aabb.min.z <   min.z)     min.z=aabb.min.z;
+	   
+	    if (aabb.max.x >   max.x)     max.x=aabb.max.x;
+	    if (aabb.max.y >   max.y)     max.y=aabb.max.y;
+	    if (aabb.max.z >   max.z)     max.z=aabb.max.z; 
+		 return *this;	  
+	  }
+	  
+	  inline operator += (const vec3_s& pnt)
+	  {
+	  
+	  
+	  
+	  }
+	  
+	  */
+	  
 	  inline void set(float min_x, float min_y, float min_z,
 					  float max_x, float max_y, float max_z)
 	  {
@@ -385,12 +432,24 @@ AABB toAabbInside();
 	  inline float volume() const { return size_x() * size_y() * size_z(); }
 	  
 	  
-      // plane  plane_positive_x() const {.....}
-      // plane  plane_negative_x() const {.....}
-      // plane  plane_positive_y() const {.....}
-      // plane  plane_negative_y() const {.....} 
-      // plane  plane_positive_z() const {.....}
-      // plane  plane_negative_z() const {.....}
+	  /* **********************************
+      plane_s  plane_positive_x() const 
+	  {
+	   plane_s res;
+	   res.makeFromPoints( vec3_s(xxx , xxx, xxx) , vec3_s(xxx , xxx, xxx) , vec3_s(xxx , xxx, xxx) );
+	   return res;
+	  }
+ 
+      plane_s  plane_negative_x() const 
+	  {
+	   plane_s res;
+	   res.makeFromPoints( vec3_s(xxx , xxx, xxx) , vec3_s(xxx , xxx, xxx) , vec3_s(xxx , xxx, xxx) );
+	   return res;
+	  } 
+  
+	  
+	  
+	  *************************************/
 	  
 	  /*     AABB& union(const AABB& b) 
 	  {
@@ -398,6 +457,25 @@ AABB toAabbInside();
 	  
 	  }   
 	  */
+	
+/*  *********************	
+// void transform(const mat44_s& m) {...}
+************************ */ 
+	
+
+//! \brief Объединить с боксом	  
+inline AABB& unionWith( const AABB& aabb)
+{
+   if (aabb.min.x <   min.x)     min.x=aabb.min.x;
+   if (aabb.min.y <   min.y)     min.y=aabb.min.y;
+   if (aabb.min.z <   min.z)     min.z=aabb.min.z;
+   
+   if (aabb.max.x >   max.x)     max.x=aabb.max.x;
+   if (aabb.max.y >   max.y)     max.y=aabb.max.y;
+   if (aabb.max.z >   max.z)     max.z=aabb.max.z; 
+
+  return *this;   
+}
 
 	  
 	 // Sphere toSphere() const
@@ -408,13 +486,31 @@ AABB toAabbInside();
 	 //   return res;
 	 // }
 	  
+//! \brief Проверка: точка в боксе ?
+inline bool checkContainPoint(const base::vec3_s& p )
+{
+  return      (p.x <= this->max.x) && (p.x >= this->min.x)
+           && (p.y <= this->max.y) && (p.y >= this->min.y)
+           && (p.z <= this->max.z) && (p.z >= this->min.z);
+}	  
+	
+
+bool checkIntersectPlane(const plane_s& pl) const;
 
 //bool checkIntersectRay(const Ray& ray) {....}
 //bool checkIntersecеSphere(const Sphere& sph) {....}
-//bool checkIntersectAABB(const AABB& aabb) {....}
-//bool checkIntersectAABBex(Plane& outContactPlane, const AABB& aabb) {....}
+//bool checkIntersectAABB_ex(Plane& outContactPlane, const AABB& aabb) {....}
 	
-
+	
+//* времянка. Проверка пересечения боксов.
+bool checkIntersectAABB(const AABB& b) const
+{
+    if( (max.x < b.min.x) || (min.x > b.max.x) ) return false;
+    if( (max.y < b.min.y) || (min.y > b.max.y) ) return false;
+    if( (max.z < b.min.z) || (min.z > b.max.z) ) return false;
+    return true;
+}	
+	
 	
 
 
@@ -620,7 +716,7 @@ inline float distRayPlane(vec3 vRayOrigin,
 		inline void scale(float s) {a*=s; b*=s; c*=s; d*=s; }
 
 
-		//! \brief  Вернуть нормаль плоскости.  ПРОВЕРИТЬ !!!!
+		//! \brief  Вернуть нормаль плоскости.  
 		inline base::vec3_s  normal() const  
 		{ 
 			base::vec3_s res; 
@@ -630,7 +726,7 @@ inline float distRayPlane(vec3 vRayOrigin,
 			return res; 
 		}
 
-		//! \brief  Инвертировать плоскость  ПРОВЕРИТЬ !!!!
+		//! \brief  Инвертировать плоскость  
 		inline void inverse() { a*=-a; b*=-b; c*=-c;  }
 
 		//! \brief  Получить инвертированую плоскость
@@ -643,7 +739,7 @@ inline float distRayPlane(vec3 vRayOrigin,
 		  return false;
 		}
 		
-		//! \brief ПОлучить минимальное расстояние от точки pnt до плоскости .
+		//! \brief Получить минимальное расстояние от точки pnt до плоскости .
 		inline float distance(const base::vec3_s& point)
 		{
 		   return abs( dotCoord(point) ); 
@@ -790,13 +886,7 @@ inline float distRayPlane(vec3 vRayOrigin,
 			w -= q.w;
 			return *this;
 		}
-
-		//inline Quaternion& operator *= ( const Quaternion& q )
-		//{
-		//	D3DXQuaternionMultiply(this, this, &q);
-		//	return *this;
-		//}
-
+ 
 		inline Quaternion& operator *= ( const float f )
 		{
 			x *= f;
