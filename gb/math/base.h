@@ -1457,18 +1457,17 @@ namespace gb
 			}
 
 
-			/**    \brief Умножение вектора на матрицу    */
+			/**    \brief Умножение вектора на матрицу .  ПРОВЕРЕНО!  */
 			inline vec4_s operator * ( const vec4_s& v ) const 
 			{
 				vec4_s r;
-
 				r.x =  _11 * v.x +  _21 * v.y +  _31 * v.z +  _41 * v.w;
 				r.y =  _12 * v.x +  _22 * v.y +  _32 * v.z +  _42 * v.w;
 				r.z =  _13 * v.x +  _23 * v.y +  _33 * v.z +  _43 * v.w;
 				r.w =  _14 * v.x +  _24 * v.y +  _34 * v.z +  _44 * v.w;
-
-				return r;
+				  return r;
 			}
+ 
 
 			//! \brief Зануление всех элементов.
 			inline void       setzero() { memset(&_11, 0, sizeof(mat44_s)  ); }
@@ -1881,11 +1880,7 @@ namespace gb
 				setViewLookAtRH( eye, at, up);
 			}
 
-
-
-
-
-
+ 
 
 			#if ( defined GB_OPENGL  && defined __GL_H__ )
 			   /** \brief Старый способ  перемножения матрицы с текущей в OpenGL */
@@ -1894,6 +1889,36 @@ namespace gb
 			   /** \brief Старый способ загрузки матрицы  в OpenGL */
                inline void glLoad() { glLoadMatrixf( (GLfloat*)&_11  ); }
             #endif
+
+
+#ifdef GB_D3D9  // d3d9 device methods
+
+			   //! \brief Установить матрицу в устройство d3d9 как матрицу ВИДА 
+			   inline HRESULT makeDevice9TransfView(IDirect3DDevice9* pdevice) const 
+			   {
+				   return pdevice->SetTransform(D3DTS_VIEW, (D3DMATRIX*)&_11 );
+			   }
+
+			   //! \brief Установить матрицу в устройство d3d9 как матрицу ПРОЕКЦИИ  
+			   inline HRESULT makeDevice9TransfProj(IDirect3DDevice9* pdevice) const
+			   {
+				   return pdevice->SetTransform(D3DTS_PROJECTION, (D3DMATRIX*)&_11 );
+			   }
+
+			   //! \brief Установить матрицу в устройство d3d9 как матрицу ТРАНСФОРМАЦИИ  	
+			   inline HRESULT makeDevice9TransfWorld(IDirect3DDevice9* pdevice) 
+			   {
+				   return pdevice->SetTransform(D3DTS_WORLD, (D3DMATRIX*)&_11 );
+			   }
+
+			   //! \brief Установить матрицу в девайс как матрицу трансформации по данному типу trType 		
+			   inline HRESULT makeDevice9Transf(IDirect3DDevice9* pdevice, D3DTRANSFORMSTATETYPE trType ) 
+			   {
+				   return pdevice->SetTransform( trType, (D3DMATRIX*)&_11 );
+			   }
+
+#endif // GB_D3D9
+
 
 
 				//! \brief Вывод значений на консоль

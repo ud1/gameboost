@@ -45,6 +45,8 @@ namespace geom2d
 {
 
 struct Size2d;
+class Normal2;
+class Point2;
 class Rect;
 class Circle;
 class Line;
@@ -89,6 +91,7 @@ namespace proj
 {
 
 struct ProjectionData;
+struct RelatCoord ;
 struct Viewport;
 
 }

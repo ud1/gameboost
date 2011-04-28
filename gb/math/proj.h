@@ -34,6 +34,7 @@ namespace gb
 //--------------------------------------------------------------------------------------
   
   
+	  //! \brief  Сборка из данных проекции.
 	  struct ProjectionData
 	  {
 		float fovy;
@@ -41,6 +42,40 @@ namespace gb
 		float zn;
 		float zf;
 	  };
+
+
+//! \brief Относительные экранные координаты.
+struct RelatCoord 
+{
+
+  float x;
+  float y; 
+
+/** \brief Конвертация абсолютных экранных координат в 
+   относительные экранные координаты, 
+    по размеру экрана (vpWidth и vpHeight)  ПРОВЕРЕНО !  */
+inline void   fromScreenCoord( // ScreenCoord_To_RelatCoord(
+					            const base::vec2_s& vScrCoord, 
+					            const int vpWidth, const int vpHeight ) 
+{
+  x = - ( ((float)vpWidth /2.0f) - vScrCoord.x ) / ((float)vpWidth /2.0f);
+  y = - ( ((float)vpHeight/2.0f) - vScrCoord.y ) / ((float)vpHeight/2.0f);
+}
+
+
+/** \brief Конвертация относительных  экранных координат в  абсолютные
+  экранные координаты, 
+  по размеру экрана (vpWidth и vpHeight) ПРОВЕРЕНО !    */
+inline base::vec2_s  toScreenCoord(const int vpWidth, const int vpHeight ) const
+{
+   base::vec2_s res;
+   res.x =  ((float)vpWidth /2.0f) +   x * ((float)vpWidth /2.0f);
+   res.y =  ((float)vpHeight/2.0f) +   y * ((float)vpHeight/2.0f);
+   return res; 
+}
+
+
+};
 
   
   
