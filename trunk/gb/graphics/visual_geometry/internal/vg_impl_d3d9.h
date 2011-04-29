@@ -370,9 +370,9 @@ public:
 	 m_color.r=r; m_color.g=g;  m_color.b=b; m_color.a=a; 
 	}
 
-  virtual void setColorRed    ()  const { m_color.setBlack();   }
-  virtual void setColorGreen  ()  const { m_color.setBlack();   }
-  virtual void setColorBlue   ()  const { m_color.setBlack();   }
+  virtual void setColorRed    ()  const { m_color.set(1.0f,0.0f,0.0f);   }
+  virtual void setColorGreen  ()  const { m_color.set(0.0f,1.0f,0.0f);   }
+  virtual void setColorBlue   ()  const { m_color.set(0.0f,0.0f,1.0f);   }
   virtual void setColorYellow ()  const { m_color.setYellow();  }
   virtual void setColorWhite  ()  const { m_color.setWhite();   }
   virtual void setColorGray   ()  const { m_color.setGray();    } 
@@ -412,16 +412,12 @@ public:
  
 
 #ifdef GB_MATH
- virtual HRESULT draw2dLine(const gb::math::geom2d::Line& line) const
+ virtual HRESULT draw2dLine(const gb::math::geom2d::Line2d& line) const
  {
-   return draw2dLine( line.src , line.dest  );
+   return  draw2dLine( line.src , line.dest  );
  }
 #endif
-
- //virtual HRESULT draw2dLine(int x1, int y1, int x2, int y2) const 
- //{
- //   return draw2dLine( &float*( (float)x1, (float)y1 ),  &float*( (float)x2, (float)y2 ) );
- //};
+ 
 
  virtual HRESULT draw2dLine(float x1, float y1, float x2, float y2) const 
  {
@@ -699,15 +695,13 @@ virtual void setColor(const D3DCOLORVALUE& color) const
 	{
 		m_color.r=r; m_color.g=g; m_color.b=b; m_color.a=a;
 	}
+	 /*
 
-  virtual void setColorRed    ()  const { m_color.setBlack();   }
-  virtual void setColorGreen  ()  const { m_color.setBlack();   }
-  virtual void setColorBlue   ()  const { m_color.setBlack();   }
   virtual void setColorYellow ()  const { m_color.setYellow();  }
   virtual void setColorWhite  ()  const { m_color.setWhite();   }
   virtual void setColorGray   ()  const { m_color.setGray();    } 
   virtual void setColorPink   ()  const { m_color.setPink();    } 
-
+	 */
 #pragma endregion COLOR_METHODS
 
 	//---------------------------------------------------------------------
@@ -770,6 +764,8 @@ virtual void setColor(const D3DCOLORVALUE& color) const
 
 	virtual HRESULT draw3dSolidSphere(const float* center, float radius) const ;
  
+
+
 };
 //end class
 

@@ -6,6 +6,7 @@
   Вывод для OpenGL пока не готов. но ОБЯЗАТЕЛЬНО будет.
 *
 
+ \todo  Все методы setColorТАКОЙТО сделать инлайновыми.
  \todo все параметры-структуры должны быть ссылками (где возможно)
  \todo Дорефракторить IDraw2DGeometry 
  \todo draw2dRect(const RECT rect) - переделать по ссылке параметр
@@ -120,7 +121,7 @@ namespace gb
   //! \brief  Интерфейс вывода значений
   class IDrawValues {
   public:
-	virtual ~IDrawValues() {};
+	virtual ~IDrawValues() {}
 
 
 	//! \brief Установить позицию вывода 
@@ -145,6 +146,7 @@ namespace gb
 	virtual void setColorWhite() const =0;
 	//! \brief Установить цвет вывода серым
 	virtual void setColorGray() const =0;
+	        void setColorGolg() { setColor(0.8f,       0.498039f,  0.196078f, 1.0f);   } 
 
 
  
@@ -256,8 +258,10 @@ public:
  virtual HRESULT draw2dLine(const float* vec2_p1, const float* vec2_p2) const =0;
  virtual HRESULT draw2dLine(const POINT p1, const POINT p2) const =0;
 
+#pragma message ("VG:  NEW METHOD FOR OPENGL IMPLEM  "   __FILE__)  
+
 #ifdef GB_MATH
- virtual HRESULT draw2dLine(const math::geom2d::Line& line) const =0;
+ virtual HRESULT draw2dLine(const math::geom2d::Line2d& line) const =0;
 #endif 
 
  virtual HRESULT draw2dLine(float x1, float y1,    float x2, float y2 ) const =0;
@@ -357,22 +361,21 @@ public:
 	virtual HRESULT setColor(const gb::color::Color4f& color) const =0;
 #endif
 
-
 #ifdef GB_D3D9 
   virtual void setColor(const D3DCOLORVALUE& color) const =0;
 #endif
 
-
-
   virtual void setColor(float r, float g, float b, float a) const=0;
-
-  virtual void setColorRed    ()  const =0;
-  virtual void setColorGreen  ()  const =0;
-  virtual void setColorBlue   ()  const =0;
-  virtual void setColorYellow ()  const =0;
-  virtual void setColorWhite  ()  const =0;
-  virtual void setColorGray   ()  const =0;
-  virtual void setColorPink   ()  const =0;
+  inline void setColorRed    ()  const { setColor(1.0f , 0.0f, 0.0f, 1.0f); }
+  inline void setColorGreen  ()  const { setColor(0.0f , 1.0f, 0.0f, 1.0f); }
+  inline void setColorBlue   ()  const { setColor(0.0f , 0.0f, 1.0f, 1.0f); }
+ 
+  inline void setColorYellow ()  const { setColor(1.0f , 1.0f, 0.0f, 1.0f); }
+  inline void setColorWhite  ()  const { setColor(1.0f , 1.0f, 1.0f, 1.0f); }
+  inline void setColorGray   ()  const { setColor(0.5f , 0.5f, 0.5f, 1.0f); }
+  inline void setColorPink   ()  const { setColor(0.737255f,  0.560784f,  0.560784f, 1.0f); }
+  inline void setColorOrange ()  const { setColor(1.0f,0.5f,0.0f,1.0f);  }
+ 
 
 //-------------------------------------------------------------------
 
@@ -393,6 +396,8 @@ public:
   virtual HRESULT draw3dAABB(const math::geom3d::AABB& aabb) const =0;
 #endif
 
+	//++++++++++++++++++
+
   virtual HRESULT draw3dRay(const float* vec3_orig, const float* vec3_normal ) const =0;
 
   virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, float nrmlY, float nrmlZ ) const =0;
@@ -404,10 +409,10 @@ public:
   virtual HRESULT draw3dTraingle(const float* vec3_p1, const float* vec3_p2, const float* vec3_p3 ) const =0;
 
 #ifdef GB_MATH
-  virtual HRESULT draw3dTraingle(const math::geom3d::Triangle* tri) const =0;
+  virtual HRESULT draw3dTraingle(const math::geom3d::Triangle& tri) const =0;
 #endif
 
-
+ 		
   virtual HRESULT draw3dArrow(const float* vec3_srcCoord, const float* vec3_destCoord ) const =0;  
 
 
@@ -415,8 +420,95 @@ public:
 
   virtual HRESULT draw3dSolidSphere(const float* vec3_center, float radius) const =0;
 
-  //virtual HRESULT draw3dPlaneRect
+ //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+		   
+#pragma message("VG: NEW Method .. need add to OPENGL IMPLEM  "  __FILE__  )
+#pragma message("VG: ПЕРЕНЕСТИ В CPP  "  __FILE__ )
+
+    HRESULT draw3dRectOnPlane_XZ(float side )
+  {
+	  gb::math::base::vec3_s varr[5];
+
+	   varr[0].x =  side ;
+	   varr[0].y =  0.0f ;
+	   varr[0].z =  side ;
+
+	   varr[1].x =  -side ;
+	   varr[1].y =  0.0f ;
+	   varr[1].z =  side ;
+
+ 	   varr[2].x =  -side ;
+	   varr[2].y =  0.0f ;
+	   varr[2].z =  -side ;
+
+	   varr[3].x =  side ;
+	   varr[3].y =  0.0f ;
+	   varr[3].z =  -side ;
+
+ 	   varr[4] = varr[0];
+
+	   return  draw3dLines(varr[0], 5);
+  }
  
+
+    HRESULT draw3dRectOnPlane_XY(float side )
+  {
+	  gb::math::base::vec3_s varr[5];
+
+	   varr[0].x =  side ;
+	   varr[0].y =  side ;
+	   varr[0].z =  0.0f ;
+
+	   varr[1].x =  side ;
+	   varr[1].y =  -side ;
+	   varr[1].z =  0.0f ;
+
+ 	   varr[2].x =  -side ;
+	   varr[2].y =  -side ;
+	   varr[2].z =  -0.0f ;
+
+	   varr[3].x =  -side ;
+	   varr[3].y =  side ;
+	   varr[3].z =  0.0f ;
+
+ 	   varr[4] = varr[0];
+
+	   return  draw3dLines(varr[0], 5);
+  }
+
+  
+    HRESULT draw3dRectOnPlane_ZY(float side )
+  {
+	  gb::math::base::vec3_s varr[5];
+
+	   varr[0].x =  0.0f ;
+	   varr[0].y =  side ;
+	   varr[0].z =  side ;
+
+	   varr[1].x =   0.0f ;
+	   varr[1].y =  -side ;
+	   varr[1].z =   side ;
+
+ 	   varr[2].x =   0.0f ;
+	   varr[2].y =  -side ;
+	   varr[2].z =  -side ;
+
+	   varr[3].x =   0.0f ;
+	   varr[3].y =   side ;
+	   varr[3].z =  -side ;
+
+ 	   varr[4] = varr[0];
+
+	   return  draw3dLines(varr[0], 5);
+  }
+
+
+
+   
+
+ // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 };
 // end class
  

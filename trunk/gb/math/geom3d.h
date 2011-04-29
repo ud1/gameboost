@@ -23,6 +23,7 @@ bool checkIntersectPlane(const Plane& aabb) {....}
 
 #pragma once
 #include <gb/math/forw_decl.h>
+#include <xmath.h>
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>
 
@@ -264,44 +265,47 @@ namespace gb
 	  inline void set( float centerX, float centerY, float centerZ, float fRadius) { center.x=centerX;  center.y=centerY;  center.z=centerZ;  radius=fRadius; 	}
 	  inline void set(int ix, int iy, int iz, int r) { center.x=(float)ix;  center.y=(float)iy;  center.z=(float)iz;	radius = (float)r; }
 
-	  //! \brief Получить расстояние между краями сфер. Вернёт отрицательное если сферы пересекаются.
+	  //! \brief Получить расстояние между краями сфер. Вернёт отрицательное значение если сферы пересекаются.
       inline float distanceBetweenSpheres(const Sphere& s) const 
 	  {
-		  float res = 0.0f;
-		  {  base::vec3_s t(center-s.center); res=t.length();  }
-		  res = res - ( radius + s.radius );
+		  const float dist = center.distance(s.center);
+		   float res = dist - ( radius + s.radius );
 		  return res;
 	  }
 
-	  //! \brief Проверка пересечения сфер
-	  inline bool checkIntersectSphere(const Sphere& s) 
+	  //! \brief Проверка пересечения сфер  . ПРОВЕРЕНО
+	  inline bool checkIntersectSphere(const Sphere& s) const 
 	  {
-		  float dist;
-		  {  base::vec3_s t(center-s.center); dist=t.length();  }
+		  const float dist = center.distance(s.center);
+		  const float rsum = radius + s.radius;
 
-		  if (dist < (radius + s.radius) ) 
-			  return false;
+		  if (dist > (rsum) ) 
+			     return false;
 
 		  return true;
 	  }
 	  
 	  
-//bool checkIntersectRay(const Ray& ray) {....}
-//bool checkIntersecеSphere(const Sphere& sph) {....}
+//bool checkIntersectRay(const Ray& ray) {....}	<- ненадо. Есть у луча
+//bool checkIntersecеSphere(const Sphere& sph) {....}   есть
 //bool checkIntersectAABB(const AABB& aabb) {....}
 //bool checkIntersectPlane(const Plane& aabb) {....}
 
 
+//! \brief  Получить бокс построеный  внутри сферы.	ПРОВЕРЕНО
+AABB toAabbInside() const;
 
-//! \brief  Получить бокс построеный по краю сферы
-AABB toAabbOutside() ;		  
+//! \brief  Получить бокс построеный по краю сферы. ПРОВЕРЕНО
+AABB toAabbOutside() const;		  
 	 
-//! \brief  Получить бокс построеный 	внутри сферы.
-AABB toAabbInside();
+
 	
 	};
 	// end class
 	
+	
+	
+	// много инфы по боксу   http://www.devmaster.net/forums/showthread.php?t=10324
 		
 	//! \brief Бокс по мин. и макс. координатам. Axis Aligned Bounding Box.
 	class AABB {
@@ -316,21 +320,23 @@ AABB toAabbInside();
 
 	  inline bool operator == (const AABB& aabb) { return (min == aabb.min) && (max == aabb.max); }
 	  
-	  /*
+ 
+ 	  //! \brief Вернуть объединённый с боксом	
 	  inline AABB operator + (const AABB& aabb) const
 	  {
 	    AABB res = *this;
-	    if (aabb.min.x < min.x)   min.x = aabb.min.x;
-	    if (aabb.min.y < min.y)   min.y = aabb.min.y;
-	    if (aabb.min.z < min.z)   min.z = aabb.min.z;
+	    if (aabb.min.x < res.min.x)   res.min.x = aabb.min.x;
+	    if (aabb.min.y < res.min.y)   res.min.y = aabb.min.y;
+	    if (aabb.min.z < res.min.z)   res.min.z = aabb.min.z;
 	   
-	    if (aabb.max.x > max.x)   max.x = aabb.max.x;
-	    if (aabb.max.y > max.y)   max.y = aabb.max.y;
-	    if (aabb.max.z > max.z)   max.z = aabb.max.z;  
-		 return res;  
+	    if (aabb.max.x > res.max.x)   res.max.x = aabb.max.x;
+	    if (aabb.max.y > res.max.y)   res.max.y = aabb.max.y;
+	    if (aabb.max.z > res.max.z)   res.max.z = aabb.max.z;  
+		 return res; 
 	  }
 	  
-	  inline AABB operator + (const vec3_s& pnt) const	  
+	  //! \brief Вернуть объединённый с точкой	 
+	  inline AABB operator + (const base::vec3_s& pnt) const	  
 	  {
 	     AABB res = *this;
 	  	if(pnt.x < res.min.x) res.min.x = pnt.x;
@@ -343,26 +349,26 @@ AABB toAabbInside();
 		  return res;	  
 	  }
 	  
+	  //! \brief Объединить с боксом  
 	  inline AABB& operator += (const AABB& aabb)
 	  {
-	    if (aabb.min.x <   min.x)     min.x=aabb.min.x;
-	    if (aabb.min.y <   min.y)     min.y=aabb.min.y;
-	    if (aabb.min.z <   min.z)     min.z=aabb.min.z;
+	    if (aabb.min.x < min.x)  min.x=aabb.min.x;
+	    if (aabb.min.y < min.y)  min.y=aabb.min.y;
+	    if (aabb.min.z < min.z)  min.z=aabb.min.z;
 	   
-	    if (aabb.max.x >   max.x)     max.x=aabb.max.x;
-	    if (aabb.max.y >   max.y)     max.y=aabb.max.y;
-	    if (aabb.max.z >   max.z)     max.z=aabb.max.z; 
+	    if (aabb.max.x > max.x)  max.x=aabb.max.x;
+	    if (aabb.max.y > max.y)  max.y=aabb.max.y;
+	    if (aabb.max.z > max.z)  max.z=aabb.max.z; 
 		 return *this;	  
 	  }
 	  
-	  inline operator += (const vec3_s& pnt)
+	  //! \brief Объединить с точкой pnt	 
+	  inline AABB& operator += (const base::vec3_s& pnt)
 	  {
-	  
-	  
-	  
+		 includePoint(pnt);
+		 return *this;	  
 	  }
-	  
-	  */
+ 
 	  
 	  inline void set(float min_x, float min_y, float min_z,
 					  float max_x, float max_y, float max_z)
@@ -371,7 +377,7 @@ AABB toAabbInside();
 		 max.x=max_x; max.y=max_y; max.z=max_z;					  
 	  }
 	  
-	  //! \brief ПОлучить центр бокса
+	  //! \brief Получить центр бокса
 	  base::vec3_s center() const 
 	  { 
 	    base::vec3_s res;
@@ -486,7 +492,8 @@ inline AABB& unionWith( const AABB& aabb)
 	 //   return res;
 	 // }
 	  
-//! \brief Проверка: точка в боксе ?
+
+//! \brief Проверка точки на нахождение в боксе.   ПРОВЕРЕНО!
 inline bool checkContainPoint(const base::vec3_s& p )
 {
   return      (p.x <= this->max.x) && (p.x >= this->min.x)
@@ -509,6 +516,16 @@ bool checkIntersectAABB(const AABB& b) const
     if( (max.y < b.min.y) || (min.y > b.max.y) ) return false;
     if( (max.z < b.min.z) || (min.z > b.max.z) ) return false;
     return true;
+}	
+	
+	
+// http://www.devmaster.net/forums/showthread.php?t=10324   #5	
+bool checkIntersect(AABB& aabb) const
+{
+    return
+        min.x > aabb.max.x || max.x < aabb.min.x ||
+        min.y > aabb.max.y || max.y < aabb.min.y ||
+        min.z > aabb.max.z || max.z < aabb.min.z;
 }	
 	
 	
@@ -699,7 +716,7 @@ bool checkIntersectAABB(const AABB& b) const
 
 	
 
-	//! \brief Луч в трёхмерном пространстве по позиции и направлению   
+	//! \brief Луч в 3-D по позиции и направлению   
 	class Ray {
 	public:
 	   base::vec3_s   orig; ///< точка центр луча (позиция)
@@ -760,28 +777,27 @@ bool  checkIntersectSphere(const Sphere& sphere) const
 }
 
 	 
-		// http://www.gamecoder.ru/2011/04/3d-3d.html
+ /**   \brief 
+ http://www.gamecoder.ru/2011/04/3d-3d.html    */
 bool checkIntersectSphere_2 (const Sphere& sphere, float* result)
 {
-	base::vec3_s vect( orig.x - sphere.center.x,
-                       orig.y - sphere.center.y, 
-                       orig.z - sphere.center.z );
+	base::vec3_s vect = orig - sphere.center ;
 
-
-   const float c =  vect.lengthSq()   -  ( sphere.radius * sphere.radius );
-
+   const float c = vect.lengthSq() -  sphere.radius * sphere.radius;
+   float res = 0.0f;
 
    if(c < 0.0f)
    {
-     *result = 0.0f;
+	   res = 0.0f;
+     if(result) *result = 0.0f;
       return true;
    }
 
 
-   const float b =  vect.dot(dir);   //  dotProduct(vect, ray.direction);
+  const  float b = vect.dot(dir);//    dotProduct(vect, ray.direction);
 
 
-   const float d =  b * b - c;
+   const float d = b*b - c;
 
 
    if (d < 0.0f)
@@ -795,15 +811,58 @@ bool checkIntersectSphere_2 (const Sphere& sphere, float* result)
 
 
    if(root1 >= root2)
-   {
-      *result = root1;
-   }
+	   res = root1;
+      if(result) *result = root1;
    else
-   {
-      *result = root2;
-   }
+	   res =  root2;
+      if(result) *result = root2;
   
-   return (*result >= 0.0f);
+   return ( res >= 0.0f );
+}
+
+
+// Aslan.   Проверка пересечения со сферой.  ПРОВЕРЕНО
+bool checkIntersectSphere_3( const Sphere& sph )   
+{
+  float res = 0.0f;
+
+ // квадрат радиуса
+  const float r =  (sph.radius * sph.radius);
+  
+  // квадрат расстояния от точки до центра сферы
+   float d;
+  {
+	 //  assert(false);
+	  // inline float distanceSq(const vec3_s& point) const { return vec3_s(*this-point).lenghtSq ;  }
+	//  vec3_s vs = sph.center-orig;
+    // d =  vs.lengthSq(); //  sph.center.lengthSq();//  lenghtSq(p); // norm2(c-p);
+	   d = sph.center.distanceSq(orig);
+  }
+  
+  // проекция центра сферы на луч
+  float s =   (sph.center-orig).dot(dir) / dir.length(); //         sprod(c-p,l)/norm(l);
+  
+  if( (d>r) && (s<0) ) // точка снаружи сферы и луч направлен от сферы
+  {
+  
+    res = INF; // return INF; // нет пересечения
+	 return false;
+  }
+	
+  // квадрат расстояния от прямой до центра сферы по теореме Пифагора
+  float h = d - s*s;
+  
+  if(h>r) // луч не пересекает сферу
+  {
+      res = INF;
+	return false;
+  }
+ 
+  res = s+sqrt(r-h)*math::scalar::sign(r-d); // расстояние до пересечения
+
+  // inline int Sign(float x) {  return (x>0)-(x<0);  }
+  
+  return  true;
 }
 
 

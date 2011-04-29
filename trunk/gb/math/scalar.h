@@ -101,7 +101,7 @@ namespace gb
 			}
 		}
 
-		template<typename T, const unsigned int Count>
+		template<typename T, const unsigned int num>
 		//! \brief  Копирование массива val в dest   количество  num
 		inline void copy( T * dest, const T * val, const int num ) throw()
 		{
@@ -113,8 +113,22 @@ namespace gb
 
 
 	
-	/**  \brief Возвращает единицу с соответствующим знаком   */
-    inline float  sign (const float val) { if(val>=0.0f) return 1.0f; return -1.0f; };
+	/**  \brief   Возвращает  знак числа  <br>  
+	     x>0 :  1   <br>
+	     x=0 :  0   <br>
+	     x<0 : -1	  */  
+    inline float  sign (const float val) { if(val==0.0f) return 0.0f;  if(val>0.0f) return 1.0f; return -1.0f; };
+
+	/** \brief Возвращает  знак числа  <br>  
+	 x>0 :  1   <br>
+	 x=0 :  0   <br>
+	 x<0 : -1	  */
+	inline int sign2(float x)
+	{
+		return  (x>0)-(x<0);
+	}
+
+
 	/** \brief Отсечение значения в пределах между минимумом и максимумом включительно. */
 	inline float clump(float val, float _min, float _max)
 	{

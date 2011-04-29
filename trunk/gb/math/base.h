@@ -242,7 +242,16 @@ namespace gb
 				{
 					if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
 					if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
-				};
+				}
+
+			//! \brief Вернуть среднюю точку между this и point
+			inline vec2_s middle(const vec2_s& point) const 
+			{
+			    vec2_s res;
+			      res.x = ( x + point.x ) / 2.0f;
+			      res.y = ( y + point.y ) / 2.0f;			
+			         return res;
+			}
 
 
 				//!  \brief   Вернёт true если все компоненты положительные.
@@ -273,7 +282,7 @@ namespace gb
 			inline vec3_s() {}
 
 			inline vec3_s(const vec3_s& v)             { x=v.x;   y=v.y;   z=v.z;   }
-			inline vec3_s(const vec3_s* v)             { *this=*v; } // x=v->x;  y=v->y; z=v->z;   };
+			inline vec3_s(const vec3_s* v)             { x=v->x;  y=v->y; z=v->z;   }
 
 			inline vec3_s(const vec2_s& v, float _z)   { x=v.x;  y=v.y; z=_z;     }
 
@@ -334,14 +343,14 @@ namespace gb
 			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&x; }
 			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=x; r.y=y; r.z=z; return r;  }
 			inline void operator = (const D3DVECTOR& v) {	x=v.x; y=v.y; z=v.z; }
-#endif
+#endif // #ifdef GB_D3D9
 
 #ifdef GB_D3DX9
 			inline operator D3DXVECTOR3*() { return (D3DXVECTOR3*)&x; }
 			inline operator const D3DXVECTOR3*() const { return (D3DXVECTOR3*)&x; }
 			inline operator D3DXVECTOR3() const  {  return D3DXVECTOR3(x,y,z); }
 		   	inline void operator = (const D3DXVECTOR3& v) {	x=v.x; y=v.y; z=v.z; }
-#endif
+#endif // #ifdef GB_D3DX9
 
 			void operator = (const gb::math::geom3d::Point3& pnt);
 
@@ -374,9 +383,17 @@ namespace gb
 					return r;		 
 			}
 
+			//! \brief  Нормализовать 
 			inline vec3_s&   normalize ()	  { register float fl=length(); x/=fl; y/=fl; z/=fl; return *this; }
-			inline vec3_s    getNormalized() const { vec3_s r=*this; r.normalize(); return r; };
+			//! \brief  Вернуть нормализованый
+			inline vec3_s    normalized() const { vec3_s r=*this; r.normalize(); return r; }
+
+			//! \brief  Вычислить и вернуть расстояние между точками  this и point.
+			inline float distance(const vec3_s& point)   const { return  sqrt( distanceSq(point) );  }
+			//! \brief  Вычислить и вернуть квадрат расстояния между точками  this и point.
+			inline float distanceSq(const vec3_s& point) const { return vec3_s(*this-point).lengthSq() ;  }
  
+
 			//! \brief Получить наибольшее абсолютное из каждой компоненты
 			inline float     getMaxLength () const {   return scalar::max3 ( fabs (x), fabs (y), fabs (z) );   }
 
@@ -487,6 +504,16 @@ namespace gb
 				if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
 				if( z < vmin.z) z=vmin.z;  if(z > vmax.z) z=vmax.z;
 				  return *this;
+			}
+
+			//! \brief Вернуть среднюю точку между this и point
+			inline vec3_s middle(const vec3_s& point) const 
+			{
+			    vec3_s res;
+			      res.x = ( x + point.x ) / 2.0f;
+			      res.y = ( y + point.y ) / 2.0f;			
+			      res.z = ( z + point.z ) / 2.0f;
+			         return res;
 			}
 
 			//! \brief  Вернёт true если все компоненты положительные.
@@ -1120,9 +1147,19 @@ namespace gb
 			};
 
 
-			inline mat44_s() {};
+			inline mat44_s() {}
 
-			inline mat44_s(const mat44_s& m) { *this = m; };
+			//! \brief Сбросить в идентичную и заполнить главную диагональ значением a (обычно 1.0f)
+			inline mat44_s(float a)
+			{
+			   setIdentity();
+			   _11=a; 
+			   _22=a;
+			   _33=a;
+			   _44=a;
+			}
+
+			inline mat44_s(const mat44_s& m) { *this = m; }
 
 			inline mat44_s( float _11_, float _12_, float _13_, float _14_,
 	                        float _21_, float _22_, float _23_, float _24_,
@@ -1134,8 +1171,8 @@ namespace gb
 			_41( _41_ ), _42( _42_ ), _43( _43_ ), _44( _44_ )  {}
 
 
-			inline operator  const float*() const  { return &_11; };
-			inline operator        float*()        { return &_11; };
+			inline operator  const float*() const  { return &_11; }
+			inline operator        float*()        { return &_11; }
 
 #ifdef GB_D3D9
 			inline operator D3DMATRIX*()   { return (D3DMATRIX*)&_11; }
@@ -1855,7 +1892,7 @@ namespace gb
 			{ 
                 #pragma message ("KS777 MATH::MAT44  need check setViewDirLH" __FILE__ )
 
-				vec3_s to = dir.getNormalized();
+				vec3_s to = dir.normalized();
 				const float flen = eye.length();
 				to.x += flen;
 				to.y += flen;
@@ -1870,7 +1907,7 @@ namespace gb
 			{ 
 				#pragma message ("KS777 MATH::MAT44 warn  need check setViewDirRH" __FILE__ )
 
-				vec3_s to = dir.getNormalized();
+				vec3_s to = dir.normalized();
 				const float flen = eye.length();
 				to.x += flen;
 				to.y += flen;
@@ -1912,10 +1949,33 @@ namespace gb
 			   }
 
 			   //! \brief Установить матрицу в девайс как матрицу трансформации по данному типу trType 		
-			   inline HRESULT makeDevice9Transf(IDirect3DDevice9* pdevice, D3DTRANSFORMSTATETYPE trType ) 
+			   inline HRESULT makeDevice9Transf(IDirect3DDevice9* pdevice, D3DTRANSFORMSTATETYPE trType ) const 
 			   {
 				   return pdevice->SetTransform( trType, (D3DMATRIX*)&_11 );
 			   }
+
+
+
+
+			   //! \brief Получить из устройства d3d9   матрицу ВИДА 
+			   inline HRESULT readDevice9TransfView(IDirect3DDevice9* pdevice)   
+			   {
+				   return pdevice->SetTransform(D3DTS_VIEW, (D3DMATRIX*)&_11 );
+			   }
+
+			   //! \brief Получить из устройства устройства d3d9   матрицу ПРОЕКЦИИ  
+			   inline HRESULT readDevice9TransfProj(IDirect3DDevice9* pdevice)  
+			   {
+				   return pdevice->GetTransform(D3DTS_PROJECTION, (D3DMATRIX*)&_11 );
+			   }
+
+			   //! \brief Получить из устройства устройства d3d9   матрицу ТРАНСФОРМАЦИИ  	
+			   inline HRESULT readDevice9TransfWorld(IDirect3DDevice9* pdevice) 
+			   {
+				   return pdevice->GetTransform(D3DTS_WORLD, (D3DMATRIX*)&_11 );
+			   }
+
+
 
 #endif // GB_D3D9
 

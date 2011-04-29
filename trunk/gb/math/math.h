@@ -11,6 +11,7 @@
 #include <gb/Config.h>
 
 #include <math.h>
+#include <xmath.h>
 
 #ifdef GB_D3DX9
     #include <d3dx9math.h>
