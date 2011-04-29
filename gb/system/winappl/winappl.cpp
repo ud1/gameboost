@@ -115,26 +115,41 @@ HRESULT Appl3D::messageProc(HWND hWnd, UINT msg,
 HRESULT Appl3D::doBeginFrameDraw()
 {
 	HRESULT hr = 0;
-
-	////  // update time
-	//m_timeData.m_fCurrentTime =	 (float)timeGetTime();
-	//static float fprevtime = 0.0f;
-	//m_timeData.m_fDeltaTime = m_timeData.m_fCurrentTime - fprevtime;
-	//fprevtime = m_timeData.m_fCurrentTime;
+ 
 
 	// update time
+	static float laseTime = 0.0f;
+	if(laseTime == 0.0f )
 	{
-		const float fOldTime = m_timeData.m_fCurrentTime;
-		m_timeData.m_fCurrentTime = (float)timeGetTime();
-		m_timeData.m_fDeltaTime = m_timeData.m_fCurrentTime - fOldTime;
+		// first call
+		 laseTime = ((float)timeGetTime()) / 1000.0f;
+	    m_timeData.m_fDeltaTime = 0.0f;
 	}
+	else
+	{
+	  float fcurr = ((float)timeGetTime()) / 1000.0f;
+	  m_timeData.m_fDeltaTime =  fcurr - laseTime ;
+	  m_timeData.m_fCurrentTime += m_timeData.m_fDeltaTime;
 
+	  laseTime = fcurr;
+	}
+ 
+	/*
+	  float fOldTime = m_timeData.m_fCurrentTime;
+
+		m_timeData.m_fCurrentTime = 
+
+		m_timeData.m_fDeltaTime = m_timeData.m_fCurrentTime - fOldTime;
+ 
+	 laseTime = (float)timeGetTime();
+	 */
 
 
 	// update window info >> ВОЗМОЖНО ПЕРЕНЕСТИ ДЛЯ УСТРАНЕНИЯ ВЫЗОВОВ 
 	// В КАЖДОМ КАДРЕ
 	if( ! ::GetWindowInfo(m_hwnd , &m_windowinfo) )
 	{
+		// error get window info
 		hr |= E_FAIL;
 
 	};

@@ -7,6 +7,7 @@
 
 //принудительно  подключаем gb::math
 #include <gb/math/math.h>
+#include <gb/t/func.h>
 
 
 namespace gb {
@@ -209,8 +210,7 @@ HRESULT VGDrawValuesImpl_D3D9::drawStrEx(const char *str) const
     case FS_NORMAL:
       {
         //* draw small font
-        hr |= pIFontNormal->DrawTextA(NULL, str,  - 1,  &m_Rec, DT_LEFT,
-                                      _d3dcolor);
+        hr |= pIFontNormal->DrawTextA(NULL, str,  - 1,  &m_Rec, DT_LEFT,  _d3dcolor);
 
       }
       break;
@@ -248,6 +248,37 @@ HRESULT VGDrawValuesImpl_D3D9::checkFontInterfaces()const
 	HRESULT hr =0;
   assert(m_pdevice);
 
+
+  D3DXFONT_DESCA des;
+  // check all valid
+
+  try {
+   if(pIFontSmall) pIFontSmall->GetDescA(&des);
+  }
+  catch(...)
+  {
+	  gb::t::func::safeExceptionRelease<ID3DXFont>(&pIFontSmall);
+  }
+
+   try {
+   if(pIFontNormal) pIFontNormal->GetDescA(&des);
+  }
+  catch(...)
+  {
+	  gb::t::func::safeExceptionRelease<ID3DXFont>(&pIFontNormal);
+  }
+
+
+    try {
+    if(pIFontBig) pIFontBig->GetDescA(&des);
+  }
+  catch(...)
+  {
+	  gb::t::func::safeExceptionRelease<ID3DXFont>(&pIFontBig);
+  }
+
+
+
   //*  create font small
   if (!pIFontSmall)
   {
@@ -259,6 +290,22 @@ HRESULT VGDrawValuesImpl_D3D9::checkFontInterfaces()const
   {
     return hr;
   }
+
+
+  
+  // * crate font noraml  
+  if (!pIFontNormal)
+  {
+    hr |= D3DXCreateFontA(m_pdevice, 15, 0, FW_BOLD, 1, FALSE, DEFAULT_CHARSET,
+                          OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH |
+                          FF_DONTCARE, "Courier New", &pIFontNormal);
+  };
+  if FAILED(hr)
+  {
+    return hr;
+  }
+
+
 
   //* create font  big
   if (!pIFontBig)
@@ -272,17 +319,6 @@ HRESULT VGDrawValuesImpl_D3D9::checkFontInterfaces()const
     return hr;
   }
 
-  // * crate font noraml  
-  if (!pIFontNormal)
-  {
-    hr |= D3DXCreateFontA(m_pdevice, 15, 0, FW_BOLD, 1, FALSE, DEFAULT_CHARSET,
-                          OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH |
-                          FF_DONTCARE, "Courier New", &pIFontNormal);
-  };
-  if FAILED(hr)
-  {
-    return hr;
-  }
 
 
   #pragma message("ks777:  NEED CHECK NORMAL FONT"  __FILE__ )
@@ -977,10 +1013,10 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const float* vec3_min,
   hr |= m_DeviceData.SaveDeviceData(m_pdevice, &m_color);
 
   hr |= m_pdevice->SetFVF(VG_FVF_3DLINES);
-  const int NSIZEOF = sizeof(float*);
+  const int NSIZEOF = sizeof( VGVEC3 );
 
   static VGVEC3 vArrLine[8];
-  ZeroMemory(vArrLine, sizeof(VGVEC3) *8);
+  ZeroMemory(vArrLine, sizeof(VGVEC3) * 8 );
 
   static const int nCount_quad_vert = 4;
 
@@ -1019,8 +1055,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const float* vec3_min,
   vArrLine[4].y = min.y;
   vArrLine[4].z = min.z;
 
-  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_quad_vert, (void*)
-                                   vArrLine, NSIZEOF);
+  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_quad_vert, (void*) vArrLine, NSIZEOF);
 
 
 
@@ -1053,8 +1088,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const float* vec3_min,
   vArrLine[4].y = max.y;
   vArrLine[4].z = max.z;
 
-  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_quad_vert, (void*)
-                                   vArrLine, NSIZEOF);
+  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_quad_vert, (void*) vArrLine, NSIZEOF);
 
 
 
@@ -1074,8 +1108,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const float* vec3_min,
     vArrLine[1].y = max.y;
     vArrLine[1].z = min.z;
 
-    hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_border, (void*)
-                                     vArrLine, NSIZEOF);
+    hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_border, (void*) vArrLine, NSIZEOF);
 
 
 
@@ -1088,8 +1121,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const float* vec3_min,
     vArrLine[1].y = max.y;
     vArrLine[1].z = min.z;
 
-    hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_border, (void*)
-                                     vArrLine, NSIZEOF);
+    hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_border, (void*) vArrLine, NSIZEOF);
 
 
     /// border 2   ///
@@ -1101,8 +1133,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const float* vec3_min,
     vArrLine[1].y = min.y;
     vArrLine[1].z = min.z;
 
-    hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_border, (void*)
-                                     vArrLine, NSIZEOF);
+    hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_border, (void*) vArrLine, NSIZEOF);
 
 
     /// border 3    ///
@@ -1114,8 +1145,7 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAABB(const float* vec3_min,
     vArrLine[1].y = min.y;
     vArrLine[1].z = max.z;
 
-    hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_border, (void*)
-                                     vArrLine, NSIZEOF);
+    hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nCount_border, (void*) vArrLine, NSIZEOF);
 
   };
 
@@ -1151,14 +1181,19 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dRay(const float* vec3_orig,
   varr[0].z = orig.z;
 
   static const float VG_MAX_INFINITY_VALUE = 3.4E30f;
-  gb::math::base::vec3_s vt = orig; orig *= VG_MAX_INFINITY_VALUE; //  D3DXVec3Scale(vt,  *orig, VG_MAX_INFINITY_VALUE);
+  /************
+  gb::math::base::vec3_s vt = orig; 
+  orig *= VG_MAX_INFINITY_VALUE; //  D3DXVec3Scale(vt,  *orig, VG_MAX_INFINITY_VALUE);
     varr[1] = orig + vt; //  D3DXVec3Add(varr[1],  *orig, vt);
+  *********************/
+  varr[1] = vec3_normal;
+  varr[1].normalize();
+  varr[1] *= VG_MAX_INFINITY_VALUE;
 
-
-  const UINT nNumValue = 1; // num-1;
-
+  varr[1] += orig;
+ 
   hr |= m_pdevice->SetFVF(VG_FVF_3DLINES);
-  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, nNumValue, (void*)varr, sizeof(gb::math::base::vec3_s) );
+  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(gb::math::base::vec3_s) );
 
   hr |= m_DeviceData.RestoreDeviceData(m_pdevice);
 
@@ -1372,43 +1407,70 @@ HRESULT VGDraw3DGeometry_Impl_D3D9::draw3dAxies(const float* vec3_coord, float  
 
 
   // x
-  varr[0] =  vec3_coord;
-  varr[1] =  vec3_coord;
+  if(vec3_coord)
+  {
+   varr[0] =  vec3_coord;
+   varr[1] =  vec3_coord;
+  }
+  else
+  {
+   varr[0] = gb::math::base::vec3_s(0.0f , 0.0f , 0.0f);
+   varr[1] = gb::math::base::vec3_s(0.0f , 0.0f , 0.0f);
+  }
+
   varr[1].x += axiesLen;
   material.Emissive.r = 1.0f;
   material.Emissive.g = 0.0f;
   material.Emissive.b = 0.0f;
   material.Emissive.a = 1.0f;
   hr |= m_pdevice->SetMaterial(&material);
-  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(float*) );
+  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(float)*3 );
 
 
 
   // y
-  varr[0] =  vec3_coord;
-  varr[1] =  vec3_coord;
+  if(vec3_coord)
+  {
+   varr[0] =  vec3_coord;
+   varr[1] =  vec3_coord;
+  }
+  else
+  {
+   varr[0] = gb::math::base::vec3_s(0.0f , 0.0f , 0.0f);
+   varr[1] = gb::math::base::vec3_s(0.0f , 0.0f , 0.0f);
+  }
+
+
   varr[1].y += axiesLen;
   material.Emissive.r = 0.0f;
   material.Emissive.g = 1.0f;
   material.Emissive.b = 0.0f;
   material.Emissive.a = 1.0f;
   hr |= m_pdevice->SetMaterial(&material);
-  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof
-                                   (float*));
+  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(float)*3  );
 
 
 
   // z
-  varr[0] =  vec3_coord;
-  varr[1] =  vec3_coord;
+  if(vec3_coord)
+  {
+   varr[0] =  vec3_coord;
+   varr[1] =  vec3_coord;
+  }
+  else
+  {
+   varr[0] = gb::math::base::vec3_s(0.0f , 0.0f , 0.0f);
+   varr[1] = gb::math::base::vec3_s(0.0f , 0.0f , 0.0f);
+  }
+
+
   varr[1].z += axiesLen;
   material.Emissive.r = 0.0f;
   material.Emissive.g = 0.0f;
   material.Emissive.b = 1.0f;
   material.Emissive.a = 1.0f;
   hr |= m_pdevice->SetMaterial(&material);
-  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof
-                                   (float*));
+  hr |= m_pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(float)*3  );
 
 
 

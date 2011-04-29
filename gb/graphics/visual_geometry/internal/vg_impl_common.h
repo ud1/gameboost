@@ -25,6 +25,8 @@ namespace visual_geometry
 		VGCOLOR () { r=g=b=a=1.0f; }
 		inline void set(float _r, float _g, float _b, float _a)	{ r=_r; g=_g; b=_b; a=_a; }
 		inline void set_rgb(float _r, float _g, float _b)	{ r=_r; g=_g; b=_b;   a=1.0f;  }
+		inline void set    (float _r, float _g, float _b)	{ r=_r; g=_g; b=_b;   a=1.0f;  }
+
 
 #ifdef GB_COLOR 
 		inline void set(const gb::color::Color4f& c) {r=c.r; g=c.g; b=c.b; a=c.a; }
