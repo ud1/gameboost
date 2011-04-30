@@ -80,7 +80,7 @@ inline base::vec2_s  toScreenCoord(const int vpWidth, const int vpHeight ) const
   
   
   //! \brief Вьюпорт  Область вывода .
-  struct Viewport {
+  class Viewport {
   public:
   
    unsigned int  x; ///< координата по X (по гризонтали)
@@ -88,8 +88,11 @@ inline base::vec2_s  toScreenCoord(const int vpWidth, const int vpHeight ) const
    
    unsigned int  width;  ///< ширина
    unsigned int  height; ///< высота
-    
-  
+      
+#ifdef GB_D3D9
+   inline Viewport (const D3DVIEWPORT9& vp) { *this = vp; }
+#endif
+
   
   #ifdef GB_D3D9
    inline void operator = (const D3DVIEWPORT9& vp)

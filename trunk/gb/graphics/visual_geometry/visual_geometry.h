@@ -226,22 +226,16 @@ public:
 
   //! \brief Установить цвет отрисовки 
   virtual void setColor(float r, float g, float b, float a) const=0;
-
-  //! \brief Установить цвет отрисовки красным 
-  virtual void setColorRed    ()  const =0;
-  //! \brief Установить цвет отрисовки зелёным
-  virtual void setColorGreen  ()  const =0;
-  //! \brief Установить цвет отрисовки синим
-  virtual void setColorBlue   ()  const =0;
-  //! \brief Установить цвет отрисовки жёлтым
-  virtual void setColorYellow ()  const =0;
-  //! \brief Установить цвет отрисовки белым
-  virtual void setColorWhite  ()  const =0;
-  //! \brief Установить цвет отрисовки серым
-  virtual void setColorGray   ()  const =0;
-  //! \brief Установить цвет отрисовки розовым
-  virtual void setColorPink   ()  const =0;
-
+  inline void setColorRed    ()  const { setColor(1.0f , 0.0f, 0.0f, 1.0f); }
+  inline void setColorGreen  ()  const { setColor(0.0f , 1.0f, 0.0f, 1.0f); }
+  inline void setColorBlue   ()  const { setColor(0.0f , 0.0f, 1.0f, 1.0f); }
+ 
+  inline void setColorYellow ()  const { setColor(1.0f , 1.0f, 0.0f, 1.0f); }
+  inline void setColorWhite  ()  const { setColor(1.0f , 1.0f, 1.0f, 1.0f); }
+  inline void setColorGray   ()  const { setColor(0.5f , 0.5f, 0.5f, 1.0f); }
+  inline void setColorPink   ()  const { setColor(1.0f , 0.0f, 1.0f, 1.0f); }
+  inline void setColorOrange ()  const { setColor(1.0f,0.5f,0.0f,1.0f);  }
+ 
   //-----------------------------------------------------------------------
 		 
 	 
@@ -373,7 +367,7 @@ public:
   inline void setColorYellow ()  const { setColor(1.0f , 1.0f, 0.0f, 1.0f); }
   inline void setColorWhite  ()  const { setColor(1.0f , 1.0f, 1.0f, 1.0f); }
   inline void setColorGray   ()  const { setColor(0.5f , 0.5f, 0.5f, 1.0f); }
-  inline void setColorPink   ()  const { setColor(0.737255f,  0.560784f,  0.560784f, 1.0f); }
+  inline void setColorPink   ()  const { setColor(1.0f , 0.0f, 1.0f, 1.0f); }
   inline void setColorOrange ()  const { setColor(1.0f,0.5f,0.0f,1.0f);  }
  
 

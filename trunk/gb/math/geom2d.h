@@ -13,10 +13,11 @@
 
 #pragma once
 
+/*
 #ifdef WIN32
    #include <windows.h>
 #endif
-
+ */
 
 #include <gb/base/Types.h>
 #include <gb/math/scalar.h>
@@ -66,14 +67,12 @@ private:
   inline void __normalize() { float fm = sqrt(_x*_x+_y*_y); _x/=fm; _y/=fm;  }
 
 public:
+	// по дефолту нормаль смотрит по Y 
 	Normal2() { _x=0.0f; _y=1.0f;  }
 	Normal2(const Normal2& n) {  _x=n._x;   _y=n._y;  }
 	
 	Normal2(float x, float y) { _x=x; _y=y; __normalize();  }
-	Normal2(const base::vec2_s& vn) 
-	{
-	 *this = vn;
-	}
+	Normal2(const base::vec2_s& vn) { *this = vn; }
  
 
 	inline float x() const { return _x; }
@@ -82,8 +81,16 @@ public:
 
 	inline void operator = (base::vec2_s& v) {_x=v.x; _y=v.y; __normalize(); }
 	inline void inverse() {_x=-_x; _y=-_y; }
+	
+	// setDirBetweenPoints(const Point2& src, const Point2& dest)
     // void transform(const base::mat44_s& m) {....}
-	// float cross(){...}
+	// Normal2 cross(){...}
+	// inline float angle(const Normal& n) const {...}
+	
+	// rotate (const mat22_s& m) {...}
+	
+	
+	
 	
 }; 
 
@@ -91,7 +98,7 @@ public:
 
 
 
-//! \brief   Позиция, точка в двухмерном измерении 
+//! \brief   Позиция, точка в двухмерном измерении  ВОЗМОЖНО УДАЛИТЬ
 class Point2 {
 public:
    float _x;
@@ -101,9 +108,24 @@ public:
    Point2(const Point2& p) {_x=p._x ; _y=p._y ; }
    Point2(const float x, const float y) { _x=x;  _y=y; }
    
+   inline operator const float* () const { return &_x; }
+
+   inline void operator = (const base::vec2_s& v) { _x=v.x; _y=v.y; }
+   inline void operator = (const POINT& p) { _x=(float)p.x; _y=(float)p.y; }
+
  
    // void moveAlongNormal(const Normal2& normal, float distance) {....}
    // void transform(const base::mat22_s& m) {....}
+
+
+   /**************
+
+   Point3 from3dSpace(const VP& vp, const mat44_s& mwvp) {...}
+
+
+
+
+   ****************/
 
 
 }; 
@@ -129,7 +151,7 @@ public:
 			inline Rect(const Rect& r) {x1=r.x1; y1=r.y1;  x2=r.x2; y2=r.y2; }
 			inline Rect(float _x1, float _y1, float _x2, float _y2) { x1=_x1; y1=_y1; x2=_x2; y2=_y2; }
 
-#ifdef WIN32	
+//#ifdef WIN32	
 			Rect(const POINT p1, const POINT p2)  
 			{ 
 				x1=(float)p1.x;  
@@ -138,7 +160,7 @@ public:
 				y2=(float)p2.y;  
 			}
 			Rect(const RECT& rec) {  *this = rec; }
-#endif 
+//#endif 
 
 
 			inline void set(int nx1, int ny1, int nx2, int ny2)         { x1=(float)nx1;   y1=(float)ny1;   x2=(float)nx2;   y2=(float)ny2; }
@@ -286,7 +308,8 @@ public:
 
 
   //! \brief Проверка попадания точки в прямоугольник . 
-  inline bool checkContainPoint(int x, int y) const {
+  inline bool checkContainPoint(int x, int y) const 
+  {
 	  if( (x>x1) && (y>y1) && (x<x2) && (y<y2)  ) return true;
 	  return false;
   }
@@ -378,13 +401,14 @@ public:
 			inline Circle() {}
 			inline Circle(const Circle& c) {center=c.center; radius=c.radius; };
 			inline Circle(const base::vec2_s & _center, const float _radius) { center=_center; radius=_radius; }
-
+			inline Circle(float _centerx, float _centery,  float _radius)    { center.x=_centerx; center.y=_centery;   radius=_radius; }
+			
 			inline void set(int iCenterX, int iCenterY, int iRadius) { center.x=(float)iCenterY; center.y=(float)iCenterY; radius=(float)iRadius;	}
 			inline void set(const base::vec2_s& vCenter, float fRadius)    { center=vCenter; radius=fRadius; }
-			inline void set(float fcx, float fcy,  float fRadius)    { center.x=fcx; center.y=fcy;   radius=fRadius; }
+			inline void set(float _centerx, float _centery,  float _radius)    { center.x=_centerx; center.y=_centery;   radius=_radius; }
 
 
-			//! \brief Проверка пересечения окружностей
+			//! \brief Проверка пересечения окружностей overlap
 			bool checkIntersect(const Circle& c) 
 			{
 				float fDist;
@@ -394,8 +418,14 @@ public:
 			}
 			
 			
+			
 			// bool checkIntersectContactPoints(vec2_s& outp1, vec2_s& outp2, const Circle& c) {...}
 			// http://algolist.manual.ru/maths/geom/intersect/circlecircle2d.php
+			
+			
+			/*
+			bool checkIntersectCircleContactPnt(const Circle& c, vec3_s& pc1, vec3_s& pc2) const {...}
+			*/
 
 			//! \brief Проверка попадания точки   point
 			inline bool checkContainPoint(const base::vec2_s point) 
@@ -406,6 +436,16 @@ public:
 					return false; 
 				return true;
 			}
+
+			// bool checkIntersectCircle(const Circle& c) const {...}
+			// bool checkIntersectRect(const Rect& r) const {...}
+			
+			// 3d::Sphere toObjectSphere(VP& vp, )
+
+
+
+			// fromCstr(const char* s) {..}
+			// toCstr(char* buf) const	  {....}
 
 
 		};
@@ -431,7 +471,20 @@ public:
 			    Normal2 res = (dest - src);
 			    return res;	
 			}
-				
+			
+
+			inline void set(const base::vec2_s& _src, base::vec2_s& _dest)
+			{
+			 src  = _src;
+			 dest = _dest;
+			}
+			
+			
+			// vec2_s projectPoint(const vec2_s& pnt) const 
+			
+			// checkIntersect......
+			
+			
 			
 			
 		};
@@ -441,14 +494,14 @@ public:
 
 
 		/** \brief Луч в 2d  по позиции  (исходной точке)  и  направлению  */
-		class Ray {
+		class Ray2d {
 		public:
 			base::vec2_s   orig; ///< точка центр луча
 			base::vec2_s   dir;  ///< направление луча ( должен быть нормализован)
 
-			inline Ray() {}
-			inline Ray(const Ray& r) {orig=r.orig; dir=r.dir; }
-			inline Ray(const base::vec2_s& _orig, const base::vec2_s& _dir, bool bNeedNormalizeDir)
+			inline Ray2d() {}
+			inline Ray2d(const Ray2d& r) {orig=r.orig; dir=r.dir; }
+			inline Ray2d(const base::vec2_s& _orig, const base::vec2_s& _dir, bool bNeedNormalizeDir)
 			{
 				orig=_orig;
 				dir=_dir;
@@ -456,6 +509,10 @@ public:
 			}
 
 
+			// bool checkIntersectCircle(const CIrcle& c)
+			// bool checkIntersectRect(const Rect& r)
+			// bool checkIntersectRectContactPnts(const Rect& r)			
+			// bool checkIntersectLine
 
 
 		};

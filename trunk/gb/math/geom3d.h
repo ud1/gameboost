@@ -236,6 +236,8 @@ namespace gb
 			   *this = v;
 				return *this;
 			}
+
+			// void fromScreenSpace(const Point2& p, const VP& vp, const M& m) {....}
 		
 		};
 		// end class
@@ -1292,9 +1294,9 @@ inline float distanceToPlane( plane_s& plane )   const
 		}
 
 		//! \brief  Получить длинну
-		inline float length() const	{ return sqrt(x * x + y * y + z * z + w * w); }
+		inline float length() const	{ return sqrt(x*x + y*y + z*z + w*w); }
 		//! \brief  Получить квадрат длинны
-		inline float lengthSq() const {	return  (x * x + y * y + z * z + w * w);  }
+		inline float lengthSq() const {	return   (x*x + y*y + z*z + w*w); }
 
 		// \brief   Нормализовать   ПРОВЕРЕНО!
 		inline Quaternion&  normalize()
@@ -1572,7 +1574,18 @@ inline float distanceToPlane( plane_s& plane )   const
 		{
 		     setRotationYawPitchRoll(ea.yaw, ea.pitch, ea.roll);
 		}
+ 
+ 
+		inline void  invert() 
+		{
+			*this = conjugate(*this);
+			*this /= lengthSq();
+		}
 
+		inline Quaternion inverse() const 
+		{
+			return conjugate(*this) / lengthSq();
+		}
 
 
 
