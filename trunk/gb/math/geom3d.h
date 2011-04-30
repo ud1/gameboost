@@ -1346,12 +1346,19 @@ inline float distanceToPlane( plane_s& plane )   const
 				x = - x * fin;
 				y = - y * fin;
 				z = - z * fin;
-
 			}
 			else
 			{
 
 			}
+		}
+
+		//! \brief  Вернуть инвертированый .
+		inline Quaternion inversed() const 
+		{
+		  Quaternion res(*this);
+		  res.inverse(); 
+		  return res;
 		}
 
 
@@ -1575,7 +1582,7 @@ inline float distanceToPlane( plane_s& plane )   const
 		     setRotationYawPitchRoll(ea.yaw, ea.pitch, ea.roll);
 		}
  
- 
+ /*
 		inline void  invert() 
 		{
 			*this = conjugate(*this);
@@ -1586,7 +1593,7 @@ inline float distanceToPlane( plane_s& plane )   const
 		{
 			return conjugate(*this) / lengthSq();
 		}
-
+*/
 
 
 		//! \brief  Вывод на консоль
