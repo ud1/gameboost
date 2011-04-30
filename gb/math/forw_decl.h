@@ -91,8 +91,10 @@ namespace proj
 {
 
 struct ProjectionData;
-struct RelatCoord ;
-class Viewport;
+struct RelatCoord;
+
+struct vieport_s;
+class ViewportZ;
 
 }
 // end namespace proj

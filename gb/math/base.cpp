@@ -12,7 +12,7 @@
 //#include "pch.h"
 
 
-#include <gb/math/base.h>
+#include <gb/math/math.h>  //base.h>
 
 #include <gb/math/geom2d.h>
 #include <gb/math/geom3d.h>
@@ -40,21 +40,54 @@ namespace base
 	};
 
 	//=====================================================================
-	mat44_s& mat44_s::setRotationQuaternion(const geom3d::Quaternion& q) 
-	{
+	vec3_s  vec3_s::project ( 
+				const proj::ViewportZ& vp,
+				const base::mat44_s& Proj, 
+				const base::mat44_s& View, 
+				const base::mat44_s& World ) const
+{	
+				base::vec4_s a= vec4_s( x, y, z, 1.0f );
+				base::mat44_s wvp = World * View * Proj ;
 
-		mat44_s t  (
-			1.0f - 2.0f*q.y*q.y - 2.0f*q.z*q.z,   2.0f*q.x*q.y - 2.0f*q.z*q.w,         2.0f*q.x*q.z + 2.0f*q.y*q.w,          0.0f,
-			2.0f*q.x*q.y + 2.0f*q.z*q.w,          1.0f - 2.0f*q.x*q.x - 2.0f*q.z*q.z,  2.0f*q.y*q.z - 2.0f*q.x*q.w,          0.0f,
-			2.0f*q.x*q.z - 2.0f*q.y*q.w,          2.0f*q.y*q.z + 2.0f*q.x*q.w,         1.0f - 2.0f*q.x*q.x - 2.0f*q.y*q.y,   0.0f,
-			0.0f,                                 0.0f,                                0.0f,                                 1.0f);
+				base::vec4_s b  = wvp * a ; 
 
-		t.transpone();
+				base::vec3_s  c;
+				c.x = b.x / b.w;
+				c.y = b.y / b.w;
+				c.z = b.z / b.w;
 
-		*this = t;
+				base::vec3_s  res;
+				res.x = vp.x + vp.width  * (1.0f + c.x)  /  2.0f;
+				res.y = vp.y + vp.height * (1.0f - c.y)  /  2.0f;
+				res.z = vp.minZ + c.z * (vp.maxZ-vp.minZ);
+				return res;
+} 
 
-		return *this;	
-	};
+//=======================================================
+vec3_s  vec3_s::unproject( const proj::ViewportZ& vp,
+						   const base::mat44_s& Proj, 
+				 		   const base::mat44_s& View, 
+						   const base::mat44_s& World) const
+
+
+{
+	base::mat44_s MAT = World * View *  Proj;
+	 MAT.invert();
+
+	vec4_s a;
+	a.x =        (x-vp.x) * 2.0f   /  ( vp.width-1.0f );
+	a.y = 1.0f - (y-vp.y) * 2.0f   /    vp.height;
+	a.z = (z-vp.minZ)  /  (vp.maxZ - vp.minZ);
+	a.w = 1.0f;
+
+	vec4_s b  =  MAT * a ;  
+
+	 const float k = 1.0f/b.w;
+	vec3_s  res = vec3_s(  b.x*k  , b.y*k , b.z*k  );
+	return  res ;
+};
+
+
 
 
 //=============================================================
@@ -540,6 +573,25 @@ mat33_s&  mat33_s::setMirrorZ()
 //=========================================================================
 //    mat44_s
 //=========================================================================
+
+
+
+//=====================================================================
+mat44_s& mat44_s::setRotationQuaternion(const geom3d::Quaternion& q) 
+{
+
+	mat44_s t  (
+		1.0f - 2.0f*q.y*q.y - 2.0f*q.z*q.z,   2.0f*q.x*q.y - 2.0f*q.z*q.w,         2.0f*q.x*q.z + 2.0f*q.y*q.w,          0.0f,
+		2.0f*q.x*q.y + 2.0f*q.z*q.w,          1.0f - 2.0f*q.x*q.x - 2.0f*q.z*q.z,  2.0f*q.y*q.z - 2.0f*q.x*q.w,          0.0f,
+		2.0f*q.x*q.z - 2.0f*q.y*q.w,          2.0f*q.y*q.z + 2.0f*q.x*q.w,         1.0f - 2.0f*q.x*q.x - 2.0f*q.y*q.y,   0.0f,
+		0.0f,                                 0.0f,                                0.0f,                                 1.0f);
+
+	t.transpone();
+
+	*this = t;
+
+	return *this;	
+};
 
 
 //=========================================================================

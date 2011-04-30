@@ -77,20 +77,27 @@ inline base::vec2_s  toScreenCoord(const int vpWidth, const int vpHeight ) const
 
 };
 
-  
-  
-  //! \brief Вьюпорт  Область вывода .
-  class Viewport {
-  public:
-  
+ //! \brief Вьюпорт  Область вывода  по координате и размерам. 
+ struct vieport_s  {
+
    unsigned int  x; ///< координата по X (по гризонтали)
    unsigned int  y; ///< координата по Y (по вертикали)
    
    unsigned int  width;  ///< ширина
    unsigned int  height; ///< высота
+ 
+ };
+  
+  
+  //! \brief  Расширеная область вывода с добавлением min и max для Z .
+ class ViewportZ : public vieport_s  {
+  public:
+
+      float minZ;
+      float maxZ;
       
 #ifdef GB_D3D9
-   inline Viewport (const D3DVIEWPORT9& vp) { *this = vp; }
+   inline ViewportZ (const D3DVIEWPORT9& vp) { *this = vp; }
 #endif
 
   
@@ -102,9 +109,17 @@ inline base::vec2_s  toScreenCoord(const int vpWidth, const int vpHeight ) const
 	
 	width  = (unsigned int)vp.Width;
     height = (unsigned int)vp.Height;
+
+	minZ = vp.MinZ;
+	maxZ = vp.MaxZ;
+   }
+
+   inline operator const D3DVIEWPORT9& () const 
+   {
+     return (D3DVIEWPORT9&)*this;
    }
    
-   //! \brief ПРисвоить координаты, ширину и высоту в  D3DVIEWPORT9  
+   //! \brief ПРисвоить координаты, ширину и высоту в  D3DVIEWPORT9    УБРАТЬ !!!!!
    inline void to_d3d9Viewport(D3DVIEWPORT9& vpInOut) const
    {
     vpInOut.X = (DWORD)x;
@@ -112,6 +127,9 @@ inline base::vec2_s  toScreenCoord(const int vpWidth, const int vpHeight ) const
 	
 	vpInOut.Width  = (DWORD)width;
 	vpInOut.Height = (DWORD)height;
+
+	vpInOut.MinZ = minZ;
+	vpInOut.MaxZ = maxZ;
 	}
   #endif
   

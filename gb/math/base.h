@@ -297,6 +297,8 @@ namespace gb
 
 			inline vec3_s(const float* pfArray) { *this = pfArray; }
 
+			//inline vec3_s(vec4_s);
+
 			//! \brief Присваивание из float-массива 
 			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; }
 				 
@@ -535,6 +537,29 @@ namespace gb
 			    // void transformNormalArray(float* pfOut, int strideOut, const float* pvInput, int strideInput,  const M44& m, const int num) {...} 
 
 
+			/** \brief  Проекция вектора из виртуального "зазеркалья" на экран. 
+			     Возвращает спроектированый экранный вектор. ПРОВЕРЕНА!	*/
+			vec3_s project ( 
+				const proj::ViewportZ& vp,   //<  область вывода
+				const base::mat44_s& Proj, //<	матрица проекции
+				const base::mat44_s& View, //<	матрица вида
+				const base::mat44_s& World //<	матрица модельная
+				)  const; 
+
+
+
+			/** \brief Анпроекция. Перевод из экранных координат в пространственые координаты 
+			Возвращает переведённый вектор . ПРОВЕРЕНА! */
+			vec3_s  unproject( 
+				const proj::ViewportZ& vp,    //<  область вывода
+				const base::mat44_s& Proj,	//<	матрица проекции
+				const base::mat44_s& View,	//<	матрица вида
+				const base::mat44_s& World	//<	матрица модельная
+				) const	;
+
+
+
+
 			inline void toCstr(char* buf) const 
 			{
 				*buf = '\0';
@@ -551,7 +576,10 @@ namespace gb
 
 
 			//! \brief Вывод значений на консоль
-			inline void print() const { printf("%f  %f  %f ", x, y, z); };
+			inline void print() const 
+			{ 
+				printf("%f  %f  %f ", x, y, z); 
+			}
 
 		}; // end vec3_s
 		
