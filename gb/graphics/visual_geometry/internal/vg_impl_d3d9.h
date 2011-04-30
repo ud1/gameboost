@@ -370,6 +370,7 @@ public:
 	 m_color.r=r; m_color.g=g;  m_color.b=b; m_color.a=a; 
 	}
 
+	/*
   virtual void setColorRed    ()  const { m_color.set(1.0f,0.0f,0.0f);   }
   virtual void setColorGreen  ()  const { m_color.set(0.0f,1.0f,0.0f);   }
   virtual void setColorBlue   ()  const { m_color.set(0.0f,0.0f,1.0f);   }
@@ -377,7 +378,7 @@ public:
   virtual void setColorWhite  ()  const { m_color.setWhite();   }
   virtual void setColorGray   ()  const { m_color.setGray();    } 
   virtual void setColorPink   ()  const { m_color.setPink();    }    
- 
+	 */
 #pragma endregion IMPLEM_COLOR_METHODS
 
 

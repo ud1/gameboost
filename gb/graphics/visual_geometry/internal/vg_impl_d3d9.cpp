@@ -546,6 +546,7 @@ void VGDrawValuesImpl_D3D9::drawVec3(const float* vect3, const char *promt)const
 
   __StrFromFloatForDrawVec(sdigit, v.y);
   str += sdigit;
+    str += "  ";
 
 
   __StrFromFloatForDrawVec(sdigit, v.y);
@@ -578,11 +579,11 @@ void VGDrawValuesImpl_D3D9::drawVec4(const float* vect4, const char *promt)const
 
   __StrFromFloatForDrawVec(sdigit, v.y);
   str += sdigit;
-
+   str += "  ";
 
   __StrFromFloatForDrawVec(sdigit, v.z);
   str += sdigit;
-
+   str += "  ";
 
   __StrFromFloatForDrawVec(sdigit, v.w);
   str += sdigit;

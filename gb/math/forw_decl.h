@@ -92,7 +92,7 @@ namespace proj
 
 struct ProjectionData;
 struct RelatCoord ;
-struct Viewport;
+class Viewport;
 
 }
 // end namespace proj

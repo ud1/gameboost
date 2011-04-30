@@ -108,10 +108,10 @@ namespace gb
 				inline vec2_s &  operator += (const vec2_s &v)  { x += v.x; y += v.y;   return *this; }
 				inline vec2_s &  operator -= (const vec2_s &v)  { x -= v.x; y -= v.y;   return *this; }
 				inline vec2_s &  operator *= (float f)          { x *= f;   y *= f;	    return *this; }
-				inline vec2_s &  operator *= ( const vec2_s& v) { x *= v.x;	y *= v.y;	return *this;	}
+				inline vec2_s &  operator *= ( const vec2_s& v) { x *= v.x;	y *= v.y;	return *this; }
 
 				inline vec2_s &  operator /= (float f)           { x /= f;    y /= f;   return *this; }
-				inline vec2_s &  operator /= ( const vec2_s& v ) { x /= v.x;  y /= v.y; return *this;	}
+				inline vec2_s &  operator /= ( const vec2_s& v ) { x /= v.x;  y /= v.y; return *this; }
 
 
 
@@ -142,11 +142,11 @@ namespace gb
 #endif
 
 
-				inline void setzero() {x=y=0.0f; };
-				inline bool empty() const { return ( (x==0.0f) && (y==0.0f) ); };
+				inline void setzero() {x=y=0.0f; }
+				inline bool empty() const { return ( (x==0.0f) && (y==0.0f) ); }
 
-				inline vec2_s& set     (float _x, float _y) {x=_x; y=_y;  return *this; };
-				inline vec2_s& set_all (float val) { x=val; y=val;        return *this; };
+				inline vec2_s& set     (float _x, float _y) {x=_x; y=_y;  return *this; }
+				inline vec2_s& set_all (float val) { x=val; y=val;        return *this; }
 
 				inline bool isZero(float epsilon) const
 				{
@@ -162,7 +162,13 @@ namespace gb
 
 				// !!!!! float cross(const vec2_s& v) const {  ......  }
 
-				//
+				// TODO:
+				//   FLOAT D3DXVec2CCW( CONST D3DXVECTOR2 * pV1,   CONST D3DXVECTOR2 * pV2);
+				// float cross(v2) conts {.....}
+
+
+				// float distance(v2), distanceSq(v2)
+
 
 				inline vec2_s& inverse() { x=-x; y=-y; return *this; }
 				inline vec2_s  inverted() const { return vec2_s (-x, -y); }
@@ -632,7 +638,7 @@ namespace gb
 			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) && (w==0.0f) ); };
 
 			inline vec4_s& set    (float _x, float _y, float _z, float _w) { x=_x; y=_y; z=_z; w=_w; return *this; };
-			inline vec4_s& set_all(float val) {x=val; y=val; z=val; w=val; return *this; };
+			//inline vec4_s& set_all(float val) {x=val; y=val; z=val; w=val; return *this; };
 
 			inline bool isZero(float epsilon) const
 			{
@@ -655,6 +661,22 @@ namespace gb
 				r.w = ( z * v.y - y * v.z) * x + ( x * v.z - z * v.x) * y + ( y * v.x - x * v.y) * z;
 				  return r;
 			}
+
+	  /*************
+  D3DXVec4Cross(Out, U, V, W)	 cross4(1.2.3)
+
+a = VxWy − VyWx
+b = VxWz − VzWx
+c = VxWw − VwWx
+d = VyWz − VzWy
+e = VyWw − VwWy
+f = VzWw − VwWz
+Outx = fUy − eUz + dUw
+Outy = fUx + cUz − bUw
+Outz = eUx − cUy + aUw
+Outw = dUx + bUy − aUz
+	 **************************/
+
 
 
 			inline vec4_s&   invert() {x=-x; y=-y; z=-z; w=-w; return *this; };
@@ -1960,7 +1982,7 @@ namespace gb
 			   //! \brief Получить из устройства d3d9   матрицу ВИДА 
 			   inline HRESULT readDevice9TransfView(IDirect3DDevice9* pdevice)   
 			   {
-				   return pdevice->SetTransform(D3DTS_VIEW, (D3DMATRIX*)&_11 );
+				   return pdevice->GetTransform(D3DTS_VIEW, (D3DMATRIX*)&_11 );
 			   }
 
 			   //! \brief Получить из устройства устройства d3d9   матрицу ПРОЕКЦИИ  
