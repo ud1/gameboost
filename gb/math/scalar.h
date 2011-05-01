@@ -65,6 +65,8 @@ namespace gb
 // 	
 // 	static const float CE           = 2.718281828459f; ///<  e
 	
+		//! \brief  Квадрат
+		inline float sqr(float a) { return a*a; }
 
 		inline float abs(float val)
 		{

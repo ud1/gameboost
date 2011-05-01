@@ -1,5 +1,7 @@
 
 #include <gb/math/math.h>
+#include <d3dx9math.h>
+#include <stdio.h>
 
 using namespace gb::math;
 using namespace gb::math::base;
@@ -17,6 +19,16 @@ using namespace gb::math::base;
 #endif
 
 
+
+void printVectors(const D3DXVECTOR4& dxv, const vec4_s& gbv)
+{
+
+ printf("\n%f  %f  %f  %f \n", dxv.x , dxv.y , dxv.z , dxv.w );
+ printf("\n");
+ gbv.print();
+ printf("\n\n\n");
+
+};
 
 void test_mul()
 {
@@ -50,6 +62,42 @@ vec4_s a2 = vec4_s (   13.1f , 45.76 , 8.304f , 7.31f    );
 }
 
 
+void test_cross1()
+{
+
+	//vec4_s v;
+ // v.cross( vec4_s(xxx , xxxx, xxxx) );
+
+
+};
+
+void test_cross2()
+{
+D3DXVECTOR4 dxv;
+vec4_s gbv;
+
+
+ // d3dx
+	{
+ D3DXVECTOR4 v1 = D3DXVECTOR4 ( 45.0f , 13.0f  , 5.0f , 12.0f  );
+ D3DXVECTOR4 v2 = D3DXVECTOR4 ( 46.0f , 4.0f  , 32.0f , 34.0f  );
+ D3DXVECTOR4 v3 = D3DXVECTOR4 ( 11.0f , 65.0f  , 6.0f , 7.0f  );
+  
+D3DXVec4Cross(&dxv, &v1, &v2, &v3);
+
+	}
+
+	// gb
+	{
+ vec4_s v1 = vec4_s(  45.0f , 13.0f  , 5.0f , 12.0f   );
+ vec4_s v2 = vec4_s(   46.0f , 4.0f  , 32.0f , 34.0f );
+ vec4_s v3 = vec4_s(  11.0f , 65.0f  , 6.0f , 7.0f   );
+
+ gbv.cross(v1, v2, v3);
+	}
+
+  printVectors(dxv, gbv);
+}
 
 //===================================================
 int main()
@@ -57,5 +105,9 @@ int main()
 
 test_mul();
 
+test_cross2();
 
+
+system("pause");
+  return 0;
 };

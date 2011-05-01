@@ -19,7 +19,9 @@
 #endif
  */
 
+
 #include <gb/base/Types.h>
+#include <gb/math/forw_decl.h>
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>
 
@@ -111,8 +113,10 @@ public:
    inline operator const float* () const { return &_x; }
 
    inline void operator = (const base::vec2_s& v) { _x=v.x; _y=v.y; }
-   inline void operator = (const POINT& p) { _x=(float)p.x; _y=(float)p.y; }
 
+#ifdef __GB_TYPES_H__
+   inline void operator = (const POINT& p) { _x=(float)p.x; _y=(float)p.y; }
+#endif 
  
    // void moveAlongNormal(const Normal2& normal, float distance) {....}
    // void transform(const base::mat22_s& m) {....}
@@ -151,7 +155,7 @@ public:
 			inline Rect(const Rect& r) {x1=r.x1; y1=r.y1;  x2=r.x2; y2=r.y2; }
 			inline Rect(float _x1, float _y1, float _x2, float _y2) { x1=_x1; y1=_y1; x2=_x2; y2=_y2; }
 
-//#ifdef WIN32	
+#ifdef __GB_TYPES_H__	
 			Rect(const POINT p1, const POINT p2)  
 			{ 
 				x1=(float)p1.x;  
@@ -160,7 +164,7 @@ public:
 				y2=(float)p2.y;  
 			}
 			Rect(const RECT& rec) {  *this = rec; }
-//#endif 
+#endif 
 
 
 			inline void set(int nx1, int ny1, int nx2, int ny2)         { x1=(float)nx1;   y1=(float)ny1;   x2=(float)nx2;   y2=(float)ny2; }
@@ -169,7 +173,7 @@ public:
 
 
 
-//#ifdef WIN32	  
+#ifdef __GB_TYPES_H__	  
 			inline void set(POINT np1, POINT np2) { x1=(float)np1.x; y1=(float)np1.y; x2=(float)np2.x; y2=(float)np2.y; };
 			inline void operator = (const RECT& rec) 
 			{
@@ -178,6 +182,7 @@ public:
 				x2 = (float)rec.right;
 				y2 = (float)rec.bottom;    
 			};
+
 
 			inline operator RECT () const 
 			{
@@ -189,7 +194,7 @@ public:
 				return res; 
 			};  
 
-//#endif 
+#endif // #ifdef __GB_TYPES_H__
 
 			//! \brief Занулить 
 			inline void setzero() { x1=y1=x2=y2=0.0; }
@@ -202,10 +207,10 @@ public:
 			//! \brief Сдвиг координат. Движение прямоугольника на значение val
 			inline void translate(const base::vec2_s& val) { x1+=val.x; y1+=val.y;	x2+=val.x; y2+=val.y; }
 
-//#ifdef WIN32  
+#ifdef __GB_TYPES_H__  
 			/** \brief Движение координат на указаное значение */
 			inline void translate(const POINT& p) {  translate((float)p.x, (float)p.y);   };
-//#endif
+#endif // #ifdef __GB_TYPES_H__ 
 
 
 			//! \brief Получение ширины прямоугольника  
@@ -227,14 +232,15 @@ public:
 
 			inline void setPositionTopLeft(const base::vec2_s& v) { setPositionTopLeft(v.x,v.y); }  
 
-//#ifdef WIN32
+#ifdef __GB_TYPES_H__ 
 			/** \brief Установить новую позицию по верхнему левому краю прямоугольника. 
 			        Размеры сохраняются. */
 			inline void setPositionTopLeft(const POINT& pnt) {  setPositionTopLeft((float)pnt.x, (float)pnt.y);   };
 
 			/** \brief Получить точку координату верхнего левого угла прямоугольника. */
 			inline POINT getPositionTopLeft() const { POINT res; res.x=(long)x1; res.y=(long)y1; return res; };
-//#endif
+
+#endif 
 
 
   
@@ -243,34 +249,41 @@ public:
   /** \brief Установить новую высоту. Координата левого вернего угла не меняется. */
   inline void setHeight(float fHeight) { y2 = y1 + fHeight; }
   /** \brief Установить новую ширину и высоту. Координата левого вернего угла не меняется. */
-  inline void setWidthHeight(float fWidth, float fHeight) {
+  inline void setWidthHeight(float fWidth, float fHeight) 
+  {
    x2 = x1 + fWidth;
    y2 = y1 + fHeight;
   }
 
 
-  /** \brief Получить  координату верхнего левого угла прямоугольника. */
-  inline POINT getTopLeft() const {  POINT res; res.x=(long)x1; res.y=(long)y1; return res; };
-  /** \brief Получить  координату нижнег оправого угла прямоугольника. */
-  inline POINT getBottomRight() const {  POINT res; res.x=(long)x2; res.y=(long)y2; return res; };
+//  /** \brief Получить  координату верхнего левого угла прямоугольника. */
+//  inline POINT getTopLeft() const {  POINT res; res.x=(long)x1; res.y=(long)y1; return res; };
+//  /** \brief Получить  координату нижнег оправого угла прямоугольника. */
+//  inline POINT getBottomRight() const {  POINT res; res.x=(long)x2; res.y=(long)y2; return res; };
+
+
+  //! \brief Получить  координату верхнего левого угла прямоугольника.
+  inline base::vec2_s getTopLeft() const {  base::vec2_s res; res.x=x1; res.y=y1; return res; }
+  //! \brief Получить  координату нижнег оправого угла прямоугольника. 
+  inline base::vec2_s getBottomRight() const {  base::vec2_s res; res.x=x2; res.y=y2; return res; }
 
 
 
   /** \brief Получить центральную среднюю точку прямоугольника */
-  inline POINT getCenterPoint() const 
+  inline base::vec2_s getCenterPoint() const 
   {
-	  POINT res;
-	  POINT pTpLft = getTopLeft();
-	  POINT pBtRt  = getBottomRight();
+	  base::vec2_s res;
+	  base::vec2_s pTpLft = getTopLeft();
+	  base::vec2_s pBtRt  = getBottomRight();
 
-	  res.x = (pTpLft.x + pBtRt.x) / 2;
-	  res.y = (pTpLft.y + pBtRt.y) / 2;
+	  res.x = (pTpLft.x + pBtRt.x) / 2.0f;
+	  res.y = (pTpLft.y + pBtRt.y) / 2.0f;
 
 	  return res; 
-  };
+  }
 
   /** \brief  Установить координаты прямоугольника по средней точке. Размеры не меняются.  */
-  inline void  setCenterPoint(const POINT& pnt) 
+  inline void  setCenterPoint(const base::vec2_s& pnt) 
   {
 	  float nw = getWidth();
 	  float nh = getHeight();
@@ -314,9 +327,10 @@ public:
 	  return false;
   }
 
+#ifdef __GB_TYPES_H__
   //! \brief Проверка попадания точки в прямоугольник .
   inline bool checkContainPoint(const POINT& pnt) const { return checkContainPoint(pnt.x, pnt.y); }
-
+#endif
 
   //!   \brief Вычислить площадь.
   inline float computeSquare() { return ( getWidth() * getHeight()  );  };

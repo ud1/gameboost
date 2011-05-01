@@ -38,3 +38,8 @@ typedef uint32_t   BOOL;
 
 
 #endif // #ifndef WIN32
+
+// хз .. пока временно... если не прекомпилед хедеров
+#ifdef WIN32
+   #include <windows.h>
+#endif

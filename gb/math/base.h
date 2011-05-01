@@ -599,7 +599,7 @@ namespace gb
 			inline vec4_s() {};
 
 			inline vec4_s(const vec4_s& v)      { x=v.x;  y=v.y; z=v.z; w=v.w;  };
-			inline vec4_s(const vec4_s* v)      { x=v->x;  y=v->y; z=v->z; w=v->w;  };
+//			inline vec4_s(const vec4_s* v)      { x=v->x;  y=v->y; z=v->z; w=v->w;  };
 
 			inline vec4_s(const vec3_s& v, float _w)  { x=v.x;  y=v.y; z=v.z; w=_w;  };
 
@@ -662,24 +662,30 @@ namespace gb
 		   	inline void operator = (const D3DXVECTOR4& v) {	x=v.x; y=v.y; z=v.z; w=v.w; }	
 #endif					
 			
-		    inline void setzero() {x=y=z=w=0.0f; };
-			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) && (w==0.0f) ); };
+			//! \brief Обнулить все компоненты
+		    inline void setzero() {x=y=z=w=0.0f; }
+			//! проверить равны ли все компоненты нулю
+			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) && (w==0.0f) ); }
 
-			inline vec4_s& set    (float _x, float _y, float _z, float _w) { x=_x; y=_y; z=_z; w=_w; return *this; };
-			//inline vec4_s& set_all(float val) {x=val; y=val; z=val; w=val; return *this; };
-
+			inline vec4_s& set    (float _x, float _y, float _z, float _w) { x=_x; y=_y; z=_z; w=_w; return *this; }
+ 
+			//! \brief  Все ли компоненты нулевые
 			inline bool isZero(float epsilon) const
 			{
 				return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon ) && ( abs( z ) <= epsilon ) && ( abs( y ) <= epsilon );
 			}
 
+			//! \brief  получить длинну
 			inline float length () const {	return (float)sqrt( x*x + y*y + z*z + w*w );	}
+			//! \brief  получить квадрат длинны
 			inline float lengthSq() const {	 return (x*x + y*y + z*z + w*w);  }
 
+			//! \brief   Вернуть скалярное произведение с вектором v
 			inline float   dot (const vec4_s& v) const { return x*v.x + y*v.y + z*v.z + w*v.w; }
 
 			
 #pragma message ("KS777: MATH::VEC4 >> NEED CHECK CROSS METHOD !!!"  __FILE__)
+			//! \brief Получить векторное (перекрестное)  произведение с вектором v.
 			inline vec4_s  cross ( const vec4_s & v) const
 			{
 				  vec4_s r;
@@ -690,25 +696,40 @@ namespace gb
 				  return r;
 			}
 
-	  /*************
-  D3DXVec4Cross(Out, U, V, W)	 cross4(1.2.3)
 
-a = VxWy − VyWx
-b = VxWz − VzWx
-c = VxWw − VwWx
-d = VyWz − VzWy
-e = VyWw − VwWy
-f = VzWw − VwWz
-Outx = fUy − eUz + dUw
-Outy = fUx + cUz − bUw
-Outz = eUx − cUy + aUw
-Outw = dUx + bUy − aUz
-	 **************************/
+			// НЕПРАВИЛЬНО !!!!
+			void cross( const vec4_s& U, const vec4_s& V, const vec4_s& W )   
+			{
+				assert(false && "bad code !");
+
+				float a = V.x*W.y - V.y*W.x;
+				float b = V.x*W.z - V.z*W.x;
+				float c = V.x*W.w - V.w*W.x;
+				float d = V.y*W.z - V.z*W.y;
+				float e = V.y*W.w - V.w*W.y;
+				float f = V.z*W.w - V.w*W.z;
+
+				vec4_s Out;
+				Out.x = f*U.y - e*U.z + d*U.w ;
+				Out.y = f*U.x + c*U.z - b*U.w ; // no valid
+				Out.z = e*U.x - c*U.y + a*U.w ;
+				Out.w = d*U.x + b*U.y - a*U.z ; // no valid
 
 
+				*this = Out;
+			}
 
-			inline vec4_s&   invert() {x=-x; y=-y; z=-z; w=-w; return *this; };
+			//! \brief  Инвертировать.
+			inline vec4_s&   invert() {  x=-x; y=-y; z=-z; w=-w; return *this; };
+			//! \brief  Вернуть инвертированый.
+			inline vec4_s    inverted() const 
+			{
+				vec4_s res = *this;
+				res.invert();
+				return res;
+			}
 
+			//! \brief  Вернуть вектор по линейной интерполяции между this и v  по коэффициенту k
 			inline vec4_s    lerp(const vec4_s& v, const float k) 
 			{
 				vec4_s r;
@@ -778,6 +799,22 @@ Outw = dUx + bUy − aUz
 		if( z < vmin.z) z=vmin.z;  if(z > vmax.z) z=vmax.z;
 		if( w < vmin.w) w=vmin.w;  if(w > vmax.w) w=vmax.w;
 	};
+
+
+
+	void toCstr(char* buf) const 
+	{
+		*buf = '\0';
+	    sprintf(buf, "%f %f %f %f", x, y, z, w );
+	}
+
+	bool fromCstr(const char* s) 
+	{
+		const int NS = sscanf(s, "%f%f%f%f", &x, &y, &z, &w);
+		if(4!=NS)  return false;
+		return true;
+	}
+
 
 
     //! \brief Вывод значений на консоль
