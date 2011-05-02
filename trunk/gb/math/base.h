@@ -1333,6 +1333,7 @@ namespace gb
 
 
 #endif // GB_D3DX9
+ 
 
 
 			/**    \brief Строгое сравнение    */
@@ -2004,15 +2005,29 @@ namespace gb
 				setViewLookAtRH( eye, at, up);
 			}
 
- 
 
-			#if ( defined GB_OPENGL  && defined __GL_H__ )
-			   /** \brief Старый способ  перемножения матрицы с текущей в OpenGL */
-               inline void glMul()  { glMultMatrixf( (GLfloat*)&_11  ); }
 
-			   /** \brief Старый способ загрузки матрицы  в OpenGL */
-               inline void glLoad() { glLoadMatrixf( (GLfloat*)&_11  ); }
-            #endif
+#if ( defined GB_OPENGL  && defined __GL_H__ )
+
+			//! \brief  Старый способ  перемножения матрицы с текущей в OpenGL 
+			inline void glMul()  { glMultMatrixf( (GLfloat*)&_11  ); }
+
+			//! \brief   Старый способ загрузки матрицы  в OpenGL 
+			inline void glLoad() { glLoadMatrixf( (GLfloat*)&_11  ); }
+
+			//! \brief Загрузить из контекста OpenGL проекционную матрицу.
+			inline void glGetProjection() 
+			{    
+				glGetFloatv(GL_PROJECTION_MATRIX, &_11);
+			}
+
+			//! \brief Загрузить из контекста OpenGL видовую матрицу.
+			inline void glGetModelView()
+			{
+				glGetFloatv(GL_MODELVIEW_MATRIX, &&_11);
+			}
+
+#endif // gb use OpenGL
 
 
 #ifdef GB_D3D9  // d3d9 device methods
