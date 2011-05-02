@@ -1,27 +1,65 @@
-﻿#pragma once
-/*! \file String.h
+﻿/*! \file String.h
+  \brief Строковые функции, алгоритмы , типы. <br>
+ 	Мягкая обёртка вокруг boost/algorithm/string.hpp с возможностью реализации собственных
+  	алгоритмов без подключения библиотеки Boost
+
+	<br>
+	<br>
+
  *	\author Дмитрий Литовченко kvakvs@yandex.ru
- *	Мягкая обёртка вокруг boost/algorithm/string.hpp с возможностью реализации собственных
- *	алгоритмов без подключения библиотеки Boost
+ *	   && ksacvet777
  */
 
+
+#pragma once
+#define __GB_STR_H__
+
 #include <gb/Config.h>
+#include <gb/base/Types.h>
 
 #if GB_ALLOW_BOOST_LIBRARY
 #include <boost/algorithm/string.hpp>
 #endif
 
+
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
+
+#include <string>
+#include <cctype>
+#include <vector>
 #include <list>
 #include <set>
-#include <vector>
+
+#include <cstring>
 #include <string>
+#include <cstdio>
+
+#include <gb/Config.h>
+#include <gb/base/Types.h>
+
+ 
+#ifdef WIN32
+#include <windows.h> 
+#endif
+
+#if GB_ALLOW_BOOST_LIBRARY
+#include <boost/tokenizer.hpp>
+#include <boost/lexical_cast.hpp>
+#endif
+
+
 
 
 namespace gb
 {
+
+    //! \brief Операции со строками , символами.
 	namespace str {
 		
-		
+//-------------------------------------------------------------------------
+
 		
 std::string toUtf8( const std::wstring & wide_str );
 std::wstring toWide( const std::string & utf8_str );
@@ -213,13 +251,12 @@ void eraseTail( std::string & input, int32_t n );
 std::string eraseTailCopy( const std::string & input, int32_t n );
 
 
-#else
-
 //! Привести к верхнему регистру на месте
 inline void toUpper( std::string & v )
 {
 	boost::algorithm::to_upper( v );
 }
+
 
 //! Вернуть копию, приведённую к верхнему регистру
 inline std::string toUpperCopy( const std::string & v )
@@ -232,6 +269,8 @@ inline void toLower( std::string & v )
 {
 	boost::algorithm::to_lower( v );
 }
+
+
 
 //! Вернуть копию, приведённую к нижнему регистру
 inline std::string toLowerCopy( const std::string & v )
@@ -274,6 +313,12 @@ inline std::string trimCopy( const std::string & v )
 {
 	return boost::algorithm::trim_copy( v );
 }
+
+
+#else   // без буста
+
+
+
 
 //-------------------------------------------------------------------------
 // Предикаты для использования в функциях поиска, или в обычных условиях
@@ -576,5 +621,487 @@ inline std::string eraseTailCopy( const std::string & input, int32_t n )
 
 
 
+
+/* in */
+#define KS_IN   const
+
+/* out */
+#define KS_OUT   
+
+/* in-out */
+#define KS_INOUT   
+
+/* in optional */
+#define KS_IN_OPTIONAL	 const
+
+/* out optional */
+#define KS_OUT_OPTIONAL    
+
+
+static const char CSTR_ZERO []     = "0";
+static const char CSTR_ONE  []     = "1";
+static const char CSTR_TWO  []     = "2";
+
+
+
+
+#ifdef GB_ALLOW_BOOST_LIBRARY
+
+template <typename T>
+/** \brief Каст из строкового представления в другое */
+bool strTo(KS_OUT T& outVal,  const std::string& s)
+{
+	if( !s.length() ) return false;
+	try { outVal = boost::lexical_cast<T>(s); }
+	catch( boost::bad_lexical_cast &) {  return false; 	}	return true;
+}
+
+
+template<typename T>
+/** \brief Каст из строкового вектора vSrc в тип T и положить результат кастования в vOut
+Если при кастокании ошибка, то выполняется выход с возвратом false. Если каст всех значений
+успешен вернёт true  */
+bool strVectorTo(KS_OUT std::vector<T>& vOut,  const std::vector<std::string>& vSrc)
+{
+
+	for(size_t c=0; c<vSrc.size(); c++)
+	{
+		T val;
+
+		try
+		{
+			const std::string& src = vSrc[c];
+			val  = boost::lexical_cast<T>( src );
+
+		}
+		catch( boost::bad_lexical_cast &)
+		{
+			return false;
+		}
+
+		vOut.push_back(val);
+
+	} // for
+
+
+	return true;
+}
+
+#endif // #ifdef GB_ALLOW_BOOST_LIBRARY
+
+
+//-------------------------------------------------------------------------
+//    ks str functions autor: ksacvet777
+//-------------------------------------------------------------------------
+
+
+
+/** \brief Заполнение вектора по строке делёной символом конца строки  '\n' */
+void splitLines(KS_OUT std::vector<std::string>& vOut, const std::string& s) ;
+
+/** \brief сделать все символы в верхнем регистре. Строка должна завершаться нулём */
+void cstrToUpper(char* buf) ;
+
+/** \brief сделать все символы в нижнем регистре. Строка должна завершаться нулём */
+void cstrToLower(char* buf) ;
+
+/** \brief  Выполняет перевод буквеных символов в верхний(если bUpReg=true) или нижний(если bUpReg=false)
+строки в NULL-терминированом буфере buff. <BR> Русские буквы переводятся в соответствии  с кодировкой cr1251
+\param buff - [in] Исходный буфер подлежащий конвертации
+\param bUpReg - [in]  Установить true если требуется перевод в верхний регистр или false для нижнего   */
+void changeCase1251(char* buff, bool bUpReg);
+
+/** \brief Поиск индексов вхождения символа chToBeSearch в строке src
+с позиции  nStartIndex */
+bool searchCharPos(KS_OUT std::vector<int32_t>& vPosOut, const std::string& src,
+				   KS_IN char chToBeSearch, KS_IN int32_t nStartIndex);
+
+
+/** \brief Печать информации о строке на консоль. */
+void printStrInfo(const std::string& s);
+
+// void StrUt_BoostMakeLowerCase(std::string& s);
+// void StrUt_BoostMakeUpperCase(std::string& s);
+
+void replaceChar(std::string& s, const char chSymb, const char chNewSymb);
+
+// void StrUt_BoostEraseAll(std::string& s, const std::string& s_erased);
+
+bool loadStrFromFileA (KS_OUT std::string& s,  const char* fname);
+bool saveStrToFileA   (KS_IN  std::string& s,  const char* fname);
+
+bool loadStrFromFileW (KS_OUT std::string& s,  const wchar_t* fname);
+bool saveStrToFileW   (KS_IN std::string& s,   const wchar_t* fname);
+
+// void StrUt_Boost_replace_first_copy(std::string& s, const std::string& s_tobe_relp, const std::string& snew);
+// void StrUt_Boost_replace_last_copy(std::string& s, const std::string& s_tobe_relp, const std::string& snew);
+
+#pragma message ("KS777 ПОПРАВИТЬ"  __FILE__)
+/** \brief Сравнение буферов без учёта регистра   НЕ ПРОВЕРЯЛАСЬ !!! */
+bool iCompareCstr(const char* src1, const char* src2, uint32_t nMax );
+
+/** \brief  удалить из текста  все C++ комментарии. <br> 
+Если  chRepl != 0, то закомментированый текст будет заменён этим символом	 <br>
+(табы, пробелы и переносы строк не меняются)  */
+void preprocessCppComments(KS_OUT std::string& sDest, const std::string& sSrc, KS_IN_OPTIONAL char chRepl=0 );
+
+/** \brief  удалить из текста  все C++ комментарии. Подробнее смотреть в одноимённой функции выше  */
+void preprocessCppComments(KS_INOUT std::string& s, KS_IN_OPTIONAL char chRepl=0);
+
+
+
+/** \brief Поиск индекса вхождения   символа. Минус один если не найден */
+int32_t findChar(const std::string& s, const char symb, const int32_t nStartPos);
+
+/** \brief Поиск подстроки между символами <br>
+nPosition - с какой позиции и в нём же и результат индекса (позиция завершающего символа)  */
+bool findSubstringBetween( 
+						  KS_OUT std::string& sResult, const std::string& s,
+						  const char chBegin,  
+						  const char chEnd,
+						  KS_INOUT int32_t& nPosition );
+
+/** \brief Разрезать строку по указаному символу chDiv <br>
+bClearResVecBefore - очистить или нет результирующий вектор vResult перед операцией   */
+void ksSplit(KS_OUT std::vector<std::string>& vResult, const std::string& src,
+			 const char chDiv,    bool bClearResVecBefore=true );
+
+
+#if GB_ALLOW_BOOST_LIBRARY
+/** \brief Разрезать строку по токенам sTokens */
+void splitTokens( KS_OUT std::vector<std::string>& vResult,
+				 const std::string& src, const std::string& sTokens );
+#endif
+
+/** \brief Разрезать строку по кол-ву указаному в pOffsets и  nOffsLen */
+void sliceByOffsets(KS_OUT std::vector<std::string>& vResult, const std::string& src,
+					const uint32_t* pOffsets, const int32_t nOffsLen) ;
+
+/** \brief Разрезать строку src между индексами nStartPos && nStopPos
+по токену  chToken   */
+bool sliceBetweenIndices(KS_OUT std::vector<std::string>& vOut,
+						 const std::string& src,
+						 KS_IN char  chToken,
+						 KS_IN int32_t nStartPos, KS_IN int32_t nStopPos);
+
+
+/** \brief Проверка на соответствие символа chr любому из szAny  */
+bool isAnyOf(const char chr, const std::string& sAny) ;
+
+/** \brief Выполнить поиск в строке src любого символа содержащегося  в sAny
+с позиции posit . Если найден то вернёт true и в posit индекс вхождения  */
+bool findAnyOf(const std::string& src, KS_INOUT int32_t& posit, const std::string& sAny ) ;
+
+/** \brief Выполнить поиск в строке src с позиции posit поиск
+первого символа в диапазоне chBegin ... chEnd  (включительно) .
+Если найден то вернёт true и в posit индекс вхождения */
+bool findAnyOfBetween(const std::string& src, KS_INOUT int32_t& posit, KS_IN char chBegin, KS_IN char chEnd);
+
+
+
+/** \brief  Замена любого символа sAny   в строке src
+на новый символ chNewSymb или удаление если chNewSymb == ноль. Результат в sOut  */
+void replaceAnyChar(KS_OUT std::string& sOut, const std::string &src, const std::string& sAny, const char chNewSymb);
+void replaceAnyChar(KS_INOUT std::string &s, const std::string& sAny, const char chNewSymb) ;
+
+
+
+
+/** \brief Проверка строчки на открывающий xml/html таг    */
+bool check_OpenXmlTag(KS_OUT std::string& sOutTag, const std::string& src);
+
+/** \brief Проверка строчки на открывающий xml/html таг по индексу     */
+bool check_OpenXmlTag_pos(KS_OUT std::string& sOutTag, 
+						  const std::string& src,
+						  KS_INOUT int32_t& posit);
+
+/** \brief Проверка строчки на закрывающий xml/html таг     */
+bool check_CloseXmlTag(KS_OUT std::string& sOutTag,	const std::string& src);
+
+/** \brief Проверка строчки на закрывающий xml/html таг  по индексу    */
+bool check_CloseXmlTag_pos(KS_OUT std::string& sOutTag,
+						   const std::string& src,
+						   KS_INOUT int32_t& posit);
+
+
+
+
+/** \brief Удаление символов начиная с "//" (с++ однострочный комментарий) */
+void skipCppOnelineComment(KS_OUT std::string& dest,	KS_IN std::string& src );
+
+/** \brief Удаление символов начиная с "//" (с++ однострочный комментарий) */
+void skipCppOnelineComment(KS_INOUT std::string& s);
+
+
+void intArrayToStr(KS_OUT std::string& sOut,
+				   const int32_t* pArray,  
+				   const int32_t nArrayLen,
+				   const char* szBegin, 
+				   const char* szEnd,
+				   const char* szSeparator );
+
+
+void intArrayToStr(KS_OUT std::string& sOut,
+				   const std::vector<int32_t>& vArray,
+				   const char* szBegin, 
+				   const char* szEnd,
+				   const char* szSeparator );
+
+
+bool intArrayFromStr(
+					 KS_OUT int32_t* pBufOut, 
+					 KS_IN int32_t nBufLen,
+					 KS_IN std::string& src, 
+					 KS_IN char chBegin, 
+					 KS_IN char chEnd,
+					 KS_IN char chSeparator, 
+					 KS_OUT_OPTIONAL int32_t* pOutNumReaded = NULL  );
+
+
+bool intArrayFromStr(
+					 KS_OUT std::vector<int32_t>& vOut, 
+					 KS_IN std::string& src,
+					 KS_IN char chBegin, 
+					 KS_IN char chEnd, 
+					 KS_IN char chSeparator );
+
+
+/** \brief  найти следующий символ не равный символам sSkipAnySymbols
+в строке src со стартовой позиции nStartPosit. Если найден вернёт true
+и в nOutFoundPosit позиция найденого символа */
+bool findNextSkipAny(KS_OUT int32_t& nOutFoundPosit, KS_IN std::string& src,
+					 KS_IN int32_t nStartPosit,
+					 KS_IN std::string& sSkipAnySymbols );
+
+
+/** \brief Удаление всех символов sAny из строки src с начала и с конца ДО ТОГО как
+встретится символ не входящий в sAny. Результат в sOut  .Если других символов
+помимо sAny в строке нет вернёт false. */
+bool removeAnyFromBeginAndEnd(KS_OUT std::string& sOut, KS_IN std::string& src, KS_IN std::string& sAny);
+
+bool removeAnyFromBeginAndEnd( KS_INOUT std::string& s , KS_IN std::string& sAny) ;
+
+/** \brief Аналог StrUt_RemoveAnyFromBeginAndEnd для вектора строк */
+void removeAnyFromBeginAndEnd_Vec(KS_INOUT std::vector<std::string>& v,
+								  KS_IN std::string& sAny);
+
+
+/** \brief Построение текстового массива в строку sOut*/
+void strArrayToStr(KS_OUT std::string& sOut, ///< результат.
+				   KS_IN std::vector<std::string> vecStr, ///< строки массива.
+				   KS_IN char chBegin,  ///< начальный символ или ноль если не нужен.
+				   KS_IN char chEnd,    ///< конечный символ или ноль если не нужен.
+				   KS_IN char chSeparator, ///< разделитель пунктов массива.
+				   bool bAddSpace   ///< добавить или нет пробел.
+				   );
+
+
+/** \brief  Обратная StrUt_WriteStringArrayToStr. Чтение строкового массива из src */
+bool strArrayFromStr( KS_OUT std::vector<std::string>& vOut,///<
+					 KS_IN std::string& src,///<
+					 KS_IN char chBegin, ///< токен начальный символ
+					 KS_IN char chEnd, ///< токен конечный символ
+					 KS_IN char chSeparator, ///< токен разделитель
+					 KS_IN std::string& sRemoveBeginAndEndAny ///< для удалени начальных и конечных символов или пустая строка если нет
+					 );
+
+
+/** \brief Разрезать строку src в вектор vOut по индексам в vIndexes.
+В vIndexes должны быть корректные индексы (каждый должен  быть больше 
+предидущего и меньше следующего. 
+Каждый не должен превышать длину src  и не должен быть отрицательным) */
+bool sliceStrByIndices(std::vector<std::string>& vOut,  
+					   const std::string& src, 
+					   const std::vector<uint32_t>& vIndexes );
+
+
+/** \brief Удалить из vInp все пустые строки, а непустые поместить в vOut */
+void copyStringsSkipEmpty(std::vector<std::string>& vOut, std::vector<std::string>& vInp);
+
+
+/** \brief Корректировак строки (добавление слеша (\) перед кавычкой ) */
+//bool StrUt_CorrectStrBySpecSymbols_Add(_out std::string& sOut, _in std::string& src);
+
+
+
+
+
+//
+//  inline functions
+//
+
+
+/** \brief Проверка является ли символ цифровым */
+inline bool isDigit(char symb) {
+	return ( (symb>='0') && (symb<='9') );
+}
+
+/** \brief Проверка является ли символ англоязычным символом в ВЕРХНЕМ регистре. */
+inline bool isLatinLetterUpper(char symb) {
+	if (  (symb>='A') && (symb<='Z') ) return true;
+	return false;
+}
+
+/** \brief Проверка является ли символ англоязычным символом в НИЖНЕМ регистре. */
+inline bool isLatinLetterLower(char symb) {
+	if (  (symb>='a') && (symb<='z') ) return true;
+	return false;
+}
+
+/** \brief Проверка является ли символ англоязычным символом */
+inline bool isLatinLetter(char symb) {
+	return ( isLatinLetterUpper(symb) || isLatinLetterLower(symb) );
+}
+
+/** \brief Является ли символ математическим */
+inline bool isMathOperator(char symb) {
+	return ( (symb == '+') || (symb == '-') || (symb == '*') || (symb == '/')  );
+}
+
+/** \brief Присоединяет символ к строке. */
+inline void appendChar(char* buf, const char s) {
+	int32_t iblen = (int32_t)strlen(buf);
+	*(buf + iblen) = s;
+}
+
+/** \brief Поиск символа новой строки . <br>
+\param
+src - указывает на первый символ в буфере.  
+pos - текущая позиция. */
+bool findNextLinePos(const char* src, int32_t& pos) ;
+
+
+
+/** \brief  make string:  "<tag>" */
+inline std::string makeOpenXmlTag
+(const std::string& sTag) {
+	std::string  res  = "<";
+	res += sTag;
+	res += ">";
+	return res;
+}
+
+/** \brief  make string:  "</tag>" */
+inline std::string makeCloseXmlTag(const std::string& sTag) {
+	std::string  res  = "</";
+	res += sTag;
+	res += ">";
+	return res;
+}
+
+inline bool checkSymbolMayBeOpen(KS_IN char symb) {
+	if( symb == '(' ) return true;
+	if( symb == '{' ) return true;
+	if( symb == '[' ) return true;
+	if( symb == '<' ) return true;
+
+	return false;
+}
+
+inline bool checkSymbolMayBeClose(KS_IN char symb) {
+	if( symb == ')' ) return true;
+	if( symb == '}' ) return true;
+	if( symb == ']' ) return true;
+	if( symb == '>' ) return true;
+
+	return false;
+}
+
+inline bool checkSymbMayBeSeparator(KS_IN char symb) {
+	if( symb == ',' ) return true;
+	if( symb == ';' ) return true;
+
+	return false;
+}
+
+
+
+/** \brief Преобразование bool в строку в буфер pDest размером ndestlen */
+bool boolToCstr( char* pDest, int32_t ndestlen, bool  value );
+std::string boolToStr( bool  value );
+
+/** \brief Преобразование value в строку в верхнем регистре 
+в буфер pDest размером ndestlen */
+bool boolToUppercaseCstr( char* pDest, int32_t ndestlen, bool value );
+std::string boolToUppercaseStr( bool value );
+
+/** \brief Преобразование float в строку в буфер pDest размером ndestlen */
+bool floatToCstr(char* pDest, int32_t ndestlen, float value);
+std::string  floatToStr(float value);
+
+bool floatFromCstr( KS_OUT  float* out_val,  const char* s ) ;
+bool floatFromCstr( KS_OUT  float& out_val,  const char* s ) ;
+
+/** \brief Преобразование  знакового целого в строку . Если bAsCppHex true,  тогда конвертирует в HEX в стиль c++  */
+bool intToCstr(char* pDest, int32_t ndestlen,  int32_t value, bool bAsCppHex);
+/** \brief Преобразование  беззнакового целого в строку   Если bAsCppHex true,  тогда конвертирует в HEX в стиль c++  */
+bool uintToCstr(char* pDest, int32_t ndestlen, uint32_t value, bool bAsCppHex);
+
+std::string intToStr  ( int32_t value, bool bAsCppHex);
+std::string uintToStr ( uint32_t value, bool bAsCppHex);
+
+
+/** \brief Преобразование  знакового целого из строки. 
+
+Если неверное значение или исключение, то вернёт false. Можно передавать число d HEX-c++. Например 0x5faf43   */
+bool intFromCstr(KS_OUT int32_t* out_val, const char* s) ;
+/** \brief Преобразование  знакового целого из строки. Если неверное значение или исключение, то вернёт false.  
+Можно передавать число d HEX-c++. Например 0x5faf43  */
+bool intFromCstr(KS_OUT int32_t& out_val, const char* s) ;
+
+/** \brief  Аналог intFromCstr  для  unsigned int    */
+bool uintFromCstr(KS_OUT uint32_t* out_val, const char* s) ;
+bool uintFromCstr(KS_OUT uint32_t& out_val, const char* s) ;
+
+
+/** \brief Преобразование  целого в строку  в шестнадцатеричном виде   */
+bool intToHex(char* pDest, int32_t ndestlen, int32_t value) ;
+/** \brief Преобразование  целого в строку  в шестнадцатеричном виде с префиксом "0x" */
+bool intToCppHex(char* pDest, int32_t ndestlen, int32_t value) ; 
+
+/** \brief  Перевод указателя в виде hex-строки  в буфер buff  с символами в верхнем регистре.  <BR>
+Буфер должен быть длиной не менее 11 . Пример результата = 0xA23A98FC  */
+bool pointerToCstr(char* pDest, int32_t ndestlen, const void* p) ;
+
+/** \brief Получение побитовой строки из байта . */
+bool  byteToCStrAsBin(char* pDest, int32_t ndestlen, uint8_t value);
+
+/** \brief Преобразование uint32_t в двоичное представление. */
+bool uintToBinCstr(char* pDest, int32_t ndestlen, uint32_t value);
+/** \brief Преобразование  int32_t в двоичное представление. */
+bool intToBinCstr(char* pDest, int32_t ndestlen, uint32_t value);
+/** \brief Преобразование uint32_t в двоичное представление. */
+std::string uintToBinStr( uint32_t value);
+/** \brief Преобразование int32_t в двоичное представление. */
+std::string intToBinStr( uint32_t value);
+
+
+/** \brief Преобразование в uint из строки содержащей цифру в двоичном виде. */
+uint32_t uintFromBinCstr(const char* _s, int32_t nlen= -1)  throw(std::runtime_error&);
+
+/** \brief побитовая печать на консоль двойного слова uint32_t */
+void printUint32AsBin(  uint32_t value) ;
+
+/** \brief печать  байта  в двоичном представлении на консоль . */
+void printByteAsBin(uint8_t value) ;
+
+
+#if defined (_WIN32)
+/** \brief  Хэндл окна в строку */
+uint32_t hwndAsUint(const HWND hwnd) ;
+#endif
+
+
+//---------------------------------------------------------------------
+
 	} // namespace str
 } // namespace gb
+
+
+
+#include <gb/str/KsString.h>
+
+
+
+
+// end file
