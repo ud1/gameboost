@@ -1,19 +1,63 @@
 ﻿#ifdef WIN32 // only windows
 
+#include <gb/Config.h>
 #include <gb/system/filefunc.h>
 
+#if GB_ALLOW_BOOST_LIBRARY
 #include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
+#endif
 
+#include <gb/t/func.h>
+
+#ifdef WIN32
+#include "Strsafe.h"
+#endif
 
 #pragma warning(push)
+#pragma warning( disable : 4995 )
+#pragma warning( disable : 4290 ) // пока отключено
+
 
 //=========================================================================
 
 
 namespace gb {
-	namespace system {
-		namespace filefunc {
+namespace system {
+namespace filefunc {
+
+//==============================================================
+
+	static HRESULT Safe_strcpy(char* dest, const char* src ) 
+	{
+		try { strcpy(dest, src); } catch(...) { return E_FAIL; }; return 0;
+	};
+
+	static HRESULT Safe_strncpy(char* dest, const char* src, size_t num) 
+	{
+		try { strncpy(dest, src, num); } catch(...) { return E_FAIL; }; return 0;
+	};
+
+	static HRESULT Safe_wcstrcpy(wchar_t* dest, const wchar_t* src ) 
+	{
+		try { wcscpy(dest, src); } catch(...) { return E_FAIL; }; return 0;
+	};
+
+	static HRESULT Safe_wcstrncpy(wchar_t* dest, const wchar_t* src, size_t num) 
+	{
+		try { wcsncpy(dest, src, num); } catch(...) { return E_FAIL; }; return 0;
+	};
+
+
+
+	static HRESULT SafeMemZero(void* pdest,  const unsigned int numBytes) {
+		try { memset(pdest, 0 , (size_t)numBytes );  } 
+		catch(...) { return E_FAIL;  }; 
+		return 0;
+	}
+
+
+
 
 // \brief  std вектор для PathDataA  
 typedef std::vector<PathDataA> VEC_PathDataA;
@@ -21,13 +65,1029 @@ typedef std::vector<PathDataA> VEC_PathDataA;
 // \brief  std вектор для PathDataW  
 typedef std::vector<PathDataW> VEC_PathDataW; 	
 
-		}
-	}
+} // end ns
+} // end ns
+} // end ns
+
+//==================================================
+
+
+
+
+class GlobalArrS_BufferA {
+public:
+	GlobalArrS_BufferA() {};
+
+	void operator = (const gb::system::filefunc::PathDataA& pd) {
+		strcpy(buffer, pd.path );	
+	};
+
+	void setzero() {  memset(buffer, 0, sizeof(buffer) ); };
+	bool empty() const { return ( buffer[0] == 0 ); };
+
+	gb::system::filefunc::PathDataA as_PathDataA() {
+		gb::system::filefunc::PathDataA pd;
+		pd = buffer;
+
+		return pd;
+	};
+
+	CHAR buffer[MAX_PATH+1];
+};
+
+class GlobalArrSearchPathA 
+{
+public:
+	GlobalArrSearchPathA() {
+		__Init();
+
+
+	};
+
+	void clear() {
+#pragma message("ks777^^sys::filefunc После перерефр.  надо проверить")
+		gb::t::func::setzero_buffer<GlobalArrS_BufferA>(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH );	
+
+	};
+
+	bool Add(gb::system::filefunc::PathDataA& _path) {
+		__Init();
+		const int NFREEINDEX = gb::t::func::findFirstEmptyFromBuffer(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH);
+		if(NFREEINDEX == -1) 
+			return false;
+
+		m_arr[NFREEINDEX] = _path;
+		m_numUsed ++;
+		return true;	
+	};
+
+	unsigned int size()   {
+		__Init();
+		return m_numUsed;
+
+	};
+
+	gb::system::filefunc::PathDataA at(const unsigned int indx) throw(char*) {
+		__Init();
+		if( indx >= gb::system::filefunc::MAX_GLOBALSEARCHPATH ) {
+			throw std::runtime_error("Illegal index");
+			static const int __ZERO = 0;
+
+			//#pragma warning (push)
+			//#pragma warning (disable : 4172)
+			return (gb::system::filefunc::PathDataA&)__ZERO;
+			//#pragma warning (pop)
+
+
+		};
+
+		return m_arr[indx].as_PathDataA() ;
+	};
+
+	gb::system::filefunc::PathDataA  operator [] (const unsigned int indx) throw(char*) {
+		__Init();
+		return at(indx);	
+	};
+
+private:
+	void __Init() {
+		static bool stb_firstcall = true;
+		if(stb_firstcall==false) return;
+		stb_firstcall = false;
+		// init code
+		m_numUsed = 0;
+		for(unsigned int c=0; c<gb::system::filefunc::MAX_GLOBALSEARCHPATH; c++) {
+			m_arr[c].setzero();  
+		};
+
+
+	};
+
+	unsigned int m_numUsed;
+	GlobalArrS_BufferA m_arr[gb::system::filefunc::MAX_GLOBALSEARCHPATH];
+};
+// end class
+
+static GlobalArrSearchPathA  g_GlobalArrSearchPathA;
+
+
+
+class GlobalArrS_BufferW {
+public:
+	GlobalArrS_BufferW() {};
+
+	void operator = (const gb::system::filefunc::PathDataW& pd) {
+		wcscpy  (buffer, pd.path );	
+	};
+
+	void setzero() {  memset(buffer, 0, sizeof(buffer) ); };
+	bool empty() const { return ( buffer[0] == 0 ); };
+
+	gb::system::filefunc::PathDataW as_PathDataW() {
+		gb::system::filefunc::PathDataW pd;
+		pd = buffer;
+
+		return pd;
+	};
+
+	WCHAR buffer[MAX_PATH+1];
+};
+
+class GlobalArrSearchPathW 
+{
+public:
+	GlobalArrSearchPathW() {
+		__Init();
+
+
+	};
+
+	void clear() {
+		gb::t::func::setzero_buffer(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH );	
+
+	};
+
+	bool Add(gb::system::filefunc::PathDataW& _path) {
+		__Init();
+		const int NFREEINDEX = gb::t::func::findFirstEmptyFromBuffer(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH);
+		if(NFREEINDEX == -1) 
+			return false;
+
+		m_arr[NFREEINDEX] = _path;
+		m_numUsed ++;
+		return true;	
+	};
+
+	unsigned int size()   {
+		__Init();
+		return m_numUsed;
+
+	};
+
+	gb::system::filefunc::PathDataW at(const unsigned int indx) throw() 
+	{
+		__Init();
+		if( indx >= gb::system::filefunc::MAX_GLOBALSEARCHPATH ) {
+			throw std::runtime_error("Illegal index");
+			static const int __ZERO = 0;
+
+			//#pragma warning (push)
+			//#pragma warning (disable : 4172)
+			return (gb::system::filefunc::PathDataW&)__ZERO;
+			//#pragma warning (pop)
+
+
+		};
+
+		return m_arr[indx].as_PathDataW() ;
+	};
+
+	gb::system::filefunc::PathDataW  operator [] (const unsigned int indx) throw() 
+	{
+		__Init();
+		return at(indx);	
+	};
+
+private:
+	void __Init() {
+		static bool stb_firstcall = true;
+		if(stb_firstcall==false) return;
+		stb_firstcall = false;
+		// init code
+		m_numUsed = 0;
+		for(unsigned int c=0; c<gb::system::filefunc::MAX_GLOBALSEARCHPATH; c++) {
+			m_arr[c].setzero();  
+		};
+
+
+	};
+
+	unsigned int m_numUsed;
+	GlobalArrS_BufferW m_arr[gb::system::filefunc::MAX_GLOBALSEARCHPATH];
+};
+// end class
+
+static GlobalArrSearchPathW  g_GlobalArrSearchPathW;
+
+
+
+//gb::t::func::FixedArray<gb::system::filefunc::PathDataA, gb::system::filefunc::MAX_GLOBALSEARCHPATH> g_GlobalArrSearchPathA;
+//gb::t::func::FixedArray<gb::system::filefunc::PathDataW, gb::system::filefunc::MAX_GLOBALSEARCHPATH> g_GlobalArrSearchPathW;
+
+
+
+
+
+
+
+
+//===========  времянки для совместимости (убрать) =================
+
+//! Убрать . Старое
+#define MONPRINT(msg)
+
+
+//=======================================================
+//=======================================================
+//=======================================================
+
+
+
+
+
+//==================================================================
+GB_FF_API  HRESULT gb::system::filefunc::FileUtApendGlobalSearchPathA(const gb::system::filefunc::PathDataA* path) {
+	HRESULT hr =0;
+	gb::system::filefunc::PathDataA _path = *path;
+
+	// old code
+	// g_GlobalArrSearchPathA.push_back( _path );
+
+	// new code
+
+	//const int FREE_INDEX = gb::t::func::FindFirstEmptyFromBuffer(g_GlobalArrSearchPathA.ptr(),  gb::system::filefunc::MAX_GLOBALSEARCHPATH );
+	//if(FREE_INDEX == -1) {
+	//	// not found. buffer is FULL !!
+	//	return E_FAIL;
+	//	}
+	//
+	//g_GlobalArrSearchPathA[FREE_INDEX] = _path;
+
+	// new 2
+	if( !g_GlobalArrSearchPathA.Add(_path) ) {
+		// error add
+		return E_FAIL;
+	};
+
+
+	return   hr;
+};
+
+//==================================================================
+GB_FF_API  HRESULT gb::system::filefunc::FileUtApendGlobalSearchPathW(const gb::system::filefunc::PathDataW* path) {
+	HRESULT hr =0;
+	gb::system::filefunc::PathDataW _path = *path;
+
+	//	const int FREE_INDEX = gb::t::func::FindFirstEmptyFromBuffer(g_GlobalArrSearchPathW.ptr(), g_GlobalArrSearchPathW.arrSize() );
+	//if(FREE_INDEX == -1) {
+	//	// not found. buffer is FULL !!
+	//	return E_FAIL;
+	//	}
+	//
+	//g_GlobalArrSearchPathW[FREE_INDEX] = _path;
+
+
+
+	// old code
+	// g_GlobalArrSearchPathW.push_back(*path);
+
+	if( !g_GlobalArrSearchPathW.Add(_path) ) {
+		// error add
+		return E_FAIL;
+	};
+
+
+	return hr;
+};
+
+
+
+
+
+
+//
+//
+
+CHAR*  FileUtMediaSearchPathA()
+{
+	static CHAR s_strMediaSearchPath[MAX_PATH] = {0};
+	return s_strMediaSearchPath;
 }
 
-//===========  времянки.. дял совместимости (убрать) =================
+WCHAR*  FileUtMediaSearchPathW()
+{
+	static WCHAR s_strMediaSearchPath[MAX_PATH] = {0};
+	return s_strMediaSearchPath;
 
-#define MONPRINT(msg)
+} 
+
+LPSTR  FileUtGetMediaSearchPathA()
+{
+	return  FileUtMediaSearchPathA();
+}
+
+GB_FF_API  HRESULT gb::system::filefunc::FileUtGetSearchPathA(gb::system::filefunc::PathDataA* pOut) 
+{
+	HRESULT hr =0;
+	__try {
+		strncpy(  pOut->path , FileUtGetMediaSearchPathA() , MAX_PATH );
+	}
+	__except(EXCEPTION_EXECUTE_HANDLER) { hr |= E_FAIL; };
+	return hr;
+};
+
+//======================================================
+GB_FF_API  HRESULT gb::system::filefunc::FileUtExecuteFindA(gb::system::filefunc::PathDataA* path) {
+	HRESULT hr =0;
+	static CHAR ss[MAX_PATH]; ss[0]=0; 
+	__try {
+		hr |= FileUtFindFileCchA(ss, MAX_PATH, path->path  );
+		if FAILED(hr) { return hr;  };
+		strncpy(path->path , ss, MAX_PATH );
+
+	}  // try
+	__except(EXCEPTION_EXECUTE_HANDLER) {
+		hr |=  E_FAIL;
+	}
+	return hr;
+};
+
+//===================================================================
+GB_FF_API  HRESULT gb::system::filefunc::FileUtExecFindWithGLobalSearchPathA(gb::system::filefunc::PathDataA* path) {
+	HRESULT hr  =0;
+
+	static CHAR spathOut[MAX_PATH];       spathOut[0]=0;
+
+
+	if(g_GlobalArrSearchPathA.size() == 0 )
+	{
+		// search path is empty
+		return FileUtExecuteFindA(path);
+	}
+	else
+	{
+		// has search path
+		static gb::system::filefunc::PathDataA  pathSearch;  pathSearch.path[0]=0;
+		static CHAR defaultSearchPath[MAX_PATH];   defaultSearchPath[0]=0;
+
+		hr |= Safe_strncpy(defaultSearchPath,  FileUtMediaSearchPathA(), MAX_PATH );
+		if FAILED(hr) return hr;
+
+		hr = E_FAIL;
+		for(size_t c=0; c<g_GlobalArrSearchPathA.size(); c++) {
+			pathSearch =   g_GlobalArrSearchPathA.at( (unsigned int)c );
+			if( pathSearch.empty() ) continue;
+
+			FileUtSetMediaSearchPathA (  pathSearch.path  );
+			hr = FileUtFindFileCchA(spathOut,  MAX_PATH, path->path  );
+
+			if( hr == 0 ) {
+				break;
+			};
+
+		} // for
+
+		if(hr == S_OK) {
+			// succes
+			hr |= Safe_strncpy(path->path , spathOut, sizeof(PathDataA) );
+		}
+		else
+		{
+			// failed
+			return hr;
+		}
+
+
+
+		// restore default search path
+		hr |= Safe_strncpy( FileUtMediaSearchPathA(), defaultSearchPath,  MAX_PATH );
+		// ?????????????????
+
+
+	}; // if
+
+	return hr;
+}; 
+
+//===================================================================
+GB_FF_API  HRESULT gb::system::filefunc::FileUtExecFindWithGLobalSearchPathW(gb::system::filefunc::PathDataW* path) {
+	HRESULT hr  =0;
+
+	static WCHAR spathOut[MAX_PATH];   spathOut[0]=0;
+
+
+	if(g_GlobalArrSearchPathW.size() == 0 )
+	{
+		// search path is empty
+		return FileUtExecuteFindW(path);
+	}
+	else
+	{
+		// has search path
+		static gb::system::filefunc::PathDataW  pathSearch;  pathSearch.path[0]=0;
+		static WCHAR defaultSearchPath[MAX_PATH];   defaultSearchPath[0]=0;
+
+		hr |= Safe_wcstrncpy(defaultSearchPath,  FileUtMediaSearchPathW(), MAX_PATH );
+		if FAILED(hr) return hr;
+
+		for(size_t c=0; c<g_GlobalArrSearchPathW.size(); c++) {
+			pathSearch =   g_GlobalArrSearchPathW.at( (unsigned int)c );
+			if( pathSearch.empty() ) continue;
+
+			FileUtSetMediaSearchPathW (  pathSearch.path  );
+			hr = FileUtFindFileCchW(spathOut,  MAX_PATH, path->path  );
+			if( hr == 0 ) {
+				break;
+			};
+
+		} // for
+
+		if(hr == S_OK) {
+			// succes
+			hr |= Safe_wcstrncpy(path->path , spathOut, sizeof(PathDataA) );
+		}
+		else
+		{
+			// failed
+		}
+
+
+
+		// restore default search path
+		hr |= Safe_wcstrncpy( FileUtMediaSearchPathW(), defaultSearchPath,  MAX_PATH );
+		// ?????????????????
+
+
+	}; // if
+
+	return hr;
+}; 
+
+//=================================================
+GB_FF_API  HRESULT gb::system::filefunc::FileUtExecuteFindW(gb::system::filefunc::PathDataW* path)  {
+	HRESULT hr =0;
+	static WCHAR ss[MAX_PATH]; ss[0]=0; 
+	__try {
+		hr |= FileUtFindFileCchW(ss, MAX_PATH, path->path  );
+		if FAILED(hr) { return hr;  };
+		wcsncpy (path->path , ss, MAX_PATH );
+	}
+	__except(EXCEPTION_EXECUTE_HANDLER) {
+		hr |=  E_FAIL;
+	}
+	return hr;
+};
+
+GB_FF_API  HRESULT gb::system::filefunc::FileUtSetMediaSearchPathA( LPSTR strPath )
+{
+	HRESULT hr;
+	if(strPath == NULL) {
+		hr |= SafeMemZero( FileUtMediaSearchPathA(), MAX_PATH * sizeof(CHAR) );
+		return hr;
+	};
+
+	CHAR* s_strSearchPath =  FileUtMediaSearchPathA();
+
+	hr = StringCchCopyA( s_strSearchPath, MAX_PATH, strPath );   
+	if( SUCCEEDED(hr) )
+	{
+		// append slash if needed
+		size_t ch;
+		hr = StringCchLengthA( s_strSearchPath, MAX_PATH, &ch );
+		if( SUCCEEDED(hr) && s_strSearchPath[ch-1] != '\\')
+		{
+			hr = StringCchCatA( s_strSearchPath, MAX_PATH, "\\" );   
+		}
+	}
+
+	return hr;
+
+}
+
+GB_FF_API   HRESULT gb::system::filefunc::FileUtFindFileCchA( CHAR* strDestPath, int cchDest, LPSTR strFilename )
+{
+	bool bFound;
+	CHAR strSearchFor[MAX_PATH];
+
+	if( NULL==strFilename || strFilename[0] == 0 || NULL==strDestPath || cchDest < 10 )
+		return E_INVALIDARG;
+
+	// Get the exe name, and exe path
+	CHAR strExePath[MAX_PATH] = {0};
+	CHAR strExeName[MAX_PATH] = {0};
+	CHAR* strLastSlash = NULL;
+	GetModuleFileNameA( NULL, strExePath, MAX_PATH );
+	strExePath[MAX_PATH-1]=0;
+	strLastSlash =  strrchr(strExePath, '\\' ); //  wcsrchr( strExePath, '\\' );
+	if( strLastSlash )
+	{
+		StringCchCopyA( strExeName, MAX_PATH, &strLastSlash[1] );
+
+		// Chop the exe name from the exe path
+		*strLastSlash = 0;
+
+		// Chop the .exe from the exe name
+		strLastSlash = strrchr( strExeName,  '.' );
+		if( strLastSlash )
+			*strLastSlash = 0;
+	}
+
+	// Typical directories:
+	//      .\
+	//      ..\
+	//      ..\..\
+	//      %EXE_DIR%\
+	//      %EXE_DIR%\..\
+	//      %EXE_DIR%\..\..\
+	//      %EXE_DIR%\..\%EXE_NAME%
+	//      %EXE_DIR%\..\..\%EXE_NAME%
+
+	// Typical directory search
+	bFound = gb::system::filefunc::FileUtFindMediaSearchTypicalDirsA( strDestPath, cchDest, strFilename, strExePath, strExeName );
+	if( bFound )
+		return S_OK;
+
+	// Typical directory search again, but also look in a subdir called "\media\" 
+	StringCchPrintfA( strSearchFor, MAX_PATH,  "media\\%s", strFilename ); 
+	bFound = gb::system::filefunc::FileUtFindMediaSearchTypicalDirsA( strDestPath, cchDest, strSearchFor, strExePath, strExeName );
+	if( bFound )
+		return S_OK;
+
+	CHAR strLeafName[MAX_PATH] = {0};
+
+	// Search all parent directories starting at .\ and using strFilename as the leaf name
+	StringCchCopyA( strLeafName, MAX_PATH, strFilename ); 
+	bFound = gb::system::filefunc::FileUtFindMediaSearchParentDirsA( strDestPath, cchDest,  ".", strLeafName );
+	if( bFound )
+		return S_OK;
+
+	// Search all parent directories starting at the exe's dir and using strFilename as the leaf name
+	bFound = gb::system::filefunc::FileUtFindMediaSearchParentDirsA( strDestPath, cchDest, strExePath, strLeafName );
+	if( bFound )
+		return S_OK;
+
+	// Search all parent directories starting at .\ and using "media\strFilename" as the leaf name
+	StringCchPrintfA( strLeafName, MAX_PATH,  "media\\%s", strFilename ); 
+	bFound = gb::system::filefunc::FileUtFindMediaSearchParentDirsA( strDestPath, cchDest,  ".", strLeafName );
+	if( bFound )
+		return S_OK;
+
+	// Search all parent directories starting at the exe's dir and using "media\strFilename" as the leaf name
+	bFound = gb::system::filefunc::FileUtFindMediaSearchParentDirsA( strDestPath, cchDest, strExePath, strLeafName );
+	if( bFound )
+		return S_OK;
+
+	// On failure, return the file as the path but also return an error code
+	StringCchCopyA( strDestPath, cchDest, strFilename );
+
+	return E_FAIL; //  gb::system::filefunc::FileUtERR_MEDIANOTFOUND;
+
+}
+
+GB_FF_API  bool gb::system::filefunc::FileUtFindMediaSearchTypicalDirsA( CHAR* strSearchPath, int cchSearch, LPSTR strLeaf,  CHAR* strExePath, CHAR* strExeName )
+{
+	// Typical directories:
+	//      .\
+	//      ..\
+	//      ..\..\
+	//      %EXE_DIR%\
+	//      %EXE_DIR%\..\
+	//      %EXE_DIR%\..\..\
+	//      %EXE_DIR%\..\%EXE_NAME%
+	//      %EXE_DIR%\..\..\%EXE_NAME%
+	//      DXSDK media path
+
+	// Search in .\  
+	StringCchCopyA( strSearchPath, cchSearch, strLeaf ); 
+	if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in ..\  
+	StringCchPrintfA( strSearchPath, cchSearch,  "..\\%s", strLeaf ); 
+	if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in ..\..\ 
+	StringCchPrintfA( strSearchPath, cchSearch,  "..\\..\\%s", strLeaf ); 
+	if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in ..\..\ 
+	StringCchPrintfA( strSearchPath, cchSearch,  "..\\..\\%s", strLeaf ); 
+	if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in the %EXE_DIR%\ 
+	StringCchPrintfA( strSearchPath, cchSearch,  "%s\\%s", strExePath, strLeaf ); 
+	if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in the %EXE_DIR%\..\ 
+	StringCchPrintfA( strSearchPath, cchSearch,  "%s\\..\\%s", strExePath, strLeaf ); 
+	if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in the %EXE_DIR%\..\..\ 
+	StringCchPrintfA( strSearchPath, cchSearch,  "%s\\..\\..\\%s", strExePath, strLeaf ); 
+	if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in "%EXE_DIR%\..\%EXE_NAME%\".  This matches the DirectX SDK layout
+	StringCchPrintfA( strSearchPath, cchSearch,  "%s\\..\\%s\\%s", strExePath, strExeName, strLeaf ); 
+	if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in "%EXE_DIR%\..\..\%EXE_NAME%\".  This matches the DirectX SDK layout
+	StringCchPrintfA( strSearchPath, cchSearch,  "%s\\..\\..\\%s\\%s", strExePath, strExeName, strLeaf ); 
+	if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in media search dir 
+	CHAR* s_strSearchPath =  FileUtMediaSearchPathA();
+	if( s_strSearchPath[0] != 0 )
+	{
+		StringCchPrintfA( strSearchPath, cchSearch,  "%s%s", s_strSearchPath, strLeaf ); 
+		if( GetFileAttributesA( strSearchPath ) != 0xFFFFFFFF )
+			return true;
+	}
+
+	return false;
+
+}
+
+GB_FF_API  bool gb::system::filefunc::FileUtFindMediaSearchParentDirsA( CHAR* strSearchPath, int cchSearch, CHAR* strStartAt, CHAR* strLeafName )
+{
+	CHAR strFullPath[MAX_PATH] = {0};
+	CHAR strFullFileName[MAX_PATH] = {0};
+	CHAR strSearch[MAX_PATH] = {0};
+	CHAR* strFilePart = NULL;
+
+	GetFullPathNameA( strStartAt, MAX_PATH, strFullPath, &strFilePart );
+	if( strFilePart == NULL )
+		return false;
+
+	while( strFilePart != NULL && *strFilePart != '\0' )
+	{
+		StringCchPrintfA( strFullFileName, MAX_PATH,  "%s\\%s", strFullPath, strLeafName ); 
+		if( GetFileAttributesA( strFullFileName ) != 0xFFFFFFFF )
+		{
+			StringCchCopyA( strSearchPath, cchSearch, strFullFileName ); 
+			return true;
+		}
+
+		StringCchPrintfA( strSearch, MAX_PATH,  "%s\\..", strFullPath ); 
+		GetFullPathNameA( strSearch, MAX_PATH, strFullPath, &strFilePart );
+	}
+
+	return false;
+
+
+};
+
+
+
+
+
+//--------------------------------------------------------------------------------------
+LPCWSTR  FileUtGetMediaSearchPathW()
+{
+	return  FileUtMediaSearchPathW();
+}
+
+GB_FF_API  HRESULT gb::system::filefunc::FileUtGetSearchPathW(gb::system::filefunc::PathDataW* pOut) {
+	HRESULT hr =0;
+	__try {
+		wcsncpy(  pOut->path , FileUtGetMediaSearchPathW() , MAX_PATH );
+	}
+	__except(EXCEPTION_EXECUTE_HANDLER) { hr |= E_FAIL; };
+	return hr;
+
+};
+
+
+//--------------------------------------------------------------------------------------
+GB_FF_API   HRESULT gb::system::filefunc::FileUtSetMediaSearchPathW( LPCWSTR strPath )
+{
+	HRESULT hr;
+	if(strPath == NULL) {
+		hr |= SafeMemZero( FileUtMediaSearchPathW(), MAX_PATH * sizeof(WCHAR) );
+		return hr;
+	};
+
+
+	WCHAR* s_strSearchPath =  FileUtMediaSearchPathW();
+
+	hr = StringCchCopy( s_strSearchPath, MAX_PATH, strPath );   
+	if( SUCCEEDED(hr) )
+	{
+		// append slash if needed
+		size_t ch;
+		hr = StringCchLength( s_strSearchPath, MAX_PATH, &ch );
+		if( SUCCEEDED(hr) && s_strSearchPath[ch-1] != L'\\')
+		{
+			hr = StringCchCat( s_strSearchPath, MAX_PATH, L"\\" );
+		}
+	}
+
+	return hr;
+}
+
+
+//--------------------------------------------------------------------------------------
+// Tries to find the location of a SDK media file
+//       cchDest is the size in WCHARs of strDestPath.  Be careful not to 
+//       pass in sizeof(strDest) on UNICODE builds.
+//--------------------------------------------------------------------------------------
+GB_FF_API   HRESULT gb::system::filefunc::FileUtFindFileCchW( WCHAR* strDestPath, int cchDest, LPCWSTR strFilename )
+{
+	bool bFound;
+	WCHAR strSearchFor[MAX_PATH];
+
+	if( NULL==strFilename || strFilename[0] == 0 || NULL==strDestPath || cchDest < 10 )
+		return E_INVALIDARG;
+
+	// Get the exe name, and exe path
+	WCHAR strExePath[MAX_PATH] = {0};
+	WCHAR strExeName[MAX_PATH] = {0};
+	WCHAR* strLastSlash = NULL;
+	GetModuleFileName( NULL, strExePath, MAX_PATH );
+	strExePath[MAX_PATH-1]=0;
+	strLastSlash = wcsrchr( strExePath, TEXT('\\') );
+	if( strLastSlash )
+	{
+		StringCchCopy( strExeName, MAX_PATH, &strLastSlash[1] );
+
+		// Chop the exe name from the exe path
+		*strLastSlash = 0;
+
+		// Chop the .exe from the exe name
+		strLastSlash = wcsrchr( strExeName, TEXT('.') );
+		if( strLastSlash )
+			*strLastSlash = 0;
+	}
+
+	// Typical directories:
+	//      .\
+	//      ..\
+	//      ..\..\
+	//      %EXE_DIR%\
+	//      %EXE_DIR%\..\
+	//      %EXE_DIR%\..\..\
+	//      %EXE_DIR%\..\%EXE_NAME%
+	//      %EXE_DIR%\..\..\%EXE_NAME%
+
+	// Typical directory search
+	bFound = gb::system::filefunc::FileUtFindMediaSearchTypicalDirsW( strDestPath, cchDest, strFilename, strExePath, strExeName );
+	if( bFound )
+		return S_OK;
+
+	// Typical directory search again, but also look in a subdir called "\media\" 
+	StringCchPrintf( strSearchFor, MAX_PATH, L"media\\%s", strFilename ); 
+	bFound = gb::system::filefunc::FileUtFindMediaSearchTypicalDirsW( strDestPath, cchDest, strSearchFor, strExePath, strExeName );
+	if( bFound )
+		return S_OK;
+
+	WCHAR strLeafName[MAX_PATH] = {0};
+
+	// Search all parent directories starting at .\ and using strFilename as the leaf name
+	StringCchCopy( strLeafName, MAX_PATH, strFilename ); 
+	bFound = gb::system::filefunc::FileUtFindMediaSearchParentDirsW( strDestPath, cchDest, L".", strLeafName );
+	if( bFound )
+		return S_OK;
+
+	// Search all parent directories starting at the exe's dir and using strFilename as the leaf name
+	bFound = gb::system::filefunc::FileUtFindMediaSearchParentDirsW( strDestPath, cchDest, strExePath, strLeafName );
+	if( bFound )
+		return S_OK;
+
+	// Search all parent directories starting at .\ and using "media\strFilename" as the leaf name
+	StringCchPrintf( strLeafName, MAX_PATH, L"media\\%s", strFilename ); 
+	bFound = gb::system::filefunc::FileUtFindMediaSearchParentDirsW( strDestPath, cchDest, L".", strLeafName );
+	if( bFound )
+		return S_OK;
+
+	// Search all parent directories starting at the exe's dir and using "media\strFilename" as the leaf name
+	bFound = gb::system::filefunc::FileUtFindMediaSearchParentDirsW( strDestPath, cchDest, strExePath, strLeafName );
+	if( bFound )
+		return S_OK;
+
+	// On failure, return the file as the path but also return an error code
+	StringCchCopy( strDestPath, cchDest, strFilename );
+
+	return E_FAIL; //  gb::system::filefunc::FileUtERR_MEDIANOTFOUND;
+}
+
+
+//--------------------------------------------------------------------------------------
+// Search a set of typical directories
+//--------------------------------------------------------------------------------------
+GB_FF_API   bool gb::system::filefunc::FileUtFindMediaSearchTypicalDirsW( WCHAR* strSearchPath, int cchSearch, LPCWSTR strLeaf, 
+														   WCHAR* strExePath, WCHAR* strExeName )
+{
+	// Typical directories:
+	//      .\
+	//      ..\
+	//      ..\..\
+	//      %EXE_DIR%\
+	//      %EXE_DIR%\..\
+	//      %EXE_DIR%\..\..\
+	//      %EXE_DIR%\..\%EXE_NAME%
+	//      %EXE_DIR%\..\..\%EXE_NAME%
+	//      DXSDK media path
+
+	// Search in .\  
+	StringCchCopy( strSearchPath, cchSearch, strLeaf ); 
+	if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in ..\  
+	StringCchPrintf( strSearchPath, cchSearch, L"..\\%s", strLeaf ); 
+	if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in ..\..\ 
+	StringCchPrintf( strSearchPath, cchSearch, L"..\\..\\%s", strLeaf ); 
+	if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in ..\..\ 
+	StringCchPrintf( strSearchPath, cchSearch, L"..\\..\\%s", strLeaf ); 
+	if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in the %EXE_DIR%\ 
+	StringCchPrintf( strSearchPath, cchSearch, L"%s\\%s", strExePath, strLeaf ); 
+	if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in the %EXE_DIR%\..\ 
+	StringCchPrintf( strSearchPath, cchSearch, L"%s\\..\\%s", strExePath, strLeaf ); 
+	if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in the %EXE_DIR%\..\..\ 
+	StringCchPrintf( strSearchPath, cchSearch, L"%s\\..\\..\\%s", strExePath, strLeaf ); 
+	if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in "%EXE_DIR%\..\%EXE_NAME%\".  This matches the DirectX SDK layout
+	StringCchPrintf( strSearchPath, cchSearch, L"%s\\..\\%s\\%s", strExePath, strExeName, strLeaf ); 
+	if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in "%EXE_DIR%\..\..\%EXE_NAME%\".  This matches the DirectX SDK layout
+	StringCchPrintf( strSearchPath, cchSearch, L"%s\\..\\..\\%s\\%s", strExePath, strExeName, strLeaf ); 
+	if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+		return true;
+
+	// Search in media search dir 
+	WCHAR* s_strSearchPath =  FileUtMediaSearchPathW();
+	if( s_strSearchPath[0] != 0 )
+	{
+		StringCchPrintf( strSearchPath, cchSearch, L"%s%s", s_strSearchPath, strLeaf ); 
+		if( GetFileAttributes( strSearchPath ) != 0xFFFFFFFF )
+			return true;
+	}
+
+	return false;
+}
+
+
+
+//--------------------------------------------------------------------------------------
+// Search parent directories starting at strStartAt, and appending strLeafName
+// at each parent directory.  It stops at the root directory.
+//--------------------------------------------------------------------------------------
+GB_FF_API  bool gb::system::filefunc::FileUtFindMediaSearchParentDirsW( WCHAR* strSearchPath, int cchSearch, WCHAR* strStartAt, WCHAR* strLeafName )
+{
+	WCHAR strFullPath[MAX_PATH] = {0};
+	WCHAR strFullFileName[MAX_PATH] = {0};
+	WCHAR strSearch[MAX_PATH] = {0};
+	WCHAR* strFilePart = NULL;
+
+	GetFullPathName( strStartAt, MAX_PATH, strFullPath, &strFilePart );
+	if( strFilePart == NULL )
+		return false;
+
+	while( strFilePart != NULL && *strFilePart != '\0' )
+	{
+		StringCchPrintf( strFullFileName, MAX_PATH, L"%s\\%s", strFullPath, strLeafName ); 
+		if( GetFileAttributes( strFullFileName ) != 0xFFFFFFFF )
+		{
+			StringCchCopy( strSearchPath, cchSearch, strFullFileName ); 
+			return true;
+		}
+
+		StringCchPrintf( strSearch, MAX_PATH, L"%s\\..", strFullPath ); 
+		GetFullPathName( strSearch, MAX_PATH, strFullPath, &strFilePart );
+	}
+
+	return false;
+}
+
+ 
+typedef std::vector<gb::system::filefunc::FileNameABuffer*> TVector_FileNameABuffer;
+
+
+/*************************
+
+//==============================================================
+//    FileNamesAList
+//==============================================================
+gb::system::filefunc::FileNamesAList::FileNamesAList() 
+{
+	TVector_FileNameABuffer* pvector = new	TVector_FileNameABuffer;
+	m_vector = (void*)pvector;
+};
+
+gb::system::filefunc::FileNamesAList::~FileNamesAList() {	
+	Clear(); 
+
+	TVector_FileNameABuffer* pvector = (TVector_FileNameABuffer*)m_vector;
+	delete pvector;
+	m_vector = NULL;
+};
+
+void gb::system::filefunc::FileNamesAList::Clear()
+{   
+	FileNameABuffer* buff;
+	TVector_FileNameABuffer* pvector = (TVector_FileNameABuffer*)m_vector;
+
+	while(pvector->size() > 0) { 
+		buff = pvector->back();
+		delete[]buff;
+		pvector->pop_back();
+	}
+};
+
+int gb::system::filefunc::FileNamesAList::GetSize() {
+	TVector_FileNameABuffer* pvector = (TVector_FileNameABuffer*)m_vector;
+	return (int)pvector->size(); 
+};
+
+void gb::system::filefunc::FileNamesAList::Add(const CHAR* lpszFileName) { 
+	FileNameABuffer* buff = new FileNameABuffer[MAX_PATH];
+	TVector_FileNameABuffer* pvector = (TVector_FileNameABuffer*)m_vector;
+
+	ZeroMemory(buff, sizeof(FileNameABuffer));
+	strcpy(*buff, lpszFileName);
+	pvector->push_back(buff);
+};
+
+
+//   Получить буфер имени файла по индексу 
+gb::system::filefunc::FileNameABuffer* gb::system::filefunc::FileNamesAList::GetFile(int indx) {
+	TVector_FileNameABuffer* pvector = (TVector_FileNameABuffer*)m_vector;
+
+	FileNameABuffer* pResult = NULL;
+	pResult = pvector->at(indx);
+	return pResult; 
+};
+
+typedef std::vector<gb::system::filefunc::FileNameWBuffer*> TVector_FileNameWBuffer;
+
+//
+//    FileNamesWList
+//
+gb::system::filefunc::FileNamesWList::FileNamesWList() 
+{ 
+	m_vector = NULL;
+	TVector_FileNameWBuffer* pvector = new  TVector_FileNameWBuffer;
+	m_vector = (void*)pvector;
+};
+
+gb::system::filefunc::FileNamesWList::~FileNamesWList() 
+{	
+	Clear(); 
+
+	TVector_FileNameWBuffer* pvector = (TVector_FileNameWBuffer*)m_vector;
+	delete pvector;
+	m_vector = NULL;
+};
+
+void gb::system::filefunc::FileNamesWList::Clear()
+{     
+	FileNameWBuffer* buff;
+	TVector_FileNameWBuffer* pvector = (TVector_FileNameWBuffer*)m_vector;
+
+	while(pvector->size() > 0) { 
+		buff = pvector->back();
+		delete[]buff;
+		pvector->pop_back();
+	}
+};
+
+int gb::system::filefunc::FileNamesWList::GetSize() { 
+	TVector_FileNameWBuffer* pvector = (TVector_FileNameWBuffer*)m_vector;
+	return (int)pvector->size(); 
+};
+
+void gb::system::filefunc::FileNamesWList::Add(const WCHAR* lpszwFileName) { 
+	FileNameWBuffer* buff = new FileNameWBuffer[MAX_PATH];
+	TVector_FileNameWBuffer* pvector = (TVector_FileNameWBuffer*)m_vector;
+
+	ZeroMemory(buff, sizeof(FileNameABuffer));
+	wcscpy(*buff, lpszwFileName);
+	pvector->push_back(buff);
+};
+
+gb::system::filefunc::FileNameWBuffer* gb::system::filefunc::FileNamesWList::GetFile(int indx) 
+{ 
+	TVector_FileNameWBuffer* pvector = ( TVector_FileNameWBuffer*)m_vector;
+	return pvector->at(indx); 
+};
+
+*************************************/
 
 
 
@@ -794,7 +1854,8 @@ GB_FF_API  bool gb::system::filefunc::directoryExistCstrA(const char* szDir)
 {
 	int rv = GetFileAttributesA( (LPCSTR)szDir);
 	if(rv == -1) return false;
-	return (bool)(rv & FILE_ATTRIBUTE_DIRECTORY);
+	if(rv & FILE_ATTRIBUTE_DIRECTORY) return true;
+	return false;
 }
 
  //======================================================
@@ -802,7 +1863,8 @@ GB_FF_API  bool gb::system::filefunc::directoryExistCstrW(const wchar_t* wszDir)
 {
 	int rv = GetFileAttributesW( (LPCWSTR)wszDir);
 	if(rv == -1) return false;
-	return (bool)(rv & FILE_ATTRIBUTE_DIRECTORY);
+	if(rv & FILE_ATTRIBUTE_DIRECTORY) return true;
+	return false;
 }
 
  //======================================================

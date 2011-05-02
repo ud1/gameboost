@@ -512,6 +512,69 @@ namespace gb
 
 
 
+	/**  \brief тип для хранения буфера имени файла в ANSI */
+	typedef CHAR  FileNameABuffer[MAX_PATH];
+
+/****************************************
+
+	//!  \brief класс для хранения списка имён файлов в ANSI  
+	class   FileNamesAList
+	{
+	private:
+		void*  m_vector;
+
+	public:
+		 FileNamesAList() ;
+		~FileNamesAList() ;
+
+		//  \brief Удаление всех буферов 
+		void Clear();
+
+		//  \brief получения кол-ва буферов имён файлов в списке 
+		int GetSize() ;
+		//  \brief Добавить новое имя файла. При этом создаётся новый буфер и в него копируется имя файла 
+		void Add(const CHAR* lpszFileName);
+
+		//  \brief Получить буфер имени файла по индексу 
+		FileNameABuffer* GetFile(int indx) ;
+
+	};
+
+
+	//  \brief тип для хранения буфера имени файла в ANSI 
+	typedef WCHAR  FileNameWBuffer[MAX_PATH];
+
+	//  \brief класс для хранения списка имён файлов в UNICODE   
+	class   FileNamesWList {
+	private:
+		void*  m_vector;
+
+	public:
+		 FileNamesWList();
+		~FileNamesWList();
+
+		//  \brief Удаление всех буферов 
+		void Clear();
+
+		//  \brief получения кол-ва буферов имён файлов в списке 
+		int GetSize()  ;
+		//  \brief Добавить новое имя файла. При этом создаётся новый буфер и в него копируется имя файла 
+		void Add(const WCHAR* lpszwFileName);
+		//  \brief Получить буфер имени файла по индексу 
+		FileNameWBuffer* GetFile(int indx)  ;
+
+	}; 
+	// class
+*******************************/
+
+	//!  \brief Макс. размер расширения файла  
+    #define	 MAX_FILE_EXTENTION  12
+
+	typedef  CHAR    FILE_EXTENTIONA[MAX_FILE_EXTENTION];
+	typedef  WCHAR   FILE_EXTENTIONW[MAX_FILE_EXTENTION];
+	
+ 
+
 
 
 
