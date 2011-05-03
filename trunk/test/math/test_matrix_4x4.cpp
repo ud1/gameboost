@@ -682,6 +682,66 @@ void test_rotationQuaternion()
 };
 
 
+mat44_s  my_setRotationYawPitchRoll(  float Yaw = 0.25f, float Pitch = 0.954f, float Roll = 0.644f)
+{
+ mat44_s m;
+ float sa = sin(Roll);
+ float sb = sin(Pitch);
+ float sc = sin(Yaw);
+
+ float ca = cos(Roll);
+ float cb = cos(Pitch);
+ float cc = cos(Yaw);
+
+m._11 = ca*cc+sa*sb*sc;   m._12=-sa*cc+ca*sb*sc;     m._13=cb*sc;     m._14=0.0f;
+
+m._21=sa*cb;              m._22=ca*cb;               m._23=-sb;       m._24=0.0f;
+
+m._31=-ca*sc+sa*sb*cc;    m._32=sa*sc+ca*sb*cc;      m._33=cb*cc;     m._34=0.0f;
+
+m._41=0.0f;               m._42=0.0f;                m._43=0.0f;      m._44=1.0f;
+
+ return m;
+}
+
+//===================================================================
+void test_setRotatYawPitchRoll(  ) //float y, float p, float r)
+{
+	PRINTFUNC
+  	MDX mdx;
+	MGB mgb;
+
+     float Yaw = 0.25f; 
+	 float Pitch = 0.954f; 
+	 float Roll = 0.644f;
+    
+   D3DXMatrixRotationYawPitchRoll( &mdx,   Yaw,  Pitch,  Roll);  
+	 mgb.setRotationYawPitchRoll(Yaw, Pitch, Roll);
+  	print_matrices(mdx , mgb); 
+	printf("\n**********************************************\n\n");
+
+
+   D3DXMatrixRotationYawPitchRoll( &mdx,   3,  4,  5  );  
+	 mgb.setRotationYawPitchRoll       (   3,  4 , 5  );
+  	print_matrices(mdx , mgb); 
+	printf("\n**********************************************\n\n");
+
+   D3DXMatrixRotationYawPitchRoll( &mdx,    1.95f, 0.48f,    0.45f );  
+	 mgb.setRotationYawPitchRoll       (    1.95f,  0.48f ,  0.45f  );
+  	print_matrices(mdx , mgb); 
+	printf("\n**********************************************\n\n");
+
+    D3DXMatrixRotationYawPitchRoll( &mdx,  -0.95f,  1.45f,  -0.64f );  
+	 mgb.setRotationYawPitchRoll       (   -0.95f,  1.45f , -0.64f  );
+  	print_matrices(mdx , mgb); 
+	printf("\n**********************************************\n\n");
+
+
+}
+
+ 
+
+
 //=========================================================================
 int main( )
 {
@@ -713,6 +773,8 @@ test_rotationAxies ();
 test_translation();
 
 test_rotationQuaternion();
+
+test_setRotatYawPitchRoll();
 
 
  printf(" \n\n  ######################   end program   ##################### \n");

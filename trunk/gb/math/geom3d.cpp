@@ -37,6 +37,46 @@ namespace geom3d
 //                          Quaternion
 //=========================================================================
 
+//=========================================================================
+Quaternion&  Quaternion::setRotationMatrix(const base::mat44_s& m)
+{
+
+	float fTrace = m.floats[0][0] + m.floats[1][1] + m.floats[2][2];
+	float fRoot;
+
+	if (fTrace > 0.0) 
+	{
+		fRoot =  sqrt(fTrace + 1.0f);
+		 w = 0.5f * fRoot;
+
+		fRoot = 0.5f / fRoot;
+
+		 x = (m.floats[1][2] - m.floats[2][1]) * fRoot;
+		 y = (m.floats[2][0] - m.floats[0][2]) * fRoot;
+		 z = (m.floats[0][1] - m.floats[1][0]) * fRoot;
+	}
+	else
+	{
+		static size_t s_iNext[3] = { 1, 2, 0 };
+		size_t i = 0;
+
+		if (m.floats[1][1] > m.floats[0][0] ) i = 1;
+		if (m.floats[2][2] > m.floats[i][i] ) i = 2;
+
+		size_t j = s_iNext[i];
+		size_t k = s_iNext[j];
+
+		fRoot =  sqrt(m.floats[i][i] - m.floats[j][j] - m.floats[k][k] + 1.0f);
+
+		floats[i] = 0.5f * fRoot;
+		fRoot = 0.5f / fRoot;
+		w = (m.floats[j][k] - m.floats[k][j]) * fRoot;
+		floats[j] = (m.floats[i][j] + m.floats[j][i]) * fRoot;
+		floats[k] = (m.floats[i][k] + m.floats[k][i]) * fRoot;
+	}
+ 
+   return *this;
+};
 
 
 //=========================================================================

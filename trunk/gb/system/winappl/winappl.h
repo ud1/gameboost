@@ -170,14 +170,7 @@ public:
 
 	PerfomanceMonData() { nFrameDrawCount=0; };
 };
-
-////!  УБРАТЬ  НАХЕР
-//struct WMPARAMS {
-//
-//	WPARAM wPar; 
-//	LPARAM lPar;
-//
-//};
+ 
 
 //! \brief  Сборка для хранения данных для мониторинга FPS
 class FpsMonData {
@@ -432,58 +425,7 @@ private:
 };
 //  end class
 
-
-/*
-template <typename T, unsigned int _SIZE>
-class Array {
-public:
-Array() { memset(m_arr, 0, sizeof(m_arr) );  };
-~Array(){};
-
-void clear()
-{
-for(size_t c=0; c<_SIZE; c++) m_arr[c].setzero();
-}
-
-unsigned int size() const { return _SIZE; };
-
-T& operator [] (unsigned int indx)throw()
-{
-if(indx>=_SIZE) { throw std::runtime_error("invalid index"); };
-return m_arr[indx];
-}
-
-
-void add(const T& val) throw() {
-for(size_t c=0; c<_SIZE;c++)
-{
-if( m_arr[c].empty() )
-{
-m_arr[c] = val;
-return ;
-}
-}
-throw std::runtime_error("full");
-};
-
-bool erase(const T& val ) throw() {
-bool bfound = false;
-for(size_t c=0; c<_SIZE; c++)
-{
-if( m_arr[c] == val )
-{
-m_arr[c].setzero();
-bfound = true;
-};
-}
-return bfound;
-};
-
-private:
-T m_arr[_SIZE];
-};
-*/
-
+ 
 
 //! \brief  базовое windows-приложение для вывода графики .
 class Appl3D  {
@@ -496,7 +438,7 @@ public:
 virtual HRESULT run() =0;
 //! \brief   Принудительный останов приложения.
 virtual HRESULT shutDown(int nExitCode) =0;
-//! \brief   Завершение
+//! \brief   Завершение УБРАТЬ !!!!
 virtual HRESULT finalize() = 0;
 
 
@@ -520,10 +462,10 @@ inline POINT getPointCursorPosOnWindow() const  { return m_pntCursorPos; }
 //! \brief  Установить новый цвет очистки
 void setClearColor(float r, float g, float b)
 {
-	APPL_3D_INIT_DATA* pidata = getAppl3dInitData(); 
-	  pidata->clearColor.red=r;
-	  pidata->clearColor.green=g;
-	  pidata->clearColor.blue=b;
+	APPL_3D_INIT_DATA* pinitdata = getAppl3dInitData(); 
+	  pinitdata->clearColor.red=r;
+	  pinitdata->clearColor.green=g;
+	  pinitdata->clearColor.blue=b;
 }
 
 protected:

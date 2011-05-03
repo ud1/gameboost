@@ -30,6 +30,34 @@
 #include <string>
 #include <vector>
 
+
+#ifdef GB_DLL
+ #ifdef GB_DLL_EXPORTS
+    #define GB_FF_API __declspec(dllexport)
+ #else
+    #define GB_FF_API __declspec(dllimport)
+ #endif
+#else
+    #define GB_FF_API
+#endif
+
+
+
+
+#ifdef _DEBUG  // debug
+
+
+
+
+#else // release
+
+
+
+#endif // #ifdef _DEBUG
+
+
+
+
 namespace gb
 {
 
