@@ -4,7 +4,6 @@
 #include <gb/devhelp/devcamera.h>
 
 
-
 #if 1
 
    #pragma comment( lib, "dxerr.lib" )
@@ -15,6 +14,7 @@
 #else
 
    #pragma comment( lib, "d3dx9.lib" )
+
 #endif
 
    #pragma comment( lib, "d3d9.lib" )
@@ -23,19 +23,20 @@
 
 #endif
 
+#include "assert.h"
+
 //======================================================
 
 namespace gb {
 namespace devhelp {
 
+ 
 
-HWND MYUTGetHWND() {
-
- return 0;
-};
-
+/*****************************************
 HMONITOR MYUTMonitorFromWindow( HWND hWnd, DWORD dwFlags )
 {
+
+ assert(false && "no valid function" );
   return 0;
 };
 
@@ -50,42 +51,24 @@ HMONITOR MYUTMonitorFromWindow( HWND hWnd, DWORD dwFlags )
 
 BOOL  MYUTGetMonitorInfo( HMONITOR hMonitor, LPMYMONITORINFO lpMonitorInfo )
 {
+ 	assert(false && "no valid function" );
  return  FALSE;
 };
-
-HRESULT MYUTGetGamepadState( DWORD dwPort, 
-							MYUT_GAMEPAD* pGamePad, 
-							bool bThumbstickDeadZone = true, 
-							bool bSnapThumbstickToCardinals = true )
-{
-
-  return E_FAIL;
-};
-
+ 
 double MYUTGetTime() 
 {  
+	assert(false && "no valid function" );
     return 0.0;
 };
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////
-//							 c++
-//////////////////////////////////////////////////////////////////////////
+********************************************************/
 
  
-//========================================================================
+//=========================================================================
 ArcBall::ArcBall()
 {
     reset();
-    m_vDownPt = D3DXVECTOR3(0,0,0);
-    m_vCurrentPt = D3DXVECTOR3(0,0,0);
+    m_vDownPt = vec3_s(0,0,0);
+    m_vCurrentPt = vec3_s(0,0,0);
     m_Offset.x = m_Offset.y = 0;
 
     RECT rc;
@@ -97,14 +80,14 @@ ArcBall::ArcBall()
 
 
 
-//========================================================================
+//=========================================================================
 void ArcBall::reset()
 {
-    D3DXQuaternionIdentity( &m_qDown );
-    D3DXQuaternionIdentity( &m_qNow );
-    D3DXMatrixIdentity( &m_mRotation );
-    D3DXMatrixIdentity( &m_mTranslation );
-    D3DXMatrixIdentity( &m_mTranslationDelta );
+    m_qDown.reset(); // D 3DX QuaternionIdentity( m_qDown );
+    m_qNow.reset();// D 3DX QuaternionIdentity( m_qNow );
+    m_mRotation.reset();//  D 3DX MatrixIdentity( m_mRotation );
+    m_mTranslation.reset(); //D 3DX MatrixIdentity( m_mTranslation );
+    m_mTranslationDelta.reset(); //  D 3DX MatrixIdentity( m_mTranslationDelta );
     m_bDrag = FALSE;
     m_fRadiusTranslation = 1.0f;
     m_fRadius = 1.0f;
@@ -113,19 +96,19 @@ void ArcBall::reset()
 
 
 
-//========================================================================
-D3DXVECTOR3 ArcBall::screenToVector( float fScreenPtX, float fScreenPtY )
+//=========================================================================
+vec3_s ArcBall::screenToVector( float fScreenPtX, float fScreenPtY )
 {
     // Scale to screen
-    FLOAT x   = -(fScreenPtX - m_Offset.x - m_nWidth/2)  / (m_fRadius*m_nWidth/2);
-    FLOAT y   =  (fScreenPtY - m_Offset.y - m_nHeight/2) / (m_fRadius*m_nHeight/2);
+    float x   = -(fScreenPtX - m_Offset.x - m_nWidth/2)  / (m_fRadius*m_nWidth/2);
+    float y   =  (fScreenPtY - m_Offset.y - m_nHeight/2) / (m_fRadius*m_nHeight/2);
 
-    FLOAT z   = 0.0f;
-    FLOAT mag = x*x + y*y;
+    float z   = 0.0f;
+    float mag = x*x + y*y;
 
     if( mag > 1.0f )
     {
-        FLOAT scale = 1.0f/sqrtf(mag);
+        float scale = 1.0f/sqrtf(mag);
         x *= scale;
         y *= scale;
     }
@@ -133,25 +116,28 @@ D3DXVECTOR3 ArcBall::screenToVector( float fScreenPtX, float fScreenPtY )
         z = sqrtf( 1.0f - mag );
 
     // Return vector
-    return D3DXVECTOR3( x, y, z );
+    return vec3_s( x, y, z );
 }
 
 
 
 
-//========================================================================
-D3DXQUATERNION ArcBall::quatFromBallPoints(const D3DXVECTOR3 &vFrom, const D3DXVECTOR3 &vTo)
+//=========================================================================
+Quaternion ArcBall::quatFromBallPoints(const vec3_s &vFrom, const vec3_s &vTo)
 {
-    D3DXVECTOR3 vPart;
-    float fDot = D3DXVec3Dot(&vFrom, &vTo);
-    D3DXVec3Cross(&vPart, &vFrom, &vTo);
+    vec3_s vPart;
 
-    return D3DXQUATERNION(vPart.x, vPart.y, vPart.z, fDot);
+    float fDot = vFrom.dot(vTo);//  D 3DX Vec3Dot(vFrom, vTo);
+
+     // D 3DX Vec3Cross(vPart, vFrom, vTo);
+	   vPart = vFrom.cross(vTo);
+
+    return Quaternion(vPart.x, vPart.y, vPart.z, fDot);
 }
 
 
 
-//========================================================================
+//=========================================================================
 void ArcBall::onBegin( int nX, int nY )
 {
     // Only enter the drag state if the click falls
@@ -168,7 +154,7 @@ void ArcBall::onBegin( int nX, int nY )
 }
 
 
-//========================================================================
+//=========================================================================
 void ArcBall::onMove( int nX, int nY )
 {
     if (m_bDrag) 
@@ -181,14 +167,14 @@ void ArcBall::onMove( int nX, int nY )
 
 
 
-//========================================================================
+//=========================================================================
 void ArcBall::onEnd()
 {
     m_bDrag = false;
 }
 
 
-//========================================================================
+//=========================================================================
 LRESULT ArcBall::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
     // Current mouse position
@@ -239,18 +225,24 @@ LRESULT ArcBall::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		else if( (MK_RBUTTON & wParam) || (MK_MBUTTON & wParam) )
 		{
 			// Normalize based on size of window and bounding sphere radius
-			FLOAT fDeltaX = ( m_ptLastMouse.x-iMouseX ) * m_fRadiusTranslation / m_nWidth;
-			FLOAT fDeltaY = ( m_ptLastMouse.y-iMouseY ) * m_fRadiusTranslation / m_nHeight;
+			float fDeltaX = ( m_ptLastMouse.x-iMouseX ) * m_fRadiusTranslation / m_nWidth;
+			float fDeltaY = ( m_ptLastMouse.y-iMouseY ) * m_fRadiusTranslation / m_nHeight;
 
 			if( wParam & MK_RBUTTON )
 			{
-				D3DXMatrixTranslation( &m_mTranslationDelta, -2 * fDeltaX, 2 * fDeltaY, 0.0f );
-				D3DXMatrixMultiply( &m_mTranslation, &m_mTranslation, &m_mTranslationDelta );
+				//D 3DXMatrixTranslation( m_mTranslationDelta, -2 * fDeltaX, 2 * fDeltaY, 0.0f );
+					m_mTranslationDelta.setTranslation       ( -2 * fDeltaX, 2 * fDeltaY, 0.0f );
+
+				//D 3DXMatrixMultiply( m_mTranslation, m_mTranslation, m_mTranslationDelta );
+				 m_mTranslation =m_mTranslation	* m_mTranslationDelta;
 			}
 			else  // wParam & MK_MBUTTON
 			{
-				D3DXMatrixTranslation( &m_mTranslationDelta, 0.0f, 0.0f, 5 * fDeltaY );
-				D3DXMatrixMultiply( &m_mTranslation, &m_mTranslation, &m_mTranslationDelta );
+				//D 3DXMatrixTranslation( m_mTranslationDelta, 0.0f, 0.0f, 5 * fDeltaY );
+				 m_mTranslationDelta.setTranslation( 0.0f, 0.0f, 5 * fDeltaY  );
+
+				//D 3DXMatrixMultiply( m_mTranslation, m_mTranslation, m_mTranslationDelta );
+				  m_mTranslation = m_mTranslation * m_mTranslationDelta;
 			}
 
 			// Store mouse coordinate
@@ -267,19 +259,21 @@ LRESULT ArcBall::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 //========================================================================
 BaseCamera::BaseCamera()
 {
+	m_hwnd = 0;
     m_cKeysDown = 0;
     ZeroMemory( m_aKeys, sizeof(BYTE)*CAM_MAX_KEYS );
-    ZeroMemory( m_GamePad, sizeof(MYUT_GAMEPAD)*MYUT_MAX_CONTROLLERS );
+//    ZeroMemory( m_GamePad, sizeof(MYUT_GAMEPAD)*MYUT_MAX_CONTROLLERS );
 
     // Set attributes for the view matrix
-    D3DXVECTOR3 vEyePt    = D3DXVECTOR3(0.0f,0.0f,0.0f);
-    D3DXVECTOR3 vLookatPt = D3DXVECTOR3(0.0f,0.0f,1.0f);
+    vec3_s vEyePt    = vec3_s(0.0f,0.0f,0.0f);
+    vec3_s vLookatPt = vec3_s(0.0f,0.0f,1.0f);
 
     // Setup the view matrix
-    setViewParams( &vEyePt, &vLookatPt );
+    setViewParams( vEyePt, vLookatPt );
 
     // Setup the projection matrix
-    setProjParams( D3DX_PI/4, 1.0f, 1.0f, 1000.0f );
+	static const float _PI_DIV4  =  3.141592654f / 4.0f;
+    setProjParams(  _PI_DIV4  , 1.0f, 1.0f, 1000.0f );
 
     GetCursorPos( &m_ptLastMousePosition );
     m_bMouseLButtonDown = false;
@@ -292,12 +286,12 @@ BaseCamera::BaseCamera()
     m_fCameraPitchAngle = 0.0f;
 
     SetRect( &m_rcDrag, LONG_MIN, LONG_MIN, LONG_MAX, LONG_MAX );
-    m_vVelocity     = D3DXVECTOR3(0,0,0);
+    m_vVelocity     = vec3_s(0,0,0);
     m_bMovementDrag = false;
-    m_vVelocityDrag = D3DXVECTOR3(0,0,0);
+    m_vVelocityDrag = vec3_s(0,0,0);
     m_fDragTimer    = 0.0f;
     m_fTotalDragTimeToZero = 0.25;
-    m_vRotVelocity = D3DXVECTOR2(0,0);
+    m_vRotVelocity = vec2_s(0,0);
 
     m_fRotationScaler = 0.01f;           
     m_fMoveScaler = 5.0f;           
@@ -306,37 +300,40 @@ BaseCamera::BaseCamera()
     m_bEnableYAxisMovement = true;
     m_bEnablePositionMovement = true;
 
-    m_vMouseDelta   = D3DXVECTOR2(0,0);
+    m_vMouseDelta   = vec2_s(0,0);
     m_fFramesToSmoothMouseData = 2.0f;
 
     m_bClipToBoundary = false;
-    m_vMinBoundary = D3DXVECTOR3(-1,-1,-1);
-    m_vMaxBoundary = D3DXVECTOR3(1,1,1);
+    m_vMinBoundary = vec3_s(-1,-1,-1);
+    m_vMaxBoundary = vec3_s(1,1,1);
 }
 
 
 //========================================================================
 // Client can call this to change the position and direction of camera
 //========================================================================
-VOID BaseCamera::setViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt )
+void BaseCamera::setViewParams( const vec3_s& pvEyePt, const vec3_s& pvLookatPt )
 {
-    if( NULL == pvEyePt || NULL == pvLookatPt )
-        return;
+   
+	//if( NULL == pvEyePt || NULL == pvLookatPt )
+    //    return;
 
-    m_vDefaultEye = m_vEye = *pvEyePt;
-    m_vDefaultLookAt = m_vLookAt = *pvLookatPt;
+    m_vDefaultEye = m_vEye = pvEyePt;
+    m_vDefaultLookAt = m_vLookAt = pvLookatPt;
 
     // Calc the view matrix
-    D3DXVECTOR3 vUp(0,1,0);
-    D3DXMatrixLookAtLH( &m_mView, pvEyePt, pvLookatPt, &vUp );
+    vec3_s vUp(0,1,0);
+    // D 3DXMatrixLookAtLH( m_mView, pvEyePt, pvLookatPt, vUp );
+	  m_mView.setViewLookAtLH(pvEyePt, pvLookatPt, vUp );
 
-    D3DXMATRIX mInvView;
-    D3DXMatrixInverse( &mInvView, NULL, &m_mView );
+    mat44_s mInvView;
+   // D 3DX MatrixInverse( mInvView, NULL, m_mView );
+	mInvView   =  m_mView.inverted();
 
     // The axis basis vectors and camera position are stored inside the 
     // position matrix in the 4 rows of the camera's world matrix.
     // To figure out the yaw/pitch of the camera, we just need the Z basis vector
-    D3DXVECTOR3* pZBasis = (D3DXVECTOR3*) &mInvView._31;
+    vec3_s* pZBasis = (vec3_s*) &mInvView._31;
 
     m_fCameraYawAngle   = atan2f( pZBasis->x, pZBasis->z );
     float fLen = sqrtf(pZBasis->z*pZBasis->z + pZBasis->x*pZBasis->x);
@@ -349,8 +346,8 @@ VOID BaseCamera::setViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt )
 //========================================================================
 // Calculates the projection matrix based on input params
 //========================================================================
-VOID BaseCamera::setProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane,
-                                   FLOAT fFarPlane )
+void BaseCamera::setProjParams( float fFOV, float fAspect, float fNearPlane,
+                                   float fFarPlane )
 {
     // Set attributes for the projection matrix
     m_fFOV        = fFOV;
@@ -358,7 +355,8 @@ VOID BaseCamera::setProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane,
     m_fNearPlane  = fNearPlane;
     m_fFarPlane   = fFarPlane;
 
-    D3DXMatrixPerspectiveFovLH( &m_mProj, fFOV, fAspect, fNearPlane, fFarPlane );
+   // D 3DXMatrixPerspectiveFovLH( m_mProj, fFOV, fAspect, fNearPlane, fFarPlane );
+	          m_mProj.setPerspectiveFovLH( fFOV, fAspect, fNearPlane, fFarPlane  );
 }
 
 
@@ -369,6 +367,7 @@ VOID BaseCamera::setProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane,
 //========================================================================
 LRESULT BaseCamera::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
+	m_hwnd = hWnd;
     UNREFERENCED_PARAMETER( hWnd );
     UNREFERENCED_PARAMETER( lParam );
 
@@ -488,7 +487,7 @@ LRESULT BaseCamera::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 void BaseCamera::getInput( bool bGetKeyboardInput, bool bGetMouseInput, 
 						   bool bGetGamepadInput, bool bResetCursorAfterMove )
 {
-    m_vKeyboardDirection = D3DXVECTOR3(0,0,0);
+    m_vKeyboardDirection = vec3_s(0,0,0);
     if( bGetKeyboardInput )
     {
         // Update acceleration vector based on keyboard state
@@ -531,6 +530,7 @@ void BaseCamera::getInput( bool bGetKeyboardInput, bool bGetMouseInput,
             ptCurMouseDelta.y = 0;
         }
 
+		/**************** ИСКЛЮЧЕНО ********* MONITOR INFO
         if( bResetCursorAfterMove && TRUE) // ks777 MYUTIsActive() )
         {
             // Set position of camera to center of desktop, 
@@ -539,16 +539,20 @@ void BaseCamera::getInput( bool bGetKeyboardInput, bool bGetMouseInput,
             // then invisible cursor will hit the edge of the screen 
             // and the user can't tell what happened
             POINT ptCenter;
+			assert(m_hwnd && "m_hwnd is zero");
 
             // Get the center of the current monitor
             MYMONITORINFO mi;
             mi.cbSize = sizeof(MONITORINFO);
-            MYUTGetMonitorInfo( MYUTMonitorFromWindow(MYUTGetHWND(),MONITOR_DEFAULTTONEAREST), &mi );
+			
+            MYUTGetMonitorInfo( MYUTMonitorFromWindow( m_hwnd,MONITOR_DEFAULTTONEAREST), &mi );
             ptCenter.x = (mi.rcMonitor.left + mi.rcMonitor.right) / 2;
             ptCenter.y = (mi.rcMonitor.top + mi.rcMonitor.bottom) / 2;   
             SetCursorPos( ptCenter.x, ptCenter.y );
             m_ptLastMousePosition = ptCenter;
         }
+		***********************************************/
+
 
         // Smooth the relative mouse data over a few frames so it isn't 
         // jerky when moving slowly at low frame rates.
@@ -561,47 +565,15 @@ void BaseCamera::getInput( bool bGetKeyboardInput, bool bGetMouseInput,
 
     if( bGetGamepadInput )
     {
-        m_vGamePadLeftThumb = D3DXVECTOR3(0,0,0);
-        m_vGamePadRightThumb = D3DXVECTOR3(0,0,0);
-
-        // Get controller state
-        for( DWORD iUserIndex=0; iUserIndex<MYUT_MAX_CONTROLLERS; iUserIndex++ )
-        {
-            MYUTGetGamepadState( iUserIndex, &m_GamePad[iUserIndex], true, true );
-
-            // Mark time if the controller is in a non-zero state
-            if( m_GamePad[iUserIndex].wButtons || 
-                m_GamePad[iUserIndex].sThumbLX || m_GamePad[iUserIndex].sThumbLX || 
-                m_GamePad[iUserIndex].sThumbRX || m_GamePad[iUserIndex].sThumbRY || 
-                m_GamePad[iUserIndex].bLeftTrigger || m_GamePad[iUserIndex].bRightTrigger )
-            {
-                m_GamePadLastActive[iUserIndex] = MYUTGetTime();
-            }
-        }
-
+        m_vGamePadLeftThumb = vec3_s(0,0,0);
+        m_vGamePadRightThumb = vec3_s(0,0,0);
+	  
         // Find out which controller was non-zero last
         int iMostRecentlyActive = -1;
         double fMostRecentlyActiveTime = 0.0f;
-        for( DWORD iUserIndex=0; iUserIndex<MYUT_MAX_CONTROLLERS; iUserIndex++ )
-        {
-            if( m_GamePadLastActive[iUserIndex] > fMostRecentlyActiveTime )
-            {
-                fMostRecentlyActiveTime = m_GamePadLastActive[iUserIndex];
-                iMostRecentlyActive = iUserIndex;
-            }
-        }
+ 
 
-        // Use the most recent non-zero controller if its connected
-        if( iMostRecentlyActive >= 0 && m_GamePad[iMostRecentlyActive].bConnected )
-        {
-            m_vGamePadLeftThumb.x = m_GamePad[iMostRecentlyActive].fThumbLX;
-            m_vGamePadLeftThumb.y = 0.0f;
-            m_vGamePadLeftThumb.z = m_GamePad[iMostRecentlyActive].fThumbLY;
 
-            m_vGamePadRightThumb.x = m_GamePad[iMostRecentlyActive].fThumbRX;
-            m_vGamePadRightThumb.y = 0.0f;
-            m_vGamePadRightThumb.z = m_GamePad[iMostRecentlyActive].fThumbRY;
-        }
     }
 }
 
@@ -611,16 +583,21 @@ void BaseCamera::getInput( bool bGetKeyboardInput, bool bGetMouseInput,
 //========================================================================
 void BaseCamera::updateVelocity( float fElapsedTime )
 {
-    D3DXMATRIX mRotDelta;
+    mat44_s mRotDelta;
 
-    D3DXVECTOR2 vGamePadRightThumb = D3DXVECTOR2(m_vGamePadRightThumb.x, -m_vGamePadRightThumb.z);
+    vec2_s vGamePadRightThumb = vec2_s(m_vGamePadRightThumb.x, -m_vGamePadRightThumb.z);
     m_vRotVelocity = m_vMouseDelta * m_fRotationScaler + vGamePadRightThumb * 0.02f;
 
-    D3DXVECTOR3 vAccel = m_vKeyboardDirection + m_vGamePadLeftThumb;
+    vec3_s vAccel = m_vKeyboardDirection + m_vGamePadLeftThumb;
 
     // Normalize vector so if moving 2 dirs (left & forward), 
     // the camera doesn't move faster than if moving in 1 dir
-    D3DXVec3Normalize( &vAccel, &vAccel );
+
+ 
+    //D 3DX Vec3Normalize( vAccel, vAccel );
+	  vAccel.normalize();
+ 
+ 
 
     // Scale the acceleration vector
     vAccel *= m_fMoveScaler;
@@ -628,7 +605,8 @@ void BaseCamera::updateVelocity( float fElapsedTime )
     if( m_bMovementDrag )
     {
         // Is there any acceleration this frame?
-        if( D3DXVec3LengthSq( &vAccel ) > 0 )
+      //if( D 3DX Vec3LengthSq( vAccel ) > 0 )
+        if( vAccel.lengthSq() > 0 )
         {
             // If so, then this means the user has pressed a movement key\
             // so change the velocity immediately to acceleration 
@@ -650,7 +628,7 @@ void BaseCamera::updateVelocity( float fElapsedTime )
             else
             {
                 // Zero velocity
-                m_vVelocity = D3DXVECTOR3(0,0,0);
+                m_vVelocity = vec3_s(0,0,0);
             }
         }
     }
@@ -667,7 +645,7 @@ void BaseCamera::updateVelocity( float fElapsedTime )
 //========================================================================
 // Clamps pV to lie inside m_vMinBoundary & m_vMaxBoundary
 //========================================================================
-void BaseCamera::constrainToBoundary( D3DXVECTOR3* pV )
+void BaseCamera::constrainToBoundary( vec3_s* pV )
 {
     // Constrain vector to a bounding box 
     pV->x = __max(pV->x, m_vMinBoundary.x);
@@ -725,9 +703,9 @@ D3DUtil_CameraKeys BaseCamera::mapKey( UINT nKey )
 //========================================================================
 // Reset the camera's position back to the default
 //========================================================================
-VOID BaseCamera::reset()
+void BaseCamera::reset()
 {
-    setViewParams( &m_vDefaultEye, &m_vDefaultLookAt );
+    setViewParams( m_vDefaultEye, m_vDefaultLookAt );
 }
 
 
@@ -750,10 +728,10 @@ FirstPersonCamera::FirstPersonCamera() :
 //========================================================================
 // Update the view matrix based on user input & elapsed time
 //========================================================================
-VOID FirstPersonCamera::frameMove( FLOAT fElapsedTime )
+void FirstPersonCamera::frameMove( float fElapsedTime )
 {
 
-#pragma message("!!!!!!"  __FILE__)
+#pragma message("ks777 gb::devhelp::FirstPersonCamera::framemove  ПРОВЕРИТЬ МЕТОД!  "  __FILE__)
   //  if( MYUTGetGlobalTimer()->IsStopped() )
 	//{
   //      fElapsedTime = 1.0f / MYUTGetFPS();
@@ -771,7 +749,7 @@ VOID FirstPersonCamera::frameMove( FLOAT fElapsedTime )
     updateVelocity( fElapsedTime );
 
     // Simple euler method to calculate position delta
-    D3DXVECTOR3 vPosDelta = m_vVelocity * fElapsedTime;
+    vec3_s vPosDelta = m_vVelocity * fElapsedTime;
 
     // If rotating the camera 
     if( (m_nActiveButtonMask & m_nCurrentButtonMask) || 
@@ -790,31 +768,50 @@ VOID FirstPersonCamera::frameMove( FLOAT fElapsedTime )
         m_fCameraPitchAngle += fPitchDelta;
         m_fCameraYawAngle   += fYawDelta;
 
+		static const float __PI_DIV2 = 3.141592654f / 2.0f;
+
         // Limit pitch to straight up or straight down
-        m_fCameraPitchAngle = __max( -D3DX_PI/2.0f,  m_fCameraPitchAngle );
-        m_fCameraPitchAngle = __min( +D3DX_PI/2.0f,  m_fCameraPitchAngle );
+        m_fCameraPitchAngle = __max( -__PI_DIV2,  m_fCameraPitchAngle );
+        m_fCameraPitchAngle = __min( +__PI_DIV2,  m_fCameraPitchAngle );
     }
 
     // Make a rotation matrix based on the camera's yaw & pitch
-    D3DXMATRIX mCameraRot;
-    D3DXMatrixRotationYawPitchRoll( &mCameraRot, m_fCameraYawAngle, m_fCameraPitchAngle, 0 );
+    mat44_s mCameraRot;
+    //D 3DX MatrixRotationYawPitchRoll( mCameraRot, m_fCameraYawAngle, m_fCameraPitchAngle, 0 );
+	  mCameraRot.setRotationYawPitchRoll( m_fCameraYawAngle, m_fCameraPitchAngle, 0.0f  );
+
+
 
     // Transform vectors based on camera's rotation matrix
-    D3DXVECTOR3 vWorldUp, vWorldAhead;
-    D3DXVECTOR3 vLocalUp    = D3DXVECTOR3(0,1,0);
-    D3DXVECTOR3 vLocalAhead = D3DXVECTOR3(0,0,1);
-    D3DXVec3TransformCoord( &vWorldUp, &vLocalUp, &mCameraRot );
-    D3DXVec3TransformCoord( &vWorldAhead, &vLocalAhead, &mCameraRot );
+    vec3_s vWorldUp, vWorldAhead;
+    vec3_s vLocalUp    = vec3_s(0,1,0);
+    vec3_s vLocalAhead = vec3_s(0,0,1);
+
+   // D 3DX Vec3TransformCoord( vWorldUp, vLocalUp, mCameraRot );
+	  vWorldUp = vLocalUp;
+		 vWorldUp.transformCoord(mCameraRot);
+
+   // D 3DX Vec3TransformCoord( vWorldAhead, vLocalAhead, mCameraRot );
+	 vWorldAhead = vLocalAhead;
+	  vWorldAhead.transformCoord(mCameraRot);
+
+
 
     // Transform the position delta by the camera's rotation 
-    D3DXVECTOR3 vPosDeltaWorld;
+    vec3_s vPosDeltaWorld;
     if( !m_bEnableYAxisMovement )
     {
         // If restricting Y movement, do not include pitch
         // when transforming position delta vector.
-        D3DXMatrixRotationYawPitchRoll( &mCameraRot, m_fCameraYawAngle, 0.0f, 0.0f );
+        //D 3DX MatrixRotationYawPitchRoll( mCameraRot, m_fCameraYawAngle, 0.0f, 0.0f );
+		mCameraRot.setRotationYawPitchRoll(m_fCameraYawAngle, 0.0f, 0.0f  );
+
     }
-    D3DXVec3TransformCoord( &vPosDeltaWorld, &vPosDelta, &mCameraRot );
+
+    //D 3DX Vec3TransformCoord( vPosDeltaWorld, vPosDelta, mCameraRot );
+	 vPosDeltaWorld =   vPosDelta;
+	 vPosDeltaWorld.transformCoord(mCameraRot);
+
 
     // Move the eye position 
     m_vEye += vPosDeltaWorld;
@@ -824,10 +821,16 @@ VOID FirstPersonCamera::frameMove( FLOAT fElapsedTime )
     // Update the lookAt position based on the eye position 
     m_vLookAt = m_vEye + vWorldAhead;
 
-    // Update the view matrix
-    D3DXMatrixLookAtLH( &m_mView, &m_vEye, &m_vLookAt, &vWorldUp );
 
-    D3DXMatrixInverse( &m_mCameraWorld, NULL, &m_mView );
+    // Update the view matrix
+    //D 3DX MatrixLookAtLH( m_mView, m_vEye, m_vLookAt, vWorldUp );
+	m_mView.setViewLookAtLH(  m_vEye, m_vLookAt, vWorldUp  );
+
+
+
+  //D 3DX MatrixInverse( m_mCameraWorld, NULL, m_mView );
+	m_mCameraWorld = m_mView.inverted();
+
 }
 
 
@@ -846,11 +849,11 @@ void FirstPersonCamera::setRotateButtons( bool bLeft, bool bMiddle, bool bRight,
 //========================================================================
 ModelViewerCamera::ModelViewerCamera()
 {
-    D3DXMatrixIdentity( &m_mWorld );
-    D3DXMatrixIdentity( &m_mModelRot );
-    D3DXMatrixIdentity( &m_mModelLastRot );    
-    D3DXMatrixIdentity( &m_mCameraRotLast );    
-    m_vModelCenter = D3DXVECTOR3(0,0,0);
+    m_mWorld.reset(); // D 3 D X MatrixIdentity( m_mWorld );
+    m_mModelRot.reset(); //  D 3 D X MatrixIdentity( m_mModelRot );
+    m_mModelLastRot.reset(); // D 3 D X MatrixIdentity( m_mModelLastRot );    
+    m_mCameraRotLast.reset(); // D 3 D X MatrixIdentity( m_mCameraRotLast );    
+    m_vModelCenter = vec3_s(0,0,0);
     m_fRadius    = 5.0f;
     m_fDefaultRadius = 5.0f;
     m_fMinRadius = 1.0f;
@@ -872,7 +875,7 @@ ModelViewerCamera::ModelViewerCamera()
 // Update the view matrix & the model's world matrix based 
 //       on user input & elapsed time
 //========================================================================
-VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
+void ModelViewerCamera::frameMove( float fElapsedTime )
 {
     if( isKeyDown(m_aKeys[CAM_RESET]) )
         reset();
@@ -890,7 +893,7 @@ VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
     updateVelocity( fElapsedTime );
 
     // Simple euler method to calculate position delta
-    D3DXVECTOR3 vPosDelta = m_vVelocity * fElapsedTime;
+    vec3_s vPosDelta = m_vVelocity * fElapsedTime;
 
     // Change the radius from the camera to the model based on wheel scrolling
     if( m_nMouseWheelDelta && m_nZoomButtonMask == MOUSE_WHEEL )
@@ -900,19 +903,35 @@ VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
     m_nMouseWheelDelta = 0;
 
     // Get the inverse of the arcball's rotation matrix
-    D3DXMATRIX mCameraRot;
-    D3DXMatrixInverse( &mCameraRot, NULL, m_ViewArcBall.getRotationMatrix() );
+    mat44_s mCameraRot;
+    //D 3DXMatrixInverse( mCameraRot, NULL, m_ViewArcBall.getRotationMatrix() );
+	 mCameraRot = m_ViewArcBall.getRotationMatrix().inverted();
+
 
     // Transform vectors based on camera's rotation matrix
-    D3DXVECTOR3 vWorldUp, vWorldAhead;
-    D3DXVECTOR3 vLocalUp    = D3DXVECTOR3(0,1,0);
-    D3DXVECTOR3 vLocalAhead = D3DXVECTOR3(0,0,1);
-    D3DXVec3TransformCoord( &vWorldUp, &vLocalUp, &mCameraRot );
-    D3DXVec3TransformCoord( &vWorldAhead, &vLocalAhead, &mCameraRot );
+    vec3_s vWorldUp, vWorldAhead;
+    vec3_s vLocalUp    = vec3_s(0,1,0);
+    vec3_s vLocalAhead = vec3_s(0,0,1);
+
+
+   // D 3DX Vec3TransformCoord( vWorldUp, vLocalUp, mCameraRot );
+	 vWorldUp = vLocalUp;
+	 vWorldUp.transformCoord(mCameraRot);
+
+
+   // D 3DX Vec3TransformCoord( vWorldAhead, vLocalAhead, mCameraRot );
+		vWorldAhead =   vLocalAhead;
+		vWorldAhead.transformCoord(mCameraRot);
+
+
 
     // Transform the position delta by the camera's rotation 
-    D3DXVECTOR3 vPosDeltaWorld;
-    D3DXVec3TransformCoord( &vPosDeltaWorld, &vPosDelta, &mCameraRot );
+    vec3_s vPosDeltaWorld;
+    //D 3DX Vec3TransformCoord( vPosDeltaWorld, vPosDelta, mCameraRot );
+		vPosDeltaWorld = vPosDelta;
+		vPosDeltaWorld.transformCoord(mCameraRot);
+
+
 
     // Move the lookAt position 
     m_vLookAt += vPosDeltaWorld;
@@ -923,27 +942,36 @@ VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
     m_vEye = m_vLookAt - vWorldAhead * m_fRadius;
 
     // Update the view matrix
-    D3DXMatrixLookAtLH( &m_mView, &m_vEye, &m_vLookAt, &vWorldUp );
+    //D 3DXMatrixLookAtLH( m_mView, m_vEye, m_vLookAt, vWorldUp );
+	 m_mView.setViewLookAtLH(m_vEye, m_vLookAt, vWorldUp);
 
-    D3DXMATRIX mInvView;
-    D3DXMatrixInverse( &mInvView, NULL, &m_mView );
+
+    mat44_s mInvView;
+    //D 3DXMatrixInverse( mInvView, NULL, m_mView );
+		mInvView = m_mView.inverted();
+
     mInvView._41 = mInvView._42 = mInvView._43 = 0;
 
-    D3DXMATRIX mModelLastRotInv;
-    D3DXMatrixInverse(&mModelLastRotInv, NULL, &m_mModelLastRot);
+
+    mat44_s mModelLastRotInv;
+    //D 3DXMatrixInverse(mModelLastRotInv, NULL, m_mModelLastRot);
+		mModelLastRotInv =	m_mModelLastRot.inverted();
 
     // Accumulate the delta of the arcball's rotation in view space.
     // Note that per-frame delta rotations could be problematic over long periods of time.
-    D3DXMATRIX mModelRot;
-    mModelRot = *m_WorldArcBall.getRotationMatrix();
+    mat44_s mModelRot;
+    mModelRot = m_WorldArcBall.getRotationMatrix();
     m_mModelRot *= m_mView * mModelLastRotInv * mModelRot * mInvView;
 
     if( m_ViewArcBall.isBeingDragged() && m_bAttachCameraToModel && !isKeyDown(m_aKeys[CAM_CONTROLDOWN]) )
     {
+
         // Attach camera to model by inverse of the model rotation
-        D3DXMATRIX mCameraLastRotInv;
-        D3DXMatrixInverse(&mCameraLastRotInv, NULL, &m_mCameraRotLast);
-        D3DXMATRIX mCameraRotDelta = mCameraLastRotInv * mCameraRot; // local to world matrix
+        mat44_s mCameraLastRotInv;
+        //D 3DXMatrixInverse(mCameraLastRotInv, NULL, m_mCameraRotLast);
+		  mCameraLastRotInv = m_mCameraRotLast.inverted();
+
+        mat44_s mCameraRotDelta = mCameraLastRotInv * mCameraRot; // local to world matrix
         m_mModelRot *= mCameraRotDelta;
     }
     m_mCameraRotLast = mCameraRot; 
@@ -952,13 +980,22 @@ VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
 
     // Since we're accumulating delta rotations, we need to orthonormalize 
     // the matrix to prevent eventual matrix skew
-    D3DXVECTOR3* pXBasis = (D3DXVECTOR3*) &m_mModelRot._11;
-    D3DXVECTOR3* pYBasis = (D3DXVECTOR3*) &m_mModelRot._21;
-    D3DXVECTOR3* pZBasis = (D3DXVECTOR3*) &m_mModelRot._31;
-    D3DXVec3Normalize( pXBasis, pXBasis );
-    D3DXVec3Cross( pYBasis, pZBasis, pXBasis );
-    D3DXVec3Normalize( pYBasis, pYBasis );
-    D3DXVec3Cross( pZBasis, pXBasis, pYBasis );
+    vec3_s* pXBasis = (vec3_s*) &m_mModelRot._11;
+    vec3_s* pYBasis = (vec3_s*) &m_mModelRot._21;
+    vec3_s* pZBasis = (vec3_s*) &m_mModelRot._31;
+
+    //D 3DX Vec3Normalize( *pXBasis, *pXBasis );
+	 pXBasis->normalize();
+
+//    D 3DX Vec3Cross( *pYBasis, *pZBasis, *pXBasis );
+	 *pYBasis = pZBasis->cross(*pXBasis);
+
+    // D 3DX Vec3Normalize( *pYBasis, *pYBasis );
+	  pYBasis->normalize();
+
+  //  D 3DX Vec3Cross( *pZBasis, *pXBasis, *pYBasis );
+    *pZBasis = pXBasis->cross(  *pYBasis  );
+
 
     // Translate the rotation matrix to the same position as the lookAt position
     m_mModelRot._41 = m_vLookAt.x;
@@ -966,8 +1003,10 @@ VOID ModelViewerCamera::frameMove( FLOAT fElapsedTime )
     m_mModelRot._43 = m_vLookAt.z;
 
     // Translate world matrix so its at the center of the model
-    D3DXMATRIX mTrans;
-    D3DXMatrixTranslation( &mTrans, -m_vModelCenter.x, -m_vModelCenter.y, -m_vModelCenter.z );
+    mat44_s mTrans;
+    //D 3DXMatrixTranslation( mTrans, -m_vModelCenter.x, -m_vModelCenter.y, -m_vModelCenter.z );
+	 mTrans.setTranslation( -m_vModelCenter.x, -m_vModelCenter.y, -m_vModelCenter.z   );
+
     m_mWorld = mTrans * m_mModelRot;
 }
 
@@ -985,14 +1024,14 @@ void ModelViewerCamera::setDragRect( RECT &rc )
 //========================================================================
 // Reset the camera's position back to the default
 //========================================================================
-VOID ModelViewerCamera::reset()
+void ModelViewerCamera::reset()
 {
     BaseCamera::reset();
 
-    D3DXMatrixIdentity( &m_mWorld );
-    D3DXMatrixIdentity( &m_mModelRot );
-    D3DXMatrixIdentity( &m_mModelLastRot );    
-    D3DXMatrixIdentity( &m_mCameraRotLast );    
+  m_mWorld.reset(); //  D 3 DXMatrixIdentity( m_mWorld );
+  m_mModelRot.reset(); //  D 3 DXMatrixIdentity( m_mModelRot );
+  m_mModelLastRot.reset(); //  D 3 DXMatrixIdentity( m_mModelLastRot );    
+  m_mCameraRotLast.reset(); //  D 3 DXMatrixIdentity( m_mCameraRotLast );    
 
     m_fRadius = m_fDefaultRadius;
     m_WorldArcBall.reset();
@@ -1003,22 +1042,30 @@ VOID ModelViewerCamera::reset()
 //========================================================================
 // Override for setting the view parameters
 //========================================================================
-void ModelViewerCamera::setViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt )
+void ModelViewerCamera::setViewParams( const vec3_s& pvEyePt, const vec3_s& pvLookatPt )
 {
     BaseCamera::setViewParams( pvEyePt, pvLookatPt );
 
     // Propogate changes to the member arcball
-    D3DXQUATERNION quat;
-    D3DXMATRIXA16 mRotation;
-    D3DXVECTOR3 vUp(0,1,0);
-    D3DXMatrixLookAtLH( &mRotation, pvEyePt, pvLookatPt, &vUp );
-    D3DXQuaternionRotationMatrix( &quat, &mRotation );
+    Quaternion quat;
+    mat44_s mRotation;
+    vec3_s vUp(0,1,0);
+    //D 3DXMatrixLookAtLH( mRotation, pvEyePt, pvLookatPt, vUp );
+		 mRotation.setViewLookAtLH(  pvEyePt, pvLookatPt, vUp    );
+
+   // D 3DX QuaternionRotationMatrix( quat, mRotation );
+  quat.setRotationMatrix(mRotation);
+
     m_ViewArcBall.setQuatNow( quat );
 
     // Set the radius according to the distance
-    D3DXVECTOR3 vEyeToPoint;
-    D3DXVec3Subtract( &vEyeToPoint, pvLookatPt, pvEyePt );
-    setRadius( D3DXVec3Length( &vEyeToPoint ) );
+    vec3_s vEyeToPoint;
+    //D 3DXVec3Subtract( vEyeToPoint, pvLookatPt, pvEyePt );
+//#pragma message("ks777::devhelp::ModelViewerCamera::setViewParams  ВОЗМОЖНО НЕПРАВИЛЬНО"   __FILE__)
+	  vEyeToPoint =  pvEyePt -   pvLookatPt;
+
+	  //D 3DX Vec3Length( vEyeToPoint   );
+    setRadius( vEyeToPoint.length()  );   
 
     // View information changed. FrameMove should be called.
     m_bDragSinceLastUpdate = true;
@@ -1111,8 +1158,8 @@ LRESULT ModelViewerCamera::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, 
     return FALSE;
 }
 
-}   // end ns
-} // end ns
+}   // end namespace
+} // end namespace
 
 #endif // #ifdef WIN32
 // end file

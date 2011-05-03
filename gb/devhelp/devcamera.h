@@ -1,47 +1,58 @@
 ﻿/** \file 
- \brief Камеры для наблюдения, отладки и т.д.
+ \brief Камеры для наблюдения, отладки, создания утилит и т.д.
  Выдраны из DXUT с небольшими исправлениями и удалением ненужного.
 
 
  \todo поправить код-стиль
- \todo убрать FLOAT на float
-  \todo Удалить лишние геймпадовые типы.
-  \todo Избавиться от зависимости от d3dx-математики.
+ 
+ \todo Удалить MONITORINFO
 
+ <br><br>
+СДЕЛАНО: <br>
+ - Удалить лишние геймпадовые типы. <br>
+ -  Избавиться от зависимости от d3dx-математики. <br>
 
+ <br>
 
 */
+
+#pragma once
 
 #ifdef WIN32 // только для windows
 
 
-#pragma once
-
 #include <stdexcept>
 #include <windows.h>
 
-#ifdef GB_D3DX9
-  #include <d3dx9.h>
-  #include <d3dx9Math.h>
-#endif
+//
+// //! УБРАТЬ !!!!
+//#ifdef GB_D3DX9
+//  #include <d3dx9.h>
+//  #include <d3dx9Math.h>
+//#endif
+//
+//#ifndef GB_D3DX9
+//  #error Пока требуется математика из D3DX. Макрос GB_D3DX9 должен быть определён
+//#endif
 
-#ifndef GB_D3DX9
-  #error Пока требуется математика из D3DX. Макрос GB_D3DX9 должен быть определён
-#endif
-
-
-#include <XInput.h>
+ 
 #include <zmouse.h>
 
+#include <gb/Config.h>
+#include <gb/base/Types.h>
+
+// gameboost math
+#include <gb/math/math.h>
+
+using namespace gb::math::base;
+using namespace gb::math::geom3d;
+
+ 
 
 namespace gb {
 
 namespace devhelp {
 
-
-//////////////////////////////////////////////////////////////////////////
-//							 H
-//////////////////////////////////////////////////////////////////////////
 
 #define KEY_WAS_DOWN_MASK 0x80
 #define KEY_IS_DOWN_MASK  0x01
@@ -66,46 +77,7 @@ enum D3DUtil_CameraKeys
     CAM_MAX_KEYS,
     CAM_UNKNOWN = 0xFF
 };
-
-#define MYUT_MAX_CONTROLLERS 4  // XInput handles up to 4 controllers 
-
-				 
-struct MYUT_GAMEPAD
-{
-    // From XINPUT_GAMEPAD
-    WORD    wButtons;
-    BYTE    bLeftTrigger;
-    BYTE    bRightTrigger;
-    SHORT   sThumbLX;
-    SHORT   sThumbLY;
-    SHORT   sThumbRX;
-    SHORT   sThumbRY;
-
-    // Device properties
-    XINPUT_CAPABILITIES caps;
-    bool    bConnected; // If the controller is currently connected
-    bool    bInserted;  // If the controller was inserted this frame
-    bool    bRemoved;   // If the controller was removed this frame
-
-    // Thumb stick values converted to range [-1,+1]
-    float   fThumbRX;
-    float   fThumbRY;
-    float   fThumbLX;
-    float   fThumbLY;
-
-    // Records which buttons were pressed this frame.
-    // These are only set on the first frame that the button is pressed
-    WORD    wPressedButtons;
-    bool    bPressedLeftTrigger;
-    bool    bPressedRightTrigger;
-
-    // Last state of the buttons
-    WORD    wLastButtons;
-    bool    bLastLeftTrigger;
-    bool    bLastRightTrigger;
-};
-
- 
+  
 
 class ArcBall  {
 public:
@@ -113,8 +85,8 @@ public:
 
     // Functions to change behavior
     void reset(); 
-    void setTranslationRadius( FLOAT fRadiusTranslation ) { m_fRadiusTranslation = fRadiusTranslation; }
-    void setWindow( INT nWidth, INT nHeight, FLOAT fRadius = 0.9f ) { m_nWidth = nWidth; m_nHeight = nHeight; m_fRadius = fRadius; m_vCenter = D3DXVECTOR2(m_nWidth/2.0f,m_nHeight/2.0f); }
+    void setTranslationRadius( float fRadiusTranslation ) { m_fRadiusTranslation = fRadiusTranslation; }
+    void setWindow( INT nWidth, INT nHeight, float fRadius = 0.9f ) { m_nWidth = nWidth; m_nHeight = nHeight; m_fRadius = fRadius; m_vCenter = vec2_s(m_nWidth/2.0f,m_nHeight/2.0f); }
     void setOffset( INT nX, INT nY ) { m_Offset.x = nX; m_Offset.y = nY; }
 
     //! \brief  Call these from client and use GetRotationMatrix() to read new rotation matrix
@@ -126,75 +98,82 @@ public:
     LRESULT     handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
     // Functions to get/set state
-    const D3DXMATRIX* getRotationMatrix()                   { return D3DXMatrixRotationQuaternion(&m_mRotation, &m_qNow); };
-    const D3DXMATRIX* getTranslationMatrix() const          { return &m_mTranslation; }
-    const D3DXMATRIX* getTranslationDeltaMatrix() const     { return &m_mTranslationDelta; }
+    const mat44_s& getRotationMatrix()                   
+	{ 
+		  //D 3DX MatrixRotationQuaternion(m_mRotation, m_qNow); 
+		  m_mRotation.setRotationQuaternion(m_qNow);
+		  return m_mRotation;
+	}
+
+    const mat44_s& getTranslationMatrix() const          { return m_mTranslation; }
+    const mat44_s& getTranslationDeltaMatrix() const     { return m_mTranslationDelta; }
 
     bool        isBeingDragged() const                      { return m_bDrag; }
-    D3DXQUATERNION getQuatNow() const                       { return m_qNow; }
-    void        setQuatNow( D3DXQUATERNION q ) { m_qNow = q; }
+    Quaternion getQuatNow() const                       { return m_qNow; }
+    void        setQuatNow( Quaternion q ) { m_qNow = q; }
 
-    static D3DXQUATERNION quatFromBallPoints( const D3DXVECTOR3 &vFrom, const D3DXVECTOR3 &vTo );
+    static Quaternion quatFromBallPoints( const vec3_s &vFrom, const vec3_s &vTo );
 
 
 protected:
-    D3DXMATRIXA16  m_mRotation;         ///< Matrix for arc ball's orientation
-    D3DXMATRIXA16  m_mTranslation;      ///< Matrix for arc ball's position
-    D3DXMATRIXA16  m_mTranslationDelta; ///< Matrix for arc ball's position
+    mat44_s  m_mRotation;         ///< Matrix for arc ball's orientation
+    mat44_s  m_mTranslation;      ///< Matrix for arc ball's position
+    mat44_s  m_mTranslationDelta; ///< Matrix for arc ball's position
 
     POINT          m_Offset;   ///< window offset, or upper-left corner of window
     INT            m_nWidth;   ///< arc ball's window width
     INT            m_nHeight;  ///< arc ball's window height
-    D3DXVECTOR2    m_vCenter;  ///< center of arc ball 
-    FLOAT          m_fRadius;  ///< arc ball's radius in screen coords
-    FLOAT          m_fRadiusTranslation; ///< arc ball's radius for translating the target
+    vec2_s    m_vCenter;  ///< center of arc ball 
+    float          m_fRadius;  ///< arc ball's radius in screen coords
+    float          m_fRadiusTranslation; ///< arc ball's radius for translating the target
 
-    D3DXQUATERNION m_qDown;             ///< Quaternion before button down
-    D3DXQUATERNION m_qNow;              ///< Composite quaternion for current drag
+    Quaternion m_qDown;             ///< Quaternion before button down
+    Quaternion m_qNow;              ///< Composite quaternion for current drag
     bool           m_bDrag;             ///< Whether user is dragging arc ball
 
     POINT          m_ptLastMouse;      ///< position of last mouse point
-    D3DXVECTOR3    m_vDownPt;           ///< starting point of rotation arc
-    D3DXVECTOR3    m_vCurrentPt;        ///< current point of rotation arc
+    vec3_s    m_vDownPt;           ///< starting point of rotation arc
+    vec3_s    m_vCurrentPt;        ///< current point of rotation arc
 
-    D3DXVECTOR3    screenToVector( float fScreenPtX, float fScreenPtY );
+    vec3_s    screenToVector( float fScreenPtX, float fScreenPtY );
 };
 
 
 
 class BaseCamera {
 public:
-    BaseCamera();
+			  BaseCamera();
+	virtual  ~BaseCamera() {}
 
 	//! \brief Сделать камеру текущей
 	virtual HRESULT makeCurrent(IDirect3DDevice9* pDevice) = 0; 
 
     // Call these from client and use Get*Matrix() to read new matrices
     virtual LRESULT handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
-    virtual void    frameMove( FLOAT fElapsedTime ) = 0;
+    virtual void    frameMove( float fElapsedTime ) = 0;
 
     // Functions to change camera matrices
 
     virtual void reset(); 
-    virtual void setViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt );
-    virtual void setProjParams( FLOAT fFOV, FLOAT fAspect, FLOAT fNearPlane, FLOAT fFarPlane );
+    virtual void setViewParams( const vec3_s& pvEyePt, const vec3_s& pvLookatPt );
+    virtual void setProjParams( float fFOV, float fAspect, float fNearPlane, float fFarPlane );
 
     // Functions to change behavior
 
     virtual void setDragRect( RECT &rc ) { m_rcDrag = rc; }
     void setInvertPitch( bool bInvertPitch ) { m_bInvertPitch = bInvertPitch; }
-    void setDrag( bool bMovementDrag, FLOAT fTotalDragTimeToZero = 0.25f ) { m_bMovementDrag = bMovementDrag; m_fTotalDragTimeToZero = fTotalDragTimeToZero; }
+    void setDrag( bool bMovementDrag, float fTotalDragTimeToZero = 0.25f ) { m_bMovementDrag = bMovementDrag; m_fTotalDragTimeToZero = fTotalDragTimeToZero; }
     void setEnableYAxisMovement( bool bEnableYAxisMovement ) { m_bEnableYAxisMovement = bEnableYAxisMovement; }
     void setEnablePositionMovement( bool bEnablePositionMovement ) { m_bEnablePositionMovement = bEnablePositionMovement; }
-    void setClipToBoundary( bool bClipToBoundary, D3DXVECTOR3* pvMinBoundary, D3DXVECTOR3* pvMaxBoundary ) { m_bClipToBoundary = bClipToBoundary; if( pvMinBoundary ) m_vMinBoundary = *pvMinBoundary; if( pvMaxBoundary ) m_vMaxBoundary = *pvMaxBoundary; }
-    void setScalers( FLOAT fRotationScaler = 0.01f, FLOAT fMoveScaler = 5.0f )  { m_fRotationScaler = fRotationScaler; m_fMoveScaler = fMoveScaler; }
+    void setClipToBoundary( bool bClipToBoundary, vec3_s* pvMinBoundary, vec3_s* pvMaxBoundary ) { m_bClipToBoundary = bClipToBoundary; if( pvMinBoundary ) m_vMinBoundary = *pvMinBoundary; if( pvMaxBoundary ) m_vMaxBoundary = *pvMaxBoundary; }
+    void setScalers( float fRotationScaler = 0.01f, float fMoveScaler = 5.0f )  { m_fRotationScaler = fRotationScaler; m_fMoveScaler = fMoveScaler; }
     void setNumberOfFramesToSmoothMouseData( int nFrames ) { if( nFrames > 0 ) m_fFramesToSmoothMouseData = (float)nFrames; }
 
     // Functions to get state
-    const D3DXMATRIX*  getViewMatrix() const { return &m_mView; }
-    const D3DXMATRIX*  getProjMatrix() const { return &m_mProj; }
-    const D3DXVECTOR3* getEyePoint() const      { return &m_vEye; }
-    const D3DXVECTOR3* getLookAtPoint() const   { return &m_vLookAt; }
+    const mat44_s&  getViewMatrix() const { return m_mView; }
+    const mat44_s&  getProjMatrix() const { return m_mProj; }
+    const vec3_s& getEyePoint() const      { return m_vEye; }
+    const vec3_s& getLookAtPoint() const   { return m_vLookAt; }
     float getNearClipPlane() const { return m_fNearPlane; }
     float getFarClipPlane() const { return m_fFarPlane; }
 
@@ -213,52 +192,43 @@ protected:
     bool isKeyDown( BYTE key ) const { return( (key & KEY_IS_DOWN_MASK) == KEY_IS_DOWN_MASK ); }
     bool wasKeyDown( BYTE key ) const { return( (key & KEY_WAS_DOWN_MASK) == KEY_WAS_DOWN_MASK ); }
 
-    void constrainToBoundary( D3DXVECTOR3* pV );
+    void constrainToBoundary( vec3_s* pV );
     void updateVelocity( float fElapsedTime );
     void getInput( bool bGetKeyboardInput, bool bGetMouseInput, bool bGetGamepadInput, bool bResetCursorAfterMove );
+ 
 
-	/*
-	void MYUTGetMonitorInfo( UnknownType param1, MONITORINFO* mi ) 
-	{
-		throw std::exception("The method or operation is not implemented.");
-	}
-	*/
-
-
-    D3DXMATRIX            m_mView;              ///< View matrix 
-    D3DXMATRIX            m_mProj;              ///< Projection matrix
-
-    MYUT_GAMEPAD          m_GamePad[MYUT_MAX_CONTROLLERS]; ///< XInput controller state
-    D3DXVECTOR3           m_vGamePadLeftThumb;
-    D3DXVECTOR3           m_vGamePadRightThumb;
-    double                m_GamePadLastActive[MYUT_MAX_CONTROLLERS];
-
+    mat44_s            m_mView;              ///< View matrix 
+    mat44_s            m_mProj;              ///< Projection matrix
+ 
+    vec3_s           m_vGamePadLeftThumb;
+    vec3_s           m_vGamePadRightThumb;
+ 
     int                   m_cKeysDown;            ///< Number of camera keys that are down.
     BYTE                  m_aKeys[CAM_MAX_KEYS];  ///< State of input - KEY_WAS_DOWN_MASK|KEY_IS_DOWN_MASK
-    D3DXVECTOR3           m_vKeyboardDirection;   ///< Direction vector of keyboard input
+    vec3_s           m_vKeyboardDirection;   ///< Direction vector of keyboard input
     POINT                 m_ptLastMousePosition;  ///< Last absolute position of mouse cursor
     bool                  m_bMouseLButtonDown;    ///< True if left button is down 
     bool                  m_bMouseMButtonDown;    ///< True if middle button is down 
     bool                  m_bMouseRButtonDown;    ///< True if right button is down 
     int                   m_nCurrentButtonMask;   ///< mask of which buttons are down
     int                   m_nMouseWheelDelta;     ///< Amount of middle wheel scroll (+/-) 
-    D3DXVECTOR2           m_vMouseDelta;          ///< Mouse relative delta smoothed over a few frames
+    vec2_s           m_vMouseDelta;          ///< Mouse relative delta smoothed over a few frames
     float                 m_fFramesToSmoothMouseData; ///< Number of frames to smooth mouse data over
 
-    D3DXVECTOR3           m_vDefaultEye;          ///< Default camera eye position
-    D3DXVECTOR3           m_vDefaultLookAt;       ///< Default LookAt position
-    D3DXVECTOR3           m_vEye;                 ///< Camera eye position
-    D3DXVECTOR3           m_vLookAt;              ///< LookAt position
+    vec3_s           m_vDefaultEye;          ///< Default camera eye position
+    vec3_s           m_vDefaultLookAt;       ///< Default LookAt position
+    vec3_s           m_vEye;                 ///< Camera eye position
+    vec3_s           m_vLookAt;              ///< LookAt position
     float                 m_fCameraYawAngle;      ///< Yaw angle of camera
     float                 m_fCameraPitchAngle;    ///< Pitch angle of camera
 
     RECT                  m_rcDrag;               ///< Rectangle within which a drag can be initiated.
-    D3DXVECTOR3           m_vVelocity;            ///< Velocity of camera
+    vec3_s           m_vVelocity;            ///< Velocity of camera
     bool                  m_bMovementDrag;        ///< If true, then camera movement will slow to a stop otherwise movement is instant
-    D3DXVECTOR3           m_vVelocityDrag;        ///< Velocity drag force
-    FLOAT                 m_fDragTimer;           ///< Countdown timer to apply drag
-    FLOAT                 m_fTotalDragTimeToZero; ///< Time it takes for velocity to go from full to 0
-    D3DXVECTOR2           m_vRotVelocity;         ///< Velocity of camera
+    vec3_s           m_vVelocityDrag;        ///< Velocity drag force
+    float                 m_fDragTimer;           ///< Countdown timer to apply drag
+    float                 m_fTotalDragTimeToZero; ///< Time it takes for velocity to go from full to 0
+    vec2_s           m_vRotVelocity;         ///< Velocity of camera
 
     float                 m_fFOV;                 ///< Field of view
     float                 m_fAspect;              ///< Aspect ratio
@@ -273,8 +243,10 @@ protected:
     bool                  m_bEnableYAxisMovement; ///< If true, then camera can move in the y-axis
 
     bool                  m_bClipToBoundary;      ///< If true, then the camera will be clipped to the boundary
-    D3DXVECTOR3           m_vMinBoundary;         ///< Min point in clip boundary
-    D3DXVECTOR3           m_vMaxBoundary;         ///< Max point in clip boundary
+    vec3_s           m_vMinBoundary;         ///< Min point in clip boundary
+    vec3_s           m_vMaxBoundary;         ///< Max point in clip boundary
+
+	HWND m_hwnd;
 };
 // end class
 
@@ -284,7 +256,9 @@ protected:
 class FirstPersonCamera : public BaseCamera {
 public:
     FirstPersonCamera();
+	virtual ~FirstPersonCamera() {}
 
+#ifdef GB_D3D9
 	//! \brief Сделать камеру текущей
 	virtual HRESULT makeCurrent(IDirect3DDevice9* pDevice) 
 	{
@@ -294,26 +268,30 @@ public:
        hr |= pDevice->SetTransform(D3DTS_PROJECTION ,  getProjMatrix() );
 
       return hr;
-	}; 
+	}
+#endif
 
     //! \brief Call these from client and use Get*Matrix() to read new matrices
-    virtual void frameMove( FLOAT fElapsedTime );
+    virtual void frameMove( float fElapsedTime );
 
     //  Functions to change behavior
     void setRotateButtons( bool bLeft, bool bMiddle, bool bRight, bool bRotateWithoutButtonDown = false );
 
     void setResetCursorAfterMove( bool bResetCursorAfterMove ) { m_bResetCursorAfterMove = bResetCursorAfterMove; }
 
-    // Functions to get state
-    D3DXMATRIX*  getWorldMatrix()            { return &m_mCameraWorld; }
+       // Functions to get state
 
-    const D3DXVECTOR3* getWorldRight() const { return (D3DXVECTOR3*)&m_mCameraWorld._11; } 
-    const D3DXVECTOR3* getWorldUp() const    { return (D3DXVECTOR3*)&m_mCameraWorld._21; }
-    const D3DXVECTOR3* getWorldAhead() const { return (D3DXVECTOR3*)&m_mCameraWorld._31; }
-    const D3DXVECTOR3* getEyePoint() const      { return (D3DXVECTOR3*)&m_mCameraWorld._41; }
+         mat44_s&  getWorldMatrix()            { return m_mCameraWorld; }
+   const mat44_s&  getWorldMatrix() const { return m_mCameraWorld; }
+
+
+    const vec3_s* getWorldRight() const { return (vec3_s*)&m_mCameraWorld._11; } 
+    const vec3_s* getWorldUp() const    { return (vec3_s*)&m_mCameraWorld._21; }
+    const vec3_s* getWorldAhead() const { return (vec3_s*)&m_mCameraWorld._31; }
+    const vec3_s* getEyePoint() const      { return (vec3_s*)&m_mCameraWorld._41; }
 
 protected:
-    D3DXMATRIX m_mCameraWorld;       ///< World matrix of the camera (inverse of the view matrix)
+    mat44_s   m_mCameraWorld;       ///< World matrix of the camera (inverse of the view matrix)
 
     int        m_nActiveButtonMask;  ///< Mask to determine which button to enable for rotation
     bool       m_bRotateWithoutButtonDown;
@@ -329,48 +307,50 @@ class ModelViewerCamera : public BaseCamera
 {
 public:
     ModelViewerCamera();
+	virtual ~ModelViewerCamera() {}
 
+#ifdef GB_D3D9
 	//! \brief Сделать камеру текущей
 	virtual HRESULT makeCurrent(IDirect3DDevice9* pDevice) 
 	{
 	  HRESULT hr =0;
-       hr |= pDevice->SetTransform( D3DTS_WORLD ,  getWorldMatrix() );
-       hr |= pDevice->SetTransform(D3DTS_VIEW ,  getViewMatrix() );
-       hr |= pDevice->SetTransform(D3DTS_PROJECTION ,  getProjMatrix() );
-
+       hr |= pDevice->SetTransform( D3DTS_WORLD ,      getWorldMatrix()  );
+       hr |= pDevice->SetTransform(D3DTS_VIEW ,        getViewMatrix()   );
+       hr |= pDevice->SetTransform(D3DTS_PROJECTION ,  getProjMatrix()   );
       return hr;
-	}; 
+	} 
+#endif
 
     // Call these from client and use Get*Matrix() to read new matrices
     virtual LRESULT handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
-    virtual void frameMove( FLOAT fElapsedTime );
+    virtual void frameMove( float fElapsedTime );
 
    
     // Functions to change behavior
     virtual void setDragRect( RECT &rc );
     void reset(); 
-    void setViewParams( D3DXVECTOR3* pvEyePt, D3DXVECTOR3* pvLookatPt );
+    void setViewParams( const vec3_s& pvEyePt, const vec3_s& pvLookatPt );
     void setButtonMasks( int nRotateModelButtonMask = MOUSE_LEFT_BUTTON, int nZoomButtonMask = MOUSE_WHEEL, int nRotateCameraButtonMask = MOUSE_RIGHT_BUTTON ) { m_nRotateModelButtonMask = nRotateModelButtonMask, m_nZoomButtonMask = nZoomButtonMask; m_nRotateCameraButtonMask = nRotateCameraButtonMask; }
     
     void setAttachCameraToModel( bool bEnable = false ) { m_bAttachCameraToModel = bEnable; }
     void setWindow( int nWidth, int nHeight, float fArcballRadius=0.9f ) { m_WorldArcBall.setWindow( nWidth, nHeight, fArcballRadius ); m_ViewArcBall.setWindow( nWidth, nHeight, fArcballRadius ); }
     void setRadius( float fDefaultRadius=5.0f, float fMinRadius=1.0f, float fMaxRadius=FLT_MAX  ) { m_fDefaultRadius = m_fRadius = fDefaultRadius; m_fMinRadius = fMinRadius; m_fMaxRadius = fMaxRadius; m_bDragSinceLastUpdate = true; }
-    void setModelCenter( D3DXVECTOR3 vModelCenter ) { m_vModelCenter = vModelCenter; }
+    void setModelCenter( vec3_s vModelCenter ) { m_vModelCenter = vModelCenter; }
     void setLimitPitch( bool bLimitPitch ) { m_bLimitPitch = bLimitPitch; }
-    void setViewQuat( D3DXQUATERNION q ) { m_ViewArcBall.setQuatNow( q ); m_bDragSinceLastUpdate = true; }
-    void setWorldQuat( D3DXQUATERNION q ) { m_WorldArcBall.setQuatNow( q ); m_bDragSinceLastUpdate = true; }
+    void setViewQuat( Quaternion q ) { m_ViewArcBall.setQuatNow( q ); m_bDragSinceLastUpdate = true; }
+    void setWorldQuat( Quaternion q ) { m_WorldArcBall.setQuatNow( q ); m_bDragSinceLastUpdate = true; }
 
     // Functions to get state
-    const D3DXMATRIX* getWorldMatrix() const { return &m_mWorld; }
-    void setWorldMatrix( D3DXMATRIX &mWorld ) { m_mWorld = mWorld; m_bDragSinceLastUpdate = true; }
+    const mat44_s& getWorldMatrix() const { return m_mWorld; }
+    void setWorldMatrix( mat44_s &mWorld ) { m_mWorld = mWorld; m_bDragSinceLastUpdate = true; }
 
 protected:
     ArcBall  m_WorldArcBall;
     ArcBall  m_ViewArcBall;
-    D3DXVECTOR3  m_vModelCenter;
-    D3DXMATRIX   m_mModelLastRot;        // Last arcball rotation matrix for model 
-    D3DXMATRIX   m_mModelRot;            // Rotation matrix of model
-    D3DXMATRIX   m_mWorld;               // World matrix of model
+    vec3_s  m_vModelCenter;
+    mat44_s   m_mModelLastRot;        // Last arcball rotation matrix for model 
+    mat44_s   m_mModelRot;            // Rotation matrix of model
+    mat44_s   m_mWorld;               // World matrix of model
 
     int          m_nRotateModelButtonMask;
     int          m_nZoomButtonMask;
@@ -384,7 +364,7 @@ protected:
     float        m_fMaxRadius;           // Max radius
     bool         m_bDragSinceLastUpdate; // True if mouse drag has happened since last time FrameMove is called.
 
-    D3DXMATRIX   m_mCameraRotLast;
+    mat44_s   m_mCameraRotLast;
 
 };
 // end class
@@ -394,26 +374,36 @@ protected:
 class TargetCamera {
 public:
 
-	TargetCamera() { m_pvTarget=NULL; m_bNeedUpdateView=true; }
+	TargetCamera() 
+	{ 
+		m_pvTarget=NULL; m_bNeedUpdateView=true; 
+		m_vEyePt = vec3_s(5.0f , 0.0f , -0.0f);
+		m_vUp   = vec3_s( 0.0f , 1.0f , 0.0f );
+	}
 
- void setViewTarget( D3DXVECTOR3* pvTarget ) { m_pvTarget=pvTarget; m_bNeedUpdateView=true; }
- void setViewPosition( const D3DXVECTOR3& vPos ) { m_vEyePt=vPos;  m_bNeedUpdateView=true; }
- void setViewUp( const D3DXVECTOR3& vUp ) { m_vUp=vUp; m_bNeedUpdateView=true; }
+ //! \brief Установить цель камеры или NULL если цели нет.
+ void setViewTarget( vec3_s* pvTarget ) { m_pvTarget=pvTarget; m_bNeedUpdateView=true; }
+ void setViewPosition( const vec3_s& vPos ) { m_vEyePt=vPos;  m_bNeedUpdateView=true; }
+ void setViewUp( const vec3_s& vUp ) { m_vUp=vUp; m_bNeedUpdateView=true; }
 
  void setProjParams( float fFOV, float fAspect, float fNearPlane, float fFarPlane )
  {
-   D3DXMatrixPerspectiveFovLH(&m_mProj, fFOV, fAspect, fNearPlane, fFarPlane );
+   //D 3DX MatrixPerspectiveFovLH(m_mProj, fFOV, fAspect, fNearPlane, fFarPlane );
+	m_mProj.setPerspectiveFovLH( fFOV, fAspect, fNearPlane, fFarPlane );
+
  }
 
+       mat44_s& getViewMatrix()       { return m_mView; }
+ const mat44_s& getViewMatrix() const { return m_mView; }
 
- const D3DXMATRIX* getViewMatrix() const { return &m_mView; }
- const D3DXMATRIX* getProjMatrix() const { return &m_mProj; }
+       mat44_s& getProjMatrix()       { return m_mProj; }
+ const mat44_s& getProjMatrix() const { return m_mProj; }
 
-
- void updateView() 
+ //! \brief  Обновить. Вызвать раз перед отрисовкой кадра. Или несколько, если цель переместилась.
+ void updateView(float fTime) 
  {
 	 // make view matrix
-	 D3DXVECTOR3 vLookAt;
+	 vec3_s vLookAt;
 	 if(m_pvTarget) 
 	 { 
 		 vLookAt = *m_pvTarget;  
@@ -423,27 +413,26 @@ public:
 		 vLookAt.x = vLookAt.y = vLookAt.z = 0.0f;
 	 }
 
-	 D3DXMatrixLookAtLH( &m_mView, &m_vEyePt, &vLookAt, &m_vUp );
+	// D 3DX MatrixLookAtLH( m_mView, m_vEyePt, vLookAt, m_vUp );
+	 m_mView.setViewLookAtLH( m_vEyePt, vLookAt, m_vUp  );
 
     m_bNeedUpdateView = false;
  }
 
 
 private:
-    D3DXVECTOR3*     m_pvTarget; ///< pointer to target coord
-	D3DXMATRIX            m_mView;              ///< View matrix 
-	D3DXMATRIX            m_mProj;              ///< Projection matrix
+    vec3_s*     m_pvTarget; ///< pointer to target coord
+	mat44_s            m_mView;              ///< View matrix 
+	mat44_s            m_mProj;              ///< Projection matrix
 
-	D3DXVECTOR3  m_vEyePt;
-	D3DXVECTOR3  m_vUp;
-
+	vec3_s  m_vEyePt;
+	vec3_s  m_vUp;
 
 	bool m_bNeedUpdateView;
 };
 
 
-
-
+//-------------------------------------------------------------------------
 
  }
  // end namespace
@@ -451,7 +440,5 @@ private:
 // end namespace
 
 #endif // #ifdef WIN32
-// end file
-
-
+ 
 // end  file

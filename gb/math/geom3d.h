@@ -1669,57 +1669,14 @@ inline float distanceToPlane( plane_s& plane )   const
 			return *this;
 		}
 
+
 		Quaternion&         setRotationAxis(const base::vec3_s &axis, float theta) ;
+
 
 		inline Quaternion&  setRotationAxis(const AxiesAngle& aa)
 		{
 		  return setRotationAxis( aa.axies , aa.angle );
 		}
-
-
-
-		//// ПРОВЕРИТЬ !!!!
-		//void  setFromMatrix(const base::mat44_s& m) 
-		//{
-
-		//	float fTrace = m.floats[0][0] + m.floats[1][1] + m.floats [2][2];
-		//	float fRoot;
-
-		//	if (fTrace > 0.0) 
-		//	{
-
-		//		fRoot =   sqrt(fTrace + 1.0f);//  math::sqrt(fTrace + 1.0f);
-		//		w = 0.5f * fRoot;
-
-		//		fRoot = 0.5f / fRoot;
-
-		//		x = ( m.floats[1][2] - m.floats[2][1]) * fRoot;
-		//		y = ( m.floats[2][0] - m.floats[0][2]) * fRoot;
-		//		z = ( m.floats[0][1] - m.floats[1][0]) * fRoot;
-		//	}
-		//	else
-		//	{
-		//		static size_t s_iNext[3] = { 1, 2, 0 };
-		//		size_t i = 0;
-
-		//		if (m.floats[1][1] > m.floats[0][0]) i = 1;
-		//		if (m.floats[2][2] > m.floats[i][i]) i = 2;
-
-		//		size_t j = s_iNext[i];
-		//		size_t k = s_iNext[j];
-
-		//		fRoot = sqrt(m.floats[i][i] - m.floats[j][j] - m.floats[k][k] + 1.0f);//math::sqrt(m.data[i][i] - m.data[j][j] - m.data[k][k] + 1.0f);
-
-		//		v[i] = 0.5f * fRoot;
-		//		fRoot = 0.5f / fRoot;
-		//		w    = (m.floats[j][k] - m.floats[k][j]) * fRoot;
-		//		v[j] = (m.floats[i][j] + m.floats[j][i]) * fRoot;
-		//		v[k] = (m.floats[i][k] + m.floats[k][i]) * fRoot;
-		//	}
-
-
-		//}
-
 
 
 		//! \brief  Построить поворотный по углам эллера
@@ -1735,11 +1692,16 @@ inline float distanceToPlane( plane_s& plane )   const
 			  z =  -(sh*sp*cb  - ch*cp*sb);
 			  w =  ch*cp*cb + sh*sp*sb;
 		}
+
+
 		//! \brief  Построить поворотный по углам эллера  
 		inline void setRotationEulersAngles(const EulerAngles& ea)
 		{
 		     setRotationYawPitchRoll(ea.yaw, ea.pitch, ea.roll);
 		}
+
+		//! \brief Построение из матрицы поворота
+		Quaternion&  setRotationMatrix(const base::mat44_s& m);
  
  /*
 		inline void  invert() 

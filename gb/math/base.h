@@ -156,7 +156,24 @@ namespace gb
 				inline float     length () const  {	return (float)sqrt ( x*x + y*y );	}
 			    inline float     lengthSq() const {	 return (x*x + y*y );  }
 
-				inline vec2_s&   normalize() { register float fl=length(); x/=fl; y/=fl;  return *this; }
+
+				inline vec2_s&   normalize() 
+				{ 
+					if( (0.0f==x) && (0.0f==y) ) // < без этого глючит. nan
+						return *this; 
+					register float fl=length(); 
+					x/=fl; 
+					y/=fl;  
+					return *this; 
+				}
+
+				//! \brief  Вернуть нормализованый
+				inline vec2_s normalized() const 
+				{
+				 vec2_s res(*this);
+				 res.normalize();
+				 return res;
+				}
 
 				inline float     dot(const vec2_s& v) const { return x*v.x + y*v.y; }
 
@@ -392,7 +409,18 @@ namespace gb
 			}
 
 			//! \brief  Нормализовать 
-			inline vec3_s&   normalize ()	  { register float fl=length(); x/=fl; y/=fl; z/=fl; return *this; }
+			inline vec3_s&   normalize ()	  
+			{ 
+				if( (0.0f==x) && (0.0f==y) && (0.0f==z) ) // < без этого глючит. nan
+					   return *this; 
+
+				register float fl=length(); 
+				x/=fl; 
+				y/=fl; 
+				z/=fl; 
+				return *this; 
+			}
+
 			//! \brief  Вернуть нормализованый
 			inline vec3_s    normalized() const { vec3_s r=*this; r.normalize(); return r; }
 
@@ -1641,6 +1669,14 @@ namespace gb
 			/** \brief Инверсия. Бросает исключение если инверсия невозможна. ПРОВЕРЕНА. */
 			mat44_s&  invert () throw();
 
+			//! \brief Вернуть инвертированую
+			mat44_s inverted() const throw() 
+			{
+			  mat44_s res = *this;
+			  res.invert(); 
+			  return res;
+			}
+
 
 			vec4_s getRow(unsigned int index) const 
 			{
@@ -1763,6 +1799,22 @@ namespace gb
 				return setRotationAxis(  vax, angle);
 			};
 
+			//! \brief  Построение матрицы поворота по углам Элера (Yaw-Y, Pitch-X, Roll-Z). ПРОВЕРЕНО!
+			mat44_s& setRotationYawPitchRoll(float Yaw, float Pitch, float Roll)
+			{
+				mat44_s mrYaw, mrPitch, mrRoll;
+
+				mrYaw.setRotationY(  Yaw );
+				mrPitch.setRotationX(  Pitch );
+				mrRoll.setRotationZ( Roll );
+
+				*this =  mrRoll * mrPitch * mrYaw;
+				return *this;
+			};
+
+			//! \brief Построить матрицу поворота по кватерниону.  ПРОВЕРЕНО!
+			mat44_s& setRotationQuaternion(const geom3d::Quaternion& q) ;
+
 
 
 			//! \brief Построение матрицы сдвига (позиции)  . ПРОВЕРЕНО!
@@ -1794,9 +1846,6 @@ namespace gb
 			{
 			  return setScaling( vScaling.x, vScaling.y, vScaling.z );
 			}
-
-			//! \brief Построить матрицу поворота по кватерниону.  ПРОВЕРЕНО!
-			mat44_s& setRotationQuaternion(const geom3d::Quaternion& q) ;
 
 
 			//! \brief Построить как матрицу трансформации 

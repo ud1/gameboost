@@ -3,7 +3,7 @@
 #if defined(GB_D3DX9)
 
 #include <gb/graphics/visual_geometry/internal/vg_impl_d3d9.h>
-#include <gb/str/formater.h>
+#include <gb/str/String.h>
 
 //принудительно  подключаем gb::math
 #include <gb/math/math.h>
@@ -616,16 +616,16 @@ static void __FormatFloatMatrix(char *buf, float f)
   char tbuf[32];
 
   static int d0 = 0;
-  gb::str::Formater::intToCstr(tbuf, 32, d0, false);
+  gb::str::intToCstr(tbuf, 32, d0, false);
   strcat(ssformat, tbuf);
 
   static int d1 = 1;
-  gb::str::Formater::intToCstr(tbuf, 32, d1, false);
+  gb::str::intToCstr(tbuf, 32, d1, false);
   strcat(ssformat, tbuf);
   strcat(ssformat, ".");
 
   static int d2 = 6;
-  gb::str::Formater::intToCstr(tbuf, 32, d2, false);
+  gb::str::intToCstr(tbuf, 32, d2, false);
   strcat(ssformat, tbuf);
 
 

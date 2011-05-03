@@ -7,11 +7,16 @@
 using namespace gb::math;
 using namespace gb::math::base;
 
+using namespace gb::math::base;
+using namespace gb::math::geom3d;
+
 #pragma warning(disable : 4305)
+
 
  
 #define DXQ  D3DXQUATERNION
 #define GBQ  gb::math::geom3d::Quaternion 
+
 
 #if defined(DEBUG) || defined(_DEBUG)
   #pragma comment( lib, "d3dx9d.lib" )
@@ -195,12 +200,7 @@ void test_rotationYawPitchRoll()
 	GBQ gbq;
 
 	  D3DXQuaternionRotationYawPitchRoll(
-		 &dxq,
-		 0.345f , 0.812f , 1.324f
-		 // FLOAT Yaw,
-		// FLOAT Pitch,
-		 //FLOAT Roll
-		);
+		 &dxq,  0.345f , 0.812f , 1.324f );
 
 
    gbq.setRotationYawPitchRoll( 0.345f , 0.812f , 1.324f );   
@@ -216,16 +216,77 @@ void test_rotate_x()
 	DXQ dxq;
 	GBQ gbq;
 
-  // none code !!!!
-	assert(false && "no code !!!");
+	// none code !!!!
+	assert(false && "no d3dx  code !!!");
+ 
 
   gbq.setRotationX(  0.458f );
   printq(dxq , gbq);
 };
 
 
+//=================================================
+void test_rotate_y()
+{
+	PRINTFUNC
+	DXQ dxq;
+	GBQ gbq;
+
+	// none code !!!!
+	assert(false && "no d3dx  code !!!");
+
+	gbq.setRotationY(  0.458f );
+	printq(dxq , gbq);
+};
 
 
+//=================================================
+void test_rotate_z()
+{
+	PRINTFUNC
+	DXQ dxq;
+	GBQ gbq;
+
+	// none code !!!!
+	assert(false && "no  d3dx code   !!!");
+
+	gbq.setRotationZ(  0.458f );
+	printq(dxq , gbq);
+};
+
+
+ 
+
+void test_fromRotationMatrix()
+{
+ PRINTFUNC
+ DXQ dxq;
+ GBQ gbq;
+
+      // d3dx
+ {
+  D3DXMATRIX mrot;
+  D3DXVECTOR3 ax = D3DXVECTOR3( -0.65f , 0.25f, 0.348f );
+  D3DXVec3Normalize(&ax, &ax);
+
+  D3DXMatrixRotationAxis(&mrot, &ax,   0.89f );
+
+
+ D3DXQuaternionRotationMatrix( &dxq, &mrot );
+
+ }
+
+ // gboost
+
+ mat44_s mrot;
+ vec3_s ax = vec3_s(  -0.65f , 0.25f, 0.348f   );
+ ax.normalize();
+ mrot.setRotationAxis( ax, 0.89f );
+
+ gbq.setRotationMatrix(mrot);
+
+	printq(dxq , gbq);
+}
 
 
 //=========================================================================
@@ -237,6 +298,15 @@ test_inverse();
 test_slerp();
 test_mul();
 test_rotationYawPitchRoll();
+
+test_fromRotationMatrix();
+
+/*
+test_rotate_x();
+test_rotate_y();
+test_rotate_z();
+*/
+
 
 
 
