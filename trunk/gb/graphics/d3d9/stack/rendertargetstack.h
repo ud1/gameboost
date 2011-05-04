@@ -1,6 +1,5 @@
-/** \file RenderTargetStack.h 
- \brief Стэк рендертаргетов для девайса
-
+п»ї/** \file RenderTargetStack.h 
+ \brief РЎС‚СЌРє СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚РѕРІ РґР»СЏ РґРµРІР°Р№СЃР°
 
  // OK !
 
@@ -22,23 +21,23 @@ namespace graphics {
 
 namespace d3d9 {
 
-//! \brief Дочернее пространство от d3d9. Стеки состояний и прочего для d3d9
+//! \brief Р”РѕС‡РµСЂРЅРµРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РѕС‚ d3d9. РЎС‚РµРєРё СЃРѕСЃС‚РѕСЏРЅРёР№ Рё РїСЂРѕС‡РµРіРѕ РґР»СЏ d3d9
 namespace stack {
 
 //-------------------------------------------------------------------------
 
 
-	//! \brief размер массива стека для RenderTargetStack
+	//! \brief СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР° СЃС‚РµРєР° РґР»СЏ RenderTargetStack
 #define GB_D3D9_RENDERTARGETSTACK_MAX_LEN  16
 
-//! \brief Стек рендертаргетов для устройства d3d9 
+//! \brief РЎС‚РµРє СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚РѕРІ РґР»СЏ СѓСЃС‚СЂРѕР№СЃС‚РІР° d3d9 
 class RenderTargetStack {
 public:
-	  //! \brief пункт стека.
+	  //! \brief РїСѓРЅРєС‚ СЃС‚РµРєР°.
       class StackItem {
 	  public:
-               IDirect3DSurface9*  pExternalSet; ///< установленое из вне.
-	           IDirect3DSurface9*  pInterfFromDevice; ///< полученое из девайса. должно быть удалено.
+               IDirect3DSurface9*  pExternalSet; ///< СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕРµ РёР· РІРЅРµ.
+	           IDirect3DSurface9*  pInterfFromDevice; ///< РїРѕР»СѓС‡РµРЅРѕРµ РёР· РґРµРІР°Р№СЃР°. РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ СѓРґР°Р»РµРЅРѕ.
       };
 
   RenderTargetStack() 
@@ -46,25 +45,25 @@ public:
 	  m_stackpos=0-1; memset( m_arr, 0, sizeof(m_arr) ); 
   };
 
-//! \brief стек пуст ?
+//! \brief СЃС‚РµРє РїСѓСЃС‚ ?
 bool empty() const { return  m_stackpos < 0; };
-//! \brief стек  под завязку заполнен ?
+//! \brief СЃС‚РµРє  РїРѕРґ Р·Р°РІСЏР·РєСѓ Р·Р°РїРѕР»РЅРµРЅ ?
 bool full()  const { return  m_stackpos >=GB_D3D9_RENDERTARGETSTACK_MAX_LEN-1;  };
-//! \brief  получить текущий размер стека 
+//! \brief  РїРѕР»СѓС‡РёС‚СЊ С‚РµРєСѓС‰РёР№ СЂР°Р·РјРµСЂ СЃС‚РµРєР° 
 int  size()  const { return  m_stackpos + 1; };
-//! \brief очистить стек .
+//! \brief РѕС‡РёСЃС‚РёС‚СЊ СЃС‚РµРє .
 void clear() ;
 
-/** \brief Установить поверхность как текущую отрисовку. 
-Поверхность должна быть создана  с флагом rendertarget */
+/** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РїРѕРІРµСЂС…РЅРѕСЃС‚СЊ РєР°Рє С‚РµРєСѓС‰СѓСЋ РѕС‚СЂРёСЃРѕРІРєСѓ. 
+РџРѕРІРµСЂС…РЅРѕСЃС‚СЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃРѕР·РґР°РЅР°  СЃ С„Р»Р°РіРѕРј rendertarget */
 HRESULT set_current(IDirect3DSurface9* prt, IDirect3DDevice9* pdevice) ;
 
-/** \brief Получить текущую поверхность  (текущий рендертаргет). */ 
+/** \brief РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕРІРµСЂС…РЅРѕСЃС‚СЊ  (С‚РµРєСѓС‰РёР№ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚). */ 
 HRESULT get_current(IDirect3DSurface9** ppOut , IDirect3DDevice9* pdevice);
 
-//! \brief  Положить текущую поврхность (текущий рендертаргет ) в стек. 
+//! \brief  РџРѕР»РѕР¶РёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕРІСЂС…РЅРѕСЃС‚СЊ (С‚РµРєСѓС‰РёР№ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚ ) РІ СЃС‚РµРє. 
 HRESULT push(IDirect3DDevice9* pdevice) ;
-//! \brief  Восстановить текущую поврхность (текущий рендертаргет ). 
+//! \brief  Р’РѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕРІСЂС…РЅРѕСЃС‚СЊ (С‚РµРєСѓС‰РёР№ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚ ). 
 HRESULT pop(IDirect3DDevice9* pdevice) ;
 
 private:

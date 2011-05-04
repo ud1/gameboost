@@ -1,8 +1,9 @@
-/** \file  DAPLIB_RTarget_impl.h
- \brief  реализация интерфейса рендертаргет 
+п»ї/** \file  DAPLIB_RTarget_impl.h
+ \brief  СЂРµР°Р»РёР·Р°С†РёСЏ РёРЅС‚РµСЂС„РµР№СЃР° СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚ 
 
- \todo переименовать класс DAPLIB_RTarget в RenderTarget
-  \todo убрать MONPRINTB
+ \todo РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ РєР»Р°СЃСЃ DAPLIB_RTarget РІ RenderTarget
+  \todo СѓР±СЂР°С‚СЊ MONPRINTB
+
 
 */
 
@@ -16,11 +17,17 @@
 ////#include "dapplLibr_rendertarget.h"
 #include <gb/graphics/d3d9/rt/rendertarget.h>
 
-//! УБРАТЬ !!!!!!!!!!!
+//! РЈР‘Р РђРўР¬ !!!!!!!!!!!
 #define MONPRINTB(m)
 
 
-//* \brief  реализация рендертаргетов
+namespace gb {
+ namespace graphics {
+  namespace d3d9 { 
+   namespace rt {
+
+
+//* \brief  СЂРµР°Р»РёР·Р°С†РёСЏ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚РѕРІ
 class RenderTarget  : public IRenderTarget {
 public:
    	
@@ -28,12 +35,12 @@ public:
 	const UINT m_height;
 
 
-	/** \brief В конструкторе передать требуемую ширину и высоту. 
-	 \param width - [in] требуемая ширина. Если ноль, то будет использован размер заднего буфера.
-	 \param height - [in] требуемая высота. Если ноль, то будет использован размер заднего буфера. 
-	 \param pdevice - [in] девайс.
-	 \param format - [in]  Формат поверхнсти. Если D3DFMT_UNKNOWN, 
-	            то будет использован формат заднего буфера. 	*/
+	/** \brief Р’ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРµ РїРµСЂРµРґР°С‚СЊ С‚СЂРµР±СѓРµРјСѓСЋ С€РёСЂРёРЅСѓ Рё РІС‹СЃРѕС‚Сѓ. 
+	 \param width - [in] С‚СЂРµР±СѓРµРјР°СЏ С€РёСЂРёРЅР°. Р•СЃР»Рё РЅРѕР»СЊ, С‚Рѕ Р±СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅ СЂР°Р·РјРµСЂ Р·Р°РґРЅРµРіРѕ Р±СѓС„РµСЂР°.
+	 \param height - [in] С‚СЂРµР±СѓРµРјР°СЏ РІС‹СЃРѕС‚Р°. Р•СЃР»Рё РЅРѕР»СЊ, С‚Рѕ Р±СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅ СЂР°Р·РјРµСЂ Р·Р°РґРЅРµРіРѕ Р±СѓС„РµСЂР°. 
+	 \param pdevice - [in] РґРµРІР°Р№СЃ.
+	 \param format - [in]  Р¤РѕСЂРјР°С‚ РїРѕРІРµСЂС…РЅСЃС‚Рё. Р•СЃР»Рё D3DFMT_UNKNOWN, 
+	            С‚Рѕ Р±СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅ С„РѕСЂРјР°С‚ Р·Р°РґРЅРµРіРѕ Р±СѓС„РµСЂР°. 	*/
 	RenderTarget(const UINT nWidth, const UINT nHeight, IDirect3DDevice9* pdevice, _out HRESULT& hr) 
 		:  m_width(nWidth), m_height(nHeight), m_pdevice(pdevice)     
 		//  IDAPLIB_RenderTarget(  nWidth,   nHeight)
@@ -84,15 +91,15 @@ public:
 
     virtual HRESULT  ValidateInterfaces() const;
 	
-	//-------------------------------------
+	//---------------------------------------------------------------------
 
 	virtual HRESULT  CreateInterfeces(IDirect3DDevice9* pdevice) {
 		 HRESULT hr =0;
  
-	   hr |=  DAPLIB_RT_CreateInterfaces( &m_pISurface, &m_pITexture,   pdevice, 
-			  m_width, m_height,
-			  getFormat()
-			 );
+    hr |=  CreateRenderTargetInterfaces( &m_pISurface, &m_pITexture, pdevice,  m_width, m_height,  getFormat()	);
+
+
+
 
 	   if FAILED(hr) {
 		   static const char* ERR_STR = "Error create interfaces";
@@ -123,19 +130,24 @@ public:
 
 protected:
 
-	mutable IDirect3DTexture9*   m_pITexture;  ///< Поверхность в виде текстурного интерфейса 
-	mutable IDirect3DSurface9*  m_pISurface;   ///<  Собственно сам интерфейс поверхности 
+	mutable IDirect3DTexture9*   m_pITexture;  ///< РџРѕРІРµСЂС…РЅРѕСЃС‚СЊ РІ РІРёРґРµ С‚РµРєСЃС‚СѓСЂРЅРѕРіРѕ РёРЅС‚РµСЂС„РµР№СЃР° 
+	mutable IDirect3DSurface9*  m_pISurface;   ///<  РЎРѕР±СЃС‚РІРµРЅРЅРѕ СЃР°Рј РёРЅС‚РµСЂС„РµР№СЃ РїРѕРІРµСЂС…РЅРѕСЃС‚Рё 
 
-	  D3DFORMAT m_format;	///< Формат. Если D3DFMT_UNKNOWN то будет формат заднего буфера.
+	  D3DFORMAT m_format;	///< Р¤РѕСЂРјР°С‚. Р•СЃР»Рё D3DFMT_UNKNOWN С‚Рѕ Р±СѓРґРµС‚ С„РѕСЂРјР°С‚ Р·Р°РґРЅРµРіРѕ Р±СѓС„РµСЂР°.
 
-	mutable bool m_bUsed; ///< используется ли в настоящий момент для отрисовки
+	mutable bool m_bUsed; ///< РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р»Рё РІ РЅР°СЃС‚РѕСЏС‰РёР№ РјРѕРјРµРЅС‚ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё
 	IDirect3DDevice9* m_pdevice;
 
 	
 };
 // end class
 
+//-------------------------------------------------------------------------
 
+} // end namespace
+} // end namespace
+} // end namespace
+} // end namespace
 
 #endif   // #if ( defined(WIN32) && defined(GB_D3D9) )
 // end file

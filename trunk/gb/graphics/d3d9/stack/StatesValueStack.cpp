@@ -1,4 +1,4 @@
-// OK !
+О╩©// OK !
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
  
@@ -69,7 +69,7 @@ m_values[m_stackpos].nNumUsed = num;
 
 m_stackpos++;
 
-#pragma message(" опнбепхрэ йнд !!!!")
+#pragma message(" п÷п═п·п▓п∙п═п≤п╒п╛ п п·п■ !!!!")
   return hr;
 };
 
@@ -113,7 +113,7 @@ HRESULT StatesValueStack::pop(IDirect3DDevice9* pdevice )
 
   m_stackpos--;
 
-  #pragma message(" опнбепхрэ йнд !!!!")
+  #pragma message(" п÷п═п·п▓п∙п═п≤п╒п╛ п п·п■ !!!!")
   return hr;
 };
 

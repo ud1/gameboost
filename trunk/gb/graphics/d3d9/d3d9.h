@@ -17,16 +17,17 @@
 #include <gb/config.h>
 #include <gb/base/Types.h>
 
-
-#include <gb/math/scalar.h>
-#include <gb/math/base.h>
-#include <gb/math/geom3d.h>
-#include <gb/math/geom2d.h>
-
 #include <d3d9.h>
 
+#include <gb/graphics/d3d9/auto_include_libr.h>
 
-//* пока это пустышка.  Спецификация экспорта функций. 
+#ifdef GB_MATH
+  #include <gb/math/math.h>
+#endif
+
+
+
+//! \brief  пока это пустышка.  Спецификация экспорта функций. 
 #define GB_D3D9_API
 
 
@@ -39,14 +40,14 @@ namespace gb
   namespace d3d9 
   {
 
-//--------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------
 
 
 
   
   
   
-//--------------------------------------------------------------------------------------  
+//-------------------------------------------------------------------------  
 
   } // end ns d3d9
  } // end ns graphics

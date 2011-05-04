@@ -1,6 +1,5 @@
-/** \file ViewportStack.h
+п»ї/** \file ViewportStack.h
  \brief 
-
 
   // OK !
 
@@ -30,7 +29,7 @@ namespace stack {
 //-------------------------------------------------------------------------
 
 
-//* \brief Стек вьюпортов для устройства d3d9 .
+//* \brief РЎС‚РµРє РІСЊСЋРїРѕСЂС‚РѕРІ РґР»СЏ СѓСЃС‚СЂРѕР№СЃС‚РІР° d3d9 .
 class ViewPortStack {
 public:
     ViewPortStack() { }
@@ -96,7 +95,7 @@ void setTopPVal(const D3DVIEWPORT9* pViewport)
 private:
   std::stack<D3DVIEWPORT9> m_stack;
 
-  //! бросить исключение
+  //! Р±СЂРѕСЃРёС‚СЊ РёСЃРєР»СЋС‡РµРЅРёРµ
   void throw_err(const char* msg) const
   {
 	  throw std::runtime_error(msg);

@@ -1,7 +1,8 @@
-#if ( defined(WIN32) && defined(GB_D3D9) )
+п»ї#if ( defined(WIN32) && defined(GB_D3D9) )
 
 //#include "dappllibrary_stdafx.h"
 //#include "ksut_macro.h"
+
 
 #include <gb/macro.h>
 
@@ -27,6 +28,13 @@
  ComputeSurfacePixelColorObject g_ComputeSurfacePixelColorObject;
 #endif
 
+
+namespace gb {
+namespace graphics {
+namespace d3d9 { 
+namespace rt {
+
+
 HRESULT __CPPI_Init();
 
 //* global device  
@@ -39,10 +47,10 @@ static IDirect3DSurface9* g_pISrfFrameDraw = NULL;
 
 
 
-//* \brief пул рендертаргетов 
+//* \brief РїСѓР» СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚РѕРІ 
 class RenderTargetsPool {
 private:
-     IRenderTarget* m_arr[DAPPL_MAX_RENDERTARGETS_ONPOOL] ;  
+     IRenderTarget* m_arr[GB_D3D9_MAX_RENDERTARGETS_ONPOOL] ;  
 
 
 public:
@@ -64,7 +72,7 @@ public:
 	HRESULT DeleteAllRenderTargets() {
 	  HRESULT hr =0;
 
-	  for(int c=0; c<DAPPL_MAX_RENDERTARGETS_ONPOOL; c++) {
+	  for(int c=0; c<GB_D3D9_MAX_RENDERTARGETS_ONPOOL; c++) {
 	    IRenderTarget* pcurr = NULL;
 		pcurr = m_arr[c];
 
@@ -79,7 +87,7 @@ public:
 
 	//------------------------------------------------
 	unsigned int FindNullIndex() {
-		 for(unsigned int c=0; c<DAPPL_MAX_RENDERTARGETS_ONPOOL; c++) {
+		 for(unsigned int c=0; c<GB_D3D9_MAX_RENDERTARGETS_ONPOOL; c++) {
 		   if( m_arr[c] == NULL )
 			    return c;
 
@@ -106,7 +114,7 @@ public:
 
 				IRenderTarget* prt = NULL;
 
-				for(int c=0; c<DAPPL_MAX_RENDERTARGETS_ONPOOL; c++) {
+				for(int c=0; c<GB_D3D9_MAX_RENDERTARGETS_ONPOOL; c++) {
 				  
 				   prt = m_arr[c];
 
@@ -147,7 +155,7 @@ public:
 
 
 				  // not found !!create
-				  for(int c=0; c<DAPPL_MAX_RENDERTARGETS_ONPOOL; c++) {
+				  for(int c=0; c<GB_D3D9_MAX_RENDERTARGETS_ONPOOL; c++) {
 					 prt = NULL;
 
 
@@ -206,7 +214,7 @@ public:
 
 
 	//-----------------------------------------------------------
-	HRESULT GetUnused(IRenderTarget** ppOut,  const DAPLIB_RT_SIZE_ENM eSize, IDirect3DDevice9* pdevice) {
+	HRESULT GetUnused(IRenderTarget** ppOut,  const RENDERTARGET_SIZE_ENUM eSize, IDirect3DDevice9* pdevice) {
 		HRESULT hr =0;
 
 		*ppOut = NULL;
@@ -222,7 +230,7 @@ public:
 		   UINT  w  = 0; 
 		   UINT  h  = 0;
 
-		   hr |= DAPLIB_RT_ComputeNeedRtSize(w, h, eSize, g_D3DSURFACE_DESC.Width, g_D3DSURFACE_DESC.Height );
+		   hr |= ComputeNeedRtSize(w, h, eSize, g_D3DSURFACE_DESC.Width, g_D3DSURFACE_DESC.Height );
 		   if FAILED(hr) 
 			   {
 					 GB_MONPRINT("Incorrect input data \n");
@@ -238,7 +246,7 @@ public:
 HRESULT SetUnusedAll() {
   HRESULT hr =0;
 
-  for(unsigned int c=0; c<DAPPL_MAX_RENDERTARGETS_ONPOOL; c++) {
+  for(unsigned int c=0; c<GB_D3D9_MAX_RENDERTARGETS_ONPOOL; c++) {
 	 IRenderTarget* prt = m_arr[c];
 	 if(prt) {
 
@@ -295,8 +303,8 @@ static HRESULT  __CPPI_DeviceCritResRel (void* pUserData )
 
 
 //======================================================================
-HRESULT  DAPLIB_RT_ComputeNeedRtSize(_out UINT& nOutWidth, _out UINT& nOutHeight, 
-										const DAPLIB_RT_SIZE_ENM eSize, 
+HRESULT  ComputeNeedRtSize(_out UINT& nOutWidth, _out UINT& nOutHeight, 
+										const RENDERTARGET_SIZE_ENUM eSize, 
 										const UINT nScreenWidth, const UINT nScreenHeight)
 {
    HRESULT hr =0 ;
@@ -330,13 +338,17 @@ switch (eSize) {
 
 
 //=========================================================================
-HRESULT DAPLIB_RT_CreateInterfaces(IDirect3DSurface9** ppOutISrf, IDirect3DTexture9** ppOutITxtr, IDirect3DDevice9* pdevice, 
-									  const UINT nWidth, const UINT nHeight, const D3DFORMAT frmt  ) 
+DAPP_RT_API CreateRenderTargetInterfaces(_out IDirect3DSurface9** ppOutISrf,
+									   _out IDirect3DTexture9** ppOutITxtr, 
+									   IDirect3DDevice9* pdevice, 
+									   const UINT nWidth, 
+									   const UINT nHeight, 
+									   const D3DFORMAT frmt )
 {
 		HRESULT hr=0;
 			hr |= __CPPI_Init(); GB_RETFAIL
 
-		//* текущие ширина и высота
+		//* С‚РµРєСѓС‰РёРµ С€РёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р°
 		UINT currW = nWidth; 
 		UINT currH = nHeight;
  
@@ -418,7 +430,7 @@ HRESULT DAPLIB_RT_CreateInterfaces(IDirect3DSurface9** ppOutISrf, IDirect3DTextu
 };
 
 //===============================================
-DAPP_RT_API DAPLIB_RT_SetDevice(IDirect3DDevice9* pdevice) {
+DAPP_RT_API RenderTargetSetDevice(IDirect3DDevice9* pdevice) {
 	HRESULT hr =0;
 	hr |= __CPPI_Init(); GB_RETFAIL
 
@@ -450,7 +462,7 @@ DAPP_RT_API DAPLIB_RT_SetBackBufFrameDrawIntrfPtr(IDirect3DSurface9* psurf) {
 
 //================================================
 DAPP_RT_API DAPLIB_RT_GetUnusedRenderTarget(_out IRenderTarget** ppOut, 
-											  const DAPLIB_RT_SIZE_ENM eSize) 
+											  const RENDERTARGET_SIZE_ENUM eSize) 
 {
  HRESULT hr =0;
  hr |= __CPPI_Init(); GB_RETFAIL
@@ -591,6 +603,13 @@ static HRESULT __CPPI_Init()
 }
 
  
+
+
+} // end ns
+} // end ns
+} // end ns
+} // end ns
+
 
 #endif  // #if ( defined(WIN32) && defined(GB_D3D9) )
 // end file

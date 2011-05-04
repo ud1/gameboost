@@ -1,19 +1,29 @@
-/**   \file 
- \brief Класс на основе интерфейса устройства d3d9. Для облегчения написания  кода.
+п»ї/**   \file Device.h
+ \brief РљР»Р°СЃСЃ РЅР° РѕСЃРЅРѕРІРµ РёРЅС‚РµСЂС„РµР№СЃР° СѓСЃС‚СЂРѕР№СЃС‚РІР° d3d9. Р”Р»СЏ РѕР±Р»РµРіС‡РµРЅРёСЏ РЅР°РїРёСЃР°РЅРёСЏ  РєРѕРґР°.
+
 
 
   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
 */
 
-#if ( defined(GB_D3D9) && defined(WIN32) )
+#ifdef WIN32
+#ifdef GB_D3D9
+ 
 
 #pragma once
 #define __GB_D3D9_DEVICE_H__
 
-#include <gb/base/Types.h>
+
 #include <gb/config.h>
+#include <gb/base/Types.h>
 
 #include <d3d9.h>
+
+#ifdef GB_MATH
+  #include <gb/math/math.h>
+  using namespace gb::math::base;
+  using namespace gb::math::geom3d;
+#endif
 
 namespace gb 
 {
@@ -25,39 +35,70 @@ namespace gb
 //--------------------------------------------------------------------------
 
 
-      /** \brief Класс на основе интерфейса устройства d3d9. Для облегчения написания  кода. */
+      /** \brief РљР»Р°СЃСЃ РЅР° РѕСЃРЅРѕРІРµ РёРЅС‚РµСЂС„РµР№СЃР° СѓСЃС‚СЂРѕР№СЃС‚РІР° d3d9. Р”Р»СЏ РѕР±Р»РµРіС‡РµРЅРёСЏ РЅР°РїРёСЃР°РЅРёСЏ  РєРѕРґР°. */
 	  class Device {
 	  public:
-		  IDirect3DDevice9* dvc; /// Указатель на устройство.
+		  IDirect3DDevice9* dvc; /// РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СѓСЃС‚СЂРѕР№СЃС‚РІРѕ.
 
 		  inline Device(IDirect3DDevice9* pdevice) : dvc(pdevice)     {}
 		  inline Device(const Device& device)      : dvc(device.dvc)  {}
 
-          //! \brief "стрелочкой" получение указателя на устройство.
+          //! \brief "СЃС‚СЂРµР»РѕС‡РєРѕР№" РїРѕР»СѓС‡РµРЅРёРµ СѓРєР°Р·Р°С‚РµР»СЏ РЅР° СѓСЃС‚СЂРѕР№СЃС‚РІРѕ.
 		  inline IDirect3DDevice9* operator -> () const { return dvc; }
  
 
-//! \brief  ПОЛНАЯ ОЧИСТКА девайса перед отрисовка кадра .
-inline HRESULT сlearFull(D3DCOLOR color=0) { return dvc->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0); }
-//! \brief Очистка только Z-буфера .
-inline HRESULT сlearZBuffer() {  return dvc->Clear(0, NULL,  D3DCLEAR_ZBUFFER, 0xFFFFFFFF, 1.0f, 0);  }
-//! \brief Очистка только  поверхности устройства.
-inline HRESULT сlearTraget(D3DCOLOR color) { return dvc->Clear(0, NULL, D3DCLEAR_TARGET, color, 1.0f, 0); }
-//! \brief Заполнить прямоугольник цветом методом очистки.  
+ 
+//! \brief  РџРћР›РќРђРЇ РћР§РРЎРўРљРђ РґРµРІР°Р№СЃР° РїРµСЂРµРґ РѕС‚СЂРёСЃРѕРІРєР° РєР°РґСЂР° .
+inline HRESULT clearFull(D3DCOLOR color=0) { return dvc->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0); }
+//! \brief РћС‡РёСЃС‚РєР° С‚РѕР»СЊРєРѕ Z-Р±СѓС„РµСЂР° .
+inline HRESULT clearZBuffer() {  return dvc->Clear(0, NULL,  D3DCLEAR_ZBUFFER, 0xFFFFFFFF, 1.0f, 0);  }
+//! \brief РћС‡РёСЃС‚РєР° С‚РѕР»СЊРєРѕ  РїРѕРІРµСЂС…РЅРѕСЃС‚Рё СѓСЃС‚СЂРѕР№СЃС‚РІР°.
+inline HRESULT clearTarget(D3DCOLOR color) { return dvc->Clear(0, NULL, D3DCLEAR_TARGET, color, 1.0f, 0); }
+ 
+
+//! \brief Р—Р°РїРѕР»РЅРёС‚СЊ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє С†РІРµС‚РѕРј РјРµС‚РѕРґРѕРј РѕС‡РёСЃС‚РєРё.  
 inline HRESULT clearRect(const D3DRECT& rec, const D3DCOLORVALUE& col) { return dvc->Clear(1 ,  &rec , D3DCLEAR_TARGET, D3DCOLOR_COLORVALUE(col.r, col.g, col.b, col.a), 1.0f, 0); }
 
+ 
+
+//! \brief РІРєР»СЋС‡РёС‚СЊ/РѕС‚РєР»СЋС‡РёС‚СЊ Z-Р±СѓС„РµСЂ
+inline HRESULT set_Zenable      (bool val) { if(val) return dvc->SetRenderState(D3DRS_ZENABLE,1); return dvc->SetRenderState(D3DRS_ZENABLE,0); };
+//! \brief РІРєР»СЋС‡РёС‚СЊ/РѕС‚РєР»СЋС‡РёС‚СЊ Р·Р°РїРёСЃСЊ РІ Z-Р±СѓС„РµСЂ
+inline HRESULT set_ZWriteEnable (bool val) { if(val) return dvc->SetRenderState(D3DRS_ZWRITEENABLE,1); return dvc->SetRenderState(D3DRS_ZWRITEENABLE,0); };
+
+//! \brief   РІРєР»СЋС‡РёС‚СЊ/РІС‹РєР»СЋС‡РёС‚СЊ Р°Р»СЊС„Р°-СЃРјРµС€РёРІР°РЅРёРµ.
+inline HRESULT set_AlphaBlendeble(bool val) {if(val) return dvc->SetRenderState(D3DRS_ALPHABLENDENABLE,1); return dvc->SetRenderState(D3DRS_ALPHABLENDENABLE,0); };
+
+inline bool get_Zenable() const  {
+	DWORD val;
+	HRESULT hr = dvc->GetRenderState(D3DRS_ZENABLE, &val);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	if(val) return true;   return false;
+}
+
+inline bool get_ZWriteEnable() const  {
+	DWORD val;
+	HRESULT hr = dvc->GetRenderState(D3DRS_ZWRITEENABLE, &val);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	if(val) return true;   return false;
+}
+
+inline bool get_AlphaBlendeble() const  {
+	DWORD val;
+	HRESULT hr = dvc->GetRenderState(D3DRS_ALPHABLENDENABLE, &val);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	if(val) return true;   return false;
+}
+
+HRESULT setFillMode_POINT()      { return dvc->SetRenderState(D3DRS_FILLMODE,  D3DFILL_POINT); }
+HRESULT setFillMode_WIREFRAME()  { return dvc->SetRenderState(D3DRS_FILLMODE,  D3DFILL_WIREFRAME); }
+HRESULT setFillMode_SOLID()      { return dvc->SetRenderState(D3DRS_FILLMODE,  D3DFILL_SOLID); }
 
 
-//! \brief включить/отключить Z-буфер
-inline HRESULT set_Zenable      (bool val) { if(val) return dvc->SetRenderState(D3DRS_ZENABLE,1); return dvc->SetRenderState(D3DRS_ZENABLE,0); }
-//! \brief включить/отключить запись в Z-буфер
-inline HRESULT set_ZWriteEnable (bool val) { if(val) return dvc->SetRenderState(D3DRS_ZWRITEENABLE,1); return dvc->SetRenderState(D3DRS_ZWRITEENABLE,0); }
-
-//! \brief   включить/выключить альфа-смешивание.
-inline HRESULT set_AlphaBlendeble(bool val) {if(val) return dvc->SetRenderState(D3DRS_ALPHABLENDENABLE,1); return dvc->SetRenderState(D3DRS_ALPHABLENDENABLE,0); }
+ 
 
 
-//! \brief Включение альфасмешивания по стандартной схеме 
+//! \brief Р’РєР»СЋС‡РµРЅРёРµ Р°Р»СЊС„Р°СЃРјРµС€РёРІР°РЅРёСЏ РїРѕ СЃС‚Р°РЅРґР°СЂС‚РЅРѕР№ СЃС…РµРјРµ 
 inline HRESULT set_EnableStdAlphaBlending() 
 {
 	HRESULT hr =  dvc->SetRenderState(D3DRS_ALPHABLENDENABLE,1);
@@ -66,14 +107,44 @@ inline HRESULT set_EnableStdAlphaBlending()
 	return hr;
 };
 
+
 inline HRESULT set_CullModeNone() {	return dvc->SetRenderState( D3DRS_CULLMODE , D3DCULL_NONE ); }
 inline HRESULT set_CullModeCW()   { return dvc->SetRenderState( D3DRS_CULLMODE , D3DCULL_CW   ); }
 inline HRESULT set_CullModeCCW()  { return dvc->SetRenderState( D3DRS_CULLMODE , D3DCULL_CCW  ); }
 
+inline HRESULT get_CullMode() const {
+	D3DCULL val;
+	HRESULT hr=dvc->GetRenderState( D3DRS_CULLMODE , (DWORD*)&val );
+	return val;
+}
 
 
+#ifdef GB_MATH
 
-/** \brief Установить в девайс трансформацию. В каждый параметр можно передать NULL если изменять не нужно. */
+inline mat44_s getTransformWorld() const {
+	mat44_s res;
+	HRESULT hr=dvc->GetTransform( D3DTS_WORLD , res );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+}
+
+inline mat44_s getTransformView() const {
+	mat44_s res;
+	HRESULT hr=dvc->GetTransform( D3DTS_VIEW , res );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+}
+
+inline mat44_s getTransformProj() const {
+	mat44_s res;
+	HRESULT hr=dvc->GetTransform( D3DTS_PROJECTION , res );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+}
+
+#endif // GB_MATH
+
+/** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РІ РґРµРІР°Р№СЃ С‚СЂР°РЅСЃС„РѕСЂРјР°С†РёСЋ. Р’ РєР°Р¶РґС‹Р№ РїР°СЂР°РјРµС‚СЂ РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ NULL РµСЃР»Рё РёР·РјРµРЅСЏС‚СЊ РЅРµ РЅСѓР¶РЅРѕ. */
 inline HRESULT setTransform(const D3DMATRIX* mWorld, const D3DMATRIX* mView, const D3DMATRIX* mProj)
 {
 	HRESULT hr =0;
@@ -83,7 +154,7 @@ inline HRESULT setTransform(const D3DMATRIX* mWorld, const D3DMATRIX* mView, con
 	return hr;
 }
 
-//! \brief Получить трансформацию из устройства.  В каждый параметр можно передать NULL если получать не нужно.
+//! \brief РџРѕР»СѓС‡РёС‚СЊ С‚СЂР°РЅСЃС„РѕСЂРјР°С†РёСЋ РёР· СѓСЃС‚СЂРѕР№СЃС‚РІР°.  Р’ РєР°Р¶РґС‹Р№ РїР°СЂР°РјРµС‚СЂ РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ NULL РµСЃР»Рё РїРѕР»СѓС‡Р°С‚СЊ РЅРµ РЅСѓР¶РЅРѕ.
 inline HRESULT getTransform( D3DMATRIX* mOutWorld, D3DMATRIX* mOutView, D3DMATRIX* mOutProj )
 {
 	HRESULT hr =0;
@@ -94,8 +165,224 @@ inline HRESULT getTransform( D3DMATRIX* mOutWorld, D3DMATRIX* mOutView, D3DMATRI
 }
 
 
+inline D3DMATERIAL9 getMaterial() const {
+    D3DMATERIAL9 res;
+	HRESULT hr = dvc->GetMaterial(&res);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+}
+
+HRESULT setMaterial(const D3DMATERIAL9& mat) const {
+	HRESULT hr = dvc->SetMaterial( (D3DMATERIAL9*)&mat.Diffuse.r );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return  hr;
+}
+
+RECT getScissorRect() const  {
+	RECT res;
+	HRESULT hr = dvc->GetScissorRect(&res);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+    return res;
+}
+
+HRESULT setScissorRect(const RECT& r) {
+	 RECT rect = r;
+	 HRESULT hr = dvc->SetScissorRect(&rect);
+};
+
+UINT getStreamSourceFreq(UINT StreamNumber) {
+    UINT res = 0;
+	HRESULT hr = dvc->GetStreamSourceFreq(StreamNumber, &res);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+};
 
 
+IDirect3DSurface9* getBackBuffer() {
+   IDirect3DSurface9* res = NULL;
+   HRESULT hr = dvc->GetBackBuffer( 0 , 0, D3DBACKBUFFER_TYPE_MONO, &res  );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+};
+
+D3DSURFACE_DESC getBackBufferDescr() {
+  D3DSURFACE_DESC res;
+    IDirect3DSurface9* pbbuf = getBackBuffer();
+	HRESULT hr = pbbuf->GetDesc(&res);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+};
+
+
+ 
+#ifdef GB_MATH
+
+plane_s getClipPlane(DWORD index) {
+	plane_s res;
+	HRESULT hr = dvc->GetClipPlane( index , res );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+};
+
+HRESULT  setClipPlane(DWORD index, const plane_s& pln) {
+	HRESULT hr = dvc->SetClipPlane( index, pln );
+	return hr;
+};
+
+#endif
+ 
+ 
+
+class StreamSourceData {
+public:
+	const UINT nStreamNumber;
+	IDirect3DVertexBuffer9* pStreamData;
+	UINT nOffsetInBytes;
+	UINT nStride;
+
+	StreamSourceData(UINT _nStreamNumber) :nStreamNumber(_nStreamNumber)  
+	{ 
+		 nOffsetInBytes=nStride=0; pStreamData=NULL; 
+	}
+
+	StreamSourceData(const StreamSourceData& ssd) : nStreamNumber(ssd.nStreamNumber)
+	{
+		pStreamData = ssd.pStreamData;
+		nOffsetInBytes = ssd.nOffsetInBytes;
+		nStride = ssd.nStride;
+	}
+
+
+};
+
+
+StreamSourceData getStreamSourceData(UINT nStreamNumber) const {
+	StreamSourceData res(nStreamNumber);
+	HRESULT hr = dvc->GetStreamSource(res.nStreamNumber, &res.pStreamData, &res.nOffsetInBytes, &res.nStride);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+}
+
+HRESULT setStreamSourceData(const StreamSourceData& ssd) {
+	HRESULT hr = dvc->SetStreamSource(ssd.nStreamNumber, ssd.pStreamData, ssd.nOffsetInBytes, ssd.nStride);
+	return hr;
+};
+
+
+DWORD getFvf() const {
+	DWORD res;
+	HRESULT hr = dvc->GetFVF(&res);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+} 
+
+IDirect3DIndexBuffer9* getIndexBuffer() const {
+	IDirect3DIndexBuffer9* res;
+	HRESULT hr = dvc->GetIndices( &res );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res; 
+};
+
+
+HRESULT setIndexBuffer(IDirect3DIndexBuffer9 * pIndxBuffer) const {
+   return dvc->SetIndices(pIndxBuffer);
+}; 
+
+D3DLIGHT9 getLight(DWORD index) const  {
+    D3DLIGHT9 res;
+	HRESULT hr = dvc->GetLight(index, &res);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+};
+
+
+HRESULT setLight(DWORD indx, const D3DLIGHT9& lght) {
+    HRESULT hr = setLight(indx, lght);
+    return hr;
+};
+
+bool getLightEnable( DWORD index ) const {
+	BOOL res = FALSE;
+	HRESULT hr = dvc->GetLightEnable(index, &res);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	if(res) return true; return false;
+}; 
+
+HRESULT setLightEnable( DWORD index, bool val ) const {
+	BOOL res = FALSE;
+	HRESULT hr = dvc->LightEnable( index, (BOOL)val );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return hr;
+}; 
+
+ 
+BOOL getVertexShaderConstBool(UINT nStartRegister) {
+	BOOL res;
+	HRESULT hr = dvc->GetVertexShaderConstantB( nStartRegister, &res, 1 );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+}
+
+#ifdef GB_MATH
+
+vec4_s getVertexShaderConstVec4(UINT nStartRegister) {
+	vec4_s res;
+	HRESULT hr = dvc->GetVertexShaderConstantF(nStartRegister , res, 1);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+};
+
+mat44_s getVertexShaderConstMatrix4x4(UINT nStartRegister) {
+	mat44_s res;
+	HRESULT hr = dvc->GetVertexShaderConstantF(nStartRegister , res,  4 );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+};
+
+
+HRESULT getVertexShaderConstMatrix4x4_arg(mat44_s* pmOut, UINT nStartRegister) {
+	HRESULT hr = dvc->GetVertexShaderConstantF(nStartRegister , &pmOut->_11,  4 );
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return  hr;
+};
+
+#endif // GB_MATH
+
+
+
+// =============== end shaders ==========================
+
+
+D3DVIEWPORT9 getViewport() {
+	D3DVIEWPORT9 res;
+	HRESULT hr = dvc->GetViewport(&res);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+};
+
+HRESULT setViewport(const D3DVIEWPORT9& vp) {
+	HRESULT hr = dvc->SetViewport( (D3DVIEWPORT9*)&vp.X);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return hr;
+};
+
+IDirect3DBaseTexture9* getTexture(DWORD nStage) const {
+   IDirect3DBaseTexture9* res= NULL;
+	HRESULT hr = dvc->GetTexture(nStage, &res);
+	if FAILED(hr) throw std::runtime_error("Failed operation");
+	return res;
+};
+
+HRESULT setTexture(DWORD nStage, IDirect3DBaseTexture9* pTxtr) {
+   HRESULT hr = dvc->SetTexture( nStage, pTxtr);
+   if FAILED(hr) throw std::runtime_error("Failed operation");
+   return  hr;
+};
+
+ 
+
+
+ 
 
 
 
@@ -111,11 +398,15 @@ inline HRESULT getTransform( D3DMATRIX* mOutWorld, D3DMATRIX* mOutView, D3DMATRI
 
 
 
-//-------------------------------------------------------------------------- 
+//------------------------------------------------------------------------- 
 
-  } // end ns d3d9
- } // end ns graphics
-} // end ns gb
+  } // end namespace d3d9
+ } // end namespace graphics
+} // end namespace gb
 
-#endif // #if ( defined(GB_D3D9) && defined(WIN32) )
+
+#endif  GB_D3D9
+#endif  WIN32
+
+
 // end file

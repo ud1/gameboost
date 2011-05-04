@@ -3,7 +3,11 @@
 * 
 * \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586 
 *
+
 *
+ \todo  Добавить функции:
+        uicolor32_t  rgba_to_argb(uicolor32_t val);  uicolor32_t  argb_to_rgba(uicolor32_t val)
+
 *   Поправлен кодстайл.. Прочие незначительные поправки улучшающие читаемость .
 */
 

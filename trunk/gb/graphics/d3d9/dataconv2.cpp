@@ -1,4 +1,4 @@
-
+﻿
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
   #include <gb/graphics/d3d9/dataconv.h>
@@ -6,6 +6,7 @@
 
   #pragma warning(push)
   #pragma warning(disable : 4996)
+
 
 
   namespace gb

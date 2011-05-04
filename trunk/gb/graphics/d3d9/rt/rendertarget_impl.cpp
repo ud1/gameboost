@@ -1,4 +1,4 @@
-
+Ôªø
 
 //#include "dappllibrary_stdafx.h"
 //#include "dappllibr.cpp"
@@ -8,10 +8,16 @@
 //#include "DAPLIB_RTarget_impl.h"
 
 
+namespace gb {
+namespace graphics {
+namespace d3d9 { 
+namespace rt {
+
+
+
+
 //=========================================================================
-//
 //	DAPLIB_RTarget
-//
 //=========================================================================
 
 //=========================================================================
@@ -42,9 +48,9 @@ HRESULT  RenderTarget::MakeRenderToBackBuffer()  const
 {
    HRESULT hr = 0;
    
-#pragma message ("¬—“¿¬»“‹  Œƒ ƒÀﬂ ”—“¿ÕŒ¬ » ¬  ŒÕ“≈ —“ "  __FILE__ )
+#pragma message ("–í–°–¢–ê–í–ò–¢–¨ –ö–û–î –î–õ–Ø –£–°–¢–ê–ù–û–í–ö–ò –í –ö–û–ù–¢–ï–ö–°–¢ "  __FILE__ )
 
-	 assert(false&&"¬—“¿¬»“‹  Œƒ ƒÀﬂ ”—“¿ÕŒ¬ » ¬  ŒÕ“≈ —“");
+	 assert(false&&"–í–°–¢–ê–í–ò–¢–¨ –ö–û–î –î–õ–Ø –£–°–¢–ê–ù–û–í–ö–ò –í –ö–û–ù–¢–ï–ö–°–¢");
  
    //if( ( g_pISrfFrameDraw == NULL) || (m_pdevice == NULL) ) 
 	//{
@@ -236,7 +242,12 @@ HRESULT RenderTarget::ValidateInterfaces() const {
 
 
 
+//=========================================================================
 
+} // end namespace
+} // end namespace
+} // end namespace
+} // end namespace
 
 
 // end file

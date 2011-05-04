@@ -1,4 +1,4 @@
-// OK !
+п»ї// OK !
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
@@ -64,23 +64,23 @@ HRESULT RenderTargetStack::get_current(IDirect3DSurface9** ppOut , IDirect3DDevi
 	 return E_FAIL;
  }; 
 
- // проверка сначала на установленый из вне
+ // РїСЂРѕРІРµСЂРєР° СЃРЅР°С‡Р°Р»Р° РЅР° СѓСЃС‚Р°РЅРѕРІР»РµРЅС‹Р№ РёР· РІРЅРµ
   if(  m_arr[m_stackpos].pExternalSet )
   {
    *ppOut = m_arr[m_stackpos].pExternalSet;
    return hr;
   };
 
-  //  проверка на установленый из девайса
+  //  РїСЂРѕРІРµСЂРєР° РЅР° СѓСЃС‚Р°РЅРѕРІР»РµРЅС‹Р№ РёР· РґРµРІР°Р№СЃР°
   if( m_arr[m_stackpos].pInterfFromDevice )
   {
-	  // ворачиваем его
+	  // РІРѕСЂР°С‡РёРІР°РµРј РµРіРѕ
    *ppOut = m_arr[m_stackpos].pInterfFromDevice;
    return hr;
   }
   else
   {
-    // устан из девайса пуст ..читаем из девайса
+    // СѓСЃС‚Р°РЅ РёР· РґРµРІР°Р№СЃР° РїСѓСЃС‚ ..С‡РёС‚Р°РµРј РёР· РґРµРІР°Р№СЃР°
 	  hr |= pdevice->GetRenderTarget( 0 , &m_arr[m_stackpos].pInterfFromDevice );
 	  if FAILED(hr)
 	  {
@@ -115,14 +115,14 @@ HRESULT RenderTargetStack::push(IDirect3DDevice9* pdevice)
 
   if( size() > 0 )
   {
-   // в стеке уже есть элементы
-	  // копируем прежний внешний в будущий
+   // РІ СЃС‚РµРєРµ СѓР¶Рµ РµСЃС‚СЊ СЌР»РµРјРµРЅС‚С‹
+	  // РєРѕРїРёСЂСѓРµРј РїСЂРµР¶РЅРёР№ РІРЅРµС€РЅРёР№ РІ Р±СѓРґСѓС‰РёР№
    m_arr[m_stackpos+1].pExternalSet = m_arr[m_stackpos].pExternalSet;
   
   }
   else
   {
-    // в стеке не элементов. просто зануляем будущий
+    // РІ СЃС‚РµРєРµ РЅРµ СЌР»РµРјРµРЅС‚РѕРІ. РїСЂРѕСЃС‚Рѕ Р·Р°РЅСѓР»СЏРµРј Р±СѓРґСѓС‰РёР№
 	  m_arr[m_stackpos+1].pExternalSet = NULL;
 
   };
@@ -147,9 +147,9 @@ HRESULT RenderTargetStack::pop(IDirect3DDevice9* pdevice) {
    };
 
 
-   // зануляем текущий
+   // Р·Р°РЅСѓР»СЏРµРј С‚РµРєСѓС‰РёР№
   m_arr[m_stackpos].pExternalSet = NULL;
-  // удаляем девайсный
+  // СѓРґР°Р»СЏРµРј РґРµРІР°Р№СЃРЅС‹Р№
    if(m_arr[m_stackpos].pInterfFromDevice)
    {
 	   IDirect3DSurface9* ps = m_arr[m_stackpos].pInterfFromDevice;
@@ -158,10 +158,10 @@ HRESULT RenderTargetStack::pop(IDirect3DDevice9* pdevice) {
     m_arr[m_stackpos].pInterfFromDevice = NULL;
    };
 
- // декремент
+ // РґРµРєСЂРµРјРµРЅС‚
    m_stackpos--;
 
-   // восстановление прежнего если есть
+   // РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РїСЂРµР¶РЅРµРіРѕ РµСЃР»Рё РµСЃС‚СЊ
    if( !empty() )
    {
      if( m_arr[m_stackpos].pExternalSet )
@@ -170,7 +170,7 @@ HRESULT RenderTargetStack::pop(IDirect3DDevice9* pdevice) {
 	 }
 	 else
 	 {
-	     // установленого извне нет. ставим девайсный если есть
+	     // СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕРіРѕ РёР·РІРЅРµ РЅРµС‚. СЃС‚Р°РІРёРј РґРµРІР°Р№СЃРЅС‹Р№ РµСЃР»Рё РµСЃС‚СЊ
 		 if( m_arr[m_stackpos].pInterfFromDevice )
 		 {
 		  hr |=  pdevice->SetRenderTarget( 0, m_arr[m_stackpos].pInterfFromDevice );
@@ -181,7 +181,7 @@ HRESULT RenderTargetStack::pop(IDirect3DDevice9* pdevice) {
    }
    else
    {
-    // пусто.. ничего не делаем
+    // РїСѓСЃС‚Рѕ.. РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј
    
    };
  
