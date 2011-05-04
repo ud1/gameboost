@@ -66,14 +66,25 @@ private:
    float _x;
    float _y;
    
-  inline void __normalize() { float fm = sqrt(_x*_x+_y*_y); _x/=fm; _y/=fm;  }
+  inline void __normalize() 
+  { 
+	  float fm = sqrt(_x*_x+_y*_y); 
+	  _x/=fm; 
+	  _y/=fm;  
+  }
 
 public:
 	// по дефолту нормаль смотрит по Y 
 	Normal2() { _x=0.0f; _y=1.0f;  }
-	Normal2(const Normal2& n) {  _x=n._x;   _y=n._y;  }
+	Normal2(const Normal2& n) {  _x=n._x;   _y=n._y; }
 	
-	Normal2(float x, float y) { _x=x; _y=y; __normalize();  }
+	//! \brief Передавать правильные значения для нормали. Нельзя оба в ноль и т.д.
+	Normal2(float x, float y)  
+	{ 
+		if( (0.0f==_x) && (0.0f==_y) )  throw std::runtime_error("invalid arg");
+		_x=x; _y=y; __normalize(); 
+	}
+
 	Normal2(const base::vec2_s& vn) { *this = vn; }
  
 
@@ -149,6 +160,12 @@ public:
 
 			float x2; ///< кооордината x  нижнего правого  угла . 
 			float y2; ///< координата  y  нижнего правого  угла .
+
+
+			//! \brief Углы прямоугольника
+			struct Corners {
+				base::vec2_s points[4];
+			};
  
 
 			inline Rect() {}
@@ -173,8 +190,9 @@ public:
 
 
 
-#ifdef __GB_TYPES_H__	  
-			inline void set(POINT np1, POINT np2) { x1=(float)np1.x; y1=(float)np1.y; x2=(float)np2.x; y2=(float)np2.y; };
+#ifdef __GB_TYPES_H__	
+
+			inline void set(const POINT& np1, const POINT& np2) { x1=(float)np1.x; y1=(float)np1.y; x2=(float)np2.x; y2=(float)np2.y; };
 			inline void operator = (const RECT& rec) 
 			{
 				x1 = (float)rec.left;
@@ -208,8 +226,10 @@ public:
 			inline void translate(const base::vec2_s& val) { x1+=val.x; y1+=val.y;	x2+=val.x; y2+=val.y; }
 
 #ifdef __GB_TYPES_H__  
+
 			/** \brief Движение координат на указаное значение */
-			inline void translate(const POINT& p) {  translate((float)p.x, (float)p.y);   };
+			inline void translate(const POINT& p) {  translate( (float)p.x, (float)p.y );   }
+
 #endif // #ifdef __GB_TYPES_H__ 
 
 
@@ -218,7 +238,35 @@ public:
 
 			//! \brief Получение высоты прямоуголника   
 			inline float getHeight() const { return (y2-y1); }; 
+
+			//! \brief Получить/установить первичную координату прямоугольника
+			inline base::vec2_s  minCoord() const { base::vec2_s res; res.x=x1; res.y=y1; return res; }
+			inline void          minCoord(base::vec2_s& coord)       
+			{ 
+				x1=coord.x;
+				y1=coord.y;
+			}
 		
+			//! \brief Получить/установить Вторичную координату прямоугольника
+			inline base::vec2_s maxCoord() const { base::vec2_s res; res.x=x2; res.y=y2; return res; }
+			inline void         maxCoord(base::vec2_s& coord)       
+			{ 
+				x2=coord.x;
+				y2=coord.y;
+			}
+
+			// TODO void move(const Normal2& normal, float distance) { }
+
+			//! \brief  Извлечь все 4 вершины прямоугольника.
+			void extractCorners(Corners& _out) 
+			{
+				_out.points[0] = base::vec2_s(x1, y1);
+				_out.points[2] = base::vec2_s(x2, y1);
+				_out.points[3] = base::vec2_s(x2, y2);
+				_out.points[4] = base::vec2_s(x1, y2);
+			}
+
+
 		
 			/** \brief Установить новую позицию по верхнему левому краю прямоугольника. 
 			      Размеры сохраняются. */

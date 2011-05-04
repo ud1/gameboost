@@ -126,14 +126,14 @@ struct face_vertex_s {
 		   sprintf(buf, "%f %f", u, v );
 	   };
 
-	   inline bool fromСstr_vertex_xyz(const char* s)  
+	   inline bool fromCstr_vertex_xyz(const char* s)  
 	   {
 		   int nres = sscanf(s, "%f %f %f", &x, &y, &z);
 		   if(3 != nres) return false;
 		   return true;
 	   };
 
-	   inline bool fromСstr_uv(const char* s) 
+	   inline bool fromCstr_uv(const char* s) 
 	   {
 		   int nres = sscanf(s, "%f %f", &u, &v );
 		   if(2 != nres) return false;

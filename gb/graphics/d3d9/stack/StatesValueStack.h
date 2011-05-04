@@ -1,11 +1,10 @@
-/** \file StatesValueStack.h
- \brief Стек наборов состояний устройства.
-
+п»ї/** \file StatesValueStack.h
+ \brief РЎС‚РµРє РЅР°Р±РѕСЂРѕРІ СЃРѕСЃС‚РѕСЏРЅРёР№ СѓСЃС‚СЂРѕР№СЃС‚РІР°.
 
 
   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
 
-  \todo можно переделать набор состояний не фиксированый размер , а динамический
+  \todo РјРѕР¶РЅРѕ РїРµСЂРµРґРµР»Р°С‚СЊ РЅР°Р±РѕСЂ СЃРѕСЃС‚РѕСЏРЅРёР№ РЅРµ С„РёРєСЃРёСЂРѕРІР°РЅС‹Р№ СЂР°Р·РјРµСЂ , Р° РґРёРЅР°РјРёС‡РµСЃРєРёР№
 
   // OK !
 */
@@ -27,15 +26,15 @@ namespace stack {
 
 //-------------------------------------------------------------------------
 
-//! \brief  размер набора  состояний
+//! \brief  СЂР°Р·РјРµСЂ РЅР°Р±РѕСЂР°  СЃРѕСЃС‚РѕСЏРЅРёР№
 #define  GB_D3D9_STATES_ARR_LEN  32
 
-//! \brief набор состояний для  стека
+//! \brief РЅР°Р±РѕСЂ СЃРѕСЃС‚РѕСЏРЅРёР№ РґР»СЏ  СЃС‚РµРєР°
 class StatesValue {
 public:
    StatesValue() { nNumUsed=0; };
 
- int nNumUsed; ///< сколько использовано.
+ int nNumUsed; ///< СЃРєРѕР»СЊРєРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ.
 
 D3DRENDERSTATETYPE states[GB_D3D9_STATES_ARR_LEN];
 DWORD dwvalues[GB_D3D9_STATES_ARR_LEN];
@@ -49,7 +48,7 @@ DWORD dwvalues[GB_D3D9_STATES_ARR_LEN];
 #define GB_D3D9_STATES_MAX_STACK_LEN 32
 
 
-//! \brief Стек наборов состояний устройства.
+//! \brief РЎС‚РµРє РЅР°Р±РѕСЂРѕРІ СЃРѕСЃС‚РѕСЏРЅРёР№ СѓСЃС‚СЂРѕР№СЃС‚РІР°.
 class StatesValueStack {
 public:
   StatesValueStack() { m_stackpos=0; };

@@ -1,12 +1,14 @@
-/** \file 
-* \brief Рендертаргет для dapplLibr
+п»ї/** \file 
+* \brief Р РµРЅРґРµСЂС‚Р°СЂРіРµС‚ РґР»СЏ dapplLibr
 *
 *
 *
 
+
  \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
  
- \todo убрать __exc_mon
+ \todo СѓР±СЂР°С‚СЊ __exc_mon
+ \todo  РџРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ РјР°РєСЂРѕР»РїСЂРµРґРµР»РµРЅРёСЏ
 */
 
 #if ( defined(WIN32) && defined(GB_D3D9) )
@@ -15,34 +17,40 @@
 #define __GB_D3D9_RENDERTARGET_H__
 
 #include <gb/Config.h>
+#include <gb/base/Types.h>
 
 #include <d3d9.h>
 
-#include <gb/base/Types.h>
-#include <gb/color/color.h>
+#ifdef GB_COLOR
+   #include <gb/color/color.h>
+#endif
+
 #include <gb/base/Rectangle.h>
 
-#include <gb/math/math.h>
+#ifdef GB_MATH
+   #include <gb/math/math.h>
+#endif
 
+// РЈР‘Р РђРўР¬ !!
 #define  __exc_mon __except(1)
 
 
-/// begin макро-метки параметров -------------
+/// begin РјР°РєСЂРѕ-РјРµС‚РєРё РїР°СЂР°РјРµС‚СЂРѕРІ -------------
 
 
-/** \brief Обязательный параметр  только  для чтения (нельзя NULL если указатель).  */
+/** \brief РћР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ  С‚РѕР»СЊРєРѕ  РґР»СЏ С‡С‚РµРЅРёСЏ (РЅРµР»СЊР·СЏ NULL РµСЃР»Рё СѓРєР°Р·Р°С‚РµР»СЊ).  */
 #define   _in  const
-/** \brief Обязательный параметр для записи (нельзя NULL если указатель).  */
+/** \brief РћР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ РґР»СЏ Р·Р°РїРёСЃРё (РЅРµР»СЊР·СЏ NULL РµСЃР»Рё СѓРєР°Р·Р°С‚РµР»СЊ).  */
 #define   _out
-/** \brief Обязательный параметр для чтения и записи (нельзя NULL если указатель) .  */
+/** \brief РћР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ РґР»СЏ С‡С‚РµРЅРёСЏ Рё Р·Р°РїРёСЃРё (РЅРµР»СЊР·СЏ NULL РµСЃР»Рё СѓРєР°Р·Р°С‚РµР»СЊ) .  */
 #define   _inout
-/** \brief Опциональный параметр (по умолчанию)  для чтения (можно передать NULL если указатель).  */
+/** \brief РћРїС†РёРѕРЅР°Р»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ)  РґР»СЏ С‡С‚РµРЅРёСЏ (РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ NULL РµСЃР»Рё СѓРєР°Р·Р°С‚РµР»СЊ).  */
 #define   _in_opt  const
-/** \brief Опциональный параметр (по умолчанию) для записи (можно передать NULL если указатель) .  */
+/** \brief РћРїС†РёРѕРЅР°Р»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ) РґР»СЏ Р·Р°РїРёСЃРё (РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ NULL РµСЃР»Рё СѓРєР°Р·Р°С‚РµР»СЊ) .  */
 #define   _out_opt
-/** \brief Опциональный параметр (по умолчанию) для чтения и записи (можно передать NULL если указатель).  */
+/** \brief РћРїС†РёРѕРЅР°Р»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ) РґР»СЏ С‡С‚РµРЅРёСЏ Рё Р·Р°РїРёСЃРё (РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ NULL РµСЃР»Рё СѓРєР°Р·Р°С‚РµР»СЊ).  */
 #define   _inout_opt
-/** \brief Опциональный параметр указатель (можно передать NULL ).   */
+/** \brief РћРїС†РёРѕРЅР°Р»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ СѓРєР°Р·Р°С‚РµР»СЊ (РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ NULL ).   */
 #define   _opt 
 
 
@@ -52,11 +60,11 @@
 
 
 //#ifndef  DAPPLLIBR_H
-//   #pragma  message("ЗАЩИТА ОТ НЕПРАВИЛЬНОГО ВКЛЮЧЕНИЯ СНЯТА !!"  __FILE__)
+//   #pragma  message("Р—РђР©РРўРђ РћРў РќР•РџР РђР’РР›Р¬РќРћР“Рћ Р’РљР›Р®Р§Р•РќРРЇ РЎРќРЇРўРђ !!"  __FILE__)
 //    // #error file dapplLibr.h most be a first included
 //#endif
 
-//! \brief Если != 0 , то будет использована DLL   
+//! \brief Р•СЃР»Рё != 0 , С‚Рѕ Р±СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅР° DLL   
 #define DAPL_RENDERTARGET_AS_DLL  1
 
 #ifndef  DAPPLLIBR_H
@@ -73,20 +81,26 @@
 #endif
 
 
-/** \brief Максимальное кол-во рендертаргетов в пуле  ПЕРЕИМЕНОВАТЬ!!!! */
-#define DAPPL_MAX_RENDERTARGETS_ONPOOL     32
+/** \brief РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»-РІРѕ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚РѕРІ РІ РїСѓР»Рµ  РџР•Р Р•РРњР•РќРћР’РђРўР¬!!!! */
+#define GB_D3D9_MAX_RENDERTARGETS_ONPOOL     32
 
 
-/** \brief Размер поверхность рендертаргета в виде перечисления   ПЕРЕИМЕНОВАТЬ !!! */
-enum DAPLIB_RT_SIZE_ENM 
+namespace gb {
+namespace graphics {
+namespace d3d9 { 
+namespace rt {
+
+
+/** \brief Р Р°Р·РјРµСЂ РїРѕРІРµСЂС…РЅРѕСЃС‚СЊ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚Р° РІ РІРёРґРµ РїРµСЂРµС‡РёСЃР»РµРЅРёСЏ   РџР•Р Р•РРњР•РќРћР’РђРўР¬ !!! */
+enum RENDERTARGET_SIZE_ENUM 
 {
-  RTSZ_UNDEF = 0,  ///< не определено
+  RTSZ_UNDEF = 0,  ///< РЅРµ РѕРїСЂРµРґРµР»РµРЅРѕ
 
-  RTSZ_FULLSCREEN,   ///<  полноэкранные размеры
+  RTSZ_FULLSCREEN,   ///<  РїРѕР»РЅРѕСЌРєСЂР°РЅРЅС‹Рµ СЂР°Р·РјРµСЂС‹
 
-  RTSZ_HALF_FULLSCREEN,	     ///<    ширина и высота на пол экрана
-  RTSZ_THIRD_FULLSCREEN,     ///<    ширина и высота на треть экрана
-  RTSZ_FOURTH_FULLSCREEN,    ///<	 ширина и высота на четверть экрана
+  RTSZ_HALF_FULLSCREEN,	     ///<    С€РёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РЅР° РїРѕР» СЌРєСЂР°РЅР°
+  RTSZ_THIRD_FULLSCREEN,     ///<    С€РёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РЅР° С‚СЂРµС‚СЊ СЌРєСЂР°РЅР°
+  RTSZ_FOURTH_FULLSCREEN,    ///<	 С€РёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РЅР° С‡РµС‚РІРµСЂС‚СЊ СЌРєСЂР°РЅР°
 
   RTSZ_64x64,      ///<   64 x 64
   RTSZ_256x256,	   ///<	  256 x 256
@@ -94,28 +108,31 @@ enum DAPLIB_RT_SIZE_ENM
   RTSZ_1024x1024   ///<   1024 x 1024
 };
 
-/** \brief Вычисление требуемого размера поверхности рендертаргета. 
-  Вернёт E_FAIL если переданы некорректные аргументы  */
-DAPP_RT_API DAPLIB_RT_ComputeNeedRtSize(_out UINT& nOutWidth, _out UINT& nOutHeight, 
-										const DAPLIB_RT_SIZE_ENM eSize, 
+/** \brief Р’С‹С‡РёСЃР»РµРЅРёРµ С‚СЂРµР±СѓРµРјРѕРіРѕ СЂР°Р·РјРµСЂР° РїРѕРІРµСЂС…РЅРѕСЃС‚Рё СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚Р°. 
+  Р’РµСЂРЅС‘С‚ E_FAIL РµСЃР»Рё РїРµСЂРµРґР°РЅС‹ РЅРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ Р°СЂРіСѓРјРµРЅС‚С‹  */
+DAPP_RT_API ComputeNeedRtSize(_out UINT& nOutWidth, _out UINT& nOutHeight, 
+										const RENDERTARGET_SIZE_ENUM eSize, 
 										const UINT nScreenWidth, const UINT nScreenHeight  );
 
 
-/** \brief Создать интерфейсы поверхности   */
-DAPP_RT_API DAPLIB_RT_CreateInterfaces(_out IDirect3DSurface9** ppOutISrf, _out IDirect3DTexture9** ppOutITxtr, 
+/** \brief РЎРѕР·РґР°С‚СЊ РёРЅС‚РµСЂС„РµР№СЃС‹ РїРѕРІРµСЂС…РЅРѕСЃС‚Рё   */
+DAPP_RT_API CreateRenderTargetInterfaces(_out IDirect3DSurface9** ppOutISrf,
+									   _out IDirect3DTexture9** ppOutITxtr, 
 									   IDirect3DDevice9* pdevice, 
-									      const UINT nWidth, const UINT nHeight, const D3DFORMAT frmt );
+									   const UINT nWidth, 
+									   const UINT nHeight, 
+									   const D3DFORMAT frmt );
 
-/** \brief Утсановить  девайс для рендертаргетов */
-DAPP_RT_API DAPLIB_RT_SetDevice(IDirect3DDevice9* pdevice);
-/** \brief Установить структуру буфера отрисовки  (бэкбуфера)  */
+/** \brief РЈС‚СЃР°РЅРѕРІРёС‚СЊ  РґРµРІР°Р№СЃ РґР»СЏ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚РѕРІ РЈР”РђР›РРўР¬ */
+DAPP_RT_API RenderTargetSetDevice(IDirect3DDevice9* pdevice);
+/** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ СЃС‚СЂСѓРєС‚СѓСЂСѓ Р±СѓС„РµСЂР° РѕС‚СЂРёСЃРѕРІРєРё  (Р±СЌРєР±СѓС„РµСЂР°) РЈР”РђР›РРўР¬  */
 DAPP_RT_API DAPLIB_RT_SetBackBufSurfDescr(const D3DSURFACE_DESC* descr);
-/** \brief Установить указатель на поверхность буфера отрисовки  (бэкбуфера) */
+/** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРѕРІРµСЂС…РЅРѕСЃС‚СЊ Р±СѓС„РµСЂР° РѕС‚СЂРёСЃРѕРІРєРё  (Р±СЌРєР±СѓС„РµСЂР°) */
 DAPP_RT_API DAPLIB_RT_SetBackBufFrameDrawIntrfPtr(IDirect3DSurface9* psurf);
-/** \brief Установить Пометить все рендертаргеты в пуле как неиспользуемые   */
+/** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РџРѕРјРµС‚РёС‚СЊ РІСЃРµ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚С‹ РІ РїСѓР»Рµ РєР°Рє РЅРµРёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ   */
 DAPP_RT_API DAPLIB_RT_SetUnUsedAll();
 
-/** \brief Вычисление общего среднего цвета поверхности  */
+/** \brief Р’С‹С‡РёСЃР»РµРЅРёРµ РѕР±С‰РµРіРѕ СЃСЂРµРґРЅРµРіРѕ С†РІРµС‚Р° РїРѕРІРµСЂС…РЅРѕСЃС‚Рё  */
 DAPP_RT_API DAPLIB_RT_ComputeAverSurfaceColor(
 			_out gb::color::Color4f* pOut, 
 			_inout_opt IDirect3DSurface9* surf,
@@ -126,16 +143,16 @@ DAPP_RT_API DAPLIB_RT_ComputeSurfacePixelColor(_out gb::color::Color4f* pColorOu
 
  
 
-/** \brief  Рендер таргет. Поверхность для отрисовки в неё / 
-    Старое название IDAPLIB_RenderTarget  */
+/** \brief  Р РµРЅРґРµСЂ С‚Р°СЂРіРµС‚. РџРѕРІРµСЂС…РЅРѕСЃС‚СЊ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё РІ РЅРµС‘ / 
+    РЎС‚Р°СЂРѕРµ РЅР°Р·РІР°РЅРёРµ IDAPLIB_RenderTarget  */
 class IRenderTarget {
 public:
 	  virtual   ~IRenderTarget() {}
 
 
-	/** \brief Ширина поверхности. Если ноль тогда полноэкранная ширина */
+	/** \brief РЁРёСЂРёРЅР° РїРѕРІРµСЂС…РЅРѕСЃС‚Рё. Р•СЃР»Рё РЅРѕР»СЊ С‚РѕРіРґР° РїРѕР»РЅРѕСЌРєСЂР°РЅРЅР°СЏ С€РёСЂРёРЅР° */
 	virtual UINT getWidth()  const =0;
-	/** \brief Высота поверхности. Если ноль тогда полноэкранная высота */
+	/** \brief Р’С‹СЃРѕС‚Р° РїРѕРІРµСЂС…РЅРѕСЃС‚Рё. Р•СЃР»Рё РЅРѕР»СЊ С‚РѕРіРґР° РїРѕР»РЅРѕСЌРєСЂР°РЅРЅР°СЏ РІС‹СЃРѕС‚Р° */
 	virtual UINT getHeight() const =0;
 
 	//DAPP_RT_CONSTRUCT IDAPLIB_RenderTarget(const UINT nWidth, const UINT nHeight, 
@@ -143,46 +160,46 @@ public:
 	       
 
 
-	/** \brief Получить интерфейс  текстуры */
+	/** \brief РџРѕР»СѓС‡РёС‚СЊ РёРЅС‚РµСЂС„РµР№СЃ  С‚РµРєСЃС‚СѓСЂС‹ */
 	virtual IDirect3DTexture9*  getITexture() const  =0;
-    /** \brief Получить интерфейс   поверхности */
+    /** \brief РџРѕР»СѓС‡РёС‚СЊ РёРЅС‚РµСЂС„РµР№СЃ   РїРѕРІРµСЂС…РЅРѕСЃС‚Рё */
 	virtual IDirect3DSurface9* getISurface() const  =0;
-	/** \brief Получить формат поверхности */
+	/** \brief РџРѕР»СѓС‡РёС‚СЊ С„РѕСЂРјР°С‚ РїРѕРІРµСЂС…РЅРѕСЃС‚Рё */
 	virtual D3DFORMAT getFormat() const =0;
 
-	/** \brief Установить флаг использования . 
-	   Если true (используется), то по запросу на свободный рендертаргет он не будет возвращаться */
+	/** \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ С„Р»Р°Рі РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ . 
+	   Р•СЃР»Рё true (РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ), С‚Рѕ РїРѕ Р·Р°РїСЂРѕСЃСѓ РЅР° СЃРІРѕР±РѕРґРЅС‹Р№ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚ РѕРЅ РЅРµ Р±СѓРґРµС‚ РІРѕР·РІСЂР°С‰Р°С‚СЊСЃСЏ */
 	virtual void  SetUsed(bool bUsed) const =0;
-	/** \brief Используется или нет в отрисовке в текущем кадре */
+	/** \brief РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РёР»Рё РЅРµС‚ РІ РѕС‚СЂРёСЃРѕРІРєРµ РІ С‚РµРєСѓС‰РµРј РєР°РґСЂРµ */
 	virtual bool IsUsed() const =0;
 
-	/** \brief Сравнение  на одинаковые интерфейсы */
+	/** \brief РЎСЂР°РІРЅРµРЅРёРµ  РЅР° РѕРґРёРЅР°РєРѕРІС‹Рµ РёРЅС‚РµСЂС„РµР№СЃС‹ */
 	virtual bool IsSameInterfaces(const IRenderTarget* prt) const =0; 
  
-	/** \brief  Установить как текущую отрисовку. */
+	/** \brief  РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РєР°Рє С‚РµРєСѓС‰СѓСЋ РѕС‚СЂРёСЃРѕРІРєСѓ. */
     virtual HRESULT MakeAsCurrentRender()  const =0;
-	/** \brief Восстановить рендертаргет в бэкбуфер девайса */
+	/** \brief Р’РѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚ РІ Р±СЌРєР±СѓС„РµСЂ РґРµРІР°Р№СЃР° */
     virtual HRESULT MakeRenderToBackBuffer()  const =0;
  
-	/** \brief Проверить интерфейсы.  */
+	/** \brief РџСЂРѕРІРµСЂРёС‚СЊ РёРЅС‚РµСЂС„РµР№СЃС‹.  */
     virtual HRESULT  CheckCreateInterfaces() const =0;
 
-	/** \brief Заполнить цветом. */
+	/** \brief Р—Р°РїРѕР»РЅРёС‚СЊ С†РІРµС‚РѕРј. */
     virtual HRESULT  FillSurfaceColor(const D3DCOLOR color) const =0;
-	/** \brief Заполнить цветом. */
+	/** \brief Р—Р°РїРѕР»РЅРёС‚СЊ С†РІРµС‚РѕРј. */
 	virtual HRESULT  FillSurfaceColor(const D3DCOLORVALUE& color) const =0;
 
-	/** \brief Скопировать из другого рендертаргета.   */
+	/** \brief РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РёР· РґСЂСѓРіРѕРіРѕ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚Р°.   */
     virtual HRESULT  StretchFrom(const IRenderTarget* rtarget, const D3DTEXTUREFILTERTYPE ft=D3DTEXF_LINEAR) const =0;
-    /** \brief Скопировать из другой поверхности.   */
+    /** \brief РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РёР· РґСЂСѓРіРѕР№ РїРѕРІРµСЂС…РЅРѕСЃС‚Рё.   */
     virtual HRESULT  StretchFrom(IDirect3DSurface9* pISurface, const D3DTEXTUREFILTERTYPE ft=D3DTEXF_LINEAR ) const =0;
 
-	/** \brief Скопировать в другой рендертаргет.   */
+	/** \brief РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РІ РґСЂСѓРіРѕР№ СЂРµРЅРґРµСЂС‚Р°СЂРіРµС‚.   */
 	virtual HRESULT  StretchTo(const IRenderTarget* rtarget, const D3DTEXTUREFILTERTYPE ft=D3DTEXF_LINEAR ) const =0;
-	/** \brief Скопировать в другую поверхность.  ПРОВЕРИТЬ !!!!!  */
+	/** \brief РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РІ РґСЂСѓРіСѓСЋ РїРѕРІРµСЂС…РЅРѕСЃС‚СЊ.  РџР РћР’Р•Р РРўР¬ !!!!!  */
 	virtual HRESULT  StretchTo(IDirect3DSurface9* pISurface, const D3DTEXTUREFILTERTYPE ft=D3DTEXF_LINEAR ) const =0;
 
-	/** \brief Проверка на валидность интерфейсов . Проверка в лоб с перехватом исключения  */
+	/** \brief РџСЂРѕРІРµСЂРєР° РЅР° РІР°Р»РёРґРЅРѕСЃС‚СЊ РёРЅС‚РµСЂС„РµР№СЃРѕРІ . РџСЂРѕРІРµСЂРєР° РІ Р»РѕР± СЃ РїРµСЂРµС…РІР°С‚РѕРј РёСЃРєР»СЋС‡РµРЅРёСЏ  */
     virtual HRESULT  ValidateInterfaces() const =0;
 	
 
@@ -190,19 +207,25 @@ public:
 protected:
 	virtual HRESULT  CreateInterfeces(IDirect3DDevice9* pdevice) = 0;
  
-	/** \brief Удалить интерфейсы.  */
+	/** \brief РЈРґР°Р»РёС‚СЊ РёРЅС‚РµСЂС„РµР№СЃС‹.  */
 	virtual HRESULT ReleaseInterfaces() const =0;
  
 };
 // end class
 
  
-/** \brief Получить свободную для отрисовки поверхность */
-DAPP_RT_API DAPLIB_RT_GetUnusedRenderTarget(_out IRenderTarget** ppOut, const DAPLIB_RT_SIZE_ENM eSize);
+/** \brief РџРѕР»СѓС‡РёС‚СЊ СЃРІРѕР±РѕРґРЅСѓСЋ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё РїРѕРІРµСЂС…РЅРѕСЃС‚СЊ */
+DAPP_RT_API DAPLIB_RT_GetUnusedRenderTarget(_out IRenderTarget** ppOut, const RENDERTARGET_SIZE_ENUM eSize);
 DAPP_RT_API DAPLIB_RT_GetUnusedRenderTarget(_out IRenderTarget** ppOut, const UINT nWidth, const UINT nHeight);
 
 
 
+
+
+} // end namespace
+} // end namespace
+} // end namespace
+} // end namespace
 
 
 #endif // #if ( defined(WIN32) && defined(GB_D3D9) )

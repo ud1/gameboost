@@ -3,7 +3,12 @@
 *
 *
 *
+*
   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
+
+  \TODO  Добавить функции для D3DTEXTURESTAGESTATETYPE, фильтрации
+
+
 */
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
