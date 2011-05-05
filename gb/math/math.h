@@ -13,9 +13,17 @@
 #include <math.h>
 #include <xmath.h>
 
+#ifdef GB_D3D9
+    #include <d3d9.h>
+#endif 
+
 #ifdef GB_D3DX9
     #include <d3dx9math.h>
 #endif 
+
+#pragma  warning(push)
+#pragma  warning(disable : 4995)
+ 
 
 #include <gb/math/forw_decl.h>
 #include <gb/math/scalar.h>
@@ -42,5 +50,5 @@ namespace gb
 	}
 }
 
-
+#pragma  warning(pop)
 // end file

@@ -7,18 +7,17 @@
 *  
 *
 *
-*/
+*
+ \todo  : Поменять ассерты на исключения  
+ \todo  : Поправить операторы для сравнения по эпсилону.
+ \todo  :  Перенести в cpp методы матрицы 4x4 .
+ \todo  :  Тяжелые методы перенести в cpp
+ 
 
 /***********************************************************************
 
 
-
- TODO:  
-   --- Поправить операторы для сравнения по эпсилону.
-   --- Перенести в cpp методы матрицы 4x4 .
-   --- Тяжелые методы перенести в cpp
-   ---   transformCoord   transformNormal   для vec3 
-
+ 
 
    STORY:
 
@@ -1683,12 +1682,26 @@ namespace gb
 				assert(index<4  && "invalid index" );
 				return vec4_s( floats[index][0], floats[index][1], floats[index][2], floats[index][3] );
 			}
+
+			vec4_s setRow(unsigned int index, const vec4_s& row)   
+			{
+				assert(index<4  && "invalid index" );
+				floats[index][0]=row.x; floats[index][1]=row.y; floats[index][2]=row.z; floats[index][3]=row.w;
+			}
  
 			vec4_s getColumn(unsigned int index) const 
 			{
 				assert( index<4 && "invalid index" );
 				return vec4_s( floats[0][index], floats[1][index], floats[2][index], floats[3][index] );
 			}
+
+			void setColumn(unsigned int index, const vec4_s& col)
+			{
+				assert( index<4 && "invalid index" );
+			    floats[0][index]=col.x; floats[1][index]=col.y; floats[2][index]=col.z; floats[3][index]=col.w;
+			}
+
+			//-------------------------------------------------------------
  
 			//! \brief Построение матрицы отражения по оси X
 			inline mat44_s& setMirrorX ()

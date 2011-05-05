@@ -1,4 +1,9 @@
 ﻿
+ // temp !!!!
+#ifndef GB_COLOR
+  #define GB_COLOR
+#endif
+
 #if ( defined(GB_D3D9) && defined(WIN32)  )
 #if defined(GB_D3DX9)
 
@@ -886,9 +891,12 @@ hr |= m_DeviceData.RestoreDeviceData(pdevice);
 
 return hr;
 };
- */
 
+ /*
+#pragma message("vg::d3d9::impl  temp object  "  __FILE__)
+static VGDraw3DGeometry_Impl_D3D9  dgdgsdggfdgfgdgfdg (NULL);
 
+*/
 
 
 //=========================================================================

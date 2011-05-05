@@ -1,4 +1,5 @@
-﻿#include <gb/base/Constants.h>
+﻿
+#include <gb/base/Constants.h>
 // константы
 
 namespace gb

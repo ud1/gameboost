@@ -9,6 +9,9 @@
 
 using namespace gb::system::winappl;
 
+
+#pragma warning( disable : 4290 )
+
 namespace gb       
 {
 namespace graphics 
@@ -2031,7 +2034,7 @@ HRESULT ApplD3D9::DrawInternalSampleScene() const
 	return  DrawSampleScene(m_pd3dDevice);
 };
 
-IDirect3DTexture9* ApplD3D9::getSampleTexture() const  throw() 
+IDirect3DTexture9* ApplD3D9::getSampleTexture() const  throw(std::runtime_error&) 
 {
 	if(!g_pTempTexture)
 	{

@@ -2,7 +2,10 @@
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
+#pragma message ("KS777: GB_D3D9 COMMON.H  НЕ ДОДЕЛАН НИХЕРА !!!!  "  __FILE__)
+
 #include <gb/graphics/d3d9/common.h>
+#include <assert.h>
 
 namespace gb       
 {
@@ -32,14 +35,14 @@ static 	SFuncOnCriticalDeviceEvent g_arr_onCriticalDeviceEvent[ARRAY_ONCRITICALD
 /////static void* g_pUserData_funcOnCriticalDeviceEvent = NULL;
 
 //! хранит указатели на функции переключения режима.
-struct SFuncGetSetHolde 
+struct SFuncGetSetHolder 
 {
   TFuncGetFullScreenMode  funcGet;  
   TFuncSetFullScreenMode  funcSet;
   void* pUsedData;
 };  
 //* функции  переключения экранного режима
-static FuncGetSetHolde  g_FuncGetSetHolde;
+static SFuncGetSetHolder  g_FuncGetSetHolde;
 
 
 //=============================================================================
@@ -111,8 +114,12 @@ GB_D3D9_API HRESULT registerGlobalCriticalDeviceEventCallback (
   }
   */
   
+
+  assert(false);
+  /*
   g_funcOnCriticalDeviceEvent = func;
   g_pUserData_funcOnCriticalDeviceEvent = pUserData;
+  */
   
 
    return hr;

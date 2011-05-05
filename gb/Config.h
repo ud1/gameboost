@@ -63,6 +63,10 @@
 	#endif
 #endif // end microsoft specific
 
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
 #if defined(__POWERPC__) || defined(_M_PPC)
 	#define GB_POWERPC 1
 #else

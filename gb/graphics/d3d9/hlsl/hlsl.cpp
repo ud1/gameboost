@@ -1,9 +1,8 @@
 ﻿
-
 #if ( defined(GB_D3D9) && defined(WIN32) )
 #ifdef GB_D3DX9
 
-#include <gb/graphics/d3d9/hlsl.h>
+#include <gb/graphics/d3d9/hlsl/hlsl.h>
 
 namespace gb       
 {
@@ -17,7 +16,9 @@ namespace hlsl
 //======================================================================
 	
 
-	
+
+	// УБРАТЬ КОГДА ЧТО-ТО БУДЕТ
+#pragma warning(disable : 4221)
 	
 	
 	

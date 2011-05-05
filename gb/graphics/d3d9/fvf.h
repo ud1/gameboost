@@ -12,7 +12,18 @@
 #pragma once
 #define __GB_D3D9_FVF_H__
 
+#pragma warning(push)
+#pragma warning (disable : 4995)
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+
+#include <string>
+
 #include <gb/graphics/d3d9/common.h>
+
+
 
 
 namespace gb 
@@ -340,6 +351,9 @@ struct vertex_xyz_color_txcoord1_s {
   } // end ns d3d9
  } // end ns graphics
 } // end ns gb
+
+
+#pragma warning(pop)
 
 #endif
 // end file

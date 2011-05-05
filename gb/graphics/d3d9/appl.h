@@ -23,15 +23,21 @@
 #include <gb/system/winappl/winappl.h>
 #include <gb/graphics/d3d9/common.h>
 
-// временно !!!
-#include <d3dx9.h>
-#include <d3dx9Core.h>
 
+#ifdef GB_D3DX9
+  #include <d3dx9.h>
+  #include <d3dx9Core.h>
+#endif
+
+#include <stdexcept>
 
 #define   ENABLE_USING_D3DXFONT
 
 // z:\!!gb\gameboost\gb\graphics\d3d9\appl.h
 
+
+#pragma warning(push)
+#pragma warning( disable : 4290 )
 
 namespace gb 
 {
@@ -104,7 +110,7 @@ public:
 	virtual HRESULT finalize();
 
 	//! \brief Получить пример текстуру. Отладочную текстуру. НЕЛЬЗЯ РЕЛИЗИТЬ.
-	IDirect3DTexture9*  getSampleTexture() const  throw();
+	IDirect3DTexture9*  getSampleTexture() const  throw(std::runtime_error&);
  
 	//! \brief Получить указатель на устройства d3d9. НЕЛЬЗЯ РЕЛИЗИТЬ.
 	inline IDirect3DDevice9* getD3D9Device() const { return m_pd3dDevice; }
@@ -185,6 +191,8 @@ private:
   } // end ns 
 
 } // end ns 
+
+#pragma warning(pop)
 
 #endif
 // end file

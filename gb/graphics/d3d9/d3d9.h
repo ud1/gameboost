@@ -7,9 +7,8 @@
 */
 
 
-//#if ( defined(GB_D3D9) && defined(WIN32) )
-#ifdef WIN32
-#ifdef GB_D3D9
+#if ( defined(GB_D3D9) && defined(WIN32) )
+ 
 
 #pragma once
 #define __GB_D3D9_H__
@@ -19,16 +18,29 @@
 
 #include <d3d9.h>
 
-#include <gb/graphics/d3d9/auto_include_libr.h>
-
 #ifdef GB_MATH
   #include <gb/math/math.h>
 #endif
 
-
+#ifdef GB_COLOR
+  #include <gb/color/color.h>
+#endif
 
 //! \brief  пока это пустышка.  Спецификация экспорта функций. 
 #define GB_D3D9_API
+
+#pragma warning (disable:4995)
+
+#include <gb/graphics/d3d9/auto_include_libr.h>
+
+#include <gb/graphics/d3d9/dataconv.h>
+#include <gb/graphics/d3d9/Device.h>
+#include <gb/graphics/d3d9/draw.h>
+#include <gb/graphics/d3d9/fvf.h>
+#include <gb/graphics/d3d9/hlsl/hlsl.h>
+#include <gb/graphics/d3d9/d3dFont.h>
+
+
 
 
 namespace gb 
@@ -53,9 +65,7 @@ namespace gb
  } // end ns graphics
 } // end ns gb
 
-#endif
-#endif
-
-//#endif // #if ( defined(GB_D3D9) && defined(WIN32) )
+ 
+#endif // #if ( defined(GB_D3D9) && defined(WIN32) )
 
 // end file

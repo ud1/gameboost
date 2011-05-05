@@ -50,7 +50,8 @@
 #endif
 
 
-
+#pragma warning(push)
+#pragma warning( disable : 4290 )
 
 namespace gb
 {
@@ -1103,5 +1104,6 @@ uint32_t hwndAsUint(const HWND hwnd) ;
 
 
 
+#pragma warning(pop)
 
 // end file
