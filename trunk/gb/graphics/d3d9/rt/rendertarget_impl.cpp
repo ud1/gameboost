@@ -1,8 +1,11 @@
 ﻿
 
+#if ( defined(GB_D3D9) && defined(WIN32) )
+
 //#include "dappllibrary_stdafx.h"
 //#include "dappllibr.cpp"
 
+#include <gb/graphics/d3d9/d3d9.h>
 #include <gb/graphics/d3d9/rt/rendertarget_impl.h>
 //#include <gb/base/Debug.h>
 //#include "DAPLIB_RTarget_impl.h"
@@ -249,5 +252,5 @@ HRESULT RenderTarget::ValidateInterfaces() const {
 } // end namespace
 } // end namespace
 
-
+#endif // #if  ( #defined(WIN32) && #defined(GB_D3D9) )
 // end file

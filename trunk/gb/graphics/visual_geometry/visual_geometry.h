@@ -316,7 +316,7 @@ public:
  
  virtual HRESULT draw2dAxies(const float* vec2_coord) const =0;
 
- virtual HRESULT draw2dAxies(float x, float y) const =0;
+ //virtual HRESULT draw2dAxies(float x, float y) const =0;
  virtual HRESULT draw2dAxies(const POINT p) const =0;
 
 	
@@ -349,17 +349,18 @@ public:
 class   IDraw3DGeometry   {
 public:
 	virtual ~IDraw3DGeometry() {}
-
+	 
 #ifdef GB_COLOR
   //! \brief Установить цвет отрисовки 
-	virtual HRESULT setColor(const gb::color::Color4f& color) const =0;
+	virtual void setColor(const gb::color::Color4f& color) const =0;
 #endif
-
+	 
 #ifdef GB_D3D9 
   virtual void setColor(const D3DCOLORVALUE& color) const =0;
 #endif
 
   virtual void setColor(float r, float g, float b, float a) const=0;
+			
   inline void setColorRed    ()  const { setColor(1.0f , 0.0f, 0.0f, 1.0f); }
   inline void setColorGreen  ()  const { setColor(0.0f , 1.0f, 0.0f, 1.0f); }
   inline void setColorBlue   ()  const { setColor(0.0f , 0.0f, 1.0f, 1.0f); }
@@ -368,7 +369,7 @@ public:
   inline void setColorWhite  ()  const { setColor(1.0f , 1.0f, 1.0f, 1.0f); }
   inline void setColorGray   ()  const { setColor(0.5f , 0.5f, 0.5f, 1.0f); }
   inline void setColorPink   ()  const { setColor(1.0f , 0.0f, 1.0f, 1.0f); }
-  inline void setColorOrange ()  const { setColor(1.0f,0.5f,0.0f,1.0f);  }
+  inline void setColorOrange ()  const { setColor(1.0f , 0.5f, 0.0f, 1.0f); }
  
 
 //-------------------------------------------------------------------
@@ -390,8 +391,7 @@ public:
   virtual HRESULT draw3dAABB(const math::geom3d::AABB& aabb) const =0;
 #endif
 
-	//++++++++++++++++++
-
+	
   virtual HRESULT draw3dRay(const float* vec3_orig, const float* vec3_normal ) const =0;
 
   virtual HRESULT draw3dRay(float orgX, float orgY, float orgZ, float nrmlX, float nrmlY, float nrmlZ ) const =0;
@@ -496,13 +496,10 @@ public:
 
 	   return  draw3dLines(varr[0], 5);
   }
-
-
-
    
 
  // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+ 
 };
 // end class
  

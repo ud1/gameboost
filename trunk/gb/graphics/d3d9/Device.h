@@ -6,8 +6,8 @@
   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
 */
 
-#ifdef WIN32
-#ifdef GB_D3D9
+#if ( defined(WIN32) && defined(GB_D3D9)  )
+ 
  
 
 #pragma once
@@ -405,8 +405,5 @@ HRESULT setTexture(DWORD nStage, IDirect3DBaseTexture9* pTxtr) {
 } // end namespace gb
 
 
-#endif  GB_D3D9
-#endif  WIN32
-
-
+#endif  // #if ( defined(WIN32) && defined(GB_D3D9)  )
 // end file

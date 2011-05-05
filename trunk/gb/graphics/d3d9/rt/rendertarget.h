@@ -8,7 +8,9 @@
  \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
  
  \todo убрать __exc_mon
+ \todo Убрать зависимость от gb::color
  \todo  Переименовать макролпределения
+ \todo  Убрать __exc_mon
 */
 
 #if ( defined(WIN32) && defined(GB_D3D9) )
@@ -25,10 +27,18 @@
    #include <gb/color/color.h>
 #endif
 
+#ifndef GB_COLOR
+#error gb::color пока нужен. Определить макрос GB_COLOR
+#endif
+
 #include <gb/base/Rectangle.h>
 
 #ifdef GB_MATH
    #include <gb/math/math.h>
+#endif
+
+#ifndef GB_MATH
+  #error  gb::math  пока нужен. Определить GB_MATH
 #endif
 
 // УБРАТЬ !!

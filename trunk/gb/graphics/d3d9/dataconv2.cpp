@@ -2,7 +2,7 @@
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
   #include <gb/graphics/d3d9/dataconv.h>
-  #include <gb/str/formater.h>
+  #include <gb/str/String.h>
 
   #pragma warning(push)
   #pragma warning(disable : 4996)
@@ -563,7 +563,7 @@
 
       case D3DRS_ALPHAREF:
         {
-          ss = gb::str::Formater::uintToStr((UINT)val, true);
+          ss = gb::str::uintToStr((UINT)val, true);
         }
         break;
 
@@ -718,7 +718,7 @@
 
       case D3DRS_STENCILREF:
         {
-          ss = gb::str::Formater::uintToStr(val, false);
+          ss = gb::str::uintToStr(val, false);
         }
         break;
 
@@ -1005,7 +1005,7 @@
 
       case D3DRS_COLORWRITEENABLE:
         {
-          ss = gb::str::Formater::uintToStr((UINT)val, false);
+          ss = gb::str::uintToStr((UINT)val, false);
         }
         break;
       case D3DRS_TWEENFACTOR:
@@ -1048,7 +1048,7 @@
         break;
       case D3DRS_SLOPESCALEDEPTHBIAS:
         {
-          ss = gb::str::Formater::uintToStr((UINT)val, true);
+          ss = gb::str::uintToStr((UINT)val, true);
         }
         break;
 
@@ -1354,7 +1354,7 @@
 
       case D3DRS_ALPHAREF:
         {
-          return gb::str::Formater::uintFromCstr((uint32_t &)val, s.c_str());
+          return gb::str::uintFromCstr((uint32_t &)val, s.c_str());
         }
         break;
 
@@ -1453,7 +1453,7 @@
 
       case D3DRS_STENCILREF:
         {
-          return gb::str::Formater::uintFromCstr((uint32_t &)val, s.c_str());
+          return gb::str::uintFromCstr((uint32_t &)val, s.c_str());
         }
         break;
 
@@ -1671,7 +1671,7 @@
 
       case D3DRS_COLORWRITEENABLE:
         {
-          return gb::str::Formater::uintFromCstr((uint32_t &)val, s.c_str());
+          return gb::str::uintFromCstr((uint32_t &)val, s.c_str());
         }
         break;
 
@@ -1698,7 +1698,7 @@
         break;
       case D3DRS_SLOPESCALEDEPTHBIAS:
         {
-          return gb::str::Formater::uintFromCstr((uint32_t &)val, s.c_str());
+          return gb::str::uintFromCstr((uint32_t &)val, s.c_str());
         }
         break;
       case D3DRS_ANTIALIASEDLINEENABLE:

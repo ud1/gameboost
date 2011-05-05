@@ -1,5 +1,4 @@
-﻿// OK !
-
+﻿
 #if ( defined(GB_D3D9) && defined(WIN32) )
  
 

@@ -22,6 +22,12 @@ bool checkIntersectPlane(const Plane& aabb) {....}
 *****************************************/ 
 
 #pragma once
+
+#ifdef GB_D3D9
+    #include <gb/graphics/d3d9/d3d9.h>
+#endif
+
+
 #include <gb/math/forw_decl.h>
 #include <xmath.h>
 #include <gb/math/scalar.h>
@@ -142,7 +148,7 @@ namespace gb
 			inline operator D3DVECTOR*() { return (D3DVECTOR*)&_x; }
 			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&_x; }
 			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=_x; r.y=_y; r.z=_z; return r;  }
-			inline void operator = (const D3DXVECTOR3& v) {	_x=v.x; _y=v.y; _z=v.z; __normalize(); }
+			inline void operator = (const D3DVECTOR& v) {	_x=v.x; _y=v.y; _z=v.z; __normalize(); }
 #endif	
 
 
@@ -178,7 +184,7 @@ namespace gb
 			inline operator D3DVECTOR*() { return (D3DVECTOR*)&_x; }
 			inline operator const D3DVECTOR*() const { return (D3DVECTOR*)&_x; }
 			inline operator D3DVECTOR() const  { D3DVECTOR r; r.x=_x; r.y=_y; r.z=_z; return r;  }
-			inline void operator = (const D3DXVECTOR3& v) {	_x=v.x; _y=v.y; _z=v.z; }
+			inline void operator = (const D3DVECTOR& v) {	_x=v.x; _y=v.y; _z=v.z; }
 #endif
 
 
@@ -259,6 +265,7 @@ namespace gb
 
 	//! \brief   Проскость 
 	struct plane_s {
+
 		  union {
 
 		   struct { float x , y , z , w ;   };
@@ -685,15 +692,27 @@ ObjContainsE BSphereContainsBSphere(const Sphere& s) const
 		  return res;
 	  } 
 
+ 
 
+//! \brief  Трансформировать по матрице m . Получить выровненые вершины.
+AABB& transform(const base::mat44_s& m)
+{
+   corners cr;
+   extractCorners(cr);
 
+   min.setzero();
+   max.setzero();
 
+   for(int c=0; c<8; c++)
+   {
+     cr[c].transformCoord(m);
+	 *this += cr[c];
+   }
+ 
+  return *this;
+}
 
  
-	
-/*  *********************	
-// void transform(const mat44_s& m) {...}
-************************ */ 
 
 	  //! \brief  Сдвинуть.
 	  inline void offset(const base::vec3_s& v)

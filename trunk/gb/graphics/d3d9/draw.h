@@ -50,6 +50,15 @@ GB_D3D9_API HRESULT  DrawScreenQuad( IDirect3DDevice9* pdevice,
 									const RECT& rect, 
 									const D3DCOLORVALUE& color );
 
+//! \brief Отрисовать  прямоугольник 
+inline HRESULT DrawScreenQuad( IDirect3DDevice9* pdevice,  
+							  int x1, int y1, int x2, int y2, 
+							  const D3DCOLORVALUE& color )
+{
+	RECT rect; ::SetRect(&rect, x1, y1, x1, y2);
+	return DrawScreenQuad(pdevice, rect, color);
+};
+
 //! \brief Отрисовать  прямоугольник   в полноэкранный экран на весь бэкбуфер.
 GB_D3D9_API HRESULT  DrawFullScreenQuad( IDirect3DDevice9* pdevice, 
 										const D3DCOLORVALUE& color);

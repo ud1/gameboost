@@ -360,7 +360,7 @@ public:
 #endif
 
 #ifdef GB_COLOR 
-	virtual HRESULT setColor(const gb::color::Color4f& color) const { m_color=color;  }
+	virtual void setColor(const gb::color::Color4f& color) const { m_color=color;  }
 #endif
 
 	virtual void setColor(const D3DCOLORVALUE& color) const  { m_color=color;   }
@@ -369,16 +369,7 @@ public:
 	{
 	 m_color.r=r; m_color.g=g;  m_color.b=b; m_color.a=a; 
 	}
-
-	/*
-  virtual void setColorRed    ()  const { m_color.set(1.0f,0.0f,0.0f);   }
-  virtual void setColorGreen  ()  const { m_color.set(0.0f,1.0f,0.0f);   }
-  virtual void setColorBlue   ()  const { m_color.set(0.0f,0.0f,1.0f);   }
-  virtual void setColorYellow ()  const { m_color.setYellow();  }
-  virtual void setColorWhite  ()  const { m_color.setWhite();   }
-  virtual void setColorGray   ()  const { m_color.setGray();    } 
-  virtual void setColorPink   ()  const { m_color.setPink();    }    
-	 */
+ 
 #pragma endregion IMPLEM_COLOR_METHODS
 
 
@@ -670,7 +661,13 @@ public:
 
 #ifdef GB_COLOR
   //! \brief Установить цвет отрисовки 
-	virtual HRESULT setColor(const gb::color::Color4f& color) const =0;
+	virtual void setColor(const gb::color::Color4f& color) const 
+	{
+		m_color.r=color.r; 
+		m_color.g=color.g;	
+		m_color.b=color.b;	
+		m_color.a=color.a;
+	}
 #endif
 
 virtual void setColor(const D3DCOLORVALUE& color) const 
@@ -696,13 +693,7 @@ virtual void setColor(const D3DCOLORVALUE& color) const
 	{
 		m_color.r=r; m_color.g=g; m_color.b=b; m_color.a=a;
 	}
-	 /*
-
-  virtual void setColorYellow ()  const { m_color.setYellow();  }
-  virtual void setColorWhite  ()  const { m_color.setWhite();   }
-  virtual void setColorGray   ()  const { m_color.setGray();    } 
-  virtual void setColorPink   ()  const { m_color.setPink();    } 
-	 */
+ 
 #pragma endregion COLOR_METHODS
 
 	//---------------------------------------------------------------------
@@ -730,14 +721,14 @@ virtual void setColor(const D3DCOLORVALUE& color) const
 	}
 
 
-	virtual HRESULT draw3dPoints (const float* pv, int num, float pointSize) const ;
+	virtual HRESULT draw3dPoints (const float* vec3_ArrayCoord, int num, float pointSize ) const ;
 
 	virtual HRESULT draw3dLine(const float* p1, const float* p2) const;
 	virtual HRESULT draw3dLine(float x1, float y1, float z1,   float x2, float y2, float z2) const;
 	virtual HRESULT draw3dLines( const float* pv, int num ) const;
 
 
-	virtual HRESULT draw3dAABB(const float* min, const float* max) const ;
+	virtual HRESULT draw3dAABB(const float* vec3_min, const float* vec3_max) const ;
 
 #ifdef GB_MATH
 	virtual HRESULT draw3dAABB(const math::geom3d::AABB& aabb) const 
@@ -761,9 +752,9 @@ virtual void setColor(const D3DCOLORVALUE& color) const
 
 	virtual HRESULT draw3dArrow(const float* src, const float* dest) const ;  
 
-	virtual HRESULT draw3dAxies(const float* coord, float axiesLen) const ;
+	virtual HRESULT draw3dAxies(const float* vec3_coord, float axiesLen) const ;
 
-	virtual HRESULT draw3dSolidSphere(const float* center, float radius) const ;
+	virtual HRESULT draw3dSolidSphere(const float* vec3_center, float radius) const ;
  
 
 

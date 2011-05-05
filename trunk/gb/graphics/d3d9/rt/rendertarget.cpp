@@ -1,4 +1,5 @@
-﻿#if ( defined(WIN32) && defined(GB_D3D9) )
+﻿
+#if ( defined(WIN32) && defined(GB_D3D9) )
 
 //#include "dappllibrary_stdafx.h"
 //#include "ksut_macro.h"
