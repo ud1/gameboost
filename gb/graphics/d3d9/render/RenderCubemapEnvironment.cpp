@@ -1,5 +1,5 @@
-/** \file   RenderCubemapEnvironment.cpp
-  \brief реализация интерфейса 
+п»ї/** \file   RenderCubemapEnvironment.cpp
+  \brief СЂРµР°Р»РёР·Р°С†РёСЏ РёРЅС‚РµСЂС„РµР№СЃР° 
 
 */
 
@@ -11,7 +11,7 @@
 #include <gb/graphics/d3d9/d3d9.h>
 
 #ifndef GB_MATH
-   #error  gb::math пока нужен.  Должен быть определён GB_MATH
+   #error  gb::math РїРѕРєР° РЅСѓР¶РµРЅ.  Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РѕРїСЂРµРґРµР»С‘РЅ GB_MATH
 #else
    #include <gb/math/math.h>
 #endif
@@ -358,6 +358,7 @@ namespace gb
 						}
 
 					}
+
 
 
 					HRESULT setShadersConstants()

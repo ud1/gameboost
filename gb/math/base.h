@@ -1284,6 +1284,11 @@ namespace gb
 			_31( _31_ ), _32( _32_ ), _33( _33_ ), _34( _34_ ),
 			_41( _41_ ), _42( _42_ ), _43( _43_ ), _44( _44_ )  {}
 
+			inline mat44_s(const float* pfArray)
+			{
+				*this = pfArray;
+			}
+
 
 			inline operator  const float*() const  { return &_11; }
 			inline operator        float*()        { return &_11; }
@@ -1360,6 +1365,31 @@ namespace gb
 
 
 #endif // GB_D3DX9
+
+
+			inline void operator  = (const float* pfArray)
+			{
+				_11 = pfArray[ 0];
+				_12 = pfArray[ 1];
+				_13 = pfArray[ 2];
+				_14 = pfArray[ 3];
+
+				_21 = pfArray[ 4];
+				_22 = pfArray[ 5];
+				_23 = pfArray[ 6];
+				_24 = pfArray[ 7];
+
+				_31 = pfArray[ 8];
+				_32 = pfArray[ 9];
+				_33 = pfArray[10];
+				_34 = pfArray[11];
+
+				_41 = pfArray[12];
+				_42 = pfArray[13];
+				_43 = pfArray[14];
+				_44 = pfArray[15];
+
+			}
  
 
 
@@ -1648,6 +1678,14 @@ namespace gb
 				f = _24;  _24 = _42;  _42 = f;
 				f = _34;  _34 = _43;  _43 = f; 
 				  return *this;
+			}
+
+			//!  религиозно-синтаксическое   Вычислить и вернуть транспонированое значение .
+			mat44_s transponed() const 
+			{
+				mat44_s res = *this;
+				res.transpone();
+				return res;
 			}
 
 			/** \brief Вычислить и вернуть транспонированое значение .  */
