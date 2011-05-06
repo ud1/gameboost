@@ -215,6 +215,7 @@ D3DSURFACE_DESC getBackBufferDescr() {
 
 
  
+/*************************
 #ifdef GB_MATH
 
 plane_s getClipPlane(DWORD index) {
@@ -225,12 +226,12 @@ plane_s getClipPlane(DWORD index) {
 };
 
 HRESULT  setClipPlane(DWORD index, const plane_s& pln) {
-	HRESULT hr = dvc->SetClipPlane( index, pln );
+	HRESULT hr = dvc->SetClipPlane( index, &pln.a );
 	return hr;
 };
 
-#endif
- 
+#endif   // #ifdef GB_MATH
+*******************************/ 
  
 
 class StreamSourceData {

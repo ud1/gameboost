@@ -17,14 +17,17 @@
 #include <gb/base/Types.h>
 
 #include <d3d9.h>
+	  
+
+#ifdef GB_COLOR
+   #include <gb/color/color.h>
+#endif
 
 #ifdef GB_MATH
   #include <gb/math/math.h>
 #endif
 
-#ifdef GB_COLOR
-  #include <gb/color/color.h>
-#endif
+
 
 //! \brief  пока это пустышка.  Спецификация экспорта функций. 
 #define GB_D3D9_API
@@ -40,7 +43,7 @@
 #include <gb/graphics/d3d9/hlsl/hlsl.h>
 #include <gb/graphics/d3d9/d3dFont.h>
 
-
+#include <gb/graphics/d3d9/render/render.h>
 
 
 namespace gb 
