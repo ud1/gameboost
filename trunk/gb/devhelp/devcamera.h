@@ -145,8 +145,8 @@ public:
 			  BaseCamera();
 	virtual  ~BaseCamera() {}
 
-	//! \brief Сделать камеру текущей
-	virtual HRESULT makeCurrent(IDirect3DDevice9* pDevice) = 0; 
+	// //! \brief Сделать камеру текущей
+	//virtual HRESULT makeCurrent(IDirect3DDevice9* pDevice) = 0; 
 
     // Call these from client and use Get*Matrix() to read new matrices
     virtual LRESULT handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
@@ -311,10 +311,10 @@ public:
 
 #ifdef GB_D3D9
 	//! \brief Сделать камеру текущей
-	virtual HRESULT makeCurrent(IDirect3DDevice9* pDevice) 
+	virtual HRESULT makeCurrent(IDirect3DDevice9* pDevice, bool bNeedSetWorld=true) 
 	{
 	  HRESULT hr =0;
-       hr |= pDevice->SetTransform( D3DTS_WORLD ,      getWorldMatrix()  );
+      if(bNeedSetWorld) hr |= pDevice->SetTransform( D3DTS_WORLD ,      getWorldMatrix()  );
        hr |= pDevice->SetTransform(D3DTS_VIEW ,        getViewMatrix()   );
        hr |= pDevice->SetTransform(D3DTS_PROJECTION ,  getProjMatrix()   );
       return hr;

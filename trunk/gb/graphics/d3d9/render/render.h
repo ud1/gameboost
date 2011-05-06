@@ -1,5 +1,5 @@
-/** \file 
- \brief  Вспомогательные классы , типы для отрисовки объкетов. 
+п»ї/** \file 
+ \brief  Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РєР»Р°СЃСЃС‹ , С‚РёРїС‹ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё РѕР±СЉРєРµС‚РѕРІ. 
 
 
 
@@ -24,29 +24,30 @@ namespace gb
   namespace d3d9 
   {
 
-   //! \brief   Вспомогательные классы , типы для отрисовки объкетов. 
+   //! \brief   Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РєР»Р°СЃСЃС‹ , С‚РёРїС‹ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё РѕР±СЉРєРµС‚РѕРІ. 
    namespace render 
    {
 
+
    //---------------------------------------------------------------------
 
-				//! \brief Интерфейс отрисовки кубического окружения.
+				//! \brief РРЅС‚РµСЂС„РµР№СЃ РѕС‚СЂРёСЃРѕРІРєРё РєСѓР±РёС‡РµСЃРєРѕРіРѕ РѕРєСЂСѓР¶РµРЅРёСЏ.
 				class IRenderCubemapEnvironment {
 				public:
 
-					//! \brief Опции отрисовки кубческого окружения
+					//! \brief РћРїС†РёРё РѕС‚СЂРёСЃРѕРІРєРё РєСѓР±С‡РµСЃРєРѕРіРѕ РѕРєСЂСѓР¶РµРЅРёСЏ
 					class RenderEnvirOptions {
 					public:
 
-						float brightnes;  ///< яркость текстуры
+						float brightnes;  ///< СЏСЂРєРѕСЃС‚СЊ С‚РµРєСЃС‚СѓСЂС‹
 
-						float yaw;	 // углы поворота
+						float yaw;	 // СѓРіР»С‹ РїРѕРІРѕСЂРѕС‚Р°
 						float pitch;
 						float roll;
 
-						D3DCOLORVALUE color;  ///< цвет текстуры
+						D3DCOLORVALUE color;  ///< С†РІРµС‚ С‚РµРєСЃС‚СѓСЂС‹
 
-						//! \brief Конструктор ставит по умолчанию.
+						//! \brief РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃС‚Р°РІРёС‚ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ.
 						RenderEnvirOptions() 
 						{
 							brightnes = 1.0f;
@@ -58,7 +59,7 @@ namespace gb
 
 					virtual ~IRenderCubemapEnvironment() {}
 
-					//! \brief Нарисовать окружение.
+					//! \brief РќР°СЂРёСЃРѕРІР°С‚СЊ РѕРєСЂСѓР¶РµРЅРёРµ.
 					virtual HRESULT RenderEnvironment(
 						IDirect3DDevice9* pd3device,
 						const float* matrix4x4_ViewProj,
@@ -70,7 +71,7 @@ namespace gb
 				};
 
 
-				//! \brief Создать интерфейс отрисовки кубического окружения.
+				//! \brief РЎРѕР·РґР°С‚СЊ РёРЅС‚РµСЂС„РµР№СЃ РѕС‚СЂРёСЃРѕРІРєРё РєСѓР±РёС‡РµСЃРєРѕРіРѕ РѕРєСЂСѓР¶РµРЅРёСЏ.
 				GB_D3D9_API HRESULT CreateInterfaceCubemapRender(
 					IRenderCubemapEnvironment** ppOut, 
 					IDirect3DDevice9* pd3device);

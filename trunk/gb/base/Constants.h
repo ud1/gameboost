@@ -9,6 +9,14 @@
 namespace gb
 {
 
+  // старый какой-то .. запутанный .. пока пусть будут макросы 
+	
+#define GBC_PI   3.1415926535898
+
+
+
+
+
 	template <typename value_type>
 	inline value_type getNaN()
 	{
