@@ -1,7 +1,6 @@
-п»ї// РџСЂРёРјРµСЂ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ СЂРµРЅРґРµСЂР° РѕРєСЂСѓР¶РµРЅРёСЏ
+// Пример использования dxut_wonly
 //
 #include "stdafx.h"
-
 
 #include <ce/dxut_wonly/dxut_wonly.h>
 //#include <ce/LDrw/CubeMapEnvirRender.h>
@@ -15,30 +14,32 @@
 
 #include <gb/graphics/d3d9/render/render.h>
 using namespace gb::graphics::d3d9::render;
+  
 
+//=====================================================
 
- IRenderCubemapEnvironment* g_re = NULL; // test
-
- IDirect3DCubeTexture9* g_ptxtr = NULL;
+ IDirect3DTexture9* g_pTexture = NULL;
 
  gb::devhelp::ModelViewerCamera g_ModelViewerCamera;
+
+ IRenderBillboard* g_IRenderBillboard = NULL;
 
 
 //--------------------------------------------------------------------------------------
 // Rejects any devices that aren't acceptable by returning false
 //--------------------------------------------------------------------------------------
-bool CALLBACK IsDeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, 
-								 D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext )
-{
-	// Typically want to skip backbuffer formats that don't support alpha blending
-	IDirect3D9* pD3D = DXUTGetD3DObject(); 
-	if( FAILED( pD3D->CheckDeviceFormat( pCaps->AdapterOrdinal, pCaps->DeviceType,
-		AdapterFormat, D3DUSAGE_QUERY_POSTPIXELSHADER_BLENDING, 
-		D3DRTYPE_TEXTURE, BackBufferFormat ) ) )
-		return false;
+ bool CALLBACK IsDeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, 
+	 D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext )
+ {
+	 // Typically want to skip backbuffer formats that don't support alpha blending
+	 IDirect3D9* pD3D = DXUTGetD3DObject(); 
+	 if( FAILED( pD3D->CheckDeviceFormat( pCaps->AdapterOrdinal, pCaps->DeviceType,
+		 AdapterFormat, D3DUSAGE_QUERY_POSTPIXELSHADER_BLENDING, 
+		 D3DRTYPE_TEXTURE, BackBufferFormat ) ) )
+		 return false;
 
-	return true;
-}
+	 return true;
+ }
 
 
 //--------------------------------------------------------------------------------------
@@ -57,7 +58,9 @@ HRESULT CALLBACK OnCreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_
 {
   HRESULT hr = 0;
 
- hr |= D3DXCreateCubeTextureFromFileA(pd3dDevice, "z:\\!TEXTURES\\!DVD\\!CUBEMAP\\BlueSky512.dds", &g_ptxtr);
+  hr |= D3DXCreateTextureFromFileA(pd3dDevice, "z:\\!TEXTURES\\!DVD\\!SPRITES\\smoke.tga", &g_pTexture);
+
+
 
 
 
@@ -75,7 +78,8 @@ HRESULT CALLBACK OnResetDevice( IDirect3DDevice9* pd3dDevice,
 {
 
 	g_ModelViewerCamera.setProjParams( GBC_PI/4.0f , 
-		pBackBufferSurfaceDesc->Width/pBackBufferSurfaceDesc->Height  ,   0.1f,  1000.0f    );
+	      (float) ( pBackBufferSurfaceDesc->Width)  /   ( (float) pBackBufferSurfaceDesc->Height ) , 
+		0.1f,  1000.0f    );
 
 	g_ModelViewerCamera.setWindow( pBackBufferSurfaceDesc->Width , pBackBufferSurfaceDesc->Height  );
 	 
@@ -120,32 +124,45 @@ void CALLBACK OnFrameRender( IDirect3DDevice9* pd3dDevice, double fTime, float f
 
 
 
-	 if(!g_re)
+	 if(  !g_IRenderBillboard )
 	 {
+	 hr |= CreateRenderBillboardInterface( &g_IRenderBillboard , pd3dDevice);
  
-		 hr |= CreateInterfaceCubemapRender(&g_re, pd3dDevice);
-		 if FAILED(hr  )
-		 {
-			 throw ( std::runtime_error("fail") );
-		 }
 	 }
 
 
-	 mat44_s mView = g_ModelViewerCamera.getViewMatrix() ;
-	 mat44_s mProj = g_ModelViewerCamera.getProjMatrix() ;
-
-	 mat44_s mViewproj = mView * mProj;
-	 const mat44_s viewInv = mView.inverted();
-
-	 IRenderCubemapEnvironment::RenderEnvirOptions ro;
-	 ro.roll = (float)GBC_PI/2.0f;
-
-	hr |= g_re->RenderEnvironment(pd3dDevice, mViewproj, viewInv, g_ptxtr, ro);
+	 const  mat44_s mView = g_ModelViewerCamera.getViewMatrix() ;
+	 const  mat44_s mProj = g_ModelViewerCamera.getProjMatrix() ;
+      
+	    mat44_s mViewproj = mView * mProj;
+	 // temp !
+	// mViewproj.transpone();
 
 
+	 const mat44_s mWOrld = g_ModelViewerCamera.getWorldMatrix();
+	 mat44_s  mWVP = mWOrld * mViewproj;
+ 
 
+	 IRenderBillboard::RenderBillbOptions opt;
+	 opt.fRotationAngle = (float)fTime * 6.0f  ;
+	 opt.color.g = 0.8f;
+
+	 opt.position.x = 3.0f;
+
+  	 IRenderBillboard::FlagData flagdata;
+	 flagdata.needRestoreOldStates = true;
+	 flagdata.enableStrAlphaBlending = true;
+
+
+	  // check 
+	 hr |= g_IRenderBillboard->Render(pd3dDevice, g_pTexture, 
+		 mView,
+		 mViewproj,
+		 opt, flagdata
+		 );
 
    
+
 
 
 
@@ -178,10 +195,10 @@ void CALLBACK OnLostDevice( void* pUserContext )
 //--------------------------------------------------------------------------------------
 void CALLBACK OnDestroyDevice( void* pUserContext )
 {
- 
-	GB_SAFE_DEL_OBJ(g_re)
 
-	GB_SAFE_REL(g_ptxtr)
+
+	GB_SAFE_REL(g_pTexture)
+	GB_SAFE_DEL_OBJ(g_IRenderBillboard)
 
 }
 
