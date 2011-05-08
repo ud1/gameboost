@@ -11,7 +11,10 @@
 #include <gb/Config.h>
 
 #include <math.h>
+
+#ifdef _WIN32
 #include <xmath.h>
+#endif
 
 #ifdef GB_D3D9
     #include <d3d9.h>
@@ -29,7 +32,7 @@
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>
 #include <gb/math/geom2d.h>
-#include <gb/math/geom3d.h>
+// #include <gb/math/geom3d.h>
 #include <gb/math/proj.h>
 
 

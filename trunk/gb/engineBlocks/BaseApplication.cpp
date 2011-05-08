@@ -12,7 +12,7 @@
 
 namespace
 {
-	void setupCamera(gb::base::Camera &camera, const YAML::Node &config)
+	void setupCamera(gb::engine_blocks::CameraInput &camera, const YAML::Node &config)
 	{
 		const YAML::Node *camera_node = config.FindValue("camera");
 		if (camera_node)
@@ -27,6 +27,11 @@ namespace
 			if (node = camera_node->FindValue("fov"))
 			{
 				*node >> camera.fov;
+			}
+			
+			if (node = camera_node->FindValue("mouse_sens"))
+			{
+				*node >> camera.mouse_sens;
 			}
 			
 			if (node = camera_node->FindValue("speed"))
@@ -112,7 +117,7 @@ namespace gb
 				return false;
 			
 			main_window_rt->clearColor(true);
-			main_window_rt->setClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+			main_window_rt->setClearColor(0.0f, 0.7f, 1.0f, 1.0f);
 			main_window_rt->clearDepth(true);
 			main_window_rt->reshape();
 			return true;

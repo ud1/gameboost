@@ -36,6 +36,7 @@ set( GAMEBOOST_SOURCES
 		containers/Mesh.h containers/Mesh.cpp
 
 		color/color.h
+		str/UnicodeHelpers.h
 
 		containers/IResource.cpp containers/IResource.h containers/Texture2D.cpp containers/Texture2D.h
 
@@ -73,11 +74,8 @@ set( GAMEBOOST_SOURCES
 		
 		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
 		
-		str/formater.cpp str/formater.h str/KsDefines.h str/KsString.cpp str/KsString.h str/KsUtils.cpp str/KsUtils.h str/String.cpp str/String.h
-		
 		i18n/I18n.cpp  i18n/I18n.h  i18n/IntlString.h  i18n/IntlString.cpp
 		i18n/Japanese.h  i18n/Japanese.cpp
-		i18n/RomanicGermanic.h  i18n/RomanicGermanic.cpp
 		
 		Config.h )
 
