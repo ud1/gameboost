@@ -29,7 +29,11 @@ bool checkIntersectPlane(const Plane& aabb) {....}
 
 
 #include <gb/math/forw_decl.h>
+
+#ifdef _WIN32
 #include <xmath.h>
+#endif
+
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>
 

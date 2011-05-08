@@ -52,6 +52,12 @@ namespace gb
 			
 			skip_mouse_move = true;
 			mouseToCenter();
+			wnd->showCursor(false);
+		}
+		
+		void CameraInput::onDetach()
+		{
+			window->showCursor(true);
 		}
 		
 		void CameraInput::updatePosition(float delta_time)

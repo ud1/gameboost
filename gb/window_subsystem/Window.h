@@ -130,6 +130,7 @@ namespace gb
 			virtual void setCursorPosition(int x, int y) = 0;
 			virtual void startRendering() = 0;
 			virtual void finishRendering() = 0;
+			virtual void showCursor(bool v) = 0;
 		};
 
 		typedef base::RefCntHolder<Window> PWindow;

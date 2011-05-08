@@ -23,6 +23,8 @@ namespace gb
 			
 			bool mouse(window_subsystem::MouseMessage msg);
 			void onAttach(window_subsystem::Window *wnd);
+			void onDetach();
+			
 			void updatePosition(float delta_time);
 			
 			void addKeyBinding(window_subsystem::eKeyCodes::KeyCode, MoveType m);

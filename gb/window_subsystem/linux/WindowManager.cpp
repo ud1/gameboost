@@ -10,6 +10,8 @@
 #include <boost/program_options.hpp>
 #include <boost/scope_exit.hpp>
 
+#include <X11/cursorfont.h>
+
 #include <cassert>
 #include <map>
 #include <vector>
@@ -163,6 +165,31 @@ namespace
 			for (; it != windows.end(); ++it)
 			{
 				return it->second->flush();
+			}
+		}
+		
+		virtual void showCursor(bool v) 
+		{
+			if (!v)
+			{
+				Cursor invisibleCursor;
+				Pixmap bitmapNoData;
+				XColor black;
+				static char noData[] = { 0,0,0,0,0,0,0,0 };
+				black.red = black.green = black.blue = 0;
+
+				bitmapNoData = XCreateBitmapFromData(info.display, info.window, noData, 8, 8);
+				invisibleCursor = XCreatePixmapCursor(info.display, bitmapNoData, bitmapNoData, 
+													&black, &black, 0, 0);
+				XDefineCursor(info.display, info.window, invisibleCursor);
+				XFreeCursor(info.display, invisibleCursor);
+			}
+			else
+			{
+				Cursor cursor;
+				cursor=XCreateFontCursor(info.display, XC_left_ptr);
+				XDefineCursor(info.display, info.window, cursor);
+				XFreeCursor(info.display, cursor);
 			}
 		}
 		

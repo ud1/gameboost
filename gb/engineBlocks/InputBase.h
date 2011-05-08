@@ -35,11 +35,11 @@ namespace gb
 		protected:
 			math::vec2 window_center;
 			math::vec2 mouse_pos;
+			window_subsystem::PWindow window;
 			
 		private:
 			bool keys_pressed[256];
 			bool mouse_buttons_pressed[MB_COUNT];
-			window_subsystem::PWindow window;
 			
 			void reset();
 		};
