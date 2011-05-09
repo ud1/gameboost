@@ -706,5 +706,13 @@ GB_D3D9_API HRESULT  gb::graphics::d3d9::render::CreateRenderBitmapFontInterface
 };
 
 
+
+//========================================================================
+
+#pragma warning (pop)
+
+
+#endif // #if ( defined(WIN32) && defined(GB_D3D9) )
+// end file
 	
 	
