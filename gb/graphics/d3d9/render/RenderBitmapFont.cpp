@@ -443,3 +443,27 @@ static  bool __read_from_xml_root(FondBuilderHeader& hdr,
 	};
 
 	
+
+	class QuadsBuffer {
+	public:
+ 
+		QuadsBuffer(int num) : m_num(num)
+		{
+		   m_pQuads = new Quad[m_num];
+		}
+
+		~QuadsBuffer()
+		{
+			delete[] m_pQuads;
+		}
+
+		inline void setzero() { memset(m_pQuads, 0, m_num * sizeof(Quad) ); }
+
+
+		Quad* m_pQuads;
+		const int m_num;
+	
+	};
+	
+	
+	
