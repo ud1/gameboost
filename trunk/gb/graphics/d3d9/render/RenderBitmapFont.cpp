@@ -584,17 +584,35 @@ static  bool __read_from_xml_root(FondBuilderHeader& hdr,
 				//  m_DrawOptions.nBetweenSymbols
  
 
-			RECT rec;
-			SetRect(&rec, x, y,   x+m_DrawOptions.nSymbolsWidth,    y+m_DrawOptions.nSymbolHeight );
+			RECT recVertex, recTxCoord;
+			SetRect(&recVertex, x, y,  x + m_DrawOptions.nSymbolsWidth, y + m_DrawOptions.nSymbolHeight );
 			for(int c=0; c<NSTRLEN; c++)
 			{
 			  const char curr = *(str+c);
-				rec.left  = rec.left  + m_DrawOptions.nSymbolsWidth + m_DrawOptions.nBetweenSymbols;
-				rec.right = rec.right + m_DrawOptions.nSymbolsWidth + m_DrawOptions.nBetweenSymbols;
 
-				 m_QuadsBuffer.m_pQuads[c].setTxCoord_default();
-				 m_QuadsBuffer.m_pQuads[c].setPosRect( (float)rec.left , (float)rec.top , (float)rec.right , (float)rec.bottom );
-				 m_QuadsBuffer.m_pQuads[c].set_TxCoordRectTx(  m_charsDescrTable.table[ (int)curr ].recTexture ,  des.Width,  des.Height );
+ // make rect	 old
+  recVertex.left  = recVertex.left  + m_DrawOptions.nSymbolsWidth + m_DrawOptions.nBetweenSymbols;
+  recVertex.right = recVertex.right + m_DrawOptions.nSymbolsWidth + m_DrawOptions.nBetweenSymbols;
+
+
+  // make rect vertex
+// int ofsx =  m_charsDescrTable.table[ (int)curr ].offset.x + m_charsDescrTable.table[(int)curr].advance - m_charsDescrTable.table[ (int)curr ].offset.x;
+// recVertex.left = recVertex.left +	ofsx;
+ //recVertex.right = recVertex.right +	ofsx;
+ // int ofsy = m_charsDescrTable.table[ (int)curr ].offset.y;
+ // recVertex.bottom = recVertex.top +  m_DrawOptions.nSymbolHeight;  // ofsy;
+
+
+ recTxCoord = m_charsDescrTable.table[ (int)curr ].recTexture ;
+
+
+
+
+
+ // set to quad
+ m_QuadsBuffer.m_pQuads[c].setTxCoord_default();
+ m_QuadsBuffer.m_pQuads[c].setPosRect( (float)recVertex.left , (float)recVertex.top , (float)recVertex.right , (float)recVertex.bottom );
+ m_QuadsBuffer.m_pQuads[c].set_TxCoordRectTx(  recTxCoord ,  des.Width,  des.Height );
 
 
 

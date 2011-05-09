@@ -41,8 +41,14 @@
 #include <gb/Config.h>
 #include <gb/base/Types.h>
 
-// gameboost math
-#include <gb/math/math.h>
+
+#ifdef GB_MATH
+   #include <gb/math/math.h>
+#endif
+
+#ifndef GB_MATH
+#error GB_MATH NEED
+#endif
 
 using namespace gb::math::base;
 using namespace gb::math::geom3d;
