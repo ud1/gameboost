@@ -625,5 +625,43 @@ static  bool __read_from_xml_root(FondBuilderHeader& hdr,
 	};
 	
 	
+
+
+
+//=================================================================
+GB_D3D9_API HRESULT  gb::graphics::d3d9::render::CreateRenderBitmapFontInterface(
+		IRenderBitmapFont** ppOut,  
+		IDirect3DDevice9* pdevice,	
+		IDirect3DTexture9* pBitmapTexture, 
+		const IRenderBitmapFont::CharDescrTableAnsi& table  )
+ 
+{
+	HRESULT hr =S_OK;
+
+	assert(ppOut);
+	if(!ppOut)
+	{
+		return E_FAIL;
+	}
+
+ 
+   *ppOut = NULL;
+
+   try {
+   *ppOut = (IRenderBitmapFont*) new RenderBitmapFont(pdevice, pBitmapTexture, table);
+   }
+   catch(...)
+   {
+	 delete	 *ppOut;
+
+	   hr |= E_FAIL; // | ERROR_EX
+   }
+
+   
+
+	return hr;
+};
+
+#undef SCREENQUADVERT_FVF
 	
 	
