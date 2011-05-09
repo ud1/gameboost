@@ -1,8 +1,8 @@
 ﻿
 
 //#pragma message("KS777: NEED COMMENTED"  __FILE__ )
-//#include "stdafx.h"
-
+ 
+#include "pch.h"
 #include <gb/math/scalar.h>
 
 
