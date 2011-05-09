@@ -51,6 +51,10 @@
 #endif
 
 
+//!  Временно !  Перенести !
+#define EPSILON		1.0e-6f
+
+
 namespace gb 
 {
 
@@ -1738,6 +1742,17 @@ namespace gb
 				assert( index<4 && "invalid index" );
 			    floats[0][index]=col.x; floats[1][index]=col.y; floats[2][index]=col.z; floats[3][index]=col.w;
 			}
+
+			//! \brief   Изволечь данные трансляции.
+			vec3_s getTranslation() const
+			{		  
+				return vec3_s(floats[3][0], floats[3][1], floats[3][2]);
+			}
+
+			//-------------------------------------------------------------
+
+			//! \brief  Раскидать матрицу на данные трансформации. ПРОВЕРЕНО!
+			void decompose( vec3_s& scale, geom3d::Quaternion& rot, vec3_s& pos ) const;
 
 			//-------------------------------------------------------------
  
