@@ -52,6 +52,18 @@ namespace gb
 		using namespace glm;
 		
 		typedef vec3::value_type vec_t;
+		
+		inline int ilog2(int v)
+		{
+			int lev = sizeof(int)*8 - 1;
+			for (; lev; --lev)
+			{
+				int val = 1 << lev;
+				if (v & val)
+					return lev;
+			}
+			return 0;
+		}
 	}
 }
 

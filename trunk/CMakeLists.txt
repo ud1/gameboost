@@ -30,3 +30,4 @@ add_subdirectory( examples )
 
 add_subdirectory( gb/deplib/NvTriStrip )
 add_subdirectory(experimental)
+add_subdirectory(utils)
