@@ -663,5 +663,48 @@ GB_D3D9_API HRESULT  gb::graphics::d3d9::render::CreateRenderBitmapFontInterface
 };
 
 #undef SCREENQUADVERT_FVF
+
+
+
+
+//========================================================================
+GB_D3D9_API HRESULT  gb::graphics::d3d9::render::CreateRenderBitmapFontInterfaceFromXmlFileA(   
+			IRenderBitmapFont** ppOut, IDirect3DDevice9* pdevice,	
+			IDirect3DTexture9* pBitmapTexture,  const char* sXmlFileFontDescr  )
+{
+ HRESULT hr =0;
+
+ assert(ppOut);
+ if(!ppOut)
+ {
+	 return E_FAIL;
+ }
+
+
+ *ppOut = NULL;
+
+  RenderBitmapFont* pfont = NULL;
+
+ try {
+	 pfont =  new RenderBitmapFont(pdevice, pBitmapTexture, sXmlFileFontDescr );
+
+ }
+ catch(...)
+ {
+	  GB_SAFE_DEL_OBJ(pfont);
+
+	 hr |= E_FAIL; 
+ }
+
+
+
+
+
+   *ppOut = (IRenderBitmapFont*)pfont;
+
+ return hr;
+};
+
+
 	
 	
