@@ -1321,7 +1321,8 @@ PREDEFINED             = WIN32 \
                          GB_OPENGL \
                          GB_D3D9 \
                          GB_MATH \
-                         GB_VG
+                         GB_VG \
+                         GB_COLOR
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then 
 # this tag can be used to specify a list of macro names that should be expanded. 
