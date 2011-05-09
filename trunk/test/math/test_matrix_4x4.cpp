@@ -739,6 +739,121 @@ void test_setRotatYawPitchRoll(  ) //float y, float p, float r)
 
 }
 
+#include <math.h>
+
+
+ /*	*******************************************
+D3DXVECTOR3 __getPos(const D3DXMATRIX& m)
+{		  
+		return D3DXVECTOR3(m.m[3][0], m.m[3][1], m.m[3][2]);
+}
+
+inline float sqr(float f) { return f*f; } 
+
+//  добавлено
+void my_decompose(vec3_s& pos, Quaternion& rot, vec3_s& scale, const D3DXMATRIX& msrc)
+{
+ 
+		mat44_s m = msrc;
+
+		pos =  __getPos(m);
+
+		scale.x =  sqrt( sqr(m.floats[0][0]) +  sqr(m.floats[0][1]) +  sqr(m.floats[0][2]));
+		scale.y =  sqrt( sqr(m.floats[1][0]) +  sqr(m.floats[1][1]) +  sqr(m.floats[1][2]));
+		scale.z =  sqrt( sqr(m.floats[2][0]) +  sqr(m.floats[2][1]) +  sqr(m.floats[2][2]));
+
+		for (int i=0; i<3; i++) 
+		{
+			if (scale.floats[i] > EPSILON) 
+			{
+				m.floats[i][0] /= scale.floats[i];
+				m.floats[i][1] /= scale.floats[i];
+				m.floats[i][2] /= scale.floats[i];
+			}
+		}
+
+		rot.setRotationMatrix(m);
+ 
+
+}
+ *******************************/
+
+//===================================================
+void test_decompose()
+{
+  PRINTFUNC
+	// d3dx
+	{
+   D3DXMATRIX msc, mrot, mtr;
+
+  D3DXMatrixScaling(&msc, 0.45f, 1.254f , 0.945f  );
+
+  D3DXVECTOR3 ax = D3DXVECTOR3( 1.025f , 0.65f , 0.333f );
+  D3DXVec3Normalize( &ax , &ax );
+  //D3DXMatrixRotationYawPitchRoll(&mrot,  -0.64, -0.345f , 1.248f );
+  D3DXMatrixRotationAxis( &mrot , &ax , 0.645f );
+
+  D3DXMatrixTranslation(&mtr, -4.15f , 3.48f , 7.45f    );
+ 
+
+   D3DXMATRIX mworld   =  msc * mrot *   mtr ;
+
+ 
+   D3DXVECTOR3 vscale;
+   D3DXQUATERNION qRot;	 
+   D3DXVECTOR3 vtrnsl;
+
+     D3DXMatrixDecompose( &vscale , &qRot, &vtrnsl, &mworld );
+
+   printf("\n   D3DX:  \n");
+   printf("\n\n%f  %f  %f  \n%f  %f  %f  %f \n%f  %f  %f\n\n",  
+	   vscale.x,  vscale.y,  vscale.z, 
+	   qRot.x ,   qRot.y ,  qRot.z ,  qRot.w ,
+	   vtrnsl.x , vtrnsl.y , vtrnsl.z
+	   );
+
+
+
+ 
+
+
+   }
+
+
+   // gb
+	{
+    mat44_s msc, mrot, mtr;
+	 msc.setScaling( 0.45f, 1.254f , 0.945f  );
+
+	 vec3_s ax = vec3_s( 1.025f , 0.65f , 0.333f );
+	  ax.normalize();
+	  mrot.setRotationAxis(  ax , 0.645f );
+
+
+	 mtr.setTranslation( -4.15f , 3.48f , 7.45f   );
+
+	 mat44_s  mworld =  msc * mrot *   mtr ;
+ 
+	vec3_s vscale;
+	Quaternion qRot;  //qRot.reset();
+	vec3_s vtrnsl;
+
+	//my_decompose(  vscale, qRot, vtrnsl, mworld   );
+	  mworld.decompose( vscale, qRot, vtrnsl   );
+
+	  printf("\n   GAMEBOOST:  \n");
+      printf("\n\n%f  %f  %f  \n%f  %f  %f  %f \n%f  %f  %f\n\n",  
+	   vscale.x,  vscale.y,  vscale.z, 
+	   qRot.x ,   qRot.y ,  qRot.z ,  qRot.w ,
+	   vtrnsl.x , vtrnsl.y , vtrnsl.z
+	   );
+
+
+	}
+
+
+  printf("\n\n    --- end function  ---------  \n\n");
+}
  
 
 
@@ -775,6 +890,8 @@ test_translation();
 test_rotationQuaternion();
 
 test_setRotatYawPitchRoll();
+
+test_decompose();
 
 
  printf(" \n\n  ######################   end program   ##################### \n");
