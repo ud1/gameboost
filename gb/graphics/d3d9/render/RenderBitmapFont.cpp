@@ -129,3 +129,202 @@ public:
 	  return true;
   }
 
+
+
+  //===============================================================
+static  bool __read_from_xml_root(FondBuilderHeader& hdr, 
+					  IRenderBitmapFont::CharDescrTableAnsi& table, 
+					  xml_node&  root)
+  {
+	  xml_attribute atr = root.attribute("type");
+	  if(atr.empty() )
+	  {
+		  return false;
+	  }
+
+	  hdr.type = atr.value();
+
+
+	  // read description
+	  xml_node  des =	root.child("description");
+	  if(des.empty())
+	  {
+		  return false;
+	  }
+
+	  xml_attribute  size = des.attribute("size");
+	  if(size.empty() ) 
+	  {
+		  return false;
+	  }
+
+	  hdr.m_description.size = size.as_int();
+
+	  xml_attribute  family = des.attribute("family");
+	  if(family.empty() ) 
+	  {
+		  return false;
+	  }
+
+	  hdr.m_description.family = family.value();
+
+	  xml_attribute   style = des.attribute("style");
+	  if(style.empty() ) 
+	  {
+		  return false;
+	  }
+
+	  hdr.m_description.style =  style.value();
+
+
+
+
+	  // read metrics
+
+	  xml_node  n_metrics  =	root.child("metrics");
+	  if(n_metrics.empty() )
+	  {
+		  return false;
+	  }
+
+	  atr = n_metrics.attribute("ascender");
+	  if(atr.empty() )
+	  {
+		  return false;
+	  }
+
+	  hdr.m_metrics.ascender = atr.as_int();
+
+	  atr = n_metrics.attribute("height");
+	  if(atr.empty() )
+	  {
+		  return false;
+	  }
+
+	  hdr.m_metrics.height = atr.as_int();
+
+	  atr = n_metrics.attribute("descender");
+	  if(atr.empty() )
+	  {
+		  return false;
+	  }
+
+	  hdr. m_metrics.descender = atr.as_int();
+
+
+
+
+	  // read texture
+
+	  xml_node  node =	root.child("texture");
+
+
+	  atr = node.attribute("width");
+	  if(atr.empty() )
+	  {
+		  return false;
+	  }
+	  hdr.m_texture.width = atr.as_int();
+
+
+	  atr = node.attribute("height");
+	  if(atr.empty() )
+	  {
+		  return false;
+	  }
+
+	  hdr.m_texture.height = atr.as_int();
+
+
+
+	  atr = node.attribute("file");
+	  if(atr.empty() )
+	  {
+		  return false;
+	  }
+	  hdr.m_texture.file  = atr.value();
+
+
+
+	  // read  table 
+	  //
+
+	  xml_node n_chars = root.child("chars");
+	  if(n_chars.empty() )
+	  {
+		  return false;
+	  }
+
+	  // set zero
+	  memset(&table, 0, sizeof(table) );
+
+
+	  xml_node n_char;
+	  for( xml_node::iterator it = n_chars.begin(); it != n_chars.end(); ++it  )
+	  {
+ 
+		  n_char = *it;
+
+		  atr = n_char.attribute("offset");
+		  if(atr.empty() )
+		  {
+			  return false;
+		  }
+		  POINT point;
+		  if( !__point_from_str( point, atr.value() ) )
+		  {
+			  // err
+			  return false;
+		  }
+
+		  RECT rect;
+		  atr = n_char.attribute("rect");
+		  if(atr.empty() )
+		  {
+			  return false;
+		  }
+		  if( !__rect_from_str( rect, atr.value() ) )
+		  {
+			  // err
+			  return false;
+		  }
+
+
+		  int nAdvance =0;
+		  atr = n_char.attribute("advance");
+		  if(atr.empty() )
+		  {
+			  return false;
+		  }
+		  nAdvance = atr.as_int();
+
+
+		  unsigned char id = '\0';
+		  atr = n_char.attribute("id");
+		  if(atr.empty() )
+		  {
+			  return false;
+		  }
+
+		  id = (unsigned char)atr.value()[0];//   as_int();
+
+
+		  //  assign to table
+		  //
+
+		  table.table[ (unsigned int)id  ].advance = nAdvance;
+		  table.table[ (unsigned int)id  ].offset =   point;
+		  table.table[ (unsigned int)id  ].recTexture = rect;
+
+
+
+
+		//  int _end =0;
+	  }
+ 
+	  //
+	  // end 
+
+
+	  return true;
+  }
