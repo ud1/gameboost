@@ -1,4 +1,4 @@
-﻿#include "stdafx.h" 
+﻿//#include "stdafx.h" 
 
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
@@ -91,7 +91,7 @@ inline FONT3DVERTEX InitFont3DVertex( const VECTOR3& p, const VECTOR3& n,
 // Name: D3dFont()
 // Desc: Font class constructor
 //-----------------------------------------------------------------------------
-D3dFont::D3dFont(IDirect3DDevice9* pd3dDevice,  const WCHAR* strFontName, DWORD dwHeight, DWORD dwFlags )
+  GB_D3D9_API  D3dFont::D3dFont(IDirect3DDevice9* pd3dDevice,  const WCHAR* strFontName, DWORD dwHeight, DWORD dwFlags )
 {
     _tcsncpy( m_strFontName, strFontName, sizeof(m_strFontName) / sizeof(WCHAR) );
     m_strFontName[ sizeof(m_strFontName) / sizeof(WCHAR) - 1] = _T('\0' );
@@ -127,7 +127,7 @@ D3dFont::D3dFont(IDirect3DDevice9* pd3dDevice,  const WCHAR* strFontName, DWORD 
 // Name: ~D3dFont()
 // Desc: Font class destructor
 //-----------------------------------------------------------------------------
-D3dFont::~D3dFont()
+  GB_D3D9_API  D3dFont::~D3dFont()
 {
     InvalidateDeviceObjects();
     DeleteDeviceObjects();
@@ -141,7 +141,7 @@ D3dFont::~D3dFont()
 // Desc: Create a font based on the current state of related member variables
 //       and return the handle (or null on error)
 //-----------------------------------------------------------------------------
-HRESULT D3dFont::CreateGDIFont( HDC hDC, HFONT* pFont )
+  GB_D3D9_API  HRESULT D3dFont::CreateGDIFont( HDC hDC, HFONT* pFont )
 {
     // Create a font.  By specifying ANTIALIASED_QUALITY, we might get an
     // antialiased font, but this is not guaranteed.
@@ -171,7 +171,7 @@ HRESULT D3dFont::CreateGDIFont( HDC hDC, HFONT* pFont )
 //       provided device context. If the bMeasureOnly flag is set, no drawing 
 //       will occur.
 //-------------------------------------------------------------------------
-HRESULT D3dFont::PaintAlphabet( HDC hDC, BOOL bMeasureOnly )
+  GB_D3D9_API  HRESULT D3dFont::PaintAlphabet( HDC hDC, BOOL bMeasureOnly )
 {
     SIZE size;
     TCHAR str[2] = _T("x"); // One-character, null-terminated string
@@ -231,7 +231,7 @@ HRESULT D3dFont::PaintAlphabet( HDC hDC, BOOL bMeasureOnly )
 // Desc: Initializes device-dependent objects, including the vertex buffer used
 //       for rendering text and the texture map which stores the font image.
 //-------------------------------------------------------------------------
-HRESULT D3dFont::InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice )
+  GB_D3D9_API  HRESULT D3dFont::InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice )
 {
     HRESULT hr = S_OK;
     HFONT hFont = NULL;
@@ -387,7 +387,7 @@ LCleanReturn:
 // Name: RestoreDeviceObjects()
 // Desc:
 //-----------------------------------------------------------------------------
-HRESULT D3dFont::RestoreDeviceObjects()
+  GB_D3D9_API  HRESULT D3dFont::RestoreDeviceObjects()
 {
     HRESULT hr;
 
@@ -489,7 +489,7 @@ HRESULT D3dFont::RestoreDeviceObjects()
 // Name: InvalidateDeviceObjects()
 // Desc: Destroys all device-dependent objects
 //-----------------------------------------------------------------------------
-HRESULT D3dFont::InvalidateDeviceObjects()
+  GB_D3D9_API  HRESULT D3dFont::InvalidateDeviceObjects()
 {
     GB_SAFE_REL( m_pVB );
     GB_SAFE_REL( m_pStateBlockSaved );
@@ -505,7 +505,7 @@ HRESULT D3dFont::InvalidateDeviceObjects()
 // Name: DeleteDeviceObjects()
 // Desc: Destroys all device-dependent objects
 //-----------------------------------------------------------------------------
-HRESULT D3dFont::DeleteDeviceObjects()
+  GB_D3D9_API  HRESULT D3dFont::DeleteDeviceObjects()
 {
     GB_SAFE_REL( m_pTexture );
     m_pd3dDevice = NULL;
@@ -520,7 +520,7 @@ HRESULT D3dFont::DeleteDeviceObjects()
 // Name: GetTextExtent()
 // Desc: Get the dimensions of a text string
 //-----------------------------------------------------------------------------
-HRESULT D3dFont::GetTextExtent( const TCHAR* strText, SIZE* pSize )
+  GB_D3D9_API  HRESULT D3dFont::GetTextExtent( const TCHAR* strText, SIZE* pSize )
 {
     if( NULL==strText || NULL==pSize )
         return E_FAIL;
@@ -560,7 +560,7 @@ HRESULT D3dFont::GetTextExtent( const TCHAR* strText, SIZE* pSize )
 
 //
 //-------------------------------------------------------------------------
-GB_D3D9_API	HRESULT D3dFont::DrawTextBackgrA(int x, int y, int backOffset,
+  GB_D3D9_API  GB_D3D9_API	HRESULT D3dFont::DrawTextBackgrA(int x, int y, int backOffset,
 								 DWORD dwFrontColor, DWORD dwBackColor, 
 								 const CHAR* str, DWORD dwFlag  )
 {
@@ -582,7 +582,7 @@ GB_D3D9_API	HRESULT D3dFont::DrawTextBackgrA(int x, int y, int backOffset,
 //       1/8th of the screen width.  This allows you to output text at a fixed
 //       fraction of the viewport, even if the screen or window size changes.
 //-----------------------------------------------------------------------------
-HRESULT D3dFont::DrawTextScaled( float x, float y, float z,
+  GB_D3D9_API  HRESULT D3dFont::DrawTextScaled( float x, float y, float z,
                                   float fXScale, float fYScale, DWORD dwColor,
                                   const WCHAR* strText, DWORD dwFlags )
 {
@@ -924,7 +924,7 @@ GB_D3D9_API	HRESULT D3dFont::DrawTextA( int n_sx, int n_sy,  DWORD dwColor, cons
 // Name: DrawText()
 // Desc: Draws 2D text. Note that sx and sy are in pixels
 //-----------------------------------------------------------------------------
-GB_D3D9_API	HRESULT D3dFont::DrawTextW( int n_sx, int n_sy, DWORD dwColor,
+GB_D3D9_API	GB_D3D9_API	HRESULT D3dFont::DrawTextW( int n_sx, int n_sy, DWORD dwColor,
                             const WCHAR* strText, DWORD dwFlags )
 {
 	HRESULT hr = S_OK;
@@ -1098,7 +1098,7 @@ GB_D3D9_API	HRESULT D3dFont::DrawTextW( int n_sx, int n_sy, DWORD dwColor,
 // Name: Render3DText()
 // Desc: Renders 3D text
 //-----------------------------------------------------------------------------
-HRESULT D3dFont::Render3DText( const TCHAR* strText, DWORD dwFlags )
+GB_D3D9_API	HRESULT D3dFont::Render3DText( const TCHAR* strText, DWORD dwFlags )
 {
     if( m_pd3dDevice == NULL )
         return E_FAIL;

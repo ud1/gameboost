@@ -5,6 +5,9 @@
 
   \author ksacvet777
 
+  \todo для билбоардов и спрайтов добавить методы множественной отрисовки.
+  \todo для RenderBitmapFont.cpp  сделать расширеное детектирование глюков в отладке.
+
 */
 
 #if ( defined(WIN32) && defined(GB_D3D9) )
@@ -136,6 +139,90 @@ namespace gb
 //! \brief  Создать интерфейс вывода билбоардов.
 GB_D3D9_API HRESULT  CreateRenderBillboardInterface (IRenderBillboard** ppOut,
 													 IDirect3DDevice9* pdevice);
+
+
+
+
+
+class IRenderBitmapFont {
+public:
+
+	//! \brief  описание для отрисовки символа
+	struct CharDescr {
+		POINT offset;	  //< отступ меж символам  //  (x-меж символов в строке, y-меж строками).
+		RECT  recTexture; //< расположение символа на текстуре.
+		int advance;
+	};
+
+
+	//! \brief Таблица  для всех символов ASCII (0-255).
+	struct CharDescrTableAnsi 
+	{
+		CharDescr table [256];
+	};
+
+
+	//! \brief  Опции отрисовки.
+	class DrawOptions {
+	public:
+		int nSymbolsWidth;
+		int nSymbolHeight;
+		int nBetweenSymbols;
+		int nBetweenLines;
+
+		//! \brief Конструктор заливает всё по умолчанию.
+		DrawOptions()
+		{
+   		  nSymbolsWidth = 12;
+		  nSymbolHeight = 12;
+		  nBetweenSymbols = 0;
+		  nBetweenLines   = 0;
+
+		}
+	};
+
+
+	//! \brief  Опции создания шрифта.
+	class CreateRenderBitmapFontOptions  {
+	public:
+ 
+		    CreateRenderBitmapFontOptions() { }
+	};
+
+	virtual ~IRenderBitmapFont() {}
+
+
+
+	virtual HRESULT DrawStr(int x, int y, const char* str ) const =0;
+
+	virtual const DrawOptions& getDrawOptions() const =0;
+	virtual void  setDrawOptions(const DrawOptions& opt)  =0;
+
+
+};
+
+
+ 
+/** \brief  Создать интерфейс вывода текстурного шрифта.  <br> */
+GB_D3D9_API HRESULT  CreateRenderBitmapFontInterface(
+				IRenderBitmapFont** ppOut,  
+				IDirect3DDevice9* pdevice,	
+				IDirect3DTexture9* pBitmapTexture, //<	текстура  шрифта.
+				const IRenderBitmapFont::CharDescrTableAnsi& table //< заранее созданая таблица символов
+	);
+
+
+GB_D3D9_API HRESULT  CreateRenderBitmapFontInterfaceFromXmlFileA(
+	IRenderBitmapFont** ppOut,  
+	IDirect3DDevice9* pdevice,	
+	IDirect3DTexture9* pBitmapTexture, //<	текстура  шрифта.
+	const char* sXmlFileFontDescr //<  XML файл с описанием шрифта. По программе Font Builder .
+	);
+
+
+
+
+
 
 
 

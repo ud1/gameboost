@@ -216,10 +216,9 @@ GB_D3D9_API HRESULT  DrawScreenQuad( IDirect3DDevice9* pdevice,
 	screenQuadVertices[5].x = fleft;
 	screenQuadVertices[5].y = fbottom;
 
-	D3DCOLORVALUE _color = color;
 	for(int c=0; c<6; c++)
 	{
-		screenQuadVertices[c].color = D3DCOLOR_COLORVALUE( _color.r, _color.g, _color.b, _color.a );
+		screenQuadVertices[c].color = D3DCOLOR_COLORVALUE( color.r, color.g, color.b, color.a );
 	}
 
 	DWORD dwOldFvf;
