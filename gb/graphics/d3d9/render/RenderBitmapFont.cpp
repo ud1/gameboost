@@ -84,3 +84,48 @@ public:
 };
 
 
+
+
+ //===============================================================
+ static  bool __point_from_str(POINT& pnt,  const std::string& str)
+  {
+	 pnt.x = pnt.y =0;
+
+	 int n1, n2;
+	 const int nsres = sscanf(str.c_str(), "%i %i", &n1, &n2 );
+	 if(nsres != 2)
+	 {
+		 return false;
+	 }
+
+	 pnt.x = n1;
+	 pnt.y = n2;
+
+   
+
+	  return true;
+  }
+
+
+ //===============================================================
+  static  bool __rect_from_str(RECT& rec,  const std::string& str)
+  {
+	 rec.left=rec.right=rec.top=rec.bottom=0;
+
+
+	 int a1, a2, a3, a4;
+	 const int NSRES = sscanf(str.c_str(), "%i %i %i %i", &a1, &a2, &a3, &a4 );
+	 if(NSRES != 4)
+	 {
+		 return false;
+	 }
+
+	 rec.left = a1;
+	 rec.right = rec.left + a3;
+
+	 rec.top = a2;
+	 rec.bottom = rec.top + a4;
+
+	  return true;
+  }
+
