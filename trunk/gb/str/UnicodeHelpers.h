@@ -173,7 +173,7 @@ namespace gb
 			}
 		}
 		
-		void changeEndianess32(const std::string &str_in, std::string &str_out)
+		inline void changeEndianess32(const std::string &str_in, std::string &str_out)
 		{
 			str_out.resize(str_in.size());
 			for (size_t i = 0; i < str_in.size()/4; ++i)
