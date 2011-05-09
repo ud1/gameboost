@@ -5,13 +5,14 @@
 #include <vector>
 #include <gb/terrain/ElevationData.h>
 #include <gb/math/math.h>
-#include <gb/loaders/images/ImageLoader.h>
 #include <gb/loaders/images/BmpLoader.h>
+#include <gb/loaders/images/JpegLoader.h>
 #include <gb/fs/LocalFS.h>
 #include <gb/containers/Image.h>
 
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/concept_check.hpp>
 
 namespace po = boost::program_options;
 
@@ -30,6 +31,8 @@ std::vector<NormalsInfo *> normals_filenames;
 
 fs::LocalFS *file_system;
 BmpLoader bmp_loader;
+JpegLoader jpg_loader;
+std::string image_format = "jpg";
 
 const int NORMALS_SIZE = 256;
 const int BORDER_SIZE = 4;
@@ -252,7 +255,9 @@ bool readInputRawFile(ElevationData::height_t *buf, const std::string &file_in, 
 void saveImage(const std::string &filename, const Image &im)
 {
 	fs::OutputStream *file = file_system->getOutputStream(filename, true);
-	bmp_loader.saveImage(*file, im);
+	if (image_format == "bmp")
+		bmp_loader.saveImage(*file, im);
+	else jpg_loader.saveImage(*file, im);
 	file->release();
 }
 
@@ -265,6 +270,7 @@ void saveNormals(math::vec3 *normals, int width, int lod, const std::string &pat
 	image.width = NORMALS_SIZE+2*BORDER_SIZE;
 	image.height = NORMALS_SIZE+2*BORDER_SIZE;
 	image.pixel_format = ePixelFormat::BGR_888;
+	image.pitch = (NORMALS_SIZE+2*BORDER_SIZE)*3;
 	image.data = new char[(NORMALS_SIZE+2*BORDER_SIZE)*(NORMALS_SIZE+2*BORDER_SIZE)*3];
 	for (int i = 0; i < ny; ++i)
 	{
@@ -301,7 +307,7 @@ void saveNormals(math::vec3 *normals, int width, int lod, const std::string &pat
 				}
 			}
 			std::stringstream ss;
-			ss << "l" << lod << "x" << j << "y" << i << ".bmp";
+			ss << "l" << lod << "x" << j << "y" << i << "." << image_format;
 			NormalsInfo *info = new NormalsInfo;
 			info->l = lod;
 			info->x = j;
@@ -327,8 +333,15 @@ int main(int argc, char **argv) {
 		("size_x", po::value<float>(&size_x), "x-dimension size of the terrain in meters")
 		("size_y", po::value<float>(&size_y), "y-dimension of the terrain in meters")
 		("scale_z", po::value<float>(&lin_scale_z), "size of one height unit of the input heightmap in meters")
-		("out", po::value<std::string>(&output_file), "output_file_heights will be a directory where to store heights, output_file_normals.big_image will store metadata, output_file_normals will store normals")
+		("out", po::value<std::string>(&output_file), "output_file_heights directory will store the heights, output_file_normals.big_image file - metadata, output_file_normals directory - normals")
+		("image_format", po::value<std::string>(&image_format), "image format for normals, jpg/bmp")
 	;
+	
+	if (image_format != "jpg" && image_format != "bmp")
+	{
+		std::cout << "invalid image format " << image_format << "\n";
+		return 0;
+	}
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -346,15 +359,15 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	std::string file_in, file_out, path_height, path_normals, normals_metadata;
-	path_height = file_out + "_heights/";
-	path_normals = file_out + "_normals/";
-	normals_metadata = file_out + "_normals.big_image";
+	std::string path_height, path_normals, normals_metadata;
+	path_height = output_file + "_heights/";
+	path_normals = output_file + "_normals/";
+	normals_metadata = output_file + "_normals.big_image";
 	boost::filesystem::create_directory((output_file+"_heights").c_str());
 	boost::filesystem::create_directory((output_file+"_normals").c_str());
 
 	ElevationData::height_t *buf_raw = new ElevationData::height_t[width*width];
-	if(!readInputRawFile(buf_raw, file_in, width))
+	if(!readInputRawFile(buf_raw, input_file, width))
 	{
 		delete []buf_raw;
 		return 0;

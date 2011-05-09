@@ -103,15 +103,15 @@ namespace gb
 			}
 		}
 
-		template<typename T, const unsigned int num>
-		//! \brief  Копирование массива val в dest   количество  num
-		inline void copy( T * dest, const T * val, const int num ) throw()
-		{
-			for (int i = 0; i < num; i++)
-			{
-				dest[i] = val[i];
-			}
-		}
+// 		template<typename T, const unsigned int num>
+// 		//! \brief  Копирование массива val в dest   количество  num
+// 		inline void copy( T * dest, const T * val, const int num ) throw()
+// 		{
+// 			for (int i = 0; i < num; i++)
+// 			{
+// 				dest[i] = val[i];
+// 			}
+// 		}
 
 
 	
