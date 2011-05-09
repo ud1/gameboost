@@ -77,29 +77,29 @@ GB_D3D9_API	HRESULT DrawTextW( int x, int y,
 
 private:
 
-	HRESULT DrawTextScaled(
-		float x, float y, float z, 
-		float fXScale, float fYScale,
-		DWORD dwColor, 
-		const WCHAR* strText,
-		DWORD dwFlags=0L );
+  GB_D3D9_API   HRESULT DrawTextScaled(
+			float x, float y, float z, 
+			float fXScale, float fYScale,
+			DWORD dwColor, 
+			const WCHAR* strText,
+			DWORD dwFlags=0L );
 
-	HRESULT Render3DText( const TCHAR* strText, DWORD dwFlags=0L );
+  GB_D3D9_API HRESULT Render3DText( const TCHAR* strText, DWORD dwFlags=0L );
 
 	// Function to get extent of text
-	HRESULT GetTextExtent( const TCHAR* strText, SIZE* pSize );
+  GB_D3D9_API HRESULT GetTextExtent( const TCHAR* strText, SIZE* pSize );
 
 
 	//--------------------------------------------------------------
 
-	HRESULT   CreateGDIFont( HDC hDC, HFONT* pFont );
-	HRESULT   PaintAlphabet( HDC hDC, BOOL bMeasureOnly=FALSE );
+  GB_D3D9_API HRESULT   CreateGDIFont( HDC hDC, HFONT* pFont );
+  GB_D3D9_API HRESULT   PaintAlphabet( HDC hDC, BOOL bMeasureOnly=FALSE );
 
-	HRESULT InvalidateDeviceObjects();
-	HRESULT DeleteDeviceObjects();
+  GB_D3D9_API HRESULT InvalidateDeviceObjects();
+  GB_D3D9_API HRESULT DeleteDeviceObjects();
 
-	HRESULT InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice );
-	HRESULT RestoreDeviceObjects();
+  GB_D3D9_API HRESULT InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice );
+  GB_D3D9_API HRESULT RestoreDeviceObjects();
 
 
 	TCHAR   m_strFontName[80];            ///< Font properties
