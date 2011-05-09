@@ -467,3 +467,163 @@ static  bool __read_from_xml_root(FondBuilderHeader& hdr,
 	
 	
 	
+
+	class RenderBitmapFont : public IRenderBitmapFont {
+	public:
+		IDirect3DDevice9* m_pdevice;
+		IDirect3DTexture9* m_ptexture;
+		FondBuilderHeader  m_FondBuilderHeader;
+	  mutable  QuadsBuffer m_QuadsBuffer;
+
+	   IRenderBitmapFont::CharDescrTableAnsi   m_charsDescrTable ;
+	   IRenderBitmapFont::DrawOptions          m_DrawOptions;
+
+	virtual const DrawOptions& getDrawOptions() const  
+	{
+		return m_DrawOptions;
+	};
+
+	virtual void  setDrawOptions(const DrawOptions& opt)   
+	{
+	   m_DrawOptions = opt;
+	};
+
+
+	   //    ПЕРВЫЙ КОНСТРУКТОР
+	   RenderBitmapFont(IDirect3DDevice9* device, 
+		   IDirect3DTexture9* txtr, 
+		   const IRenderBitmapFont::CharDescrTableAnsi& table) throw()
+		   : m_QuadsBuffer(1024)  
+		{
+			m_pdevice = device;
+			m_ptexture = txtr;
+
+			assert(m_pdevice);
+			assert(m_ptexture);
+
+			if( (!m_pdevice)  || (!m_ptexture) )
+			{
+				throw std::runtime_error("invalid args");
+			}
+  
+			memset(&m_charsDescrTable, 0, sizeof(m_charsDescrTable) );
+			m_charsDescrTable = table;
+ 
+		}
+
+
+	   //    ВТОРОЙ КОНСТРУКТОР
+	   RenderBitmapFont(IDirect3DDevice9* device,  IDirect3DTexture9* txtr,
+		      const char* xmlFile) throw()
+		   : m_QuadsBuffer(1024)  
+	   {
+		   m_pdevice = device;
+		   m_ptexture = txtr;
+
+		   assert(m_pdevice);
+		   assert(m_ptexture);
+
+		   if( (!m_pdevice)  || (!m_ptexture) )
+		   {
+			   throw std::runtime_error("invalid args");
+		   }
+
+		   memset(&m_charsDescrTable, 0, sizeof(m_charsDescrTable) );
+		 
+		  if(!xmlFile)
+		  {
+			  throw ( std::runtime_error("invalid file")  );
+		  }
+
+		  // load 
+		  if(!__load_table(xmlFile,  m_charsDescrTable,  m_FondBuilderHeader ) )
+		  {
+			  throw std::runtime_error("Error read file");
+		  };
+
+
+	   }
+
+
+
+		virtual  ~RenderBitmapFont()
+		{
+
+		}
+ 
+
+	  virtual HRESULT  DrawStr(int x, int y, const char* str ) const 
+		{
+			HRESULT hr =0;
+
+			const int NSTRLEN = (int)strlen(str);
+			if(NSTRLEN == 0)
+			{
+				return hr;
+			}
+
+			D3DMATERIAL9 mat;
+			hr |= m_pdevice->GetMaterial(&mat);
+			mat.Emissive.r = mat.Emissive.g = mat.Emissive.b = mat.Emissive.a;
+			hr |= m_pdevice->SetMaterial(&mat);
+
+			D3DSURFACE_DESC  des;
+			hr |= m_ptexture->GetLevelDesc(0, &des);
+
+			DWORD dwOldStateCullMode = 0;
+			hr |= m_pdevice->GetRenderState(D3DRS_CULLMODE, &dwOldStateCullMode );
+			hr |= m_pdevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE );
+
+
+			hr |= m_pdevice->SetTexture(0, m_ptexture); // g_pTexture );
+			
+
+  
+				 // m_DrawOptions.nSymbolsWidth
+				//	m_DrawOptions.nSymbolHeight
+				//  m_DrawOptions.nBetweenSymbols
+ 
+
+			RECT rec;
+			SetRect(&rec, x, y,   x+m_DrawOptions.nSymbolsWidth,    y+m_DrawOptions.nSymbolHeight );
+			for(int c=0; c<NSTRLEN; c++)
+			{
+			  const char curr = *(str+c);
+				rec.left  = rec.left  + m_DrawOptions.nSymbolsWidth + m_DrawOptions.nBetweenSymbols;
+				rec.right = rec.right + m_DrawOptions.nSymbolsWidth + m_DrawOptions.nBetweenSymbols;
+
+				 m_QuadsBuffer.m_pQuads[c].setTxCoord_default();
+				 m_QuadsBuffer.m_pQuads[c].setPosRect( (float)rec.left , (float)rec.top , (float)rec.right , (float)rec.bottom );
+				 m_QuadsBuffer.m_pQuads[c].set_TxCoordRectTx(  m_charsDescrTable.table[ (int)curr ].recTexture ,  des.Width,  des.Height );
+
+
+
+			}
+ 
+   
+
+		   //только для 0
+
+			   // 134 3 10 17
+			//SetRect(&rec,  134, 3,  134+10  , 3+17    );
+			//m_pQuads[0].set_TxCoordRectTx(rec, des.Width, des.Height );
+ 
+
+			// set data
+			hr |= m_pdevice->SetFVF( SCREENQUADVERT_FVF );  
+			hr |= m_pdevice->DrawPrimitiveUP( D3DPT_TRIANGLELIST, NSTRLEN*2, (void*)m_QuadsBuffer.m_pQuads, sizeof( Quad::NEWSCREENQUADVERT ) );
+
+			 // restore
+			hr |= m_pdevice->SetRenderState(D3DRS_CULLMODE,  dwOldStateCullMode );	
+
+
+			return hr;
+		}
+
+
+
+	};
+	
+	
+	
+	
