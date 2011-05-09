@@ -25,7 +25,7 @@ namespace gb
 		const int TER_NODE_SIZE_WITH_PADDING = TER_NODE_SIZE1;
 
 
-		/** Данные высот для одного узла дерева */
+		/** \brief Данные высот для одного узла дерева */
 		struct ElevationData
 		{
 			typedef int16_t height_t;
@@ -78,7 +78,7 @@ namespace gb
 			}
 		};
 
-		/** Набор данных высот для узлов с лодами от 0 до LOG2_ELEVATION_DATA_BUCKET_SIZE-1 */
+		/** \brief Набор данных высот для узлов с лодами от 0 до LOG2_ELEVATION_DATA_BUCKET_SIZE-1 */
 		struct RootElevationDataBucket
 		{
 			ElevationData *data;
@@ -142,7 +142,7 @@ namespace gb
 		};
 
 		/**
-		 * Объединение блоков ElevationData в более большие
+		 * \brief Объединение блоков ElevationData в более большие
 		 */
 		struct ElevationDataBucket
 		{
