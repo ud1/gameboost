@@ -1,4 +1,5 @@
-﻿
+﻿#include "pch.h"
+
 #include <gb/graphics/visual_geometry/visual_geometry.h>
 
 

@@ -1,5 +1,6 @@
 ﻿/** \file
- \brief функции, типы D3D9 связаные с выводом вершин
+*   \brief функции, типы D3D9 связаные с выводом вершин  
+*      и прочих вспомогательных объектов.
 *
 *
 *
@@ -8,11 +9,17 @@
   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
 */
 
+
+
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
-
+						  
 #pragma once
 #define __GB_D3D9_DRAW_H__
+
+#include <windows.h>
+
+#include <d3d9.h>
 
 #include <gb/graphics/d3d9/common.h>
 
@@ -24,11 +31,15 @@ namespace gb
  {
   namespace d3d9 
   {
+
    //! \brief функции, типы D3D9 связаные с выводом вершин
    namespace draw
    {
-		 
+	
 //-------------------------------------------------------------------------
+
+
+#define GB_D3D9_API
 
 
 /** \brief   Отрисовка сети куба  с координатами вершин от (-1,-1,-1)  до (1,1,1)
@@ -63,7 +74,7 @@ inline HRESULT DrawScreenQuad( IDirect3DDevice9* pdevice,
 GB_D3D9_API HRESULT  DrawFullScreenQuad( IDirect3DDevice9* pdevice, 
 										const D3DCOLORVALUE& color);
 
-//! \brief  полноэкранный прямоугольник
+//! \brief Нарисовать точку
 GB_D3D9_API HRESULT DrawScreenPoint(IDirect3DDevice9* pdevice, 
 									const D3DCOLORVALUE& color,
 									float x, float y, int pointSize); 
@@ -96,19 +107,32 @@ GB_D3D9_API HRESULT  DrawScreenRect(IDirect3DDevice9* pdevice,
 									float x2, float y2 )  ;
 
 
+//! \brief  Отрисовка экранного квадрата по текстуре, позиции , текстурным координатам, цветам вершин.
+GB_D3D9_API  HRESULT  DrawTexturedMemQuad( IDirect3DDevice9* pdevice, 
+										   IDirect3DTexture9 *pTexture ,
+								     	    const RECT& recScreen,
+										    const RECT& recTexture,
+										      const D3DCOLOR cLeftTop,
+										      const D3DCOLOR cRightTop,
+										      const D3DCOLOR cLeftBottom,
+										      const D3DCOLOR cRightBottom
+										    );
 
 
 
 
+ //! \brief   Нарисавать наклонный маркер экранной точки.
+GB_D3D9_API  HRESULT DrawScreenMarkerObl(IDirect3DDevice9* pdevice, 
+										float x, float y, 
+										float size,
+										D3DCOLOR color);
+ 
 
-
-
-
-
-
-
-
-
+//! \brief  Нарисовать маркер вертикальной точки расположеный верникально. 
+GB_D3D9_API  HRESULT DrawScreenMarker(IDirect3DDevice9* pdevice,  
+									 float x, float y,  
+									 float size, 
+									 D3DCOLOR color);
 
 
 

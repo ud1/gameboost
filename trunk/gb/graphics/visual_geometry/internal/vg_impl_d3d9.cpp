@@ -1,4 +1,5 @@
-﻿
+﻿#include "pch.h"
+
  // temp !!!!
 #ifndef GB_COLOR
   #define GB_COLOR
