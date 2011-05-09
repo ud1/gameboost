@@ -860,8 +860,35 @@ mat44_s& mat44_s::invert () throw()
 	return *this;
 }
 
-
 //====================================================================
+void mat44_s::decompose( vec3_s& scale, geom3d::Quaternion& rot, vec3_s& pos ) const
+{
+
+	mat44_s m =  *this;;
+
+	pos =  getTranslation();
+
+	scale.x =  sqrt( scalar::sqr(m.floats[0][0]) +  scalar::sqr(m.floats[0][1]) +  scalar::sqr(m.floats[0][2]));
+	scale.y =  sqrt( scalar::sqr(m.floats[1][0]) +  scalar::sqr(m.floats[1][1]) +  scalar::sqr(m.floats[1][2]));
+	scale.z =  sqrt( scalar::sqr(m.floats[2][0]) +  scalar::sqr(m.floats[2][1]) +  scalar::sqr(m.floats[2][2]));
+
+	for (int i=0; i<3; i++) 
+	{
+		if (scale.floats[i] > EPSILON) 
+		{
+			m.floats[i][0] /= scale.floats[i];
+			m.floats[i][1] /= scale.floats[i];
+			m.floats[i][2] /= scale.floats[i];
+		}
+	}
+
+	rot.setRotationMatrix(m);
+ 
+
+};
+
+
+//=========================================================================
 
 /*******  Evel ***********
 void mat44_s::decompose(vec3_s& pos, geom3d::Quaternion& rot, vec3_s& scale) const 
