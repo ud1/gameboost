@@ -7,7 +7,8 @@ set( terrain_builder_SOURCES
 )
 
 find_package(Boost COMPONENTS program_options filesystem REQUIRED)
-set(terrain_builder_EXTRA_LIBS ${Boost_LIBRARIES})
+find_package(JPEG)
+set(terrain_builder_EXTRA_LIBS ${Boost_LIBRARIES} ${JPEG_LIBRARY})
 
 #------ target -----
 add_executable( terrain_builder ${terrain_builder_SOURCES} )
