@@ -37,6 +37,7 @@ namespace gb
     namespace scalar
 	{
 	
+	//-----------------------------------------------------------------------
 
 		// Константы добавлять и брать в gb/base/Constants.h
 
@@ -64,6 +65,31 @@ namespace gb
 // 	static const float CSQRTHALF    = 0.7071067812f; ///< sqrt(1/2)
 // 	
 // 	static const float CE           = 2.718281828459f; ///<  e
+	
+	
+	
+	
+	/** \brief Проверка float f   на корректное значение  */
+	inline bool check(float f) 
+	{
+       if( f == 0.0f ) return true;
+	   if(f < 0.0f) f = -f;
+       if( (f <= FLT_MAX) && (f >= FLT_MIN) ) return true;
+	       return false;
+    };
+
+	/** \brief Проверка double d   на корректное значение  */
+	inline bool check(double d) 
+	{
+       if( d == 0.0 ) return true;
+	   if(d < 0.0) d = -d;
+       if( (d <= DBL_MAX) && (d >= DBL_MIN) ) return true;
+	       return false;
+    };
+	
+	
+	
+	
 	
 		//! \brief  Квадрат
 		inline float sqr(float a) { return a*a; }
@@ -262,24 +288,6 @@ namespace gb
 	}
 
 
-	
-	/** \brief Проверка float f   на корректное значение  */
-	inline bool check(float f) 
-	{
-       if( f == 0.0f ) return true;
-       if( (f < FLT_MAX) && (f > FLT_MIN) ) return true;
-	       return false;
-    };
-
-	/** \brief Проверка double d   на корректное значение  */
-	inline bool check(double d) 
-	{
-       if( d == 0.0 ) return true;
-       if( (d < DBL_MAX) && (d > DBL_MIN) ) return true;
-	       return false;
-    };
-	
-	
 	
 	
 	}

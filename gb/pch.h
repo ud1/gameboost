@@ -21,7 +21,10 @@
 #include <list>
 #include <set>
 #include <vector>
+#include <queue>
 #include <map>
+#include <stdexcept>
+
 
 #if GB_ALLOW_BOOST_LIBRARY
 	#include <boost/algorithm/string.hpp>
@@ -56,3 +59,7 @@
 #endif
 
 #include <gb/base/Types.h>
+
+
+
+// end file

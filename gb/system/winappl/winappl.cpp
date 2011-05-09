@@ -1,4 +1,7 @@
-﻿#if (defined(WIN32) )
+﻿
+#include "pch.h"
+
+#if (defined(WIN32) )
 
 
 #include <gb/system/winappl/winappl.h>

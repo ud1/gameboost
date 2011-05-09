@@ -1,4 +1,5 @@
 ﻿
+#include "pch.h"
 #include <gb/math/geom3d.h>
 #include <assert.h>
 

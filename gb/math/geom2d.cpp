@@ -1,4 +1,5 @@
 ﻿
+#include "pch.h"
 #include <gb/math/geom2d.h>
 
 namespace gb
