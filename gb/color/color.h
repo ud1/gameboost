@@ -7,6 +7,7 @@
 *
  \todo  Добавить функции:
         uicolor32_t  rgba_to_argb(uicolor32_t val);  uicolor32_t  argb_to_rgba(uicolor32_t val)
+ \todo Добавить каст для GLColor  GLFloat  D3DCOLOR  DWORD 		
 
 *   Поправлен кодстайл.. Прочие незначительные поправки улучшающие читаемость .
 */
