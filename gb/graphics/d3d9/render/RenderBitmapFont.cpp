@@ -354,3 +354,92 @@ static  bool __read_from_xml_root(FondBuilderHeader& hdr,
   
   
   
+ 
+
+	#define SCREENQUADVERT_FVF (D3DFVF_XYZRHW | D3DFVF_TEX1  )
+
+
+    //! \brief  сеть:  двухполигональный экранный квадрат .
+	class Quad {
+	public:
+   	   	struct NEWSCREENQUADVERT  {
+		         float x, y, z, rhw, u, v;
+		     inline void set_xy(float _x, float _y) { x=_x; y=_y; z=rhw=1.0f;  }
+		     inline void set_uv(float _u, float _v) { u=_u; v=_v; }
+			 inline void add_uv(float _u, float _v) { u+=_u; v+=_v; }
+			 inline void mul_uv(float _u, float _v) { u*=_u; v*=_v; }
+	     };
+
+		NEWSCREENQUADVERT  vertex [6];
+
+		Quad()
+		{
+		    memset(vertex, 0, sizeof(vertex) );
+		   vertex[0].z = vertex[0].rhw = 1.0f;
+		   vertex[1].z = vertex[1].rhw = 1.0f;
+		   vertex[2].z = vertex[2].rhw = 1.0f;
+		   vertex[3].z = vertex[3].rhw = 1.0f;
+		   vertex[4].z = vertex[4].rhw = 1.0f;
+		   vertex[5].z = vertex[5].rhw = 1.0f;
+
+
+			setTxCoord_default();
+		}
+ 
+		inline void setTxCoord_default()
+		{
+			vertex[0].set_uv(  0.0f , 0.0f );
+			vertex[1].set_uv(  1.0f , 0.0f ); 
+			vertex[2].set_uv(  1.0f , 1.0f );
+			vertex[3].set_uv(  0.0f , 0.0f ); 
+			vertex[4].set_uv(  1.0f , 1.0f );
+			vertex[5].set_uv(  0.0f , 1.0f );
+
+		}
+
+		inline void set_TxCoordRectTx(const RECT& rec, int nTextureW, int nTextureH)
+		{
+			float mulx, muly;
+			mulx = ( (float) (rec.right -  rec.left))  /  nTextureW  ;
+			muly = ( (float) (rec.bottom - rec.top))   /  nTextureH  ;
+
+	    	 vertex[0].mul_uv( mulx , muly  );   //  0.0f,  0.0f, 
+			 vertex[1].mul_uv( mulx , muly  );   //  1.0f,  0.0f, 
+			 vertex[2].mul_uv( mulx , muly  );	//  1.0f,  1.0f, 
+			 vertex[3].mul_uv( mulx , muly  );	//  0.0f,  0.0f, 
+			 vertex[4].mul_uv( mulx , muly  );	//  1.0f,  1.0f, 
+			 vertex[5].mul_uv( mulx , muly  );	//  0.0f,  1.0f,
+
+			 float addx, addy;
+			 addx =    (float)rec.left /nTextureW   ;
+			 addy =    (float)rec.top / nTextureH   ;
+ 
+  			 vertex[0].add_uv( addx , addy  );  //  0.0f ,  0.0f, 
+			 vertex[1].add_uv( addx , addy  ); 	//  1.0f ,  0.0f, 
+			 vertex[2].add_uv( addx , addy  );	//  1.0f ,  1.0f, 
+			 vertex[3].add_uv( addx , addy  );	//  0.0f ,  0.0f, 
+			 vertex[4].add_uv( addx , addy  );	//  1.0f ,  1.0f, 
+			 vertex[5].add_uv( addx , addy  );	//  0.0f ,  1.0f,
+				 
+ 
+
+		}
+
+		inline void setPosRect(float x1, float y1,    float x2, float y2)
+		{
+ 
+			vertex[0].set_xy(x1 , y1);        
+			vertex[1].set_xy(x2 , y1);   
+			vertex[2].set_xy(x2 , y2);    
+			vertex[3].set_xy(x1 , y1);    
+			vertex[4].set_xy(x2 , y2);    
+			vertex[5].set_xy(x1 , y2);    
+
+
+		}
+
+
+	
+	};
+
+	
