@@ -1,4 +1,7 @@
 
+
+#include "pch.h"
+
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
 //#include "Z:\\CODE_EXPERIMENT\\newd9r\\ApplD3D9.h"

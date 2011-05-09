@@ -145,6 +145,27 @@ inline void colorSwapGB(uicolor32_t&  color)
 };
 
 
+
+//! \brief  Конвертация 4-х байтового цвета	 порядка RGBA в порядок ARGB
+inline  uint32_t   rgba_to_argb( uint32_t val )
+{
+	return ( (val>>8) | (val<<24)  );
+}
+							    
+
+
+//! \brief	 Конвертация 4-х байтового  цвета  порядка ARGB в порядок RGBA 
+inline uint32_t   argb_to_rgba( uint32_t val )
+{
+	return ( (val<<8) | (val>>24) );
+}
+
+
+
+
+
+
+
 //
 // Выделение компоненты цвета
 //

@@ -1,4 +1,5 @@
-﻿
+﻿#include "pch.h"
+
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
 #include <gb/graphics/d3d9/draw.h>
@@ -488,12 +489,396 @@ GB_D3D9_API HRESULT DrawScreenRect(IDirect3DDevice9* pdevice, const D3DCOLORVALU
 	return hr;
 };
 
+//=======================================================================
 
+ // 2011.05.09
+
+
+struct MARK_BEGIN {};
+
+
+#define D3DFVF_SCREENQUAD (D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_DIFFUSE )
+
+//! \brief   Экранный прямоугольник
+struct QuadMesh {
+
+	struct VERTEX  {
+		float x, y, z,  rhw;   D3DCOLOR color; 
+		float u, v;
+
+		inline void set_xy(float _x, float _y) { x=_x; y=_y;}; // z=rhw=1.0f;  }
+		inline void set_uv(float _u, float _v) { u=_u; v=_v; }
+		inline void add_uv(float _u, float _v) { u+=_u; v+=_v; }
+		inline void mul_uv(float _u, float _v) { u*=_u; v*=_v; }
+	};
+
+	VERTEX  vertex [6];
+
+
+	inline void set_zrhw() 
+	{
+
+		vertex[0].z =   0.0f;
+		vertex[1].z =   0.0f;
+		vertex[2].z =   0.0f;
+		vertex[3].z =   0.0f;
+		vertex[4].z =   0.0f;
+		vertex[5].z =   0.0f;
+
+		vertex[0].rhw = 1.0f;
+		vertex[1].rhw = 1.0f;
+		vertex[2].rhw = 1.0f;
+		vertex[3].rhw = 1.0f;
+		vertex[4].rhw = 1.0f;
+		vertex[5].rhw = 1.0f;
+
+
+
+
+	}
+
+	inline void set_color(D3DCOLOR col)
+	{
+		vertex[0].color = col;
+		vertex[1].color = col;
+		vertex[2].color = col;
+		vertex[3].color = col;
+		vertex[4].color = col;
+		vertex[5].color = col;
+	}
+
+
+	inline void setTxCoord_default()
+	{
+
+		vertex[0].set_uv(  0.0f , 0.0f );
+		vertex[1].set_uv(  1.0f , 0.0f ); 
+		vertex[2].set_uv(  1.0f , 1.0f );
+		vertex[3].set_uv(  0.0f , 0.0f ); 
+		vertex[4].set_uv(  1.0f , 1.0f );
+		vertex[5].set_uv(  0.0f , 1.0f );
+
+
+	}
+	inline void set_TxCoordRectTx(const RECT& rec, int nTextureW, int nTextureH)
+	{
+		setTxCoord_default();
+
+		float mulx, muly;
+		mulx = ( (float) (rec.right -  rec.left))  /  nTextureW  ;
+		muly = ( (float) (rec.bottom - rec.top))   /  nTextureH  ;
+
+		vertex[0].mul_uv( mulx , muly  );   //  0.0f,  0.0f, 
+		vertex[1].mul_uv( mulx , muly  );   //  1.0f,  0.0f, 
+		vertex[2].mul_uv( mulx , muly  );	//  1.0f,  1.0f, 
+		vertex[3].mul_uv( mulx , muly  );	//  0.0f,  0.0f, 
+		vertex[4].mul_uv( mulx , muly  );	//  1.0f,  1.0f, 
+		vertex[5].mul_uv( mulx , muly  );	//  0.0f,  1.0f,
+
+		float addx, addy;
+		addx =    (float)rec.left /nTextureW   ;
+		addy =    (float)rec.top / nTextureH   ;
+
+		vertex[0].add_uv( addx , addy  );  //  0.0f ,  0.0f, 
+		vertex[1].add_uv( addx , addy  ); 	//  1.0f ,  0.0f, 
+		vertex[2].add_uv( addx , addy  );	//  1.0f ,  1.0f, 
+		vertex[3].add_uv( addx , addy  );	//  0.0f ,  0.0f, 
+		vertex[4].add_uv( addx , addy  );	//  1.0f ,  1.0f, 
+		vertex[5].add_uv( addx , addy  );	//  0.0f ,  1.0f,
+
+
+
+	}
+
+
+
+	inline void setPositionRect(const RECT& rec)  
+	{
+
+		vertex[0].set_xy(  (float)rec.left , (float)rec.top  );        
+		vertex[1].set_xy(  (float)rec.right , (float)rec.top  );   
+		vertex[2].set_xy(  (float)rec.right , (float)rec.bottom  );    
+		vertex[3].set_xy(  (float)rec.left , (float)rec.top  );    
+		vertex[4].set_xy(  (float)rec.right , (float)rec.bottom  );    
+		vertex[5].set_xy(  (float)rec.left , (float)rec.bottom  );    
+
+
+	}
 
  
+};
 
-	
-	
+
+//=======================================================================
+GB_D3D9_API  HRESULT  DrawTexturedMemQuad(  IDirect3DDevice9* pdevice, 
+								  IDirect3DTexture9 *pTexture ,
+								  const RECT& recScreen,
+								  const RECT& recTexture,
+								  const D3DCOLOR cLeftTop,
+								  const D3DCOLOR cRightTop,
+								  const D3DCOLOR cLeftBottom,
+								  const D3DCOLOR cRightBottom)
+{
+	HRESULT hr = 0;
+	if ( pdevice == NULL )
+	{
+		return E_FAIL;
+	}
+
+	if ( pTexture == NULL )
+	{
+		return E_FAIL;
+	}
+
+
+	D3DSURFACE_DESC  des;
+	hr |= pTexture->GetLevelDesc(0, &des);
+	if FAILED(hr)
+	{
+		return hr;
+	}
+
+	hr |= pdevice->SetTexture(0, pTexture );
+
+	QuadMesh quad;
+	quad.set_zrhw();
+	quad.set_color(  0-1);
+
+
+
+
+
+
+	//  left top   // const D3DCOLOR cLeftTop,
+	quad.vertex[0].color = cLeftTop;  
+	quad.vertex[3].color = cLeftTop;  
+
+	//  right top	 // const D3DCOLOR cRightTop,
+	quad.vertex[1].color = cRightTop;
+
+	// left bottom	//  const D3DCOLOR cLeftBottom
+	quad.vertex[5].color = cLeftBottom;
+
+	// right bottom  //  const D3DCOLOR cRightBottom
+	quad.vertex[2].color = cRightBottom;
+	quad.vertex[4].color = cRightBottom;
+
+
+
+	quad.setPositionRect(recScreen);
+	//quad.setPosRect2(  (float)recScreen.left , (float)recScreen.top , (float)recScreen.right , (float)recScreen.bottom    );
+
+
+	// quad.setTxCoord_default();
+	quad.set_TxCoordRectTx(recTexture, des.Width , des.Height);
+
+
+	DWORD dwOldState = 0;
+	DWORD dwOldZEnable = 0;
+	if(  1 )
+	{
+		hr |=  pdevice->GetRenderState(D3DRS_CULLMODE,  &dwOldState );
+		hr |=  pdevice->GetRenderState(D3DRS_ZENABLE,  &dwOldZEnable );
+	}
+
+	hr |=  pdevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	hr |=  pdevice->SetRenderState( D3DRS_ZENABLE, 0 );
+
+
+	hr |= pdevice->SetFVF( D3DFVF_SCREENQUAD );
+	hr |= pdevice->DrawPrimitiveUP( 
+		D3DPT_TRIANGLELIST, 2, ( void* )&quad.vertex[0] , sizeof( QuadMesh::VERTEX ) );
+
+	if ( 1  )
+	{
+		hr |=  pdevice->SetRenderState(D3DRS_CULLMODE,  dwOldState );
+		hr |=  pdevice->SetRenderState(D3DRS_ZENABLE,   dwOldZEnable );
+	};
+
+
+
+	return hr;
+};
+
+#undef D3DFVF_SCREENQUAD
+ 
+
+
+//=======================================================================
+
+
+//////////////////////////////////////////////////////////
+
+#include <assert.h>
+
+struct SCREENVERTEX2D
+{
+	float x, y, z, rhw;
+	D3DCOLOR color;
+};
+
+#define  FVFSCREENVERTEX2D  (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
+
+//==========================================================================================
+GB_D3D9_API HRESULT DrawScreenMarkerObl(IDirect3DDevice9* pdevice, 
+										float x, float y, 
+										float size, D3DCOLOR color)
+{
+	HRESULT hr =S_OK;
+ 
+	assert(pdevice);
+	if(!pdevice)
+	{
+		return E_FAIL;
+	}
+ 
+	  SCREENVERTEX2D varr[2];
+ 
+
+	  // fill array default data
+	  varr[0].color = color;
+	  varr[0].rhw = 1.0f;
+	  varr[0].z = 0.0f;
+
+	  varr[1].color = color;
+	  varr[1].rhw = 2.0f;
+	  varr[1].z = 0.0f;
+ 
+	  // set states
+	  hr |= pdevice->SetRenderState(D3DRS_ZENABLE, 0);
+	  hr |=  pdevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	   	hr |= pdevice->SetFVF(FVFSCREENVERTEX2D);
+
+
+	   // draw
+
+	   // set data
+ 
+	 varr[0].x = x-1; 
+	 varr[0].y = y-1;
+
+	 varr[1].x = x-size*0.707f;
+	 varr[1].y = y-size*0.707f;
+     hr |= pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(SCREENVERTEX2D) );
+
+ 
+	varr[0].x = x+1; 
+	varr[0].y = y-1;
+
+	varr[1].x = x+size*0.707f;
+	varr[1].y = y-size*0.707f;
+   hr |= pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(SCREENVERTEX2D) );
+
+
+   varr[0].x = x-1; 
+   varr[0].y = y+1;
+
+   varr[1].x = x-size*0.707f;
+   varr[1].y = y+size*0.707f;
+   hr |= pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(SCREENVERTEX2D) );
+
+
+   varr[0].x = x+1; 
+   varr[0].y = y+1;
+
+   varr[1].x = x+size*0.707f;
+   varr[1].y = y+size*0.707f;
+   hr |= pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(SCREENVERTEX2D) );
+ 
+
+	// restore data
+
+#pragma message("ks777:  NEED restore " __FILE__ )
+
+
+
+	return hr;
+}
+
+
+
+
+
+//==============================================================================
+GB_D3D9_API HRESULT DrawScreenMarker(IDirect3DDevice9* pdevice,  float x, float y,  float size, D3DCOLOR color)
+{
+   HRESULT hr =S_OK;
+
+
+   assert(pdevice);
+   if(!pdevice)
+   {
+	   return E_FAIL;
+   }
+
+   SCREENVERTEX2D varr[2];
+
+
+   // fill array default data
+   varr[0].color = color;
+   varr[0].rhw = 1.0f;
+   varr[0].z = 0.0f;
+
+   varr[1].color = color;
+   varr[1].rhw = 2.0f;
+   varr[1].z = 0.0f;
+
+
+   hr |= pdevice->SetRenderState(D3DRS_ZENABLE, 0);
+   hr |=  pdevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+   hr |= pdevice->SetFVF(FVFSCREENVERTEX2D);
+
+   const int noffset = 2;  // отступ от центра до начала линии
+
+	  // up
+   varr[0].x = x; 
+   varr[0].y = y-noffset;
+   varr[1].x = x;
+   varr[1].y = y-size;
+   hr |= pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(SCREENVERTEX2D) );
+
+	   // right
+   varr[0].x = x+noffset; 
+   varr[0].y = y;
+   varr[1].x = x+size;
+   varr[1].y = y;
+   hr |= pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(SCREENVERTEX2D) );
+
+	  // down
+   varr[0].x = x; 
+   varr[0].y = y+noffset;
+
+   varr[1].x = x;
+   varr[1].y = y+size;
+   hr |= pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(SCREENVERTEX2D) );
+
+	 //left
+   varr[0].x = x-noffset; 
+   varr[0].y = y;
+
+   varr[1].x = x-size;
+   varr[1].y = y;
+   hr |= pdevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 1, (void*)varr, sizeof(SCREENVERTEX2D) );
+
+
+
+
+				 
+
+#pragma message("ks777:    NEED restore  " __FILE__ )
+
+	return hr;
+}
+
+
+
+#undef FVFSCREENVERTEX2D
+struct MARKER_BEGIN_END {};
+
+
+
+
+
 	
 	
 	

@@ -1,4 +1,7 @@
-﻿#include <gb/Config.h>
+﻿
+#include "pch.h"
+
+#include <gb/Config.h>
 
 #ifdef WIN32
 #include <gb/devhelp/devcamera.h>
