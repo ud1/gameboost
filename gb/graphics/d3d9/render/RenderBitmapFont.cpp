@@ -328,3 +328,29 @@ static  bool __read_from_xml_root(FondBuilderHeader& hdr,
 
 	  return true;
   }
+  
+  
+  //=======================================================================
+  bool __load_table(const char* fname,  
+					IRenderBitmapFont::CharDescrTableAnsi& tb, 
+					FondBuilderHeader& hdr )
+  {
+	  xml_document doc ; 
+	  pugi::xml_parse_result res =  doc.load_file( fname);
+
+	  xml_node   node_font_root =  doc.first_child();  
+	  if(node_font_root.empty() )
+	  {
+		  // not found
+		  return false;
+	  }
+
+	  bool bresult  = __read_from_xml_root( hdr, tb, node_font_root);
+
+	  return bresult;
+  }
+
+  
+  
+  
+  
