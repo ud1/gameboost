@@ -85,7 +85,7 @@ namespace gb
 				inline vec2_s(const vec2_s* v)      { x=v->x;  y=v->y;    }
 
 			    inline vec2_s(float _x, float _y)   { x=_x;   y=_y;   }
-			    inline vec2_s(int   _x, int   _y)   { x=(float)_x;   y=(float)_y; }
+			    //inline vec2_s(int   _x, int   _y)   { x=(float)_x;   y=(float)_y; }
 
 				inline vec2_s(const float* pfArray) { *this = pfArray; }
 
@@ -95,10 +95,10 @@ namespace gb
 				inline bool  operator == (const vec2_s & v) const {	return (x == v.x && y == v.y  ); }
 				inline bool  operator != (const vec2_s & v) const {	return (x != v.x || y != v.y  ); }
 
-				inline bool  operator <  (const vec2_s & v) const { return (x < v.x && y < v.y );    }
-				inline bool  operator <= (const vec2_s & v) const {	return (x <= v.x && y <= v.y);   }
-				inline bool  operator >  (const vec2_s & v) const {	return (x > v.x && y > v.y);     }
-				inline bool  operator >= (const vec2_s & v) const {	return (x >= v.x && y >= v.y );  }
+				//inline bool  operator <  (const vec2_s & v) const { return (x < v.x && y < v.y );    }
+				//inline bool  operator <= (const vec2_s & v) const {	return (x <= v.x && y <= v.y);   }
+				//inline bool  operator >  (const vec2_s & v) const {	return (x > v.x && y > v.y);     }
+				//inline bool  operator >= (const vec2_s & v) const {	return (x >= v.x && y >= v.y );  }
 
 				inline vec2_s  operator + () const   { 	return *this; }
 				inline vec2_s  operator - () const   { vec2_s res; res.x = -x;	res.y = -y;	return res; }
@@ -156,8 +156,19 @@ namespace gb
 					return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon );
 				}
 
+ 
 				inline float     length () const  {	return (float)sqrt ( x*x + y*y );	}
 			    inline float     lengthSq() const {	 return (x*x + y*y );  }
+
+				inline float distance(const vec2_s& point) const 
+				{
+					return  sqrt( distanceSq( point ) );  
+				}
+
+				inline float distanceSq(const vec2_s& point) const 
+				{ 
+					return vec2_s(*this - point).lengthSq();  
+				}
 
 
 				inline vec2_s&   normalize() 
@@ -178,20 +189,26 @@ namespace gb
 				 return res;
 				}
 
-				inline float     dot(const vec2_s& v) const { return x*v.x + y*v.y; }
+				inline float  dot(const vec2_s& v) const { return x*v.x + y*v.y; }
 
-				// !!!!! float cross(const vec2_s& v) const {  ......  }
-
-				// TODO:
-				//   FLOAT D3DXVec2CCW( CONST D3DXVECTOR2 * pV1,   CONST D3DXVECTOR2 * pV2);
-				// float cross(v2) conts {.....}
+ 
+				//! \brief Returns the z-component by taking the cross product of two 2D vectors.  ПРОВЕРЕНА!  
+				float ccw(const vec2_s& v) const ;
 
 
-				// float distance(v2), distanceSq(v2)
+				//! \brief  Инвертировать (поменять знаки компонентов).
+				inline vec2_s& inverse() 
+				{ 
+					x=-x; 
+					y=-y; 
+					return *this; 
+				}
 
-
-				inline vec2_s& inverse() { x=-x; y=-y; return *this; }
-				inline vec2_s  inverted() const { return vec2_s (-x, -y); }
+				//! \brief Вернуть вектор, с противоположными знаками
+				inline vec2_s  inverted() const 
+				{
+					return vec2_s ( -x, -y ); 
+				}
  		
 
 				inline float     getMaxLength () const {  if( fabs (x) >= fabs (y) ) return x; else return y;   }
@@ -325,10 +342,10 @@ namespace gb
 			inline bool  operator == (const vec3_s &v) const { return (x == v.x && y == v.y && z == v.z ); }
 			inline bool  operator != (const vec3_s &v) const { return (x != v.x || y != v.y || z != v.z ); }
 
-			inline bool  operator <  (const vec3_s &v) const {	return (x <  v.x && y <  v.y && z <  v.z ); }
-			inline bool  operator <= (const vec3_s &v) const {	return (x <= v.x && y <= v.y && z <= v.z ); }
-			inline bool  operator >  (const vec3_s &v) const {	return (x >  v.x && y >  v.y && z >  v.z ); }
-			inline bool  operator >= (const vec3_s &v) const {	return (x >= v.x && y >= v.y && z >= v.z ); }
+			//inline bool  operator <  (const vec3_s &v) const {	return (x <  v.x && y <  v.y && z <  v.z ); }
+			//inline bool  operator <= (const vec3_s &v) const {	return (x <= v.x && y <= v.y && z <= v.z ); }
+			//inline bool  operator >  (const vec3_s &v) const {	return (x >  v.x && y >  v.y && z >  v.z ); }
+			//inline bool  operator >= (const vec3_s &v) const {	return (x >= v.x && y >= v.y && z >= v.z ); }
 
 			inline vec3_s  operator + () const   { 	return *this; }
 			inline vec3_s  operator - () const{	vec3_s res;	res.x = -x;	res.y = -y;	res.z = -z;	return res; }
@@ -646,10 +663,10 @@ namespace gb
 			inline bool  operator == (const vec4_s &v) const {	return (x == v.x && y == v.y && z == v.z && w == v.w); }
 			inline bool  operator != (const vec4_s &v) const {	return (x != v.x || y != v.y || z != v.z || w != v.w); }
 
-			inline bool  operator <  (const vec4_s &v) const {	return (x < v.x && y < v.y && z < v.z && w < v.w); }
-			inline bool  operator <= (const vec4_s &v) const {	return (x <= v.x && y <= v.y && z <= v.z && w <= v.w); }
-			inline bool  operator >  (const vec4_s &v) const {	return (x > v.x && y > v.y && z > v.z && w > v.w); }
-			inline bool  operator >= (const vec4_s &v) const {	return (x >= v.x && y >= v.y && z >= v.z && w >= v.w); }
+			//inline bool  operator <  (const vec4_s &v) const {	return (x < v.x && y < v.y && z < v.z && w < v.w); }
+			//inline bool  operator <= (const vec4_s &v) const {	return (x <= v.x && y <= v.y && z <= v.z && w <= v.w); }
+			//inline bool  operator >  (const vec4_s &v) const {	return (x > v.x && y > v.y && z > v.z && w > v.w); }
+			//inline bool  operator >= (const vec4_s &v) const {	return (x >= v.x && y >= v.y && z >= v.z && w >= v.w); }
 
 			inline vec4_s  operator + () const   { 	return *this; }
 			inline vec4_s  operator - () const { vec4_s res;	res.x = -x;	res.y = -y;	res.z = -z;	res.w = -w;	return res; }
@@ -700,7 +717,7 @@ namespace gb
 
 			inline vec4_s& set    (float _x, float _y, float _z, float _w) { x=_x; y=_y; z=_z; w=_w; return *this; }
  
-			//! \brief  Все ли компоненты нулевые
+			//! \brief  Все ли компоненты нулевые по эпсилону.
 			inline bool isZero(float epsilon) const
 			{
 				return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon ) && ( abs( z ) <= epsilon ) && ( abs( y ) <= epsilon );
@@ -1744,7 +1761,7 @@ namespace gb
 			}
 
 			//! \brief   Изволечь данные трансляции.
-			vec3_s getTranslation() const
+			inline vec3_s getTranslation() const
 			{		  
 				return vec3_s(floats[3][0], floats[3][1], floats[3][2]);
 			}
@@ -1780,7 +1797,14 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief Построение матрицы поворота по оси X на угол angle . ПРОВЕРЕНО!
+		    //! \brief Построение матрицы отражения по плоскости plane.   ПРОВЕРЕНА! 
+			mat44_s& setReflection(const geom3d::plane_s& plane );
+
+
+			//! \brief  Построение теневой матрицы.  Рендеринг теней.   ПРОВЕРЕНА!
+			mat44_s&  setShadow(const vec4_s& Light, const geom3d::plane_s&Plane );
+
+			//! \brief Построение матрицы поворота по оси X на угол angle . ПРОВЕРЕНА!
 			inline mat44_s&  setRotationX( const float angle )  
 			{ 
 				setIdentity();  
@@ -2136,13 +2160,13 @@ namespace gb
 				glGetFloatv(GL_PROJECTION_MATRIX, &_11);
 			}
 
-			//! \brief Загрузить из контекста OpenGL видовую матрицу.
+			//! \brief Загрузить из контекста OpenGL модель-видовую (WORLD X VIEW) матрицу.
 			inline void glGetModelView()
 			{
-				glGetFloatv(GL_MODELVIEW_MATRIX, &&_11);
+				glGetFloatv(GL_MODELVIEW_MATRIX, &_11);
 			}
 
-#endif // gb use OpenGL
+#endif // gb  OpenGL
 
 
 #ifdef GB_D3D9  // d3d9 device methods

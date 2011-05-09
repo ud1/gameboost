@@ -88,6 +88,22 @@ vec3_s  vec3_s::unproject( const proj::ViewportZ& vp,
 };
 
 
+//=============================================================
+float vec2_s::ccw(const vec2_s& v) const 
+{
+   vec3_s vv1;
+   vv1.x =  x;
+   vv1.y =  y;
+   vv1.z = 0.0f;
+
+   vec3_s vv2;
+   vv2.x = v.x;
+   vv2.y = v.y;
+   vv2.z = 0.0f;
+
+  vec3_s vres = vv1.cross(vv2);
+   return vres.z;
+};
 
 
 //=============================================================
@@ -619,8 +635,68 @@ mat44_s& mat44_s::setWorldTransform(const geom3d::TransformData& t)
 	return setTransformation(t.vScaling, t.qRotation, t.vTranslation );
 }
 
+//=========================================================================
+mat44_s& mat44_s::setReflection(const geom3d::plane_s& plane )
+{
 
-// bool invert ()
+	float a, b, c, d;
+
+	const float k = sqrt( plane.a*plane.a + plane.b*plane.b + plane.c*plane.c );
+	a = plane.a / k;
+	b = plane.b / k;
+	c = plane.c / k;
+	d = plane.d / k;
+
+	mat44_s Out;
+
+	Out._11=1.0f-2.0f*scalar::sqr(a);   Out._12=-2.0f*b*a;					 Out._13=-2.0f*c*a;				    Out._14=0.0f;
+
+	Out._21=-2.0f*a*b;					  Out._22=1.0f-2.0f*scalar::sqr(b);  Out._23=-2.0f*c*b;					Out._24=0.0f;
+
+	Out._31=-2.0f*a*c;				     Out._32=-2.0f*b*c;					 Out._33=1.0f-2.0f*scalar::sqr(c);  Out._34=0.0f;
+
+	Out._41=-2.0f*a*d;					 Out._42=-2.0f*b*d;				     Out._43=-2.0f*c*d;				    Out._44=1.0f;
+
+	*this = Out;
+
+	return *this;
+};
+
+//=========================================================================
+mat44_s&  mat44_s::setShadow(const vec4_s& Light, const geom3d::plane_s& Plane )
+{
+	float a,b,c,d;
+	const float k = sqrt( scalar::sqr(Plane.a) + scalar::sqr(Plane.b) + scalar::sqr(Plane.c) );
+	a = Plane.a / k;
+	b = Plane.b / k;
+	c = Plane.c / k; 
+	d = Plane.d / k;
+
+	float x,y,z,w;
+	x = Light.x;
+	y = Light.y;
+	z = Light.z;
+	w = Light.w;
+
+	float f = Light.x*Plane.x + Light.y*Plane.b + Light.z*Plane.c + Light.w*Plane.d;
+
+	mat44_s Out;
+
+	Out._11=f-x*a;  Out._12=-y*a;    Out._13=-z*a;    Out._14=-w*a;
+
+	Out._21=-x*b;   Out._22=f-y*b;   Out._23=-z*b;    Out._24=-w*b;
+
+	Out._31=-x*c;   Out._32=-y*c;    Out._33=f-z*c;   Out._34=-w*c;
+
+	Out._41=-x*d;   Out._42=-y*d;    Out._43=-z*d;    Out._44=f-w*d; 
+
+	 *this = Out;
+
+     return *this;
+};
+
+
+
 //=========================================================================
 mat44_s& mat44_s::invert () throw()
 {
