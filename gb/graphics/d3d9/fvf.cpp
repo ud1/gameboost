@@ -1,4 +1,6 @@
-﻿
+﻿#include "stdafx.h"
+//#include "pch.h"
+
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
 #include <gb/graphics/d3d9/fvf.h>
@@ -26,10 +28,10 @@ namespace fvf
 	
 //======================================================================
 	
-}		 
-}
-}
-}
+} // end namespace		 
+} // end namespace
+} // end namespace
+} // end namespace
 
 #endif // #if
 // end file

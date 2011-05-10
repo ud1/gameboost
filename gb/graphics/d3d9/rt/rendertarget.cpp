@@ -1,20 +1,13 @@
-﻿
+﻿#include "stdafx.h"
+//#include "pch.h"
+
 #if ( defined(WIN32) && defined(GB_D3D9) )
-
-//#include "dappllibrary_stdafx.h"
-//#include "ksut_macro.h"
-
-
+ 
 #include <gb/macro.h>
-
-//#include "dapplLibr.h"
-//#include "dapplLibr_rendertarget.h"
+ 
 #include <gb/graphics/d3d9/rt/rendertarget_impl.h>
 #include <gb/t/func.h>
-
-//#include "dappllibr_internal_accsess.h"
-
-//#include "DAPLIB_RTarget_impl.h"
+ 
 
 #include <assert.h>
 

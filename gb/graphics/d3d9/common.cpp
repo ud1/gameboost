@@ -1,4 +1,5 @@
-﻿
+﻿#include "stdafx.h"
+//#include "pch.h"
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
@@ -151,10 +152,10 @@ GB_D3D9_API HRESULT registerFuncFullScreenMode(TFuncGetFullScreenMode  funcGet,
 	
 //======================================================================
 	
-} // end ns
-} // end ns
-} // end ns
-} // end ns
+} // end namespace
+} // end namespace
+} // end namespace
+} // end namespace
 
 #endif // #if
 // end file

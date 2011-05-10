@@ -13,7 +13,7 @@
 #pragma once
 #define __GB_D3D9_H__
 
-#include <gb/config.h>
+//#include <gb/config.h>
 #include <gb/base/Types.h>
 
 #include <d3d9.h>
@@ -28,11 +28,7 @@
 #endif
 
 
-
-//! \brief  пока это пустышка.  Спецификация экспорта функций. 
-#define GB_D3D9_API
-
-#pragma warning (disable:4995)
+#include  <gb/graphics/d3d9/api_decl.h>
 
 #include <gb/graphics/d3d9/auto_include_libr.h>
 
@@ -64,9 +60,9 @@ namespace gb
   
 //-------------------------------------------------------------------------  
 
-  } // end ns d3d9
- } // end ns graphics
-} // end ns gb
+  } // end namespace d3d9
+ } // end namespace graphics
+} // end namespace gb
 
  
 #endif // #if ( defined(GB_D3D9) && defined(WIN32) )
