@@ -2,7 +2,11 @@
 #define __GB_TYPES_H__
 
 #if defined(_MSC_VER) // MS Visual Studio dosen't have stdint.h
+
+#if _MSC_VER<1600
 	typedef __int8 int8_t;
+#endif
+
 	typedef unsigned __int8 uint8_t;
 	typedef __int16 int16_t;
 	typedef unsigned __int16 uint16_t;
@@ -38,8 +42,5 @@ typedef uint32_t   BOOL;
 
 
 #endif // #ifndef WIN32
-
-// хз .. пока временно... если не прекомпилед хедеров
-#ifdef WIN32
-   #include <windows.h>
-#endif
+ 
+// end file
