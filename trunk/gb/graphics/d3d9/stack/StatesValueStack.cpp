@@ -1,11 +1,13 @@
-﻿
+﻿#include "stdafx.h"
+//#include "pch.h"
+
 #if ( defined(GB_D3D9) && defined(WIN32) )
  
 
 #include <stdio.h>
 #include <gb/macro.h>
 #include <gb/graphics/d3d9/stack/StatesValueStack.h>
-//#include "Z:\\CODE_EXPERIMENT\\dapplLibr\\dapplLibr\\source\\internal_headers\\StatesValueStack.h"
+//#include    \StatesValueStack.h"
 
 namespace gb {
 namespace graphics {

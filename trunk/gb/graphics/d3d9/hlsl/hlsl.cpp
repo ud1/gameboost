@@ -1,4 +1,6 @@
-﻿
+﻿#include "stdafx.h"
+//#include "pch.h"
+
 #if ( defined(GB_D3D9) && defined(WIN32) )
 #ifdef GB_D3DX9
 
@@ -27,10 +29,10 @@ namespace hlsl
 	
 //=======================================================================
 	
-} // end ns		 
-} // end ns
-} // end ns
-} // end ns
+} // end namespace		 
+} // end namespace
+} // end namespace
+} // end namespace
 
 #endif
 #endif

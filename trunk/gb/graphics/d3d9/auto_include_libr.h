@@ -17,10 +17,7 @@
 #ifdef GB_D3DX9
 
   #include <d3dx9.h>
-  #include <D3dx9core.h>
-  #include <D3dx9math.h>
-  #include <D3dx9shape.h>
-
+ 
 	#if defined(DEBUG) || defined(_DEBUG)
 	      #pragma comment( lib, "d3dx9d.lib" )
 	#else

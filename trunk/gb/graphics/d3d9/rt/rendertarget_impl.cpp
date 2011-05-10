@@ -1,15 +1,11 @@
-﻿
+﻿#include "stdafx.h"
+//#include "pch.h"
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
-
-//#include "dappllibrary_stdafx.h"
-//#include "dappllibr.cpp"
-
+ 
 #include <gb/graphics/d3d9/d3d9.h>
 #include <gb/graphics/d3d9/rt/rendertarget_impl.h>
-//#include <gb/base/Debug.h>
-//#include "DAPLIB_RTarget_impl.h"
-
+ 
 
 namespace gb {
 namespace graphics {

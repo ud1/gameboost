@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+﻿#include "stdafx.h"
+//#include "pch.h"
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
@@ -884,10 +885,10 @@ struct MARKER_BEGIN_END {};
 	
 //=======================================================================
 	
-}		 
-}
-}
-}
+} // end namespace		 
+} // end namespace
+} // end namespace
+} // end namespace
 
 #endif
 // end file

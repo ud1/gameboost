@@ -1,4 +1,6 @@
-﻿
+﻿#include "stdafx.h"
+//#include "pch.h"
+
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
   #include <gb/graphics/d3d9/dataconv.h>
@@ -1894,10 +1896,10 @@
   //=======================================================================
 
 
-  } // end ns		 
-  } // end ns
-  } // end ns
-  } // end ns
+  } // end namespace	 
+  } // end namespace
+  } // end namespace
+  } // end namespace
 
 
 #endif // #if ( defined(GB_D3D9) && defined(WIN32) )

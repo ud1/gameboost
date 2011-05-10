@@ -17,8 +17,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-
 #include <string>
 
 #include <gb/graphics/d3d9/common.h>
