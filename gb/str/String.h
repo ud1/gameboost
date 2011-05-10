@@ -252,6 +252,10 @@ void eraseTail( std::string & input, int32_t n );
 std::string eraseTailCopy( const std::string & input, int32_t n );
 
 
+
+#else   // окончание без буста. Далее с бустом.
+
+
 //! Привести к верхнему регистру на месте
 inline void toUpper( std::string & v )
 {
@@ -314,10 +318,6 @@ inline std::string trimCopy( const std::string & v )
 {
 	return boost::algorithm::trim_copy( v );
 }
-
-
-#else   // без буста
-
 
 
 
