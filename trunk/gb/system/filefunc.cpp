@@ -1,4 +1,7 @@
-﻿#ifdef WIN32 // only windows
+﻿
+#include "pch.h"
+
+#ifdef WIN32 // only windows
 
 #include <gb/Config.h>
 #include <gb/system/filefunc.h>

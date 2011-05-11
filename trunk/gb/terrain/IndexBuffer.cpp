@@ -1,3 +1,5 @@
+
+#include "pch.h"
 #include <cassert>
 
 #include "IndexBuffer.h"
@@ -50,7 +52,9 @@ namespace gb
 			//  \ |\ |\ | /
 			//   \| \| \|/
 			//    -------
+ 
 			short normal_edge_inds[(size-1)*6];
+
 			int c = 0;
 			// Первый треугольник
 			normal_edge_inds[c++] = 0;

@@ -1,4 +1,4 @@
-
+#include "pch.h"
 #include <gb/i18n/Japanese.h>
 #include <gb/str/String.h>
 

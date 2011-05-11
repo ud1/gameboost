@@ -42,11 +42,17 @@
 // #define GB_RANDOM_PERIOD_EXPONENT 44497
 // #define GB_RANDOM_PERIOD_EXPONENT 86243
 // #define GB_RANDOM_PERIOD_EXPONENT 132049
-// #define GB_RANDOM_PERIOD_EXPONENT 216091
+// #define GB_RANDOM_PERIOD_EXPONENT 216091
+
 // Для того, чтоб WinDef.h не определял макросы min/max, мы используем расово верные макросы из <algorithm>
 #define NOMINMAX 1
 
 // microsoft specific
+
+#ifdef WIN32
+  #include <windows.h>
+#endif
+
 #ifdef _MSC_VER
 	#pragma warning(disable:4996)
 	#pragma warning(disable:4273)
@@ -63,9 +69,7 @@
 	#endif
 #endif // end microsoft specific
 
-#ifdef WIN32
-    #include <windows.h>
-#endif
+
 
 #if defined(__POWERPC__) || defined(_M_PPC)
 	#define GB_POWERPC 1

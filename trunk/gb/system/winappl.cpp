@@ -4,7 +4,7 @@
 #if (defined(WIN32) )
 
 
-#include <gb/system/winappl/winappl.h>
+#include <gb/system/winappl.h>
 
 #define PRINT_FUNC printf("%s\n", __FUNCTION__);
 

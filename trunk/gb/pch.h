@@ -1,6 +1,6 @@
 #include <gb/Config.h>
 
-#ifdef _WIN32
+#if ( defined(_WIN32) || defined(WIN32)  )
 	#include <Windows.h>
 	#include <Shlobj.h>
 	#include <mbstring.h>

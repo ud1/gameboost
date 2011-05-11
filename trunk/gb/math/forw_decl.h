@@ -11,7 +11,11 @@
 #ifndef __GB_MATH_H__
    #error Файл <gb/math/math.h> должен быть включён прежде.  Не включайте этот файл. Включайте <gb/math/math.h> 
 #endif
-*/
+  */
+
+#include <math.h>
+#include <limits>
+
 
 namespace gb
 {

@@ -3,6 +3,7 @@
  * \author Дмитрий Литовченко kvakvs@yandex.ru
 */
 
+#include "pch.h"
 #include <gb/i18n/I18n.h>
 
 #include <cctype>

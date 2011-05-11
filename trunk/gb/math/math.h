@@ -12,8 +12,12 @@
 
 #include <math.h>
 
+#include <limits>
+
 #ifdef _WIN32
-#include <xmath.h>
+#if _MSC_VER<1600
+    #include <xmath.h>
+#endif
 #endif
 
 #ifdef GB_D3D9

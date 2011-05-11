@@ -2,9 +2,15 @@
  *      \author -Eugene-, kozlov_eugene@list.ru
 */
 
-
+  #include "pch.h"
 #include "gb/io/FileStream.h"
 using namespace gb::io;
+
+
+//	Warning	1	warning C4267: 'argument' : conversion from 'size_t' to 'long',
+// possible loss of data	z:\!!gb\gameboost\gb\io\filestream.cpp	88
+#pragma warning(disable : 4267)
+
 
 FileStream::FileStream(void) : IStream(), file(0), name(0) {}
             
