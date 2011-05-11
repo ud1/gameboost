@@ -80,6 +80,8 @@ namespace gb
 			template <>
 			struct ColorComponentTraits<uint8_t>
 			{
+// TODO  #error  ks777: see comments
+ // не копмилит в студии
 				static const uint8_t min_val = 0;
 				static const uint8_t max_val = 255;
 			};
@@ -94,8 +96,14 @@ namespace gb
 			template <>
 			struct ColorComponentTraits<float>
 			{
-				static const float min_val = 0.0f;
-				static const float max_val = 1.0f;
+
+				// ks777:  НЕ КОМПИЛЛИРУЕТСЯ vc 
+				     //..Error	1	error C2864: 'gb::colors::details::ColorComponentTraits<float>::min_val':
+				     // only static const integral data members can be initialized within a class
+				     //z:\!!gb\gameboost\gb\containers\pixelformat.h	97
+
+			//	static const float min_val = 0.0f;
+			//	static const float max_val = 1.0f;
 			};
 			
 			template <typename Type, containers::ePixelFormat::PixelFormat pf, size_t components_n>
@@ -502,6 +510,8 @@ namespace gb
 				{
 					RGBAType res;
 					res.r = res.g = res.b = g.value;
+// TODO #error ks777: не компилит в студии
+ // Error	2	error C2065: 'max_val' : undeclared identifier	z:\!!gb\gameboost\gb\containers\pixelformat.h	511
 					res.a = ColorComponentTraits<typename Grayscale::value_type>::max_val;
 					return res;
 				}

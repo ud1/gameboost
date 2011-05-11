@@ -1,3 +1,6 @@
+
+#include "pch.h"
+
 #if defined(__GNUC__)
 #pragma GCC diagnostic ignored "-Wenum-compare"
 #endif

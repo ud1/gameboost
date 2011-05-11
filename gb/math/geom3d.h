@@ -23,20 +23,25 @@ bool checkIntersectPlane(const Plane& aabb) {....}
 
 #pragma once
 
-#ifdef GB_D3D9
-    #include <gb/graphics/d3d9/d3d9.h>
-#endif
-
-
 #include <gb/math/forw_decl.h>
 
 #ifdef _WIN32
-#include <xmath.h>
+#if _MSC_VER<1600
+    #include <xmath.h>
+#endif
 #endif
 
 #include <gb/math/scalar.h>
 #include <gb/math/base.h>
 
+
+#ifdef GB_D3D9
+    #include <gb/graphics/d3d9/d3d9.h>
+#endif
+
+#include <math.h>
+#include <float.h>
+#include <limits.h>
 #include <assert.h>
 
 
@@ -1010,6 +1015,9 @@ bool checkIntersectSphere_3( const Sphere& sph )
 {
   float res = 0.0f;
 
+ // // в 10й студии нет xmath.h  Временное определение.
+ // static const float INF = 1.0f/0.0f;
+
  // квадрат радиуса
   const float r =  (sph.radius * sph.radius);
   
@@ -1327,6 +1335,8 @@ inline float distanceToPlane( plane_s& plane )   const
 	//! \brief Стандартный  кватернион.
 	class Quaternion : public quat_s {
 	public:
+
+
 
 		inline Quaternion() { x=y=z=0.0f; w=1.0f; };
 		inline Quaternion(const Quaternion& q) { x=q.x; y=q.y; z=q.z; w=q.w; };

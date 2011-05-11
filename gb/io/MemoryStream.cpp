@@ -2,6 +2,7 @@
  *      \author -Eugene-, kozlov_eugene@list.ru
 */
 
+#include "pch.h"
 #include "gb/io/MemoryStream.h"
 #include <cstring>
 #include <cstdio>

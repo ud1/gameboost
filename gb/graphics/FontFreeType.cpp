@@ -1,8 +1,15 @@
+
+#include "pch.h"
+
 #include "FontFreeType.h"
 #include <gb/fs/Helpers.h>
 #include <gb/base/Logger.h>
 
+#pragma message("ks777:   можно было бы и указать что это за хрень  " __FILE__)
 #include <ft2build.h>
+
+
+
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
 

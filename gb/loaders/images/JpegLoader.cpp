@@ -1,3 +1,5 @@
+
+#include "pch.h"
 #include "JpegLoader.h"
 #include <gb/base/Types.h>
 #include <gb/fs/Stream.h>

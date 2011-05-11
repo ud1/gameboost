@@ -4,7 +4,7 @@
  *	алгоритмов без подключения библиотеки Boost
  */
  
-
+ #include "pch.h"
 
 #include <gb/str/String.h>
 

@@ -2,6 +2,9 @@
  *  Пути к файлам и ресурсам, работа с директориями и путями. Платформонезависимая часть.
  *	\author Дмитрий Литовченко kvakvs@yandex.ru
  */
+
+#include "pch.h"
+
 #include <gb/system/Path.h>
 #include <gb/str/String.h>
 

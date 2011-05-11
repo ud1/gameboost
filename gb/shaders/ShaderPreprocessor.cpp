@@ -1,3 +1,6 @@
+
+#include "pch.h"
+
 #include <gb/Config.h>
 #if GB_ALLOW_BOOST_LIBRARY
 
