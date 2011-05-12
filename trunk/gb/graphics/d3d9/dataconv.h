@@ -7,8 +7,13 @@
   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
 
   \TODO  Добавить функции для D3DTEXTURESTAGESTATETYPE, фильтрации
-
-
+  \TODO  Добавить функции для VERTEXDECL data
+  \TODO  Добавить функции для  текстурных данных
+  \TODO  Добавить функции для  sampler state  
+  \TODO  Добавить функции для  render state
+  
+  
+  
 */
 
 #if ( defined(GB_D3D9) && defined(WIN32) )

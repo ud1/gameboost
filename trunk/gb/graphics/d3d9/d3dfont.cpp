@@ -1,18 +1,16 @@
-﻿//#include "stdafx.h" 
-
+﻿#include "stdafx.h" 
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
+ #include <gb/graphics/d3d9/d3dFont.h>
 
-#define STRICT
-
-
-
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdexcept>
 
+//#define STRICT
+
 #include <tchar.h>
-//#include <D3DX9.h>
-#include <gb/graphics/d3d9/d3dFont.h>
  
 #include <gb/macro.h>
 
@@ -23,7 +21,7 @@
 #pragma warning (push)
 #pragma warning (disable : 4996)
 
-#include <stdio.h>
+
 
 
 namespace gb {
@@ -150,7 +148,9 @@ inline FONT3DVERTEX InitFont3DVertex( const VECTOR3& p, const VECTOR3& n,
                               72 );
     DWORD dwBold   = (m_dwFontFlags & GB_D3D9_FONT_D3DFONT_BOLD)   ? FW_BOLD : FW_NORMAL;
     DWORD dwItalic = (m_dwFontFlags & GB_D3D9_FONT_D3DFONT_ITALIC) ? TRUE    : FALSE;
-    *pFont         = CreateFontW // A
+
+	
+	*pFont         = CreateFontW // A
 		( nHeight, 0, 0, 0, dwBold, dwItalic,
                                  FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
                                  CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
@@ -380,7 +380,8 @@ LCleanReturn:
     return hr;
 }
 
-
+// временно для компиляции функции ниже
+#define max(a,b)    (((a) > (b)) ? (a) : (b))
 
 
 //-----------------------------------------------------------------------------

@@ -24,7 +24,7 @@
 
 
 //#include "appl_3d_types.h"
-#include <gb/system/winappl/winappl.h>
+#include <gb/system/winappl.h>
 #include <gb/graphics/d3d9/common.h>
 
 

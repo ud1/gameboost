@@ -1,3 +1,5 @@
+
+
 #include "stdafx.h"
 //#include "pch.h"
 
@@ -1359,7 +1361,7 @@ HRESULT ApplD3D9::createRenderingWindow(const APPL_D3D9_INIT_DATA* intiData)
 
 
 
-	RegisterClassEx( &m_windowclass );
+	RegisterClassExW( &m_windowclass );
 
 	void* param = (void*)this;
 
