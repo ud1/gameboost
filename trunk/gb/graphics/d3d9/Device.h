@@ -19,6 +19,8 @@
 
 #include <d3d9.h>
 
+#include <stdexcept>
+
 #ifdef GB_MATH
   #include <gb/math/math.h>
   using namespace gb::math::base;

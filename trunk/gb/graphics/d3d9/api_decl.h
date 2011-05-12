@@ -12,11 +12,11 @@
 
 #ifdef GB_D3D9_DLL
 
-#ifdef GB_D3D9_DLL_EXPORTS
-  #define GB_D3D9_API __declspec(dllexport)
-#else
-  #define GB_D3D9_API __declspec(dllimport)
-#endif
+	#ifdef GB_D3D9_DLL_EXPORTS
+	  #define GB_D3D9_API __declspec(dllexport)
+	#else
+	  #define GB_D3D9_API __declspec(dllimport)
+	#endif
 
 #else
 
