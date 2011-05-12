@@ -1,6 +1,6 @@
-// Пример использования dxut_wonly
+// Пример использования  отрисовщика билбоардов
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include <ce/dxut_wonly/dxut_wonly.h>
 //#include <ce/LDrw/CubeMapEnvirRender.h>
@@ -12,9 +12,12 @@
 #include <gb/base/Constants.h>
 #include <gb/macro.h>
 
+#include <gb/graphics/d3d9/dds/DDSTextureLoader.h>
+
 #include <gb/graphics/d3d9/render/render.h>
 using namespace gb::graphics::d3d9::render;
   
+
 
 //=====================================================
 
@@ -58,7 +61,9 @@ HRESULT CALLBACK OnCreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_
 {
   HRESULT hr = 0;
 
-  hr |= D3DXCreateTextureFromFileA(pd3dDevice, "z:\\!TEXTURES\\!DVD\\!SPRITES\\smoke.tga", &g_pTexture);
+ // hr |= D3DXCreateTextureFromFileA(pd3dDevice, "z:\\!TEXTURES\\!DVD\\!SPRITES\\smoke.tga", &g_pTexture);
+
+  hr |= CreateDDSTextureFromFileA(pd3dDevice, "z:\\!TEXTURES\\!DVD\\!SPRITES\\smoke.tga", &g_pTexture, NULL );
 
 
 
