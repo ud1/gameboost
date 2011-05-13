@@ -2,6 +2,9 @@
  \brief Для включения всех math-либ.
 *
 *
+     вся fixed-математика перенесена в пространство gb::fmath
+  чтобы никому не мазолила глаза
+
 *
 */
 
@@ -18,29 +21,11 @@
     #include <xmath.h>
 #endif
 #endif
-
-
  
-
 #pragma  warning(push)
 #pragma  warning(disable : 4995)
  
- /////////////////////////////////////////////////
-//  вся fixed-математика перенесена в пространство gb::fmath
-//  чтобы никому не мазолила глаза
- ////////////////////////////////////////////////
  
- 
-//	#include <gb/math/forw_decl.h>
-//	#include <gb/math/scalar.h>
-//	#include <gb/math/base.h>
-//	#include <gb/math/geom2d.h>
-//	#include <gb/math/geom3d.h>
-//	#include <gb/math/proj.h>
-
-
-
-
 // Временно подключаем glm, так как не вся математика реализованна
 // http://glm.g-truc.net/
 #include <glm/glm.hpp>
