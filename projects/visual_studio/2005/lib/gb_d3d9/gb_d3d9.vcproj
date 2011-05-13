@@ -150,81 +150,65 @@
 	</References>
 	<Files>
 		<Filter
-			Name="d3d9"
+			Name="src"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\appl.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\appl.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\common.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\common.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\dataconv.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dfont.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\dataconv2.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\draw.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv2.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\fvf.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dds\DDSTextureLoader.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\hlsl\hlsl.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\render\Renderbilliboard.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\fvf.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\render\RenderCubemapEnvironment.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\hlsl\hlsl.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\rt\rendertarget.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\Renderbilliboard.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\rt\rendertarget_impl.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\RenderBitmapFont.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\stack\rendertargetstack.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\RenderCubemapEnvironment.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\stack\StatesValueStack.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rt\rendertarget.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\stack\ViewPortStack.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rt\rendertarget_impl.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ExceptionHandling="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ExceptionHandling="2"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
