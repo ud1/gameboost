@@ -1,5 +1,8 @@
 ﻿
-#include "pch.h"
+
+//#include "pch.h"
+    // temp
+#include "stdafx.h"
 
 #include <gb/Config.h>
 
@@ -70,8 +73,8 @@ double MYUTGetTime()
 ArcBall::ArcBall()
 {
     reset();
-    m_vDownPt = vec3_s(0,0,0);
-    m_vCurrentPt = vec3_s(0,0,0);
+    m_vDownPt = vec3(0,0,0);
+    m_vCurrentPt = vec3(0,0,0);
     m_Offset.x = m_Offset.y = 0;
 
     RECT rc;
@@ -100,7 +103,7 @@ void ArcBall::reset()
 
 
 //=========================================================================
-vec3_s ArcBall::screenToVector( float fScreenPtX, float fScreenPtY )
+vec3 ArcBall::screenToVector( float fScreenPtX, float fScreenPtY )
 {
     // Scale to screen
     float x   = -(fScreenPtX - m_Offset.x - m_nWidth/2)  / (m_fRadius*m_nWidth/2);
@@ -119,16 +122,16 @@ vec3_s ArcBall::screenToVector( float fScreenPtX, float fScreenPtY )
         z = sqrtf( 1.0f - mag );
 
     // Return vector
-    return vec3_s( x, y, z );
+    return vec3( x, y, z );
 }
 
 
 
 
 //=========================================================================
-Quaternion ArcBall::quatFromBallPoints(const vec3_s &vFrom, const vec3_s &vTo)
+Quaternion ArcBall::quatFromBallPoints(const vec3 &vFrom, const vec3 &vTo)
 {
-    vec3_s vPart;
+    vec3 vPart;
 
     float fDot = vFrom.dot(vTo);//  D 3DX Vec3Dot(vFrom, vTo);
 
@@ -268,8 +271,8 @@ BaseCamera::BaseCamera()
 //    ZeroMemory( m_GamePad, sizeof(MYUT_GAMEPAD)*MYUT_MAX_CONTROLLERS );
 
     // Set attributes for the view matrix
-    vec3_s vEyePt    = vec3_s(0.0f,0.0f,0.0f);
-    vec3_s vLookatPt = vec3_s(0.0f,0.0f,1.0f);
+    vec3 vEyePt    = vec3(0.0f,0.0f,0.0f);
+    vec3 vLookatPt = vec3(0.0f,0.0f,1.0f);
 
     // Setup the view matrix
     setViewParams( vEyePt, vLookatPt );
@@ -289,12 +292,12 @@ BaseCamera::BaseCamera()
     m_fCameraPitchAngle = 0.0f;
 
     SetRect( &m_rcDrag, LONG_MIN, LONG_MIN, LONG_MAX, LONG_MAX );
-    m_vVelocity     = vec3_s(0,0,0);
+    m_vVelocity     = vec3(0,0,0);
     m_bMovementDrag = false;
-    m_vVelocityDrag = vec3_s(0,0,0);
+    m_vVelocityDrag = vec3(0,0,0);
     m_fDragTimer    = 0.0f;
     m_fTotalDragTimeToZero = 0.25;
-    m_vRotVelocity = vec2_s(0,0);
+    m_vRotVelocity = vec2(0,0);
 
     m_fRotationScaler = 0.01f;           
     m_fMoveScaler = 5.0f;           
@@ -303,19 +306,19 @@ BaseCamera::BaseCamera()
     m_bEnableYAxisMovement = true;
     m_bEnablePositionMovement = true;
 
-    m_vMouseDelta   = vec2_s(0,0);
+    m_vMouseDelta   = vec2(0,0);
     m_fFramesToSmoothMouseData = 2.0f;
 
     m_bClipToBoundary = false;
-    m_vMinBoundary = vec3_s(-1,-1,-1);
-    m_vMaxBoundary = vec3_s(1,1,1);
+    m_vMinBoundary = vec3(-1,-1,-1);
+    m_vMaxBoundary = vec3(1,1,1);
 }
 
 
 //========================================================================
 // Client can call this to change the position and direction of camera
 //========================================================================
-void BaseCamera::setViewParams( const vec3_s& pvEyePt, const vec3_s& pvLookatPt )
+void BaseCamera::setViewParams( const vec3& pvEyePt, const vec3& pvLookatPt )
 {
    
 	//if( NULL == pvEyePt || NULL == pvLookatPt )
@@ -325,18 +328,18 @@ void BaseCamera::setViewParams( const vec3_s& pvEyePt, const vec3_s& pvLookatPt 
     m_vDefaultLookAt = m_vLookAt = pvLookatPt;
 
     // Calc the view matrix
-    vec3_s vUp(0,1,0);
+    vec3 vUp(0,1,0);
     // D 3DXMatrixLookAtLH( m_mView, pvEyePt, pvLookatPt, vUp );
 	  m_mView.setViewLookAtLH(pvEyePt, pvLookatPt, vUp );
 
-    mat44_s mInvView;
+    mat44 mInvView;
    // D 3DX MatrixInverse( mInvView, NULL, m_mView );
 	mInvView   =  m_mView.inverted();
 
     // The axis basis vectors and camera position are stored inside the 
     // position matrix in the 4 rows of the camera's world matrix.
     // To figure out the yaw/pitch of the camera, we just need the Z basis vector
-    vec3_s* pZBasis = (vec3_s*) &mInvView._31;
+    vec3* pZBasis = (vec3*) &mInvView._31;
 
     m_fCameraYawAngle   = atan2f( pZBasis->x, pZBasis->z );
     float fLen = sqrtf(pZBasis->z*pZBasis->z + pZBasis->x*pZBasis->x);
@@ -490,7 +493,7 @@ LRESULT BaseCamera::handleMessages( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 void BaseCamera::getInput( bool bGetKeyboardInput, bool bGetMouseInput, 
 						   bool bGetGamepadInput, bool bResetCursorAfterMove )
 {
-    m_vKeyboardDirection = vec3_s(0,0,0);
+    m_vKeyboardDirection = vec3(0,0,0);
     if( bGetKeyboardInput )
     {
         // Update acceleration vector based on keyboard state
@@ -568,8 +571,8 @@ void BaseCamera::getInput( bool bGetKeyboardInput, bool bGetMouseInput,
 
     if( bGetGamepadInput )
     {
-        m_vGamePadLeftThumb = vec3_s(0,0,0);
-        m_vGamePadRightThumb = vec3_s(0,0,0);
+        m_vGamePadLeftThumb = vec3(0,0,0);
+        m_vGamePadRightThumb = vec3(0,0,0);
 	  
         // Find out which controller was non-zero last
         int iMostRecentlyActive = -1;
@@ -586,12 +589,12 @@ void BaseCamera::getInput( bool bGetKeyboardInput, bool bGetMouseInput,
 //========================================================================
 void BaseCamera::updateVelocity( float fElapsedTime )
 {
-    mat44_s mRotDelta;
+    mat44 mRotDelta;
 
-    vec2_s vGamePadRightThumb = vec2_s(m_vGamePadRightThumb.x, -m_vGamePadRightThumb.z);
+    vec2 vGamePadRightThumb = vec2(m_vGamePadRightThumb.x, -m_vGamePadRightThumb.z);
     m_vRotVelocity = m_vMouseDelta * m_fRotationScaler + vGamePadRightThumb * 0.02f;
 
-    vec3_s vAccel = m_vKeyboardDirection + m_vGamePadLeftThumb;
+    vec3 vAccel = m_vKeyboardDirection + m_vGamePadLeftThumb;
 
     // Normalize vector so if moving 2 dirs (left & forward), 
     // the camera doesn't move faster than if moving in 1 dir
@@ -631,7 +634,7 @@ void BaseCamera::updateVelocity( float fElapsedTime )
             else
             {
                 // Zero velocity
-                m_vVelocity = vec3_s(0,0,0);
+                m_vVelocity = vec3(0,0,0);
             }
         }
     }
@@ -648,7 +651,7 @@ void BaseCamera::updateVelocity( float fElapsedTime )
 //========================================================================
 // Clamps pV to lie inside m_vMinBoundary & m_vMaxBoundary
 //========================================================================
-void BaseCamera::constrainToBoundary( vec3_s* pV )
+void BaseCamera::constrainToBoundary( vec3* pV )
 {
     // Constrain vector to a bounding box 
     pV->x = __max(pV->x, m_vMinBoundary.x);
@@ -752,7 +755,7 @@ void FirstPersonCamera::frameMove( float fElapsedTime )
     updateVelocity( fElapsedTime );
 
     // Simple euler method to calculate position delta
-    vec3_s vPosDelta = m_vVelocity * fElapsedTime;
+    vec3 vPosDelta = m_vVelocity * fElapsedTime;
 
     // If rotating the camera 
     if( (m_nActiveButtonMask & m_nCurrentButtonMask) || 
@@ -779,16 +782,16 @@ void FirstPersonCamera::frameMove( float fElapsedTime )
     }
 
     // Make a rotation matrix based on the camera's yaw & pitch
-    mat44_s mCameraRot;
+    mat44 mCameraRot;
     //D 3DX MatrixRotationYawPitchRoll( mCameraRot, m_fCameraYawAngle, m_fCameraPitchAngle, 0 );
 	  mCameraRot.setRotationYawPitchRoll( m_fCameraYawAngle, m_fCameraPitchAngle, 0.0f  );
 
 
 
     // Transform vectors based on camera's rotation matrix
-    vec3_s vWorldUp, vWorldAhead;
-    vec3_s vLocalUp    = vec3_s(0,1,0);
-    vec3_s vLocalAhead = vec3_s(0,0,1);
+    vec3 vWorldUp, vWorldAhead;
+    vec3 vLocalUp    = vec3(0,1,0);
+    vec3 vLocalAhead = vec3(0,0,1);
 
    // D 3DX Vec3TransformCoord( vWorldUp, vLocalUp, mCameraRot );
 	  vWorldUp = vLocalUp;
@@ -801,7 +804,7 @@ void FirstPersonCamera::frameMove( float fElapsedTime )
 
 
     // Transform the position delta by the camera's rotation 
-    vec3_s vPosDeltaWorld;
+    vec3 vPosDeltaWorld;
     if( !m_bEnableYAxisMovement )
     {
         // If restricting Y movement, do not include pitch
@@ -856,7 +859,7 @@ ModelViewerCamera::ModelViewerCamera()
     m_mModelRot.reset(); //  D 3 D X MatrixIdentity( m_mModelRot );
     m_mModelLastRot.reset(); // D 3 D X MatrixIdentity( m_mModelLastRot );    
     m_mCameraRotLast.reset(); // D 3 D X MatrixIdentity( m_mCameraRotLast );    
-    m_vModelCenter = vec3_s(0,0,0);
+    m_vModelCenter = vec3(0,0,0);
     m_fRadius    = 5.0f;
     m_fDefaultRadius = 5.0f;
     m_fMinRadius = 1.0f;
@@ -896,7 +899,7 @@ void ModelViewerCamera::frameMove( float fElapsedTime )
     updateVelocity( fElapsedTime );
 
     // Simple euler method to calculate position delta
-    vec3_s vPosDelta = m_vVelocity * fElapsedTime;
+    vec3 vPosDelta = m_vVelocity * fElapsedTime;
 
     // Change the radius from the camera to the model based on wheel scrolling
     if( m_nMouseWheelDelta && m_nZoomButtonMask == MOUSE_WHEEL )
@@ -906,15 +909,15 @@ void ModelViewerCamera::frameMove( float fElapsedTime )
     m_nMouseWheelDelta = 0;
 
     // Get the inverse of the arcball's rotation matrix
-    mat44_s mCameraRot;
+    mat44 mCameraRot;
     //D 3DXMatrixInverse( mCameraRot, NULL, m_ViewArcBall.getRotationMatrix() );
 	 mCameraRot = m_ViewArcBall.getRotationMatrix().inverted();
 
 
     // Transform vectors based on camera's rotation matrix
-    vec3_s vWorldUp, vWorldAhead;
-    vec3_s vLocalUp    = vec3_s(0,1,0);
-    vec3_s vLocalAhead = vec3_s(0,0,1);
+    vec3 vWorldUp, vWorldAhead;
+    vec3 vLocalUp    = vec3(0,1,0);
+    vec3 vLocalAhead = vec3(0,0,1);
 
 
    // D 3DX Vec3TransformCoord( vWorldUp, vLocalUp, mCameraRot );
@@ -929,7 +932,7 @@ void ModelViewerCamera::frameMove( float fElapsedTime )
 
 
     // Transform the position delta by the camera's rotation 
-    vec3_s vPosDeltaWorld;
+    vec3 vPosDeltaWorld;
     //D 3DX Vec3TransformCoord( vPosDeltaWorld, vPosDelta, mCameraRot );
 		vPosDeltaWorld = vPosDelta;
 		vPosDeltaWorld.transformCoord(mCameraRot);
@@ -949,20 +952,20 @@ void ModelViewerCamera::frameMove( float fElapsedTime )
 	 m_mView.setViewLookAtLH(m_vEye, m_vLookAt, vWorldUp);
 
 
-    mat44_s mInvView;
+    mat44 mInvView;
     //D 3DXMatrixInverse( mInvView, NULL, m_mView );
 		mInvView = m_mView.inverted();
 
     mInvView._41 = mInvView._42 = mInvView._43 = 0;
 
 
-    mat44_s mModelLastRotInv;
+    mat44 mModelLastRotInv;
     //D 3DXMatrixInverse(mModelLastRotInv, NULL, m_mModelLastRot);
 		mModelLastRotInv =	m_mModelLastRot.inverted();
 
     // Accumulate the delta of the arcball's rotation in view space.
     // Note that per-frame delta rotations could be problematic over long periods of time.
-    mat44_s mModelRot;
+    mat44 mModelRot;
     mModelRot = m_WorldArcBall.getRotationMatrix();
     m_mModelRot *= m_mView * mModelLastRotInv * mModelRot * mInvView;
 
@@ -970,11 +973,11 @@ void ModelViewerCamera::frameMove( float fElapsedTime )
     {
 
         // Attach camera to model by inverse of the model rotation
-        mat44_s mCameraLastRotInv;
+        mat44 mCameraLastRotInv;
         //D 3DXMatrixInverse(mCameraLastRotInv, NULL, m_mCameraRotLast);
 		  mCameraLastRotInv = m_mCameraRotLast.inverted();
 
-        mat44_s mCameraRotDelta = mCameraLastRotInv * mCameraRot; // local to world matrix
+        mat44 mCameraRotDelta = mCameraLastRotInv * mCameraRot; // local to world matrix
         m_mModelRot *= mCameraRotDelta;
     }
     m_mCameraRotLast = mCameraRot; 
@@ -983,9 +986,9 @@ void ModelViewerCamera::frameMove( float fElapsedTime )
 
     // Since we're accumulating delta rotations, we need to orthonormalize 
     // the matrix to prevent eventual matrix skew
-    vec3_s* pXBasis = (vec3_s*) &m_mModelRot._11;
-    vec3_s* pYBasis = (vec3_s*) &m_mModelRot._21;
-    vec3_s* pZBasis = (vec3_s*) &m_mModelRot._31;
+    vec3* pXBasis = (vec3*) &m_mModelRot._11;
+    vec3* pYBasis = (vec3*) &m_mModelRot._21;
+    vec3* pZBasis = (vec3*) &m_mModelRot._31;
 
     //D 3DX Vec3Normalize( *pXBasis, *pXBasis );
 	 pXBasis->normalize();
@@ -1006,7 +1009,7 @@ void ModelViewerCamera::frameMove( float fElapsedTime )
     m_mModelRot._43 = m_vLookAt.z;
 
     // Translate world matrix so its at the center of the model
-    mat44_s mTrans;
+    mat44 mTrans;
     //D 3DXMatrixTranslation( mTrans, -m_vModelCenter.x, -m_vModelCenter.y, -m_vModelCenter.z );
 	 mTrans.setTranslation( -m_vModelCenter.x, -m_vModelCenter.y, -m_vModelCenter.z   );
 
@@ -1045,14 +1048,14 @@ void ModelViewerCamera::reset()
 //========================================================================
 // Override for setting the view parameters
 //========================================================================
-void ModelViewerCamera::setViewParams( const vec3_s& pvEyePt, const vec3_s& pvLookatPt )
+void ModelViewerCamera::setViewParams( const vec3& pvEyePt, const vec3& pvLookatPt )
 {
     BaseCamera::setViewParams( pvEyePt, pvLookatPt );
 
     // Propogate changes to the member arcball
     Quaternion quat;
-    mat44_s mRotation;
-    vec3_s vUp(0,1,0);
+    mat44 mRotation;
+    vec3 vUp(0,1,0);
     //D 3DXMatrixLookAtLH( mRotation, pvEyePt, pvLookatPt, vUp );
 		 mRotation.setViewLookAtLH(  pvEyePt, pvLookatPt, vUp    );
 
@@ -1062,7 +1065,7 @@ void ModelViewerCamera::setViewParams( const vec3_s& pvEyePt, const vec3_s& pvLo
     m_ViewArcBall.setQuatNow( quat );
 
     // Set the radius according to the distance
-    vec3_s vEyeToPoint;
+    vec3 vEyeToPoint;
     //D 3DXVec3Subtract( vEyeToPoint, pvLookatPt, pvEyePt );
 //#pragma message("ks777::devhelp::ModelViewerCamera::setViewParams  ВОЗМОЖНО НЕПРАВИЛЬНО"   __FILE__)
 	  vEyeToPoint =  pvEyePt -   pvLookatPt;
