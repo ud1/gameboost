@@ -11,7 +11,6 @@
 #include <gb/Config.h>
 
 #include <math.h>
-
 #include <limits>
 
 #ifdef _WIN32
@@ -20,24 +19,24 @@
 #endif
 #endif
 
-#ifdef GB_D3D9
-    #include <d3d9.h>
-#endif 
 
-#ifdef GB_D3DX9
-    #include <d3dx9math.h>
-#endif 
+ 
 
 #pragma  warning(push)
 #pragma  warning(disable : 4995)
  
-
-#include <gb/math/forw_decl.h>
-#include <gb/math/scalar.h>
-#include <gb/math/base.h>
-#include <gb/math/geom2d.h>
- #include <gb/math/geom3d.h>
-#include <gb/math/proj.h>
+ /////////////////////////////////////////////////
+//  вся fixed-математика перенесена в пространство gb::fmath
+//  чтобы никому не мазолила глаза
+ ////////////////////////////////////////////////
+ 
+ 
+//	#include <gb/math/forw_decl.h>
+//	#include <gb/math/scalar.h>
+//	#include <gb/math/base.h>
+//	#include <gb/math/geom2d.h>
+//	#include <gb/math/geom3d.h>
+//	#include <gb/math/proj.h>
 
 
 
