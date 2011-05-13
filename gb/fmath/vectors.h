@@ -17,7 +17,7 @@ namespace gb
 
  
 		/** \brief Базовый 2d-вектор.  Поправить операторы по эпислону */
-		struct vec2_s {
+		struct vec2 {
 
 			union {
 			
@@ -28,42 +28,42 @@ namespace gb
 				float floats [2];
 			};
 
-			    inline vec2_s() {}
+			    inline vec2() {}
 
-			    inline vec2_s(const vec2_s& v)      { x=v.x;  y=v.y;  }
-				inline vec2_s(const vec2_s* v)      { x=v->x;  y=v->y;    }
+			    inline vec2(const vec2& v)      { x=v.x;  y=v.y;  }
+				inline vec2(const vec2* v)      { x=v->x;  y=v->y;    }
 
-			    inline vec2_s(float _x, float _y)   { x=_x;   y=_y;   }
-			    //inline vec2_s(int   _x, int   _y)   { x=(float)_x;   y=(float)_y; }
+			    inline vec2(float _x, float _y)   { x=_x;   y=_y;   }
+			    //inline vec2(int   _x, int   _y)   { x=(float)_x;   y=(float)_y; }
 
-				inline vec2_s(const float* pfArray) { *this = pfArray; }
+				inline vec2(const float* pfArray) { *this = pfArray; }
 
 				//! \brief Присваивание из float-массива 
 				inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; }
 
-				inline bool  operator == (const vec2_s & v) const {	return (x == v.x && y == v.y  ); }
-				inline bool  operator != (const vec2_s & v) const {	return (x != v.x || y != v.y  ); }
+				inline bool  operator == (const vec2 & v) const {	return (x == v.x && y == v.y  ); }
+				inline bool  operator != (const vec2 & v) const {	return (x != v.x || y != v.y  ); }
 
-				//inline bool  operator <  (const vec2_s & v) const { return (x < v.x && y < v.y );    }
-				//inline bool  operator <= (const vec2_s & v) const {	return (x <= v.x && y <= v.y);   }
-				//inline bool  operator >  (const vec2_s & v) const {	return (x > v.x && y > v.y);     }
-				//inline bool  operator >= (const vec2_s & v) const {	return (x >= v.x && y >= v.y );  }
+				//inline bool  operator <  (const vec2 & v) const { return (x < v.x && y < v.y );    }
+				//inline bool  operator <= (const vec2 & v) const {	return (x <= v.x && y <= v.y);   }
+				//inline bool  operator >  (const vec2 & v) const {	return (x > v.x && y > v.y);     }
+				//inline bool  operator >= (const vec2 & v) const {	return (x >= v.x && y >= v.y );  }
 
-				inline vec2_s  operator + () const   { 	return *this; }
-				inline vec2_s  operator - () const   { vec2_s res; res.x = -x;	res.y = -y;	return res; }
+				inline vec2  operator + () const   { 	return *this; }
+				inline vec2  operator - () const   { vec2 res; res.x = -x;	res.y = -y;	return res; }
 
-				inline vec2_s  operator + (const vec2_s &v) const { vec2_s res;	res = *this; res += v; return res; }
-				inline vec2_s  operator - (const vec2_s &v) const {	vec2_s res;	res = *this; res -= v; return res; }
-				inline vec2_s  operator * (float f) const         { vec2_s res;	res = *this; res.x *= f;  res.y *= f; return res; }
-				inline vec2_s  operator / (float f) const         { vec2_s res;	res = *this; res.x /= f;  res.y /= f; return res; }
+				inline vec2  operator + (const vec2 &v) const { vec2 res;	res = *this; res += v; return res; }
+				inline vec2  operator - (const vec2 &v) const {	vec2 res;	res = *this; res -= v; return res; }
+				inline vec2  operator * (float f) const         { vec2 res;	res = *this; res.x *= f;  res.y *= f; return res; }
+				inline vec2  operator / (float f) const         { vec2 res;	res = *this; res.x /= f;  res.y /= f; return res; }
 
-				inline vec2_s &  operator += (const vec2_s &v)  { x += v.x; y += v.y;   return *this; }
-				inline vec2_s &  operator -= (const vec2_s &v)  { x -= v.x; y -= v.y;   return *this; }
-				inline vec2_s &  operator *= (float f)          { x *= f;   y *= f;	    return *this; }
-				inline vec2_s &  operator *= ( const vec2_s& v) { x *= v.x;	y *= v.y;	return *this; }
+				inline vec2 &  operator += (const vec2 &v)  { x += v.x; y += v.y;   return *this; }
+				inline vec2 &  operator -= (const vec2 &v)  { x -= v.x; y -= v.y;   return *this; }
+				inline vec2 &  operator *= (float f)          { x *= f;   y *= f;	    return *this; }
+				inline vec2 &  operator *= ( const vec2& v) { x *= v.x;	y *= v.y;	return *this; }
 
-				inline vec2_s &  operator /= (float f)           { x /= f;    y /= f;   return *this; }
-				inline vec2_s &  operator /= ( const vec2_s& v ) { x /= v.x;  y /= v.y; return *this; }
+				inline vec2 &  operator /= (float f)           { x /= f;    y /= f;   return *this; }
+				inline vec2 &  operator /= ( const vec2& v ) { x /= v.x;  y /= v.y; return *this; }
 
 
 
@@ -85,7 +85,7 @@ namespace gb
 				}
 
 
-#ifdef GB_D3DX9
+#ifdef __D3DX9MATH_H__
 
 			inline operator const D3DXVECTOR2*() const { return (D3DXVECTOR2*)&x; }
 			inline operator   D3DXVECTOR2*()   { return (D3DXVECTOR2*)&x; }
@@ -98,8 +98,8 @@ namespace gb
 				inline void setzero() {x=y=0.0f; }
 				inline bool empty() const { return ( (x==0.0f) && (y==0.0f) ); }
 
-				inline vec2_s& set     (float _x, float _y) {x=_x; y=_y;  return *this; }
-				inline vec2_s& set_all (float val) { x=val; y=val;        return *this; }
+				inline vec2& set     (float _x, float _y) {x=_x; y=_y;  return *this; }
+				inline vec2& set_all (float val) { x=val; y=val;        return *this; }
 
 				inline bool isZero(float epsilon) const
 				{
@@ -110,18 +110,18 @@ namespace gb
 				inline float     length () const  {	return (float)sqrt ( x*x + y*y );	}
 			    inline float     lengthSq() const {	 return (x*x + y*y );  }
 
-				inline float distance(const vec2_s& point) const 
+				inline float distance(const vec2& point) const 
 				{
 					return  sqrt( distanceSq( point ) );  
 				}
 
-				inline float distanceSq(const vec2_s& point) const 
+				inline float distanceSq(const vec2& point) const 
 				{ 
-					return vec2_s(*this - point).lengthSq();  
+					return vec2(*this - point).lengthSq();  
 				}
 
 
-				inline vec2_s&   normalize() 
+				inline vec2&   normalize() 
 				{ 
 					if( (0.0f==x) && (0.0f==y) ) // < без этого глючит. nan
 						return *this; 
@@ -132,22 +132,22 @@ namespace gb
 				}
 
 				//! \brief  Вернуть нормализованый
-				inline vec2_s normalized() const 
+				inline vec2 normalized() const 
 				{
-				 vec2_s res(*this);
+				 vec2 res(*this);
 				 res.normalize();
 				 return res;
 				}
 
-				inline float  dot(const vec2_s& v) const { return x*v.x + y*v.y; }
+				inline float  dot(const vec2& v) const { return x*v.x + y*v.y; }
 
  
 				//! \brief Returns the z-component by taking the cross product of two 2D vectors.  ПРОВЕРЕНА!  
-				float ccw(const vec2_s& v) const ;
+				float ccw(const vec2& v) const ;
 
 
 				//! \brief  Инвертировать (поменять знаки компонентов).
-				inline vec2_s& inverse() 
+				inline vec2& inverse() 
 				{ 
 					x=-x; 
 					y=-y; 
@@ -155,19 +155,19 @@ namespace gb
 				}
 
 				//! \brief Вернуть вектор, с противоположными знаками
-				inline vec2_s  inverted() const 
+				inline vec2  inverted() const 
 				{
-					return vec2_s ( -x, -y ); 
+					return vec2 ( -x, -y ); 
 				}
  		
 
 				inline float     getMaxLength () const {  if( fabs (x) >= fabs (y) ) return x; else return y;   }
 
-  			   // inline vec2_s&   invert() {x=-x; y=-y;  return *this; }
+  			   // inline vec2&   invert() {x=-x; y=-y;  return *this; }
 
-				inline vec2_s    lerp(const vec2_s& v, const float k) const
+				inline vec2    lerp(const vec2& v, const float k) const
 				{
-					vec2_s r;
+					vec2 r;
 					r.x = x + (v.x - x) * k;
 					r.y = y + (v.y - y) * k;
 					return r;			
@@ -181,7 +181,7 @@ namespace gb
 				inline float maxVal() const { if(x>y) return x;   return y; }
 
 				//! \brief  Сравнить два вектора v1 и v2 и присвоить минимальный 
-				inline vec2_s& minimize(const vec2_s& v1, const vec2_s& v2) 
+				inline vec2& minimize(const vec2& v1, const vec2& v2) 
 				{
 					if (v1.x < v2.x) x = v1.x; else  x = v2.x;
 					if (v1.y < v2.y) y = v1.y; else  y = v2.y;
@@ -189,7 +189,7 @@ namespace gb
 				}
 
 				//! \brief  Сравнить вектор v и собственное значение и присвоить минимальный  
-				inline vec2_s& minimize(const vec2_s& v) 
+				inline vec2& minimize(const vec2& v) 
 				{
 					if (v.x < x) x = v.x;
 					if (v.y < y) y = v.y;
@@ -197,7 +197,7 @@ namespace gb
 				}
 
 				//! \brief  Сравнить два вектора v1 и v2 и присвоить максимальный  
-				inline vec2_s& maximize(const vec2_s& v1, const vec2_s& v2) 
+				inline vec2& maximize(const vec2& v1, const vec2& v2) 
 				{
 					if (v1.x > v2.x) x = v1.x; else  x = v2.x;
 					if (v1.y > v2.y) y = v1.y; else  y = v2.y;
@@ -205,7 +205,7 @@ namespace gb
 				}
 
 				//! \brief  Сравнить вектор v и собственное значение и присвоить максимальный 
-				inline vec2_s& maximize(const vec2_s& v) 
+				inline vec2& maximize(const vec2& v) 
 				{
 					if (v.x > x) x = v.x;
 					if (v.y > y) y = v.y;
@@ -213,9 +213,9 @@ namespace gb
 				}
 
 				//! \brief Вернуть минимальный вектор между this и v
-				inline vec2_s minimized(const vec2_s& v) const { vec2_s r; r.minimize(*this, v); return r; };
+				inline vec2 minimized(const vec2& v) const { vec2 r; r.minimize(*this, v); return r; };
 				//! \brief Вернуть максимальный вектор между this и v
-				inline vec2_s maximized(const vec2_s& v) const { vec2_s r; r.maximize(*this, v); return r; };
+				inline vec2 maximized(const vec2& v) const { vec2 r; r.maximize(*this, v); return r; };
 
 
 				//! \brief  вычислить мин. абсолютное значение компонент. 
@@ -231,16 +231,16 @@ namespace gb
 
 
 				//! \brief  Отсечение значений в пределах vmin и vmax
-				inline void clump(const vec2_s& vmin, const vec2_s& vmax) 
+				inline void clump(const vec2& vmin, const vec2& vmax) 
 				{
 					if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
 					if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
 				}
 
 			//! \brief Вернуть среднюю точку между this и point
-			inline vec2_s middle(const vec2_s& point) const 
+			inline vec2 middle(const vec2& point) const 
 			{
-			    vec2_s res;
+			    vec2 res;
 			      res.x = ( x + point.x ) / 2.0f;
 			      res.y = ( y + point.y ) / 2.0f;			
 			         return res;
@@ -261,7 +261,7 @@ namespace gb
 
 
 		/** \brief Базовый 3d-вектор.  Поправить операторы по эпислону */		
-		struct vec3_s  {
+		struct vec3  {
 
 		    union {
 			
@@ -272,45 +272,45 @@ namespace gb
 				float floats [3];
 			};
 
-			inline vec3_s() {}
+			inline vec3() {}
 
-			inline vec3_s(const vec3_s& v)             { x=v.x;   y=v.y;   z=v.z;   }
-			inline vec3_s(const vec3_s* v)             { x=v->x;  y=v->y; z=v->z;   }
+			inline vec3(const vec3& v)             { x=v.x;   y=v.y;   z=v.z;   }
+			inline vec3(const vec3* v)             { x=v->x;  y=v->y; z=v->z;   }
 
-			inline vec3_s(const vec2_s& v, float _z)   { x=v.x;  y=v.y; z=_z;     }
+			inline vec3(const vec2& v, float _z)   { x=v.x;  y=v.y; z=_z;     }
 
-			inline vec3_s(float _x, float _y, float _z)   { x=_x;    y=_y;    z=_z;  }
-			inline vec3_s(int   _x, int   _y, int   _z)   { x=(float)_x;   y=(float)_y;  z=(float)_z; }
+			inline vec3(float _x, float _y, float _z)   { x=_x;    y=_y;    z=_z;  }
+			inline vec3(int   _x, int   _y, int   _z)   { x=(float)_x;   y=(float)_y;  z=(float)_z; }
 
-			inline vec3_s(const float* pfArray) { *this = pfArray; }
+			inline vec3(const float* pfArray) { *this = pfArray; }
 
-			//inline vec3_s(vec4_s);
+			//inline vec3(vec4);
 
 			//! \brief Присваивание из float-массива 
 			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; }
 				 
-			inline bool  operator == (const vec3_s &v) const { return (x == v.x && y == v.y && z == v.z ); }
-			inline bool  operator != (const vec3_s &v) const { return (x != v.x || y != v.y || z != v.z ); }
+			inline bool  operator == (const vec3 &v) const { return (x == v.x && y == v.y && z == v.z ); }
+			inline bool  operator != (const vec3 &v) const { return (x != v.x || y != v.y || z != v.z ); }
 
-			//inline bool  operator <  (const vec3_s &v) const {	return (x <  v.x && y <  v.y && z <  v.z ); }
-			//inline bool  operator <= (const vec3_s &v) const {	return (x <= v.x && y <= v.y && z <= v.z ); }
-			//inline bool  operator >  (const vec3_s &v) const {	return (x >  v.x && y >  v.y && z >  v.z ); }
-			//inline bool  operator >= (const vec3_s &v) const {	return (x >= v.x && y >= v.y && z >= v.z ); }
+			//inline bool  operator <  (const vec3 &v) const {	return (x <  v.x && y <  v.y && z <  v.z ); }
+			//inline bool  operator <= (const vec3 &v) const {	return (x <= v.x && y <= v.y && z <= v.z ); }
+			//inline bool  operator >  (const vec3 &v) const {	return (x >  v.x && y >  v.y && z >  v.z ); }
+			//inline bool  operator >= (const vec3 &v) const {	return (x >= v.x && y >= v.y && z >= v.z ); }
 
-			inline vec3_s  operator + () const   { 	return *this; }
-			inline vec3_s  operator - () const{	vec3_s res;	res.x = -x;	res.y = -y;	res.z = -z;	return res; }
+			inline vec3  operator + () const   { 	return *this; }
+			inline vec3  operator - () const{	vec3 res;	res.x = -x;	res.y = -y;	res.z = -z;	return res; }
 
-			inline vec3_s  operator + (const vec3_s &v) const {	vec3_s res;	res = *this; res += v;	return res; }
-			inline vec3_s  operator - (const vec3_s &v) const {	vec3_s res;	res = *this; res -= v;	return res; }
-			inline vec3_s  operator * (float f) const         { vec3_s res = *this;      res.x *= f;	res.y *= f;	res.z *= f;	return res; }
-			inline vec3_s  operator / (float f) const         { vec3_s res = *this;	     res.x /= f;	res.y /= f;	res.z /= f;	return res; }
+			inline vec3  operator + (const vec3 &v) const {	vec3 res;	res = *this; res += v;	return res; }
+			inline vec3  operator - (const vec3 &v) const {	vec3 res;	res = *this; res -= v;	return res; }
+			inline vec3  operator * (float f) const         { vec3 res = *this;      res.x *= f;	res.y *= f;	res.z *= f;	return res; }
+			inline vec3  operator / (float f) const         { vec3 res = *this;	     res.x /= f;	res.y /= f;	res.z /= f;	return res; }
 
-			inline vec3_s &  operator += (const vec3_s &v)    {	x += v.x;	y += v.y;	z += v.z;	return *this; }
-			inline vec3_s &  operator -= (const vec3_s &v)    {	x -= v.x;	y -= v.y;	z -= v.z;	return *this; }
-			inline vec3_s &  operator *= (float f)            {	x *= f;	y *= f;	z *= f;	return *this; }
-			inline vec3_s &  operator *= (const vec3_s &v)    {	x *= v.x;	y *= v.y;	z *= v.z;	return *this; }
-			inline vec3_s &  operator /= (float f)            {	x /= f;	y /= f;	z /= f;	return *this; }
-			inline vec3_s &  operator /= (const vec3_s &v)    {	x /= v.x;	y /= v.y;	z /= v.z;	return *this; }
+			inline vec3 &  operator += (const vec3 &v)    {	x += v.x;	y += v.y;	z += v.z;	return *this; }
+			inline vec3 &  operator -= (const vec3 &v)    {	x -= v.x;	y -= v.y;	z -= v.z;	return *this; }
+			inline vec3 &  operator *= (float f)            {	x *= f;	y *= f;	z *= f;	return *this; }
+			inline vec3 &  operator *= (const vec3 &v)    {	x *= v.x;	y *= v.y;	z *= v.z;	return *this; }
+			inline vec3 &  operator /= (float f)            {	x /= f;	y /= f;	z /= f;	return *this; }
+			inline vec3 &  operator /= (const vec3 &v)    {	x /= v.x;	y /= v.y;	z /= v.z;	return *this; }
  
 			inline operator  const float*() const  { return &x; }
 			inline operator        float*()        { return &x; }
@@ -340,12 +340,12 @@ namespace gb
 			inline void operator = (const D3DVECTOR& v) {	x=v.x; y=v.y; z=v.z; }
 #endif // #ifdef _D3D9_H_
 
-#ifdef GB_D3DX9
+#ifdef __D3DX9MATH_H__
 			inline operator D3DXVECTOR3*() { return (D3DXVECTOR3*)&x; }
 			inline operator const D3DXVECTOR3*() const { return (D3DXVECTOR3*)&x; }
 			inline operator D3DXVECTOR3() const  {  return D3DXVECTOR3(x,y,z); }
 		   	inline void operator = (const D3DXVECTOR3& v) {	x=v.x; y=v.y; z=v.z; }
-#endif // #ifdef GB_D3DX9
+#endif // #ifdef __D3DX9MATH_H__
 
 			void operator = (const gb::fmath::geom3d::Point3& pnt);
 
@@ -353,8 +353,8 @@ namespace gb
 		    inline void setzero() {x=y=z=0.0f; }
 			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) ); }
 
-			inline vec3_s& set    (float _x, float _y, float _z) { x=_x; y=_y; z=_z; return *this; };
-			inline vec3_s& set_all(float val) { x=val; y=val; z=val;                 return *this; }
+			inline vec3& set    (float _x, float _y, float _z) { x=_x; y=_y; z=_z; return *this; };
+			inline vec3& set_all(float val) { x=val; y=val; z=val;                 return *this; }
 
 			inline bool isZero(float epsilon) const
 			{
@@ -364,14 +364,14 @@ namespace gb
 			inline float     length () const {	return (float)sqrt ( x*x + y*y + z*z );	}
 			inline float     lengthSq() const {	 return (x*x + y*y + z*z);  }
 
-			inline float     dot(const vec3_s& v) const { return x*v.x + y*v.y + z*v.z; }
+			inline float     dot(const vec3& v) const { return x*v.x + y*v.y + z*v.z; }
 
-			inline vec3_s& inverse() { x=-x; y=-y; z=-z; return *this; }
-			inline vec3_s  inverted() const { return vec3_s (-x, -y, -z); }
+			inline vec3& inverse() { x=-x; y=-y; z=-z; return *this; }
+			inline vec3  inverted() const { return vec3 (-x, -y, -z); }
 
-			inline vec3_s    cross (const vec3_s &v) const
+			inline vec3    cross (const vec3 &v) const
 			{
-				      vec3_s r;
+				      vec3 r;
 			        r.x = y * v.z  -  z * v.y;
 			        r.y = z * v.x  -  x * v.z;
 			        r.z = x * v.y  -  y * v.x;
@@ -379,7 +379,7 @@ namespace gb
 			}
 
 			//! \brief  Нормализовать 
-			inline vec3_s&   normalize ()	  
+			inline vec3&   normalize ()	  
 			{ 
 				if( (0.0f==x) && (0.0f==y) && (0.0f==z) ) // < без этого глючит. nan
 					   return *this; 
@@ -392,22 +392,22 @@ namespace gb
 			}
 
 			//! \brief  Вернуть нормализованый
-			inline vec3_s    normalized() const { vec3_s r=*this; r.normalize(); return r; }
+			inline vec3    normalized() const { vec3 r=*this; r.normalize(); return r; }
 
 			//! \brief  Вычислить и вернуть расстояние между точками  this и point.
-			inline float distance(const vec3_s& point)   const { return  sqrt( distanceSq(point) );  }
+			inline float distance(const vec3& point)   const { return  sqrt( distanceSq(point) );  }
 			//! \brief  Вычислить и вернуть квадрат расстояния между точками  this и point.
-			inline float distanceSq(const vec3_s& point) const { return vec3_s(*this-point).lengthSq() ;  }
+			inline float distanceSq(const vec3& point) const { return vec3(*this-point).lengthSq() ;  }
  
 
 			//! \brief Получить наибольшее абсолютное из каждой компоненты
 			inline float     getMaxLength () const {   return scalar::max3 ( fabs (x), fabs (y), fabs (z) );   }
 
-			inline vec3_s&   invert() {x=-x; y=-y; z=-z; return *this; };
+			inline vec3&   invert() {x=-x; y=-y; z=-z; return *this; };
 
-			inline vec3_s    lerp(const vec3_s& v, const float k) const 
+			inline vec3    lerp(const vec3& v, const float k) const 
 			{
-				vec3_s r;
+				vec3 r;
 				r.x = x + (v.x - x) * k;
 				r.y = y + (v.y - y) * k;
 				r.z = z + (v.z - z) * k;
@@ -461,7 +461,7 @@ namespace gb
 
 
 			//! \brief  Сравнить два вектора v1 и v2 и присвоить максимальный 
-			vec3_s& maximize(const vec3_s& v1, const vec3_s& v2) 
+			vec3& maximize(const vec3& v1, const vec3& v2) 
 			{
 				if (v1.x > v2.x) x = v1.x; else x = v2.x;
 				if (v1.y > v2.y) y = v1.y; else y = v2.y;
@@ -470,7 +470,7 @@ namespace gb
 			}
 
 			//! \brief  Сравнить вектор v и собственное значение и присвоить максимальный
-			vec3_s& maximize(const vec3_s& v)
+			vec3& maximize(const vec3& v)
 			{
 				if (v.x > x) x = v.x; 
 				if (v.y > y) y = v.y; 
@@ -479,7 +479,7 @@ namespace gb
 			}
 
 			//! \brief  Сравнить два вектора v1 и v2 и присвоить минимальный 
-			vec3_s& minimize(const vec3_s& v1, const vec3_s& v2) 
+			vec3& minimize(const vec3& v1, const vec3& v2) 
 			{
 				if (v1.x < v2.x) x = v1.x; else x = v2.x;
 				if (v1.y < v2.y) y = v1.y; else y = v2.y;
@@ -488,7 +488,7 @@ namespace gb
 			}
 
 			//! \brief  Сравнить вектор v и собственное значение и присвоить минимальный  
-			vec3_s& minimize(const vec3_s& v) 
+			vec3& minimize(const vec3& v) 
 			{
 				if (v.x < x) x = v.x;
 				if (v.y < y) y = v.y;
@@ -497,14 +497,14 @@ namespace gb
 			}
 
 			//! \brief Вернуть минимальный вектор между this и v
-			inline vec3_s minimized(const vec3_s& v) const { vec3_s r; r.minimize(*this, v); return r; };
+			inline vec3 minimized(const vec3& v) const { vec3 r; r.minimize(*this, v); return r; };
 			//! \brief Вернуть максимальный вектор между this и v
-			inline vec3_s maximized(const vec3_s& v) const { vec3_s r; r.maximize(*this, v); return r; };
+			inline vec3 maximized(const vec3& v) const { vec3 r; r.maximize(*this, v); return r; };
 
 
 
 			//! \brief  отсеч значения в диапазоне между vmin и vmax
-			inline vec3_s& clump(const vec3_s& vmin, const vec3_s& vmax) 
+			inline vec3& clump(const vec3& vmin, const vec3& vmax) 
 			{
 				if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
 				if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
@@ -513,9 +513,9 @@ namespace gb
 			}
 
 			//! \brief Вернуть среднюю точку между this и point
-			inline vec3_s middle(const vec3_s& point) const 
+			inline vec3 middle(const vec3& point) const 
 			{
-			    vec3_s res;
+			    vec3 res;
 			      res.x = ( x + point.x ) / 2.0f;
 			      res.y = ( y + point.y ) / 2.0f;			
 			      res.z = ( z + point.z ) / 2.0f;
@@ -526,9 +526,9 @@ namespace gb
 			inline bool isPositive() const {  return ( (x>=0.0f) && (y>=0.0f) && (z>=0.0f) );	}
 
 			//! \brief Тарнсформировать по матрице m   как координату. ПРОВЕРЕНО!
-			vec3_s&  transformCoord(const mat44_s& m);
+			vec3&  transformCoord(const mat44& m);
 			//! \brief Тарнсформировать по матрице m   как нормаль. ПРОВЕРЕНО!
-			vec3_s&  transformNormal(const mat44_s& m);
+			vec3&  transformNormal(const mat44& m);
 				
 			 // TODO: 
 			    // void transformCoordArray(float* pfOut, int strideOut, const float* pvInput, int strideInput,  const M44& m, const int num) {...} 
@@ -537,22 +537,22 @@ namespace gb
 
 			/** \brief  Проекция вектора из виртуального "зазеркалья" на экран. 
 			     Возвращает спроектированый экранный вектор. ПРОВЕРЕНА!	*/
-			vec3_s project ( 
+			vec3 project ( 
 				const proj::ViewportZ& vp,   //<  область вывода
-				const  mat44_s& Proj, //<	матрица проекции
-				const  mat44_s& View, //<	матрица вида
-				const  mat44_s& World //<	матрица модельная
+				const  mat44& Proj, //<	матрица проекции
+				const  mat44& View, //<	матрица вида
+				const  mat44& World //<	матрица модельная
 				)  const; 
 
 
 
 			/** \brief Анпроекция. Перевод из экранных координат в пространственые координаты 
 			Возвращает переведённый вектор . ПРОВЕРЕНА! */
-			vec3_s  unproject( 
+			vec3  unproject( 
 				const proj::ViewportZ& vp,    //<  область вывода
-				const  mat44_s& Proj,	//<	матрица проекции
-				const  mat44_s& View,	//<	матрица вида
-				const  mat44_s& World	//<	матрица модельная
+				const  mat44& Proj,	//<	матрица проекции
+				const  mat44& View,	//<	матрица вида
+				const  mat44& World	//<	матрица модельная
 				) const	;
 
 
@@ -579,11 +579,11 @@ namespace gb
 				printf("%f  %f  %f ", x, y, z); 
 			}
 
-		}; // end vec3_s
+		}; // end vec3
 		
 
 		/** \brief Базовый 4d-вектор. Поправить операторы по эпислону   */		
-		struct vec4_s  {
+		struct vec4  {
 
 		    union {
 			
@@ -594,43 +594,38 @@ namespace gb
 				float floats [4];
 			};
 
-			inline vec4_s() {};
+			inline vec4() {};
 
-			inline vec4_s(const vec4_s& v)      { x=v.x;  y=v.y; z=v.z; w=v.w;  };
-//			inline vec4_s(const vec4_s* v)      { x=v->x;  y=v->y; z=v->z; w=v->w;  };
+			inline vec4(const vec4& v)      { x=v.x;  y=v.y; z=v.z; w=v.w;  };
+//			inline vec4(const vec4* v)      { x=v->x;  y=v->y; z=v->z; w=v->w;  };
 
-			inline vec4_s(const vec3_s& v, float _w)  { x=v.x;  y=v.y; z=v.z; w=_w;  };
+			inline vec4(const vec3& v, float _w)  { x=v.x;  y=v.y; z=v.z; w=_w;  };
 
-			inline vec4_s(const vec2_s& v, float _z, float _w) {x=v.x; y=v.y; z=_z; w=_w; }
+			inline vec4(const vec2& v, float _z, float _w) {x=v.x; y=v.y; z=_z; w=_w; }
 
-			inline vec4_s(float _x, float _y, float _z, float _w)   { x=_x;   y=_y; z=_z; w=_w;  }
-			inline vec4_s(int   _x, int   _y, int   _z, int   _w)   { x=(float)_x;   y=(float)_y;  z=(float)_z; w=(float)_w;}
+			inline vec4(float _x, float _y, float _z, float _w)   { x=_x;   y=_y; z=_z; w=_w;  }
+			inline vec4(int   _x, int   _y, int   _z, int   _w)   { x=(float)_x;   y=(float)_y;  z=(float)_z; w=(float)_w;}
 
 			//! \brief Присваивание из float-массива 
 			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; w=pf[3]; }
  
 					 
-			inline bool  operator == (const vec4_s &v) const {	return (x == v.x && y == v.y && z == v.z && w == v.w); }
-			inline bool  operator != (const vec4_s &v) const {	return (x != v.x || y != v.y || z != v.z || w != v.w); }
+			inline bool  operator == (const vec4 &v) const {	return (x == v.x && y == v.y && z == v.z && w == v.w); }
+			inline bool  operator != (const vec4 &v) const {	return (x != v.x || y != v.y || z != v.z || w != v.w); }
+ 
+			inline vec4  operator + () const   { 	return *this; }
+			inline vec4  operator - () const { vec4 res;	res.x = -x;	res.y = -y;	res.z = -z;	res.w = -w;	return res; }
 
-			//inline bool  operator <  (const vec4_s &v) const {	return (x < v.x && y < v.y && z < v.z && w < v.w); }
-			//inline bool  operator <= (const vec4_s &v) const {	return (x <= v.x && y <= v.y && z <= v.z && w <= v.w); }
-			//inline bool  operator >  (const vec4_s &v) const {	return (x > v.x && y > v.y && z > v.z && w > v.w); }
-			//inline bool  operator >= (const vec4_s &v) const {	return (x >= v.x && y >= v.y && z >= v.z && w >= v.w); }
+			inline vec4  operator + (const vec4 &v) const {	vec4 res;	res = *this;	res += v;	return res; }
+			inline vec4  operator - (const vec4 &v) const {	vec4 res;	res = *this;	res -= v;	return res; }
+			inline vec4  operator * (float f) const         {	vec4 res;	res = *this;	res.x *= f;	res.y *= f;	res.z *= f;	res.w *= f;	return res; }
+			inline vec4  operator / (float f) const         {	vec4 res;	res = *this;	res.x /= f;	res.y /= f;	res.z /= f;	res.w /= f;	return res; }
 
-			inline vec4_s  operator + () const   { 	return *this; }
-			inline vec4_s  operator - () const { vec4_s res;	res.x = -x;	res.y = -y;	res.z = -z;	res.w = -w;	return res; }
+			inline vec4 &  operator += (const vec4 &v) {	x += v.x;	y += v.y;	z += v.z;	w += v.w;	return *this; }
+			inline vec4 &  operator -= (const vec4 &v) {	x -= v.x;	y -= v.y;	z -= v.z;	w -= v.w;	return *this; }
+			inline vec4 &  operator *= (float f)         {	x *= f;	y *= f;	z *= f;	w *= f;	return *this; }
 
-			inline vec4_s  operator + (const vec4_s &v) const {	vec4_s res;	res = *this;	res += v;	return res; }
-			inline vec4_s  operator - (const vec4_s &v) const {	vec4_s res;	res = *this;	res -= v;	return res; }
-			inline vec4_s  operator * (float f) const         {	vec4_s res;	res = *this;	res.x *= f;	res.y *= f;	res.z *= f;	res.w *= f;	return res; }
-			inline vec4_s  operator / (float f) const         {	vec4_s res;	res = *this;	res.x /= f;	res.y /= f;	res.z /= f;	res.w /= f;	return res; }
-
-			inline vec4_s &  operator += (const vec4_s &v) {	x += v.x;	y += v.y;	z += v.z;	w += v.w;	return *this; }
-			inline vec4_s &  operator -= (const vec4_s &v) {	x -= v.x;	y -= v.y;	z -= v.z;	w -= v.w;	return *this; }
-			inline vec4_s &  operator *= (float f)         {	x *= f;	y *= f;	z *= f;	w *= f;	return *this; }
-
-			inline vec4_s &  operator /= (float f)         {	x /= f;	y /= f;	z /= f;	w /= f;	return *this; }
+			inline vec4 &  operator /= (float f)         {	x /= f;	y /= f;	z /= f;	w /= f;	return *this; }
 
 			inline operator  const float*() const  { return &x; }
 			inline operator        float*()        { return &x; }
@@ -653,7 +648,7 @@ namespace gb
 
 
 
-#ifdef GB_D3DX9
+#ifdef __D3DX9MATH_H__
 			inline operator D3DXVECTOR4*() { return (D3DXVECTOR4*)&x; }
 			inline operator const D3DXVECTOR4*() const { return (D3DXVECTOR4*)&x; }
 			inline operator D3DXVECTOR4() const  {  return D3DXVECTOR4(x,y,z,w); }
@@ -665,7 +660,7 @@ namespace gb
 			//! проверить равны ли все компоненты нулю
 			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) && (w==0.0f) ); }
 
-			inline vec4_s& set    (float _x, float _y, float _z, float _w) { x=_x; y=_y; z=_z; w=_w; return *this; }
+			inline vec4& set    (float _x, float _y, float _z, float _w) { x=_x; y=_y; z=_z; w=_w; return *this; }
  
 			//! \brief  Все ли компоненты нулевые по эпсилону.
 			inline bool isZero(float epsilon) const
@@ -679,14 +674,14 @@ namespace gb
 			inline float lengthSq() const {	 return (x*x + y*y + z*z + w*w);  }
 
 			//! \brief   Вернуть скалярное произведение с вектором v
-			inline float   dot (const vec4_s& v) const { return x*v.x + y*v.y + z*v.z + w*v.w; }
+			inline float   dot (const vec4& v) const { return x*v.x + y*v.y + z*v.z + w*v.w; }
 
 			
 #pragma message ("KS777: MATH::VEC4 >> NEED CHECK CROSS METHOD !!!"  __FILE__)
 			//! \brief Получить векторное (перекрестное)  произведение с вектором v.
-			inline vec4_s  cross ( const vec4_s & v) const
+			inline vec4  cross ( const vec4 & v) const
 			{
-				  vec4_s r;
+				  vec4 r;
 				r.x = ( z * v.w - w * v.z) * y + ( w * v.y - y * v.w) * z + ( y * v.z - z * v.y) * w;
 				r.y = ( w * v.z - z * v.w) * x + ( x * v.w - w * v.x) * z + ( z * v.x - x * v.z) * w;
 				r.z = ( y * v.w - w * v.y) * x + ( w * v.x - x * v.w) * y + ( x * v.y - y * v.x) * w;
@@ -696,7 +691,7 @@ namespace gb
 
 
 			// НЕПРАВИЛЬНО !!!!
-			void cross( const vec4_s& U, const vec4_s& V, const vec4_s& W )   
+			void cross( const vec4& U, const vec4& V, const vec4& W )   
 			{
 				assert(false && "bad code !");
 
@@ -707,7 +702,7 @@ namespace gb
 				float e = V.y*W.w - V.w*W.y;
 				float f = V.z*W.w - V.w*W.z;
 
-				vec4_s Out;
+				vec4 Out;
 				Out.x = f*U.y - e*U.z + d*U.w ;
 				Out.y = f*U.x + c*U.z - b*U.w ; // no valid
 				Out.z = e*U.x - c*U.y + a*U.w ;
@@ -718,19 +713,19 @@ namespace gb
 			}
 
 			//! \brief  Инвертировать.
-			inline vec4_s&   invert() {  x=-x; y=-y; z=-z; w=-w; return *this; };
+			inline vec4&   invert() {  x=-x; y=-y; z=-z; w=-w; return *this; };
 			//! \brief  Вернуть инвертированый.
-			inline vec4_s    inverted() const 
+			inline vec4    inverted() const 
 			{
-				vec4_s res = *this;
+				vec4 res = *this;
 				res.invert();
 				return res;
 			}
 
 			//! \brief  Вернуть вектор по линейной интерполяции между this и v  по коэффициенту k
-			inline vec4_s    lerp(const vec4_s& v, const float k) 
+			inline vec4    lerp(const vec4& v, const float k) 
 			{
-				vec4_s r;
+				vec4 r;
 				r.x = x + (v.x - x) * k;
 				r.y = y + (v.y - y) * k;
 				r.z = z + (v.z - z) * k;
@@ -790,7 +785,7 @@ namespace gb
 
 
 	//! \brief Выполнить отсечение значений в диапазоне между vmin и vmax
-	inline void clump(const vec4_s& vmin, const vec4_s& vmax) 
+	inline void clump(const vec4& vmin, const vec4& vmax) 
 	{
 		if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
 		if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
@@ -819,7 +814,7 @@ namespace gb
 	inline void print() const { printf(" %f  %f  %f  %f ", x, y, z, w); };
 
 		}; 
-		// end vec4_s
+		// end vec4
 
 		//------------------------------------------------------------------
 

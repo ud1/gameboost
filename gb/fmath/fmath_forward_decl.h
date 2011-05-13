@@ -26,13 +26,15 @@ namespace scalar
 //---------------------------------------------------------------
  
 
-struct vec2_s;
-struct vec3_s;
-struct vec4_s;
+struct vec2;
+struct vec3;
+struct vec4;
 
-struct mat22_s;
-struct mat33_s;
-struct mat44_s;
+struct mat22;
+struct mat33;
+struct mat44;
+
+class  Quaternion;
 
  
 namespace geom2d
@@ -65,10 +67,6 @@ class EulerAngles;
 class Triangle;
 
 struct plane_s;
-class  Plane;
-
-struct quat_s;
-class  Quaternion;
 
 class  Projector;
 class  Frustum;
@@ -83,7 +81,7 @@ struct TransformData;
 namespace proj
 {
 
-struct ProjectionData;
+struct PerspectiveProjData;
 struct RelatCoord;
 
 struct vieport_s;

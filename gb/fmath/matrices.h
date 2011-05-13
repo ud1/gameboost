@@ -22,7 +22,7 @@ namespace gb
 
  
 		//! \brief Матрица 2x2
-		struct mat22_s 
+		struct mat22 
 		{
 			union 
 			{
@@ -37,16 +37,16 @@ namespace gb
 				float array [4];
 			};
 
-			inline mat22_s() {};
-			inline mat22_s(const mat22_s& m) { *this=m; };
-			inline mat22_s(float _11_, float _12_, float _21_, float _22_) {_11=_11_; _12=_12_; _21=_21_; _22=_22_;  };
-			inline mat22_s(const float* pfArray) { *this = pfArray; }
+			inline mat22() {};
+			inline mat22(const mat22& m) { *this=m; };
+			inline mat22(float _11_, float _12_, float _21_, float _22_) {_11=_11_; _12=_12_; _21=_21_; _22=_22_;  };
+			inline mat22(const float* pfArray) { *this = pfArray; }
 
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
 			
 
-			inline mat22_s&  operator =  ( const mat22_s& m)
+			inline mat22&  operator =  ( const mat22& m)
 			{
 				floats [0][0] = m.floats [0][0]; 
 				floats [0][1] = m.floats [0][1]; 
@@ -65,14 +65,14 @@ namespace gb
 			}
 
 			/** \brief   В главную диагональ установить f   остальное занулить.*/
-			inline mat22_s&  operator =  ( float f) { 	floats [0][1] = floats [1][0] = 0.0; floats [0][0] = floats [1][1] = f; };
+			inline mat22&  operator =  ( float f) { 	floats [0][1] = floats [1][0] = 0.0; floats [0][0] = floats [1][1] = f; };
 
 	        /**	 \brief Обращение знака всех элементов матрицы	*/
-			inline mat22_s operator - () const { mat22_s r=*this; r._11=-r._11; r._12=-r._12; r._21=-r._21; r._22=-r._22; return r; };
+			inline mat22 operator - () const { mat22 r=*this; r._11=-r._11; r._12=-r._12; r._21=-r._21; r._22=-r._22; return r; };
 
  
 			/** \brief  Покомпонентное сложение   (this = this + m) */
-			inline mat22_s&  operator += ( const mat22_s& m)
+			inline mat22&  operator += ( const mat22& m)
 			{
 				floats [0][0] += m.floats [0][0];
 				floats [0][1] += m.floats [0][1];
@@ -82,7 +82,7 @@ namespace gb
 			};
 
 			/** \brief  Покомпонентное вычитанние (this = this - m) */
-			inline mat22_s&  operator -= ( const mat22_s& m)
+			inline mat22&  operator -= ( const mat22& m)
 			{
 				floats [0][0] -= m.floats [0][0];
 				floats [0][1] -= m.floats [0][1];
@@ -91,9 +91,9 @@ namespace gb
 				return *this;
 			};
 
-			inline mat22_s&  operator *= ( const mat22_s& m)
+			inline mat22&  operator *= ( const mat22& m)
 			{
-				mat22_s c  = *this ;
+				mat22 c  = *this ;
 				floats [0][0] = c.floats [0][0]*m.floats [0][0] + c.floats [0][1]*m.floats [1][0];
 				floats [0][1] = c.floats [0][0]*m.floats [0][1] + c.floats [0][1]*m.floats [1][1];
 				floats [1][0] = c.floats [1][0]*m.floats [0][0] + c.floats [1][1]*m.floats [1][0];
@@ -102,7 +102,7 @@ namespace gb
 			};
 
 			/** \brief  Покомпонентное умножение (this = this * m) */            
-			inline mat22_s&  operator *= ( float f)
+			inline mat22&  operator *= ( float f)
 			{
 				floats [0][0] *= f;
 				floats [0][1] *= f;
@@ -112,7 +112,7 @@ namespace gb
 			};
 
 			/** \brief  Покомпонентное деление (this = this / m) */
-			inline mat22_s&  operator /= ( float f)
+			inline mat22&  operator /= ( float f)
 			{
 				floats [0][0] /= f;
 				floats [0][1] /= f;
@@ -121,9 +121,9 @@ namespace gb
 				return *this;
 			};
 
-			inline mat22_s operator + ( const mat22_s& m) const
+			inline mat22 operator + ( const mat22& m) const
 			{
-				mat22_s res;
+				mat22 res;
 				  res.floats[0][0] = floats [0][0] + m.floats [0][0];
 				  res.floats[0][1] = floats [0][1] + m.floats [0][1];
 				  res.floats[1][0] = floats [1][0] + m.floats [1][0];
@@ -131,9 +131,9 @@ namespace gb
 				     return res;
 			};
 
-			inline mat22_s operator - ( const mat22_s& m) const
+			inline mat22 operator - ( const mat22& m) const
 			{
-				  mat22_s res;
+				  mat22 res;
 				res.floats [0][0] = floats [0][0] - m.floats [0][0];
 				res.floats [0][1] = floats [0][1] - m.floats [0][1];
 				res.floats [1][0] = floats [1][0] - m.floats [1][0];
@@ -141,9 +141,9 @@ namespace gb
 				return res;
 			};
 
-			inline mat22_s operator * ( const mat22_s& m) const
+			inline mat22 operator * ( const mat22& m) const
 			{
-				  mat22_s res;
+				  mat22 res;
 				res.floats[0][0] = floats[0][0]*m.floats[0][0]+floats[0][1]*m.floats[1][0];
 				res.floats[0][1] = floats[0][0]*m.floats[0][1]+floats[0][1]*m.floats[1][1];
 				res.floats[1][0] = floats[1][0]*m.floats[0][0]+floats[1][1]*m.floats[1][0];
@@ -151,9 +151,9 @@ namespace gb
 				return res;
 			};
 
-			inline mat22_s operator * ( float f ) const
+			inline mat22 operator * ( float f ) const
 			{
-				  mat22_s res;
+				  mat22 res;
 				res.floats[0][0] = floats[0][0] * f;
 				res.floats[0][1] = floats[0][1] * f;
 				res.floats[1][0] = floats[1][0] * f;
@@ -161,18 +161,18 @@ namespace gb
 				return  res;
 			};
 
-			inline vec2_s  operator * ( const vec2_s& v ) const
+			inline vec2  operator * ( const vec2& v ) const
 			{
-				vec2_s res; 
+				vec2 res; 
 				res.x =  floats [0][0]*v.x + floats [0][1]*v.y ;
 				res.y =  floats [1][0]*v.x + floats [1][1]*v.y ;
 				return res;
 			}
 			
-			inline vec2_s row(unsigned int index)
+			inline vec2 row(unsigned int index)
 			{
 			   assert(index<2 && "invalid index");
-			   vec2_s res;
+			   vec2 res;
 			   switch(index)
 			   {
 			    case 0: { res.x=_11; res.y=_12; } break;
@@ -182,10 +182,10 @@ namespace gb
 			   return res;
 			}
 			
-			inline vec2_s column(unsigned int index)
+			inline vec2 column(unsigned int index)
 			{
 			   assert(index<2 && "invalid index");			
-			   vec2_s res;
+			   vec2 res;
 			   switch(index)
 			   {
 			    case 0: { res.x=_11; res.y=_21; } break;
@@ -197,16 +197,16 @@ namespace gb
 			
 
 
-			inline mat22_s&  setzero()     { _11=_12=_21=_22=0.0f; return *this; };
-			inline mat22_s&  setIdentity() {	_11=1.0f; _12=0.0f;	_21=0.0f; _22=1.0f;	return *this; };
-			inline mat22_s&  transpone()   {  register float f=_12; _12=_21; _21=f;  return *this; };
+			inline mat22&  setzero()     { _11=_12=_21=_22=0.0f; return *this; };
+			inline mat22&  setIdentity() {	_11=1.0f; _12=0.0f;	_21=0.0f; _22=1.0f;	return *this; };
+			inline mat22&  transpone()   {  register float f=_12; _12=_21; _21=f;  return *this; };
 
 			inline float determinant () const { return floats [0][0] * floats [1][1] - floats [0][1] * floats [1][0];	};
 
-			inline mat22_s&  invert ()
+			inline mat22&  invert ()
 			{
 			   float det =   determinant();  
-			   mat22_s m;
+			   mat22 m;
 				 m.floats [0][0] =  floats [1][1] / det;
 				 m.floats [0][1] = -floats [0][1] / det;
 				 m.floats [1][0] = -floats [1][0] / det;
@@ -215,9 +215,9 @@ namespace gb
 				     return *this;
 			};
 
-			inline mat22_s   getInverted () const { mat22_s r(*this); r.invert(); return r;  };
+			inline mat22   getInverted () const { mat22 r(*this); r.invert(); return r;  };
 
-			inline mat22_s&  setScaling ( const vec2_s& v )
+			inline mat22&  setScaling ( const vec2& v )
 			{
 				   floats [0][0] = v.x;
 				   floats [1][1] = v.y;
@@ -225,7 +225,7 @@ namespace gb
 				   return *this;
 			};
 
-			inline mat22_s&   setScaling (float x, float y)
+			inline mat22&   setScaling (float x, float y)
 			{
 				floats [0][0] = x;
 				floats [1][1] = y;
@@ -233,7 +233,7 @@ namespace gb
 				    return *this;
 			};
 
-			mat22_s&  setRotation ( float angle )
+			mat22&  setRotation ( float angle )
 			{
 				float    cosine, sine;
 				scalar::sincos(angle , sine , cosine );
@@ -245,8 +245,8 @@ namespace gb
 			};
 
 
-			inline mat22_s&  setMirrorX () { setIdentity();  floats [0][0] = -1.0; return *this; };
-			inline mat22_s&  setMirrorY () { setIdentity();  floats [1][1] = -1.0; return *this; };
+			inline mat22&  setMirrorX () { setIdentity();  floats [0][0] = -1.0; return *this; };
+			inline mat22&  setMirrorY () { setIdentity();  floats [1][1] = -1.0; return *this; };
  
 
 		}; 
@@ -255,7 +255,7 @@ namespace gb
 
 
 		//! \brief Матрица 3x3 
-		struct mat33_s
+		struct mat33
 		{
 		
 			union 
@@ -273,9 +273,9 @@ namespace gb
 			};
 
 
-			inline mat33_s() {};
-			inline mat33_s(const mat33_s& m) { *this = m; };
-			inline mat33_s( float _11_, float _12_, float _13_,
+			inline mat33() {};
+			inline mat33(const mat33& m) { *this = m; };
+			inline mat33( float _11_, float _12_, float _13_,
 				            float _21_, float _22_, float _23_,
 				            float _31_, float _32_, float _33_ ) :
 
@@ -283,12 +283,12 @@ namespace gb
 								_21( _21_ ), _22( _22_ ), _23( _23_ ),
 								_31( _31_ ), _32( _32_ ), _33( _33_ ) {}
 
-			inline mat33_s(const float* pfArray) { *this = pfArray; }
+			inline mat33(const float* pfArray) { *this = pfArray; }
 
 			inline operator  const float*() const  { return &_11; };
 			inline operator        float*()        { return &_11; };
 
-			inline mat33_s&  operator =  ( const mat22_s& m)
+			inline mat33&  operator =  ( const mat22& m)
 			{
 				floats [0][0] = m.floats [0][0]; 
 				floats [0][1] = m.floats [0][1]; 
@@ -304,44 +304,44 @@ namespace gb
 			 _31=  pfArray[6]; _32= pfArray[7];  _33= pfArray[8];	
 			}
 
-			mat33_s& operator = ( float a );
+			mat33& operator = ( float a );
 
 		    /**  \brief Обращение знака всех элементов матрицы	*/
-	        inline mat33_s operator - () const
+	        inline mat33 operator - () const
 		    {
-			   mat33_s r = *this;
+			   mat33 r = *this;
 				r._11=-r._11;   r._12=-r._12;   r._13=-r._13; 
 				r._21=-r._21;   r._22=-r._22;   r._23=-r._23; 
 				r._31=-r._31;   r._32=-r._32;   r._33=-r._33; 		   
 			   return r;
 		    };
 
-			mat33_s operator + ( const mat33_s& m ) const;
-			mat33_s operator - ( const mat33_s& m ) const;
+			mat33 operator + ( const mat33& m ) const;
+			mat33 operator - ( const mat33& m ) const;
 
-			mat33_s&   operator *= ( float f );
-			mat33_s&   operator *= ( const mat33_s& m );
-            mat33_s&   operator /= ( float f );
+			mat33&   operator *= ( float f );
+			mat33&   operator *= ( const mat33& m );
+            mat33&   operator /= ( float f );
 
-			mat33_s&   operator += ( const mat33_s& a );
-			mat33_s&   operator -= ( const mat33_s& a );
+			mat33&   operator += ( const mat33& a );
+			mat33&   operator -= ( const mat33& a );
 
-			mat33_s  operator * ( const mat33_s& m) const;
-			mat33_s  operator * (  float f ) const;
+			mat33  operator * ( const mat33& m) const;
+			mat33  operator * (  float f ) const;
 
-			vec3_s   operator * ( const vec3_s& v ) const;
+			vec3   operator * ( const vec3& v ) const;
 
 			/**	 \brief Доступ к строкам матрицы по индексу. ПРОВЕРИТЬ !! */
-	        inline const vec3_s operator [] ( unsigned int index ) const
+	        inline const vec3 operator [] ( unsigned int index ) const
 	        {
 		       assert( index <= 2 );
-		       return reinterpret_cast<const vec3_s*>(this)[index];
+		       return reinterpret_cast<const vec3*>(this)[index];
 	        }
 
 			/**	 \brief Преобразование в матрицу 2x2 */
-			inline operator mat22_s()
+			inline operator mat22()
 			{
-				return mat22_s( _11, _12,
+				return mat22( _11, _12,
 					            _21, _22 );
 			}
 
@@ -359,7 +359,7 @@ namespace gb
 			inline void reset() { setIdentity(); }
 
 			 //! \brief  Транспонировать матрицу 
-			inline mat33_s&   transpone() 
+			inline mat33&   transpone() 
 			{ 
 				 register float t;
 			    t=_12;  _12=_21; _21=t;
@@ -369,9 +369,9 @@ namespace gb
 			};
 
 			//! \brief    Вернуть транспонированую матрицу
-			inline mat33_s getTransponed() const 
+			inline mat33 getTransponed() const 
 			{
-				mat33_s res = *this;
+				mat33 res = *this;
 				res.transpone();
 				return res;			
 			}
@@ -379,21 +379,21 @@ namespace gb
 			float  determinant () const;
 
 
-			mat33_s& invert ();
-			mat33_s  inverted() const { mat33_s res; res=*this; res.invert(); return res; }
+			mat33& invert ();
+			mat33  inverted() const { mat33 res; res=*this; res.invert(); return res; }
 
-			mat33_s& setScaling ( float x, float y, float z );
-			mat33_s& setScaling ( const vec3_s& v );
+			mat33& setScaling ( float x, float y, float z );
+			mat33& setScaling ( const vec3& v );
 
-			mat33_s& setRotationX ( float angle );
-			mat33_s& setRotationY ( float angle );
-			mat33_s& setRotationZ ( float angle );
+			mat33& setRotationX ( float angle );
+			mat33& setRotationY ( float angle );
+			mat33& setRotationZ ( float angle );
 
-			mat33_s& setRotation ( const vec3_s& v, float angle );
+			mat33& setRotation ( const vec3& v, float angle );
 
-			mat33_s&  setMirrorX();
-			mat33_s&  setMirrorY();
-			mat33_s&  setMirrorZ();
+			mat33&  setMirrorX();
+			mat33&  setMirrorY();
+			mat33&  setMirrorZ();
 
 
 			//! \brief  Вывод значений на консоль
@@ -411,7 +411,7 @@ namespace gb
 		
 
 		//! \brief Матрица 4x4. 
-		struct mat44_s
+		struct mat44
 		{
 			union 
 			{
@@ -429,10 +429,10 @@ namespace gb
 			};
 
 
-			inline mat44_s() {}
+			inline mat44() {}
 
 			//! \brief Сбросить в идентичную и заполнить главную диагональ значением a (обычно 1.0f)
-			inline mat44_s(float a)
+			inline mat44(float a)
 			{
 			   setIdentity();
 			   _11=a; 
@@ -441,9 +441,9 @@ namespace gb
 			   _44=a;
 			}
 
-			inline mat44_s(const mat44_s& m) { *this = m; }
+			inline mat44(const mat44& m) { *this = m; }
 
-			inline mat44_s( float _11_, float _12_, float _13_, float _14_,
+			inline mat44( float _11_, float _12_, float _13_, float _14_,
 	                        float _21_, float _22_, float _23_, float _24_,
 	                        float _31_, float _32_, float _33_, float _34_,
 	                        float _41_, float _42_, float _43_, float _44_ ) : 
@@ -452,7 +452,7 @@ namespace gb
 			_31( _31_ ), _32( _32_ ), _33( _33_ ), _34( _34_ ),
 			_41( _41_ ), _42( _42_ ), _43( _43_ ), _44( _44_ )  {}
 
-			inline mat44_s(const float* pfArray)
+			inline mat44(const float* pfArray)
 			{
 				*this = pfArray;
 			}
@@ -462,6 +462,7 @@ namespace gb
 			inline operator        float*()        { return &_11; }
 
 #ifdef _D3D9_H_
+
 			inline operator D3DMATRIX*()   { return (D3DMATRIX*)&_11; }
 			inline operator const D3DMATRIX*() const  { return (D3DMATRIX*)&_11; }
 			inline operator const D3DMATRIX() const 
@@ -500,11 +501,12 @@ namespace gb
 				_43 = m._43;
 				_44 = m._44;
 			}
+
 #endif //  #ifdef _D3D9_H_
  
 
 
-#ifdef GB_D3DX9
+#ifdef __D3DX9MATH_H__
 			inline operator D3DXMATRIX*()   { return (D3DXMATRIX*)&_11; }
 			inline operator const D3DXMATRIX*() const  { return (D3DXMATRIX*)&_11; }
 			inline operator const D3DXMATRIX() const 
@@ -532,7 +534,7 @@ namespace gb
 			}
 
 
-#endif // GB_D3DX9
+#endif // __D3DX9MATH_H__
 
 
 			inline void operator  = (const float* pfArray)
@@ -562,7 +564,7 @@ namespace gb
 
 
 			/**    \brief Строгое сравнение    */
-			inline bool operator == ( const mat44_s& m ) const
+			inline bool operator == ( const mat44& m ) const
 			{
 			 return ( ( _11 == m._11) &&
 					  ( _12 == m._12) &&
@@ -590,7 +592,7 @@ namespace gb
 
 
 			/**     \brief Строгое сравнение с отрицанием     */
-			inline bool operator != ( const mat44_s& m ) const
+			inline bool operator != ( const mat44& m ) const
 			{
 		      return ( ( _11 != m._11) ||
 				       ( _12 != m._12) ||
@@ -617,9 +619,9 @@ namespace gb
 			
  
 			/**   \brief Инверсия знака компонентов  */
-			inline mat44_s operator - () const
+			inline mat44 operator - () const
 			{
-				mat44_s r;
+				mat44 r;
 
 				r._11 = -_11 ;
 				r._12 = -_12 ;
@@ -647,9 +649,9 @@ namespace gb
 
  
 			/**   \brief Поэлементное сложение матриц  */
-			inline mat44_s operator + ( const mat44_s& m ) const
+			inline mat44 operator + ( const mat44& m ) const
 			{
-				mat44_s r;
+				mat44 r;
 
 				r._11 = _11 + m._11;
 				r._12 = _12 + m._12;
@@ -675,9 +677,9 @@ namespace gb
 			}
 
 			/**   \brief Поэлементное вычитание матриц  */
-			inline mat44_s operator - ( const mat44_s& m ) const
+			inline mat44 operator - ( const mat44& m ) const
 			{
-				mat44_s r;
+				mat44 r;
 
 				r._11 = _11 -  m._11;
 				r._12 = _12 -  m._12;
@@ -704,9 +706,9 @@ namespace gb
 
 
 			/**   \brief Умножение всех элементов матрицы на скаляр   */
-			inline mat44_s operator * (  float f ) const 
+			inline mat44 operator * (  float f ) const 
 			{
-				mat44_s r;
+				mat44 r;
 
 				r._11 = _11 * f;
 				r._12 = _12 * f;
@@ -734,9 +736,9 @@ namespace gb
 
 
 			/**  \brief Деление всех элементов матрицы на скаляр  */
-			inline mat44_s operator / ( float f ) const
+			inline mat44 operator / ( float f ) const
 			{
-				mat44_s r;
+				mat44 r;
 
 				r._11 = _11 / f;
 				r._12 = _12 / f;
@@ -762,16 +764,16 @@ namespace gb
 			}
 
 
-			inline mat44_s&     operator += (const mat44_s& m) { mat44_s t=*this + m; *this=t; return *this;  }
-			inline mat44_s&     operator -= (const mat44_s& m) { mat44_s t=*this - m; *this=t; return *this;  }
-			inline mat44_s&     operator *= (float f)          { mat44_s t=*this * f; *this=t; return *this;  }
-			inline mat44_s&     operator /= (float f)          { mat44_s t=*this / f; *this=t; return *this;  }
+			inline mat44&     operator += (const mat44& m) { mat44 t=*this + m; *this=t; return *this;  }
+			inline mat44&     operator -= (const mat44& m) { mat44 t=*this - m; *this=t; return *this;  }
+			inline mat44&     operator *= (float f)          { mat44 t=*this * f; *this=t; return *this;  }
+			inline mat44&     operator /= (float f)          { mat44 t=*this / f; *this=t; return *this;  }
 
 
 
-			inline mat44_s&  operator *= ( const mat44_s& m )
+			inline mat44&  operator *= ( const mat44& m )
 			{
-				mat44_s t;
+				mat44 t;
 				t = *this * m;
 				*this = t;
 				return *this;
@@ -779,9 +781,9 @@ namespace gb
 
  
 			// ПРОВЕРЕНО !
-			inline mat44_s operator * ( const mat44_s& m ) const
+			inline mat44 operator * ( const mat44& m ) const
 			{
-				mat44_s r;
+				mat44 r;
 					
 			 r._11 = floats[0][0] * m.floats[0][0] + floats[0][1] * m.floats[1][0] + floats[0][2] * m.floats[2][0] + floats[0][3] * m.floats[3][0];
 			 r._12 = floats[0][0] * m.floats[0][1] + floats[0][1] * m.floats[1][1] + floats[0][2] * m.floats[2][1] + floats[0][3] * m.floats[3][1];
@@ -808,9 +810,9 @@ namespace gb
 
 
 			/**    \brief Умножение вектора на матрицу .  ПРОВЕРЕНО!  */
-			inline vec4_s operator * ( const vec4_s& v ) const 
+			inline vec4 operator * ( const vec4& v ) const 
 			{
-				vec4_s r;
+				vec4 r;
 				r.x =  _11 * v.x +  _21 * v.y +  _31 * v.z +  _41 * v.w;
 				r.y =  _12 * v.x +  _22 * v.y +  _32 * v.z +  _42 * v.w;
 				r.z =  _13 * v.x +  _23 * v.y +  _33 * v.z +  _43 * v.w;
@@ -820,10 +822,10 @@ namespace gb
  
 
 			//! \brief Зануление всех элементов.
-			inline void       setzero() { memset(&_11, 0, sizeof(mat44_s)  ); }
+			inline void       setzero() { memset(&_11, 0, sizeof(mat44)  ); }
 
 			//! \brief Установить в идентичную
-			inline mat44_s&   setIdentity() 
+			inline mat44&   setIdentity() 
 			{
 				_11=1.0f; _12=0.0f; _13=0.0f; _14=0.0f;
 				_21=0.0f; _22=1.0f; _23=0.0f; _24=0.0f; 
@@ -833,10 +835,10 @@ namespace gb
 	        }
 
 			//! \brief Установить в идентичную
-			inline mat44_s& reset() { setIdentity(); return *this; }
+			inline mat44& reset() { setIdentity(); return *this; }
 
 			//! \brief Транспонирование. (Отражение элементов по главной диагонали)  ПРОВЕРЕНА!
-			inline mat44_s& transpone() 
+			inline mat44& transpone() 
 			{  
 				   register float f;
 				f = _12;  _12 = _21;  _21 = f;
@@ -849,15 +851,15 @@ namespace gb
 			}
 
 			//!  религиозно-синтаксическое   Вычислить и вернуть транспонированое значение .
-			mat44_s transponed() const 
+			mat44 transponed() const 
 			{
-				mat44_s res = *this;
+				mat44 res = *this;
 				res.transpone();
 				return res;
 			}
 
 			/** \brief Вычислить и вернуть транспонированое значение .  */
-			inline mat44_s getTransponed() const { mat44_s r=*this; r.transpone(); return r; };
+			inline mat44 getTransponed() const { mat44 r=*this; r.transpone(); return r; };
 
 			/** \brief Вычислить и вернуть определитель.  */
 			inline float determinant()  const
@@ -872,56 +874,56 @@ namespace gb
 			};
 
 			/** \brief Инверсия. Бросает исключение если инверсия невозможна. ПРОВЕРЕНА. */
-			mat44_s&  invert () throw();
+			mat44&  invert () throw();
 
 			//! \brief Вернуть инвертированую
-			mat44_s inverted() const throw() 
+			mat44 inverted() const throw() 
 			{
-			  mat44_s res = *this;
+			  mat44 res = *this;
 			  res.invert(); 
 			  return res;
 			}
 
 
-			vec4_s getRow(unsigned int index) const 
+			vec4 getRow(unsigned int index) const 
 			{
 				assert(index<4  && "invalid index" );
-				return vec4_s( floats[index][0], floats[index][1], floats[index][2], floats[index][3] );
+				return vec4( floats[index][0], floats[index][1], floats[index][2], floats[index][3] );
 			}
 
-			vec4_s setRow(unsigned int index, const vec4_s& row)   
+			vec4 setRow(unsigned int index, const vec4& row)   
 			{
 				assert(index<4  && "invalid index" );
 				floats[index][0]=row.x; floats[index][1]=row.y; floats[index][2]=row.z; floats[index][3]=row.w;
 			}
  
-			vec4_s getColumn(unsigned int index) const 
+			vec4 getColumn(unsigned int index) const 
 			{
 				assert( index<4 && "invalid index" );
-				return vec4_s( floats[0][index], floats[1][index], floats[2][index], floats[3][index] );
+				return vec4( floats[0][index], floats[1][index], floats[2][index], floats[3][index] );
 			}
 
-			void setColumn(unsigned int index, const vec4_s& col)
+			void setColumn(unsigned int index, const vec4& col)
 			{
 				assert( index<4 && "invalid index" );
 			    floats[0][index]=col.x; floats[1][index]=col.y; floats[2][index]=col.z; floats[3][index]=col.w;
 			}
 
 			//! \brief   Изволечь данные трансляции.
-			inline vec3_s getTranslation() const
+			inline vec3 getTranslation() const
 			{		  
-				return vec3_s(floats[3][0], floats[3][1], floats[3][2]);
+				return vec3(floats[3][0], floats[3][1], floats[3][2]);
 			}
 
 			//-------------------------------------------------------------
 
 			//! \brief  Раскидать матрицу на данные трансформации. ПРОВЕРЕНО!
-			void decompose( vec3_s& scale, geom3d::Quaternion& rot, vec3_s& pos ) const;
+			void decompose( vec3& scale,  Quaternion& rot, vec3& pos ) const;
 
 			//-------------------------------------------------------------
  
 			//! \brief Построение матрицы отражения по оси X
-			inline mat44_s& setMirrorX ()
+			inline mat44& setMirrorX ()
 			{
 				setIdentity();
 				floats  [0][0] = -1.0f;
@@ -929,7 +931,7 @@ namespace gb
 			}
 
 			//! \brief Построение матрицы отражения по оси Y 
-			inline mat44_s& setMirrorY ()
+			inline mat44& setMirrorY ()
 			{
 				setIdentity();
 				floats  [1][1] = -1.0f;
@@ -937,7 +939,7 @@ namespace gb
 			}
 
 			//! \brief Построение матрицы отражения по оси Z
-			inline mat44_s& setMirrorZ ()
+			inline mat44& setMirrorZ ()
 			{
 				setIdentity();
 				floats [2][2] = -1.0f;
@@ -945,14 +947,14 @@ namespace gb
 			}
 
 		    //! \brief Построение матрицы отражения по плоскости plane.   ПРОВЕРЕНА! 
-			mat44_s& setReflection(const geom3d::plane_s& plane );
+			mat44& setReflection(const geom3d::plane_s& plane );
 
 
 			//! \brief  Построение теневой матрицы.  Рендеринг теней.   ПРОВЕРЕНА!
-			mat44_s&  setShadow(const vec4_s& Light, const geom3d::plane_s&Plane );
+			mat44&  setShadow(const vec4& Light, const geom3d::plane_s&Plane );
 
 			//! \brief Построение матрицы поворота по оси X на угол angle . ПРОВЕРЕНА!
-			inline mat44_s&  setRotationX( const float angle )  
+			inline mat44&  setRotationX( const float angle )  
 			{ 
 				setIdentity();  
 				float sina, cosa;
@@ -965,7 +967,7 @@ namespace gb
 			}
 
 			//! \brief Построение матрицы поворота по оси Y на угол angle . ПРОВЕРЕНО!
-			inline mat44_s&  setRotationY( const float angle )  
+			inline mat44&  setRotationY( const float angle )  
 			{
 				setIdentity(); 
 				float sina, cosa;
@@ -978,7 +980,7 @@ namespace gb
 			};
 
 			//! \brief Построение матрицы поворота по оси Z на угол angle . ПРОВЕРЕНО!
-			inline mat44_s&  setRotationZ( const float angle ) 
+			inline mat44&  setRotationZ( const float angle ) 
 			{
 				setIdentity(); 
 				float sina, cosa;
@@ -992,13 +994,13 @@ namespace gb
 
 
 			//! \brief Построение матрицы поворота по оси vAx на угол angle . ПРОВЕРЕНО!
-			inline mat44_s&  setRotationAxis( const vec3_s& vAx,  const float angle ) 
+			inline mat44&  setRotationAxis( const vec3& vAx,  const float angle ) 
 			{
 				float sina, cosa, mcosa; 
 				scalar::sincos( angle , sina, cosa );
 				mcosa = 1.0f - cosa;
 
-				vec3_s ax = vAx;
+				vec3 ax = vAx;
 				ax.normalize();
 
 				_11 =(mcosa * ax.x * ax.x) + cosa;
@@ -1028,18 +1030,18 @@ namespace gb
 
 
 			//! \brief Построение матрицы поворота по оси по компонентам(axX,axY,axZ) на угол angle  . ПРОВЕРЕНО!
-			inline mat44_s&  setRotationAxis( float axX, float axY, float axZ, float angle )  
+			inline mat44&  setRotationAxis( float axX, float axY, float axZ, float angle )  
 			{
-				vec3_s vax;
+				vec3 vax;
 				vax.x = axX; vax.y = axY; vax.z = axZ;
 				vax.normalize();
 				return setRotationAxis(  vax, angle);
 			};
 
 			//! \brief  Построение матрицы поворота по углам Элера (Yaw-Y, Pitch-X, Roll-Z). ПРОВЕРЕНО!
-			mat44_s& setRotationYawPitchRoll(float Yaw, float Pitch, float Roll)
+			mat44& setRotationYawPitchRoll(float Yaw, float Pitch, float Roll)
 			{
-				mat44_s mrYaw, mrPitch, mrRoll;
+				mat44 mrYaw, mrPitch, mrRoll;
 
 				mrYaw.setRotationY(  Yaw );
 				mrPitch.setRotationX(  Pitch );
@@ -1050,12 +1052,12 @@ namespace gb
 			};
 
 			//! \brief Построить матрицу поворота по кватерниону.  ПРОВЕРЕНО!
-			mat44_s& setRotationQuaternion(const geom3d::Quaternion& q) ;
+			mat44& setRotationQuaternion(const  Quaternion& q) ;
 
 
 
 			//! \brief Построение матрицы сдвига (позиции)  . ПРОВЕРЕНО!
-			inline mat44_s&  setTranslation( float x, float y, float z )  
+			inline mat44&  setTranslation( float x, float y, float z )  
 			{
 				setIdentity();
 				_41 = x;   _42 = y;  _43 = z;  
@@ -1063,13 +1065,13 @@ namespace gb
 			};
 
 			//! \brief Построение матрицы сдвига (позиции)  ПРОВЕРЕНО!
-			inline mat44_s&  setTranslation( const vec3_s& vTransl) 
+			inline mat44&  setTranslation( const vec3& vTransl) 
 			{
 				return  setTranslation(  vTransl.x, vTransl.y, vTransl.z);
 			}
 			
 			//! \brief Построение матрицы масштабирования ПРОВЕРЕНО!			
-			inline mat44_s&  setScaling( float x, float y, float z)  
+			inline mat44&  setScaling( float x, float y, float z)  
 			{
 				_11 = x;   _12=0.0f;   _13=0.0f;   _14=0.0f; 
 				_21=0.0f;  _22 = y;    _23=0.0f;   _24=0.0f;	
@@ -1079,19 +1081,19 @@ namespace gb
 			}
 			
 			//! \brief Построение матрицы масштабирования	 ПРОВЕРЕНО!		
-			inline mat44_s&  setScaling( const vec3_s& vScaling) 
+			inline mat44&  setScaling( const vec3& vScaling) 
 			{
 			  return setScaling( vScaling.x, vScaling.y, vScaling.z );
 			}
 
 
 			//! \brief Построить как матрицу трансформации 
-			mat44_s& setTransformation(const vec3_s& vScale, 
-								            const geom3d::Quaternion& qRotation,
-								            const vec3_s& vTranslation);
+			mat44& setTransformation(const vec3& vScale, 
+								            const  Quaternion& qRotation,
+								            const vec3& vTranslation);
 
 			//! \brief Построить как матрицу трансформации 
-			mat44_s& setWorldTransform(const geom3d::TransformData& t);
+			mat44& setWorldTransform(const geom3d::TransformData& t);
 
 
 			//! \brief Построение ортографической левосторонней проекционной матрицы. ПРОВЕРЕНА.
@@ -1218,11 +1220,11 @@ namespace gb
 			//-------------------------------------------------------------
 
 			/** \brief Построение левосторонней матрицы вида. ПРОВЕРЕНА.  */
-			void setViewLookAtLH(const vec3_s& eye, const vec3_s& at, const vec3_s& up)
+			void setViewLookAtLH(const vec3& eye, const vec3& at, const vec3& up)
 			{
-            vec3_s  zaxis = (at - eye);  zaxis.normalize(); 
-		    vec3_s  xaxis = up.cross(zaxis); xaxis.normalize();
-		    vec3_s  yaxis =  zaxis.cross(xaxis); 
+            vec3  zaxis = (at - eye);  zaxis.normalize(); 
+		    vec3  xaxis = up.cross(zaxis); xaxis.normalize();
+		    vec3  yaxis =  zaxis.cross(xaxis); 
 
 		   _11=xaxis.x;           _12=yaxis.x;            _13=zaxis.x;            _14=0.0f;
 		   _21=xaxis.y;           _22=yaxis.y;            _23=zaxis.y;            _24=0.0f;
@@ -1240,11 +1242,11 @@ namespace gb
 
 
 			/** \brief Построение правосторонней матрицы вида. ПРОВЕРЕНА.  */
-			void setViewLookAtRH(const vec3_s& eye, const vec3_s& at, const vec3_s& up)
+			void setViewLookAtRH(const vec3& eye, const vec3& at, const vec3& up)
 			{
-            vec3_s  zaxis = (eye - at);  zaxis.normalize(); 
-		    vec3_s  xaxis = up.cross(zaxis); xaxis.normalize();
-		    vec3_s  yaxis =  zaxis.cross(xaxis); 			
+            vec3  zaxis = (eye - at);  zaxis.normalize(); 
+		    vec3  xaxis = up.cross(zaxis); xaxis.normalize();
+		    vec3  yaxis =  zaxis.cross(xaxis); 			
 			
 		   _11=xaxis.x;           _12=yaxis.x;            _13=zaxis.x;            _14=0.0f;
 		   _21=xaxis.y;           _22=yaxis.y;            _23=zaxis.y;            _24=0.0f;
@@ -1262,32 +1264,32 @@ namespace gb
 
 
 			/** \brief Построение левосторонней матрицы вида  по направлению взгляда */
-			inline  void setViewDirLH(const vec3_s& eye, const vec3_s& dir, const vec3_s& up) 
+			inline  void setViewDirLH(const vec3& eye, const vec3& dir, const vec3& up) 
 			{ 
                 #pragma message ("KS777 MATH::MAT44  need check setViewDirLH" __FILE__ )
 
-				vec3_s to = dir.normalized();
+				vec3 to = dir.normalized();
 				const float flen = eye.length();
 				to.x += flen;
 				to.y += flen;
 				to.z += flen;
 
-				vec3_s at = eye + to;
+				vec3 at = eye + to;
 				setViewLookAtLH( eye, at, up);
 			}
 
 			/** \brief Построение правосторонней матрицы вида  по направлению взгляда */
-			inline  void setViewDirRH(const vec3_s& eye, const vec3_s& dir, const vec3_s& up) 
+			inline  void setViewDirRH(const vec3& eye, const vec3& dir, const vec3& up) 
 			{ 
 				#pragma message ("KS777 MATH::MAT44 warn  need check setViewDirRH" __FILE__ )
 
-				vec3_s to = dir.normalized();
+				vec3 to = dir.normalized();
 				const float flen = eye.length();
 				to.x += flen;
 				to.y += flen;
 				to.z += flen;
 
-				vec3_s at = eye + to;
+				vec3 at = eye + to;
 				setViewLookAtRH( eye, at, up);
 			}
 
@@ -1391,21 +1393,21 @@ namespace gb
 
 
 
-static const mat22_s     MATRIX22_IDENTITY =  mat22_s 
+static const mat22     MATRIX22_IDENTITY =  mat22 
 (
   1.0f,  0.0f,
   0.0f,  1.0f
 );
 
 
-static const mat33_s     MATRIX33_IDENTITY =  mat33_s 
+static const mat33     MATRIX33_IDENTITY =  mat33 
 (
   1.0f,  0.0f,  0.0f,
   0.0f,  1.0f,  0.0f,
   0.0f,  0.0f,  1.0f
 );
 
-static const mat44_s     MATRIX44_IDENTITY =  mat44_s 
+static const mat44     MATRIX44_IDENTITY =  mat44 
 (
   1.0f,  0.0f,  0.0f,  0.0f,
   0.0f,  1.0f,  0.0f,  0.0f,

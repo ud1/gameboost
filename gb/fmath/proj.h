@@ -12,13 +12,8 @@
 #ifndef __GB_FMATH_H__
   #error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ. ВКЛЮЧАЙТЕ:   #include <gb/fmath/math.h>  
 #endif
-
-/*
-#ifdef _D3D9_H_
-   #include <d3d9.h>
-#endif
-*/
-
+ 
+ 
 namespace gb 
 {
 
@@ -34,7 +29,7 @@ namespace gb
   
   
 	  //! \brief  Сборка из данных проекции.
-	  struct ProjectionData
+	  struct PerspectiveProjData
 	  {
 		float fovy;
 		float aspect;
@@ -54,7 +49,7 @@ struct RelatCoord
    относительные экранные координаты, 
     по размеру экрана (vpWidth и vpHeight)  ПРОВЕРЕНО !  */
 inline void   fromScreenCoord( // ScreenCoord_To_RelatCoord(
-					            const  vec2_s& vScrCoord, 
+					            const  vec2& vScrCoord, 
 					            const int vpWidth, const int vpHeight ) 
 {
   x = - ( ((float)vpWidth /2.0f) - vScrCoord.x ) / ((float)vpWidth /2.0f);
@@ -65,9 +60,9 @@ inline void   fromScreenCoord( // ScreenCoord_To_RelatCoord(
 /** \brief Конвертация относительных  экранных координат в  абсолютные
   экранные координаты, 
   по размеру экрана (vpWidth и vpHeight) ПРОВЕРЕНО !    */
-inline  vec2_s  toScreenCoord(const int vpWidth, const int vpHeight ) const
+inline  vec2  toScreenCoord(const int vpWidth, const int vpHeight ) const
 {
-    vec2_s res;
+    vec2 res;
    res.x =  ((float)vpWidth /2.0f) +   x * ((float)vpWidth /2.0f);
    res.y =  ((float)vpHeight/2.0f) +   y * ((float)vpHeight/2.0f);
    return res; 
