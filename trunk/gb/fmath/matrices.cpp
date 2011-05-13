@@ -127,12 +127,12 @@ mat22_s operator * ( float b, const mat22_s& a )
 
 //=========================================================================
 //
-//    mat33_s
+//    mat33
 //
 //=========================================================================
  
 //=========================================================================
-mat33_s& mat33_s::operator *= ( float f )
+mat33& mat33::operator *= ( float f )
 {
 	floats[0][0] *= f;
 	floats[0][1] *= f;
@@ -148,7 +148,7 @@ mat33_s& mat33_s::operator *= ( float f )
 }
 
 //=========================================================================
-mat33_s& mat33_s::operator /= ( float f )
+mat33& mat33::operator /= ( float f )
 {
 	floats[0][0] /= f;
 	floats[0][1] /= f;
@@ -164,7 +164,7 @@ mat33_s& mat33_s::operator /= ( float f )
 };
 
 //=========================================================================
-float mat33_s::determinant () const
+float mat33::determinant () const
 {
 	return floats [0][0]*(floats [1][1]* floats [2][2]-floats [1][2]* floats [2][1]) -
 	       floats [0][1]*(floats [1][0]* floats [2][2]-floats [1][2]* floats [2][0]) +
@@ -172,9 +172,9 @@ float mat33_s::determinant () const
 }
 
 //=========================================================================
-mat33_s&  mat33_s::invert ()
+mat33&  mat33::invert ()
 {
-	mat33_s a;
+	mat33 a;
 
  
 	float det = 
@@ -199,9 +199,9 @@ mat33_s&  mat33_s::invert ()
 
 //=========================================================================
 
-mat33_s mat33_s::operator + ( const mat33_s& m ) const  
+mat33 mat33::operator + ( const mat33& m ) const  
 {
-	mat33_s res;
+	mat33 res;
 
 	res.floats [0][0] = floats [0][0] + m.floats [0][0];
 	res.floats [0][1] = floats [0][1] + m.floats [0][1];
@@ -217,9 +217,9 @@ mat33_s mat33_s::operator + ( const mat33_s& m ) const
 }
 
 //=========================================================================
-mat33_s mat33_s::operator - ( const mat33_s& m ) const  
+mat33 mat33::operator - ( const mat33& m ) const  
 {
-	mat33_s r;
+	mat33 r;
 
 	r.floats [0][0] = floats [0][0] - m.floats [0][0];
 	r.floats [0][1] = floats [0][1] - m.floats [0][1];
@@ -235,7 +235,7 @@ mat33_s mat33_s::operator - ( const mat33_s& m ) const
 }
 
 //==========================================================================
-mat33_s& mat33_s::operator = ( float a )
+mat33& mat33::operator = ( float a )
 {
   floats [0][1] = floats [0][2] = floats [1][0] =
   floats [1][2] = floats [2][0] = floats [2][1] = 0.0;
@@ -246,7 +246,7 @@ mat33_s& mat33_s::operator = ( float a )
 }
 
 //=========================================================================
-mat33_s& mat33_s::operator += ( const mat33_s& a )
+mat33& mat33::operator += ( const mat33& a )
 {
   floats [0][0] += a.floats  [0][0];
   floats [0][1] += a.floats  [0][1];
@@ -262,7 +262,7 @@ mat33_s& mat33_s::operator += ( const mat33_s& a )
 }
 
 //=========================================================================
-mat33_s& mat33_s::operator -= ( const mat33_s& a )
+mat33& mat33::operator -= ( const mat33& a )
 {
   floats [0][0] -=a.floats  [0][0];
   floats [0][1] -=a.floats  [0][1];
@@ -279,9 +279,9 @@ mat33_s& mat33_s::operator -= ( const mat33_s& a )
 
 
 //=========================================================================
-mat33_s mat33_s::operator * ( const mat33_s& m) const 
+mat33 mat33::operator * ( const mat33& m) const 
 {
-	mat33_s res;
+	mat33 res;
     res = *this;
 
 	res.floats[0][0]= floats [0][0]*m.floats[0][0]+ floats [0][1]*m.floats[1][0]+ floats [0][2]*m.floats[2][0];
@@ -298,9 +298,9 @@ mat33_s mat33_s::operator * ( const mat33_s& m) const
 }
 
 //=========================================================================
-mat33_s mat33_s::operator * (  float f ) const 
+mat33 mat33::operator * (  float f ) const 
 {
-	mat33_s  res;
+	mat33  res;
 
 	res.floats [0][0] =  floats  [0][0] * f;
 	res.floats [0][1] =  floats  [0][1] * f;
@@ -316,9 +316,9 @@ mat33_s mat33_s::operator * (  float f ) const
 }
 
 //=========================================================================
-mat33_s&   mat33_s::operator *= ( const mat33_s& m )
+mat33&   mat33::operator *= ( const mat33& m )
 {
-	mat33_s t  = *this;
+	mat33 t  = *this;
 
 	floats[0][0]=t.floats[0][0]*m.floats[0][0]+t.floats[0][1]*m.floats[1][0]+t.floats[0][2]*m.floats[2][0];
 	floats[0][1]=t.floats[0][0]*m.floats[0][1]+t.floats[0][1]*m.floats[1][1]+t.floats[0][2]*m.floats[2][1];
@@ -334,9 +334,9 @@ mat33_s&   mat33_s::operator *= ( const mat33_s& m )
 }
 
 //=========================================================================
-vec3_s mat33_s::operator * ( const vec3_s& v ) const
+vec3 mat33::operator * ( const vec3& v ) const
 {
-	vec3_s res;
+	vec3 res;
 
 	res.x = floats [0][0]*v.x + floats [0][1]*v.y + floats [0][2]*v.z;
 	res.y = floats [1][0]*v.x + floats [1][1]*v.y + floats [1][2]*v.z;
@@ -346,7 +346,7 @@ vec3_s mat33_s::operator * ( const vec3_s& v ) const
 }
 
 //=========================================================================
-mat33_s& mat33_s::setScaling ( float x, float y, float z )
+mat33& mat33::setScaling ( float x, float y, float z )
 {
 	 setIdentity();
 
@@ -358,7 +358,7 @@ mat33_s& mat33_s::setScaling ( float x, float y, float z )
 }
 
 //=========================================================================
-mat33_s& mat33_s::setScaling ( const vec3_s& v )
+mat33& mat33::setScaling ( const vec3& v )
 {
     setIdentity();
 
@@ -370,7 +370,7 @@ mat33_s& mat33_s::setScaling ( const vec3_s& v )
 }
 
 //=========================================================================
-mat33_s& mat33_s::setRotationX ( float angle )
+mat33& mat33::setRotationX ( float angle )
 {
 	float sine ,  cosine;
 	scalar::sincos(angle , sine, cosine);
@@ -385,7 +385,7 @@ mat33_s& mat33_s::setRotationX ( float angle )
 }
 
 //=========================================================================
-mat33_s& mat33_s::setRotationY ( float angle )
+mat33& mat33::setRotationY ( float angle )
 {
 	float sine ,  cosine;
 	scalar::sincos(angle , sine, cosine);
@@ -400,7 +400,7 @@ mat33_s& mat33_s::setRotationY ( float angle )
 }
 
 //=========================================================================
-mat33_s& mat33_s::setRotationZ ( float angle )
+mat33& mat33::setRotationZ ( float angle )
 {
  
 	float sine ,  cosine;
@@ -416,7 +416,7 @@ mat33_s& mat33_s::setRotationZ ( float angle )
 }
 
 //=========================================================================
-mat33_s& mat33_s::setRotation ( const vec3_s& v, float angle )
+mat33& mat33::setRotation ( const vec3& v, float angle )
 {
 
  	float sine ,  cosine;
@@ -437,7 +437,7 @@ mat33_s& mat33_s::setRotation ( const vec3_s& v, float angle )
 }
 
 //=========================================================================
-mat33_s&  mat33_s::setMirrorX()
+mat33&  mat33::setMirrorX()
 {
  setIdentity();
  floats  [0][0] = -1.0;
@@ -445,7 +445,7 @@ mat33_s&  mat33_s::setMirrorX()
 }
 
 //=========================================================================
-mat33_s&  mat33_s::setMirrorY()
+mat33&  mat33::setMirrorY()
 {
  setIdentity();
   floats  [1][1] = -1.0;
@@ -453,7 +453,7 @@ mat33_s&  mat33_s::setMirrorY()
 }
 
 //=========================================================================
-mat33_s&  mat33_s::setMirrorZ()
+mat33&  mat33::setMirrorZ()
 {
  setIdentity();
  floats  [2][2] = -1.0;
@@ -461,16 +461,16 @@ mat33_s&  mat33_s::setMirrorZ()
 }
 
 //=========================================================================
-//    mat44_s
+//    mat44
 //=========================================================================
 
 
 
 //=====================================================================
-mat44_s& mat44_s::setRotationQuaternion(const geom3d::Quaternion& q) 
+mat44& mat44::setRotationQuaternion(const  Quaternion& q) 
 {
 
-	mat44_s t  (
+	mat44 t  (
 		1.0f - 2.0f*q.y*q.y - 2.0f*q.z*q.z,   2.0f*q.x*q.y - 2.0f*q.z*q.w,         2.0f*q.x*q.z + 2.0f*q.y*q.w,          0.0f,
 		2.0f*q.x*q.y + 2.0f*q.z*q.w,          1.0f - 2.0f*q.x*q.x - 2.0f*q.z*q.z,  2.0f*q.y*q.z - 2.0f*q.x*q.w,          0.0f,
 		2.0f*q.x*q.z - 2.0f*q.y*q.w,          2.0f*q.y*q.z + 2.0f*q.x*q.w,         1.0f - 2.0f*q.x*q.x - 2.0f*q.y*q.y,   0.0f,
@@ -485,17 +485,17 @@ mat44_s& mat44_s::setRotationQuaternion(const geom3d::Quaternion& q)
 
 
 //=========================================================================
-mat44_s& mat44_s::setTransformation(const vec3_s& vScale, 
-								const geom3d::Quaternion& qRotation,
-								const vec3_s& vTranslation)
+mat44& mat44::setTransformation(const vec3& vScale, 
+								const  Quaternion& qRotation,
+								const vec3& vTranslation)
 {
-   mat44_s ms; 
+   mat44 ms; 
    ms.setScaling( vScale );
 
-   mat44_s mr; 
+   mat44 mr; 
    mr.setRotationQuaternion(  qRotation );
 
-   mat44_s mt; 
+   mat44 mt; 
    mt.setTranslation(  vTranslation );
 
    *this = mt * mr * ms;
@@ -504,13 +504,13 @@ mat44_s& mat44_s::setTransformation(const vec3_s& vScale,
 };
 
 //=========================================================================
-mat44_s& mat44_s::setWorldTransform(const geom3d::TransformData& t)
+mat44& mat44::setWorldTransform(const geom3d::TransformData& t)
 {
 	return setTransformation(t.vScaling, t.qRotation, t.vTranslation );
 }
 
 //=========================================================================
-mat44_s& mat44_s::setReflection(const geom3d::plane_s& plane )
+mat44& mat44::setReflection(const geom3d::plane_s& plane )
 {
 
 	float a, b, c, d;
@@ -521,7 +521,7 @@ mat44_s& mat44_s::setReflection(const geom3d::plane_s& plane )
 	c = plane.c / k;
 	d = plane.d / k;
 
-	mat44_s Out;
+	mat44 Out;
 
 	Out._11=1.0f-2.0f*scalar::sqr(a);   Out._12=-2.0f*b*a;					 Out._13=-2.0f*c*a;				    Out._14=0.0f;
 
@@ -537,7 +537,7 @@ mat44_s& mat44_s::setReflection(const geom3d::plane_s& plane )
 };
 
 //=========================================================================
-mat44_s&  mat44_s::setShadow(const vec4_s& Light, const geom3d::plane_s& Plane )
+mat44&  mat44::setShadow(const vec4& Light, const geom3d::plane_s& Plane )
 {
 	float a,b,c,d;
 	const float k = sqrt( scalar::sqr(Plane.a) + scalar::sqr(Plane.b) + scalar::sqr(Plane.c) );
@@ -554,7 +554,7 @@ mat44_s&  mat44_s::setShadow(const vec4_s& Light, const geom3d::plane_s& Plane )
 
 	float f = Light.x*Plane.x + Light.y*Plane.b + Light.z*Plane.c + Light.w*Plane.d;
 
-	mat44_s Out;
+	mat44 Out;
 
 	Out._11=f-x*a;  Out._12=-y*a;    Out._13=-z*a;    Out._14=-w*a;
 
@@ -572,7 +572,7 @@ mat44_s&  mat44_s::setShadow(const vec4_s& Light, const geom3d::plane_s& Plane )
 
 
 //=========================================================================
-mat44_s& mat44_s::invert () throw()
+mat44& mat44::invert () throw()
 {
 #define SWAP_ROWS(a, b) {  float * _tmp = a; (a)=(b); (b)=_tmp; }
 #define MAT(fl,r,c)     fl [r][c]
@@ -811,10 +811,10 @@ mat44_s& mat44_s::invert () throw()
 }
 
 //====================================================================
-void mat44_s::decompose( vec3_s& scale, geom3d::Quaternion& rot, vec3_s& pos ) const
+void mat44::decompose( vec3& scale,  Quaternion& rot, vec3& pos ) const
 {
 
-	mat44_s m =  *this;;
+	mat44 m =  *this;;
 
 	pos =  getTranslation();
 
@@ -841,10 +841,10 @@ void mat44_s::decompose( vec3_s& scale, geom3d::Quaternion& rot, vec3_s& pos ) c
 //=========================================================================
 
  
-// void mat44_s::decompose(vec3_s& pos, geom3d::Quaternion& rot, vec3_s& scale) const 
+// void mat44::decompose(vec3& pos,  Quaternion& rot, vec3& scale) const 
 // {
 
-		// mat44_s m = *this;
+		// mat44 m = *this;
 
 		// pos = m.getPos();
 

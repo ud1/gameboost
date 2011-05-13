@@ -48,7 +48,7 @@ namespace gb
 				float height;
 			};
 
-			inline operator  vec2_s () const {  vec2_s r(x,y); return r;  };
+			inline operator  vec2 () const {  vec2 r(x,y); return r;  };
 
 
 		};
@@ -81,14 +81,14 @@ public:
 		_x=x; _y=y; __normalize(); 
 	}
 
-	Normal2(const  vec2_s& vn) { *this = vn; }
+	Normal2(const  vec2& vn) { *this = vn; }
  
 
 	inline float x() const { return _x; }
 	inline float y() const { return _y; }
 
 
-	inline void operator = ( vec2_s& v) {_x=v.x; _y=v.y; __normalize(); }
+	inline void operator = ( vec2& v) {_x=v.x; _y=v.y; __normalize(); }
 	inline void inverse() {_x=-_x; _y=-_y; }
 	
 	// setDirBetweenPoints(const Point2& src, const Point2& dest)
@@ -119,7 +119,7 @@ public:
    
    inline operator const float* () const { return &_x; }
 
-   inline void operator = (const  vec2_s& v) { _x=v.x; _y=v.y; }
+   inline void operator = (const  vec2& v) { _x=v.x; _y=v.y; }
 
 #ifdef __GB_TYPES_H__
    inline void operator = (const POINT& p) { _x=(float)p.x; _y=(float)p.y; }
@@ -160,7 +160,7 @@ public:
 
 			//! \brief Углы прямоугольника
 			struct Corners {
-				 vec2_s points[4];
+				 vec2 points[4];
 			};
  
 
@@ -219,7 +219,7 @@ public:
 			inline void translate(float x, float y)	{ x1+=x; y1+=y;	x2+=x;	y2+=y; }
 
 			//! \brief Сдвиг координат. Движение прямоугольника на значение val
-			inline void translate(const  vec2_s& val) { x1+=val.x; y1+=val.y;	x2+=val.x; y2+=val.y; }
+			inline void translate(const  vec2& val) { x1+=val.x; y1+=val.y;	x2+=val.x; y2+=val.y; }
 
 #ifdef __GB_TYPES_H__  
 
@@ -236,16 +236,16 @@ public:
 			inline float getHeight() const { return (y2-y1); }; 
 
 			//! \brief Получить/установить первичную координату прямоугольника
-			inline  vec2_s  minCoord() const {  vec2_s res; res.x=x1; res.y=y1; return res; }
-			inline void          minCoord( vec2_s& coord)       
+			inline  vec2  minCoord() const {  vec2 res; res.x=x1; res.y=y1; return res; }
+			inline void          minCoord( vec2& coord)       
 			{ 
 				x1=coord.x;
 				y1=coord.y;
 			}
 		
 			//! \brief Получить/установить Вторичную координату прямоугольника
-			inline  vec2_s maxCoord() const {  vec2_s res; res.x=x2; res.y=y2; return res; }
-			inline void         maxCoord( vec2_s& coord)       
+			inline  vec2 maxCoord() const {  vec2 res; res.x=x2; res.y=y2; return res; }
+			inline void         maxCoord( vec2& coord)       
 			{ 
 				x2=coord.x;
 				y2=coord.y;
@@ -256,10 +256,10 @@ public:
 			//! \brief  Извлечь все 4 вершины прямоугольника.
 			void extractCorners(Corners& _out) 
 			{
-				_out.points[0] =  vec2_s(x1, y1);
-				_out.points[2] =  vec2_s(x2, y1);
-				_out.points[3] =  vec2_s(x2, y2);
-				_out.points[4] =  vec2_s(x1, y2);
+				_out.points[0] =  vec2(x1, y1);
+				_out.points[2] =  vec2(x2, y1);
+				_out.points[3] =  vec2(x2, y2);
+				_out.points[4] =  vec2(x1, y2);
 			}
 
 
@@ -274,7 +274,7 @@ public:
 				x2=x1+w; y2=y+h;  
 			}
 
-			inline void setPositionTopLeft(const  vec2_s& v) { setPositionTopLeft(v.x,v.y); }  
+			inline void setPositionTopLeft(const  vec2& v) { setPositionTopLeft(v.x,v.y); }  
 
 #ifdef __GB_TYPES_H__ 
 			/** \brief Установить новую позицию по верхнему левому краю прямоугольника. 
@@ -307,18 +307,18 @@ public:
 
 
   //! \brief Получить  координату верхнего левого угла прямоугольника.
-  inline  vec2_s getTopLeft() const {   vec2_s res; res.x=x1; res.y=y1; return res; }
+  inline  vec2 getTopLeft() const {   vec2 res; res.x=x1; res.y=y1; return res; }
   //! \brief Получить  координату нижнег оправого угла прямоугольника. 
-  inline  vec2_s getBottomRight() const {   vec2_s res; res.x=x2; res.y=y2; return res; }
+  inline  vec2 getBottomRight() const {   vec2 res; res.x=x2; res.y=y2; return res; }
 
 
 
   /** \brief Получить центральную среднюю точку прямоугольника */
-  inline  vec2_s getCenterPoint() const 
+  inline  vec2 getCenterPoint() const 
   {
-	   vec2_s res;
-	   vec2_s pTpLft = getTopLeft();
-	   vec2_s pBtRt  = getBottomRight();
+	   vec2 res;
+	   vec2 pTpLft = getTopLeft();
+	   vec2 pBtRt  = getBottomRight();
 
 	  res.x = (pTpLft.x + pBtRt.x) / 2.0f;
 	  res.y = (pTpLft.y + pBtRt.y) / 2.0f;
@@ -327,7 +327,7 @@ public:
   }
 
   /** \brief  Установить координаты прямоугольника по средней точке. Размеры не меняются.  */
-  inline void  setCenterPoint(const  vec2_s& pnt) 
+  inline void  setCenterPoint(const  vec2& pnt) 
   {
 	  float nw = getWidth();
 	  float nh = getHeight();
@@ -357,7 +357,7 @@ public:
 #endif
 
   /** \brief Отсечение координат точки p в пределах прямоугольника */
-  inline void clumpCoord(   vec2_s& pntTobeClump ) const 
+  inline void clumpCoord(   vec2& pntTobeClump ) const 
   {
 	  if( pntTobeClump.x < x1 ) { pntTobeClump.x = x1; };
 	  if( pntTobeClump.x > x2 ) { pntTobeClump.x = x2; };
@@ -450,17 +450,17 @@ public:
 		/** \brief Класс окружность в 2-х мерном пространстве   */
 		class Circle {
 		public:
-			 vec2_s  center;
+			 vec2  center;
 			float         radius;
 
 
 			inline Circle() {}
 			inline Circle(const Circle& c) {center=c.center; radius=c.radius; };
-			inline Circle(const  vec2_s & _center, const float _radius) { center=_center; radius=_radius; }
+			inline Circle(const  vec2 & _center, const float _radius) { center=_center; radius=_radius; }
 			inline Circle(float _centerx, float _centery,  float _radius)    { center.x=_centerx; center.y=_centery;   radius=_radius; }
 			
 			inline void set(int iCenterX, int iCenterY, int iRadius) { center.x=(float)iCenterY; center.y=(float)iCenterY; radius=(float)iRadius;	}
-			inline void set(const  vec2_s& vCenter, float fRadius)    { center=vCenter; radius=fRadius; }
+			inline void set(const  vec2& vCenter, float fRadius)    { center=vCenter; radius=fRadius; }
 			inline void set(float _centerx, float _centery,  float _radius)    { center.x=_centerx; center.y=_centery;   radius=_radius; }
 
 
@@ -468,14 +468,14 @@ public:
 			bool checkIntersect(const Circle& c) 
 			{
 				float fDist;
-				{  vec2_s t(center - c.center); fDist = t.length();  }
+				{  vec2 t(center - c.center); fDist = t.length();  }
 				if (fDist >= (radius + c.radius))	return false;
 				return true;
 			}
 			
 			
 			
-			// bool checkIntersectContactPoints(vec2_s& outp1, vec2_s& outp2, const Circle& c) {...}
+			// bool checkIntersectContactPoints(vec2& outp1, vec2& outp2, const Circle& c) {...}
 			// http://algolist.manual.ru/maths/geom/intersect/circlecircle2d.php
 			
 			
@@ -484,10 +484,10 @@ public:
 			*/
 
 			//! \brief Проверка попадания точки   point
-			inline bool checkContainPoint(const  vec2_s point) 
+			inline bool checkContainPoint(const  vec2 point) 
 			{
 				float fDist;
-				{  vec2_s t(center - point); fDist = t.length();  }
+				{  vec2 t(center - point); fDist = t.length();  }
 				if( fDist > radius ) 
 					return false; 
 				return true;
@@ -510,13 +510,13 @@ public:
 		//! Линия в 2d по двум точкам
 		class Line2d {
 		public:
-			 vec2_s   src;
-			 vec2_s   dest;
+			 vec2   src;
+			 vec2   dest;
 
 
 			inline Line2d() {}
 			inline Line2d(const Line2d& l) {src=l.src;  dest=l.dest; }
-			inline Line2d(const  vec2_s& _src, const  vec2_s& _dest)
+			inline Line2d(const  vec2& _src, const  vec2& _dest)
 			{
 			   src=_src;
 			   dest=_dest;
@@ -529,14 +529,14 @@ public:
 			}
 			
 
-			inline void set(const  vec2_s& _src,  vec2_s& _dest)
+			inline void set(const  vec2& _src,  vec2& _dest)
 			{
 			 src  = _src;
 			 dest = _dest;
 			}
 			
 			
-			// vec2_s projectPoint(const vec2_s& pnt) const 
+			// vec2 projectPoint(const vec2& pnt) const 
 			
 			// checkIntersect......
 			
@@ -552,12 +552,12 @@ public:
 		/** \brief Луч в 2d  по позиции  (исходной точке)  и  направлению  */
 		class Ray2d {
 		public:
-			 vec2_s   orig; ///< точка центр луча
-			 vec2_s   dir;  ///< направление луча ( должен быть нормализован)
+			 vec2   orig; ///< точка центр луча
+			 vec2   dir;  ///< направление луча ( должен быть нормализован)
 
 			inline Ray2d() {}
 			inline Ray2d(const Ray2d& r) {orig=r.orig; dir=r.dir; }
-			inline Ray2d(const  vec2_s& _orig, const  vec2_s& _dir, bool bNeedNormalizeDir)
+			inline Ray2d(const  vec2& _orig, const  vec2& _dir, bool bNeedNormalizeDir)
 			{
 				orig=_orig;
 				dir=_dir;
