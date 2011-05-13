@@ -24,6 +24,8 @@
 #include <vector>
 #include <stdexcept>
 
+#include <assert.h>
+
 
 namespace  gb
 {
@@ -59,162 +61,42 @@ namespace d3dx9_dynamic_load
   
   //-------------------------------------------------------------------------
 
+  
+  
 //! \brief   Получить файл d3dx dll по номеру версии   
-void  makeD3DX9dllFilename_by_version(std::string& strOut, unsigned int vers, bool bDebugV=false)
-{
-  strOut = "";
-  strOut += "d3dx9";
-  
-  if(bDebugV)
-  {
-    strOut += "d";
-  }
+GB_D3D9_API void  makeD3DX9dllFilename_by_version(std::string& strOut, unsigned int vers, bool bDebugV=false) ;
 
-  strOut += "_";
-  
-  char buf [32];
-  sprintf( buf , "%02i" , vers );
-  strOut += buf;
-  strOut += ".dll";
 
-  // temp mon
-  if(vers<10)
-  {
-   int _stop =0;
-  }
+
+//! \brief  ПРоверит ьсуществует ли dll? bIncludeExeDir - проверить или не тдиректорию где приложение 
+GB_D3D9_API bool checkDllExistsA (const char* fname, bool bIncludeExeDir) ;
  
-}
-
-
-
-
-
-bool checkDllExistsA (const char* fname)   
-{    
-    return ::GetFileAttributesA(fname) != DWORD(-1);
-}
+//!  \brief ????????????????
+GB_D3D9_API bool checkExistsDll(const char* sDllFilename) ;
  
-bool checkExistsDll(const char* sDllFilename)
-{
-   std::string sfullpath ;
-   char bufsysdir[MAX_PATH];
- 
-  if(! ::GetSystemDirectoryA(bufsysdir, MAX_PATH ))
-  {
-   throw (std::runtime_error("system error"));
-  }
-  
-  sfullpath = bufsysdir;
-  sfullpath += '\\';
-  sfullpath += sDllFilename;
-  
-  if( checkDllExistsA(sfullpath.c_str() ) )
-  {
-    return true;
-  
-  }  
- 
-   return false;
-}
- 
- // получить самую последнюю версию установленой библиотеки.
-bool getInstaledD3DXlastVersion(unsigned int* piOutVers)
- {
-   *piOutVers  =0;
- 
-  std::string fname;
-  for(unsigned int cvers=45; cvers>0; cvers--)
-  {
-    makeD3DX9dllFilename_by_version(fname , cvers);
-	  if( checkExistsDll( fname.c_str() ) )
-	  {
-	   *piOutVers = cvers;
-	   return true;
-	  }
-
-  } 
- 
-    return false;
- }
+//! \brief получить самую последнюю версию установленой библиотеки.
+GB_D3D9_API bool getInstaledD3DXlastVersion(unsigned int* piOutVers) ;
 
 
-void print_d3dx9_dll_info()
-{
-	std::string str;
-  for( int c=50; c>=0; c-- )
-  {
-	makeD3DX9dllFilename_by_version( str, ( unsigned int )c  );
-	if(  checkExistsDll (str.c_str() ) )
-	{
-	
-	  printf( str.c_str() );
-	  printf("\n");
-	}
-
-  
-  }
+//! \brief ???????????????????
+GB_D3D9_API void print_d3dx9_dll_info() ;
 
 
-
-
-   printf("\n   END. \n");
-}
-
-
- //  получит все инсталированые версии d3dx dll в системе.
-bool getInstaledD3DXallVersion(std::vector<unsigned int>& versions)
- {
-   bool result = false;
-	versions.clear();
- 
-  std::string fname;
-  for(unsigned int cvers=45; cvers>0; cvers--)
-  {
-    makeD3DX9dllFilename_by_version(fname , cvers);
-	  if( checkExistsDll( fname.c_str() ) )
-	  {
-	    versions.push_back(cvers);
-	   result =  true;
-	  }
-
-  } 
- 
-    return  result;
- }
-
-
+//! \brief  получит все инсталированые версии d3dx dll в системе.
+GB_D3D9_API bool getInstaledD3DXallVersion(std::vector<unsigned int>& versions) ;
 
  
 
-
-
-
-HMODULE loadDllLastVersion(unsigned int* piOutVers )
-{
- 
-	if(piOutVers) *piOutVers = 0;
-   if( !getInstaledD3DXlastVersion( piOutVers ) )
-   {
-   
-     return 0;
-   }
-   
-   std::string dllfname;
-   makeD3DX9dllFilename_by_version(dllfname, *piOutVers );
-   
-   HMODULE hm = 0 ;
-   hm = ::LoadLibraryA(dllfname.c_str() );
-   if(hm)
-   {
-    /// error load.  none
-   }
-
-   return hm;
-}  
+/**  \brief Загрузаить новейшую версию d3dx9 dll обнаруженную в системе.  Вернёт хэндл загр. длл.
+  Еслит ошибка вернёт ноль.  piOutVers - версия, которая была загружена.       */
+GB_D3D9_API HMODULE loadDllLastVersion(unsigned int* piOutVers ); 
  
 
+//! \brief  Загрузчик d3dx9 dll  . Так же использование  через него. 
 class CD3DX9_Dll_Loader {
 public:
+
+    //! \brief Конструктор выполняет загрузку новейшей версии длл , обнаруженой в системе.
 	CD3DX9_Dll_Loader() throw()
 	{
 		m_versDll = 0;
@@ -226,6 +108,12 @@ public:
 			throw ( std::runtime_error("Error load d3dx9 dll !") );
 		}
 
+		int nres = m_fnc.GetProcAddr(m_hmDLL);
+
+		if( nres<0 )
+		{
+			throw ( std::runtime_error("Invalid operation") );
+		}
 	}
 
     virtual ~CD3DX9_Dll_Loader()
@@ -237,6 +125,12 @@ public:
 	   }
 
 		m_versDll = 0;
+	}
+	
+	//! \brief  ПОлучить версию загруженой d3dx9 dll .
+	unsigned int  getLoadedD3DX9dll_version() const 
+	{
+	  return m_versDll;
 	}
 
 
@@ -266,8 +160,8 @@ public:
 	};
 
 	HRESULT __D3DXCreateFontA(LPDIRECT3DDEVICE9 pDevice,	INT Height,	UINT Width,	UINT Weight, UINT MipLevels,
-		BOOL Italic, DWORD CharSet,	DWORD OutputPrecision, DWORD Quality, DWORD PitchAndFamily,
-		const CHAR* pFacename,	LPD3DXFONT * ppFont	)
+		  BOOL Italic, DWORD CharSet,	DWORD OutputPrecision, DWORD Quality, DWORD PitchAndFamily,
+		  const CHAR* pFacename,	LPD3DXFONT * ppFont	)
 	{
 				if( !m_fnc.m_TFunc_D3DXCreateFontA )
 				{
@@ -368,28 +262,9 @@ public:
 
 
 
+ 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 //-------------------------------------------------------------------------

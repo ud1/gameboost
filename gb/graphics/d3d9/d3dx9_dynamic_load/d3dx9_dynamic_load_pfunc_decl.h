@@ -169,6 +169,14 @@ namespace d3dx9_dynamic_load
 		//             D3DX MESH 
 		//=========================================================================
 
+		typedef BOOL (__stdcall *TFunc_D3DXboxBoundProbe)(
+			CONST D3DXVECTOR3 * pMin,
+			CONST D3DXVECTOR3 * pMax,
+			CONST D3DXVECTOR3 * pRayPosition,
+			CONST D3DXVECTOR3 * pRayDirection
+			);
+
+
 
 		typedef  HRESULT (__stdcall * TFunc_D3DXCleanMesh)(
 			D3DXCLEANTYPE CleanType,
@@ -206,7 +214,7 @@ namespace d3dx9_dynamic_load
 			CONST DWORD * pAdjacency
 			);
 
-
+												    
 		typedef  HRESULT (__stdcall *TFunc_D3DXComputeTangent)(
 			LPD3DXMESH Mesh,
 			DWORD TexStageIndex,
@@ -328,8 +336,8 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef  HRESULT (__stdcall *TFunc_D3DXLoadMeshFromX)(
-			LPCTSTR pFilename,
+		typedef  HRESULT (__stdcall *TFunc_D3DXLoadMeshFromXA)(
+			const CHAR* pFilename,
 			DWORD Options,
 			LPDIRECT3DDEVICE9 pD3DDevice,
 			LPD3DXBUFFER * ppAdjacency,
@@ -338,6 +346,18 @@ namespace d3dx9_dynamic_load
 			DWORD * pNumMaterials,
 			LPD3DXMESH * ppMesh
 			);
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXLoadMeshFromXW)(
+			const WCHAR* pFilename,
+			DWORD Options,
+			LPDIRECT3DDEVICE9 pD3DDevice,
+			LPD3DXBUFFER * ppAdjacency,
+			LPD3DXBUFFER * ppMaterials,
+			LPD3DXBUFFER * ppEffectInstances,
+			DWORD * pNumMaterials,
+			LPD3DXMESH * ppMesh
+			);
+
 
 
 
@@ -430,8 +450,8 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef  HRESULT (__stdcall *TFunc_D3DXSaveMeshToX)(
-			LPCTSTR pFilename,
+		typedef  HRESULT (__stdcall *TFunc_D3DXSaveMeshToXA)(
+			const CHAR* pFilename,
 			LPD3DXMESH pMesh,
 			CONST DWORD * pAdjacency,
 			CONST D3DXMATERIAL * pMaterials,
@@ -439,6 +459,19 @@ namespace d3dx9_dynamic_load
 			DWORD NumMaterials,
 			DWORD Format
 			);
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXSaveMeshToXW)(
+			const WCHAR* pFilename,
+			LPD3DXMESH pMesh,
+			CONST DWORD * pAdjacency,
+			CONST D3DXMATERIAL * pMaterials,
+			CONST D3DXEFFECTINSTANCE * pEffectInstances,
+			DWORD NumMaterials,
+			DWORD Format
+			);
+
+
 
 
 		typedef  HRESULT (__stdcall *TFunc_D3DXSimplifyMesh)(
@@ -518,8 +551,17 @@ namespace d3dx9_dynamic_load
 			LPD3DXBUFFER * ppErrorMsgs
 			);
 
-		typedef HRESULT (__stdcall *TFunc_D3DXAssembleShaderFromFile)(
-			LPCTSTR pSrcFile,
+		typedef HRESULT (__stdcall *TFunc_D3DXAssembleShaderFromFileA)(
+			const CHAR* pSrcFile,
+			CONST D3DXMACRO* pDefines,
+			LPD3DXINCLUDE pInclude,
+			DWORD Flags,
+			LPD3DXBUFFER* ppShader,
+			LPD3DXBUFFER * ppErrorMsgs
+			);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXAssembleShaderFromFileW)(
+			const WCHAR* pSrcFile,
 			CONST D3DXMACRO* pDefines,
 			LPD3DXINCLUDE pInclude,
 			DWORD Flags,
@@ -528,15 +570,31 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef HRESULT (__stdcall *TFunc_D3DXAssembleShaderFromResource)(
+
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXAssembleShaderFromResourceA)(
 			HMODULE hSrcModule,
-			LPCTSTR pSrcResource,
+			const CHAR* pSrcResource,
 			CONST D3DXMACRO* pDefines,
 			LPD3DXINCLUDE pInclude,
 			DWORD Flags,
 			LPD3DXBUFFER* ppShader,
 			LPD3DXBUFFER * ppErrorMsgs
 			);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXAssembleShaderFromResourceW)(
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			CONST D3DXMACRO* pDefines,
+			LPD3DXINCLUDE pInclude,
+			DWORD Flags,
+			LPD3DXBUFFER* ppShader,
+			LPD3DXBUFFER * ppErrorMsgs
+			);
+
+
+
 
 
 		typedef HRESULT (__stdcall *TFunc_D3DXCompileShader)(
@@ -553,31 +611,69 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef HRESULT (__stdcall *TFunc_D3DXCompileShaderFromFile)(
-			LPCSTR pSrcFile,
+#pragma message("ks777:  d3dx dyn load:: хз  проверить описание строк на юникод/анси для TFunc_D3DXCompileShaderFromFile  "  __FILE__)
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCompileShaderFromFileA)(
+			const CHAR* pSrcFile,
 			CONST D3DXMACRO* pDefines,
 			LPD3DXINCLUDE pInclude,
-			LPCSTR pFunctionName,
-			LPCSTR pProfile,
+			const CHAR* pFunctionName,
+			const CHAR* pProfile,
 			DWORD Flags,
 			LPD3DXBUFFER* ppShader,
 			LPD3DXBUFFER * ppErrorMsgs,
 			LPD3DXCONSTANTTABLE * ppConstantTable
-			);
+			) ;
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCompileShaderFromFileW)(
+			const WCHAR* pSrcFile,
+			CONST D3DXMACRO* pDefines,
+			LPD3DXINCLUDE pInclude,
+			const WCHAR* pFunctionName,
+			const WCHAR* pProfile,
+			DWORD Flags,
+			LPD3DXBUFFER* ppShader,
+			LPD3DXBUFFER * ppErrorMsgs,
+			LPD3DXCONSTANTTABLE * ppConstantTable
+			) ;
 
 
-		typedef HRESULT (__stdcall *TFunc_D3DXCompileShaderFromResource)(
+
+
+
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCompileShaderFromResourceA)(
 			HMODULE hSrcModule,
-			LPCSTR pSrcResource,
+			const CHAR* pSrcResource,
 			CONST D3DXMACRO* pDefines,
 			LPD3DXINCLUDE pInclude,
-			LPCSTR pFunctionName,
-			LPCSTR pProfile,
+			const CHAR* pFunctionName,
+			const CHAR* pProfile,
 			DWORD Flags,
 			LPD3DXBUFFER* ppShader,
 			LPD3DXBUFFER * ppErrorMsgs,
 			LPD3DXCONSTANTTABLE * ppConstantTable
 			);
+
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCompileShaderFromResourceW)(
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			CONST D3DXMACRO* pDefines,
+			LPD3DXINCLUDE pInclude,
+			const WCHAR* pFunctionName,
+			const WCHAR* pProfile,
+			DWORD Flags,
+			LPD3DXBUFFER* ppShader,
+			LPD3DXBUFFER * ppErrorMsgs,
+			LPD3DXCONSTANTTABLE * ppConstantTable
+			);
+
+
+
+
 
 
 		typedef HRESULT (__stdcall *TFunc_D3DXCreateTextureShader)(
@@ -659,8 +755,8 @@ namespace d3dx9_dynamic_load
 			LPD3DXBUFFER* ppErrorMsgs
 			);
 
-		typedef HRESULT (__stdcall *TFunc_D3DXPreprocessShaderFromFile)(
-			LPCSTR pSrcFile,
+		typedef HRESULT (__stdcall *TFunc_D3DXPreprocessShaderFromFileA)(
+			const CHAR* pSrcFile,
 			CONST D3DXMACRO* pDefines,
 			LPD3DXINCLUDE pInclude,
 			LPD3DXBUFFER* ppShaderText,
@@ -668,9 +764,27 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef HRESULT (__stdcall *TFunc_D3DXPreprocessShaderFromResource)(
+
+		typedef HRESULT (__stdcall *TFunc_D3DXPreprocessShaderFromFileW)(
+			const WCHAR* pSrcFile,
+			CONST D3DXMACRO* pDefines,
+			LPD3DXINCLUDE pInclude,
+			LPD3DXBUFFER* ppShaderText,
+			LPD3DXBUFFER* ppErrorMsgs
+			);
+ 
+		typedef HRESULT (__stdcall *TFunc_D3DXPreprocessShaderFromResourceA)(
 			HMODULE hSrcModule,
-			LPCSTR pSrcResource,
+			const CHAR* pSrcResource,
+			CONST D3DXMACRO* pDefines,
+			LPD3DXINCLUDE pInclude,
+			LPD3DXBUFFER* ppShaderText,
+			LPD3DXBUFFER* ppErrorMsgs
+			);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXPreprocessShaderFromResourceW)(
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
 			CONST D3DXMACRO* pDefines,
 			LPD3DXINCLUDE pInclude,
 			LPD3DXBUFFER* ppShaderText,
@@ -725,8 +839,8 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectCompilerFromFile)(
-			LPCTSTR pSrcFile,
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectCompilerFromFileA)(
+			const CHAR* pSrcFile,
 			CONST D3DXMACRO* pDefines,
 			LPD3DXINCLUDE pInclude,
 			DWORD Flags,
@@ -735,9 +849,20 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectCompilerFromResource)(
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectCompilerFromFileW)(
+			const WCHAR* pSrcFile,
+			CONST D3DXMACRO* pDefines,
+			LPD3DXINCLUDE pInclude,
+			DWORD Flags,
+			LPD3DXEFFECTCOMPILER * ppEffectCompiler,
+			LPD3DXBUFFER * ppParseErrors
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectCompilerFromResourceA)(
 			HMODULE hSrcModule,
-			LPCTSTR pSrcResource,
+			const CHAR* pSrcResource,
 			CONST D3DXMACRO * pDefines,
 			LPD3DXINCLUDE pInclude,
 			DWORD Flags,
@@ -746,9 +871,86 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromFile)(
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectCompilerFromResourceW)(
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			CONST D3DXMACRO * pDefines,
+			LPD3DXINCLUDE pInclude,
+			DWORD Flags,
+			LPD3DXEFFECTCOMPILER * ppEffectCompiler,
+			LPD3DXBUFFER * ppParseErrors
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromFileA)(
 			LPDIRECT3DDEVICE9 pDevice,
-			LPCTSTR pSrcFile,
+			const CHAR* pSrcFile,
+			CONST D3DXMACRO * pDefines,
+			LPD3DXINCLUDE pInclude,
+			DWORD Flags,
+			LPD3DXEFFECTPOOL pPool,
+			LPD3DXEFFECT * ppEffect,
+			LPD3DXBUFFER * ppCompilationErrors
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromFileW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const WCHAR* pSrcFile,
+			CONST D3DXMACRO * pDefines,
+			LPD3DXINCLUDE pInclude,
+			DWORD Flags,
+			LPD3DXEFFECTPOOL pPool,
+			LPD3DXEFFECT * ppEffect,
+			LPD3DXBUFFER * ppCompilationErrors
+			);
+
+#pragma message("ks777: d3dx9 dyn load:: проверить параметры строки на корректность !!   "  __FILE__ )
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromFileExA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const CHAR* pSrcFile,
+			CONST D3DXMACRO * pDefines,
+			LPD3DXINCLUDE pInclude,
+			const CHAR*  pSkipConstants,
+			DWORD Flags,
+			LPD3DXEFFECTPOOL pPool,
+			LPD3DXEFFECT * ppEffect,
+			LPD3DXBUFFER * ppCompilationErrors
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromFileExW)(	 
+			LPDIRECT3DDEVICE9 pDevice,
+			const WCHAR* pSrcFile,
+			CONST D3DXMACRO * pDefines,
+			LPD3DXINCLUDE pInclude,
+			LPCSTR pSkipConstants,
+			DWORD Flags,
+			LPD3DXEFFECTPOOL pPool,
+			LPD3DXEFFECT * ppEffect,
+			LPD3DXBUFFER * ppCompilationErrors
+			);
+
+ 
+
+   #pragma message("ks777: d3dx9 dyn load:: проверить параметры строки на корректность !!   "  __FILE__ )
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromResourceA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const CHAR* pSrcResource,
+			CONST D3DXMACRO * pDefines,
+			LPD3DXINCLUDE pInclude,
+			DWORD Flags,
+			LPD3DXEFFECTPOOL pPool,
+			LPD3DXEFFECT * ppEffect,
+			LPD3DXBUFFER * ppCompilationErrors
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromResourceW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,						 
+			const WCHAR* pSrcResource,
 			CONST D3DXMACRO * pDefines,
 			LPD3DXINCLUDE pInclude,
 			DWORD Flags,
@@ -758,9 +960,25 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromFileEx)(
+    #pragma message("ks777: d3dx9 dyn load:: проверить параметры строки на корректность !!   "  __FILE__ )
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromResourceExA)(
 			LPDIRECT3DDEVICE9 pDevice,
-			LPCTSTR pSrcFile,
+			HMODULE hSrcModule,
+			const CHAR* pSrcResource,
+			CONST D3DXMACRO * pDefines,
+			LPD3DXINCLUDE pInclude,
+			LPCSTR pSkipConstants,
+			DWORD Flags,
+			LPD3DXEFFECTPOOL pPool,
+			LPD3DXEFFECT * ppEffect,
+			LPD3DXBUFFER * ppCompilationErrors
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromResourceExW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
 			CONST D3DXMACRO * pDefines,
 			LPD3DXINCLUDE pInclude,
 			LPCSTR pSkipConstants,
@@ -771,30 +989,6 @@ namespace d3dx9_dynamic_load
 			);
 
 
-		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromResource)(
-			LPDIRECT3DDEVICE9 pDevice,
-			HMODULE hSrcModule,
-			LPCTSTR pSrcResource,
-			CONST D3DXMACRO * pDefines,
-			LPD3DXINCLUDE pInclude,
-			DWORD Flags,
-			LPD3DXEFFECTPOOL pPool,
-			LPD3DXEFFECT * ppEffect,
-			LPD3DXBUFFER * ppCompilationErrors
-			);
-
-		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromResourceEx)(
-			LPDIRECT3DDEVICE9 pDevice,
-			HMODULE hSrcModule,
-			LPCTSTR pSrcResource,
-			CONST D3DXMACRO * pDefines,
-			LPD3DXINCLUDE pInclude,
-			LPCSTR pSkipConstants,
-			DWORD Flags,
-			LPD3DXEFFECTPOOL pPool,
-			LPD3DXEFFECT * ppEffect,
-			LPD3DXBUFFER * ppCompilationErrors
-			);
 
 
 		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectPool)(
@@ -810,12 +1004,86 @@ namespace d3dx9_dynamic_load
 
 
 
+	//----------------------------------------------------------------
+					
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateBox)(
+		  LPDIRECT3DDEVICE9 pDevice,
+		  FLOAT Width,
+		  FLOAT Height,
+		  FLOAT Depth,
+		  LPD3DXMESH * ppMesh,
+		  LPD3DXBUFFER * ppAdjacency);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCylinder)(
+		  LPDIRECT3DDEVICE9 pDevice,
+		  FLOAT Radius1,
+		  FLOAT Radius2,
+		  FLOAT Length,
+		  UINT Slices,
+		  UINT Stacks,
+		  LPD3DXMESH * ppMesh,
+		  LPD3DXBUFFER * ppAdjacency);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreatePolygon)(
+		  LPDIRECT3DDEVICE9 pDevice,
+		  FLOAT Length,
+		  UINT Sides,
+		  LPD3DXMESH * ppMesh,
+		  LPD3DXBUFFER * ppAdjacency);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateSphere)(
+		  LPDIRECT3DDEVICE9 pDevice,
+		  FLOAT Radius,
+		  UINT Slices,
+		  UINT Stacks,
+		  LPD3DXMESH * ppMesh,
+		  LPD3DXBUFFER * ppAdjacency);
+
+				
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTeapot)(
+		  LPDIRECT3DDEVICE9 pDevice,
+		  LPD3DXMESH * ppMesh,
+		  LPD3DXBUFFER * ppAdjacency);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextA)(
+		  LPDIRECT3DDEVICE9 pDevice,
+		  HDC hDC,
+		  const CHAR* pText,
+		  FLOAT Deviation,
+		  FLOAT Extrusion,
+		  LPD3DXMESH * ppMesh,
+		  LPD3DXBUFFER * ppAdjacency,
+		  LPGLYPHMETRICSFLOAT pGlyphMetrics);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HDC hDC,
+			const WCHAR* pText,
+			FLOAT Deviation,
+			FLOAT Extrusion,
+			LPD3DXMESH * ppMesh,
+			LPD3DXBUFFER * ppAdjacency,
+			LPGLYPHMETRICSFLOAT pGlyphMetrics);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTorus)(
+		  LPDIRECT3DDEVICE9 pDevice,
+		  FLOAT InnerRadius,
+		  FLOAT OuterRadius,
+		  UINT Sides,
+		  UINT Rings,
+		  LPD3DXMESH * ppMesh,
+		  LPD3DXBUFFER * ppAdjacency);
 
 
 
 
 
-		//----------------------------------------------------------------------
+		//---------------------------------------------------
 		//
 		//
 
@@ -842,85 +1110,173 @@ namespace d3dx9_dynamic_load
 		TFunc_D3DXDebugMute               m_TFunc_D3DXDebugMute;
 		TFunc_D3DXGetDriverLevel          m_TFunc_D3DXGetDriverLevel;
 
-		//---------------
+		//--------------------------------------
 
+	    TFunc_D3DXMatrixMultiply		  m_TFunc_D3DXMatrixMultiply;
+	    TFunc_D3DXMatrixInverse			  m_TFunc_D3DXMatrixInverse;
+ 
+		//---------------------------------------
+
+		TFunc_D3DXboxBoundProbe            m_TFunc_D3DXboxBoundProbe;
+		TFunc_D3DXCleanMesh				   m_TFunc_D3DXCleanMesh   ;
+		TFunc_D3DXComputeBoundingBox       m_TFunc_D3DXComputeBoundingBox     ;
+
+		TFunc_D3DXComputeBoundingSphere	  m_TFunc_D3DXComputeBoundingSphere  ;
+
+		TFunc_D3DXComputeNormals	    m_TFunc_D3DXComputeNormals    ;
+		TFunc_D3DXComputeTangent	    m_TFunc_D3DXComputeTangent    ;
+		TFunc_D3DXComputeTangentFrame	m_TFunc_D3DXComputeTangentFrame    ;
+
+		TFunc_D3DXComputeTangentFrameEx  m_TFunc_D3DXComputeTangentFrameEx    ; 
+		TFunc_D3DXConcatenateMeshes	     m_TFunc_D3DXConcatenateMeshes    ;
+
+
+		TFunc_D3DXCreateMesh	 m_TFunc_D3DXCreateMesh   ;
+		TFunc_D3DXCreateMeshFVF  m_TFunc_D3DXCreateMeshFVF    ;
+
+		TFunc_D3DXDeclaratorFromFVF   m_TFunc_D3DXDeclaratorFromFVF  ;
+		TFunc_D3DXGetFVFVertexSize	  m_TFunc_D3DXGetFVFVertexSize   ;
+
+
+		TFunc_D3DXIntersect		    m_TFunc_D3DXIntersect  ;
+		TFunc_D3DXIntersectSubset   m_TFunc_D3DXIntersectSubset   ;
+		TFunc_D3DXIntersectTri      m_TFunc_D3DXIntersectTri     ;
+
+		TFunc_D3DXLoadMeshFromXA	  m_TFunc_D3DXLoadMeshFromXA   ;
+		TFunc_D3DXLoadMeshFromXW	  m_TFunc_D3DXLoadMeshFromXW   ;
+
+		TFunc_D3DXLoadMeshFromXInMemory  m_TFunc_D3DXLoadMeshFromXInMemory    ;
+
+		TFunc_D3DXLoadMeshFromXof		  m_TFunc_D3DXLoadMeshFromXof  ;
+		TFunc_D3DXLoadMeshFromXResource   m_TFunc_D3DXLoadMeshFromXResource  ;
+		TFunc_D3DXLoadPatchMeshFromXof    m_TFunc_D3DXLoadPatchMeshFromXof   ;
+
+		TFunc_D3DXLoadSkinMeshFromXof	  m_TFunc_D3DXLoadSkinMeshFromXof   ;
+		TFunc_D3DXOptimizeFaces		      m_TFunc_D3DXOptimizeFaces  ;
+		TFunc_D3DXOptimizeVertices		  m_TFunc_D3DXOptimizeVertices  ;
+		TFunc_D3DXRectPatchSize			  m_TFunc_D3DXRectPatchSize   ;
+
+		TFunc_D3DXSaveMeshToXA			 m_TFunc_D3DXSaveMeshToXA ;
+		TFunc_D3DXSaveMeshToXW			 m_TFunc_D3DXSaveMeshToXW ;
+
+		TFunc_D3DXSimplifyMesh			 m_TFunc_D3DXSimplifyMesh   ;
+
+		TFunc_D3DXSplitMesh			 m_TFunc_D3DXSplitMesh ;
+		TFunc_D3DXTriPatchSize		 m_TFunc_D3DXTriPatchSize   ;
+
+
+		TFunc_D3DXValidMesh			   m_TFunc_D3DXValidMesh  ;
+		TFunc_D3DXValidPatchMesh	   m_TFunc_D3DXValidPatchMesh  ;
+
+		TFunc_D3DXWeldVertices		  m_TFunc_D3DXWeldVertices   ;
+
+
+		//----------------------------------------------
+
+
+		TFunc_D3DXAssembleShader    m_TFunc_D3DXAssembleShader    ;
+
+		TFunc_D3DXAssembleShaderFromFileA   m_TFunc_D3DXAssembleShaderFromFileA; 
+		TFunc_D3DXAssembleShaderFromFileW   m_TFunc_D3DXAssembleShaderFromFileW; 
+
+		TFunc_D3DXAssembleShaderFromResourceA    m_TFunc_D3DXAssembleShaderFromResourceA;
+		TFunc_D3DXAssembleShaderFromResourceW    m_TFunc_D3DXAssembleShaderFromResourceW;
+
+		TFunc_D3DXCompileShader             m_TFunc_D3DXCompileShader; 
+
+		TFunc_D3DXCompileShaderFromFileA    m_TFunc_D3DXCompileShaderFromFileA;
+		TFunc_D3DXCompileShaderFromFileW    m_TFunc_D3DXCompileShaderFromFileW;
+
+		TFunc_D3DXCompileShaderFromResourceA   m_TFunc_D3DXCompileShaderFromResourceA;
+		TFunc_D3DXCompileShaderFromResourceW   m_TFunc_D3DXCompileShaderFromResourceW;
+
+		TFunc_D3DXCreateTextureShader    m_TFunc_D3DXCreateTextureShader;
+		TFunc_D3DXDisassembleShader    m_TFunc_D3DXDisassembleShader; 
+		TFunc_D3DXFindShaderComment	  m_TFunc_D3DXFindShaderComment;
+
+
+		TFunc_D3DXGetPixelShaderProfile    m_TFunc_D3DXGetPixelShaderProfile;
+		TFunc_D3DXGetShaderConstantTable    m_TFunc_D3DXGetShaderConstantTable;
+		TFunc_D3DXGetShaderConstantTableEx    m_TFunc_D3DXGetShaderConstantTableEx;
+ 
+		TFunc_D3DXGetShaderInputSemantics	   m_TFunc_D3DXGetShaderInputSemantics;
+
+		TFunc_D3DXGetShaderOutputSemantics   m_TFunc_D3DXGetShaderOutputSemantics; 
+		TFunc_D3DXGetShaderSamplers    m_TFunc_D3DXGetShaderSamplers;
+		TFunc_D3DXGetShaderSize   m_TFunc_D3DXGetShaderSize;
+
+
+		TFunc_D3DXGetShaderVersion    m_TFunc_D3DXGetShaderVersion; 
+		TFunc_D3DXGetVertexShaderProfile     m_TFunc_D3DXGetVertexShaderProfile;
+		TFunc_D3DXPreprocessShader	  m_TFunc_D3DXPreprocessShader;
+
+		TFunc_D3DXPreprocessShaderFromFileA     m_TFunc_D3DXPreprocessShaderFromFileA;
+		TFunc_D3DXPreprocessShaderFromFileW     m_TFunc_D3DXPreprocessShaderFromFileW;
+
+		TFunc_D3DXPreprocessShaderFromResourceA	  m_TFunc_D3DXPreprocessShaderFromResourceA;
+		TFunc_D3DXPreprocessShaderFromResourceW	  m_TFunc_D3DXPreprocessShaderFromResourceW;
+
+	//------------------------------------------
+
+
+     TFunc_D3DXCreateEffect     m_TFunc_D3DXCreateEffect;
+	  TFunc_D3DXCreateEffectEx      m_TFunc_D3DXCreateEffectEx;
+	  TFunc_D3DXCreateEffectCompiler     m_TFunc_D3DXCreateEffectCompiler;
+
+   TFunc_D3DXCreateEffectCompilerFromFileA     m_TFunc_D3DXCreateEffectCompilerFromFileA; 
+   TFunc_D3DXCreateEffectCompilerFromFileW	   m_TFunc_D3DXCreateEffectCompilerFromFileW;
+
+   TFunc_D3DXCreateEffectCompilerFromResourceA     m_TFunc_D3DXCreateEffectCompilerFromResourceA;  
+   TFunc_D3DXCreateEffectCompilerFromResourceW	   m_TFunc_D3DXCreateEffectCompilerFromResourceW;
+
+   TFunc_D3DXCreateEffectFromFileA     m_TFunc_D3DXCreateEffectFromFileA;  
+   TFunc_D3DXCreateEffectFromFileW	   m_TFunc_D3DXCreateEffectFromFileW;
+
+
+
+  TFunc_D3DXCreateEffectFromFileExA      m_TFunc_D3DXCreateEffectFromFileExA;
+  TFunc_D3DXCreateEffectFromFileExW	     m_TFunc_D3DXCreateEffectFromFileExW;
+
+   TFunc_D3DXCreateEffectFromResourceA     m_TFunc_D3DXCreateEffectFromResourceA;  
+   TFunc_D3DXCreateEffectFromResourceW     m_TFunc_D3DXCreateEffectFromResourceW;
+
+	TFunc_D3DXCreateEffectFromResourceExA     m_TFunc_D3DXCreateEffectFromResourceExA;  
+	TFunc_D3DXCreateEffectFromResourceExW     m_TFunc_D3DXCreateEffectFromResourceExW;
+
+   TFunc_D3DXCreateEffectPool     m_TFunc_D3DXCreateEffectPool; 
+   TFunc_D3DXDisassembleEffect    m_TFunc_D3DXDisassembleEffect;
+
+   
+   //--------------------------------------------------------
+   
+    TFunc_D3DXCreateBox     m_TFunc_D3DXCreateBox;
+	TFunc_D3DXCreateCylinder   m_TFunc_D3DXCreateCylinder;
+    TFunc_D3DXCreatePolygon     m_TFunc_D3DXCreatePolygon;
+	TFunc_D3DXCreateSphere   m_TFunc_D3DXCreateSphere;
+    TFunc_D3DXCreateTeapot      m_TFunc_D3DXCreateTeapot;
+
+	TFunc_D3DXCreateTextA    m_TFunc_D3DXCreateTextA; 
+	TFunc_D3DXCreateTextW    m_TFunc_D3DXCreateTextW; 
+
+    TFunc_D3DXCreateTorus   m_TFunc_D3DXCreateTorus;
 
 
 		Functions()
 		{
 			memset(&m_TFunc_D3DXCheckVersion, 0 , sizeof(Functions)  );
-
 		}
 
 
-
-		void handleNotFoundAddr()
+		//!  \brief   обработка - функция sFuncName  не найдена в длл
+		void handleNotFoundAddr(const char* sFuncName)
 		{
 
 			int stop = 0;
 		}
 
-		int GetProcAddr(const HMODULE hm)
-		{
-			void* ptr = NULL;
-			const int NERROR = -1;
+		//! \brief Найти все точки входа в длл
+		int GetProcAddr(const HMODULE hm);
 
-
-			m_TFunc_D3DXCheckVersion = (TFunc_D3DXCheckVersion)::GetProcAddress(hm,"D3DXCheckVersion");
-			if(!m_TFunc_D3DXCheckVersion)   {  handleNotFoundAddr();  return NERROR; }
-
-
-			m_TFunc_D3DXCreateBuffer = (  TFunc_D3DXCreateBuffer  )::GetProcAddress(hm,  "D3DXCreateBuffer"  );
-			if(!m_TFunc_D3DXCreateBuffer ) {  handleNotFoundAddr();  return NERROR; }
-
-
-			m_TFunc_D3DXCreateFontA = (  TFunc_D3DXCreateFontA  )::GetProcAddress(hm,  "D3DXCreateFontA"  );
-			if(! m_TFunc_D3DXCreateFontA ) {  handleNotFoundAddr();  return NERROR; }
-
-			m_TFunc_D3DXCreateFontW = (  TFunc_D3DXCreateFontW  )::GetProcAddress(hm,  "D3DXCreateFontW"  );
-			if(! m_TFunc_D3DXCreateFontW ) {  handleNotFoundAddr();  return NERROR; }
-
-
-
-			m_TFunc_D3DXCreateFontIndirectA = (  TFunc_D3DXCreateFontIndirectA  )::GetProcAddress(hm,  "D3DXCreateFontIndirectA"  );
-			if(!m_TFunc_D3DXCreateFontIndirectA ) {  handleNotFoundAddr();  return NERROR; }
-
-			m_TFunc_D3DXCreateFontIndirectW = (  TFunc_D3DXCreateFontIndirectW  )::GetProcAddress(hm,  "D3DXCreateFontIndirectW"  );
-			if(!m_TFunc_D3DXCreateFontIndirectW ) {  handleNotFoundAddr();  return NERROR; }
-
-
-
-			m_TFunc_D3DXCreateLine = (  TFunc_D3DXCreateLine  )::GetProcAddress(hm,  "D3DXCreateLine"  );
-			if(!m_TFunc_D3DXCreateLine ) {  handleNotFoundAddr();  return NERROR; }
-
-
-			m_TFunc_D3DXCreateRenderToEnvMap = (  TFunc_D3DXCreateRenderToEnvMap  )::GetProcAddress(hm, "D3DXCreateRenderToEnvMap"  );
-			if(!m_TFunc_D3DXCreateRenderToEnvMap ) {  handleNotFoundAddr();  return NERROR; }
-
-
-
-			m_TFunc_D3DXCreateRenderToSurface = (TFunc_D3DXCreateRenderToSurface)::GetProcAddress(hm,"D3DXCreateRenderToSurface");
-			if(!m_TFunc_D3DXCreateRenderToSurface) {  handleNotFoundAddr();  return NERROR; }
-
-
-			m_TFunc_D3DXCreateSprite = (TFunc_D3DXCreateSprite)::GetProcAddress(hm,"D3DXCreateSprite");
-			if(!m_TFunc_D3DXCreateSprite) {  handleNotFoundAddr();  return NERROR; }
-
-
-			m_TFunc_D3DXDebugMute = (TFunc_D3DXDebugMute)::GetProcAddress(hm,"D3DXDebugMute");
-			if(!m_TFunc_D3DXDebugMute) {  handleNotFoundAddr();  return NERROR; }
-
-			m_TFunc_D3DXGetDriverLevel = (TFunc_D3DXGetDriverLevel)::GetProcAddress(hm,"D3DXGetDriverLevel");
-			if(!m_TFunc_D3DXGetDriverLevel) {  handleNotFoundAddr();  return NERROR; }
-
-
-			// m_TFunc_xxxxxxxxxxx = (TFunc_xxxxxxxxxxx)::GetProcAddress(hm,"xxxxxxxxxxx");
-			//if(!m_TFunc_xxxxxxxxxxx) return   NERROR;
-
-
-
-			return 0;
-		}
 
 
 
@@ -939,7 +1295,7 @@ namespace d3dx9_dynamic_load
 // end namespace graphics
 
 }
-// end namespace gb
+// end namespace gb 
 
 
 
