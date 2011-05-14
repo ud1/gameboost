@@ -4,8 +4,10 @@
 
   \author kscvet777
 
+
+  \todo  сделать макрозащиту от неправильного включения.
   \todo поправить функцию  checkExistsDll на поиск в директории приложения.
-  \todo убрать DEF_TEMP_ERR_HANDLE
+  \todo убрать DEF_TEMP_ERR_HANDLE.
 
 */
 
@@ -13,6 +15,8 @@
 #if ( defined(WIN32) && defined(GB_D3D9) )
 
 #pragma once
+#define __GB_D3DX9_DYNAMIC_LOAD_H__
+
 
 #include <gb/graphics/d3d9/api_decl.h>
 
@@ -28,6 +32,8 @@
 
 #include <assert.h>
 
+#pragma warning( push )
+#pragma warning( disable : 4297 )
 
 namespace  gb
 {
@@ -65,12 +71,13 @@ namespace d3dx9_dynamic_load
 
   
   
-//! \brief   Получить файл d3dx dll по номеру версии   
+/** \brief   Получить файл d3dx dll по номеру версии. 
+    Например если передать 44 , то получиться d3dx9_44.dll  */
 GB_D3D9_API void  makeD3DX9dllFilename_by_version(std::string& strOut, unsigned int vers, bool bDebugV=false) ;
 
 
 
-//! \brief  ПРоверить существует ли dll? bIncludeExeDir - проверить или не тдиректорию где приложение 
+//! \brief  ПРоверить существует ли dll . bIncludeExeDir - проверить или нет директорию приложениея.
 GB_D3D9_API bool checkDllExistsA (const char* fname, bool bIncludeExeDir) ;
  
 //!  \brief  УБРАТЬ !
@@ -84,7 +91,8 @@ GB_D3D9_API bool getInstaledD3DXlastVersion(unsigned int* piOutVers) ;
 GB_D3D9_API void print_d3dx9_dll_info() ;
 
 
-//! \brief  получит все инсталированые версии d3dx dll в системе.
+/** \brief  получит все инсталированые версии d3dx dll в системе   в вектор versions .
+     Например если обнаружена  d3dx9_44.dll  то в векторе в том числе будет 44   */
 GB_D3D9_API bool getInstaledD3DXallVersion(std::vector<unsigned int>& versions) ;
 
  
@@ -142,10 +150,10 @@ public:
 
 
 	//! temp!  времянка  убрать !!!!!
-#define DEF_TEMP_ERR_HANDLE   throw_error( "Operation error" );
+#define DEF_TEMP_ERR_HANDLE   throw std::runtime_error( "Operation error" );
 
 
-	BOOL _D3DXCheckVersion( UINT D3DSDKVersion, UINT D3DXSDKVersion)
+	BOOL D3DXCheckVersion( UINT D3DSDKVersion, UINT D3DXSDKVersion)
 	{
 		if( !m_fnc.m_TFunc_D3DXCheckVersion ) 
 		{
@@ -155,7 +163,7 @@ public:
 		return m_fnc.m_TFunc_D3DXCheckVersion(D3DSDKVersion, D3DXSDKVersion );
 	}
 
-	HRESULT _D3DXCreateBuffer( DWORD NumBytes,    LPD3DXBUFFER * ppBuffer )
+	HRESULT D3DXCreateBuffer( DWORD NumBytes,    LPD3DXBUFFER * ppBuffer )
 	{
 		if( !m_fnc.m_TFunc_D3DXCreateBuffer )
 		{
@@ -165,7 +173,7 @@ public:
 		return  m_fnc.m_TFunc_D3DXCreateBuffer(NumBytes, ppBuffer );
 	};
 
-	HRESULT __D3DXCreateFontA(LPDIRECT3DDEVICE9 pDevice,	INT Height,	UINT Width,	UINT Weight, UINT MipLevels,
+	HRESULT D3DXCreateFontA(LPDIRECT3DDEVICE9 pDevice,	INT Height,	UINT Width,	UINT Weight, UINT MipLevels,
 		  BOOL Italic, DWORD CharSet,	DWORD OutputPrecision, DWORD Quality, DWORD PitchAndFamily,
 		  const CHAR* pFacename,	LPD3DXFONT * ppFont	)
 	{
@@ -181,7 +189,7 @@ public:
 
 
 
-	HRESULT __D3DXCreateFontW(LPDIRECT3DDEVICE9 pDevice,	INT Height,	UINT Width,	UINT Weight, UINT MipLevels,
+	HRESULT D3DXCreateFontW(LPDIRECT3DDEVICE9 pDevice,	INT Height,	UINT Width,	UINT Weight, UINT MipLevels,
 		BOOL Italic, DWORD CharSet,	DWORD OutputPrecision, DWORD Quality, DWORD PitchAndFamily,
 		const WCHAR* pFacename,	LPD3DXFONT * ppFont	)
 	{
@@ -196,7 +204,7 @@ public:
 	};
 
 
-	HRESULT __D3DXCreateFontIndirectA( LPDIRECT3DDEVICE9 pDevice, CONST D3DXFONT_DESCA* pDesc, LPD3DXFONT * ppFont )
+	HRESULT D3DXCreateFontIndirectA( LPDIRECT3DDEVICE9 pDevice, CONST D3DXFONT_DESCA* pDesc, LPD3DXFONT * ppFont )
 	{
 		  if( !m_fnc.m_TFunc_D3DXCreateFontIndirectA )
 		  {
@@ -207,7 +215,7 @@ public:
 	};
 
 
-	HRESULT __D3DXCreateFontIndirectW( LPDIRECT3DDEVICE9 pDevice, CONST D3DXFONT_DESCW * pDesc, LPD3DXFONT * ppFont )
+	HRESULT D3DXCreateFontIndirectW( LPDIRECT3DDEVICE9 pDevice, CONST D3DXFONT_DESCW * pDesc, LPD3DXFONT * ppFont )
 	{
 		if( !m_fnc.m_TFunc_D3DXCreateFontIndirectW )
 		{
@@ -218,7 +226,7 @@ public:
 	};
 
 
-	HRESULT __D3DXCreateLine(	LPDIRECT3DDEVICE9 pDevice, LPD3DXLINE* ppLine)
+	HRESULT D3DXCreateLine(	LPDIRECT3DDEVICE9 pDevice, LPD3DXLINE* ppLine)
 	{
 		if(!m_fnc.m_TFunc_D3DXCreateLine)
 		{
@@ -229,7 +237,7 @@ public:
 	};
 
 
-	HRESULT __D3DXCreateRenderToEnvMap(	LPDIRECT3DDEVICE9 pDevice, 	UINT Size,	UINT MipLevels,	 D3DFORMAT Format,
+	HRESULT D3DXCreateRenderToEnvMap(	LPDIRECT3DDEVICE9 pDevice, 	UINT Size,	UINT MipLevels,	 D3DFORMAT Format,
 		BOOL DepthStencil, D3DFORMAT DepthStencilFormat, ID3DXRenderToEnvMap** ppRenderToEnvMap	)
 	{
 		if(!m_fnc.m_TFunc_D3DXCreateRenderToEnvMap)
@@ -257,7 +265,7 @@ public:
 	};
 
 
-	HRESULT __D3DXCreateSprite(	LPDIRECT3DDEVICE9 pDevice,	LPD3DXSPRITE * ppSprite	)
+	HRESULT D3DXCreateSprite(	LPDIRECT3DDEVICE9 pDevice,	LPD3DXSPRITE * ppSprite	)
 	{
 		if(!m_fnc.m_TFunc_D3DXCreateSprite)
 		{
@@ -311,7 +319,7 @@ protected:
 // end namespace gb
 
 
-
+#pragma warning( pop )
 
 #endif // #if ( defined(WIN32) && defined(GB_D3D9) )
 
