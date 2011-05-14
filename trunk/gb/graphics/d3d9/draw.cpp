@@ -5,8 +5,8 @@
 
 #include <gb/graphics/d3d9/draw.h>
 
-#include <gb/math/math.h>
-using namespace gb::math::base;
+#include <gb/fmath/fmath.h>
+using namespace gb::fmath;;
 
 
 
@@ -331,7 +331,7 @@ GB_D3D9_API HRESULT DrawScreenPoints(IDirect3DDevice9* pdevice, const D3DCOLORVA
 
 	for (int c = 0; (c < num) && (c < NARRLEN); c++)
 	{
-		const gb::math::base::vec2_s* pv = (gb::math::base::vec2_s*)vec2_arrayCoord;
+		const gb::fmath::vec2* pv = (gb::fmath::vec2*)vec2_arrayCoord;
 		varr[c].x = (pv + c)->x;
 		varr[c].y = (pv + c)->y;
 		varr[c].z = 0.0f;
@@ -389,7 +389,7 @@ GB_D3D9_API HRESULT DrawScreenLines(IDirect3DDevice9* pdevice, const D3DCOLORVAL
 
 	for (int c = 0; (c < NARRLEN) && (c < num); c++)
 	{
-		const vec2_s* pv = (vec2_s*)vec2_arrayCoord;
+		const vec2* pv = (vec2*)vec2_arrayCoord;
 		varr[c].x = (pv + c)->x;
 		varr[c].y = (pv + c)->y;
 		varr[c].z = 0.0f;
@@ -428,7 +428,7 @@ GB_D3D9_API HRESULT DrawScreenCircle(IDirect3DDevice9* pdevice, const D3DCOLORVA
 	}
 
 	static const int SEGM = 32; // lines
-	 vec2_s varr[SEGM + 4];  //   +1
+	 vec2 varr[SEGM + 4];  //   +1
 
 	static const float FACT = 0.0f;
 	float valfact = FACT;
@@ -436,7 +436,7 @@ GB_D3D9_API HRESULT DrawScreenCircle(IDirect3DDevice9* pdevice, const D3DCOLORVA
 	int valSEGM = SEGM;
 	for (int c = 0; c < SEGM; c++)
 	{
-		  vec2_s pos;
+		  vec2 pos;
 		pos.x = x;
 		pos.y = y;
 		valfact = (float)c / SEGM;
@@ -470,7 +470,7 @@ GB_D3D9_API HRESULT DrawScreenRect(IDirect3DDevice9* pdevice, const D3DCOLORVALU
 		return E_FAIL;
 	}
 
-	vec2_s varr[5];
+	vec2 varr[5];
 
 	varr[0].x = (float)x1;
 	varr[0].y = (float)y1;

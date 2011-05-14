@@ -515,7 +515,7 @@ DAPP_RT_API DAPLIB_RT_SetUnUsedAll() {
 DAPP_RT_API DAPLIB_RT_ComputeAverSurfaceColor(
 	     _out         gb::color::Color4f*   pOut, 
 		 _inout_opt   IDirect3DSurface9*             surf, 
-		 _in_opt      gb::math::geom2d::Rect*     rect  )
+		 _in_opt      gb::fmath::geom2d::Rect*     rect  )
 
 {
 	HRESULT hr =0;

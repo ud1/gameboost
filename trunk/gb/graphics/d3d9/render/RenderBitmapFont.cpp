@@ -29,6 +29,7 @@ using namespace pugi;
 
 #pragma warning (push)
 #pragma warning ( disable : 4996 )
+#pragma warning ( disable : 4297 )
 
 //===================================================================================
  

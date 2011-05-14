@@ -5,23 +5,27 @@
 *
 
 *
- \todo  Добавить функции:
-        uicolor32_t  rgba_to_argb(uicolor32_t val);  uicolor32_t  argb_to_rgba(uicolor32_t val)
- \todo Добавить каст для GLColor  GLFloat  D3DCOLOR  DWORD 		
+ \todo  Добавить 
+ \todo Добавить каст для GLColor  GLFloat  D3DCOLOR  DWORD 
+ \todo Переделать макросы на функции
+ \todo  print поменять на cout <<
 
-*   Поправлен кодстайл.. Прочие незначительные поправки улучшающие читаемость .
+*   
 */
 
 /******************************************************************
 
 STORY:
 
+--- Поправлен кодстайл.. Прочие незначительные поправки улучшающие читаемость .
 --- поправлены методы классов. Некоторая коррекция.
 --- обёрнуто макрозащитой GB_COLOR
+--- функции:  uicolor32_t  rgba_to_argb(uicolor32_t val);  uicolor32_t  argb_to_rgba(uicolor32_t val)
+
 
 ******************************************************************/
 
-#ifdef GB_COLOR	// макрозащита
+//#ifdef GB_COLOR	// макрозащита ( СНЯТА ! )
 
 #pragma once
 
@@ -81,12 +85,12 @@ typedef uint8_t   color_mono_8b_t;
 
 /** \brief  Мононхромное значение из 2-х байт .  */
 struct color_mono16b_s {
-  union 
-  {
-    struct { uint8_t _1, _0 ; };
-    uint8_t bytes[2];
-    unsigned short ush;
-  };
+	  union 
+	  {
+		struct { uint8_t _1, _0 ; };
+		uint8_t bytes[2];
+		unsigned short ush;
+	  };
 };
 
 
@@ -106,6 +110,31 @@ struct color_mono16b_s {
 
 /**  \brief Макрос построения целочисленого цвета по компонентам float (0.0f ... 1.0f)  */
 #define MAKECOLOR_FLOAT_RGBA(r,g,b,a) \  MAKECOLOR_RGBA((DWORD)((r)*255.f),(DWORD)((g)*255.f),(DWORD)((b)*255.f),(DWORD)((a)*255.f))
+
+
+#ifdef _D3D9_H_
+
+// 
+//	 D3DCOLOR   имеет порядок байт:  a r g b  
+// 
+
+
+//! \brief  Преобразовать стандартный целочисленый D3DCOLOR цвет . 
+inline D3DCOLORVALUE make_d3dcolorvalue( D3DCOLOR col )
+{
+	D3DCOLORVALUE res;
+
+	const float k = 1.0f / 255.0f;
+
+	res.r = k * (float)((col << 8 ) >> 24);
+	res.g = k * (float)((col << 16) >> 24);
+	res.b = k * (float)((col << 24) >> 24);
+	res.a = k * (float)( col >> 24);
+
+	return res;
+}
+
+#endif    // _D3D9_H_
 
 
 /** \brief  Обмен компонентов R и G . */
@@ -1108,5 +1137,6 @@ static const uicolor32_t      CUICOLOR_YELLOWGREEN      = 0xFF9ACD32;
 // end namespace gb
 
 
-#endif // #ifdef GB_COLOR
+// #endif // #ifdef GB_COLOR   // макрозащита
+
 // end file

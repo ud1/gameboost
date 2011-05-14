@@ -8,6 +8,10 @@
 
 
  \todo Написать для circle построение внутреннего и внешнего прямоуголника.
+ \todo Поправить макрозащиту #ifdef __GB_TYPES_H__
+ 
+
+
 *
 */
 
@@ -20,9 +24,6 @@
 #ifndef __GB_FMATH_H__
     #error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ. ВКЛЮЧАЙТЕ:   #include <gb/fmath/math.h>  
 #endif
-
-
-
 
 
 namespace gb 

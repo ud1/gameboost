@@ -5,6 +5,7 @@
   \author kscvet777
 
   \todo поправить функцию  checkExistsDll на поиск в директории приложения.
+  \todo убрать DEF_TEMP_ERR_HANDLE
 
 */
 
@@ -68,17 +69,17 @@ GB_D3D9_API void  makeD3DX9dllFilename_by_version(std::string& strOut, unsigned 
 
 
 
-//! \brief  ПРоверит ьсуществует ли dll? bIncludeExeDir - проверить или не тдиректорию где приложение 
+//! \brief  ПРоверить существует ли dll? bIncludeExeDir - проверить или не тдиректорию где приложение 
 GB_D3D9_API bool checkDllExistsA (const char* fname, bool bIncludeExeDir) ;
  
-//!  \brief ????????????????
+//!  \brief  УБРАТЬ !
 GB_D3D9_API bool checkExistsDll(const char* sDllFilename) ;
  
 //! \brief получить самую последнюю версию установленой библиотеки.
 GB_D3D9_API bool getInstaledD3DXlastVersion(unsigned int* piOutVers) ;
 
 
-//! \brief ???????????????????
+//! \brief вывод  на консоль информации об обнаруженых в системе d3dx9 dll .
 GB_D3D9_API void print_d3dx9_dll_info() ;
 
 
@@ -92,11 +93,12 @@ GB_D3D9_API bool getInstaledD3DXallVersion(std::vector<unsigned int>& versions) 
 GB_D3D9_API HMODULE loadDllLastVersion(unsigned int* piOutVers ); 
  
 
-//! \brief  Загрузчик d3dx9 dll  . Так же использование  через него. 
+//! \brief  Загрузчик d3dx9 dll  . Так же использование d3dx9  через него. 
 class CD3DX9_Dll_Loader {
 public:
 
-    //! \brief Конструктор выполняет загрузку новейшей версии длл , обнаруженой в системе.
+    /** \brief Конструктор выполняет загрузку новейшей версии d3dx9 dll , 
+	обнаруженой в системе.  Если ничего не найдено  бросает исключение.  */
 	CD3DX9_Dll_Loader() throw()
 	{
 		m_versDll = 0;
@@ -127,7 +129,7 @@ public:
 		m_versDll = 0;
 	}
 	
-	//! \brief  ПОлучить версию загруженой d3dx9 dll .
+	//! \brief  Получить версию загруженой d3dx9 dll .
 	unsigned int  getLoadedD3DX9dll_version() const 
 	{
 	  return m_versDll;
@@ -137,7 +139,10 @@ public:
 
 //-------------------------------------------------------------------------
 
-#define DEF_TEMP_ERR_HANDLE   throw_error( 0 );
+
+	//! temp!  времянка  убрать !!!!!
+#define DEF_TEMP_ERR_HANDLE   throw_error( "Operation error" );
+
 
 	BOOL _D3DXCheckVersion( UINT D3DSDKVersion, UINT D3DXSDKVersion)
 	{
