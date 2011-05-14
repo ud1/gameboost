@@ -167,6 +167,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load_pfunc_decl.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv.cpp"
 				>
 			</File>
@@ -215,11 +223,51 @@
 			Name="h"
 			>
 			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\api_decl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\appl.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\auto_include_libr.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\common.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\d3d9.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load_pfunc_decl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\device.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\fvf.h"
 				>
 			</File>
 		</Filter>
