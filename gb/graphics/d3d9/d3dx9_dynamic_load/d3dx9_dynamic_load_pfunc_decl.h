@@ -10,6 +10,10 @@
 
 #pragma once
 
+#ifndef __GB_D3DX9_DYNAMIC_LOAD_H__
+   #error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ.   ВКЛЮЧАЙТЕ:  #include <gb/graphics/d3d9/d3dx9_dynamic_load/d3dx9_dynamic_load.h>
+#endif
+
 
 
 #include <windows.h>
@@ -34,8 +38,6 @@ namespace d3dx9_dynamic_load
 	class Functions {
 	public:
  
-
-		struct MARK_BEGIN_FUNC_DECL {};
 
 		typedef BOOL (__stdcall *TFunc_D3DXCheckVersion)(UINT D3DSDKVersion, UINT D3DXSDKVersion);
 
@@ -171,7 +173,7 @@ namespace d3dx9_dynamic_load
 		//             D3DX MESH 
 		//=========================================================================
 
-		typedef BOOL (__stdcall *TFunc_D3DXboxBoundProbe)(
+		typedef BOOL (__stdcall *TFunc_D3DXBoxBoundProbe)(
 			CONST D3DXVECTOR3 * pMin,
 			CONST D3DXVECTOR3 * pMax,
 			CONST D3DXVECTOR3 * pRayPosition,
@@ -1082,6 +1084,844 @@ namespace d3dx9_dynamic_load
 		  LPD3DXBUFFER * ppAdjacency);
 
 
+		//
+		//------------------------------------------
+		//          texture function
+		//------------------------------------------
+		//
+ 
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCheckCubeTextureRequirements)(
+			LPDIRECT3DDEVICE9 pDevice,
+			UINT * pSize,
+			UINT * pNumMipLevels,
+			DWORD Usage,
+			D3DFORMAT * pFormat,
+			D3DPOOL Pool
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCheckTextureRequirements)(
+			LPDIRECT3DDEVICE9 pDevice,
+			UINT * pWidth,
+			UINT * pHeight,
+			UINT * pNumMipLevels,
+			DWORD Usage,
+			D3DFORMAT * pFormat,
+			D3DPOOL Pool
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCheckVolumeTextureRequirements)(
+			LPDIRECT3DDEVICE9 pDevice,
+			UINT * pWidth,
+			UINT * pHeight,
+			UINT * pDepth,
+			UINT * pNumMipLevels,
+			DWORD Usage,
+			D3DFORMAT * pFormat,
+			D3DPOOL Pool
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXComputeNormalMap)(
+			LPDIRECT3DTEXTURE9 pTexture,
+			LPDIRECT3DTEXTURE9 pSrcTexture,
+			CONST PALETTEENTRY * pSrcPalette,
+			DWORD Flags,
+			DWORD Channel,
+			FLOAT Amplitude
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTexture)(
+			LPDIRECT3DDEVICE9 pDevice,
+			UINT Size,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromFileA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const CHAR* pSrcFile,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromFileW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const WCHAR* pSrcFile,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromFileExA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const CHAR* pSrcFile,
+			UINT Size,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromFileExW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const WCHAR* pSrcFile,
+			UINT Size,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromFileInMemory)(
+			LPDIRECT3DDEVICE9 pDevice,
+			LPCVOID pSrcData,
+			UINT SrcDataSize,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromFileInMemoryEx)(
+			LPDIRECT3DDEVICE9 pDevice,
+			LPCVOID pSrcData,
+			UINT SrcDataSize,
+			UINT Size,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromResourceA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const CHAR* pSrcResource,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromResourceW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromResourceExA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const CHAR* pSrcResource,
+			UINT Size,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateCubeTextureFromResourceExW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			UINT Size,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTexture)(
+			LPDIRECT3DDEVICE9 pDevice,
+			UINT Width,
+			UINT Height,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromFileA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const CHAR* pSrcFile,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromFileW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const WCHAR* pSrcFile,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromFileExA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const CHAR*  pSrcFile,
+			UINT Width,
+			UINT Height,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromFileExW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const WCHAR* pSrcFile,
+			UINT Width,
+			UINT Height,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromFileInMemory)(
+			LPDIRECT3DDEVICE9 pDevice,
+			LPCVOID pSrcData,
+			UINT SrcDataSize,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromFileInMemoryEx)(
+			LPDIRECT3DDEVICE9 pDevice,
+			LPCVOID pSrcData,
+			UINT SrcDataSize,
+			UINT Width,
+			UINT Height,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromResourceA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const CHAR* pSrcResource,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromResourceW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromResourceExA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const CHAR*  pSrcResource,
+			UINT Width,
+			UINT Height,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateTextureFromResourceExW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const WCHAR*  pSrcResource,
+			UINT Width,
+			UINT Height,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DTEXTURE9 * ppTexture
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTexture)(
+			LPDIRECT3DDEVICE9 pDevice,
+			UINT Width,
+			UINT Height,
+			UINT Depth,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture
+			);
+
+
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromFileA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const CHAR* pSrcFile,
+			LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromFileW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const WCHAR* pSrcFile,
+			LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromFileExA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const CHAR*  pSrcFile,
+			UINT Width,
+			UINT Height,
+			UINT Depth,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DVOLUMETEXTURE9 * ppTexture
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromFileExW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			const WCHAR*  pSrcFile,
+			UINT Width,
+			UINT Height,
+			UINT Depth,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DVOLUMETEXTURE9 * ppTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromFileInMemory)(
+			LPDIRECT3DDEVICE9 pDevice,
+			LPCVOID pSrcFile,
+			UINT SrcData,
+			LPDIRECT3DVOLUMETEXTURE9 ppVolumeTexture
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromFileInMemoryEx)(
+			LPDIRECT3DDEVICE9 pDevice,
+			LPCVOID pSrcData,
+			UINT SrcDataSize,
+			UINT Width,
+			UINT Height,
+			UINT Depth,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromResourceA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const CHAR* pSrcResource,
+			LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromResourceW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture
+			);
+
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromResourceExA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const CHAR* pSrcResource,
+			UINT Width,
+			UINT Height,
+			UINT Depth,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateVolumeTextureFromResourceExW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			UINT Width,
+			UINT Height,
+			UINT Depth,
+			UINT MipLevels,
+			DWORD Usage,
+			D3DFORMAT Format,
+			D3DPOOL Pool,
+			DWORD Filter,
+			DWORD MipFilter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo,
+			PALETTEENTRY * pPalette,
+			LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXFillCubeTexture)(
+			LPDIRECT3DCUBETEXTURE9 pTexture,
+			LPD3DXFILL3D pFunction,
+			LPVOID pData
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXFillCubeTextureTX)(
+			LPDIRECT3DCUBETEXTURE9 pTexture,
+			LPD3DXTEXTURESHADER pTextureShader
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXFillTexture)(
+			LPDIRECT3DTEXTURE9 pTexture,
+			LPD3DXFILL2D pFunction,
+			LPVOID pData
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXFillTextureTX)(
+			LPDIRECT3DTEXTURE9 pTexture,
+			LPD3DXTEXTURESHADER pTextureShader
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXFillVolumeTexture)(
+			LPDIRECT3DVOLUMETEXTURE9 pTexture,
+			LPD3DXFILL3D pFunction,
+			LPVOID pData
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXFillVolumeTextureTX)(
+			LPDIRECT3DVOLUMETEXTURE9 pTexture,
+			LPD3DXTEXTURESHADER pTextureShader
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXFilterTexture)(
+			LPDIRECT3DBASETEXTURE9 pBaseTexture,
+			CONST PALETTEENTRY * pPalette,
+			UINT SrcLevel,
+			DWORD MipFilter
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXGetImageInfoFromFileA)(
+			const CHAR*  pSrcFile,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXGetImageInfoFromFileW)(
+			const WCHAR* pSrcFile,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXGetImageInfoFromFileInMemory)(
+			LPCVOID pSrcData,
+			UINT SrcDataSize,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXGetImageInfoFromResourceA)(
+			HMODULE hSrcModule,
+			const CHAR*  pSrcFile,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXGetImageInfoFromResourceW)(
+			HMODULE hSrcModule,
+			const WCHAR* pSrcFile,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadSurfaceFromFileA)(
+			LPDIRECT3DSURFACE9 pDestSurface,
+			CONST PALETTEENTRY* pDestPalette,
+			CONST RECT* pDestRect,
+			const CHAR* pSrcFile,
+			CONST RECT* pSrcRect,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO* pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadSurfaceFromFileW)(
+			LPDIRECT3DSURFACE9 pDestSurface,
+			CONST PALETTEENTRY* pDestPalette,
+			CONST RECT* pDestRect,
+			const WCHAR* pSrcFile,
+			CONST RECT* pSrcRect,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO* pSrcInfo
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadSurfaceFromFileInMemory)(
+			LPDIRECT3DSURFACE9 pDestSurface,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST RECT * pDestRect,
+			LPCVOID pSrcData,
+			UINT SrcData,
+			CONST RECT * pSrcRect,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadSurfaceFromMemory)(
+			LPDIRECT3DSURFACE9 pDestSurface,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST RECT * pDestRect,
+			LPCVOID pSrcMemory,
+			D3DFORMAT SrcFormat,
+			UINT SrcPitch,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST RECT * pSrcRect,
+			DWORD Filter,
+			D3DCOLOR ColorKey
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadSurfaceFromResourceA)(
+			LPDIRECT3DSURFACE9 pDestSurface,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST RECT * pDestRect,
+			HMODULE hSrcModule,
+			const CHAR* pSrcResource,
+			CONST RECT * pSrcRect,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadSurfaceFromResourceW)(
+			LPDIRECT3DSURFACE9 pDestSurface,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST RECT * pDestRect,
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			CONST RECT * pSrcRect,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadSurfaceFromSurface)(
+			LPDIRECT3DSURFACE9 pDestSurface,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST RECT * pDestRect,
+			LPDIRECT3DSURFACE9 pSrcSurface,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST RECT * pSrcRect,
+			DWORD Filter,
+			D3DCOLOR ColorKey
+			);
+
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadVolumeFromFileA)(
+			LPDIRECT3DVOLUME9 pDestVolume,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST D3DBOX * pDestBox,
+			const CHAR* pSrcFile,
+			CONST D3DBOX * pSrcBox,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadVolumeFromFileW)(
+			LPDIRECT3DVOLUME9 pDestVolume,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST D3DBOX * pDestBox,
+			const WCHAR* pSrcFile,
+			CONST D3DBOX * pSrcBox,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadVolumeFromFileInMemory)(
+			LPDIRECT3DVOLUME9 pDestVolume,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST D3DBOX * pDestBox,
+			LPCVOID pSrcData,
+			UINT SrcDataSize,
+			CONST D3DBOX * pSrcBox,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadVolumeFromMemory)(
+			LPDIRECT3DVOLUME9 pDestVolume,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST D3DBOX * pDestBox,
+			LPCVOID pSrcMemory,
+			D3DFORMAT SrcFormat,
+			UINT SrcRowPitch,
+			UINT SrcSlicePitch,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST D3DBOX * pSrcBox,
+			DWORD Filter,
+			D3DCOLOR ColorKey
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadVolumeFromResourceA)(
+			LPDIRECT3DVOLUME9 pDestVolume,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST D3DBOX * pDestBox,
+			HMODULE hSrcModule,
+			const CHAR* pSrcResource,
+			CONST D3DBOX * pSrcBox,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadVolumeFromResourceW)(
+			LPDIRECT3DVOLUME9 pDestVolume,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST D3DBOX * pDestBox,
+			HMODULE hSrcModule,
+			const WCHAR* pSrcResource,
+			CONST D3DBOX * pSrcBox,
+			DWORD Filter,
+			D3DCOLOR ColorKey,
+			D3DXIMAGE_INFO * pSrcInfo
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXLoadVolumeFromVolume)(
+			LPDIRECT3DVOLUME9 pDestVolume,
+			CONST PALETTEENTRY * pDestPalette,
+			CONST D3DBOX * pDestBox,
+			LPDIRECT3DVOLUME9 pSrcVolume,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST D3DBOX * pSrcBox,
+			DWORD Filter,
+			D3DCOLOR ColorKey
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXSaveSurfaceToFileA)(
+			const CHAR* pDestFile,
+			D3DXIMAGE_FILEFORMAT DestFormat,
+			LPDIRECT3DSURFACE9 pSrcSurface,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST RECT * pSrcRect
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXSaveSurfaceToFileW)(
+			const WCHAR* pDestFile,
+			D3DXIMAGE_FILEFORMAT DestFormat,
+			LPDIRECT3DSURFACE9 pSrcSurface,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST RECT * pSrcRect
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXSaveSurfaceToFileInMemory)(
+			LPD3DXBUFFER * ppDestBuf,
+			D3DXIMAGE_FILEFORMAT DestFormat,
+			LPDIRECT3DSURFACE9 pSrcSurface,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST RECT * pSrcRect
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXSaveTextureToFileA)(
+			const CHAR* pDestFile,
+			D3DXIMAGE_FILEFORMAT DestFormat,
+			LPDIRECT3DBASETEXTURE9 pSrcTexture,
+			CONST PALETTEENTRY * pSrcPalette
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXSaveTextureToFileW)(
+			const WCHAR* pDestFile,
+			D3DXIMAGE_FILEFORMAT DestFormat,
+			LPDIRECT3DBASETEXTURE9 pSrcTexture,
+			CONST PALETTEENTRY * pSrcPalette
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXSaveTextureToFileInMemory)(
+			LPD3DXBUFFER * ppDestBuf,
+			D3DXIMAGE_FILEFORMAT DestFormat,
+			LPDIRECT3DBASETEXTURE9 pSrcTexture,
+			CONST PALETTEENTRY * pSrcPalette
+			);
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXSaveVolumeToFileA)(
+			const CHAR* pDestFile,
+			D3DXIMAGE_FILEFORMAT DestFormat,
+			LPDIRECT3DVOLUME9 pSrcVolume,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST D3DBOX * pSrcBox
+			);
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXSaveVolumeToFileW)(
+			const WCHAR* pDestFile,
+			D3DXIMAGE_FILEFORMAT DestFormat,
+			LPDIRECT3DVOLUME9 pSrcVolume,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST D3DBOX * pSrcBox
+			);
+
+
+
+		typedef HRESULT  (__stdcall *TFunc_D3DXSaveVolumeToFileInMemory)(
+			LPD3DXBUFFER * ppDestBuf,
+			D3DXIMAGE_FILEFORMAT DestFormat,
+			LPDIRECT3DVOLUME9 pSrcVolume,
+			CONST PALETTEENTRY * pSrcPalette,
+			CONST D3DBOX * pSrcBox
+			);
+
+
+
+
+
 
 
 
@@ -1112,14 +1952,14 @@ namespace d3dx9_dynamic_load
 		TFunc_D3DXDebugMute               m_TFunc_D3DXDebugMute;
 		TFunc_D3DXGetDriverLevel          m_TFunc_D3DXGetDriverLevel;
 
-		//--------------------------------------
+		//------------------    math    --------------------
 
 	    TFunc_D3DXMatrixMultiply		  m_TFunc_D3DXMatrixMultiply;
 	    TFunc_D3DXMatrixInverse			  m_TFunc_D3DXMatrixInverse;
- 
-		//---------------------------------------
+							   
+		//------------------     mesh    ---------------------
 
-		TFunc_D3DXboxBoundProbe            m_TFunc_D3DXboxBoundProbe;
+		TFunc_D3DXBoxBoundProbe            m_TFunc_D3DXBoxBoundProbe;
 		TFunc_D3DXCleanMesh				   m_TFunc_D3DXCleanMesh   ;
 		TFunc_D3DXComputeBoundingBox       m_TFunc_D3DXComputeBoundingBox     ;
 
@@ -1173,7 +2013,7 @@ namespace d3dx9_dynamic_load
 		TFunc_D3DXWeldVertices		  m_TFunc_D3DXWeldVertices   ;
 
 
-		//----------------------------------------------
+		//-----------------   shaders    -----------------------------
 
 
 		TFunc_D3DXAssembleShader    m_TFunc_D3DXAssembleShader    ;
@@ -1218,10 +2058,11 @@ namespace d3dx9_dynamic_load
 		TFunc_D3DXPreprocessShaderFromResourceA	  m_TFunc_D3DXPreprocessShaderFromResourceA;
 		TFunc_D3DXPreprocessShaderFromResourceW	  m_TFunc_D3DXPreprocessShaderFromResourceW;
 
-	//------------------------------------------
+
+     	//-------------------     effect       -------------------
 
 
-     TFunc_D3DXCreateEffect     m_TFunc_D3DXCreateEffect;
+      TFunc_D3DXCreateEffect     m_TFunc_D3DXCreateEffect;
 	  TFunc_D3DXCreateEffectEx      m_TFunc_D3DXCreateEffectEx;
 	  TFunc_D3DXCreateEffectCompiler     m_TFunc_D3DXCreateEffectCompiler;
 
@@ -1233,8 +2074,6 @@ namespace d3dx9_dynamic_load
 
    TFunc_D3DXCreateEffectFromFileA     m_TFunc_D3DXCreateEffectFromFileA;  
    TFunc_D3DXCreateEffectFromFileW	   m_TFunc_D3DXCreateEffectFromFileW;
-
-
 
   TFunc_D3DXCreateEffectFromFileExA      m_TFunc_D3DXCreateEffectFromFileExA;
   TFunc_D3DXCreateEffectFromFileExW	     m_TFunc_D3DXCreateEffectFromFileExW;
@@ -1249,9 +2088,9 @@ namespace d3dx9_dynamic_load
    TFunc_D3DXDisassembleEffect    m_TFunc_D3DXDisassembleEffect;
 
    
-   //--------------------------------------------------------
+   //------------    Shape Drawing Functions    -----------------------
    
-    TFunc_D3DXCreateBox     m_TFunc_D3DXCreateBox;
+    TFunc_D3DXCreateBox       m_TFunc_D3DXCreateBox;
 	TFunc_D3DXCreateCylinder   m_TFunc_D3DXCreateCylinder;
     TFunc_D3DXCreatePolygon     m_TFunc_D3DXCreatePolygon;
 	TFunc_D3DXCreateSphere   m_TFunc_D3DXCreateSphere;
@@ -1261,6 +2100,129 @@ namespace d3dx9_dynamic_load
 	TFunc_D3DXCreateTextW    m_TFunc_D3DXCreateTextW; 
 
     TFunc_D3DXCreateTorus   m_TFunc_D3DXCreateTorus;
+
+
+	//---------------  textured functions  --------------------
+
+
+
+
+	TFunc_D3DXCheckCubeTextureRequirements  m_TFunc_D3DXCheckCubeTextureRequirements;
+	TFunc_D3DXCheckTextureRequirements  m_TFunc_D3DXCheckTextureRequirements;
+
+	TFunc_D3DXCheckVolumeTextureRequirements  m_TFunc_D3DXCheckVolumeTextureRequirements;
+	TFunc_D3DXComputeNormalMap  m_TFunc_D3DXComputeNormalMap;
+	TFunc_D3DXCreateCubeTexture  m_TFunc_D3DXCreateCubeTexture;
+
+	TFunc_D3DXCreateCubeTextureFromFileA  m_TFunc_D3DXCreateCubeTextureFromFileA;
+	TFunc_D3DXCreateCubeTextureFromFileW  m_TFunc_D3DXCreateCubeTextureFromFileW;
+
+	TFunc_D3DXCreateCubeTextureFromFileExA  m_TFunc_D3DXCreateCubeTextureFromFileExA;
+	TFunc_D3DXCreateCubeTextureFromFileExW  m_TFunc_D3DXCreateCubeTextureFromFileExW;
+
+	TFunc_D3DXCreateCubeTextureFromFileInMemory  m_TFunc_D3DXCreateCubeTextureFromFileInMemory;
+	TFunc_D3DXCreateCubeTextureFromFileInMemoryEx  m_TFunc_D3DXCreateCubeTextureFromFileInMemoryEx;
+
+	TFunc_D3DXCreateCubeTextureFromResourceA  m_TFunc_D3DXCreateCubeTextureFromResourceA;
+	TFunc_D3DXCreateCubeTextureFromResourceW  m_TFunc_D3DXCreateCubeTextureFromResourceW;
+
+	TFunc_D3DXCreateCubeTextureFromResourceExA  m_TFunc_D3DXCreateCubeTextureFromResourceExA;
+	TFunc_D3DXCreateCubeTextureFromResourceExW  m_TFunc_D3DXCreateCubeTextureFromResourceExW;
+
+	TFunc_D3DXCreateTexture  m_TFunc_D3DXCreateTexture;
+
+	TFunc_D3DXCreateTextureFromFileA  m_TFunc_D3DXCreateTextureFromFileA;
+	TFunc_D3DXCreateTextureFromFileW  m_TFunc_D3DXCreateTextureFromFileW;
+
+	TFunc_D3DXCreateTextureFromFileExA  m_TFunc_D3DXCreateTextureFromFileExA;
+	TFunc_D3DXCreateTextureFromFileExW  m_TFunc_D3DXCreateTextureFromFileExW;
+
+	TFunc_D3DXCreateTextureFromFileInMemory  m_TFunc_D3DXCreateTextureFromFileInMemory;
+	TFunc_D3DXCreateTextureFromFileInMemoryEx  m_TFunc_D3DXCreateTextureFromFileInMemoryEx;
+
+	TFunc_D3DXCreateTextureFromResourceA  m_TFunc_D3DXCreateTextureFromResourceA;
+	TFunc_D3DXCreateTextureFromResourceW  m_TFunc_D3DXCreateTextureFromResourceW;
+
+	TFunc_D3DXCreateTextureFromResourceExA  m_TFunc_D3DXCreateTextureFromResourceExA;
+	TFunc_D3DXCreateTextureFromResourceExW  m_TFunc_D3DXCreateTextureFromResourceExW;
+
+	TFunc_D3DXCreateVolumeTexture  m_TFunc_D3DXCreateVolumeTexture;
+
+	TFunc_D3DXCreateVolumeTextureFromFileA  m_TFunc_D3DXCreateVolumeTextureFromFileA;
+	TFunc_D3DXCreateVolumeTextureFromFileW m_TFunc_D3DXCreateVolumeTextureFromFileW ;
+
+	TFunc_D3DXCreateVolumeTextureFromFileExA  m_TFunc_D3DXCreateVolumeTextureFromFileExA;
+	TFunc_D3DXCreateVolumeTextureFromFileExW  m_TFunc_D3DXCreateVolumeTextureFromFileExW;
+
+	TFunc_D3DXCreateVolumeTextureFromFileInMemory  m_TFunc_D3DXCreateVolumeTextureFromFileInMemory;
+	TFunc_D3DXCreateVolumeTextureFromFileInMemoryEx m_TFunc_D3DXCreateVolumeTextureFromFileInMemoryEx ;
+
+	TFunc_D3DXCreateVolumeTextureFromResourceA  m_TFunc_D3DXCreateVolumeTextureFromResourceA;
+	TFunc_D3DXCreateVolumeTextureFromResourceW  m_TFunc_D3DXCreateVolumeTextureFromResourceW;
+
+	TFunc_D3DXCreateVolumeTextureFromResourceExA  m_TFunc_D3DXCreateVolumeTextureFromResourceExA;
+	TFunc_D3DXCreateVolumeTextureFromResourceExW  m_TFunc_D3DXCreateVolumeTextureFromResourceExW;
+
+	TFunc_D3DXFillCubeTexture  m_TFunc_D3DXFillCubeTexture;
+	TFunc_D3DXFillCubeTextureTX  m_TFunc_D3DXFillCubeTextureTX;
+	TFunc_D3DXFillTexture  m_TFunc_D3DXFillTexture;
+	TFunc_D3DXFillTextureTX  m_TFunc_D3DXFillTextureTX;
+
+	TFunc_D3DXFillVolumeTexture  m_TFunc_D3DXFillVolumeTexture;
+	TFunc_D3DXFillVolumeTextureTX  m_TFunc_D3DXFillVolumeTextureTX;
+
+	TFunc_D3DXFilterTexture  m_TFunc_D3DXFilterTexture;
+
+
+	TFunc_D3DXGetImageInfoFromFileA m_TFunc_D3DXGetImageInfoFromFileA ;
+	TFunc_D3DXGetImageInfoFromFileW  m_TFunc_D3DXGetImageInfoFromFileW;
+
+	TFunc_D3DXGetImageInfoFromFileInMemory  m_TFunc_D3DXGetImageInfoFromFileInMemory;
+
+	TFunc_D3DXGetImageInfoFromResourceA  m_TFunc_D3DXGetImageInfoFromResourceA;
+	TFunc_D3DXGetImageInfoFromResourceW  m_TFunc_D3DXGetImageInfoFromResourceW;
+
+	TFunc_D3DXLoadSurfaceFromFileA  m_TFunc_D3DXLoadSurfaceFromFileA;
+	TFunc_D3DXLoadSurfaceFromFileW  m_TFunc_D3DXLoadSurfaceFromFileW;
+
+	TFunc_D3DXLoadSurfaceFromFileInMemory  m_TFunc_D3DXLoadSurfaceFromFileInMemory;
+
+	TFunc_D3DXLoadSurfaceFromMemory  m_TFunc_D3DXLoadSurfaceFromMemory;
+
+	TFunc_D3DXLoadSurfaceFromResourceA m_TFunc_D3DXLoadSurfaceFromResourceA ;
+	TFunc_D3DXLoadSurfaceFromResourceW m_TFunc_D3DXLoadSurfaceFromResourceW ;
+
+	TFunc_D3DXLoadSurfaceFromSurface  m_TFunc_D3DXLoadSurfaceFromSurface;
+
+	TFunc_D3DXLoadVolumeFromFileA  m_TFunc_D3DXLoadVolumeFromFileA;
+	TFunc_D3DXLoadVolumeFromFileW  m_TFunc_D3DXLoadVolumeFromFileW;
+
+	TFunc_D3DXLoadVolumeFromFileInMemory m_TFunc_D3DXLoadVolumeFromFileInMemory ;
+	TFunc_D3DXLoadVolumeFromMemory  m_TFunc_D3DXLoadVolumeFromMemory;
+
+	TFunc_D3DXLoadVolumeFromResourceA  m_TFunc_D3DXLoadVolumeFromResourceA;
+	TFunc_D3DXLoadVolumeFromResourceW  m_TFunc_D3DXLoadVolumeFromResourceW;
+
+	TFunc_D3DXLoadVolumeFromVolume  m_TFunc_D3DXLoadVolumeFromVolume;
+
+	TFunc_D3DXSaveSurfaceToFileA  m_TFunc_D3DXSaveSurfaceToFileA;
+	TFunc_D3DXSaveSurfaceToFileW  m_TFunc_D3DXSaveSurfaceToFileW;
+
+	TFunc_D3DXSaveSurfaceToFileInMemory m_TFunc_D3DXSaveSurfaceToFileInMemory ;
+
+	TFunc_D3DXSaveTextureToFileA  m_TFunc_D3DXSaveTextureToFileA;
+	TFunc_D3DXSaveTextureToFileW  m_TFunc_D3DXSaveTextureToFileW;
+
+	TFunc_D3DXSaveTextureToFileInMemory m_TFunc_D3DXSaveTextureToFileInMemory ;
+
+	TFunc_D3DXSaveVolumeToFileA  m_TFunc_D3DXSaveVolumeToFileA;
+	TFunc_D3DXSaveVolumeToFileW  m_TFunc_D3DXSaveVolumeToFileW;
+
+	TFunc_D3DXSaveVolumeToFileInMemory  m_TFunc_D3DXSaveVolumeToFileInMemory;
+
+
+
+
 
 
 		Functions()
