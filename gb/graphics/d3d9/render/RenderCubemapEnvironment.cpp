@@ -12,13 +12,15 @@
 
 #include <gb/graphics/d3d9/d3d9.h>
 
-#ifndef GB_MATH
-   #error  gb::math пока нужен.  Должен быть определён GB_MATH
-#else
-   #include <gb/math/math.h>
-#endif
+//#ifndef GB_MATH
+  // #error  gb::math пока нужен.  Должен быть определён GB_MATH
+//#else
+   #include <gb/fmath/fmath.h>
+//#endif
  
 #include <gb/base/Constants.h>
+
+using namespace gb::fmath;
 
 
 #pragma  warning(push)
@@ -414,7 +416,7 @@ namespace gb
 						// set const vertex shader
 						//
 
-						mat44_s mWorld (1.0f);
+						mat44 mWorld (1.0f);
 						if( (opt.yaw!=0.0f) || (opt.pitch!=0.0f) || (opt.roll!=0.0f) )
 						{
 							mWorld.setRotationYawPitchRoll( opt.yaw, opt.pitch, opt.roll );
@@ -441,7 +443,7 @@ namespace gb
 
 						if(transp)
 						{
-							mat44_s mInvViewTransp (matrix4x4_InverseView);
+							mat44 mInvViewTransp (matrix4x4_InverseView);
 							mInvViewTransp.transpone();
 							hr |= pd3device->SetVertexShaderConstantF(4, mInvViewTransp, 4 );
 						}
@@ -452,7 +454,7 @@ namespace gb
 
 						if( transp )
 						{
-							mat44_s mViewProjTransp (matrix4x4_ViewProj);
+							mat44 mViewProjTransp (matrix4x4_ViewProj);
 							mViewProjTransp.transpone();
 							hr |= pd3device->SetVertexShaderConstantF(8, mViewProjTransp, 4 );
 

@@ -4,12 +4,13 @@
 
 
   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
+
+  \todo сделать опционально зависимость от gb::fmath
+
 */
 
 #if ( defined(WIN32) && defined(GB_D3D9)  )
  
- 
-
 #pragma once
 #define __GB_D3D9_DEVICE_H__
 
@@ -21,10 +22,10 @@
 
 #include <stdexcept>
 
-#ifdef GB_MATH
-  #include <gb/math/math.h>
-  using namespace gb::math::base;
-  using namespace gb::math::geom3d;
+#ifdef __GB_FMATH_H__
+  // #include <gb/fmath/fmath.h>
+  using namespace gb::fmath;
+  using namespace gb::fmath::geom3d;
 #endif
 
 namespace gb 
@@ -46,7 +47,10 @@ namespace gb
 		  inline Device(const Device& device)      : dvc(device.dvc)  {}
 
           //! \brief "стрелочкой" получение указателя на устройство.
-		  inline IDirect3DDevice9* operator -> () const { return dvc; }
+		  inline IDirect3DDevice9* operator -> () const 
+		  { 
+			  return dvc; 
+		  }
  
 
  
@@ -71,14 +75,16 @@ inline HRESULT set_ZWriteEnable (bool val) { if(val) return dvc->SetRenderState(
 //! \brief   включить/выключить альфа-смешивание.
 inline HRESULT set_AlphaBlendeble(bool val) {if(val) return dvc->SetRenderState(D3DRS_ALPHABLENDENABLE,1); return dvc->SetRenderState(D3DRS_ALPHABLENDENABLE,0); };
 
-inline bool get_Zenable() const  {
+inline bool get_Zenable() const  
+{
 	DWORD val;
 	HRESULT hr = dvc->GetRenderState(D3DRS_ZENABLE, &val);
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	if(val) return true;   return false;
 }
 
-inline bool get_ZWriteEnable() const  {
+inline bool get_ZWriteEnable() const  
+{
 	DWORD val;
 	HRESULT hr = dvc->GetRenderState(D3DRS_ZWRITEENABLE, &val);
 	if FAILED(hr) throw std::runtime_error("Failed operation");
@@ -98,8 +104,6 @@ HRESULT setFillMode_SOLID()      { return dvc->SetRenderState(D3DRS_FILLMODE,  D
 
 
  
-
-
 //! \brief Включение альфасмешивания по стандартной схеме 
 inline HRESULT set_EnableStdAlphaBlending() 
 {
@@ -121,30 +125,31 @@ inline HRESULT get_CullMode() const {
 }
 
 
-#ifdef GB_MATH
+#ifdef __GB_FMATH_H__
 
-inline mat44_s getTransformWorld() const {
-	mat44_s res;
+inline mat44 getTransformWorld() const {
+	mat44 res;
 	HRESULT hr=dvc->GetTransform( D3DTS_WORLD , res );
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	return res;
 }
 
-inline mat44_s getTransformView() const {
-	mat44_s res;
+inline mat44 getTransformView() const {
+	mat44 res;
 	HRESULT hr=dvc->GetTransform( D3DTS_VIEW , res );
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	return res;
 }
 
-inline mat44_s getTransformProj() const {
-	mat44_s res;
+inline mat44 getTransformProj() const {
+	mat44 res;
 	HRESULT hr=dvc->GetTransform( D3DTS_PROJECTION , res );
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	return res;
 }
 
-#endif // GB_MATH
+#endif // #ifdef __GB_FMATH_H__
+
 
 /** \brief Установить в девайс трансформацию. В каждый параметр можно передать NULL если изменять не нужно. */
 inline HRESULT setTransform(const D3DMATRIX* mWorld, const D3DMATRIX* mView, const D3DMATRIX* mProj)
@@ -326,7 +331,7 @@ BOOL getVertexShaderConstBool(UINT nStartRegister) {
 	return res;
 }
 
-#ifdef GB_MATH
+#ifdef __GB_FMATH_H__
 
 vec4_s getVertexShaderConstVec4(UINT nStartRegister) {
 	vec4_s res;
@@ -335,21 +340,21 @@ vec4_s getVertexShaderConstVec4(UINT nStartRegister) {
 	return res;
 };
 
-mat44_s getVertexShaderConstMatrix4x4(UINT nStartRegister) {
-	mat44_s res;
+mat44 getVertexShaderConstMatrix4x4(UINT nStartRegister) {
+	mat44 res;
 	HRESULT hr = dvc->GetVertexShaderConstantF(nStartRegister , res,  4 );
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	return res;
 };
 
 
-HRESULT getVertexShaderConstMatrix4x4_arg(mat44_s* pmOut, UINT nStartRegister) {
+HRESULT getVertexShaderConstMatrix4x4_arg(mat44* pmOut, UINT nStartRegister) {
 	HRESULT hr = dvc->GetVertexShaderConstantF(nStartRegister , &pmOut->_11,  4 );
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	return  hr;
 };
 
-#endif // GB_MATH
+#endif // __GB_FMATH_H__
 
 
 

@@ -20,6 +20,7 @@
 
 #include <gb/Config.h>
 #include <gb/base/Types.h>
+#include <gb/base/Rectangle.h>
 
 #include <d3d9.h>
 
@@ -31,15 +32,18 @@
 #error gb::color пока нужен. Определить макрос GB_COLOR
 #endif
 
-#include <gb/base/Rectangle.h>
 
-#ifdef GB_MATH
-   #include <gb/math/math.h>
-#endif
 
-#ifndef GB_MATH
+//#ifdef GB_FMATH
+   #include <gb/fmath/fmath.h>
+//#endif
+
+/*
+#ifndef GB_FMATH
   #error  gb::math  пока нужен. Определить GB_MATH
 #endif
+*/
+
 
 // УБРАТЬ !!
 #define  __exc_mon __except(1)
@@ -146,7 +150,7 @@ DAPP_RT_API DAPLIB_RT_SetUnUsedAll();
 DAPP_RT_API DAPLIB_RT_ComputeAverSurfaceColor(
 			_out gb::color::Color4f* pOut, 
 			_inout_opt IDirect3DSurface9* surf,
-			_in_opt gb::math::geom2d::Rect* rect);
+			_in_opt gb::fmath::geom2d::Rect* rect);
 
 DAPP_RT_API DAPLIB_RT_ComputeSurfacePixelColor(_out gb::color::Color4f* pColorOut, _in POINT& pntCoord, _inout_opt IDirect3DSurface9* pSrf);
 
