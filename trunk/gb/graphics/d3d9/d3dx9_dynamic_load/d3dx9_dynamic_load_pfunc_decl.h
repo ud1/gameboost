@@ -1,5 +1,7 @@
-/** \file
- \brief Декларации типов точек входа в загруженную D3DX9  DLL
+п»ї/** \file
+ \brief Р”РµРєР»Р°СЂР°С†РёРё С‚РёРїРѕРІ С‚РѕС‡РµРє РІС…РѕРґР° РІ Р·Р°РіСЂСѓР¶РµРЅРЅСѓСЋ D3DX9  DLL
+
+
  \author ksacvet777
 */
 
@@ -28,7 +30,7 @@ namespace d3dx9_dynamic_load
 
  //------------------------------------------------------------------
 
-	//! \brief  Сборка - точки входа в D3DX9 dll .
+	//! \brief  РЎР±РѕСЂРєР° - С‚РѕС‡РєРё РІС…РѕРґР° РІ D3DX9 dll .
 	class Functions {
 	public:
  
@@ -611,7 +613,7 @@ namespace d3dx9_dynamic_load
 			);
 
 
-#pragma message("ks777:  d3dx dyn load:: хз  проверить описание строк на юникод/анси для TFunc_D3DXCompileShaderFromFile  "  __FILE__)
+#pragma message("ks777:  d3dx dyn load:: С…Р·  РїСЂРѕРІРµСЂРёС‚СЊ РѕРїРёСЃР°РЅРёРµ СЃС‚СЂРѕРє РЅР° СЋРЅРёРєРѕРґ/Р°РЅСЃРё РґР»СЏ TFunc_D3DXCompileShaderFromFile  "  __FILE__)
 
 		typedef HRESULT (__stdcall *TFunc_D3DXCompileShaderFromFileA)(
 			const CHAR* pSrcFile,
@@ -905,7 +907,7 @@ namespace d3dx9_dynamic_load
 			LPD3DXBUFFER * ppCompilationErrors
 			);
 
-#pragma message("ks777: d3dx9 dyn load:: проверить параметры строки на корректность !!   "  __FILE__ )
+#pragma message("ks777: d3dx9 dyn load:: РїСЂРѕРІРµСЂРёС‚СЊ РїР°СЂР°РјРµС‚СЂС‹ СЃС‚СЂРѕРєРё РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ !!   "  __FILE__ )
 
 		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromFileExA)(
 			LPDIRECT3DDEVICE9 pDevice,
@@ -933,7 +935,7 @@ namespace d3dx9_dynamic_load
 
  
 
-   #pragma message("ks777: d3dx9 dyn load:: проверить параметры строки на корректность !!   "  __FILE__ )
+   #pragma message("ks777: d3dx9 dyn load:: РїСЂРѕРІРµСЂРёС‚СЊ РїР°СЂР°РјРµС‚СЂС‹ СЃС‚СЂРѕРєРё РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ !!   "  __FILE__ )
 
 		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromResourceA)(
 			LPDIRECT3DDEVICE9 pDevice,
@@ -960,7 +962,7 @@ namespace d3dx9_dynamic_load
 			);
 
 
-    #pragma message("ks777: d3dx9 dyn load:: проверить параметры строки на корректность !!   "  __FILE__ )
+    #pragma message("ks777: d3dx9 dyn load:: РїСЂРѕРІРµСЂРёС‚СЊ РїР°СЂР°РјРµС‚СЂС‹ СЃС‚СЂРѕРєРё РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ !!   "  __FILE__ )
 
 		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffectFromResourceExA)(
 			LPDIRECT3DDEVICE9 pDevice,
@@ -1267,14 +1269,14 @@ namespace d3dx9_dynamic_load
 		}
 
 
-		//!  \brief   обработка - функция sFuncName  не найдена в длл
+		//!  \brief   РѕР±СЂР°Р±РѕС‚РєР° - С„СѓРЅРєС†РёСЏ sFuncName  РЅРµ РЅР°Р№РґРµРЅР° РІ РґР»Р»
 		void handleNotFoundAddr(const char* sFuncName)
 		{
 
 			int stop = 0;
 		}
 
-		//! \brief Найти все точки входа в длл
+		//! \brief РќР°Р№С‚Рё РІСЃРµ С‚РѕС‡РєРё РІС…РѕРґР° РІ РґР»Р»
 		int GetProcAddr(const HMODULE hm);
 
 
