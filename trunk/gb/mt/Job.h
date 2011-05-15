@@ -23,8 +23,9 @@ namespace gb
 		/** \brief Задача
 		 *
 		 * Представляет собой ссылку на функцию, которую нужно выполнить,
-		 * а так же стратегию выбора групп потоков.
-		 * Задача для выполнения принимает один агрумент типа Action
+		 * а так же стратегию выбора групп потоков (актуально только для DO_JOB).
+		 * Задача для выполнения принимает один агрумент типа Action.
+		 * Если аргумент принимает значение CANCEL_JOB, то поток может быть любым.
 		 */
 		struct JobTask
 		{
@@ -102,7 +103,7 @@ namespace gb
 			}
 
 			/** Пытается отменить задачу */
-			JobStatus cancel();
+			JobStatus tryCancel();
 
 			/**
 			 * Ожидание до тех пор пока задача не перейдет в состояние JOB_FINISHED
@@ -116,9 +117,9 @@ namespace gb
 			/**
 			 * Отмена и ожидание.
 			 */
-			JobStatus cancelAndWait()
+			JobStatus tryCancelAndWait()
 			{
-				cancel();
+				tryCancel();
 				return wait();
 			}
 			
@@ -134,7 +135,7 @@ namespace gb
 			Job();
 			~Job();
 			
-			JobStatus doJob(JobTask::Action s);
+			JobStatus doJob(JobTask::Action a);
 			void setJobTask(const JobTask &task)
 			{
 				job_task = task;
@@ -183,33 +184,6 @@ namespace gb
 			
 		private:
 			Job *real_job;
-		};
-
-		class JobContainer
-		{
-		public:
-			~JobContainer()
-			{
-				for (size_t i = 0; i < jobs.size(); ++i)
-				{
-					jobs[i]->release();
-				}
-			}
-
-			void add0(Job *job)
-			{
-				jobs.push_back(job);
-			}
-
-			void add(Job *job)
-			{
-				job->addRef();
-				add0(job);
-			}
-
-		private:
-			typedef std::vector<Job *> Jobs;
-			Jobs jobs;
 		};
 
 	} // namespace mt

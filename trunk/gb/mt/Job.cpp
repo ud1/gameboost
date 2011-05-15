@@ -23,10 +23,10 @@ namespace gb {
 
 		Job::~Job()
 		{
-			cancelAndWait();
+			tryCancelAndWait();
 		}
 
-		Job::JobStatus Job::cancel()
+		Job::JobStatus Job::tryCancel()
 		{
 			if (getJobOwnership(JobTask::CANCEL_JOB) &&
 				base::atomicCASInt((base::atomic_int_t *) &status, JOB_WAITING, JOB_CANCELING) == JOB_WAITING)
@@ -80,11 +80,11 @@ namespace gb {
 			wait_sem.post();
 		}
 
-		Job::JobStatus Job::doJob(JobTask::Action s)
+		Job::JobStatus Job::doJob(JobTask::Action a)
 		{
 			if (base::atomicCASInt((base::atomic_int_t *) &status, JOB_WAITING, JOB_RUNNING) == JOB_WAITING)
 			{
-				doJobImpl(JobTask::DO_JOB);
+				doJobImpl(a);
 			}
 			return getStatus();
 		}
