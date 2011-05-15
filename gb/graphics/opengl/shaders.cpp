@@ -7,8 +7,8 @@
 #include "shaders.h"
 
 #include <io.h>
-#include <сstdio>
-#include <сstdlib>
+#include <СЃstdio>
+#include <СЃstdlib>
 
 namespace gb {
 namespace graphics {
@@ -51,7 +51,7 @@ void ShaderProgram::off() {
 }
 
 
-// Подключение вершинного шейдера
+// РџРѕРґРєР»СЋС‡РµРЅРёРµ РІРµСЂС€РёРЅРЅРѕРіРѕ С€РµР№РґРµСЂР°
 void ShaderProgram::loadVertShader(const char * filename) {
     if (access(filename, 0)) return;
     const char * sh_code = LoadFromFile(filename);
@@ -72,7 +72,7 @@ void ShaderProgram::loadVertShader(const char * filename) {
 }
 
 
-// Подключение фрагментного шейдера
+// РџРѕРґРєР»СЋС‡РµРЅРёРµ С„СЂР°РіРјРµРЅС‚РЅРѕРіРѕ С€РµР№РґРµСЂР°
 void ShaderProgram::loadFragShader(const char * filename) {
     if (access(filename, 0)) return;
     const char * sh_code = LoadFromFile(filename);
@@ -94,17 +94,17 @@ void ShaderProgram::loadFragShader(const char * filename) {
 }
 
 
-// Проверка поддержки шейдеров
+// РџСЂРѕРІРµСЂРєР° РїРѕРґРґРµСЂР¶РєРё С€РµР№РґРµСЂРѕРІ
 bool ShaderProgram::GLSLcheck() {
     char *szGLExtensions = (char*) glGetString(GL_EXTENSIONS);
     if (!strstr(szGLExtensions, "GL_ARB_shader_objects ")) {
-        MessageBoxA(0, "Расширение для работы с шейдерами не поддерживается!", "Error", MB_OK);
+        MessageBoxA(0, "Р Р°СЃС€РёСЂРµРЅРёРµ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С€РµР№РґРµСЂР°РјРё РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ!", "Error", MB_OK);
         return false;
     }
     if (!glCreateProgramObjectARB || !glDeleteObjectARB || !glUseProgramObjectARB
             || !glCreateShaderObjectARB || !glCompileShaderARB
             || !glAttachObjectARB || !glLinkProgramARB || !glDetachObjectARB) {
-        MessageBoxA(0, "Одна или более функций для работы с шейдерами не поддерживается",
+        MessageBoxA(0, "РћРґРЅР° РёР»Рё Р±РѕР»РµРµ С„СѓРЅРєС†РёР№ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С€РµР№РґРµСЂР°РјРё РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ",
                 "ERROR", MB_OK | MB_ICONEXCLAMATION);
         return false;
     }
@@ -127,7 +127,7 @@ void ShaderProgram::setUniform1f (const char *uname, float v) {
 //###################################################################
 
 
-// Вывод лога компиляции
+// Р’С‹РІРѕРґ Р»РѕРіР° РєРѕРјРїРёР»СЏС†РёРё
 void ShaderProgram::printInfoLog(GLhandleARB obj, const char *title) {
     int len = 0, chWritten = 0;
     char *infoLog;
@@ -143,7 +143,7 @@ void ShaderProgram::printInfoLog(GLhandleARB obj, const char *title) {
 }
 
 
-// Загрузка кода шейдера из файла
+// Р—Р°РіСЂСѓР·РєР° РєРѕРґР° С€РµР№РґРµСЂР° РёР· С„Р°Р№Р»Р°
 char * ShaderProgram::LoadFromFile(const char *fn) {
     FILE *file;
     char *content = NULL;

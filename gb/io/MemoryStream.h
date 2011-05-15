@@ -10,10 +10,10 @@ namespace gb
     namespace io
     {
         /*
-         * Поток данных для чтения из памяти.
+         * РџРѕС‚РѕРє РґР°РЅРЅС‹С… РґР»СЏ С‡С‚РµРЅРёСЏ РёР· РїР°РјСЏС‚Рё.
          * 
-         * Особенности работы: параметр mode ф-ции create() - gb::io::eFileAccess;
-         * Его нельзя устанавливать, используя eFileAccess::TRUNCATE и eFileAccess::APPEND
+         * РћСЃРѕР±РµРЅРЅРѕСЃС‚Рё СЂР°Р±РѕС‚С‹: РїР°СЂР°РјРµС‚СЂ mode С„-С†РёРё create() - gb::io::eFileAccess;
+         * Р•РіРѕ РЅРµР»СЊР·СЏ СѓСЃС‚Р°РЅР°РІР»РёРІР°С‚СЊ, РёСЃРїРѕР»СЊР·СѓСЏ eFileAccess::TRUNCATE Рё eFileAccess::APPEND
          */
         typedef class MemoryStream : public IStream
         {

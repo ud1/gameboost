@@ -1,4 +1,4 @@
-// Пример использования  d3d9::draw
+// РџСЂРёРјРµСЂ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ  d3d9::draw
 //
  
 #include <ce/dxut_wonly/dxut_wonly.h>
@@ -69,7 +69,7 @@ void CALLBACK OnFrameMove( IDirect3DDevice9* pd3dDevice,
 
  
 
-//! Сохраняет и восстанавливает состояние девайса
+//! РЎРѕС…СЂР°РЅСЏРµС‚ Рё РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РґРµРІР°Р№СЃР°
 class VGSaveRestoreDataD3D9 {
 public:
 

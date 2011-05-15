@@ -1,12 +1,12 @@
 /** \file
- \brief  Вектор 2-х, 3-х, 4-х мерный.  
+ \brief  Р’РµРєС‚РѕСЂ 2-С…, 3-С…, 4-С… РјРµСЂРЅС‹Р№.  
 
 */ 
 
 #pragma once
 
 #ifndef __GB_FMATH_H__
-  #error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ. ВКЛЮЧАЙТЕ:   #include <gb/fmath/math.h>  
+  #error РќР• Р’РљР›Р®Р§РђР™РўР• Р­РўРћРў Р¤РђР™Р›. Р’РљР›Р®Р§РђР™РўР•:   #include <gb/fmath/math.h>  
 #endif
 
 namespace gb 
@@ -16,7 +16,7 @@ namespace gb
  {
 
  
-		/** \brief Базовый 2d-вектор.  Поправить операторы по эпислону */
+		/** \brief Р‘Р°Р·РѕРІС‹Р№ 2d-РІРµРєС‚РѕСЂ.  РџРѕРїСЂР°РІРёС‚СЊ РѕРїРµСЂР°С‚РѕСЂС‹ РїРѕ СЌРїРёСЃР»РѕРЅСѓ */
 		struct vec2 {
 
 			union {
@@ -38,7 +38,7 @@ namespace gb
 
 				inline vec2(const float* pfArray) { *this = pfArray; }
 
-				//! \brief Присваивание из float-массива 
+				//! \brief РџСЂРёСЃРІР°РёРІР°РЅРёРµ РёР· float-РјР°СЃСЃРёРІР° 
 				inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; }
 
 				inline bool  operator == (const vec2 & v) const {	return (x == v.x && y == v.y  ); }
@@ -123,7 +123,7 @@ namespace gb
 
 				inline vec2&   normalize() 
 				{ 
-					if( (0.0f==x) && (0.0f==y) ) // < без этого глючит. nan
+					if( (0.0f==x) && (0.0f==y) ) // < Р±РµР· СЌС‚РѕРіРѕ РіР»СЋС‡РёС‚. nan
 						return *this; 
 					register float fl=length(); 
 					x/=fl; 
@@ -131,7 +131,7 @@ namespace gb
 					return *this; 
 				}
 
-				//! \brief  Вернуть нормализованый
+				//! \brief  Р’РµСЂРЅСѓС‚СЊ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅС‹Р№
 				inline vec2 normalized() const 
 				{
 				 vec2 res(*this);
@@ -142,11 +142,11 @@ namespace gb
 				inline float  dot(const vec2& v) const { return x*v.x + y*v.y; }
 
  
-				//! \brief Returns the z-component by taking the cross product of two 2D vectors.  ПРОВЕРЕНА!  
+				//! \brief Returns the z-component by taking the cross product of two 2D vectors.  РџР РћР’Р•Р Р•РќРђ!  
 				float ccw(const vec2& v) const ;
 
 
-				//! \brief  Инвертировать (поменять знаки компонентов).
+				//! \brief  РРЅРІРµСЂС‚РёСЂРѕРІР°С‚СЊ (РїРѕРјРµРЅСЏС‚СЊ Р·РЅР°РєРё РєРѕРјРїРѕРЅРµРЅС‚РѕРІ).
 				inline vec2& inverse() 
 				{ 
 					x=-x; 
@@ -154,7 +154,7 @@ namespace gb
 					return *this; 
 				}
 
-				//! \brief Вернуть вектор, с противоположными знаками
+				//! \brief Р’РµСЂРЅСѓС‚СЊ РІРµРєС‚РѕСЂ, СЃ РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅС‹РјРё Р·РЅР°РєР°РјРё
 				inline vec2  inverted() const 
 				{
 					return vec2 ( -x, -y ); 
@@ -175,12 +175,12 @@ namespace gb
 
 				
 
-				//! \brief  Получить минимальную компоненту   
+				//! \brief  РџРѕР»СѓС‡РёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ   
 				inline float minVal() const { if(x<y) return x;   return y; }
-				//! \brief  Получить Максимальную компоненту   
+				//! \brief  РџРѕР»СѓС‡РёС‚СЊ РњР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ   
 				inline float maxVal() const { if(x>y) return x;   return y; }
 
-				//! \brief  Сравнить два вектора v1 и v2 и присвоить минимальный 
+				//! \brief  РЎСЂР°РІРЅРёС‚СЊ РґРІР° РІРµРєС‚РѕСЂР° v1 Рё v2 Рё РїСЂРёСЃРІРѕРёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ 
 				inline vec2& minimize(const vec2& v1, const vec2& v2) 
 				{
 					if (v1.x < v2.x) x = v1.x; else  x = v2.x;
@@ -188,7 +188,7 @@ namespace gb
 					return *this;
 				}
 
-				//! \brief  Сравнить вектор v и собственное значение и присвоить минимальный  
+				//! \brief  РЎСЂР°РІРЅРёС‚СЊ РІРµРєС‚РѕСЂ v Рё СЃРѕР±СЃС‚РІРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё РїСЂРёСЃРІРѕРёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№  
 				inline vec2& minimize(const vec2& v) 
 				{
 					if (v.x < x) x = v.x;
@@ -196,7 +196,7 @@ namespace gb
 					return *this;
 				}
 
-				//! \brief  Сравнить два вектора v1 и v2 и присвоить максимальный  
+				//! \brief  РЎСЂР°РІРЅРёС‚СЊ РґРІР° РІРµРєС‚РѕСЂР° v1 Рё v2 Рё РїСЂРёСЃРІРѕРёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№  
 				inline vec2& maximize(const vec2& v1, const vec2& v2) 
 				{
 					if (v1.x > v2.x) x = v1.x; else  x = v2.x;
@@ -204,7 +204,7 @@ namespace gb
 					return *this;
 				}
 
-				//! \brief  Сравнить вектор v и собственное значение и присвоить максимальный 
+				//! \brief  РЎСЂР°РІРЅРёС‚СЊ РІРµРєС‚РѕСЂ v Рё СЃРѕР±СЃС‚РІРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё РїСЂРёСЃРІРѕРёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ 
 				inline vec2& maximize(const vec2& v) 
 				{
 					if (v.x > x) x = v.x;
@@ -212,32 +212,32 @@ namespace gb
 					return *this;
 				}
 
-				//! \brief Вернуть минимальный вектор между this и v
+				//! \brief Р’РµСЂРЅСѓС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ РјРµР¶РґСѓ this Рё v
 				inline vec2 minimized(const vec2& v) const { vec2 r; r.minimize(*this, v); return r; };
-				//! \brief Вернуть максимальный вектор между this и v
+				//! \brief Р’РµСЂРЅСѓС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ РјРµР¶РґСѓ this Рё v
 				inline vec2 maximized(const vec2& v) const { vec2 r; r.maximize(*this, v); return r; };
 
 
-				//! \brief  вычислить мин. абсолютное значение компонент. 
+				//! \brief  РІС‹С‡РёСЃР»РёС‚СЊ РјРёРЅ. Р°Р±СЃРѕР»СЋС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚. 
 				inline float minAbsVal() const { float ax=abs(x); float ay=abs(y); float res=ax; if(ay<res) res=ay; return res; }
-				//! \brief  вычислить макс. абсолютное значение компонент 
+				//! \brief  РІС‹С‡РёСЃР»РёС‚СЊ РјР°РєСЃ. Р°Р±СЃРѕР»СЋС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚ 
 				inline float maxAbsVal() const { float ax=abs(x); float ay=abs(y); float res=ax;  if(ay>res) res=ay; return res; }
 
 
-				//! \brief  вычисление миним, компоненты 
+				//! \brief  РІС‹С‡РёСЃР»РµРЅРёРµ РјРёРЅРёРј, РєРѕРјРїРѕРЅРµРЅС‚С‹ 
 				inline float minval() const { if(x<y) return x; return y;	}
-				//! \brief  вычисление. макс компоненты 
+				//! \brief  РІС‹С‡РёСЃР»РµРЅРёРµ. РјР°РєСЃ РєРѕРјРїРѕРЅРµРЅС‚С‹ 
 				inline float maxval() const { if(x>y) return x; return y;	}
 
 
-				//! \brief  Отсечение значений в пределах vmin и vmax
+				//! \brief  РћС‚СЃРµС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РІ РїСЂРµРґРµР»Р°С… vmin Рё vmax
 				inline void clump(const vec2& vmin, const vec2& vmax) 
 				{
 					if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
 					if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
 				}
 
-			//! \brief Вернуть среднюю точку между this и point
+			//! \brief Р’РµСЂРЅСѓС‚СЊ СЃСЂРµРґРЅСЋСЋ С‚РѕС‡РєСѓ РјРµР¶РґСѓ this Рё point
 			inline vec2 middle(const vec2& point) const 
 			{
 			    vec2 res;
@@ -247,11 +247,11 @@ namespace gb
 			}
 
 
-				//!  \brief   Вернёт true если все компоненты положительные.
+				//!  \brief   Р’РµСЂРЅС‘С‚ true РµСЃР»Рё РІСЃРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рµ.
 				inline bool isPositive() const {  return ( (x>=0.0f) && (y>=0.0f) );  }
 
 
-				//! \brief     Вывод значений на консоль.
+				//! \brief     Р’С‹РІРѕРґ Р·РЅР°С‡РµРЅРёР№ РЅР° РєРѕРЅСЃРѕР»СЊ.
 				inline void print() const { printf(" %f %f ", x, y); }
 
 
@@ -260,7 +260,7 @@ namespace gb
 
 
 
-		/** \brief Базовый 3d-вектор.  Поправить операторы по эпислону */		
+		/** \brief Р‘Р°Р·РѕРІС‹Р№ 3d-РІРµРєС‚РѕСЂ.  РџРѕРїСЂР°РІРёС‚СЊ РѕРїРµСЂР°С‚РѕСЂС‹ РїРѕ СЌРїРёСЃР»РѕРЅСѓ */		
 		struct vec3  {
 
 		    union {
@@ -286,7 +286,7 @@ namespace gb
 
 			//inline vec3(vec4);
 
-			//! \brief Присваивание из float-массива 
+			//! \brief РџСЂРёСЃРІР°РёРІР°РЅРёРµ РёР· float-РјР°СЃСЃРёРІР° 
 			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; }
 				 
 			inline bool  operator == (const vec3 &v) const { return (x == v.x && y == v.y && z == v.z ); }
@@ -378,10 +378,10 @@ namespace gb
 					return r;		 
 			}
 
-			//! \brief  Нормализовать 
+			//! \brief  РќРѕСЂРјР°Р»РёР·РѕРІР°С‚СЊ 
 			inline vec3&   normalize ()	  
 			{ 
-				if( (0.0f==x) && (0.0f==y) && (0.0f==z) ) // < без этого глючит. nan
+				if( (0.0f==x) && (0.0f==y) && (0.0f==z) ) // < Р±РµР· СЌС‚РѕРіРѕ РіР»СЋС‡РёС‚. nan
 					   return *this; 
 
 				register float fl=length(); 
@@ -391,16 +391,16 @@ namespace gb
 				return *this; 
 			}
 
-			//! \brief  Вернуть нормализованый
+			//! \brief  Р’РµСЂРЅСѓС‚СЊ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅС‹Р№
 			inline vec3    normalized() const { vec3 r=*this; r.normalize(); return r; }
 
-			//! \brief  Вычислить и вернуть расстояние между точками  this и point.
+			//! \brief  Р’С‹С‡РёСЃР»РёС‚СЊ Рё РІРµСЂРЅСѓС‚СЊ СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ С‚РѕС‡РєР°РјРё  this Рё point.
 			inline float distance(const vec3& point)   const { return  sqrt( distanceSq(point) );  }
-			//! \brief  Вычислить и вернуть квадрат расстояния между точками  this и point.
+			//! \brief  Р’С‹С‡РёСЃР»РёС‚СЊ Рё РІРµСЂРЅСѓС‚СЊ РєРІР°РґСЂР°С‚ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РјРµР¶РґСѓ С‚РѕС‡РєР°РјРё  this Рё point.
 			inline float distanceSq(const vec3& point) const { return vec3(*this-point).lengthSq() ;  }
  
 
-			//! \brief Получить наибольшее абсолютное из каждой компоненты
+			//! \brief РџРѕР»СѓС‡РёС‚СЊ РЅР°РёР±РѕР»СЊС€РµРµ Р°Р±СЃРѕР»СЋС‚РЅРѕРµ РёР· РєР°Р¶РґРѕР№ РєРѕРјРїРѕРЅРµРЅС‚С‹
 			inline float     getMaxLength () const {   return scalar::max3 ( fabs (x), fabs (y), fabs (z) );   }
 
 			inline vec3&   invert() {x=-x; y=-y; z=-z; return *this; };
@@ -414,7 +414,7 @@ namespace gb
 				return r;			
 			};
 
-			//! \brief     получить минимальную компоненту
+			//! \brief     РїРѕР»СѓС‡РёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ
 			inline float minval() const   
 			{ 
 				float ret = x;
@@ -423,7 +423,7 @@ namespace gb
 				return ret;
 			};
 
-			//! \brief     получить максимальную компоненту
+			//! \brief     РїРѕР»СѓС‡РёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ
 			inline float maxval()  const
 			{  
 				float ret = x;
@@ -434,7 +434,7 @@ namespace gb
 
 
 
-			//* \brief   вычисл. мин. абсолютное из компонент.
+			//* \brief   РІС‹С‡РёСЃР». РјРёРЅ. Р°Р±СЃРѕР»СЋС‚РЅРѕРµ РёР· РєРѕРјРїРѕРЅРµРЅС‚.
 			inline float minAbsVal() const 
 			{
 				float ax=abs(x);
@@ -446,7 +446,7 @@ namespace gb
 				return res;
 			}
 
-			//* \brief   вычисл. макс. абсолютное из компонент.
+			//* \brief   РІС‹С‡РёСЃР». РјР°РєСЃ. Р°Р±СЃРѕР»СЋС‚РЅРѕРµ РёР· РєРѕРјРїРѕРЅРµРЅС‚.
 			inline float maxAbsVal() const
 			{
 				float ax=abs(x);
@@ -460,7 +460,7 @@ namespace gb
 
 
 
-			//! \brief  Сравнить два вектора v1 и v2 и присвоить максимальный 
+			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РґРІР° РІРµРєС‚РѕСЂР° v1 Рё v2 Рё РїСЂРёСЃРІРѕРёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ 
 			vec3& maximize(const vec3& v1, const vec3& v2) 
 			{
 				if (v1.x > v2.x) x = v1.x; else x = v2.x;
@@ -469,7 +469,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief  Сравнить вектор v и собственное значение и присвоить максимальный
+			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РІРµРєС‚РѕСЂ v Рё СЃРѕР±СЃС‚РІРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё РїСЂРёСЃРІРѕРёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№
 			vec3& maximize(const vec3& v)
 			{
 				if (v.x > x) x = v.x; 
@@ -478,7 +478,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief  Сравнить два вектора v1 и v2 и присвоить минимальный 
+			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РґРІР° РІРµРєС‚РѕСЂР° v1 Рё v2 Рё РїСЂРёСЃРІРѕРёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ 
 			vec3& minimize(const vec3& v1, const vec3& v2) 
 			{
 				if (v1.x < v2.x) x = v1.x; else x = v2.x;
@@ -487,7 +487,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief  Сравнить вектор v и собственное значение и присвоить минимальный  
+			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РІРµРєС‚РѕСЂ v Рё СЃРѕР±СЃС‚РІРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё РїСЂРёСЃРІРѕРёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№  
 			vec3& minimize(const vec3& v) 
 			{
 				if (v.x < x) x = v.x;
@@ -496,14 +496,14 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief Вернуть минимальный вектор между this и v
+			//! \brief Р’РµСЂРЅСѓС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ РјРµР¶РґСѓ this Рё v
 			inline vec3 minimized(const vec3& v) const { vec3 r; r.minimize(*this, v); return r; };
-			//! \brief Вернуть максимальный вектор между this и v
+			//! \brief Р’РµСЂРЅСѓС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ РјРµР¶РґСѓ this Рё v
 			inline vec3 maximized(const vec3& v) const { vec3 r; r.maximize(*this, v); return r; };
 
 
 
-			//! \brief  отсеч значения в диапазоне между vmin и vmax
+			//! \brief  РѕС‚СЃРµС‡ Р·РЅР°С‡РµРЅРёСЏ РІ РґРёР°РїР°Р·РѕРЅРµ РјРµР¶РґСѓ vmin Рё vmax
 			inline vec3& clump(const vec3& vmin, const vec3& vmax) 
 			{
 				if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
@@ -512,7 +512,7 @@ namespace gb
 				  return *this;
 			}
 
-			//! \brief Вернуть среднюю точку между this и point
+			//! \brief Р’РµСЂРЅСѓС‚СЊ СЃСЂРµРґРЅСЋСЋ С‚РѕС‡РєСѓ РјРµР¶РґСѓ this Рё point
 			inline vec3 middle(const vec3& point) const 
 			{
 			    vec3 res;
@@ -522,12 +522,12 @@ namespace gb
 			         return res;
 			}
 
-			//! \brief  Вернёт true если все компоненты положительные.
+			//! \brief  Р’РµСЂРЅС‘С‚ true РµСЃР»Рё РІСЃРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рµ.
 			inline bool isPositive() const {  return ( (x>=0.0f) && (y>=0.0f) && (z>=0.0f) );	}
 
-			//! \brief Тарнсформировать по матрице m   как координату. ПРОВЕРЕНО!
+			//! \brief РўР°СЂРЅСЃС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РїРѕ РјР°С‚СЂРёС†Рµ m   РєР°Рє РєРѕРѕСЂРґРёРЅР°С‚Сѓ. РџР РћР’Р•Р Р•РќРћ!
 			vec3&  transformCoord(const mat44& m);
-			//! \brief Тарнсформировать по матрице m   как нормаль. ПРОВЕРЕНО!
+			//! \brief РўР°СЂРЅСЃС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РїРѕ РјР°С‚СЂРёС†Рµ m   РєР°Рє РЅРѕСЂРјР°Р»СЊ. РџР РћР’Р•Р Р•РќРћ!
 			vec3&  transformNormal(const mat44& m);
 				
 			 // TODO: 
@@ -535,24 +535,24 @@ namespace gb
 			    // void transformNormalArray(float* pfOut, int strideOut, const float* pvInput, int strideInput,  const M44& m, const int num) {...} 
 
 
-			/** \brief  Проекция вектора из виртуального "зазеркалья" на экран. 
-			     Возвращает спроектированый экранный вектор. ПРОВЕРЕНА!	*/
+			/** \brief  РџСЂРѕРµРєС†РёСЏ РІРµРєС‚РѕСЂР° РёР· РІРёСЂС‚СѓР°Р»СЊРЅРѕРіРѕ "Р·Р°Р·РµСЂРєР°Р»СЊСЏ" РЅР° СЌРєСЂР°РЅ. 
+			     Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРїСЂРѕРµРєС‚РёСЂРѕРІР°РЅС‹Р№ СЌРєСЂР°РЅРЅС‹Р№ РІРµРєС‚РѕСЂ. РџР РћР’Р•Р Р•РќРђ!	*/
 			vec3 project ( 
-				const proj::ViewportZ& vp,   //<  область вывода
-				const  mat44& Proj, //<	матрица проекции
-				const  mat44& View, //<	матрица вида
-				const  mat44& World //<	матрица модельная
+				const proj::ViewportZ& vp,   //<  РѕР±Р»Р°СЃС‚СЊ РІС‹РІРѕРґР°
+				const  mat44& Proj, //<	РјР°С‚СЂРёС†Р° РїСЂРѕРµРєС†РёРё
+				const  mat44& View, //<	РјР°С‚СЂРёС†Р° РІРёРґР°
+				const  mat44& World //<	РјР°С‚СЂРёС†Р° РјРѕРґРµР»СЊРЅР°СЏ
 				)  const; 
 
 
 
-			/** \brief Анпроекция. Перевод из экранных координат в пространственые координаты 
-			Возвращает переведённый вектор . ПРОВЕРЕНА! */
+			/** \brief РђРЅРїСЂРѕРµРєС†РёСЏ. РџРµСЂРµРІРѕРґ РёР· СЌРєСЂР°РЅРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚ РІ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРµРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ 
+			Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРµСЂРµРІРµРґС‘РЅРЅС‹Р№ РІРµРєС‚РѕСЂ . РџР РћР’Р•Р Р•РќРђ! */
 			vec3  unproject( 
-				const proj::ViewportZ& vp,    //<  область вывода
-				const  mat44& Proj,	//<	матрица проекции
-				const  mat44& View,	//<	матрица вида
-				const  mat44& World	//<	матрица модельная
+				const proj::ViewportZ& vp,    //<  РѕР±Р»Р°СЃС‚СЊ РІС‹РІРѕРґР°
+				const  mat44& Proj,	//<	РјР°С‚СЂРёС†Р° РїСЂРѕРµРєС†РёРё
+				const  mat44& View,	//<	РјР°С‚СЂРёС†Р° РІРёРґР°
+				const  mat44& World	//<	РјР°С‚СЂРёС†Р° РјРѕРґРµР»СЊРЅР°СЏ
 				) const	;
 
 
@@ -573,7 +573,7 @@ namespace gb
 			}
 
 
-			//! \brief Вывод значений на консоль
+			//! \brief Р’С‹РІРѕРґ Р·РЅР°С‡РµРЅРёР№ РЅР° РєРѕРЅСЃРѕР»СЊ
 			inline void print() const 
 			{ 
 				printf("%f  %f  %f ", x, y, z); 
@@ -582,7 +582,7 @@ namespace gb
 		}; // end vec3
 		
 
-		/** \brief Базовый 4d-вектор. Поправить операторы по эпислону   */		
+		/** \brief Р‘Р°Р·РѕРІС‹Р№ 4d-РІРµРєС‚РѕСЂ. РџРѕРїСЂР°РІРёС‚СЊ РѕРїРµСЂР°С‚РѕСЂС‹ РїРѕ СЌРїРёСЃР»РѕРЅСѓ   */		
 		struct vec4  {
 
 		    union {
@@ -606,7 +606,7 @@ namespace gb
 			inline vec4(float _x, float _y, float _z, float _w)   { x=_x;   y=_y; z=_z; w=_w;  }
 			inline vec4(int   _x, int   _y, int   _z, int   _w)   { x=(float)_x;   y=(float)_y;  z=(float)_z; w=(float)_w;}
 
-			//! \brief Присваивание из float-массива 
+			//! \brief РџСЂРёСЃРІР°РёРІР°РЅРёРµ РёР· float-РјР°СЃСЃРёРІР° 
 			inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; z=pf[2]; w=pf[3]; }
  
 					 
@@ -655,30 +655,30 @@ namespace gb
 		   	inline void operator = (const D3DXVECTOR4& v) {	x=v.x; y=v.y; z=v.z; w=v.w; }	
 #endif					
 			
-			//! \brief Обнулить все компоненты
+			//! \brief РћР±РЅСѓР»РёС‚СЊ РІСЃРµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 		    inline void setzero() {x=y=z=w=0.0f; }
-			//! проверить равны ли все компоненты нулю
+			//! РїСЂРѕРІРµСЂРёС‚СЊ СЂР°РІРЅС‹ Р»Рё РІСЃРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РЅСѓР»СЋ
 			inline bool empty() const { return ( (x==0.0f) && (y==0.0f) && (z==0.0f) && (w==0.0f) ); }
 
 			inline vec4& set    (float _x, float _y, float _z, float _w) { x=_x; y=_y; z=_z; w=_w; return *this; }
  
-			//! \brief  Все ли компоненты нулевые по эпсилону.
+			//! \brief  Р’СЃРµ Р»Рё РєРѕРјРїРѕРЅРµРЅС‚С‹ РЅСѓР»РµРІС‹Рµ РїРѕ СЌРїСЃРёР»РѕРЅСѓ.
 			inline bool isZero(float epsilon) const
 			{
 				return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon ) && ( abs( z ) <= epsilon ) && ( abs( y ) <= epsilon );
 			}
 
-			//! \brief  получить длинну
+			//! \brief  РїРѕР»СѓС‡РёС‚СЊ РґР»РёРЅРЅСѓ
 			inline float length () const {	return (float)sqrt( x*x + y*y + z*z + w*w );	}
-			//! \brief  получить квадрат длинны
+			//! \brief  РїРѕР»СѓС‡РёС‚СЊ РєРІР°РґСЂР°С‚ РґР»РёРЅРЅС‹
 			inline float lengthSq() const {	 return (x*x + y*y + z*z + w*w);  }
 
-			//! \brief   Вернуть скалярное произведение с вектором v
+			//! \brief   Р’РµСЂРЅСѓС‚СЊ СЃРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ СЃ РІРµРєС‚РѕСЂРѕРј v
 			inline float   dot (const vec4& v) const { return x*v.x + y*v.y + z*v.z + w*v.w; }
 
 			
 #pragma message ("KS777: MATH::VEC4 >> NEED CHECK CROSS METHOD !!!"  __FILE__)
-			//! \brief Получить векторное (перекрестное)  произведение с вектором v.
+			//! \brief РџРѕР»СѓС‡РёС‚СЊ РІРµРєС‚РѕСЂРЅРѕРµ (РїРµСЂРµРєСЂРµСЃС‚РЅРѕРµ)  РїСЂРѕРёР·РІРµРґРµРЅРёРµ СЃ РІРµРєС‚РѕСЂРѕРј v.
 			inline vec4  cross ( const vec4 & v) const
 			{
 				  vec4 r;
@@ -690,7 +690,7 @@ namespace gb
 			}
 
 
-			// НЕПРАВИЛЬНО !!!!
+			// РќР•РџР РђР’РР›Р¬РќРћ !!!!
 			void cross( const vec4& U, const vec4& V, const vec4& W )   
 			{
 				assert(false && "bad code !");
@@ -712,9 +712,9 @@ namespace gb
 				*this = Out;
 			}
 
-			//! \brief  Инвертировать.
+			//! \brief  РРЅРІРµСЂС‚РёСЂРѕРІР°С‚СЊ.
 			inline vec4&   invert() {  x=-x; y=-y; z=-z; w=-w; return *this; };
-			//! \brief  Вернуть инвертированый.
+			//! \brief  Р’РµСЂРЅСѓС‚СЊ РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅС‹Р№.
 			inline vec4    inverted() const 
 			{
 				vec4 res = *this;
@@ -722,7 +722,7 @@ namespace gb
 				return res;
 			}
 
-			//! \brief  Вернуть вектор по линейной интерполяции между this и v  по коэффициенту k
+			//! \brief  Р’РµСЂРЅСѓС‚СЊ РІРµРєС‚РѕСЂ РїРѕ Р»РёРЅРµР№РЅРѕР№ РёРЅС‚РµСЂРїРѕР»СЏС†РёРё РјРµР¶РґСѓ this Рё v  РїРѕ РєРѕСЌС„С„РёС†РёРµРЅС‚Сѓ k
 			inline vec4    lerp(const vec4& v, const float k) 
 			{
 				vec4 r;
@@ -735,7 +735,7 @@ namespace gb
 
 
 
-	//! \brief  Получить минимальную компоненту.
+	//! \brief  РџРѕР»СѓС‡РёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ.
 	inline float minval() const 
 	{ 	  
 	   float res = x;
@@ -745,7 +745,7 @@ namespace gb
 	      return res;
 	};
 
-	//! \brief Получить максимальную компоненту.
+	//! \brief РџРѕР»СѓС‡РёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ.
 	inline float maxval() const
 	{   
 	   float res = x;
@@ -755,7 +755,7 @@ namespace gb
 	       return res;
 	};	
  
-	/** \brief  вычисл. минимальной абсолютной компоненты.  */
+	/** \brief  РІС‹С‡РёСЃР». РјРёРЅРёРјР°Р»СЊРЅРѕР№ Р°Р±СЃРѕР»СЋС‚РЅРѕР№ РєРѕРјРїРѕРЅРµРЅС‚С‹.  */
 	inline float minAbsVal() const 
 	{ 
 		float ax=abs(x); 
@@ -769,7 +769,7 @@ namespace gb
 			  return res; 
 	}
 
-	/** \brief  вычисл. максимальной абсолютной компоненты.  */
+	/** \brief  РІС‹С‡РёСЃР». РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ Р°Р±СЃРѕР»СЋС‚РЅРѕР№ РєРѕРјРїРѕРЅРµРЅС‚С‹.  */
 	inline float maxAbsVal() const 
 	{ 
 		float ax=abs(x); 
@@ -784,7 +784,7 @@ namespace gb
 	}
 
 
-	//! \brief Выполнить отсечение значений в диапазоне между vmin и vmax
+	//! \brief Р’С‹РїРѕР»РЅРёС‚СЊ РѕС‚СЃРµС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РІ РґРёР°РїР°Р·РѕРЅРµ РјРµР¶РґСѓ vmin Рё vmax
 	inline void clump(const vec4& vmin, const vec4& vmax) 
 	{
 		if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
@@ -810,7 +810,7 @@ namespace gb
 
 
 
-	//! \brief Вывод значений на консоль
+	//! \brief Р’С‹РІРѕРґ Р·РЅР°С‡РµРЅРёР№ РЅР° РєРѕРЅСЃРѕР»СЊ
 	inline void print() const { printf(" %f  %f  %f  %f ", x, y, z, w); };
 
 		}; 

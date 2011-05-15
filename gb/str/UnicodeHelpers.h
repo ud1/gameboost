@@ -5,7 +5,7 @@
 #include <string>
 #include <algorithm>
 
-#error ks777:   нет такого файла  даже в деплиб. Просьба поправить.
+#error ks777:   РЅРµС‚ С‚Р°РєРѕРіРѕ С„Р°Р№Р»Р°  РґР°Р¶Рµ РІ РґРµРїР»РёР±. РџСЂРѕСЃСЊР±Р° РїРѕРїСЂР°РІРёС‚СЊ.
 #include <gb/deplib/utfcpp.sourceforge.net/utfcpp/utf8.h>
 
 namespace gb

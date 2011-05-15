@@ -5,7 +5,7 @@
 #include <gb/fs/Helpers.h>
 #include <gb/base/Logger.h>
 
-#pragma message("ks777:   можно было бы и указать что это за хрень  " __FILE__)
+#pragma message("ks777:   РјРѕР¶РЅРѕ Р±С‹Р»Рѕ Р±С‹ Рё СѓРєР°Р·Р°С‚СЊ С‡С‚Рѕ СЌС‚Рѕ Р·Р° С…СЂРµРЅСЊ  " __FILE__)
 #include <ft2build.h>
 
 

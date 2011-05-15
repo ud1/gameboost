@@ -61,16 +61,16 @@ namespace appl
  
 #define PRINT_D9R_FUNC printf("%s\n", __FUNCTION__);
 
-//* класс окна приложения
+//* РєР»Р°СЃСЃ РѕРєРЅР° РїСЂРёР»РѕР¶РµРЅРёСЏ
 static const WCHAR*  CWSTR_WINDOW_CLASSNAME  =  L"D3D Application";
 
-// позволить "быть" пример-сценке.
+// РїРѕР·РІРѕР»РёС‚СЊ "Р±С‹С‚СЊ" РїСЂРёРјРµСЂ-СЃС†РµРЅРєРµ.
 #define ENABLE_SAMPLE_SCENE
 
 #ifdef ENABLE_SAMPLE_SCENE
 
-ID3DXMesh* g_pTempMesh = NULL ; ///< времянка
-IDirect3DTexture9* g_pTempTexture = NULL; ///< времянка
+ID3DXMesh* g_pTempMesh = NULL ; ///< РІСЂРµРјСЏРЅРєР°
+IDirect3DTexture9* g_pTempTexture = NULL; ///< РІСЂРµРјСЏРЅРєР°
 
 #endif
 
@@ -525,7 +525,7 @@ static HRESULT __CPPI_CreateInternalTexture(IDirect3DTexture9 ** ppOut,  IDirect
 
 
 //=========================================================================
-//* временная  - создание вспомогательной сети (для отладки)
+//* РІСЂРµРјРµРЅРЅР°СЏ  - СЃРѕР·РґР°РЅРёРµ РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅРѕР№ СЃРµС‚Рё (РґР»СЏ РѕС‚Р»Р°РґРєРё)
 static HRESULT __CPPI_CreateInternalMesh(ID3DXMesh** ppOut,  IDirect3DDevice9* pdevice)
 {
 	HRESULT hr =0;
@@ -1090,7 +1090,7 @@ HRESULT ApplD3D9::init(const APPL_D3D9_INIT_DATA* pInitData)
 
 	if(m_initdata.bWindowed == FALSE)
 	{
-		MessageBoxA(NULL, "Полноэкранный режим пока отключён", "ApplD3D9", 
+		MessageBoxA(NULL, "РџРѕР»РЅРѕСЌРєСЂР°РЅРЅС‹Р№ СЂРµР¶РёРј РїРѕРєР° РѕС‚РєР»СЋС‡С‘РЅ", "ApplD3D9", 
 			MB_OK | MB_ICONINFORMATION | MB_TASKMODAL | MB_TOPMOST );
 		m_initdata.bWindowed = TRUE;
 	}
@@ -1321,7 +1321,7 @@ HRESULT ApplD3D9::initD3D()
 	// perf str
 	hr |= this->MakeMonDrawText(m_perfMonData.str, m_pd3d, &m_bbsd );
 
-#pragma message("KS777: перенести: m_CaptureTimer.start(m_hwnd, 1000 );"  __FILE__)
+#pragma message("KS777: РїРµСЂРµРЅРµСЃС‚Рё: m_CaptureTimer.start(m_hwnd, 1000 );"  __FILE__)
 	m_CaptureTimer.start(m_hwnd, 1000 );
 
 	// do callback

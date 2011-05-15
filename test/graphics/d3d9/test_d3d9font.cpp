@@ -1,4 +1,4 @@
-// Ïðèìåð èñïîëüçîâàíèÿ dxut_wonly
+// ÐŸÑ€Ð¸Ð¼ÐµÑ€ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ dxut_wonly
 //
 #include "stdafx.h"
 
@@ -90,10 +90,10 @@ HRESULT test_drawText(IDirect3DDevice9* pd3dDevice)
 	HRESULT hr =0;
 
 	hr |=  g_pfont->DrawTextW(100, 100, 0xFFFFFFFF, L"sample string bla font ohoho",  0   );
- 	hr |=  g_pfont->DrawTextW(100, 120, 0xFFFFFFFF, L"Ðóññêèé òåêñò WCHAR ",  0   );
+ 	hr |=  g_pfont->DrawTextW(100, 120, 0xFFFFFFFF, L"Ð ÑƒÑÑÐºÐ¸Ð¹ Ñ‚ÐµÐºÑÑ‚ WCHAR ",  0   );
 
  	hr |=  g_pfont->DrawTextA(100, 140, 0xFFFFFFFF,  "Ansi string text 0134568+-/*",  0   );
- 	hr |=  g_pfont->DrawTextA(100, 160, 0xFFFFFFFF,  "Ðóññêèé òåêñò",  0   );
+ 	hr |=  g_pfont->DrawTextA(100, 160, 0xFFFFFFFF,  "Ð ÑƒÑÑÐºÐ¸Ð¹ Ñ‚ÐµÐºÑÑ‚",  0   );
 
 
 	hr |= g_pFontSmall->DrawTextW(100, 200.0f, 0-1, L"fdsf 0123456789/*-+*)(*&^ d1548$*&$^&^",  0);

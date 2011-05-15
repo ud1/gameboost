@@ -1,5 +1,5 @@
 /** \file
- \brief  Стандартный кватернион .
+ \brief  РЎС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РєРІР°С‚РµСЂРЅРёРѕРЅ .
 
 
 */
@@ -7,7 +7,7 @@
 #pragma once
 
 #ifndef __GB_FMATH_H__
-   #error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ. ВКЛЮЧАЙТЕ:   #include <gb/fmath/math.h>  
+   #error РќР• Р’РљР›Р®Р§РђР™РўР• Р­РўРћРў Р¤РђР™Р›. Р’РљР›Р®Р§РђР™РўР•:   #include <gb/fmath/math.h>  
 #endif
 
 namespace gb 
@@ -19,7 +19,7 @@ namespace gb
 //----------------------------------------------------------------------
 
 
-	//! \brief Стандартный  кватернион.
+	//! \brief РЎС‚Р°РЅРґР°СЂС‚РЅС‹Р№  РєРІР°С‚РµСЂРЅРёРѕРЅ.
 	class Quaternion   {
 	public:
 
@@ -50,7 +50,7 @@ namespace gb
 		}
 
 		//-----------------------------------------------------------------
-		//                     ОПЕРАТОРЫ
+		//                     РћРџР•Р РђРўРћР Р«
 		//-----------------------------------------------------------------
 
 		inline operator         float*()         { return &x; };
@@ -127,7 +127,7 @@ namespace gb
 		}
  
 
-		//!   ПРОВЕРЕНО
+		//!   РџР РћР’Р•Р Р•РќРћ
 		inline Quaternion operator * ( const Quaternion &q ) const 
 		{
 			Quaternion res;
@@ -171,33 +171,33 @@ namespace gb
 
 
 		//----------------------------------------------------------------//
-		//                           МЕТОДЫ		        	              //
+		//                           РњР•РўРћР”Р«		        	              //
 		//----------------------------------------------------------------//
  
-		// \brief  Присвоить значения  затем нормализовать
+		// \brief  РџСЂРёСЃРІРѕРёС‚СЊ Р·РЅР°С‡РµРЅРёСЏ  Р·Р°С‚РµРј РЅРѕСЂРјР°Р»РёР·РѕРІР°С‚СЊ
 		inline void set(float _x, float _y, float _z, float _w)
 		{
 			x=_x; y=_y; z=_z; w=_w;
 			normalize();
 		}
 
-		// \brief Сбросить в идентичный
+		// \brief РЎР±СЂРѕСЃРёС‚СЊ РІ РёРґРµРЅС‚РёС‡РЅС‹Р№
 		inline void setIdentity() { x=y=z=0.0f; w=1.0f; }
-		// \brief Сбросить в идентичный
+		// \brief РЎР±СЂРѕСЃРёС‚СЊ РІ РёРґРµРЅС‚РёС‡РЅС‹Р№
 		inline void reset() { setIdentity(); }
 
-		// \brief Проверка на идентичное значение
+		// \brief РџСЂРѕРІРµСЂРєР° РЅР° РёРґРµРЅС‚РёС‡РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
 		inline bool isIdentity(float eps = 0.0f) const
 		{ 
 			return abs(x) <= eps && abs(y) <= eps && abs(z) <= eps && abs(w) - 1.0f <= eps;
 		}
 
-		//! \brief  Получить длинну
+		//! \brief  РџРѕР»СѓС‡РёС‚СЊ РґР»РёРЅРЅСѓ
 		inline float length() const	{ return sqrt(x*x + y*y + z*z + w*w); }
-		//! \brief  Получить квадрат длинны
+		//! \brief  РџРѕР»СѓС‡РёС‚СЊ РєРІР°РґСЂР°С‚ РґР»РёРЅРЅС‹
 		inline float lengthSq() const {	return   (x*x + y*y + z*z + w*w); }
 
-		// \brief   Нормализовать   ПРОВЕРЕНО!
+		// \brief   РќРѕСЂРјР°Р»РёР·РѕРІР°С‚СЊ   РџР РћР’Р•Р Р•РќРћ!
 		inline Quaternion&  normalize()
 		{
 			const float len = length();
@@ -211,10 +211,10 @@ namespace gb
 			return *this;
 		}
 
-		// //! \brief Получить нормализованый кватернион
+		// //! \brief РџРѕР»СѓС‡РёС‚СЊ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅС‹Р№ РєРІР°С‚РµСЂРЅРёРѕРЅ
 		// inline Quaternion getNormalized() const { Quaternion r = *this; r.normalize(); return r;  }
 
-		//! \brief  вернуть сопряженный кватернион   ПРОВЕРЕНО
+		//! \brief  РІРµСЂРЅСѓС‚СЊ СЃРѕРїСЂСЏР¶РµРЅРЅС‹Р№ РєРІР°С‚РµСЂРЅРёРѕРЅ   РџР РћР’Р•Р Р•РќРћ
 		inline Quaternion conjugate(const Quaternion &q) const
 		{
 			  Quaternion res;
@@ -225,7 +225,7 @@ namespace gb
 			  return  res;
 		}
 
-		//! \brief Вернуть скалярное произведение 
+		//! \brief Р’РµСЂРЅСѓС‚СЊ СЃРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ 
 		inline float dot(const Quaternion &g) const 
 		{
 			return w*g.w + x*g.x + y*g.y + z*g.z;
@@ -234,7 +234,7 @@ namespace gb
 		//! \brief return  exponentiation
 		Quaternion  pow(const Quaternion &q, float exponent) const;
 
-		//! \brief  Инвертировать.  ПРОВЕРЕНО !
+		//! \brief  РРЅРІРµСЂС‚РёСЂРѕРІР°С‚СЊ.  РџР РћР’Р•Р Р•РќРћ !
 		void inverse () 
 		{
 			const float fNorm = x*x + y*y + z*z + w*w;
@@ -252,7 +252,7 @@ namespace gb
 			}
 		}
 
-		//! \brief  Вернуть инвертированый .
+		//! \brief  Р’РµСЂРЅСѓС‚СЊ РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅС‹Р№ .
 		inline Quaternion inversed() const 
 		{
 		  Quaternion res(*this);
@@ -290,7 +290,7 @@ namespace gb
 #ifdef __D3DX9MATH_H__
 
 
-		//! \brief Сделать без d3dx  return calculates the natural logarithm.
+		//! \brief РЎРґРµР»Р°С‚СЊ Р±РµР· d3dx  return calculates the natural logarithm.
 		Quaternion ln(const Quaternion& q)
 		{
 		//A unit quaternion, is defined by:
@@ -303,7 +303,7 @@ namespace gb
 
 
 
-		// todo Сделать без d3dx
+		// todo РЎРґРµР»Р°С‚СЊ Р±РµР· d3dx
 		Quaternion  exp(const Quaternion& qu) const 
 		{
 			//Given a pure quaternion defined by:
@@ -316,7 +316,7 @@ namespace gb
 		};
 
 
-		// todo Сделать без d3dx
+		// todo РЎРґРµР»Р°С‚СЊ Р±РµР· d3dx
 	   Quaternion& setBaryCentric(const Quaternion& q1,	const Quaternion& q2,const Quaternion& q3, float f,	float g	)
 	   {
 		   D3DXQuaternionBaryCentric( *this, q1, q2, q3, f,	g);
@@ -324,7 +324,7 @@ namespace gb
 	   };
 
 
-      // todo Сделать без d3dx
+      // todo РЎРґРµР»Р°С‚СЊ Р±РµР· d3dx
       Quaternion& setSquad(const Quaternion& q1, const Quaternion& a,  const Quaternion& b,  const Quaternion& c, float t )
 	  {
 		  D3DXQuaternionSquad( *this, q1, a, b, c, t);
@@ -344,7 +344,7 @@ namespace gb
 
 
 
-		/**  имеются небольшие несоответствия с d3dx  
+		/**  РёРјРµСЋС‚СЃСЏ РЅРµР±РѕР»СЊС€РёРµ РЅРµСЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ СЃ d3dx  
 		-------------------------------------
 		0.606882  0.275320  0.666870  0.333432
 		-------------------------------------
@@ -410,7 +410,7 @@ namespace gb
 		Quaternion&  setRotationAxis(const geom3d::AxiesAngle& aa) ;
 
 
-		//! \brief  Построить поворотный по углам эллера
+		//! \brief  РџРѕСЃС‚СЂРѕРёС‚СЊ РїРѕРІРѕСЂРѕС‚РЅС‹Р№ РїРѕ СѓРіР»Р°Рј СЌР»Р»РµСЂР°
 		void setRotationYawPitchRoll( float yaw, float pitch, float roll)
 		{
 			float	sp, sb, sh;
@@ -425,10 +425,10 @@ namespace gb
 		}
 
 
-		//! \brief  Построить поворотный по углам эллера  
+		//! \brief  РџРѕСЃС‚СЂРѕРёС‚СЊ РїРѕРІРѕСЂРѕС‚РЅС‹Р№ РїРѕ СѓРіР»Р°Рј СЌР»Р»РµСЂР°  
 		void setRotationEulersAngles(const geom3d::EulerAngles& ea);
 
-		//! \brief Построение из матрицы поворота
+		//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РёР· РјР°С‚СЂРёС†С‹ РїРѕРІРѕСЂРѕС‚Р°
 		Quaternion&  setRotationMatrix(const  mat44& m);
  
  /*****************************
@@ -445,7 +445,7 @@ namespace gb
 *******************************/
 
 
-		//! \brief  Вывод на консоль
+		//! \brief  Р’С‹РІРѕРґ РЅР° РєРѕРЅСЃРѕР»СЊ
 		void print() const { printf("%f  %f  %f  %f" , x , y, z, w ); }
 
 	};

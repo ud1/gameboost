@@ -12,9 +12,9 @@ namespace gb
     namespace io
     {
         /*
-         * Поток данных для чтения с диска.
+         * РџРѕС‚РѕРє РґР°РЅРЅС‹С… РґР»СЏ С‡С‚РµРЅРёСЏ СЃ РґРёСЃРєР°.
          * 
-         * Особенности работы: параметр mode ф-ции open() - gb::io::eFileAccess
+         * РћСЃРѕР±РµРЅРЅРѕСЃС‚Рё СЂР°Р±РѕС‚С‹: РїР°СЂР°РјРµС‚СЂ mode С„-С†РёРё open() - gb::io::eFileAccess
          */
         typedef class FileStream : public IStream
         {

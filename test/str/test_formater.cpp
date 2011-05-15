@@ -1,4 +1,4 @@
-//  РЕЯР ДКЪ ЙКЮЯЯЮ Formater
+//  я┌п╣я│я┌ п╢п╩я▐ п╨п╩п╟я│я│п╟ Formater
 //
 
 
@@ -17,12 +17,12 @@
 *******************************************/
 
 
-//#pragma  message("бепмсрэ опейнло уедеп"  __FILE__ )
+//#pragma  message("п▓п∙п═п²пёп╒п╛ п÷п═п∙п п·п°п÷ п╔п∙п■п∙п═"  __FILE__ )
 #include "pch.h"
 //#include "stdafx.h"
 
 
-//#pragma  message("бепмсрэ опюбхкэмши осрэ"  __FILE__ ) 
+//#pragma  message("п▓п∙п═п²пёп╒п╛ п÷п═п░п▓п≤п⌡п╛п²п╚п≥ п÷пёп╒п╛"  __FILE__ ) 
 #include "gb/str/ksutils.h"
 #include "gb/str/formater.h"
 //#include "z:\\!!GB_TOADD\\new_formater\\formater.h"
