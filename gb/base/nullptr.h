@@ -8,8 +8,8 @@
 #endif
 
 // nullptr for msvc < 2010
-#if defined(_MFC_VER)
-#if _MFC_VER < 0x0A00
+#if defined(_MSC_VER)
+#if _MSC_VER < 1600
 #define DEFINE_NULLPTR 1
 #endif
 #endif

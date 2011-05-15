@@ -5,8 +5,7 @@
 #include <string>
 #include <algorithm>
 
-#error ks777:   нет такого файла  даже в деплиб. Просьба поправить.
-#include <gb/deplib/utfcpp.sourceforge.net/utfcpp/utf8.h>
+#include <utfcpp/utf8.h>
 
 namespace gb
 {

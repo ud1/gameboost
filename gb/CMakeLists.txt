@@ -31,7 +31,7 @@ set( GAMEBOOST_SOURCES
 
 		engineBlocks/BaseApplication.h engineBlocks/BaseApplication.cpp engineBlocks/GameApplication.h engineBlocks/GameApplication.cpp
 		engineBlocks/EventTranslator.h engineBlocks/EventTranslator.cpp engineBlocks/InputHandlerContainer.h engineBlocks/InputHandlerMap.h
-		engineBlocks/CacheBase.h engineBlocks/CacheNoGarbage.h
+		engineBlocks/CacheBase.h engineBlocks/CacheNoGarbage.h engineBlocks/LRUCache.h
 		engineBlocks/InputBase.h engineBlocks/InputBase.cpp engineBlocks/CameraInput.h engineBlocks/CameraInput.cpp
 		containers/Mesh.h containers/Mesh.cpp
 
@@ -52,6 +52,7 @@ set( GAMEBOOST_SOURCES
 		fs/FileSystem.h fs/Helpers.cpp fs/Helpers.h fs/LocalFS.cpp fs/LocalFS.h fs/SeekType.h fs/Stream.h
 		
 		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp mt/syncPrimitives.h
+		mt/Resource.h mt/Resource.cpp
 
 		rand/rand.cpp rand/rand.h
 		rand/mt.h
@@ -68,14 +69,14 @@ set( GAMEBOOST_SOURCES
 		deplib/mt/dSFMT/dSFMT-params2203.h deplib/mt/dSFMT/dSFMT-params4253.h deplib/mt/dSFMT/dSFMT-params44497.h deplib/mt/dSFMT/dSFMT-params521.h
 		deplib/mt/dSFMT/dSFMT-params86243.h 
 
-		math/vector.h  math/base.h  math/scalar.cpp  math/scalar.h
-
 		shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
 		
 		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
 		
 		i18n/I18n.cpp  i18n/I18n.h  i18n/IntlString.h  i18n/IntlString.cpp
 		i18n/Japanese.h  i18n/Japanese.cpp
+
+		terrain/ElevationData.h terrain/IndexBuffer.h terrain/IndexBuffer.cpp
 		
 		Config.h )
 

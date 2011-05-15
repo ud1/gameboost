@@ -2,8 +2,6 @@
  * \brief Класс многоязычной строки и хранилище строк
  * \author Дмитрий Литовченко kvakvs@yandex.ru
 */
-
-#include "pch.h"
 #include <gb/i18n/IntlString.h>
 
 namespace gb

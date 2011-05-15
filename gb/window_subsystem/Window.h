@@ -48,7 +48,7 @@ namespace gb
 			WindowOSSpecParams()
 			{
 				display = NULL;
-				window = NULL;
+				window = 0;
 			}
 			
 			WindowOSSpecParams(const WindowOSSpecParams &o)
