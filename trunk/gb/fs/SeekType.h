@@ -9,7 +9,7 @@ namespace gb
 			enum SeekType {
 				HEAD = 0,
 				CURRENT,
-				TAIL,
+				TAIL
 			};
 		}
 		

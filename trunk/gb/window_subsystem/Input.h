@@ -38,7 +38,7 @@ namespace gb
 			{
 				KEY_DOWN,
 				KEY_UP,
-				KEY_CHAR,
+				KEY_CHAR
 			} type;
 			
 			union

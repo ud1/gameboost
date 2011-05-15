@@ -48,7 +48,7 @@ namespace gb
 			enum Type
 			{
 				FLOAT,
-				DOUBLE, 
+				DOUBLE
 			};
 
 			Type type;

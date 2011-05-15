@@ -88,7 +88,7 @@ namespace
 			origin.x = subpixel_offset;
 			origin.y = 0;
 			
-			FT_Error error = FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, &origin, 1);
+			FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, &origin, 1);
 			
 			FT_BitmapGlyphRec *new_glyph = reinterpret_cast<FT_BitmapGlyphRec *>(glyph);
 			gb::containers::Image im;

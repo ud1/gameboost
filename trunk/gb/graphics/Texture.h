@@ -19,7 +19,7 @@ namespace gb
 			{
 				Texture2D,
 				Texture3D,
-				TextureCube,
+				TextureCube
 			};
 
 			enum CubeFace
@@ -29,7 +29,7 @@ namespace gb
 				PosY,
 				NegY,
 				PosZ,
-				NegZ,
+				NegZ
 			};
 
 			enum TextureFilter
@@ -43,13 +43,13 @@ namespace gb
 				TF_NEAREST_MIPMAP_NEAREST,
 				TF_LINEAR_MIPMAP_NEAREST,
 				TF_NEAREST_MIPMAP_LINEAR,
-				TF_LINEAR_MIPMAP_LINEAR,
+				TF_LINEAR_MIPMAP_LINEAR
 			};
 
 			enum TextureBorder
 			{
 				TB_REPEAT,
-				TB_CLAMP,
+				TB_CLAMP
 			};
 
 			Type getType() const {return type;}

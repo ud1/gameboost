@@ -19,8 +19,8 @@ char gb::containers::textureGetBitsPerPixel(int pf)
             return 8;
         default:
             return 0;
-    };
-};
+    }
+}
 
 char gb::containers::textureGetComponentsCount(int pf)
 {
@@ -33,16 +33,16 @@ char gb::containers::textureGetComponentsCount(int pf)
             return 4;
         default:
             return 0;
-    };
-};
+    }
+}
 
 Texture2D::Texture2D() 
-    : IResource(), width(0), height(0), components(0), format(0), row_bytes(0), num_rows(0) { };
+    : IResource(), width(0), height(0), components(0), format(0), row_bytes(0), num_rows(0) { }
 
 Texture2D::~Texture2D()
 {
     
-};
+}
 
 bool Texture2D::init(const int _width, const int _height, const int _format, const int _components, const int _mipmaps)
 {
@@ -80,15 +80,15 @@ bool Texture2D::init(const int _width, const int _height, const int _format, con
             char bpp = textureGetBitsPerPixel(format);
             row_bytes[i] = ( width * bpp + 7 ) / 8;
             num_rows[i] = height;
-        };
+        }
         groups_sizes[i] = row_bytes[i] * num_rows[i];
         groups_offsets[i] = i ? (groups_offsets[i - 1] + groups_sizes[i - 1]) : 0;
-    };
+    }
     return true;
-};
+}
 
 bool Texture2D::isExist()
 {
     return width && height && format && groups_count && components;   
-};
+}
 
