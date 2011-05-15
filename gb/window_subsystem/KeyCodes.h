@@ -226,7 +226,7 @@ namespace gb
 				KEY_F10,
 				KEY_F11,
 				KEY_F12,
-				KEY_TILDE,
+				KEY_TILDE
 			};
 
 			#endif

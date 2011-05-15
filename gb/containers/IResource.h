@@ -47,5 +47,5 @@ namespace gb
             size_t  getTotalSize()                      { return total_size; };
             void*   getDataPointer()                    { return file; };
         };
-    };
-};
+    }
+}

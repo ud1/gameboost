@@ -22,7 +22,7 @@ namespace gb
                 DXT3    = 0x0002,
                 DXT5    = 0x0003
             };
-        };
+        }
         /*
          * GAPI-независимая текстура.
          * 
@@ -55,5 +55,5 @@ namespace gb
 
         char textureGetBitsPerPixel(int pf);
         char textureGetComponentsCount(int pf);
-    };
-};
+    }
+}

@@ -6,6 +6,7 @@ if (MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -D_WIN32_WINNT=0x0501 /MP )
 else()
 	# для прочих компиляторов
+	add_definitions(-pedantic -Wall)
 endif()
 
 # Исходники

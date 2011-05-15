@@ -29,7 +29,7 @@ namespace gb
 				LT_ERROR,
 				LT_CRITICAL,
 				
-				LT_COUNT,
+				LT_COUNT
 			};
 		}
 		

@@ -12,13 +12,13 @@ MemoryStream::MemoryStream(void) : IStream(), file(0), file_size(0), offset(0) {
 MemoryStream::MemoryStream(size_t _size, int mode) : IStream(), file(0), file_size(0), offset(0)
 {
     create(_size, mode);
-};
+}
 
 MemoryStream::~MemoryStream(void)
 {
     if(file)
         delete[]file;
-};
+}
 
 uint8_t*MemoryStream::create(size_t _size, int mode)
 {
@@ -29,7 +29,7 @@ uint8_t*MemoryStream::create(size_t _size, int mode)
     stream_access = mode;
     file = new uint8_t[file_size];
     return file;
-};
+}
 
 size_t MemoryStream::write(const void*buffer, const size_t size)
 {
@@ -40,7 +40,7 @@ size_t MemoryStream::write(const void*buffer, const size_t size)
         bytes_for_write = size;
     memcpy((void*)(file + offset), buffer, bytes_for_write);
     return bytes_for_write;
-};
+}
 
 size_t MemoryStream::read(void*buffer, const size_t size)
 {
@@ -51,14 +51,14 @@ size_t MemoryStream::read(void*buffer, const size_t size)
         bytes_for_read = size;
     memcpy(buffer, (void*)(file + offset), bytes_for_read);
     return bytes_for_read;
-};
+}
 
 size_t MemoryStream::tell()
 {
     if(!file)
         return 0;
     return offset;
-};
+}
 
 bool MemoryStream::seek(const size_t offset_, const int origin)
 {
@@ -72,7 +72,7 @@ bool MemoryStream::seek(const size_t offset_, const int origin)
         return false; 
     offset = (size_t)res_offset;
     return true;
-};
+}
 
 void MemoryStream::close()
 {
@@ -81,19 +81,19 @@ void MemoryStream::close()
     delete[]file;
     file = 0;
     offset = 0;
-};
+}
 
 size_t MemoryStream::size()
 {
     if(!file)
         return 0;
     return file_size;
-};
+}
 
 bool MemoryStream::isOpened()
 {
     return file != 0;   
-};
+}
 
 size_t MemoryStream::write(const void*buffer, const size_t size, const size_t _offset)
 {
@@ -104,7 +104,7 @@ size_t MemoryStream::write(const void*buffer, const size_t size, const size_t _o
         bytes_for_write = size;
     memcpy((void*)(file + _offset), buffer, bytes_for_write);
     return bytes_for_write;
-};
+}
 
 size_t MemoryStream::read(void*buffer, const size_t size, const size_t _offset)
 {
@@ -115,9 +115,9 @@ size_t MemoryStream::read(void*buffer, const size_t size, const size_t _offset)
         bytes_for_read = size;
     memcpy(buffer, (void*)(file + _offset), bytes_for_read);
     return bytes_for_read;
-};
+}
 
 bool MemoryStream::eof()
 {
     return file_size == offset;   
-};
+}

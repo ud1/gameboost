@@ -40,5 +40,5 @@ namespace gb
 
             virtual void close();
         } CMemoryStream;
-    };
-};
+    }
+}

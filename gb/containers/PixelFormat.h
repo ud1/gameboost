@@ -71,7 +71,7 @@ namespace gb
 			enum ColorType
 			{
 				RGBA_LIKE_TYPE,
-				GRAYSCALE_TYPE,
+				GRAYSCALE_TYPE
 			};
 			
 			template <typename ColorComponent>
@@ -109,7 +109,7 @@ namespace gb
 					rbits = components > 0 ? 8*sizeof(Type) : 0,
 					gbits = components > 1 ? 8*sizeof(Type) : 0,
 					bbits = components > 2 ? 8*sizeof(Type) : 0,
-					abits = components > 3 ? 8*sizeof(Type) : 0,
+					abits = components > 3 ? 8*sizeof(Type) : 0
 				};
 			};
 			
@@ -182,7 +182,7 @@ namespace gb
 				rbits = 8,
 				gbits = 8,
 				bbits = 8,
-				abits = 0,
+				abits = 0
 			};
 			typedef unsigned char value_type;
 			value_type b, g, r;
@@ -205,7 +205,7 @@ namespace gb
 				rbits = 8,
 				gbits = 8,
 				bbits = 8,
-				abits = 8,
+				abits = 8
 			};
 			typedef unsigned char value_type;
 			value_type b, g, r, a;
@@ -233,7 +233,7 @@ namespace gb
 					rbits = rb,
 					gbits = gb,
 					bbits = bb,
-					abits = 0,
+					abits = 0
 				};
 				typedef Type value_type;
 				value_type r : rb;
@@ -264,7 +264,7 @@ namespace gb
 					rbits = rb,
 					gbits = gb,
 					bbits = bb,
-					abits = ab,
+					abits = ab
 				};
 				typedef Type value_type;
 				value_type r : rb;
@@ -298,7 +298,7 @@ namespace gb
 					rbits = 0,
 					gbits = 0,
 					bbits = 0,
-					abits = 0,
+					abits = 0
 				};
 				typedef Type value_type;
 				value_type value;
