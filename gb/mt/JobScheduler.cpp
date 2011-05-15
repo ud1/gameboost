@@ -538,7 +538,7 @@ namespace gb {
 			job = NULL;
 			job_mutex.unlock();
 			
-			theJob->cancelAndWait();
+			theJob->tryCancelAndWait();
 			theJob->release();
 		}
 		
