@@ -4,9 +4,6 @@
 *
 *   
 */
-
-#include "pch.h"
-
 #include <gb/rand/rand.h>
 
 #include <stdio.h>

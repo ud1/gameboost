@@ -1,5 +1,3 @@
-
-#include "pch.h"
 #include <cassert>
 
 #include "IndexBuffer.h"

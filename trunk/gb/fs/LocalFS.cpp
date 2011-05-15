@@ -1,6 +1,3 @@
-
-#include "pch.h"
-
 #include <gb/fs/LocalFS.h>
 
 #include <cstdio>

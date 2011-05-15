@@ -1,8 +1,6 @@
 /*      \file FileStream.cpp
  *      \author -Eugene-, kozlov_eugene@list.ru
 */
-
-  #include "pch.h"
 #include "gb/io/FileStream.h"
 using namespace gb::io;
 

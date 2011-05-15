@@ -1,6 +1,3 @@
-
-
-#include "pch.h"
 #include "BmpLoader.h"
 #include <gb/containers/Image.h>
 #include <gb/fs/Stream.h>

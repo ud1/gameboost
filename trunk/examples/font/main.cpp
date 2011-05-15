@@ -4,6 +4,8 @@
 #include <gb/graphics/FontFreeType.h>
 #include <gb/base/Atlas.h>
 
+#include <cstring>
+
 using namespace gb::fs;
 using namespace gb::loaders;
 using namespace gb::containers;

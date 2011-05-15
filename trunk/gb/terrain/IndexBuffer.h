@@ -40,10 +40,7 @@ namespace gb
 			IndexBuffer(int size_)
 			{
 				indsN = 0;
-
-#error ks777:   VC:	 Error	31	error C2065: 'nullptr' : undeclared identifier	z:\!!gb\gameboost\gb\terrain\indexbuffer.h	43
 				inds = nullptr;
-
 				size = size_;
 			}
 
