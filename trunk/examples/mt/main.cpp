@@ -49,7 +49,7 @@ int main()
 	Job *job1 = scheduler->scheduleJob(3000, task);
 	Job *job2 = scheduler->scheduleJob(2000, task);
 	
-	job1->cancel();
+	job1->tryCancel();
 	
 	for (int i = 5; i --> 0;)
 	{
@@ -57,7 +57,7 @@ int main()
 		scheduler->scheduleJob0(i*5000, task);
 	}
 	
-	job2->cancel();
+	job2->tryCancel();
 	
 	Timer::sleep(60000);
 }
