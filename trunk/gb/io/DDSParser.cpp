@@ -27,7 +27,7 @@ bool gb::io::loadDDSTexture2D(gb::containers::Texture2D &tex, gb::io::IStream *f
 		break;
 	default:
 #ifdef _WIN32
-		_ASSERT_EXPR(0, L"Загрузка всяких разных DDS еще не готова!");
+		_ASSERT_EXPR(0, L"Р—Р°РіСЂСѓР·РєР° РІСЃСЏРєРёС… СЂР°Р·РЅС‹С… DDS РµС‰Рµ РЅРµ РіРѕС‚РѕРІР°!");
 #endif
 		break;
 	}

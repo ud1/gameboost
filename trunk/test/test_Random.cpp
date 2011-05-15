@@ -1,6 +1,6 @@
 /*!	\file test_Path.h
- *  Тесты для модуля base/String
- *	\author Дмитрий Литовченко kvakvs@yandex.ru
+ *  РўРµСЃС‚С‹ РґР»СЏ РјРѕРґСѓР»СЏ base/String
+ *	\author Р”РјРёС‚СЂРёР№ Р›РёС‚РѕРІС‡РµРЅРєРѕ kvakvs@yandex.ru
  */
 #include "pch_test.h"
 

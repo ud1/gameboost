@@ -1,5 +1,5 @@
 /** \file
- \brief Матрицы 2x2, 3x3, 4x4.  
+ \brief РњР°С‚СЂРёС†С‹ 2x2, 3x3, 4x4.  
 
 */ 
 
@@ -8,7 +8,7 @@
 #pragma once
 
 #ifndef __GB_FMATH_H__
-  #error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ. ВКЛЮЧАЙТЕ:   #include <gb/fmath/math.h>  
+  #error РќР• Р’РљР›Р®Р§РђР™РўР• Р­РўРћРў Р¤РђР™Р›. Р’РљР›Р®Р§РђР™РўР•:   #include <gb/fmath/math.h>  
 #endif
 
 namespace gb 
@@ -21,7 +21,7 @@ namespace gb
 
 
  
-		//! \brief Матрица 2x2
+		//! \brief РњР°С‚СЂРёС†Р° 2x2
 		struct mat22 
 		{
 			union 
@@ -55,7 +55,7 @@ namespace gb
 				return *this;
 			};
 
-			//! \brief Присвоить значения из массива
+			//! \brief РџСЂРёСЃРІРѕРёС‚СЊ Р·РЅР°С‡РµРЅРёСЏ РёР· РјР°СЃСЃРёРІР°
 			inline void operator = (const float* pfArray)
 			{
 				_11 = pfArray[0];
@@ -64,14 +64,14 @@ namespace gb
 				_22 = pfArray[3];
 			}
 
-			/** \brief   В главную диагональ установить f   остальное занулить.*/
+			/** \brief   Р’ РіР»Р°РІРЅСѓСЋ РґРёР°РіРѕРЅР°Р»СЊ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ f   РѕСЃС‚Р°Р»СЊРЅРѕРµ Р·Р°РЅСѓР»РёС‚СЊ.*/
 			inline mat22&  operator =  ( float f) { 	floats [0][1] = floats [1][0] = 0.0; floats [0][0] = floats [1][1] = f; };
 
-	        /**	 \brief Обращение знака всех элементов матрицы	*/
+	        /**	 \brief РћР±СЂР°С‰РµРЅРёРµ Р·РЅР°РєР° РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ РјР°С‚СЂРёС†С‹	*/
 			inline mat22 operator - () const { mat22 r=*this; r._11=-r._11; r._12=-r._12; r._21=-r._21; r._22=-r._22; return r; };
 
  
-			/** \brief  Покомпонентное сложение   (this = this + m) */
+			/** \brief  РџРѕРєРѕРјРїРѕРЅРµРЅС‚РЅРѕРµ СЃР»РѕР¶РµРЅРёРµ   (this = this + m) */
 			inline mat22&  operator += ( const mat22& m)
 			{
 				floats [0][0] += m.floats [0][0];
@@ -81,7 +81,7 @@ namespace gb
 				return *this;
 			};
 
-			/** \brief  Покомпонентное вычитанние (this = this - m) */
+			/** \brief  РџРѕРєРѕРјРїРѕРЅРµРЅС‚РЅРѕРµ РІС‹С‡РёС‚Р°РЅРЅРёРµ (this = this - m) */
 			inline mat22&  operator -= ( const mat22& m)
 			{
 				floats [0][0] -= m.floats [0][0];
@@ -101,7 +101,7 @@ namespace gb
 				return *this;
 			};
 
-			/** \brief  Покомпонентное умножение (this = this * m) */            
+			/** \brief  РџРѕРєРѕРјРїРѕРЅРµРЅС‚РЅРѕРµ СѓРјРЅРѕР¶РµРЅРёРµ (this = this * m) */            
 			inline mat22&  operator *= ( float f)
 			{
 				floats [0][0] *= f;
@@ -111,7 +111,7 @@ namespace gb
 				return *this;
 			};
 
-			/** \brief  Покомпонентное деление (this = this / m) */
+			/** \brief  РџРѕРєРѕРјРїРѕРЅРµРЅС‚РЅРѕРµ РґРµР»РµРЅРёРµ (this = this / m) */
 			inline mat22&  operator /= ( float f)
 			{
 				floats [0][0] /= f;
@@ -254,7 +254,7 @@ namespace gb
 
 
 
-		//! \brief Матрица 3x3 
+		//! \brief РњР°С‚СЂРёС†Р° 3x3 
 		struct mat33
 		{
 		
@@ -306,7 +306,7 @@ namespace gb
 
 			mat33& operator = ( float a );
 
-		    /**  \brief Обращение знака всех элементов матрицы	*/
+		    /**  \brief РћР±СЂР°С‰РµРЅРёРµ Р·РЅР°РєР° РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ РјР°С‚СЂРёС†С‹	*/
 	        inline mat33 operator - () const
 		    {
 			   mat33 r = *this;
@@ -331,34 +331,34 @@ namespace gb
 
 			vec3   operator * ( const vec3& v ) const;
 
-			/**	 \brief Доступ к строкам матрицы по индексу. ПРОВЕРИТЬ !! */
+			/**	 \brief Р”РѕСЃС‚СѓРї Рє СЃС‚СЂРѕРєР°Рј РјР°С‚СЂРёС†С‹ РїРѕ РёРЅРґРµРєСЃСѓ. РџР РћР’Р•Р РРўР¬ !! */
 	        inline const vec3 operator [] ( unsigned int index ) const
 	        {
 		       assert( index <= 2 );
 		       return reinterpret_cast<const vec3*>(this)[index];
 	        }
 
-			/**	 \brief Преобразование в матрицу 2x2 */
+			/**	 \brief РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ РјР°С‚СЂРёС†Сѓ 2x2 */
 			inline operator mat22()
 			{
 				return mat22( _11, _12,
 					            _21, _22 );
 			}
 
-			//! \brief  Занулить все элементы
+			//! \brief  Р—Р°РЅСѓР»РёС‚СЊ РІСЃРµ СЌР»РµРјРµРЅС‚С‹
 			inline void setzero() { _11=_12=_13=_21=_22=_23=_31=_32=_33=0.0f; };
 
-			//! \brief Сбросить в идентичную
+			//! \brief РЎР±СЂРѕСЃРёС‚СЊ РІ РёРґРµРЅС‚РёС‡РЅСѓСЋ
 			inline void setIdentity() {
 				_11=1.0f; _12=0.0f; _13=0.0f;
 				_21=0.0f; _22=1.0f; _23=0.0f;
 				_31=0.0f; _32=0.0f; _33=1.0f;
 		    };
 
-			//! \brief Сбросить в идентичную
+			//! \brief РЎР±СЂРѕСЃРёС‚СЊ РІ РёРґРµРЅС‚РёС‡РЅСѓСЋ
 			inline void reset() { setIdentity(); }
 
-			 //! \brief  Транспонировать матрицу 
+			 //! \brief  РўСЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°С‚СЊ РјР°С‚СЂРёС†Сѓ 
 			inline mat33&   transpone() 
 			{ 
 				 register float t;
@@ -368,7 +368,7 @@ namespace gb
 				  return *this;
 			};
 
-			//! \brief    Вернуть транспонированую матрицу
+			//! \brief    Р’РµСЂРЅСѓС‚СЊ С‚СЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅСѓСЋ РјР°С‚СЂРёС†Сѓ
 			inline mat33 getTransponed() const 
 			{
 				mat33 res = *this;
@@ -396,7 +396,7 @@ namespace gb
 			mat33&  setMirrorZ();
 
 
-			//! \brief  Вывод значений на консоль
+			//! \brief  Р’С‹РІРѕРґ Р·РЅР°С‡РµРЅРёР№ РЅР° РєРѕРЅСЃРѕР»СЊ
 			inline void print() const 
 			{
 			 printf("%f  %f  %f  \n%f  %f  %f  \n%f  %f  %f", 
@@ -410,7 +410,7 @@ namespace gb
  
 		
 
-		//! \brief Матрица 4x4. 
+		//! \brief РњР°С‚СЂРёС†Р° 4x4. 
 		struct mat44
 		{
 			union 
@@ -431,7 +431,7 @@ namespace gb
 
 			inline mat44() {}
 
-			//! \brief Сбросить в идентичную и заполнить главную диагональ значением a (обычно 1.0f)
+			//! \brief РЎР±СЂРѕСЃРёС‚СЊ РІ РёРґРµРЅС‚РёС‡РЅСѓСЋ Рё Р·Р°РїРѕР»РЅРёС‚СЊ РіР»Р°РІРЅСѓСЋ РґРёР°РіРѕРЅР°Р»СЊ Р·РЅР°С‡РµРЅРёРµРј a (РѕР±С‹С‡РЅРѕ 1.0f)
 			inline mat44(float a)
 			{
 			   setIdentity();
@@ -563,7 +563,7 @@ namespace gb
  
 
 
-			/**    \brief Строгое сравнение    */
+			/**    \brief РЎС‚СЂРѕРіРѕРµ СЃСЂР°РІРЅРµРЅРёРµ    */
 			inline bool operator == ( const mat44& m ) const
 			{
 			 return ( ( _11 == m._11) &&
@@ -591,7 +591,7 @@ namespace gb
 
 
 
-			/**     \brief Строгое сравнение с отрицанием     */
+			/**     \brief РЎС‚СЂРѕРіРѕРµ СЃСЂР°РІРЅРµРЅРёРµ СЃ РѕС‚СЂРёС†Р°РЅРёРµРј     */
 			inline bool operator != ( const mat44& m ) const
 			{
 		      return ( ( _11 != m._11) ||
@@ -618,7 +618,7 @@ namespace gb
 
 			
  
-			/**   \brief Инверсия знака компонентов  */
+			/**   \brief РРЅРІРµСЂСЃРёСЏ Р·РЅР°РєР° РєРѕРјРїРѕРЅРµРЅС‚РѕРІ  */
 			inline mat44 operator - () const
 			{
 				mat44 r;
@@ -648,7 +648,7 @@ namespace gb
 
 
  
-			/**   \brief Поэлементное сложение матриц  */
+			/**   \brief РџРѕСЌР»РµРјРµРЅС‚РЅРѕРµ СЃР»РѕР¶РµРЅРёРµ РјР°С‚СЂРёС†  */
 			inline mat44 operator + ( const mat44& m ) const
 			{
 				mat44 r;
@@ -676,7 +676,7 @@ namespace gb
 				return r;
 			}
 
-			/**   \brief Поэлементное вычитание матриц  */
+			/**   \brief РџРѕСЌР»РµРјРµРЅС‚РЅРѕРµ РІС‹С‡РёС‚Р°РЅРёРµ РјР°С‚СЂРёС†  */
 			inline mat44 operator - ( const mat44& m ) const
 			{
 				mat44 r;
@@ -705,7 +705,7 @@ namespace gb
 			}
 
 
-			/**   \brief Умножение всех элементов матрицы на скаляр   */
+			/**   \brief РЈРјРЅРѕР¶РµРЅРёРµ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ РјР°С‚СЂРёС†С‹ РЅР° СЃРєР°Р»СЏСЂ   */
 			inline mat44 operator * (  float f ) const 
 			{
 				mat44 r;
@@ -735,7 +735,7 @@ namespace gb
 
 
 
-			/**  \brief Деление всех элементов матрицы на скаляр  */
+			/**  \brief Р”РµР»РµРЅРёРµ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ РјР°С‚СЂРёС†С‹ РЅР° СЃРєР°Р»СЏСЂ  */
 			inline mat44 operator / ( float f ) const
 			{
 				mat44 r;
@@ -780,7 +780,7 @@ namespace gb
 			}
 
  
-			// ПРОВЕРЕНО !
+			// РџР РћР’Р•Р Р•РќРћ !
 			inline mat44 operator * ( const mat44& m ) const
 			{
 				mat44 r;
@@ -809,7 +809,7 @@ namespace gb
 			}
 
 
-			/**    \brief Умножение вектора на матрицу .  ПРОВЕРЕНО!  */
+			/**    \brief РЈРјРЅРѕР¶РµРЅРёРµ РІРµРєС‚РѕСЂР° РЅР° РјР°С‚СЂРёС†Сѓ .  РџР РћР’Р•Р Р•РќРћ!  */
 			inline vec4 operator * ( const vec4& v ) const 
 			{
 				vec4 r;
@@ -821,10 +821,10 @@ namespace gb
 			}
  
 
-			//! \brief Зануление всех элементов.
+			//! \brief Р—Р°РЅСѓР»РµРЅРёРµ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ.
 			inline void       setzero() { memset(&_11, 0, sizeof(mat44)  ); }
 
-			//! \brief Установить в идентичную
+			//! \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РІ РёРґРµРЅС‚РёС‡РЅСѓСЋ
 			inline mat44&   setIdentity() 
 			{
 				_11=1.0f; _12=0.0f; _13=0.0f; _14=0.0f;
@@ -834,10 +834,10 @@ namespace gb
 				 return *this;
 	        }
 
-			//! \brief Установить в идентичную
+			//! \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РІ РёРґРµРЅС‚РёС‡РЅСѓСЋ
 			inline mat44& reset() { setIdentity(); return *this; }
 
-			//! \brief Транспонирование. (Отражение элементов по главной диагонали)  ПРОВЕРЕНА!
+			//! \brief РўСЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅРёРµ. (РћС‚СЂР°Р¶РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ РїРѕ РіР»Р°РІРЅРѕР№ РґРёР°РіРѕРЅР°Р»Рё)  РџР РћР’Р•Р Р•РќРђ!
 			inline mat44& transpone() 
 			{  
 				   register float f;
@@ -850,7 +850,7 @@ namespace gb
 				  return *this;
 			}
 
-			//!  религиозно-синтаксическое   Вычислить и вернуть транспонированое значение .
+			//!  СЂРµР»РёРіРёРѕР·РЅРѕ-СЃРёРЅС‚Р°РєСЃРёС‡РµСЃРєРѕРµ   Р’С‹С‡РёСЃР»РёС‚СЊ Рё РІРµСЂРЅСѓС‚СЊ С‚СЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ .
 			mat44 transponed() const 
 			{
 				mat44 res = *this;
@@ -858,10 +858,10 @@ namespace gb
 				return res;
 			}
 
-			/** \brief Вычислить и вернуть транспонированое значение .  */
+			/** \brief Р’С‹С‡РёСЃР»РёС‚СЊ Рё РІРµСЂРЅСѓС‚СЊ С‚СЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ .  */
 			inline mat44 getTransponed() const { mat44 r=*this; r.transpone(); return r; };
 
-			/** \brief Вычислить и вернуть определитель.  */
+			/** \brief Р’С‹С‡РёСЃР»РёС‚СЊ Рё РІРµСЂРЅСѓС‚СЊ РѕРїСЂРµРґРµР»РёС‚РµР»СЊ.  */
 			inline float determinant()  const
 			{
 				 return 
@@ -873,10 +873,10 @@ namespace gb
 					( _13 *  _24 -  _14 *  _23) * ( _31 *  _42 -  _32 *  _41);
 			};
 
-			/** \brief Инверсия. Бросает исключение если инверсия невозможна. ПРОВЕРЕНА. */
+			/** \brief РРЅРІРµСЂСЃРёСЏ. Р‘СЂРѕСЃР°РµС‚ РёСЃРєР»СЋС‡РµРЅРёРµ РµСЃР»Рё РёРЅРІРµСЂСЃРёСЏ РЅРµРІРѕР·РјРѕР¶РЅР°. РџР РћР’Р•Р Р•РќРђ. */
 			mat44&  invert () throw();
 
-			//! \brief Вернуть инвертированую
+			//! \brief Р’РµСЂРЅСѓС‚СЊ РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅСѓСЋ
 			mat44 inverted() const throw() 
 			{
 			  mat44 res = *this;
@@ -909,7 +909,7 @@ namespace gb
 			    floats[0][index]=col.x; floats[1][index]=col.y; floats[2][index]=col.z; floats[3][index]=col.w;
 			}
 
-			//! \brief   Изволечь данные трансляции.
+			//! \brief   РР·РІРѕР»РµС‡СЊ РґР°РЅРЅС‹Рµ С‚СЂР°РЅСЃР»СЏС†РёРё.
 			inline vec3 getTranslation() const
 			{		  
 				return vec3(floats[3][0], floats[3][1], floats[3][2]);
@@ -917,12 +917,12 @@ namespace gb
 
 			//-------------------------------------------------------------
 
-			//! \brief  Раскидать матрицу на данные трансформации. ПРОВЕРЕНО!
+			//! \brief  Р Р°СЃРєРёРґР°С‚СЊ РјР°С‚СЂРёС†Сѓ РЅР° РґР°РЅРЅС‹Рµ С‚СЂР°РЅСЃС„РѕСЂРјР°С†РёРё. РџР РћР’Р•Р Р•РќРћ!
 			void decompose( vec3& scale,  Quaternion& rot, vec3& pos ) const;
 
 			//-------------------------------------------------------------
  
-			//! \brief Построение матрицы отражения по оси X
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РѕС‚СЂР°Р¶РµРЅРёСЏ РїРѕ РѕСЃРё X
 			inline mat44& setMirrorX ()
 			{
 				setIdentity();
@@ -930,7 +930,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief Построение матрицы отражения по оси Y 
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РѕС‚СЂР°Р¶РµРЅРёСЏ РїРѕ РѕСЃРё Y 
 			inline mat44& setMirrorY ()
 			{
 				setIdentity();
@@ -938,7 +938,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief Построение матрицы отражения по оси Z
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РѕС‚СЂР°Р¶РµРЅРёСЏ РїРѕ РѕСЃРё Z
 			inline mat44& setMirrorZ ()
 			{
 				setIdentity();
@@ -946,14 +946,14 @@ namespace gb
 				return *this;
 			}
 
-		    //! \brief Построение матрицы отражения по плоскости plane.   ПРОВЕРЕНА! 
+		    //! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РѕС‚СЂР°Р¶РµРЅРёСЏ РїРѕ РїР»РѕСЃРєРѕСЃС‚Рё plane.   РџР РћР’Р•Р Р•РќРђ! 
 			mat44& setReflection(const geom3d::plane_s& plane );
 
 
-			//! \brief  Построение теневой матрицы.  Рендеринг теней.   ПРОВЕРЕНА!
+			//! \brief  РџРѕСЃС‚СЂРѕРµРЅРёРµ С‚РµРЅРµРІРѕР№ РјР°С‚СЂРёС†С‹.  Р РµРЅРґРµСЂРёРЅРі С‚РµРЅРµР№.   РџР РћР’Р•Р Р•РќРђ!
 			mat44&  setShadow(const vec4& Light, const geom3d::plane_s&Plane );
 
-			//! \brief Построение матрицы поворота по оси X на угол angle . ПРОВЕРЕНА!
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РїРѕРІРѕСЂРѕС‚Р° РїРѕ РѕСЃРё X РЅР° СѓРіРѕР» angle . РџР РћР’Р•Р Р•РќРђ!
 			inline mat44&  setRotationX( const float angle )  
 			{ 
 				setIdentity();  
@@ -966,7 +966,7 @@ namespace gb
                   return *this;
 			}
 
-			//! \brief Построение матрицы поворота по оси Y на угол angle . ПРОВЕРЕНО!
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РїРѕРІРѕСЂРѕС‚Р° РїРѕ РѕСЃРё Y РЅР° СѓРіРѕР» angle . РџР РћР’Р•Р Р•РќРћ!
 			inline mat44&  setRotationY( const float angle )  
 			{
 				setIdentity(); 
@@ -979,7 +979,7 @@ namespace gb
 				return *this;
 			};
 
-			//! \brief Построение матрицы поворота по оси Z на угол angle . ПРОВЕРЕНО!
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РїРѕРІРѕСЂРѕС‚Р° РїРѕ РѕСЃРё Z РЅР° СѓРіРѕР» angle . РџР РћР’Р•Р Р•РќРћ!
 			inline mat44&  setRotationZ( const float angle ) 
 			{
 				setIdentity(); 
@@ -993,7 +993,7 @@ namespace gb
 			};
 
 
-			//! \brief Построение матрицы поворота по оси vAx на угол angle . ПРОВЕРЕНО!
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РїРѕРІРѕСЂРѕС‚Р° РїРѕ РѕСЃРё vAx РЅР° СѓРіРѕР» angle . РџР РћР’Р•Р Р•РќРћ!
 			inline mat44&  setRotationAxis( const vec3& vAx,  const float angle ) 
 			{
 				float sina, cosa, mcosa; 
@@ -1029,7 +1029,7 @@ namespace gb
 			};
 
 
-			//! \brief Построение матрицы поворота по оси по компонентам(axX,axY,axZ) на угол angle  . ПРОВЕРЕНО!
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РїРѕРІРѕСЂРѕС‚Р° РїРѕ РѕСЃРё РїРѕ РєРѕРјРїРѕРЅРµРЅС‚Р°Рј(axX,axY,axZ) РЅР° СѓРіРѕР» angle  . РџР РћР’Р•Р Р•РќРћ!
 			inline mat44&  setRotationAxis( float axX, float axY, float axZ, float angle )  
 			{
 				vec3 vax;
@@ -1038,7 +1038,7 @@ namespace gb
 				return setRotationAxis(  vax, angle);
 			};
 
-			//! \brief  Построение матрицы поворота по углам Элера (Yaw-Y, Pitch-X, Roll-Z). ПРОВЕРЕНО!
+			//! \brief  РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РїРѕРІРѕСЂРѕС‚Р° РїРѕ СѓРіР»Р°Рј Р­Р»РµСЂР° (Yaw-Y, Pitch-X, Roll-Z). РџР РћР’Р•Р Р•РќРћ!
 			mat44& setRotationYawPitchRoll(float Yaw, float Pitch, float Roll)
 			{
 				mat44 mrYaw, mrPitch, mrRoll;
@@ -1051,12 +1051,12 @@ namespace gb
 				return *this;
 			};
 
-			//! \brief Построить матрицу поворота по кватерниону.  ПРОВЕРЕНО!
+			//! \brief РџРѕСЃС‚СЂРѕРёС‚СЊ РјР°С‚СЂРёС†Сѓ РїРѕРІРѕСЂРѕС‚Р° РїРѕ РєРІР°С‚РµСЂРЅРёРѕРЅСѓ.  РџР РћР’Р•Р Р•РќРћ!
 			mat44& setRotationQuaternion(const  Quaternion& q) ;
 
 
 
-			//! \brief Построение матрицы сдвига (позиции)  . ПРОВЕРЕНО!
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ СЃРґРІРёРіР° (РїРѕР·РёС†РёРё)  . РџР РћР’Р•Р Р•РќРћ!
 			inline mat44&  setTranslation( float x, float y, float z )  
 			{
 				setIdentity();
@@ -1064,13 +1064,13 @@ namespace gb
 				return *this;
 			};
 
-			//! \brief Построение матрицы сдвига (позиции)  ПРОВЕРЕНО!
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ СЃРґРІРёРіР° (РїРѕР·РёС†РёРё)  РџР РћР’Р•Р Р•РќРћ!
 			inline mat44&  setTranslation( const vec3& vTransl) 
 			{
 				return  setTranslation(  vTransl.x, vTransl.y, vTransl.z);
 			}
 			
-			//! \brief Построение матрицы масштабирования ПРОВЕРЕНО!			
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёСЏ РџР РћР’Р•Р Р•РќРћ!			
 			inline mat44&  setScaling( float x, float y, float z)  
 			{
 				_11 = x;   _12=0.0f;   _13=0.0f;   _14=0.0f; 
@@ -1080,23 +1080,23 @@ namespace gb
 				return *this;
 			}
 			
-			//! \brief Построение матрицы масштабирования	 ПРОВЕРЕНО!		
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°С‚СЂРёС†С‹ РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёСЏ	 РџР РћР’Р•Р Р•РќРћ!		
 			inline mat44&  setScaling( const vec3& vScaling) 
 			{
 			  return setScaling( vScaling.x, vScaling.y, vScaling.z );
 			}
 
 
-			//! \brief Построить как матрицу трансформации 
+			//! \brief РџРѕСЃС‚СЂРѕРёС‚СЊ РєР°Рє РјР°С‚СЂРёС†Сѓ С‚СЂР°РЅСЃС„РѕСЂРјР°С†РёРё 
 			mat44& setTransformation(const vec3& vScale, 
 								            const  Quaternion& qRotation,
 								            const vec3& vTranslation);
 
-			//! \brief Построить как матрицу трансформации 
+			//! \brief РџРѕСЃС‚СЂРѕРёС‚СЊ РєР°Рє РјР°С‚СЂРёС†Сѓ С‚СЂР°РЅСЃС„РѕСЂРјР°С†РёРё 
 			mat44& setWorldTransform(const geom3d::TransformData& t);
 
 
-			//! \brief Построение ортографической левосторонней проекционной матрицы. ПРОВЕРЕНА.
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РѕСЂС‚РѕРіСЂР°С„РёС‡РµСЃРєРѕР№ Р»РµРІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РїСЂРѕРµРєС†РёРѕРЅРЅРѕР№ РјР°С‚СЂРёС†С‹. РџР РћР’Р•Р Р•РќРђ.
 			inline void setOrthoLH(float w, float h, float zn, float zf)
 			{
 				_11=2.0f/w;    _12=0.0f;       _13=0.0f;           _14=0.0f;
@@ -1110,7 +1110,7 @@ namespace gb
 				// 0    0   -zn/(zf-zn)  1
 			}
 
-			//! \brief Построение ортографической правосторонней проекционной матрицы. ПРОВЕРЕНА.
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РѕСЂС‚РѕРіСЂР°С„РёС‡РµСЃРєРѕР№ РїСЂР°РІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РїСЂРѕРµРєС†РёРѕРЅРЅРѕР№ РјР°С‚СЂРёС†С‹. РџР РћР’Р•Р Р•РќРђ.
 			inline void setOrthoRH(float w, float h, float zn, float zf)
 			{
 				_11=2.0f/w;     _12=0.0f;    _13=0.0f;          _14=0.0f;
@@ -1125,7 +1125,7 @@ namespace gb
 			}
 
 
-			//! \brief Построение ортографической матрицы   ПРОВЕРЕНА 
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РѕСЂС‚РѕРіСЂР°С„РёС‡РµСЃРєРѕР№ РјР°С‚СЂРёС†С‹   РџР РћР’Р•Р Р•РќРђ 
 			inline void setOrthoOffCenterLH(float minX, float maxX, float minY, float maxY, float zn, float zf) 
 			{
 				_11 = 2.0f/(maxX-minX);         _12 = 0.0f,                     _13 = 0.0f,            _14 = 0.0f;
@@ -1135,7 +1135,7 @@ namespace gb
 			}
  
 
-			//! \brief Построение ортографической матрицы  ПРОВЕРЕНА   
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РѕСЂС‚РѕРіСЂР°С„РёС‡РµСЃРєРѕР№ РјР°С‚СЂРёС†С‹  РџР РћР’Р•Р Р•РќРђ   
 			inline void setOrthoOffCenterRH(float minX, float maxX, float minY, float maxY, float zn, float zf)
 			{
 				_11=2.0f/(maxX-minX);        _12=0.0f;                     _13=0.0f;            _14=0.0f;
@@ -1152,7 +1152,7 @@ namespace gb
 
 			//-------------------------------------------------------------
 
-			//! \brief построение перспективной левосторонней матрицы. ПРОВЕРЕНА.
+			//! \brief РїРѕСЃС‚СЂРѕРµРЅРёРµ РїРµСЂСЃРїРµРєС‚РёРІРЅРѕР№ Р»РµРІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РјР°С‚СЂРёС†С‹. РџР РћР’Р•Р Р•РќРђ.
 			void setPerspectiveFovLH(float fov, float asp, float zn, float zf) 
 			{
 				const float yScale =   gb::fmath::scalar::cotan(fov/2.0f); //yScale = cot(fovY/2)
@@ -1168,7 +1168,7 @@ namespace gb
 				_41 = 0.0f;     _42 = 0.0f;    _43 = -zn*zf/(zf-zn);   _44 = 0.0f;
 			}
 
-			//! \brief построение перспективной правосторонней матрицы. ПРОВЕРЕНА.
+			//! \brief РїРѕСЃС‚СЂРѕРµРЅРёРµ РїРµСЂСЃРїРµРєС‚РёРІРЅРѕР№ РїСЂР°РІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РјР°С‚СЂРёС†С‹. РџР РћР’Р•Р Р•РќРђ.
 			void setPerspectiveFovRH(float fov, float asp, float zn, float zf)
 			{
 			 const float yScale =   gb::fmath::scalar::cotan(fov/2.0f);
@@ -1188,7 +1188,7 @@ namespace gb
 			}
 
 
-			//! \brief Построение перспективной левосторонней матрицы по высоте и ширине .ПРОВЕРЕНА.
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РїРµСЂСЃРїРµРєС‚РёРІРЅРѕР№ Р»РµРІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РјР°С‚СЂРёС†С‹ РїРѕ РІС‹СЃРѕС‚Рµ Рё С€РёСЂРёРЅРµ .РџР РћР’Р•Р Р•РќРђ.
 			void setPerspectiveLH(float w, float h, float zn, float zf) 
 			{
 				// 2*zn/w  0       0              0
@@ -1202,7 +1202,7 @@ namespace gb
 				_41 = 0.0f,       _42 = 0.0f,        _43 = zn*zf/(zn-zf);  _44 = 0.0f;
 			}
 
-			//! \brief Построение перспективной правосторонней матрицы по высоте и ширине. ПРОВЕРЕНА.
+			//! \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РїРµСЂСЃРїРµРєС‚РёРІРЅРѕР№ РїСЂР°РІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РјР°С‚СЂРёС†С‹ РїРѕ РІС‹СЃРѕС‚Рµ Рё С€РёСЂРёРЅРµ. РџР РћР’Р•Р Р•РќРђ.
 			void setPerspectiveRH(float w, float h, float zn, float zf) 
 			{
 				// 2*zn/w  0       0              0
@@ -1219,7 +1219,7 @@ namespace gb
 
 			//-------------------------------------------------------------
 
-			/** \brief Построение левосторонней матрицы вида. ПРОВЕРЕНА.  */
+			/** \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ Р»РµРІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РјР°С‚СЂРёС†С‹ РІРёРґР°. РџР РћР’Р•Р Р•РќРђ.  */
 			void setViewLookAtLH(const vec3& eye, const vec3& at, const vec3& up)
 			{
             vec3  zaxis = (at - eye);  zaxis.normalize(); 
@@ -1241,7 +1241,7 @@ namespace gb
 			}
 
 
-			/** \brief Построение правосторонней матрицы вида. ПРОВЕРЕНА.  */
+			/** \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РїСЂР°РІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РјР°С‚СЂРёС†С‹ РІРёРґР°. РџР РћР’Р•Р Р•РќРђ.  */
 			void setViewLookAtRH(const vec3& eye, const vec3& at, const vec3& up)
 			{
             vec3  zaxis = (eye - at);  zaxis.normalize(); 
@@ -1263,7 +1263,7 @@ namespace gb
 			}
 
 
-			/** \brief Построение левосторонней матрицы вида  по направлению взгляда */
+			/** \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ Р»РµРІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РјР°С‚СЂРёС†С‹ РІРёРґР°  РїРѕ РЅР°РїСЂР°РІР»РµРЅРёСЋ РІР·РіР»СЏРґР° */
 			inline  void setViewDirLH(const vec3& eye, const vec3& dir, const vec3& up) 
 			{ 
                 #pragma message ("KS777 MATH::MAT44  need check setViewDirLH" __FILE__ )
@@ -1278,7 +1278,7 @@ namespace gb
 				setViewLookAtLH( eye, at, up);
 			}
 
-			/** \brief Построение правосторонней матрицы вида  по направлению взгляда */
+			/** \brief РџРѕСЃС‚СЂРѕРµРЅРёРµ РїСЂР°РІРѕСЃС‚РѕСЂРѕРЅРЅРµР№ РјР°С‚СЂРёС†С‹ РІРёРґР°  РїРѕ РЅР°РїСЂР°РІР»РµРЅРёСЋ РІР·РіР»СЏРґР° */
 			inline  void setViewDirRH(const vec3& eye, const vec3& dir, const vec3& up) 
 			{ 
 				#pragma message ("KS777 MATH::MAT44 warn  need check setViewDirRH" __FILE__ )
@@ -1297,19 +1297,19 @@ namespace gb
 
 #if ( defined GB_OPENGL  && defined __GL_H__ )
 
-			//! \brief  Старый способ  перемножения матрицы с текущей в OpenGL 
+			//! \brief  РЎС‚Р°СЂС‹Р№ СЃРїРѕСЃРѕР±  РїРµСЂРµРјРЅРѕР¶РµРЅРёСЏ РјР°С‚СЂРёС†С‹ СЃ С‚РµРєСѓС‰РµР№ РІ OpenGL 
 			inline void glMul()  { glMultMatrixf( (GLfloat*)&_11  ); }
 
-			//! \brief   Старый способ загрузки матрицы  в OpenGL 
+			//! \brief   РЎС‚Р°СЂС‹Р№ СЃРїРѕСЃРѕР± Р·Р°РіСЂСѓР·РєРё РјР°С‚СЂРёС†С‹  РІ OpenGL 
 			inline void glLoad() { glLoadMatrixf( (GLfloat*)&_11  ); }
 
-			//! \brief Загрузить из контекста OpenGL проекционную матрицу.
+			//! \brief Р—Р°РіСЂСѓР·РёС‚СЊ РёР· РєРѕРЅС‚РµРєСЃС‚Р° OpenGL РїСЂРѕРµРєС†РёРѕРЅРЅСѓСЋ РјР°С‚СЂРёС†Сѓ.
 			inline void glGetProjection() 
 			{    
 				glGetFloatv(GL_PROJECTION_MATRIX, &_11);
 			}
 
-			//! \brief Загрузить из контекста OpenGL модель-видовую (WORLD X VIEW) матрицу.
+			//! \brief Р—Р°РіСЂСѓР·РёС‚СЊ РёР· РєРѕРЅС‚РµРєСЃС‚Р° OpenGL РјРѕРґРµР»СЊ-РІРёРґРѕРІСѓСЋ (WORLD X VIEW) РјР°С‚СЂРёС†Сѓ.
 			inline void glGetModelView()
 			{
 				glGetFloatv(GL_MODELVIEW_MATRIX, &_11);
@@ -1320,25 +1320,25 @@ namespace gb
 
 #ifdef _D3D9_H_  // d3d9 device methods
 
-			   //! \brief Установить матрицу в устройство d3d9 как матрицу ВИДА 
+			   //! \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РјР°С‚СЂРёС†Сѓ РІ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ d3d9 РєР°Рє РјР°С‚СЂРёС†Сѓ Р’РР”Рђ 
 			   inline HRESULT makeDevice9TransfView(IDirect3DDevice9* pdevice) const 
 			   {
 				   return pdevice->SetTransform(D3DTS_VIEW, (D3DMATRIX*)&_11 );
 			   }
 
-			   //! \brief Установить матрицу в устройство d3d9 как матрицу ПРОЕКЦИИ  
+			   //! \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РјР°С‚СЂРёС†Сѓ РІ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ d3d9 РєР°Рє РјР°С‚СЂРёС†Сѓ РџР РћР•РљР¦РР  
 			   inline HRESULT makeDevice9TransfProj(IDirect3DDevice9* pdevice) const
 			   {
 				   return pdevice->SetTransform(D3DTS_PROJECTION, (D3DMATRIX*)&_11 );
 			   }
 
-			   //! \brief Установить матрицу в устройство d3d9 как матрицу ТРАНСФОРМАЦИИ  	
+			   //! \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РјР°С‚СЂРёС†Сѓ РІ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ d3d9 РєР°Рє РјР°С‚СЂРёС†Сѓ РўР РђРќРЎР¤РћР РњРђР¦РР  	
 			   inline HRESULT makeDevice9TransfWorld(IDirect3DDevice9* pdevice) 
 			   {
 				   return pdevice->SetTransform(D3DTS_WORLD, (D3DMATRIX*)&_11 );
 			   }
 
-			   //! \brief Установить матрицу в девайс как матрицу трансформации по данному типу trType 		
+			   //! \brief РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РјР°С‚СЂРёС†Сѓ РІ РґРµРІР°Р№СЃ РєР°Рє РјР°С‚СЂРёС†Сѓ С‚СЂР°РЅСЃС„РѕСЂРјР°С†РёРё РїРѕ РґР°РЅРЅРѕРјСѓ С‚РёРїСѓ trType 		
 			   inline HRESULT makeDevice9Transf(IDirect3DDevice9* pdevice, D3DTRANSFORMSTATETYPE trType ) const 
 			   {
 				   return pdevice->SetTransform( trType, (D3DMATRIX*)&_11 );
@@ -1347,19 +1347,19 @@ namespace gb
 
 
 
-			   //! \brief Получить из устройства d3d9   матрицу ВИДА 
+			   //! \brief РџРѕР»СѓС‡РёС‚СЊ РёР· СѓСЃС‚СЂРѕР№СЃС‚РІР° d3d9   РјР°С‚СЂРёС†Сѓ Р’РР”Рђ 
 			   inline HRESULT readDevice9TransfView(IDirect3DDevice9* pdevice)   
 			   {
 				   return pdevice->GetTransform(D3DTS_VIEW, (D3DMATRIX*)&_11 );
 			   }
 
-			   //! \brief Получить из устройства устройства d3d9   матрицу ПРОЕКЦИИ  
+			   //! \brief РџРѕР»СѓС‡РёС‚СЊ РёР· СѓСЃС‚СЂРѕР№СЃС‚РІР° СѓСЃС‚СЂРѕР№СЃС‚РІР° d3d9   РјР°С‚СЂРёС†Сѓ РџР РћР•РљР¦РР  
 			   inline HRESULT readDevice9TransfProj(IDirect3DDevice9* pdevice)  
 			   {
 				   return pdevice->GetTransform(D3DTS_PROJECTION, (D3DMATRIX*)&_11 );
 			   }
 
-			   //! \brief Получить из устройства устройства d3d9   матрицу ТРАНСФОРМАЦИИ  	
+			   //! \brief РџРѕР»СѓС‡РёС‚СЊ РёР· СѓСЃС‚СЂРѕР№СЃС‚РІР° СѓСЃС‚СЂРѕР№СЃС‚РІР° d3d9   РјР°С‚СЂРёС†Сѓ РўР РђРќРЎР¤РћР РњРђР¦РР  	
 			   inline HRESULT readDevice9TransfWorld(IDirect3DDevice9* pdevice) 
 			   {
 				   return pdevice->GetTransform(D3DTS_WORLD, (D3DMATRIX*)&_11 );
@@ -1371,7 +1371,7 @@ namespace gb
 
 
 
-				//! \brief Вывод значений на консоль
+				//! \brief Р’С‹РІРѕРґ Р·РЅР°С‡РµРЅРёР№ РЅР° РєРѕРЅСЃРѕР»СЊ
 			   inline void print() const
 			   {
 				   printf("\n%f   %f   %f   %f  \n%f   %f   %f   %f  \n%f   %f   %f   %f  \n%f   %f   %f   %f  \n  ", 

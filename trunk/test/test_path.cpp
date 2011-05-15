@@ -1,6 +1,6 @@
 /*!	\file test_Path.h
- *  Тесты для модуля system/Path
- *	\author Дмитрий Литовченко kvakvs@yandex.ru
+ *  РўРµСЃС‚С‹ РґР»СЏ РјРѕРґСѓР»СЏ system/Path
+ *	\author Р”РјРёС‚СЂРёР№ Р›РёС‚РѕРІС‡РµРЅРєРѕ kvakvs@yandex.ru
  */
 #include "pch_test.h"
 

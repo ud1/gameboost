@@ -33,30 +33,30 @@ bool FileStream::open(const char *_name, const int mode)
     char str_mode[5] = "\0\0\0";
     if(mode & eStreamAccess::TRUNCATE)
     {
-        // Чтение/запись с перезаписью файла
+        // Р§С‚РµРЅРёРµ/Р·Р°РїРёСЃСЊ СЃ РїРµСЂРµР·Р°РїРёСЃСЊСЋ С„Р°Р№Р»Р°
         if((mode & eStreamAccess::WRITE) && (mode & eStreamAccess::READ))
             strcpy(str_mode, "w+");
-        // Чтение с перезаписью файла
+        // Р§С‚РµРЅРёРµ СЃ РїРµСЂРµР·Р°РїРёСЃСЊСЋ С„Р°Р№Р»Р°
         else if((mode & eStreamAccess::WRITE))
             strcpy(str_mode, "w");
     }
     else
     {
-        // Чтение/дополнение (без перезаписи файла)
+        // Р§С‚РµРЅРёРµ/РґРѕРїРѕР»РЅРµРЅРёРµ (Р±РµР· РїРµСЂРµР·Р°РїРёСЃРё С„Р°Р№Р»Р°)
         if((mode & eStreamAccess::APPEND) && (mode & eStreamAccess::READ))
             strcpy(str_mode, "a+");
-        // Чтение/запись без перезаписи файла
+        // Р§С‚РµРЅРёРµ/Р·Р°РїРёСЃСЊ Р±РµР· РїРµСЂРµР·Р°РїРёСЃРё С„Р°Р№Р»Р°
         else if((mode & eStreamAccess::WRITE) && (mode & eStreamAccess::READ))
             strcpy(str_mode, "r+");
-        // Чтение (без перезаписи файла)
+        // Р§С‚РµРЅРёРµ (Р±РµР· РїРµСЂРµР·Р°РїРёСЃРё С„Р°Р№Р»Р°)
         else if((mode & eStreamAccess::READ))
             strcpy(str_mode, "r");
-        // Дополнение (без перезаписи файла)
+        // Р”РѕРїРѕР»РЅРµРЅРёРµ (Р±РµР· РїРµСЂРµР·Р°РїРёСЃРё С„Р°Р№Р»Р°)
         else if((mode & eStreamAccess::APPEND))
             strcpy(str_mode, "a");
     }
     strcat(str_mode, "b");
-    //Что то через ж* объявили...
+    //Р§С‚Рѕ С‚Рѕ С‡РµСЂРµР· Р¶* РѕР±СЉСЏРІРёР»Рё...
     if(str_mode[0] == 'b')
         return false;
 

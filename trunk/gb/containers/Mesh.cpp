@@ -2,7 +2,7 @@
 // Error	3	error C2039: 'base' :
 // is not a member of 'boost::multi_index::detail::bidir_node_iterator<Node>'
 // c:\boost_1_44_0\boost\property_tree\detail\ptree_implementation.hpp	471
-#error ks777:  файл не компилируется.  Смотреть комментарий
+#error ks777:  С„Р°Р№Р» РЅРµ РєРѕРјРїРёР»РёСЂСѓРµС‚СЃСЏ.  РЎРјРѕС‚СЂРµС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№
 
 
 

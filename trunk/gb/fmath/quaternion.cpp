@@ -97,7 +97,7 @@ Quaternion Quaternion::slerp( const Quaternion &q1, float t )
 //
 //	// We should have two unit quaternions, so dot should be <= 1.0
 //
-//#pragma message("ks777::  gb::fmath::quat slerp àññåðò îòêëþ÷¸í"  __FILE__)
+//#pragma message("ks777::  gb::fmath::quat slerp Ð°ÑÑÐµÑ€Ñ‚ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ñ‘Ð½"  __FILE__)
 ////	assert(cosOmega < 1.1f);
 //
 //

@@ -1,5 +1,5 @@
 /** \file
- \brief Прямоугольник
+ \brief РџСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє
 
 
 */
@@ -16,13 +16,13 @@ namespace gb
 	namespace base
 	{
 		
-		//! \brief Прямоугольник
+		//! \brief РџСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє
 		struct Rectangle
 		{
-			int left; //< позиция по X.
-			int top;  //< позиция по Y.
-			int width;  //< ширина.
-			int height; //< высота.
+			int left; //< РїРѕР·РёС†РёСЏ РїРѕ X.
+			int top;  //< РїРѕР·РёС†РёСЏ РїРѕ Y.
+			int width;  //< С€РёСЂРёРЅР°.
+			int height; //< РІС‹СЃРѕС‚Р°.
 
 			Rectangle(){}
 			
@@ -90,7 +90,7 @@ namespace gb
 				return r;
 			}
 
-			// \brief Проверка нахождения точки в прямоугольнике. 
+			// \brief РџСЂРѕРІРµСЂРєР° РЅР°С…РѕР¶РґРµРЅРёСЏ С‚РѕС‡РєРё РІ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРµ. 
 			inline bool checkPoint(int x, int y) const 
 			{
 			  if( (x>left) && (x<left+width) && (y>top) && (y<top+height) ) return true;
@@ -131,7 +131,7 @@ namespace gb
 				offset (p);
 			}
 
-			//! \brief  Получить центральную координату.
+			//! \brief  РџРѕР»СѓС‡РёС‚СЊ С†РµРЅС‚СЂР°Р»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ.
 			inline POINT center() const 
 			{
 				POINT res = { (left+width)/2 , (top+height)/2 };
