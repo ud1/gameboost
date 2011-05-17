@@ -1,4 +1,5 @@
-﻿#include <gb/util/SourceInit.h>
+﻿#include "stdafx.h"
+#include <gb/util/SourceInit.h>
 
 namespace gb
 {
