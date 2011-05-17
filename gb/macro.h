@@ -51,7 +51,7 @@
 #endif
 
 #ifdef WIN32
-  //! \brief  Безопастное по исулючению удаление com-интерфейса
+  //! \brief  Безопасное по исключению удаление COM-интерфейса
   #define GB_SAFE_EXC_RELEASE(p) { if(NULL != (p) ) { try { (p)->Release(); } catch(...) { (p)=NULL; }; (p)=NULL; } }
 #endif
 
