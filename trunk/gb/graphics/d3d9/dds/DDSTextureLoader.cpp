@@ -3,6 +3,8 @@
  
  Functions for loading a DDS texture without using D3DX
  Copyright (c) Microsoft Corporation. All rights reserved.
+  \todo убрать макросы  поменять на gb macro
+ 
 */
 
 #include "stdafx.h"

@@ -15,7 +15,7 @@
 								\
 		if(!m_TFunc_##funcname) {\
 		  handleNotFoundAddr( GB_MAKE_STR(funcname) ); \
-		  return NERROR; \
+		  /* return NERROR;*/ \
 		 }
 
 //==============================================================
@@ -33,239 +33,122 @@ int gb::graphics::d3d9::d3dx9_dynamic_load::Functions::GetProcAddr(const HMODULE
    int _begin = 0;
    
      __HANDLE_DLL_ENTRY(D3DXCheckVersion) 
-	//m_TFunc_D3DXCheckVersion = (TFunc_D3DXCheckVersion)::GetProcAddress(hm,"D3DXCheckVersion");
-//	if(!m_TFunc_D3DXCheckVersion)   {  handleNotFoundAddr( "D3DXCheckVersion" );  return NERROR; }
-
-
+ 
 
    __HANDLE_DLL_ENTRY(D3DXCreateBuffer)
-	//m_TFunc_D3DXCreateBuffer = (  TFunc_D3DXCreateBuffer  )::GetProcAddress(hm,  "D3DXCreateBuffer"  );
-	//if(!m_TFunc_D3DXCreateBuffer ) {  handleNotFoundAddr( "D3DXCreateBuffer" );  return NERROR; }
-
-
+ 
 	__HANDLE_DLL_ENTRY(D3DXCreateFontA)
-	//m_TFunc_D3DXCreateFontA = (  TFunc_D3DXCreateFontA  )::GetProcAddress(hm,  "D3DXCreateFontA"  );
-	//if(! m_TFunc_D3DXCreateFontA ) {  handleNotFoundAddr( "D3DXCreateFontA" );  return NERROR; }
-
+ 
 	__HANDLE_DLL_ENTRY(D3DXCreateFontW)
-	//m_TFunc_D3DXCreateFontW = (  TFunc_D3DXCreateFontW  )::GetProcAddress(hm,  "D3DXCreateFontW"  );
-	//if(! m_TFunc_D3DXCreateFontW ) {  handleNotFoundAddr( "D3DXCreateFontW" );  return NERROR; }
-
-
+ 
 	__HANDLE_DLL_ENTRY(D3DXCreateFontIndirectA)
-	//m_TFunc_D3DXCreateFontIndirectA = (  TFunc_D3DXCreateFontIndirectA  )::GetProcAddress(hm,  "D3DXCreateFontIndirectA"  );
-	//if(!m_TFunc_D3DXCreateFontIndirectA ) {  handleNotFoundAddr( "D3DXCreateFontIndirectA" );  return NERROR; }
-
+ 
 
 	__HANDLE_DLL_ENTRY(D3DXCreateFontIndirectW)
-	//m_TFunc_D3DXCreateFontIndirectW = (  TFunc_D3DXCreateFontIndirectW  )::GetProcAddress(hm,  "D3DXCreateFontIndirectW"  );
-	//if(!m_TFunc_D3DXCreateFontIndirectW ) {  handleNotFoundAddr( "D3DXCreateFontIndirectW" );  return NERROR; }
-
-
+ 
  	__HANDLE_DLL_ENTRY(D3DXCreateLine)
-	//m_TFunc_D3DXCreateLine = (  TFunc_D3DXCreateLine  )::GetProcAddress(hm,  "D3DXCreateLine"  );
-	//if(!m_TFunc_D3DXCreateLine ) {  handleNotFoundAddr( "D3DXCreateLine" );  return NERROR; }
-
+ 
 
 	__HANDLE_DLL_ENTRY(D3DXCreateRenderToEnvMap)
-	//m_TFunc_D3DXCreateRenderToEnvMap = (  TFunc_D3DXCreateRenderToEnvMap  )::GetProcAddress(hm, "D3DXCreateRenderToEnvMap"  );
-	//if(!m_TFunc_D3DXCreateRenderToEnvMap ) {  handleNotFoundAddr( "D3DXCreateRenderToEnvMap" );  return NERROR; }
-
-
+ 
  	__HANDLE_DLL_ENTRY(D3DXCreateRenderToSurface)
-	//m_TFunc_D3DXCreateRenderToSurface = (TFunc_D3DXCreateRenderToSurface)::GetProcAddress(hm,"D3DXCreateRenderToSurface");
-	//if(!m_TFunc_D3DXCreateRenderToSurface) {  handleNotFoundAddr( "D3DXCreateRenderToSurface" );  return NERROR; }
-
-
+ 
  	__HANDLE_DLL_ENTRY(D3DXCreateSprite)
-	//m_TFunc_D3DXCreateSprite = (TFunc_D3DXCreateSprite)::GetProcAddress(hm,"D3DXCreateSprite");
-	//if(!m_TFunc_D3DXCreateSprite) {  handleNotFoundAddr( "D3DXCreateSprite" );  return NERROR; }
-
-
+ 
 	__HANDLE_DLL_ENTRY(D3DXDebugMute)
-	//m_TFunc_D3DXDebugMute = (TFunc_D3DXDebugMute)::GetProcAddress(hm,"D3DXDebugMute");
-	//if(!m_TFunc_D3DXDebugMute) {  handleNotFoundAddr( "D3DXDebugMute" );  return NERROR; }
-
+ 
 
   __HANDLE_DLL_ENTRY(D3DXGetDriverLevel)
-	//m_TFunc_D3DXGetDriverLevel = (TFunc_D3DXGetDriverLevel)::GetProcAddress(hm,"D3DXGetDriverLevel");
-	//if(!m_TFunc_D3DXGetDriverLevel) {  handleNotFoundAddr( "D3DXGetDriverLevel" );  return NERROR; }
-
-
+ 
 	//------------------------------------------------------------
 	//	                math    functions
 	//------------------------------------------------------------
 
 
    __HANDLE_DLL_ENTRY(D3DXMatrixMultiply)
-	//m_TFunc_D3DXMatrixMultiply = (TFunc_D3DXMatrixMultiply)::GetProcAddress(hm,"D3DXMatrixMultiply");
-	//if(!m_TFunc_D3DXMatrixMultiply) {  handleNotFoundAddr( "D3DXMatrixMultiply" );  return NERROR; }
-
-	
+ 
     __HANDLE_DLL_ENTRY(D3DXMatrixInverse)
-	//m_TFunc_D3DXMatrixInverse =  (TFunc_D3DXMatrixInverse)::GetProcAddress(hm,"D3DXMatrixInverse");
- 	//if(!m_TFunc_D3DXMatrixInverse) {  handleNotFoundAddr( "D3DXMatrixInverse" );  return NERROR; }
-
-
+ 
 
 
 	//------------------------------------------------------------
 	//	     MESH functions
 	//------------------------------------------------------------
 
-   __HANDLE_DLL_ENTRY(D3DXBoxBoundProbe)
-//  m_TFunc_D3DXboxBoundProbe = (TFunc_D3DXboxBoundProbe)::GetProcAddress(hm,"D3DXBoxBoundProbe"); 
- //	if(!m_TFunc_D3DXboxBoundProbe) {  handleNotFoundAddr( "D3DXBoxBoundProbe" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXBoxBoundProbe)
 
- int _break = 0;
+	__HANDLE_DLL_ENTRY(D3DXCleanMesh)
 
-    __HANDLE_DLL_ENTRY(D3DXCleanMesh)
-//m_TFunc_D3DXCleanMesh  = (TFunc_D3DXCleanMesh)::GetProcAddress(hm,"D3DXCleanMesh"); 
- //  	if(!m_TFunc_D3DXCleanMesh) {  handleNotFoundAddr( "D3DXCleanMesh" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXComputeBoundingBox)
 
-   __HANDLE_DLL_ENTRY(D3DXComputeBoundingBox)
-//m_TFunc_D3DXComputeBoundingBox  = (TFunc_D3DXComputeBoundingBox)::GetProcAddress(hm,"D3DXComputeBoundingBox"); 
-  // 	if(!m_TFunc_D3DXComputeBoundingBox) {  handleNotFoundAddr( "D3DXComputeBoundingBox" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXComputeBoundingSphere)
 
-    __HANDLE_DLL_ENTRY(D3DXComputeBoundingSphere)
-//m_TFunc_D3DXComputeBoundingSphere = (TFunc_D3DXComputeBoundingSphere)::GetProcAddress(hm,"D3DXComputeBoundingSphere"); 
- //   	if(!m_TFunc_D3DXComputeBoundingSphere) {  handleNotFoundAddr( "D3DXComputeBoundingSphere" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXComputeNormals)
 
-    __HANDLE_DLL_ENTRY(D3DXComputeNormals)
- // m_TFunc_D3DXComputeNormals  = (TFunc_D3DXComputeNormals)::GetProcAddress(hm,"D3DXComputeNormals"); 
- //   	if(!m_TFunc_D3DXComputeNormals) {  handleNotFoundAddr( "D3DXComputeNormals" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXComputeTangent)
 
-    __HANDLE_DLL_ENTRY(D3DXComputeTangent)
- // m_TFunc_D3DXComputeTangent = (TFunc_D3DXComputeTangent)::GetProcAddress(hm,"D3DXComputeTangent"); 
-//	 	if(!m_TFunc_D3DXComputeTangent) {  handleNotFoundAddr( "D3DXComputeTangent" );  return NERROR; }
-
-    __HANDLE_DLL_ENTRY(D3DXComputeTangentFrame)
- // m_TFunc_D3DXComputeTangentFrame = (TFunc_D3DXComputeTangentFrame)::GetProcAddress(hm,"D3DXComputeTangentFrame"); 
- //  	if(!m_TFunc_D3DXComputeTangentFrame) {  handleNotFoundAddr( "D3DXComputeTangentFrame" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXComputeTangentFrame)
 
 
-    __HANDLE_DLL_ENTRY(D3DXComputeTangentFrameEx)
- // m_TFunc_D3DXComputeTangentFrameEx  = (TFunc_D3DXComputeTangentFrameEx)::GetProcAddress(hm,"D3DXComputeTangentFrameEx"); 
-  //	if(!m_TFunc_D3DXComputeTangentFrameEx) {  handleNotFoundAddr( "D3DXComputeTangentFrameEx" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXComputeTangentFrameEx)
 
 
-	   __HANDLE_DLL_ENTRY(D3DXConcatenateMeshes)
-//  m_TFunc_D3DXConcatenateMeshes   = (TFunc_D3DXConcatenateMeshes)::GetProcAddress(hm,"D3DXConcatenateMeshes"); 
-  //	if(!m_TFunc_D3DXConcatenateMeshes) {  handleNotFoundAddr( "D3DXConcatenateMeshes" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXConcatenateMeshes)
+
+	__HANDLE_DLL_ENTRY(D3DXCreateMesh)
+
+	__HANDLE_DLL_ENTRY(D3DXCreateMeshFVF)
 
 
-    __HANDLE_DLL_ENTRY(D3DXCreateMesh)
- // m_TFunc_D3DXCreateMesh  = (TFunc_D3DXCreateMesh)::GetProcAddress(hm,"D3DXCreateMesh"); 
-  // 	if(!m_TFunc_D3DXCreateMesh) {  handleNotFoundAddr( "D3DXCreateMesh" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXDeclaratorFromFVF)
 
-	   __HANDLE_DLL_ENTRY(D3DXCreateMeshFVF)
- // m_TFunc_D3DXCreateMeshFVF  = (TFunc_D3DXCreateMeshFVF)::GetProcAddress(hm,"D3DXCreateMeshFVF"); 
-  //	if(!m_TFunc_D3DXCreateMeshFVF) {  handleNotFoundAddr( "D3DXCreateMeshFVF" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXGetFVFVertexSize)
 
-	   __HANDLE_DLL_ENTRY(D3DXDeclaratorFromFVF)
- // m_TFunc_D3DXDeclaratorFromFVF = (TFunc_D3DXDeclaratorFromFVF)::GetProcAddress(hm,"D3DXDeclaratorFromFVF"); 
-  // 	if(!m_TFunc_D3DXDeclaratorFromFVF) {  handleNotFoundAddr( "D3DXDeclaratorFromFVF" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXIntersect)
 
-	   __HANDLE_DLL_ENTRY(D3DXGetFVFVertexSize)
- // m_TFunc_D3DXGetFVFVertexSize  = (TFunc_D3DXGetFVFVertexSize)::GetProcAddress(hm,"D3DXGetFVFVertexSize"); 
-  // 	if(!m_TFunc_D3DXGetFVFVertexSize) {  handleNotFoundAddr( "D3DXGetFVFVertexSize" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXIntersectSubset)
+
+	__HANDLE_DLL_ENTRY(D3DXIntersectTri)
 
 
-	   __HANDLE_DLL_ENTRY(D3DXIntersect)
-  //m_TFunc_D3DXIntersect  = (TFunc_D3DXIntersect)::GetProcAddress(hm,"D3DXIntersect"); 
-  // 	if(!m_TFunc_D3DXIntersect) {  handleNotFoundAddr( "D3DXIntersect" );  return NERROR; }
-
-   __HANDLE_DLL_ENTRY(D3DXIntersectSubset)
- // m_TFunc_D3DXIntersectSubset  = (TFunc_D3DXIntersectSubset)::GetProcAddress(hm,"D3DXIntersectSubset"); 
-  //  	if(!m_TFunc_D3DXIntersectSubset) {  handleNotFoundAddr( "D3DXIntersectSubset" );  return NERROR; }
-
-   __HANDLE_DLL_ENTRY(D3DXIntersectTri)
- // m_TFunc_D3DXIntersectTri    = (TFunc_D3DXIntersectTri)::GetProcAddress(hm,"D3DXIntersectTri"); 
- // 	if(!m_TFunc_D3DXIntersectTri) {  handleNotFoundAddr( "D3DXIntersectTri" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXA)
 
 
-   __HANDLE_DLL_ENTRY(D3DXLoadMeshFromXA)
- // m_TFunc_D3DXLoadMeshFromXA   = (TFunc_D3DXLoadMeshFromXA)::GetProcAddress(hm,"D3DXLoadMeshFromXA"); 
- // 	if(!m_TFunc_D3DXLoadMeshFromXA) {  handleNotFoundAddr( "D3DXLoadMeshFromXA" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXW)
 
 
-   __HANDLE_DLL_ENTRY(D3DXLoadMeshFromXW)
-//	m_TFunc_D3DXLoadMeshFromXW   = (TFunc_D3DXLoadMeshFromXW)::GetProcAddress(hm,"D3DXLoadMeshFromXW"); 
-	//if(!m_TFunc_D3DXLoadMeshFromXW) {  handleNotFoundAddr( "D3DXLoadMeshFromXW" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXInMemory)
+
+	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXof)
+
+	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXResource)
+
+	__HANDLE_DLL_ENTRY(D3DXLoadPatchMeshFromXof)
 
 
-    __HANDLE_DLL_ENTRY(D3DXLoadMeshFromXInMemory)
- // m_TFunc_D3DXLoadMeshFromXInMemory   = (TFunc_D3DXLoadMeshFromXInMemory)::GetProcAddress(hm,"D3DXLoadMeshFromXInMemory"); 
- // 	if(!m_TFunc_D3DXLoadMeshFromXInMemory) {  handleNotFoundAddr( "D3DXLoadMeshFromXInMemory" );  return NERROR; }
 
-   __HANDLE_DLL_ENTRY(D3DXLoadMeshFromXof)
- // m_TFunc_D3DXLoadMeshFromXof  = (TFunc_D3DXLoadMeshFromXof)::GetProcAddress(hm,"D3DXLoadMeshFromXof"); 
- //  	if(!m_TFunc_D3DXLoadMeshFromXof) {  handleNotFoundAddr( "D3DXLoadMeshFromXof" );  return NERROR; }
+	#pragma message(  "ks777: d3dx loader:: ПРОВЕРИТЬ D3DXLoadSkinMeshFromXof  "  __FILE__ )
 
-   __HANDLE_DLL_ENTRY(D3DXLoadMeshFromXResource)
- // m_TFunc_D3DXLoadMeshFromXResource  = (TFunc_D3DXLoadMeshFromXResource)::GetProcAddress(hm,"D3DXLoadMeshFromXResource"); 
- // 	if(!m_TFunc_D3DXLoadMeshFromXResource) {  handleNotFoundAddr( "D3DXLoadMeshFromXResource" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXLoadSkinMeshFromXof)
 
-   __HANDLE_DLL_ENTRY(D3DXLoadPatchMeshFromXof)
- // m_TFunc_D3DXLoadPatchMeshFromXof   = (TFunc_D3DXLoadPatchMeshFromXof)::GetProcAddress(hm,"D3DXLoadPatchMeshFromXof"); 
- // 	if(!m_TFunc_D3DXLoadPatchMeshFromXof) {  handleNotFoundAddr( "D3DXLoadPatchMeshFromXof" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXOptimizeFaces)
 
 
-	#pragma warning(  "ks777: d3dx loader:: ПРОВЕРИТЬ D3DXLoadSkinMeshFromXof  "  __FILE__ )
+	__HANDLE_DLL_ENTRY(D3DXOptimizeVertices)
 
-	   __HANDLE_DLL_ENTRY(D3DXLoadSkinMeshFromXof)
-  //m_TFunc_D3DXLoadSkinMeshFromXof   = (TFunc_D3DXLoadSkinMeshFromXof)::GetProcAddress(hm,"D3DXLoadSkinMeshFromXof"); 
-  // 	if(!m_TFunc_D3DXLoadSkinMeshFromXof) {  handleNotFoundAddr( "D3DXLoadSkinMeshFromXof" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXRectPatchSize)
 
+	__HANDLE_DLL_ENTRY(D3DXSaveMeshToXA)
 
-	   __HANDLE_DLL_ENTRY(D3DXOptimizeFaces)
- // m_TFunc_D3DXOptimizeFaces  = (TFunc_D3DXOptimizeFaces)::GetProcAddress(hm,"D3DXOptimizeFaces"); 
- // 	if(!m_TFunc_D3DXOptimizeFaces) {  handleNotFoundAddr( "D3DXOptimizeFaces" );  return NERROR; }
+	__HANDLE_DLL_ENTRY(D3DXSaveMeshToXW)
 
+	__HANDLE_DLL_ENTRY(D3DXSimplifyMesh)
+	__HANDLE_DLL_ENTRY(D3DXSplitMesh)
+	__HANDLE_DLL_ENTRY(D3DXTriPatchSize)
+	__HANDLE_DLL_ENTRY(D3DXValidMesh)	
+	__HANDLE_DLL_ENTRY(D3DXValidPatchMesh)
+	__HANDLE_DLL_ENTRY(D3DXWeldVertices)
 
-	   __HANDLE_DLL_ENTRY(D3DXOptimizeVertices)
- // m_TFunc_D3DXOptimizeVertices  = (TFunc_D3DXOptimizeVertices)::GetProcAddress(hm,"D3DXOptimizeVertices"); 
- // 	if(!m_TFunc_D3DXOptimizeVertices) {  handleNotFoundAddr( "D3DXOptimizeVertices" );  return NERROR; }
-
-
-	   __HANDLE_DLL_ENTRY(D3DXRectPatchSize)
-//  m_TFunc_D3DXRectPatchSize   = (TFunc_D3DXRectPatchSize)::GetProcAddress(hm,"D3DXRectPatchSize"); 
- // 	if(!m_TFunc_D3DXRectPatchSize) {  handleNotFoundAddr( "D3DXRectPatchSize" );  return NERROR; }
- 
-    __HANDLE_DLL_ENTRY(D3DXSaveMeshToXA)
- // m_TFunc_D3DXSaveMeshToXA = (TFunc_D3DXSaveMeshToXA)::GetProcAddress(hm,"D3DXSaveMeshToXA");
- // 	if(!m_TFunc_D3DXSaveMeshToXA) {  handleNotFoundAddr( "D3DXSaveMeshToXA" );  return NERROR; }
-
-	   __HANDLE_DLL_ENTRY(D3DXSaveMeshToXW)
-//	m_TFunc_D3DXSaveMeshToXW = (TFunc_D3DXSaveMeshToXW)::GetProcAddress(hm,"D3DXSaveMeshToXW");
-//	if(!m_TFunc_D3DXSaveMeshToXW) {  handleNotFoundAddr( "D3DXSaveMeshToXW" );  return NERROR; }
-
-     __HANDLE_DLL_ENTRY(D3DXSimplifyMesh)
- // m_TFunc_D3DXSimplifyMesh   = (TFunc_D3DXSimplifyMesh)::GetProcAddress(hm,"D3DXSimplifyMesh"); 
- // 	if(!m_TFunc_D3DXSimplifyMesh) {  handleNotFoundAddr( "D3DXSimplifyMesh" );  return NERROR; }
-
-
-	   __HANDLE_DLL_ENTRY(D3DXSplitMesh)
- // m_TFunc_D3DXSplitMesh = (TFunc_D3DXSplitMesh)::GetProcAddress(hm,"D3DXSplitMesh");
-  //	if(!m_TFunc_D3DXSplitMesh) {  handleNotFoundAddr( "D3DXSplitMesh" );  return NERROR; }
-
-	   __HANDLE_DLL_ENTRY(D3DXTriPatchSize)
- // m_TFunc_D3DXTriPatchSize   = (TFunc_D3DXTriPatchSize)::GetProcAddress(hm,"D3DXTriPatchSize"); 
- //	if(!m_TFunc_D3DXTriPatchSize) {  handleNotFoundAddr( "D3DXTriPatchSize" );  return NERROR; }
-
-     __HANDLE_DLL_ENTRY(D3DXValidMesh)
-//m_TFunc_D3DXValidMesh  = (TFunc_D3DXValidMesh)::GetProcAddress(hm,"D3DXValidMesh"); 
- 	//if(!m_TFunc_D3DXValidMesh) {  handleNotFoundAddr( "D3DXValidMesh" );  return NERROR; }
-
-
-	   __HANDLE_DLL_ENTRY(D3DXValidPatchMesh)
-//m_TFunc_D3DXValidPatchMesh = (TFunc_D3DXValidPatchMesh)::GetProcAddress(hm,"D3DXValidPatchMesh"); 
-// 	if(!m_TFunc_D3DXValidPatchMesh) {  handleNotFoundAddr( "D3DXValidPatchMesh" );  return NERROR; }
-
-
-	   __HANDLE_DLL_ENTRY(D3DXWeldVertices)
-//m_TFunc_D3DXWeldVertices   = (TFunc_D3DXWeldVertices)::GetProcAddress(hm,"D3DXWeldVertices"); 
- 	//if(!m_TFunc_D3DXWeldVertices) {  handleNotFoundAddr( "D3DXWeldVertices" );  return NERROR; }
 
 
 	//------------------------------------------------------------

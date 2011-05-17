@@ -42,102 +42,55 @@ namespace d3dx9_dynamic_load
 		typedef BOOL (__stdcall *TFunc_D3DXCheckVersion)(UINT D3DSDKVersion, UINT D3DXSDKVersion);
 
 		// 
-		//==================================================================== 
+		//================================================================= 
 		//                       general purpose function 
-		//====================================================================
+		//=================================================================
 		// 
 
 		typedef HRESULT (__stdcall *TFunc_D3DXCreateBuffer)( DWORD NumBytes, LPD3DXBUFFER * ppBuffer);
 
 
-		typedef HRESULT  (__stdcall *TFunc_D3DXCreateFontA)(
-			LPDIRECT3DDEVICE9 pDevice,
-			INT Height,
-			UINT Width,
-			UINT Weight,
-			UINT MipLevels,
-			BOOL Italic,
-			DWORD CharSet,
-			DWORD OutputPrecision,
-			DWORD Quality,
-			DWORD PitchAndFamily,
-			const CHAR* pFacename,
-			LPD3DXFONT * ppFont
-			);
+		typedef HRESULT  (__stdcall *TFunc_D3DXCreateFontA)(LPDIRECT3DDEVICE9 pDevice,
+			INT Height,	   	UINT Width,	UINT Weight, UINT MipLevels, BOOL Italic,
+			DWORD CharSet, 	DWORD OutputPrecision, 	DWORD Quality,	DWORD PitchAndFamily,
+			const CHAR* pFacename,	LPD3DXFONT * ppFont		);
 
 		typedef HRESULT  (__stdcall *TFunc_D3DXCreateFontW)(
-			LPDIRECT3DDEVICE9 pDevice,
-			INT Height,
-			UINT Width,
-			UINT Weight,
-			UINT MipLevels,
-			BOOL Italic,
-			DWORD CharSet,
-			DWORD OutputPrecision,
-			DWORD Quality,
-			DWORD PitchAndFamily,
-			const WCHAR* pFacename,
-			LPD3DXFONT * ppFont
-			);
+			LPDIRECT3DDEVICE9 pDevice, 	INT Height,	UINT Width,	 UINT Weight, 	UINT MipLevels,
+			BOOL Italic,  DWORD CharSet, DWORD OutputPrecision,
+			DWORD Quality, DWORD PitchAndFamily, const WCHAR* pFacename, LPD3DXFONT * ppFont );
 
 
 
 
-		typedef HRESULT (__stdcall *TFunc_D3DXCreateFontIndirectA)(
-			LPDIRECT3DDEVICE9 pDevice,
-			CONST D3DXFONT_DESCA * pDesc,
-			LPD3DXFONT * ppFont
-			);
+		typedef HRESULT (__stdcall *TFunc_D3DXCreateFontIndirectA)(	LPDIRECT3DDEVICE9 pDevice,
+			CONST D3DXFONT_DESCA * pDesc, 	LPD3DXFONT * ppFont	  	);
 
 		typedef HRESULT (__stdcall *TFunc_D3DXCreateFontIndirectW)(
-			LPDIRECT3DDEVICE9 pDevice,
-			CONST D3DXFONT_DESCW * pDesc,
-			LPD3DXFONT * ppFont
-			);
+			LPDIRECT3DDEVICE9 pDevice, 	CONST D3DXFONT_DESCW * pDesc, LPD3DXFONT * ppFont );
 
 
 
 
 		typedef HRESULT (__stdcall *TFunc_D3DXCreateLine)(
-			LPDIRECT3DDEVICE9 pDevice,
-			LPD3DXLINE* ppLine
-			);
+			LPDIRECT3DDEVICE9 pDevice, LPD3DXLINE* ppLine);
 
-		typedef HRESULT (__stdcall *TFunc_D3DXCreateRenderToEnvMap)(
-			LPDIRECT3DDEVICE9 pDevice,
-			UINT Size,
-			UINT MipLevels,
-			D3DFORMAT Format,
-			BOOL DepthStencil,
-			D3DFORMAT DepthStencilFormat,
-			ID3DXRenderToEnvMap** ppRenderToEnvMap
-			);
+		typedef HRESULT (__stdcall *TFunc_D3DXCreateRenderToEnvMap)(LPDIRECT3DDEVICE9 pDevice,
+			UINT Size,  UINT MipLevels,	 D3DFORMAT Format, BOOL DepthStencil,
+			D3DFORMAT DepthStencilFormat, ID3DXRenderToEnvMap** ppRenderToEnvMap  );
 
 		typedef HRESULT (__stdcall *TFunc_D3DXCreateRenderToSurface)(
-			LPDIRECT3DDEVICE9 pDevice,
-			UINT Width,
-			UINT Height,
-			D3DFORMAT Format,
-			BOOL DepthStencil,
-			D3DFORMAT DepthStencilFormat,
-			ID3DXRenderToSurface** ppRenderToSurface
-			);
+			LPDIRECT3DDEVICE9 pDevice,    UINT Width, UINT Height, D3DFORMAT Format,
+			BOOL DepthStencil, D3DFORMAT DepthStencilFormat, ID3DXRenderToSurface** ppRenderToSurface );
 
 
-		typedef HRESULT (__stdcall *TFunc_D3DXCreateSprite)(
-			LPDIRECT3DDEVICE9 pDevice,
-			LPD3DXSPRITE * ppSprite
-			);
+		typedef HRESULT (__stdcall *TFunc_D3DXCreateSprite)(LPDIRECT3DDEVICE9 pDevice, LPD3DXSPRITE * ppSprite);
 
 
-		typedef HRESULT (__stdcall *TFunc_D3DXDebugMute)(
-			BOOL Mute
-			);
+		typedef HRESULT (__stdcall *TFunc_D3DXDebugMute)(	BOOL Mute);
 
 
-		typedef HRESULT (__stdcall *TFunc_D3DXGetDriverLevel)(
-			LPDIRECT3DDEVICE9 pDevice
-			);
+		typedef HRESULT (__stdcall *TFunc_D3DXGetDriverLevel)( LPDIRECT3DDEVICE9 pDevice);
 
 
 
@@ -266,6 +219,30 @@ namespace d3dx9_dynamic_load
 			LPD3DXMESH * ppMeshOut
 			);
 
+		
+
+
+
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXConvertMeshSubsetToSingleStrip)(
+			LPD3DXBASEMESH MeshIn,
+			DWORD AttribId,
+			DWORD IBOptions,
+			LPDIRECT3DINDEXBUFFER9 * ppIndexBuffer,
+			DWORD * pNumIndices
+			);
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXConvertMeshSubsetToStrips)(
+			LPD3DXBASEMESH MeshIn,
+			DWORD AttribId,
+			DWORD IBOptions,
+			LPDIRECT3DINDEXBUFFER9 * ppIndexBuffer,
+			DWORD * pNumIndices,
+			LPD3DXBUFFER * ppStripLengths,
+			DWORD * pNumStrips
+			);
+
 
 		//  ..........
 
@@ -290,9 +267,65 @@ namespace d3dx9_dynamic_load
 			);
 
 
+
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreateNPatchMesh)(
+			LPD3DXMESH pMeshSysMem,
+			LPD3DXPATCHMESH * pPatchMesh
+			);
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreatePatchMesh)(
+			CONST D3DXPATCHINFO * pInfo,
+			DWORD dwNumPatches,
+			DWORD dwNumVertices,
+			DWORD dwOptions,
+			CONST D3DVERTEXELEMENT9 * pDecl,
+			LPDIRECT3DDEVICE9 pD3DDevice,
+			LPD3DXPATCHMESH * pPatchMesh
+			);
+
+
 		typedef  HRESULT (__stdcall *TFunc_D3DXDeclaratorFromFVF)( DWORD FVF,
 			D3DVERTEXELEMENT9 Declaration[MAX_FVF_DECL_SIZE]
 		);
+
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreateSkinInfo)(
+			DWORD NumVertices,
+			CONST D3DVERTEXELEMENT9 * pDeclaration,
+			DWORD NumBones,
+			LPD3DXSKININFO * ppSkinInfo
+			);
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXFVFFromDeclarator)(
+			CONST LPD3DVERTEXELEMENT9 * pDeclaration,
+			DWORD * pFVF
+			);
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXGenerateOutputDecl)(
+			D3DVERTEXELEMENT9 * pOutput,
+			CONST D3DVERTEXELEMENT9 * pInput
+			);
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXGetDeclLength)(
+			CONST D3DVERTEXELEMENT9 * pDecl
+			);
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXGetDeclVertexSize)(
+			CONST D3DVERTEXELEMENT9 * pDecl,
+			DWORD Stream
+			);
+
+
+
+
+
+
 
 		typedef  UINT (__stdcall *TFunc_D3DXGetFVFVertexSize)(
 			DWORD FVF
@@ -489,6 +522,15 @@ namespace d3dx9_dynamic_load
 			);
 
 
+		typedef  BOOL (__stdcall  *TFunc_D3DXSphereBoundProbe)(
+			CONST D3DXVECTOR3 * pCenter,
+			FLOAT Radius,
+			CONST D3DXVECTOR3 * pRayPosition,
+			CONST D3DXVECTOR3 * pRayDirection
+			);
+
+
+
 		typedef  void (__stdcall *TFunc_D3DXSplitMesh)(
 			LPD3DXMESH pMeshIn,
 			CONST DWORD * pAdjacencyIn,
@@ -500,6 +542,34 @@ namespace d3dx9_dynamic_load
 			LPD3DXBUFFER * ppFaceRemapArrayOut,
 			LPD3DXBUFFER * ppVertRemapArrayOut
 			);
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXTessellateNPatches)(
+			LPD3DXMESH pMeshIn,
+			CONST DWORD * pAdjacencyIn,
+			FLOAT NumSegs,
+			BOOL QuadraticInterpNormals,
+			LPD3DXMESH * ppMeshOut,
+			LPD3DXBUFFER * ppAdjacencyOut
+			);
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXTessellateRectPatch)(
+			LPDIRECT3DVERTEXBUFFER9 pVB,
+			CONST FLOAT * pNumSegs,
+			CONST D3DVERTEXELEMENT9 * pInDecl,
+			CONST D3DRECTPATCH_INFO * pRectPatchInfo,
+			LPD3DXMESH pMesh
+			);
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXTessellateTriPatch)(
+			LPDIRECT3DVERTEXBUFFER9 pVB,
+			CONST FLOAT * pNumSegs,
+			CONST D3DVERTEXELEMENT9 * pInDecl,
+			CONST D3DTRIPATCH_INFO * pTriPatchInfo,
+			LPD3DXMESH pMesh
+			);
+
 
 
 
@@ -526,7 +596,6 @@ namespace d3dx9_dynamic_load
 
 
 
-
 		typedef  HRESULT (__stdcall *TFunc_D3DXWeldVertices)(
 			LPD3DXMESH pMesh,
 			DWORD Flags,
@@ -538,11 +607,97 @@ namespace d3dx9_dynamic_load
 			);
 
 
+		//==============================================================
+		//        Shape Drawing Functions  
+		//==============================================================
 
 
-		//=========================================================================
-		//                D3DX      Shader Functions   
-		//=========================================================================
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreateBox)(
+			LPDIRECT3DDEVICE9 pDevice,
+			FLOAT Width,
+			FLOAT Height,
+			FLOAT Depth,
+			LPD3DXMESH * ppMesh,
+			LPD3DXBUFFER * ppAdjacency );
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreateCylinder)(
+			LPDIRECT3DDEVICE9 pDevice,
+			FLOAT Radius1,
+			FLOAT Radius2,
+			FLOAT Length,
+			UINT Slices,
+			UINT Stacks,
+			LPD3DXMESH * ppMesh,
+			LPD3DXBUFFER * ppAdjacency );
+
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreatePolygon)(
+			LPDIRECT3DDEVICE9 pDevice,
+			FLOAT Length,
+			UINT Sides,
+			LPD3DXMESH * ppMesh,
+			LPD3DXBUFFER * ppAdjacency );
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreateSphere)(
+			LPDIRECT3DDEVICE9 pDevice,
+			FLOAT Radius,
+			UINT Slices,
+			UINT Stacks,
+			LPD3DXMESH * ppMesh,
+			LPD3DXBUFFER * ppAdjacency  );
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreateTeapot)(
+			LPDIRECT3DDEVICE9 pDevice,
+			LPD3DXMESH * ppMesh,
+			LPD3DXBUFFER * ppAdjacency  );
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreateTextA)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HDC hDC,
+			const CHAR* pText,   
+			FLOAT Deviation,
+			FLOAT Extrusion,
+			LPD3DXMESH * ppMesh,
+			LPD3DXBUFFER * ppAdjacency,
+			LPGLYPHMETRICSFLOAT pGlyphMetrics	);
+
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreateTextW)(
+			LPDIRECT3DDEVICE9 pDevice,
+			HDC hDC,
+			const WCHAR* pText,	
+			FLOAT Deviation,
+			FLOAT Extrusion,
+			LPD3DXMESH * ppMesh,
+			LPD3DXBUFFER * ppAdjacency,
+			LPGLYPHMETRICSFLOAT pGlyphMetrics	);
+
+		typedef  HRESULT (__stdcall *TFunc_D3DXCreateTorus)(
+			LPDIRECT3DDEVICE9 pDevice,
+			FLOAT InnerRadius,
+			FLOAT OuterRadius,
+			UINT Sides,
+			UINT Rings,
+			LPD3DXMESH * ppMesh,
+			LPD3DXBUFFER * ppAdjacency  );
+
+
+
+
+
+
+
+
+
+
+		//==============================================================
+		//          Shader Functions   
+		//==============================================================
 
 
 		typedef HRESULT (__stdcall *TFunc_D3DXAssembleShader)(
@@ -800,9 +955,9 @@ namespace d3dx9_dynamic_load
 
 
 
-		//=========================================================================
+		//==================================================================
 		//                D3DX      EFFECT   
-		//=========================================================================
+		//=================================================================
 
 
 		typedef HRESULT  (__stdcall *TFunc_D3DXCreateEffect)(
@@ -1973,10 +2128,33 @@ namespace d3dx9_dynamic_load
 		TFunc_D3DXConcatenateMeshes	     m_TFunc_D3DXConcatenateMeshes    ;
 
 
+
+
+
+
+        TFunc_D3DXConvertMeshSubsetToSingleStrip  m_TFunc_D3DXConvertMeshSubsetToSingleStrip; 
+	    TFunc_D3DXConvertMeshSubsetToStrips		  m_TFunc_D3DXConvertMeshSubsetToStrips;
+
 		TFunc_D3DXCreateMesh	 m_TFunc_D3DXCreateMesh   ;
 		TFunc_D3DXCreateMeshFVF  m_TFunc_D3DXCreateMeshFVF    ;
 
+ 
+        TFunc_D3DXCreatePatchMesh     m_TFunc_D3DXCreatePatchMesh; 
+
+		TFunc_D3DXCreateNPatchMesh    m_TFunc_D3DXCreateNPatchMesh;
+
 		TFunc_D3DXDeclaratorFromFVF   m_TFunc_D3DXDeclaratorFromFVF  ;
+
+ 
+		TFunc_D3DXCreateSkinInfo       m_TFunc_D3DXCreateSkinInfo;
+		TFunc_D3DXFVFFromDeclarator	   m_TFunc_D3DXFVFFromDeclarator;
+		TFunc_D3DXGenerateOutputDecl   m_TFunc_D3DXGenerateOutputDecl;
+
+		TFunc_D3DXGetDeclLength	     m_TFunc_D3DXGetDeclLength;
+		TFunc_D3DXGetDeclVertexSize  m_TFunc_D3DXGetDeclVertexSize;
+
+ 
+
 		TFunc_D3DXGetFVFVertexSize	  m_TFunc_D3DXGetFVFVertexSize   ;
 
 
@@ -2003,7 +2181,16 @@ namespace d3dx9_dynamic_load
 
 		TFunc_D3DXSimplifyMesh			 m_TFunc_D3DXSimplifyMesh   ;
 
+		TFunc_D3DXSphereBoundProbe       m_TFunc_D3DXSphereBoundProbe;
+
 		TFunc_D3DXSplitMesh			 m_TFunc_D3DXSplitMesh ;
+
+ 
+		TFunc_D3DXTessellateNPatches   m_TFunc_D3DXTessellateNPatches;	 
+		TFunc_D3DXTessellateRectPatch  m_TFunc_D3DXTessellateRectPatch; 
+		TFunc_D3DXTessellateTriPatch   m_TFunc_D3DXTessellateTriPatch;
+
+
 		TFunc_D3DXTriPatchSize		 m_TFunc_D3DXTriPatchSize   ;
 
 
