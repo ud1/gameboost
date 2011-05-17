@@ -2,6 +2,8 @@
 
 #if ( defined(WIN32) && defined(GB_D3D9) )
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
 
 #include <gb/graphics/d3d9/d3dx9_dynamic_load/d3dx9_dynamic_load.h>
 
@@ -179,6 +181,9 @@ GB_D3D9_API HMODULE loadDllLastVersion(unsigned int* piOutVers )
 }
 
 //===============
+
+
+#pragma warning(pop)
 
 #endif // #if ( defined(WIN32) && defined(GB_D3D9) )
 // end file
