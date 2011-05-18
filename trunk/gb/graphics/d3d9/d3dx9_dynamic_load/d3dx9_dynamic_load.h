@@ -8,6 +8,9 @@
   \todo  сделать макрозащиту от неправильного включения.
   \todo поправить функцию  checkExistsDll на поиск в директории приложения.
   \todo убрать DEF_TEMP_ERR_HANDLE.
+  \todo Precomputed Radiance Transfer Functions
+  \todo  UVAtlas Functions
+
 
 */
 
@@ -1353,6 +1356,1319 @@ HRESULT D3DXCreateTorus(  LPDIRECT3DDEVICE9 pDevice,  FLOAT InnerRadius,  FLOAT 
 }
 
  
+//---------------------------------------------------------
+//       texture  functions  
+//---------------------------------------------------------
+
+
+HRESULT D3DXCheckCubeTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,  UINT * pSize,  
+										 UINT * pNumMipLevels,  DWORD Usage, D3DFORMAT * pFormat,  D3DPOOL Pool)
+{
+	if( !m_fnc.m_TFunc_D3DXCheckCubeTextureRequirements )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCheckCubeTextureRequirements );
+	}
+	return m_fnc.m_TFunc_D3DXCheckCubeTextureRequirements ( pDevice,   pSize,  
+		pNumMipLevels,    Usage,   pFormat,  Pool );
+}
+
+
+HRESULT D3DXCheckTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,
+									 UINT * pWidth,  UINT * pHeight,  UINT * pNumMipLevels,
+									 DWORD Usage,  D3DFORMAT * pFormat,  D3DPOOL Pool)
+{
+	if( !m_fnc.m_TFunc_D3DXCheckTextureRequirements )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCheckTextureRequirements );
+	}
+	return m_fnc.m_TFunc_D3DXCheckTextureRequirements ( pDevice,
+		pWidth,  pHeight, pNumMipLevels,  Usage,    pFormat,  Pool );
+}
+
+
+
+
+HRESULT D3DXCheckVolumeTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,
+										   UINT * pWidth,  UINT * pHeight,  UINT * pDepth,
+										   UINT * pNumMipLevels,  DWORD Usage,  D3DFORMAT * pFormat,  D3DPOOL Pool)
+{
+	if( !m_fnc.m_TFunc_D3DXCheckVolumeTextureRequirements )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCheckVolumeTextureRequirements );
+	}
+	return m_fnc.m_TFunc_D3DXCheckVolumeTextureRequirements ( pDevice,
+		pWidth,   pHeight,   pDepth, pNumMipLevels,  Usage,   pFormat,  Pool );
+}
+
+
+HRESULT D3DXComputeNormalMap(  LPDIRECT3DTEXTURE9 pTexture,  LPDIRECT3DTEXTURE9 pSrcTexture,
+							 CONST PALETTEENTRY * pSrcPalette,  DWORD Flags,  DWORD Channel,  FLOAT Amplitude)
+{
+	if( !m_fnc.m_TFunc_D3DXComputeNormalMap )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXComputeNormalMap );
+	}
+	return m_fnc.m_TFunc_D3DXComputeNormalMap ( pTexture,  pSrcTexture,
+		pSrcPalette,   Flags,   Channel,   Amplitude );
+}
+
+
+HRESULT D3DXCreateCubeTexture(  LPDIRECT3DDEVICE9 pDevice,
+							  UINT Size, UINT MipLevels, DWORD Usage,  D3DFORMAT Format,
+							  D3DPOOL Pool,  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTexture )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTexture );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTexture (  pDevice,
+		  Size,   MipLevels,   Usage,    Format,
+		  Pool,     ppCubeTexture);
+}
+
+
+HRESULT D3DXCreateCubeTextureFromFileA( LPDIRECT3DDEVICE9 pDevice,  const CHAR* pSrcFile,
+									  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromFileA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileA ( pDevice,    pSrcFile,
+		ppCubeTexture );
+}
+
+HRESULT D3DXCreateCubeTextureFromFileW( LPDIRECT3DDEVICE9 pDevice,  const WCHAR* pSrcFile,
+									  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromFileW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileW ( pDevice,    pSrcFile,
+		ppCubeTexture );
+}
+
+
+
+
+
+
+HRESULT D3DXCreateCubeTextureFromFileExA(
+										LPDIRECT3DDEVICE9 pDevice,
+										const CHAR* pSrcFile,
+										UINT Size,
+										UINT MipLevels,
+										DWORD Usage,
+										D3DFORMAT Format,
+										D3DPOOL Pool,
+										DWORD Filter,
+										DWORD MipFilter,
+										D3DCOLOR ColorKey,
+										D3DXIMAGE_INFO * pSrcInfo,
+										PALETTEENTRY * pPalette,
+										LPDIRECT3DCUBETEXTURE9 * ppCubeTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileExA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromFileExA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileExA (  pDevice, pSrcFile, 
+		Size, MipLevels,  Usage,  Format,
+		Pool,  Filter, MipFilter, ColorKey,  pSrcInfo,  pPalette,  ppCubeTexture );
+}
+
+
+
+
+HRESULT D3DXCreateCubeTextureFromFileExW(
+										LPDIRECT3DDEVICE9 pDevice,
+										const WCHAR* pSrcFile,
+										UINT Size,
+										UINT MipLevels,
+										DWORD Usage,
+										D3DFORMAT Format,
+										D3DPOOL Pool,
+										DWORD Filter,
+										DWORD MipFilter,
+										D3DCOLOR ColorKey,
+										D3DXIMAGE_INFO * pSrcInfo,
+										PALETTEENTRY * pPalette,
+										LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+										)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileExW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromFileExW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileExW (  pDevice, pSrcFile,  
+		Size, MipLevels,  Usage,  Format,
+		Pool,  Filter, MipFilter, ColorKey,  pSrcInfo,  pPalette,  ppCubeTexture );
+}
+
+
+
+
+
+
+HRESULT D3DXCreateCubeTextureFromFileInMemory(  LPDIRECT3DDEVICE9 pDevice,
+											  LPCVOID pSrcData,  UINT SrcDataSize,
+											  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
+											  )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileInMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromFileInMemory );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileInMemory ( pDevice,
+		pSrcData,  SrcDataSize, ppCubeTexture );
+}
+
+
+
+
+HRESULT D3DXCreateCubeTextureFromFileInMemoryEx(
+	LPDIRECT3DDEVICE9 pDevice,
+	LPCVOID pSrcData,
+	UINT SrcDataSize,
+	UINT Size,
+	UINT MipLevels,
+	DWORD Usage,
+	D3DFORMAT Format,
+	D3DPOOL Pool,
+	DWORD Filter,
+	DWORD MipFilter,
+	D3DCOLOR ColorKey,
+	D3DXIMAGE_INFO * pSrcInfo,
+	PALETTEENTRY * pPalette,
+	LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileInMemoryEx )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromFileInMemoryEx );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileInMemoryEx ( pDevice,
+		pSrcData,    SrcDataSize,    Size,   MipLevels,  Usage,  Format,   Pool, Filter,
+		MipFilter,   ColorKey,  pSrcInfo,  pPalette,  ppCubeTexture );
+}
+
+
+
+HRESULT D3DXCreateCubeTextureFromResourceA( LPDIRECT3DDEVICE9 pDevice,  
+										  HMODULE hSrcModule,
+										  const CHAR* pSrcResource, 
+										  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromResourceA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceA( pDevice, hSrcModule,  
+		pSrcResource, ppCubeTexture );
+}
+
+
+
+HRESULT D3DXCreateCubeTextureFromResourceW( LPDIRECT3DDEVICE9 pDevice,  
+										  HMODULE hSrcModule,
+										  const WCHAR*  pSrcResource, 
+										  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromResourceW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceW( pDevice, hSrcModule,  
+			pSrcResource, ppCubeTexture );
+}
+
+
+
+HRESULT D3DXCreateCubeTextureFromResourceExA(
+	LPDIRECT3DDEVICE9 pDevice,
+	HMODULE hSrcModule,
+	const CHAR* pSrcResource,
+	UINT Size,
+	UINT MipLevels,
+	DWORD Usage,
+	D3DFORMAT Format,
+	D3DPOOL Pool,
+	DWORD Filter,
+	DWORD MipFilter,
+	D3DCOLOR ColorKey,
+	D3DXIMAGE_INFO * pSrcInfo,
+	PALETTEENTRY * pPalette,
+	LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceExA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromResourceExA);
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceExA ( pDevice,
+		hSrcModule, pSrcResource, Size, MipLevels, Usage, Format,  Pool,  Filter,   
+		MipFilter,  ColorKey,  pSrcInfo, pPalette,  ppCubeTexture );
+}
+
+
+
+HRESULT D3DXCreateCubeTextureFromResourceExW(
+	LPDIRECT3DDEVICE9 pDevice,
+	HMODULE hSrcModule,
+	const WCHAR* pSrcResource,
+	UINT Size,
+	UINT MipLevels,
+	DWORD Usage,
+	D3DFORMAT Format,
+	D3DPOOL Pool,
+	DWORD Filter,
+	DWORD MipFilter,
+	D3DCOLOR ColorKey,
+	D3DXIMAGE_INFO * pSrcInfo,
+	PALETTEENTRY * pPalette,
+	LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceExW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromResourceExW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceExW ( pDevice,
+		hSrcModule, pSrcResource, Size, MipLevels, Usage, Format,  Pool,  Filter,   
+		MipFilter,  ColorKey,  pSrcInfo, pPalette,  ppCubeTexture );
+}
+
+
+HRESULT D3DXCreateTexture(LPDIRECT3DDEVICE9 pDevice,
+						  UINT Width,
+						  UINT Height,
+						  UINT MipLevels,
+						  DWORD Usage,
+						  D3DFORMAT Format,
+						  D3DPOOL Pool,
+						  LPDIRECT3DTEXTURE9 * ppTexture  )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateTexture )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateTexture );
+	}
+	return m_fnc.m_TFunc_D3DXCreateTexture ( pDevice,  Width,  Height,     MipLevels,
+		  Usage, Format,  Pool,	  ppTexture  );
+}
+
+
+
+
+HRESULT D3DXCreateTextureFromFileA(LPDIRECT3DDEVICE9 pDevice,
+								  const CHAR* pSrcFile,
+								  LPDIRECT3DTEXTURE9 * ppTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateTextureFromFileA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateTextureFromFileA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateTextureFromFileA( pDevice,  pSrcFile,  ppTexture  );
+}
+
+
+
+HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9 pDevice,
+								  const WCHAR* pSrcFile,
+								  LPDIRECT3DTEXTURE9 * ppTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateTextureFromFileW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateTextureFromFileW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateTextureFromFileW( pDevice,  pSrcFile,  ppTexture  );
+}
+
+
+HRESULT D3DXCreateTextureFromFileExA(LPDIRECT3DDEVICE9 pDevice,
+									const CHAR* pSrcFile,
+									UINT Width,
+									UINT Height,
+									UINT MipLevels,
+									DWORD Usage,
+									D3DFORMAT Format,
+									D3DPOOL Pool,
+									DWORD Filter,
+									DWORD MipFilter,
+									D3DCOLOR ColorKey,
+									D3DXIMAGE_INFO * pSrcInfo,
+									PALETTEENTRY * pPalette,
+									LPDIRECT3DTEXTURE9 * ppTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateTextureFromFileExA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateTextureFromFileExA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateTextureFromFileExA ( pDevice,  pSrcFile,
+		  Width, Height,  MipLevels, Usage, Format,	Pool,  Filter,
+		  MipFilter, ColorKey,  pSrcInfo,  pPalette,   ppTexture );
+}
+
+
+
+
+HRESULT D3DXCreateTextureFromFileExW(LPDIRECT3DDEVICE9 pDevice,
+									const WCHAR* pSrcFile,
+									UINT Width,
+									UINT Height,
+									UINT MipLevels,
+									DWORD Usage,
+									D3DFORMAT Format,
+									D3DPOOL Pool,
+									DWORD Filter,
+									DWORD MipFilter,
+									D3DCOLOR ColorKey,
+									D3DXIMAGE_INFO * pSrcInfo,
+									PALETTEENTRY * pPalette,
+									LPDIRECT3DTEXTURE9 * ppTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateTextureFromFileExW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateTextureFromFileExW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateTextureFromFileExW ( pDevice,  pSrcFile,
+		Width, Height,  MipLevels, Usage, Format,	Pool,  Filter,
+		MipFilter, ColorKey,  pSrcInfo,  pPalette,   ppTexture );
+}
+
+
+
+
+HRESULT D3DXCreateTextureFromFileInMemory(
+	LPDIRECT3DDEVICE9 pDevice,
+	LPCVOID pSrcData,
+	UINT SrcDataSize,
+	LPDIRECT3DTEXTURE9 * ppTexture 	)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateTextureFromFileInMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateTextureFromFileInMemory );
+	}
+	return m_fnc.m_TFunc_D3DXCreateTextureFromFileInMemory ( pDevice,
+		  pSrcData,  SrcDataSize,	  ppTexture  );
+}
+
+
+
+HRESULT D3DXCreateTextureFromFileInMemoryEx(
+	LPDIRECT3DDEVICE9 pDevice,
+	LPCVOID pSrcData,
+	UINT SrcDataSize,
+	UINT Width,
+	UINT Height,
+	UINT MipLevels,
+	DWORD Usage,
+	D3DFORMAT Format,
+	D3DPOOL Pool,
+	DWORD Filter,
+	DWORD MipFilter,
+	D3DCOLOR ColorKey,
+	D3DXIMAGE_INFO * pSrcInfo,
+	PALETTEENTRY * pPalette,
+	LPDIRECT3DTEXTURE9 * ppTexture 	)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateTextureFromFileInMemoryEx )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateTextureFromFileInMemoryEx );
+	}
+	return m_fnc.m_TFunc_D3DXCreateTextureFromFileInMemoryEx ( pDevice,  
+		pSrcData,  SrcDataSize,  Width, Height,  MipLevels,  Usage,  
+		Format, Pool, Filter, MipFilter, ColorKey,	pSrcInfo, 
+		pPalette,  ppTexture  );
+}
+
+  /***********************      ***********************
+HRESULT D3DXCreateCubeTextureFromResourceA(
+	LPDIRECT3DDEVICE9 pDevice,
+	HMODULE hSrcModule,
+	const CHAR* pSrcResource,
+	LPDIRECT3DCUBETEXTURE9 * ppCubeTexture 	)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromResourceA);
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceA ( pDevice,  hSrcModule,
+		  pSrcResource,	 ppCubeTexture  );
+}
+
+
+HRESULT D3DXCreateCubeTextureFromResourceW (
+	LPDIRECT3DDEVICE9 pDevice,
+	HMODULE hSrcModule,
+	const WCHAR* pSrcResource,
+	LPDIRECT3DCUBETEXTURE9 * ppCubeTexture 	)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateCubeTextureFromResourceW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceW ( pDevice,  hSrcModule,
+		pSrcResource,	 ppCubeTexture  );
+}
+ **************************    *******************************/
+
+
+
+HRESULT D3DXCreateTextureFromResourceExA(LPDIRECT3DDEVICE9 pDevice,
+										HMODULE hSrcModule,
+										const CHAR* pSrcResource,
+										UINT Width,
+										UINT Height,
+										UINT MipLevels,
+										DWORD Usage,
+										D3DFORMAT Format,
+										D3DPOOL Pool,
+										DWORD Filter,
+										DWORD MipFilter,
+										D3DCOLOR ColorKey,
+										D3DXIMAGE_INFO * pSrcInfo,
+										PALETTEENTRY * pPalette,
+										LPDIRECT3DTEXTURE9 * ppTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateTextureFromResourceExA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateTextureFromResourceExA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateTextureFromResourceExA (  pDevice, 
+			hSrcModule,	 pSrcResource, Width,  Height,	 MipLevels,	 Usage,	 Format,
+			 Pool,	 Filter,  MipFilter,  ColorKey,    pSrcInfo,   pPalette,  ppTexture );
+}
+
+
+
+
+HRESULT D3DXCreateTextureFromResourceExW(LPDIRECT3DDEVICE9 pDevice,
+										HMODULE hSrcModule,
+										const WCHAR* pSrcResource,
+										UINT Width,
+										UINT Height,
+										UINT MipLevels,
+										DWORD Usage,
+										D3DFORMAT Format,
+										D3DPOOL Pool,
+										DWORD Filter,
+										DWORD MipFilter,
+										D3DCOLOR ColorKey,
+										D3DXIMAGE_INFO * pSrcInfo,
+										PALETTEENTRY * pPalette,
+										LPDIRECT3DTEXTURE9 * ppTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateTextureFromResourceExW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateTextureFromResourceExW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateTextureFromResourceExW (  pDevice, 
+		hSrcModule,	 pSrcResource, Width,  Height,	 MipLevels,	 Usage,	 Format,
+		Pool,	 Filter,  MipFilter,  ColorKey,    pSrcInfo,   pPalette,  ppTexture );
+}
+
+
+ 
+HRESULT D3DXCreateVolumeTexture(LPDIRECT3DDEVICE9 pDevice,
+								UINT Width,
+								UINT Height,
+								UINT Depth,
+								UINT MipLevels,
+								DWORD Usage,
+								D3DFORMAT Format,
+								D3DPOOL Pool,
+								LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTexture )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTexture );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTexture ( pDevice,  Width,  Height, 
+			Depth, MipLevels, Usage, Format, Pool, ppVolumeTexture );
+}
+
+
+
+HRESULT D3DXCreateVolumeTextureFromFileA( LPDIRECT3DDEVICE9 pDevice,
+										const  CHAR* pSrcFile,  
+										LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromFileA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileA ( pDevice,
+		pSrcFile,  ppVolumeTexture );
+}
+
+
+
+HRESULT D3DXCreateVolumeTextureFromFileW( LPDIRECT3DDEVICE9 pDevice,
+										 const WCHAR* pSrcFile,  
+										 LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromFileW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileW ( pDevice,
+		pSrcFile,  ppVolumeTexture );
+}
+
+
+
+HRESULT D3DXCreateVolumeTextureFromFileExA (
+	LPDIRECT3DDEVICE9 pDevice,
+	const  CHAR* pSrcFile,
+	UINT Width,
+	UINT Height,
+	UINT Depth,
+	UINT MipLevels,
+	DWORD Usage,
+	D3DFORMAT Format,
+	D3DPOOL Pool,
+	DWORD Filter,
+	DWORD MipFilter,
+	D3DCOLOR ColorKey,
+	D3DXIMAGE_INFO * pSrcInfo,
+	PALETTEENTRY * pPalette,
+	LPDIRECT3DVOLUMETEXTURE9 * ppTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileExA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromFileExA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileExA ( pDevice, pSrcFile, Width, Height, Depth,
+			MipLevels, Usage, Format,Pool, Filter, MipFilter, ColorKey, 
+			pSrcInfo, pPalette,  ppTexture );
+}
+
+
+
+HRESULT D3DXCreateVolumeTextureFromFileExW (
+	LPDIRECT3DDEVICE9 pDevice,
+	const WCHAR* pSrcFile,
+	UINT Width,
+	UINT Height,
+	UINT Depth,
+	UINT MipLevels,
+	DWORD Usage,
+	D3DFORMAT Format,
+	D3DPOOL Pool,
+	DWORD Filter,
+	DWORD MipFilter,
+	D3DCOLOR ColorKey,
+	D3DXIMAGE_INFO * pSrcInfo,
+	PALETTEENTRY * pPalette,
+	LPDIRECT3DVOLUMETEXTURE9 * ppTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileExW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromFileExW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileExW ( pDevice, pSrcFile, Width, Height, Depth,
+		MipLevels, Usage, Format,Pool, Filter, MipFilter, ColorKey, 
+		pSrcInfo, pPalette,  ppTexture );
+}
+
+
+
+
+HRESULT D3DXCreateVolumeTextureFromFileInMemory( LPDIRECT3DDEVICE9 pDevice,
+												LPCVOID pSrcFile, UINT SrcData, LPDIRECT3DVOLUMETEXTURE9 ppVolumeTexture)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileInMemory)
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromFileInMemory );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileInMemory ( pDevice, pSrcFile, SrcData, ppVolumeTexture );
+}
+
+
+
+
+HRESULT D3DXCreateVolumeTextureFromFileInMemoryEx(
+	LPDIRECT3DDEVICE9 pDevice,
+	LPCVOID pSrcData,
+	UINT SrcDataSize,
+	UINT Width,
+	UINT Height,
+	UINT Depth,
+	UINT MipLevels,
+	DWORD Usage,
+	D3DFORMAT Format,
+	D3DPOOL Pool,
+	DWORD Filter,
+	DWORD MipFilter,
+	D3DCOLOR ColorKey,
+	D3DXIMAGE_INFO * pSrcInfo,
+	PALETTEENTRY * pPalette,
+	LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture 	)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileInMemoryEx )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromFileInMemoryEx );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileInMemoryEx ( pDevice,  
+		pSrcData, SrcDataSize,  Width, Height, Depth, MipLevels,  Usage, 
+		Format,  Pool, Filter, MipFilter, ColorKey,  pSrcInfo,  pPalette,  
+		ppVolumeTexture );
+}
+
+
+
+HRESULT D3DXCreateVolumeTextureFromResourceA(
+	LPDIRECT3DDEVICE9 pDevice,
+	HMODULE hSrcModule,
+	const CHAR* pSrcResource,
+	LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromResourceA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromResourceA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromResourceA ( pDevice, hSrcModule,
+		pSrcResource,  ppVolumeTexture );
+}
+
+
+
+HRESULT D3DXCreateVolumeTextureFromResourceW(
+	LPDIRECT3DDEVICE9 pDevice,
+	HMODULE hSrcModule,
+	const WCHAR* pSrcResource,
+	LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture )
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromResourceW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromResourceW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromResourceW ( pDevice, hSrcModule,
+		pSrcResource,  ppVolumeTexture );
+}
+
+
+
+
+HRESULT D3DXCreateVolumeTextureFromResourceExA(
+		LPDIRECT3DDEVICE9 pDevice,
+		HMODULE hSrcModule,
+		const  CHAR* pSrcResource,
+		UINT Width,
+		UINT Height,
+		UINT Depth,
+		UINT MipLevels,
+		DWORD Usage,
+		D3DFORMAT Format,
+		D3DPOOL Pool,
+		DWORD Filter,
+		DWORD MipFilter,
+		D3DCOLOR ColorKey,
+		D3DXIMAGE_INFO * pSrcInfo,
+		PALETTEENTRY * pPalette,
+		LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture 	)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromResourceExA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromResourceExA );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromResourceExA ( pDevice,
+		hSrcModule,  pSrcResource, Width, Height, Depth, MipLevels, Usage,   Format,
+		Pool,  Filter,  MipFilter, ColorKey,  pSrcInfo, pPalette, ppVolumeTexture );
+}
+
+
+
+HRESULT D3DXCreateVolumeTextureFromResourceExW(
+	LPDIRECT3DDEVICE9 pDevice,
+	HMODULE hSrcModule,
+	const WCHAR* pSrcResource,
+	UINT Width,
+	UINT Height,
+	UINT Depth,
+	UINT MipLevels,
+	DWORD Usage,
+	D3DFORMAT Format,
+	D3DPOOL Pool,
+	DWORD Filter,
+	DWORD MipFilter,
+	D3DCOLOR ColorKey,
+	D3DXIMAGE_INFO * pSrcInfo,
+	PALETTEENTRY * pPalette,
+	LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture 	)
+{
+	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromResourceExW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXCreateVolumeTextureFromResourceExW );
+	}
+	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromResourceExW ( pDevice,
+		hSrcModule,  pSrcResource, Width, Height, Depth, MipLevels, Usage,   Format,
+		Pool,  Filter,  MipFilter, ColorKey,  pSrcInfo, pPalette, ppVolumeTexture );
+}
+
+
+HRESULT D3DXFillCubeTexture( LPDIRECT3DCUBETEXTURE9 pTexture, LPD3DXFILL3D pFunction, LPVOID pData)
+{
+	if( !m_fnc.m_TFunc_D3DXFillCubeTexture )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXFillCubeTexture );
+	}
+	return m_fnc.m_TFunc_D3DXFillCubeTexture ( pTexture,   pFunction,
+		pData );
+}
+
+
+
+
+HRESULT D3DXFillCubeTextureTX( LPDIRECT3DCUBETEXTURE9 pTexture,
+							  LPD3DXTEXTURESHADER pTextureShader)
+{
+	if( !m_fnc.m_TFunc_D3DXFillCubeTextureTX )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXFillCubeTextureTX );
+	}
+	return m_fnc.m_TFunc_D3DXFillCubeTextureTX( pTexture, pTextureShader );
+}
+
+
+
+
+HRESULT D3DXFillTexture(LPDIRECT3DTEXTURE9 pTexture, LPD3DXFILL2D pFunction, 
+						LPVOID pData)
+{
+	if( !m_fnc.m_TFunc_D3DXFillTexture)
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXFillTexture );
+	}
+	return m_fnc.m_TFunc_D3DXFillTexture ( pTexture,  pFunction,  pData );
+}
+
+
+HRESULT D3DXFillTextureTX( LPDIRECT3DTEXTURE9 pTexture, LPD3DXTEXTURESHADER pTextureShader )
+{
+	if( !m_fnc.m_TFunc_D3DXFillTextureTX )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXFillTextureTX );
+	}
+	return m_fnc.m_TFunc_D3DXFillTextureTX ( pTexture,  pTextureShader );
+}
+
+
+
+
+HRESULT D3DXFillVolumeTexture( LPDIRECT3DVOLUMETEXTURE9 pTexture,
+							  LPD3DXFILL3D pFunction, LPVOID pData)
+{
+	if( !m_fnc.m_TFunc_D3DXFillVolumeTexture )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXFillVolumeTexture );
+	}
+	return m_fnc.m_TFunc_D3DXFillVolumeTexture ( pTexture, pFunction,   pData );
+}
+
+
+
+
+HRESULT D3DXFillVolumeTextureTX( LPDIRECT3DVOLUMETEXTURE9 pTexture,
+								LPD3DXTEXTURESHADER pTextureShader)
+{
+	if( !m_fnc.m_TFunc_D3DXFillVolumeTextureTX )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXFillVolumeTextureTX );
+	}
+	return m_fnc.m_TFunc_D3DXFillVolumeTextureTX ( pTexture, pTextureShader );
+}
+
+
+HRESULT D3DXFilterTexture( LPDIRECT3DBASETEXTURE9 pBaseTexture,
+						  CONST PALETTEENTRY * pPalette, UINT SrcLevel, DWORD MipFilter)
+{
+	if( !m_fnc.m_TFunc_D3DXFilterTexture )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXFilterTexture );
+	}
+	return m_fnc.m_TFunc_D3DXFilterTexture ( pBaseTexture,  pPalette,   SrcLevel,  
+		MipFilter );
+}
+
+
+
+HRESULT D3DXGetImageInfoFromFile( const CHAR* pSrcFile, D3DXIMAGE_INFO * pSrcInfo)
+{
+	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromFileA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXGetImageInfoFromFileA );
+	}
+	return m_fnc.m_TFunc_D3DXGetImageInfoFromFileA ( pSrcFile,  pSrcInfo );
+}
+
+
+HRESULT D3DXGetImageInfoFromFileW( const WCHAR* pSrcFile, D3DXIMAGE_INFO * pSrcInfo)
+{
+	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromFileW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXGetImageInfoFromFileW );
+	}
+	return m_fnc.m_TFunc_D3DXGetImageInfoFromFileW ( pSrcFile,  pSrcInfo );
+}
+
+
+
+HRESULT D3DXGetImageInfoFromFileInMemory( LPCVOID pSrcData, UINT SrcDataSize,
+										 D3DXIMAGE_INFO * pSrcInfo)
+{
+	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromFileInMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXGetImageInfoFromFileInMemory );
+	}
+	return m_fnc.m_TFunc_D3DXGetImageInfoFromFileInMemory ( pSrcData,  
+		SrcDataSize, pSrcInfo );
+}
+
+
+
+HRESULT D3DXGetImageInfoFromResourceA( HMODULE hSrcModule, const CHAR* pSrcFile,
+									 D3DXIMAGE_INFO * pSrcInfo)
+{
+	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromResourceA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXGetImageInfoFromResourceA );
+	}
+	return m_fnc.m_TFunc_D3DXGetImageInfoFromResourceA ( hSrcModule, pSrcFile, pSrcInfo );
+}
+
+
+
+HRESULT D3DXGetImageInfoFromResourceW( HMODULE hSrcModule, const WCHAR* pSrcFile,
+									 D3DXIMAGE_INFO * pSrcInfo)
+{
+	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromResourceW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXGetImageInfoFromResourceW );
+	}
+	return m_fnc.m_TFunc_D3DXGetImageInfoFromResourceW ( hSrcModule,   pSrcFile, pSrcInfo );
+}
+
+
+
+
+HRESULT D3DXLoadSurfaceFromFileA(LPDIRECT3DSURFACE9 pDestSurface,
+								CONST PALETTEENTRY* pDestPalette,
+								CONST RECT* pDestRect,
+								CONST CHAR* pSrcFile,
+								CONST RECT* pSrcRect,
+								DWORD Filter,
+								D3DCOLOR ColorKey,
+								D3DXIMAGE_INFO* pSrcInfo )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadSurfaceFromFileA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadSurfaceFromFileA );
+	}
+	return m_fnc.m_TFunc_D3DXLoadSurfaceFromFileA ( pDestSurface, pDestPalette,  
+		pDestRect,  pSrcFile,  pSrcRect,  Filter,   ColorKey, pSrcInfo  );
+}
+
+
+HRESULT D3DXLoadSurfaceFromFileW(LPDIRECT3DSURFACE9 pDestSurface,
+								CONST PALETTEENTRY* pDestPalette,
+								CONST RECT* pDestRect,
+								CONST WCHAR* pSrcFile,
+								CONST RECT* pSrcRect,
+								DWORD Filter,
+								D3DCOLOR ColorKey,
+								D3DXIMAGE_INFO* pSrcInfo )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadSurfaceFromFileW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadSurfaceFromFileW );
+	}
+	return m_fnc.m_TFunc_D3DXLoadSurfaceFromFileW ( pDestSurface, pDestPalette,  
+		pDestRect,  pSrcFile,  pSrcRect,  Filter,   ColorKey, pSrcInfo  );
+}
+
+
+
+
+
+
+HRESULT D3DXLoadSurfaceFromFileInMemory(LPDIRECT3DSURFACE9 pDestSurface,
+										CONST PALETTEENTRY * pDestPalette,
+										CONST RECT * pDestRect,
+										LPCVOID pSrcData,
+										UINT SrcData,
+										CONST RECT * pSrcRect,
+										DWORD Filter,
+										D3DCOLOR ColorKey,
+										D3DXIMAGE_INFO * pSrcInfo )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadSurfaceFromFileInMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadSurfaceFromFileInMemory );
+	}
+	return m_fnc.m_TFunc_D3DXLoadSurfaceFromFileInMemory ( pDestSurface,
+		pDestPalette, pDestRect,  pSrcData,  SrcData,  pSrcRect,  Filter,
+		ColorKey, pSrcInfo );
+}
+
+
+
+
+HRESULT D3DXLoadSurfaceFromMemory(LPDIRECT3DSURFACE9 pDestSurface,
+								  CONST PALETTEENTRY * pDestPalette,
+								  CONST RECT * pDestRect,
+								  LPCVOID pSrcMemory,
+								  D3DFORMAT SrcFormat,
+								  UINT SrcPitch,
+								  CONST PALETTEENTRY * pSrcPalette,
+								  CONST RECT * pSrcRect,
+								  DWORD Filter,
+								  D3DCOLOR ColorKey)
+{
+	if( !m_fnc.m_TFunc_D3DXLoadSurfaceFromMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadSurfaceFromMemory );
+	}
+	return m_fnc.m_TFunc_D3DXLoadSurfaceFromMemory ( pDestSurface,
+		pDestPalette,  pDestRect, pSrcMemory,  SrcFormat, SrcPitch,
+		pSrcPalette,  pSrcRect,  Filter,  ColorKey );
+}
+
+
+
+HRESULT D3DXLoadSurfaceFromResourceA(LPDIRECT3DSURFACE9 pDestSurface,
+									CONST PALETTEENTRY * pDestPalette,
+									CONST RECT * pDestRect,
+									HMODULE hSrcModule,
+									const CHAR* pSrcResource,
+									CONST RECT * pSrcRect,
+									DWORD Filter,
+									D3DCOLOR ColorKey,
+									D3DXIMAGE_INFO * pSrcInfo)
+{
+	if( !m_fnc.m_TFunc_D3DXLoadSurfaceFromResourceA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadSurfaceFromResourceA );
+	}
+	return m_fnc.m_TFunc_D3DXLoadSurfaceFromResourceA ( pDestSurface,
+		pDestPalette, pDestRect,  hSrcModule, pSrcResource, pSrcRect,  Filter, 
+		ColorKey,  pSrcInfo );
+}
+
+
+
+HRESULT D3DXLoadSurfaceFromResourceW(LPDIRECT3DSURFACE9 pDestSurface,
+									CONST PALETTEENTRY * pDestPalette,
+									CONST RECT * pDestRect,
+									HMODULE hSrcModule,
+									const WCHAR* pSrcResource,
+									CONST RECT * pSrcRect,
+									DWORD Filter,
+									D3DCOLOR ColorKey,
+									D3DXIMAGE_INFO * pSrcInfo)
+{
+	if( !m_fnc.m_TFunc_D3DXLoadSurfaceFromResourceW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadSurfaceFromResourceW );
+	}
+	return m_fnc.m_TFunc_D3DXLoadSurfaceFromResourceW ( pDestSurface,
+			pDestPalette, pDestRect,  hSrcModule, pSrcResource, pSrcRect,  Filter, 
+			ColorKey,  pSrcInfo );
+}
+
+
+
+
+HRESULT D3DXLoadSurfaceFromSurface(
+								   LPDIRECT3DSURFACE9 pDestSurface,
+								   CONST PALETTEENTRY * pDestPalette,
+								   CONST RECT * pDestRect,
+								   LPDIRECT3DSURFACE9 pSrcSurface,
+								   CONST PALETTEENTRY * pSrcPalette,
+								   CONST RECT * pSrcRect,
+								   DWORD Filter,
+								   D3DCOLOR ColorKey )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadSurfaceFromSurface)
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadSurfaceFromSurface );
+	}
+	return m_fnc.m_TFunc_D3DXLoadSurfaceFromSurface (  pDestSurface,
+		pDestPalette,  pDestRect,  pSrcSurface,  pSrcPalette,
+		pSrcRect,  Filter,  ColorKey );
+}
+
+
+
+
+HRESULT D3DXLoadVolumeFromFileA(LPDIRECT3DVOLUME9 pDestVolume,
+							   CONST PALETTEENTRY * pDestPalette,
+							   CONST D3DBOX * pDestBox,
+							   const CHAR* pSrcFile,
+							   CONST D3DBOX * pSrcBox,
+							   DWORD Filter,
+							   D3DCOLOR ColorKey,
+							   D3DXIMAGE_INFO * pSrcInfo )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadVolumeFromFileA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadVolumeFromFileA );
+	}
+	return m_fnc.m_TFunc_D3DXLoadVolumeFromFileA ( pDestVolume,
+		pDestPalette, pDestBox, pSrcFile, pSrcBox, Filter, ColorKey, pSrcInfo);
+}
+
+
+HRESULT D3DXLoadVolumeFromFileW(LPDIRECT3DVOLUME9 pDestVolume,
+							   CONST PALETTEENTRY * pDestPalette,
+							   CONST D3DBOX * pDestBox,
+							   const WCHAR* pSrcFile,
+							   CONST D3DBOX * pSrcBox,
+							   DWORD Filter,
+							   D3DCOLOR ColorKey,
+							   D3DXIMAGE_INFO * pSrcInfo )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadVolumeFromFileW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadVolumeFromFileW );
+	}
+	return m_fnc.m_TFunc_D3DXLoadVolumeFromFileW ( pDestVolume,
+		pDestPalette,  pDestBox,  pSrcFile,  pSrcBox,  Filter,  ColorKey,  pSrcInfo );
+}
+
+
+
+
+HRESULT D3DXLoadVolumeFromFileInMemory(LPDIRECT3DVOLUME9 pDestVolume,
+									   CONST PALETTEENTRY * pDestPalette,
+									   CONST D3DBOX * pDestBox,
+									   LPCVOID pSrcData,
+									   UINT SrcDataSize,
+									   CONST D3DBOX * pSrcBox,
+									   DWORD Filter,
+									   D3DCOLOR ColorKey,
+									   D3DXIMAGE_INFO * pSrcInfo )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadVolumeFromFileInMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadVolumeFromFileInMemory );
+	}
+	return m_fnc.m_TFunc_D3DXLoadVolumeFromFileInMemory ( pDestVolume,
+		pDestPalette,  pDestBox,  pSrcData,  SrcDataSize,  pSrcBox,  Filter,
+		ColorKey,  pSrcInfo );
+}
+
+
+HRESULT D3DXLoadVolumeFromMemory(LPDIRECT3DVOLUME9 pDestVolume,
+								 CONST PALETTEENTRY * pDestPalette,
+								 CONST D3DBOX * pDestBox,
+								 LPCVOID pSrcMemory,
+								 D3DFORMAT SrcFormat,
+								 UINT SrcRowPitch,
+								 UINT SrcSlicePitch,
+								 CONST PALETTEENTRY * pSrcPalette,
+								 CONST D3DBOX * pSrcBox,
+								 DWORD Filter,
+								 D3DCOLOR ColorKey )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadVolumeFromMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadVolumeFromMemory );
+	}
+	return m_fnc.m_TFunc_D3DXLoadVolumeFromMemory ( pDestVolume,  pDestPalette,  pDestBox,
+		pSrcMemory,  SrcFormat,  SrcRowPitch,  SrcSlicePitch, pSrcPalette, pSrcBox,
+		Filter,  ColorKey );
+}
+
+
+
+HRESULT D3DXLoadVolumeFromResourceA( LPDIRECT3DVOLUME9 pDestVolume,
+								   CONST PALETTEENTRY * pDestPalette,
+								   CONST D3DBOX * pDestBox,
+								   HMODULE hSrcModule,
+								   const CHAR* pSrcResource,
+								   CONST D3DBOX * pSrcBox,
+								   DWORD Filter,
+								   D3DCOLOR ColorKey,
+								   D3DXIMAGE_INFO * pSrcInfo )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadVolumeFromResourceA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadVolumeFromResourceA );
+	}
+	return m_fnc.m_TFunc_D3DXLoadVolumeFromResourceA ( pDestVolume,  pDestPalette,
+		pDestBox, hSrcModule, pSrcResource, pSrcBox, Filter, ColorKey,  pSrcInfo );
+}
+
+
+
+HRESULT D3DXLoadVolumeFromResourceW( LPDIRECT3DVOLUME9 pDestVolume,
+								   CONST PALETTEENTRY * pDestPalette,
+								   CONST D3DBOX * pDestBox,
+								   HMODULE hSrcModule,
+								   const WCHAR* pSrcResource,
+								   CONST D3DBOX * pSrcBox,
+								   DWORD Filter,
+								   D3DCOLOR ColorKey,
+								   D3DXIMAGE_INFO * pSrcInfo )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadVolumeFromResourceW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadVolumeFromResourceW );
+	}
+	return m_fnc.m_TFunc_D3DXLoadVolumeFromResourceW ( pDestVolume,  pDestPalette,
+		pDestBox, hSrcModule, pSrcResource, pSrcBox, Filter, ColorKey,  pSrcInfo );
+}
+
+
+
+
+
+HRESULT D3DXLoadVolumeFromVolume( LPDIRECT3DVOLUME9 pDestVolume,
+			 CONST PALETTEENTRY * pDestPalette,
+			 CONST D3DBOX * pDestBox,
+			 LPDIRECT3DVOLUME9 pSrcVolume,
+			 CONST PALETTEENTRY * pSrcPalette,
+			 CONST D3DBOX * pSrcBox,
+			 DWORD Filter,
+			 D3DCOLOR ColorKey )
+{
+	if( !m_fnc.m_TFunc_D3DXLoadVolumeFromVolume )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXLoadVolumeFromVolume );
+	}
+	return m_fnc.m_TFunc_D3DXLoadVolumeFromVolume (  pDestVolume, pDestPalette,
+		pDestBox,  pSrcVolume,  pSrcPalette,  pSrcBox , Filter,  ColorKey  );
+}
+
+
+HRESULT D3DXSaveSurfaceToFileA( const CHAR* pDestFile,    D3DXIMAGE_FILEFORMAT DestFormat,
+							  LPDIRECT3DSURFACE9 pSrcSurface,    CONST PALETTEENTRY * pSrcPalette,
+							  CONST RECT * pSrcRect )
+{
+	if( !m_fnc.m_TFunc_D3DXSaveSurfaceToFileA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXSaveSurfaceToFileA );
+	}
+	return m_fnc.m_TFunc_D3DXSaveSurfaceToFileA (pDestFile,  DestFormat,
+		  pSrcSurface,    pSrcPalette,  pSrcRect   );
+}
+
+
+HRESULT D3DXSaveSurfaceToFileW( const WCHAR* pDestFile,    D3DXIMAGE_FILEFORMAT DestFormat,
+							  LPDIRECT3DSURFACE9 pSrcSurface,    CONST PALETTEENTRY * pSrcPalette,
+							  CONST RECT * pSrcRect )
+{
+	if( !m_fnc.m_TFunc_D3DXSaveSurfaceToFileW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXSaveSurfaceToFileW );
+	}
+	return m_fnc.m_TFunc_D3DXSaveSurfaceToFileW (pDestFile,      DestFormat,
+		  pSrcSurface,    pSrcPalette,     pSrcRect  );
+}
+
+
+
+
+
+HRESULT D3DXSaveSurfaceToFileInMemory(
+									  LPD3DXBUFFER * ppDestBuf,
+									  D3DXIMAGE_FILEFORMAT DestFormat,
+									  LPDIRECT3DSURFACE9 pSrcSurface,
+									  CONST PALETTEENTRY * pSrcPalette,
+									  CONST RECT * pSrcRect)
+{
+	if( !m_fnc.m_TFunc_D3DXSaveSurfaceToFileInMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXSaveSurfaceToFileInMemory );
+	}
+	return m_fnc.m_TFunc_D3DXSaveSurfaceToFileInMemory ( ppDestBuf,  DestFormat,
+		pSrcSurface,  pSrcPalette, pSrcRect );
+}
+
+
+HRESULT D3DXSaveTextureToFileA(const CHAR* pDestFile, D3DXIMAGE_FILEFORMAT DestFormat,
+							  LPDIRECT3DBASETEXTURE9 pSrcTexture,   CONST PALETTEENTRY * pSrcPalette )
+{
+	if( !m_fnc.m_TFunc_D3DXSaveTextureToFileA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXSaveTextureToFileA );
+	}
+	return m_fnc.m_TFunc_D3DXSaveTextureToFileA ( pDestFile,  DestFormat,  pSrcTexture,
+		pSrcPalette );
+}
+
+HRESULT D3DXSaveTextureToFileW(const WCHAR* pDestFile, D3DXIMAGE_FILEFORMAT DestFormat,
+							  LPDIRECT3DBASETEXTURE9 pSrcTexture,   CONST PALETTEENTRY * pSrcPalette )
+{
+	if( !m_fnc.m_TFunc_D3DXSaveTextureToFileW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXSaveTextureToFileW );
+	}
+	return m_fnc.m_TFunc_D3DXSaveTextureToFileW ( pDestFile,  DestFormat,  pSrcTexture,
+		pSrcPalette );
+}
+
+
+
+HRESULT D3DXSaveTextureToFileInMemory(LPD3DXBUFFER * ppDestBuf,
+									  D3DXIMAGE_FILEFORMAT DestFormat,
+									  LPDIRECT3DBASETEXTURE9 pSrcTexture,
+									  CONST PALETTEENTRY * pSrcPalette  )
+{
+	if( !m_fnc.m_TFunc_D3DXSaveTextureToFileInMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXSaveTextureToFileInMemory );
+	}
+	return m_fnc.m_TFunc_D3DXSaveTextureToFileInMemory ( ppDestBuf,  DestFormat,
+		pSrcTexture, pSrcPalette  );
+}
+
+
+
+HRESULT D3DXSaveVolumeToFileA( const CHAR* pDestFile,
+							 D3DXIMAGE_FILEFORMAT DestFormat,
+							 LPDIRECT3DVOLUME9 pSrcVolume,
+							 CONST PALETTEENTRY * pSrcPalette,
+							 CONST D3DBOX * pSrcBox  )
+{
+	if( !m_fnc.m_TFunc_D3DXSaveVolumeToFileA )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXSaveVolumeToFileA );
+	}
+	return m_fnc.m_TFunc_D3DXSaveVolumeToFileA ( pDestFile,  DestFormat, pSrcVolume,
+		pSrcPalette,  pSrcBox  );
+}
+
+
+HRESULT D3DXSaveVolumeToFileW( const WCHAR* pDestFile,
+							 D3DXIMAGE_FILEFORMAT DestFormat,
+							 LPDIRECT3DVOLUME9 pSrcVolume,
+							 CONST PALETTEENTRY * pSrcPalette,
+							 CONST D3DBOX * pSrcBox  )
+{
+	if( !m_fnc.m_TFunc_D3DXSaveVolumeToFileW )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXSaveVolumeToFileW );
+	}
+	return m_fnc.m_TFunc_D3DXSaveVolumeToFileW ( pDestFile,  DestFormat, pSrcVolume,
+		pSrcPalette,  pSrcBox  );
+}
+
+
+
+HRESULT D3DXSaveVolumeToFileInMemory(
+									 LPD3DXBUFFER * ppDestBuf,
+									 D3DXIMAGE_FILEFORMAT DestFormat,
+									 LPDIRECT3DVOLUME9 pSrcVolume,
+									 CONST PALETTEENTRY * pSrcPalette,
+									 CONST D3DBOX * pSrcBox )
+{
+	if( !m_fnc.m_TFunc_D3DXSaveVolumeToFileInMemory )
+	{
+		DEF_TEMP_ERR_HANDLE( D3DXSaveVolumeToFileInMemory );
+	}
+	return m_fnc.m_TFunc_D3DXSaveVolumeToFileInMemory ( ppDestBuf, DestFormat,
+		pSrcVolume, pSrcPalette,  pSrcBox );
+}
 
 
 
