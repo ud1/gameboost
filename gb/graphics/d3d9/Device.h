@@ -333,8 +333,8 @@ BOOL getVertexShaderConstBool(UINT nStartRegister) {
 
 #ifdef __GB_FMATH_H__
 
-vec4_s getVertexShaderConstVec4(UINT nStartRegister) {
-	vec4_s res;
+vec4 getVertexShaderConstVec4(UINT nStartRegister) {
+	vec4 res;
 	HRESULT hr = dvc->GetVertexShaderConstantF(nStartRegister , res, 1);
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	return res;
