@@ -5,7 +5,7 @@
 #include <string>
 #include <algorithm>
 
-#include <utfcpp/utf8.h>
+#include <utf8.h>
 
 namespace gb
 {

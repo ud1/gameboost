@@ -78,7 +78,7 @@ namespace gb
 					if (window_options_node)
 					{
 						for (YAML::Iterator it = window_options_node->begin(); it != window_options_node->end(); ++it)
-							wnd_opts.push_back(*it);
+							wnd_opts.push_back(it->to<std::string>());
 					}
 				}
 				

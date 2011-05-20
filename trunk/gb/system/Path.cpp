@@ -101,7 +101,7 @@ Path & Path::operator /= ( const Path & other )
 std::string Path::getLeaf()
 {
 #if GB_ALLOW_BOOST_LIBRARY__PATH
-	return value.leaf();
+	return value.filename().string();
 #else
 	
 	size_t slashpos = value.rfind( '/' );

@@ -15,10 +15,10 @@ namespace gb
 		public:
 			enum MouseButton
 			{
-				MB_LEFT,
-				MB_RIGHT,
+				GB_MB_LEFT,
+				GB_MB_RIGHT,
 				
-				MB_COUNT
+				GB_MB_COUNT
 			};
 			
 			InputBase();
@@ -39,7 +39,7 @@ namespace gb
 			
 		private:
 			bool keys_pressed[256];
-			bool mouse_buttons_pressed[MB_COUNT];
+			bool mouse_buttons_pressed[GB_MB_COUNT];
 			
 			void reset();
 		};

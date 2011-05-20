@@ -19,16 +19,16 @@ namespace gb
 			switch (msg.type)
 			{
 				case MouseMessage::LB_DOWN:
-					mouse_buttons_pressed[MB_LEFT]=true;
+					mouse_buttons_pressed[GB_MB_LEFT]=true;
 					break;
 				case MouseMessage::RB_DOWN:
-					mouse_buttons_pressed[MB_RIGHT]=true;
+					mouse_buttons_pressed[GB_MB_RIGHT]=true;
 					break;
 				case MouseMessage::LB_UP:
-					mouse_buttons_pressed[MB_LEFT]=false;
+					mouse_buttons_pressed[GB_MB_LEFT]=false;
 					break;
 				case MouseMessage::RB_UP:
-					mouse_buttons_pressed[MB_RIGHT]=false;
+					mouse_buttons_pressed[GB_MB_RIGHT]=false;
 					break;
 				case MouseMessage::MOVE:
 					mouse_pos = vec2((float)msg.x,(float)msg.y);

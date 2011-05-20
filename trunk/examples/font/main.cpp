@@ -6,35 +6,31 @@
 
 #include <cstring>
 
-using namespace gb::fs;
-using namespace gb::loaders;
-using namespace gb::containers;
-using namespace gb::graphics2d;
-using namespace gb::base;
+using namespace gb;
 
 int main()
 {
 	const int im_size = 256;
-	Image image;
-	BmpLoader bmpLoader;
-	LocalFS fs;
-	Atlas atlas(im_size, im_size);
+	containers::Image image;
+	loaders::BmpLoader bmpLoader;
+	fs::LocalFS fs;
+	base::Atlas atlas(im_size, im_size);
 	
-	InputStream *input = fs.getInputStream("../data/BaroqueScript.ttf");
+	fs::InputStream *input = fs.getInputStream("../data/BaroqueScript.ttf");
 	if (!input)
 		return 0;
 	
-	FontFreeType free_type;
+	graphics2d::FontFreeType free_type;
 	if (!free_type.init())
 		return 0;
 	
-	Font *font = free_type.create(*input, 16*64);
+	graphics2d::Font *font = free_type.create(*input, 16*64);
 	if (!font)
 		return 0;
 	
 	image.width = im_size;
 	image.height = im_size;
-	image.pixel_format = ePixelFormat::RGB_888;
+	image.pixel_format = containers::ePixelFormat::RGB_888;
 	image.calculateDataSize();
 	image.pitch = image.row_size + image.padding_bytes;
 	image.data = new char[image.data_size];
@@ -42,11 +38,11 @@ int main()
 	
 	for (wchar_t ch = L'a'; ch <= L'z'; ++ch)
 	{
-		Font::GlyphInfo info;
+		graphics2d::Font::GlyphInfo info;
 		if (font->getGlyphInfo(ch, info))
 		{
-			Rectangle rec;
-			Image sub_image;
+			base::Rectangle rec;
+			containers::Image sub_image;
 			sub_image.width = rec.width = info.width;
 			sub_image.height = rec.height = info.height;
 			if(atlas.insert(rec))
@@ -57,7 +53,7 @@ int main()
 		}
 	}
 	
-	OutputStream *file = fs.getOutputStream("../data/font_test.bmp", true);
+	fs::OutputStream *file = fs.getOutputStream("../data/font_test.bmp", true);
 	bmpLoader.saveImage(*file, image);
 	file->release();
 	delete []image.data;

@@ -6,6 +6,8 @@
 
 #include <gb/base/Logger.h>
 
+#include <vector>
+
 namespace
 {
 	using namespace gb::terrain;
@@ -51,7 +53,7 @@ namespace gb
 			//   \| \| \|/
 			//    -------
  
-			short normal_edge_inds[(size-1)*6];
+			std::vector<short> normal_edge_inds((size-1)*6);
 
 			int c = 0;
 			// Первый треугольник
@@ -82,7 +84,7 @@ namespace gb
 			//  \  /|\  /|\  /|\  /
 			//   \/ | \/ | \/ | \/
 			//    ---------------
-			short sparse_edge[(3*size/2 - 2)*3];
+			std::vector<short> sparse_edge((3*size/2 - 2)*3);
 			c = 0;
 			// Первые два треугольника
 			sparse_edge[c++] = 0;
@@ -120,11 +122,11 @@ namespace gb
 			assert(c == sizeof(sparse_edge)/sizeof(sparse_edge[0]));
 
 			// строим 16 индесных буфферов
-			unsigned short inds[size*size*6*16];
+			std::vector<unsigned short> inds(size*size*6*16);
 			int inds_size[16];
 			for (int i = 0; i < 16; ++i)
 			{
-				unsigned short *inds_ptr = inds + size*size*6*i;
+				unsigned short *inds_ptr = &inds[0] + size*size*6*i;
 				inds_size[i] = 0;
 
 				// Добавляем края
@@ -187,7 +189,7 @@ namespace gb
 			for (int i = 0; i < 16; ++i)
 			{
 				MESSAGE_LOG("NvTriStrip start " << i << "/16");
-				unsigned short *inds_ptr = inds + size*size*6*i;
+				unsigned short *inds_ptr = &inds[0] + size*size*6*i;
 				unsigned short numGroups;
 				GenerateStrips(inds_ptr, inds_size[i], &groups[i], &numGroups);
 				assert(numGroups == 1);
