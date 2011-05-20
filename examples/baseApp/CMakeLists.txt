@@ -2,6 +2,8 @@
 project( BaseApp_Test )
 cmake_minimum_required(VERSION 2.8)
 
+add_definitions( -D_USE_MATH_DEFINES )
+
 #------ sources ------
 set( BaseApp_Test_SOURCES
 		main.cpp

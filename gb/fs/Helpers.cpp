@@ -37,6 +37,7 @@ namespace gb
 			std::string raw_string;
 			readEntireFile(file_system, file_name, raw_string);
 			str::rawStringToUtf8(raw_string, out);
+			return true;
 		}
 	}
 }

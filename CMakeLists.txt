@@ -7,17 +7,18 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${GAMEBOOST_SOURCE_DIR}/linklib CACHE PATH "
 
 set(CMAKE_FIND_LIBRARY_PREFIXES "lib")
 if (MSVC)
-	set(BOOST_ROOT "C:/boost")
-	set(BOOST_LIBRARYDIR "C:/boost/stage/lib")
+	include(windows_settings.cmake)
 endif()
 
 set(Boost_USE_MULTITHREADED ON)
 find_package(Boost)
 find_package(Freetype)
+find_package(JPEG)
 
 include_directories( ${GAMEBOOST_SOURCE_DIR} )
 include_directories( ${Boost_INCLUDE_DIRS} )
 include_directories( ${FREETYPE_INCLUDE_DIRS} )
+include_directories( ${JPEG_INCLUDE_DIR} )
 include_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/NvTriStrip )
 
 link_directories( ${GAMEBOOST_SOURCE_DIR}/linklib )
@@ -29,5 +30,4 @@ add_subdirectory( test )
 add_subdirectory( examples )
 
 add_subdirectory( gb/deplib/NvTriStrip )
-add_subdirectory(experimental)
-add_subdirectory(utils)
+add_subdirectory( utils )

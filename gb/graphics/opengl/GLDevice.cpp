@@ -1175,7 +1175,7 @@ namespace gb
 			return false;
 		}
 
-		void GLDevice::setScissorRect(const Rectangle &rc)
+		void GLDevice::setScissorRect(const base::Rectangle &rc)
 		{
 			int w, h;
 			getSize(w, h);
