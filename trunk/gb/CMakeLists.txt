@@ -54,9 +54,6 @@ set( GAMEBOOST_SOURCES
 		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp mt/syncPrimitives.h
 		mt/Resource.h mt/Resource.cpp
 
-		rand/rand.cpp rand/rand.h
-		rand/mt.h
-		
 		shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
 		
 		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
