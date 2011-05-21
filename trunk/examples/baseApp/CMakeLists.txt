@@ -10,7 +10,12 @@ set( BaseApp_Test_SOURCES
 		)
 
 find_package(Boost COMPONENTS program_options REQUIRED)
-set(BaseApp_EXTRA_LIBS ${Boost_LIBRARIES} GL X11 GLEW yaml-cpp)
+if (WIN32)
+	set(BaseApp_EXTRA_LIBS ${Boost_LIBRARIES} ${OPENGL_gl_LIBRARY} GLEW ${YAML_CPP_LIBRARY})
+else()
+	set(BaseApp_EXTRA_LIBS ${Boost_LIBRARIES} ${OPENGL_gl_LIBRARY} X11 GLEW yaml-cpp)
+endif()
+
 
 #------ target -----
 add_executable( BaseApp_Test ${BaseApp_Test_SOURCES} )
