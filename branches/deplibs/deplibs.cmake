@@ -27,3 +27,6 @@ set(GLEW_LIBRARY ${deplibs_lib_dir}/glew.lib)
 
 # gl3
 include_directories( ${deplibs_dir}/gl3 )
+
+# gtest
+include_directories( ${deplibs_dir}/gtest/gtest-1.5.0/include )
