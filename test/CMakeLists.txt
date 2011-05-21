@@ -10,7 +10,7 @@ set( GBTEST_SOURCES
 		main.cpp
 		#test_path.cpp
 		#test_String.cpp
-		test_Random.cpp
+		#test_Random.cpp
 		)
 
 find_package(Boost COMPONENTS system filesystem REQUIRED)

@@ -25,7 +25,6 @@ include_directories( ${GAMEBOOST_SOURCE_DIR}/gb/deplib/NvTriStrip )
 link_directories( ${GAMEBOOST_SOURCE_DIR}/linklib )
 link_directories( ${Boost_LIBRARY_DIRS} )
 
-add_subdirectory( test/deplib/gtest-1.5.0 )
 add_subdirectory( gb )
 add_subdirectory( test )
 add_subdirectory( examples )
