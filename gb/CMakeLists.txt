@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 if (MSVC)
 	# Параметры компиляции для MSVC
-	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -D_WIN32_WINNT=0x0501 -D_USE_MATH_DEFINES /MP )
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -D_WIN32_WINNT=0x0501 -D_USE_MATH_DEFINES -DGLEW_STATIC /MP )
 else()
 	# для прочих компиляторов
 	add_definitions(-pedantic -Wall)
