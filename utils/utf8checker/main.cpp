@@ -92,7 +92,7 @@ void recurse(const path &dir)
 				recurse(f);
 			else
 			{
-				std::string extension = f.extension().c_str();
+				std::string extension = makeUtf8(f.extension().c_str());
 				if (extension == ".h" || extension == ".cpp")
 					checkFile(f.string());
 			}

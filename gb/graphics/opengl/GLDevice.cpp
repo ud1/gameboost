@@ -23,11 +23,6 @@
 #include <sstream>
 #include <boost/concept_check.hpp>
 
-#ifdef WIN32
-#pragma comment( lib, "opengl32.lib" )
-#pragma comment( lib, "glew32.lib" )
-#endif
-
 //------------------- Safe opengl refcountable objects deletion macros---------
 
 #define SAFE_OBJECT_DELETION													\

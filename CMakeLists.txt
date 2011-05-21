@@ -14,6 +14,7 @@ set(Boost_USE_MULTITHREADED ON)
 find_package(Boost)
 find_package(Freetype)
 find_package(JPEG)
+find_package(OpenGL)
 
 include_directories( ${GAMEBOOST_SOURCE_DIR} )
 include_directories( ${Boost_INCLUDE_DIRS} )

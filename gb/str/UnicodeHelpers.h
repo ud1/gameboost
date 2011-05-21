@@ -305,5 +305,22 @@ namespace gb
 			rawStringToWstring(str, result);
 			return result;
 		}
+
+		template <typename T>
+		std::string makeUtf8(const T *s);
+
+		template <>
+		inline std::string makeUtf8<char>(const char *s)
+		{
+			return s;
+		}
+
+		template <>
+		inline std::string makeUtf8<wchar_t>(const wchar_t *s)
+		{
+			std::string result;
+			wstringToUtf8(s, result);
+			return result;
+		}
 	}
 }
