@@ -57,18 +57,6 @@ set( GAMEBOOST_SOURCES
 		rand/rand.cpp rand/rand.h
 		rand/mt.h
 		
-		#-- Random обычной точности - переключать в rand/mt.h --
-		deplib/mt/SFMT/SFMT.cpp deplib/mt/SFMT/SFMT.h deplib/mt/SFMT/SFMT-alti.h deplib/mt/SFMT/SFMT-params.h deplib/mt/SFMT/SFMT-params11213.h
-		deplib/mt/SFMT/SFMT-params1279.h deplib/mt/SFMT/SFMT-params132049.h deplib/mt/SFMT/SFMT-params19937.h deplib/mt/SFMT/SFMT-params216091.h
-        deplib/mt/SFMT/SFMT-params2281.h deplib/mt/SFMT/SFMT-params4253.h deplib/mt/SFMT/SFMT-params44497.h deplib/mt/SFMT/SFMT-params607.h
-        deplib/mt/SFMT/SFMT-params86243.h deplib/mt/SFMT/SFMT-sse2.h
-
-		#-- Random двойной точности - переключать в rand/mt.h --
-		deplib/mt/dSFMT/dSFMT.cpp deplib/mt/dSFMT/dSFMT.h deplib/mt/dSFMT/dSFMT-params.h deplib/mt/dSFMT/dSFMT-params11213.h
-		deplib/mt/dSFMT/dSFMT-params1279.h deplib/mt/dSFMT/dSFMT-params132049.h deplib/mt/dSFMT/dSFMT-params19937.h deplib/mt/dSFMT/dSFMT-params216091.h
-		deplib/mt/dSFMT/dSFMT-params2203.h deplib/mt/dSFMT/dSFMT-params4253.h deplib/mt/dSFMT/dSFMT-params44497.h deplib/mt/dSFMT/dSFMT-params521.h
-		deplib/mt/dSFMT/dSFMT-params86243.h 
-
 		shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
 		
 		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
@@ -93,15 +81,11 @@ source_group( loaders REGULAR_EXPRESSION "loaders/" )
 source_group( math REGULAR_EXPRESSION "math/" )
 source_group( mt REGULAR_EXPRESSION "mt/" )
 source_group( rand REGULAR_EXPRESSION "rand/" )
-source_group( rand\\m_twister REGULAR_EXPRESSION "deplib/mt/" )
 source_group( shaders REGULAR_EXPRESSION "shaders/" )
 source_group( system REGULAR_EXPRESSION "system/" )
 source_group( strings REGULAR_EXPRESSION "str/" )
 source_group( terrain REGULAR_EXPRESSION "terrain/" )
 source_group( util REGULAR_EXPRESSION "util/" )
-
-include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/utfcpp.sourceforge.net )
-include_directories( ${LIBGAMEBOOST_SOURCE_DIR}/deplib/yaml-cpp/include )
 
 if (MSVC)
 	set_source_files_properties( pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h" )
