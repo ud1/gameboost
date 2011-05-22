@@ -4,7 +4,7 @@
 
 namespace gb
 {
-	namespace engine_blocks
+	namespace resource
 	{
 		
 		/**
