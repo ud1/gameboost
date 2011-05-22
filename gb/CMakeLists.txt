@@ -31,7 +31,6 @@ set( GAMEBOOST_SOURCES
 
 		engineBlocks/BaseApplication.h engineBlocks/BaseApplication.cpp engineBlocks/GameApplication.h engineBlocks/GameApplication.cpp
 		engineBlocks/EventTranslator.h engineBlocks/EventTranslator.cpp engineBlocks/InputHandlerContainer.h engineBlocks/InputHandlerMap.h
-		engineBlocks/CacheBase.h engineBlocks/CacheNoGarbage.h engineBlocks/LRUCache.h
 		engineBlocks/InputBase.h engineBlocks/InputBase.cpp engineBlocks/CameraInput.h engineBlocks/CameraInput.cpp
 		containers/Mesh.h containers/Mesh.cpp
 
@@ -52,7 +51,9 @@ set( GAMEBOOST_SOURCES
 		fs/FileSystem.h fs/Helpers.cpp fs/Helpers.h fs/LocalFS.cpp fs/LocalFS.h fs/SeekType.h fs/Stream.h
 		
 		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp mt/syncPrimitives.h
-		mt/Resource.h mt/Resource.cpp
+
+ 		resource/Resource.h resource/Resource.cpp
+		resource/CacheBase.h resource/CacheNoGarbage.h resource/LRUCache.h resource/AsyncLoader.h
 
 		shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
 		

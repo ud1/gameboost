@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gb/base/IRefCountable.h>
-#include "CacheNoGarbage.h"
+#include "gb/resource/CacheNoGarbage.h"
 #include <string>
 #include <boost/thread.hpp>
 
@@ -66,7 +66,7 @@ namespace gb
 		/**
 		* \brief Фабрика объектов типа StringFlyweight
 		*/
-		class StringFlyweightFactory : private CacheNoGarbage<StringFlyweight, boost::mutex, StringFlyweightLoader>
+		class StringFlyweightFactory : private resource::CacheNoGarbage<StringFlyweight, boost::mutex, StringFlyweightLoader>
 		{
 		public:
 			const StringFlyweight *create(const std::string &v)

@@ -15,7 +15,7 @@
 
 namespace gb
 {
-	namespace mt
+	namespace resource
 	{
 	
 		/**
@@ -59,7 +59,7 @@ namespace gb
 			 * Если ресурс уничтожается, так и не закончив подготовку, происходит вызов
 			 * с параметром CANCEL_JOB.
 			 */
-			Job *addOnFinishCallback(const JobTask &task);
+			mt::Job *addOnFinishCallback(const mt::JobTask &task);
 			
 			/**
 			 * Объем занимаемой памяти, наследуемые классы должны должным образом переопределять эту функцию.
@@ -101,8 +101,8 @@ namespace gb
 			 * эти задачи должны быть зарегестрированны вызовом этой функции.
 			 * Обычно этим должен заниматься загрузчик данного типа ресурсов.
 			 */
-			void addPreparationJob0(Job *op);
-			void addPreparationJob(Job *op)
+			void addPreparationJob0(mt::Job *op);
+			void addPreparationJob(mt::Job *op)
 			{
 				op->addRef();
 				addPreparationJob0(op);
@@ -129,7 +129,7 @@ namespace gb
 			void preparationFinished(ResourceStatus s);
 
 			// Шедулер для колбеков
-			void setJobScheduler(IJobScheduler *s)
+			void setJobScheduler(mt::IJobScheduler *s)
 			{
 				sched = s;
 			}
@@ -138,14 +138,14 @@ namespace gb
 			ResourceStatus status;
 			boost::mutex callbacks_guard, preparation_jobs_guard;
 			boost::interprocess::interprocess_semaphore wait_sem;
-			typedef std::set<Job *> PreparationJobs;
+			typedef std::set<mt::Job *> PreparationJobs;
 			PreparationJobs preparation_jobs;
 			base::Timer timer;
 			double preparation_time;
 
 			typedef boost::intrusive::list_base_hook<> BaseListHook;
 			friend struct Callback;
-			struct Callback : public JobProxy, public BaseListHook
+			struct Callback : public mt::JobProxy, public BaseListHook
 			{
 				Callback(Resource *owner_)
 				{
@@ -158,15 +158,15 @@ namespace gb
 					owner->release();
 				}
 
-				using JobProxy::setup;
-				using Job::doJob;
-				using Job::setJobTask;
+				using mt::JobProxy::setup;
+				using mt::Job::doJob;
+				using mt::Job::setJobTask;
 
-				JobTask task_to_do;
+				mt::JobTask task_to_do;
 			private:
 				Resource *owner;
 
-				bool getJobOwnership(JobTask::Action a)
+				bool getJobOwnership(mt::JobTask::Action a)
 				{
 					if (JobProxy::getJobOwnership(a))
 					{
@@ -179,13 +179,13 @@ namespace gb
 
 			typedef boost::intrusive::list<Callback> Callbacks;
 			Callbacks callbacks;
-			IJobScheduler *sched;
+			mt::IJobScheduler *sched;
 
 			bool eraseCallback(Callback &callback);
 			void onWait(int millisecs);
 			void cancelPreparationJobs();
 			ResourceStatus wait_(int millisecs);
-			void doCallback(JobTask::Action s);
+			void doCallback(mt::JobTask::Action s);
 		};
 	}
 }

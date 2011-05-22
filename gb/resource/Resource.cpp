@@ -2,8 +2,10 @@
 
 namespace gb
 {
-	namespace mt
+	namespace resource
 	{
+		using namespace mt;
+		
 		//----------------------- Resource --------------------------------
 
 		Resource::ResourceStatus Resource::wait(int millisecs)
