@@ -69,6 +69,13 @@ GB_D3D9_API std::string D3DRENDERSTATETYPE_tostr(const D3DRENDERSTATETYPE val);
 GB_D3D9_API bool D3DRENDERSTATETYPE_fromstr(  D3DRENDERSTATETYPE& val, std::string& str);
 
 
+//! \brief Значение val стейта state  в строку. Если параметры некорректные вернёт пустую строку.
+GB_D3D9_API std::string D3DRENDERSTATEVALUE_tostr(const D3DRENDERSTATETYPE state, const DWORD val);
+
+//! \brief Значение val стейта state  из строки. Если параметры некорректные вернёт false.
+GB_D3D9_API  bool D3DRENDERSTATEVALUE_fromstr(DWORD &val, const D3DRENDERSTATETYPE state, const std::string &s);
+
+
 /** \brief Значение D3DPOOL (val) в строку.
         Если val некорректное, то вернёт пустую строку   */
 GB_D3D9_API std::string D3DPOOL_tostr(const D3DPOOL val);

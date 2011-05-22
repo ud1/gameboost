@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+﻿//#include "stdafx.h"
 //#include "pch.h"
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
@@ -233,7 +233,10 @@
           // not found
         }
 
-    };
+    }
+
+
+
 
     return s;
   };
@@ -801,470 +804,470 @@
 
       case D3DRS_ZENABLE:
         {
-          strcat(ss, "D3DRS_ZENABLE");
+          strcpy(ss, "D3DRS_ZENABLE");
         }
         break;
       case D3DRS_FILLMODE:
         {
-          strcat(ss, "D3DRS_FILLMODE");
+          strcpy(ss, "D3DRS_FILLMODE");
         }
         break;
       case D3DRS_SHADEMODE:
         {
-          strcat(ss, "D3DRS_SHADEMODE");
+          strcpy(ss, "D3DRS_SHADEMODE");
         }
         break;
       case D3DRS_ZWRITEENABLE:
         {
-          strcat(ss, "D3DRS_ZWRITEENABLE");
+          strcpy(ss, "D3DRS_ZWRITEENABLE");
         }
         break;
       case D3DRS_ALPHATESTENABLE:
         {
-          strcat(ss, "D3DRS_ALPHATESTENABLE");
+          strcpy(ss, "D3DRS_ALPHATESTENABLE");
         }
         break;
       case D3DRS_LASTPIXEL:
         {
-          strcat(ss, "D3DRS_LASTPIXEL");
+          strcpy(ss, "D3DRS_LASTPIXEL");
         }
         break;
 
       case D3DRS_SRCBLEND:
         {
-          strcat(ss, "D3DRS_SRCBLEND");
+          strcpy(ss, "D3DRS_SRCBLEND");
         }
         break;
       case D3DRS_DESTBLEND:
         {
-          strcat(ss, "D3DRS_DESTBLEND");
+          strcpy(ss, "D3DRS_DESTBLEND");
         }
         break;
       case D3DRS_CULLMODE:
         {
-          strcat(ss, "D3DRS_CULLMODE");
+          strcpy(ss, "D3DRS_CULLMODE");
         }
         break;
       case D3DRS_ZFUNC:
         {
-          strcat(ss, "D3DRS_ZFUNC");
+          strcpy(ss, "D3DRS_ZFUNC");
         }
         break;
       case D3DRS_ALPHAREF:
         {
-          strcat(ss, "D3DRS_ALPHAREF");
+          strcpy(ss, "D3DRS_ALPHAREF");
         }
         break;
 
 
       case D3DRS_ALPHAFUNC:
         {
-          strcat(ss, "D3DRS_ALPHAFUNC");
+          strcpy(ss, "D3DRS_ALPHAFUNC");
         }
         break;
       case D3DRS_DITHERENABLE:
         {
-          strcat(ss, "D3DRS_DITHERENABLE");
+          strcpy(ss, "D3DRS_DITHERENABLE");
         }
         break;
       case D3DRS_ALPHABLENDENABLE:
         {
-          strcat(ss, "D3DRS_ALPHABLENDENABLE");
+          strcpy(ss, "D3DRS_ALPHABLENDENABLE");
         }
         break;
       case D3DRS_FOGENABLE:
         {
-          strcat(ss, "D3DRS_FOGENABLE");
+          strcpy(ss, "D3DRS_FOGENABLE");
         }
         break;
 
       case D3DRS_SPECULARENABLE:
         {
-          strcat(ss, "D3DRS_SPECULARENABLE");
+          strcpy(ss, "D3DRS_SPECULARENABLE");
         }
         break;
       case D3DRS_FOGCOLOR:
         {
-          strcat(ss, "D3DRS_FOGCOLOR");
+          strcpy(ss, "D3DRS_FOGCOLOR");
         }
         break;
       case D3DRS_FOGTABLEMODE:
         {
-          strcat(ss, "D3DRS_FOGTABLEMODE");
+          strcpy(ss, "D3DRS_FOGTABLEMODE");
         }
         break;
       case D3DRS_FOGSTART:
         {
-          strcat(ss, "D3DRS_FOGSTART");
+          strcpy(ss, "D3DRS_FOGSTART");
         }
         break;
       case D3DRS_FOGEND:
         {
-          strcat(ss, "D3DRS_FOGEND");
+          strcpy(ss, "D3DRS_FOGEND");
         }
         break;
       case D3DRS_FOGDENSITY:
         {
-          strcat(ss, "D3DRS_FOGDENSITY");
+          strcpy(ss, "D3DRS_FOGDENSITY");
         }
         break;
       case D3DRS_RANGEFOGENABLE:
         {
-          strcat(ss, "D3DRS_RANGEFOGENABLE");
+          strcpy(ss, "D3DRS_RANGEFOGENABLE");
         }
         break;
 
 
       case D3DRS_STENCILENABLE:
         {
-          strcat(ss, "D3DRS_STENCILENABLE");
+          strcpy(ss, "D3DRS_STENCILENABLE");
         }
         break;
       case D3DRS_STENCILFAIL:
         {
-          strcat(ss, "D3DRS_STENCILFAIL");
+          strcpy(ss, "D3DRS_STENCILFAIL");
         }
         break;
       case D3DRS_STENCILZFAIL:
         {
-          strcat(ss, "D3DRS_STENCILZFAIL");
+          strcpy(ss, "D3DRS_STENCILZFAIL");
         }
         break;
       case D3DRS_STENCILPASS:
         {
-          strcat(ss, "D3DRS_STENCILPASS");
+          strcpy(ss, "D3DRS_STENCILPASS");
         }
         break;
       case D3DRS_STENCILFUNC:
         {
-          strcat(ss, "D3DRS_STENCILFUNC");
+          strcpy(ss, "D3DRS_STENCILFUNC");
         }
         break;
       case D3DRS_STENCILREF:
         {
-          strcat(ss, "D3DRS_STENCILREF");
+          strcpy(ss, "D3DRS_STENCILREF");
         }
         break;
       case D3DRS_STENCILMASK:
         {
-          strcat(ss, "D3DRS_STENCILMASK");
+          strcpy(ss, "D3DRS_STENCILMASK");
         }
         break;
       case D3DRS_STENCILWRITEMASK:
         {
-          strcat(ss, "D3DRS_STENCILWRITEMASK");
+          strcpy(ss, "D3DRS_STENCILWRITEMASK");
         }
         break;
 
 
       case D3DRS_TEXTUREFACTOR:
         {
-          strcat(ss, "D3DRS_TEXTUREFACTOR");
+          strcpy(ss, "D3DRS_TEXTUREFACTOR");
         }
         break;
 
       case D3DRS_WRAP0:
         {
-          strcat(ss, "D3DRS_WRAP0");
+          strcpy(ss, "D3DRS_WRAP0");
         }
         break;
       case D3DRS_WRAP1:
         {
-          strcat(ss, "D3DRS_WRAP1");
+          strcpy(ss, "D3DRS_WRAP1");
         }
         break;
       case D3DRS_WRAP2:
         {
-          strcat(ss, "D3DRS_WRAP2");
+          strcpy(ss, "D3DRS_WRAP2");
         }
         break;
       case D3DRS_WRAP3:
         {
-          strcat(ss, "D3DRS_WRAP3");
+          strcpy(ss, "D3DRS_WRAP3");
         }
         break;
       case D3DRS_WRAP4:
         {
-          strcat(ss, "D3DRS_WRAP4");
+          strcpy(ss, "D3DRS_WRAP4");
         }
         break;
       case D3DRS_WRAP5:
         {
-          strcat(ss, "D3DRS_WRAP5");
+          strcpy(ss, "D3DRS_WRAP5");
         }
         break;
       case D3DRS_WRAP6:
         {
-          strcat(ss, "D3DRS_WRAP6");
+          strcpy(ss, "D3DRS_WRAP6");
         }
         break;
       case D3DRS_WRAP7:
         {
-          strcat(ss, "D3DRS_WRAP7");
+          strcpy(ss, "D3DRS_WRAP7");
         }
         break;
 
 
       case D3DRS_CLIPPING:
         {
-          strcat(ss, "D3DRS_CLIPPING");
+          strcpy(ss, "D3DRS_CLIPPING");
         }
         break;
       case D3DRS_LIGHTING:
         {
-          strcat(ss, "D3DRS_LIGHTING");
+          strcpy(ss, "D3DRS_LIGHTING");
         }
         break;
       case D3DRS_AMBIENT:
         {
-          strcat(ss, "D3DRS_AMBIENT");
+          strcpy(ss, "D3DRS_AMBIENT");
         }
         break;
       case D3DRS_FOGVERTEXMODE:
         {
-          strcat(ss, "D3DRS_FOGVERTEXMODE");
+          strcpy(ss, "D3DRS_FOGVERTEXMODE");
         }
         break;
 
 
       case D3DRS_COLORVERTEX:
         {
-          strcat(ss, "D3DRS_COLORVERTEX");
+          strcpy(ss, "D3DRS_COLORVERTEX");
         }
         break;
       case D3DRS_LOCALVIEWER:
         {
-          strcat(ss, "D3DRS_LOCALVIEWER");
+          strcpy(ss, "D3DRS_LOCALVIEWER");
         }
         break;
       case D3DRS_NORMALIZENORMALS:
         {
-          strcat(ss, "D3DRS_NORMALIZENORMALS");
+          strcpy(ss, "D3DRS_NORMALIZENORMALS");
         }
         break;
       case D3DRS_DIFFUSEMATERIALSOURCE:
         {
-          strcat(ss, "D3DRS_DIFFUSEMATERIALSOURCE");
+          strcpy(ss, "D3DRS_DIFFUSEMATERIALSOURCE");
         }
         break;
       case D3DRS_SPECULARMATERIALSOURCE:
         {
-          strcat(ss, "D3DRS_SPECULARMATERIALSOURCE");
+          strcpy(ss, "D3DRS_SPECULARMATERIALSOURCE");
         }
         break;
       case D3DRS_AMBIENTMATERIALSOURCE:
         {
-          strcat(ss, "D3DRS_AMBIENTMATERIALSOURCE");
+          strcpy(ss, "D3DRS_AMBIENTMATERIALSOURCE");
         }
         break;
       case D3DRS_EMISSIVEMATERIALSOURCE:
         {
-          strcat(ss, "D3DRS_EMISSIVEMATERIALSOURCE");
+          strcpy(ss, "D3DRS_EMISSIVEMATERIALSOURCE");
         }
         break;
 
 
       case D3DRS_VERTEXBLEND:
         {
-          strcat(ss, "D3DRS_VERTEXBLEND");
+          strcpy(ss, "D3DRS_VERTEXBLEND");
         }
         break;
       case D3DRS_CLIPPLANEENABLE:
         {
-          strcat(ss, "D3DRS_CLIPPLANEENABLE");
+          strcpy(ss, "D3DRS_CLIPPLANEENABLE");
         }
         break;
 
 
       case D3DRS_POINTSIZE:
         {
-          strcat(ss, "D3DRS_POINTSIZE");
+          strcpy(ss, "D3DRS_POINTSIZE");
         }
         break;
       case D3DRS_POINTSIZE_MIN:
         {
-          strcat(ss, "D3DRS_POINTSIZE_MIN");
+          strcpy(ss, "D3DRS_POINTSIZE_MIN");
         }
         break;
       case D3DRS_POINTSPRITEENABLE:
         {
-          strcat(ss, "D3DRS_POINTSPRITEENABLE");
+          strcpy(ss, "D3DRS_POINTSPRITEENABLE");
         }
         break;
       case D3DRS_POINTSCALEENABLE:
         {
-          strcat(ss, "D3DRS_POINTSCALEENABLE");
+          strcpy(ss, "D3DRS_POINTSCALEENABLE");
         }
         break;
 
       case D3DRS_POINTSCALE_A:
         {
-          strcat(ss, "D3DRS_POINTSCALE_A");
+          strcpy(ss, "D3DRS_POINTSCALE_A");
         }
         break;
       case D3DRS_POINTSCALE_B:
         {
-          strcat(ss, "D3DRS_POINTSCALE_B");
+          strcpy(ss, "D3DRS_POINTSCALE_B");
         }
         break;
       case D3DRS_POINTSCALE_C:
         {
-          strcat(ss, "D3DRS_POINTSCALE_C");
+          strcpy(ss, "D3DRS_POINTSCALE_C");
         }
         break;
 
 
       case D3DRS_MULTISAMPLEANTIALIAS:
         {
-          strcat(ss, "D3DRS_MULTISAMPLEANTIALIAS");
+          strcpy(ss, "D3DRS_MULTISAMPLEANTIALIAS");
         }
         break;
       case D3DRS_MULTISAMPLEMASK:
         {
-          strcat(ss, "D3DRS_MULTISAMPLEMASK");
+          strcpy(ss, "D3DRS_MULTISAMPLEMASK");
         }
         break;
       case D3DRS_PATCHEDGESTYLE:
         {
-          strcat(ss, "D3DRS_PATCHEDGESTYLE");
+          strcpy(ss, "D3DRS_PATCHEDGESTYLE");
         }
         break;
       case D3DRS_DEBUGMONITORTOKEN:
         {
-          strcat(ss, "D3DRS_DEBUGMONITORTOKEN");
+          strcpy(ss, "D3DRS_DEBUGMONITORTOKEN");
         }
         break;
       case D3DRS_POINTSIZE_MAX:
         {
-          strcat(ss, "D3DRS_POINTSIZE_MAX");
+          strcpy(ss, "D3DRS_POINTSIZE_MAX");
         }
         break;
       case D3DRS_INDEXEDVERTEXBLENDENABLE:
         {
-          strcat(ss, "D3DRS_INDEXEDVERTEXBLENDENABLE");
+          strcpy(ss, "D3DRS_INDEXEDVERTEXBLENDENABLE");
         }
         break;
       case D3DRS_COLORWRITEENABLE:
         {
-          strcat(ss, "D3DRS_COLORWRITEENABLE");
+          strcpy(ss, "D3DRS_COLORWRITEENABLE");
         }
         break;
       case D3DRS_TWEENFACTOR:
         {
-          strcat(ss, "D3DRS_TWEENFACTOR");
+          strcpy(ss, "D3DRS_TWEENFACTOR");
         }
         break;
 
 
       case D3DRS_BLENDOP:
         {
-          strcat(ss, "D3DRS_BLENDOP");
+          strcpy(ss, "D3DRS_BLENDOP");
         }
         break;
       case D3DRS_POSITIONDEGREE:
         {
-          strcat(ss, "D3DRS_POSITIONDEGREE");
+          strcpy(ss, "D3DRS_POSITIONDEGREE");
         }
         break;
       case D3DRS_NORMALDEGREE:
         {
-          strcat(ss, "D3DRS_NORMALDEGREE");
+          strcpy(ss, "D3DRS_NORMALDEGREE");
         }
         break;
       case D3DRS_SCISSORTESTENABLE:
         {
-          strcat(ss, "D3DRS_SCISSORTESTENABLE");
+          strcpy(ss, "D3DRS_SCISSORTESTENABLE");
         }
         break;
       case D3DRS_SLOPESCALEDEPTHBIAS:
         {
-          strcat(ss, "D3DRS_SLOPESCALEDEPTHBIAS");
+          strcpy(ss, "D3DRS_SLOPESCALEDEPTHBIAS");
         }
         break;
       case D3DRS_ANTIALIASEDLINEENABLE:
         {
-          strcat(ss, "D3DRS_ANTIALIASEDLINEENABLE");
+          strcpy(ss, "D3DRS_ANTIALIASEDLINEENABLE");
         }
         break;
       case D3DRS_MINTESSELLATIONLEVEL:
         {
-          strcat(ss, "D3DRS_MINTESSELLATIONLEVEL");
+          strcpy(ss, "D3DRS_MINTESSELLATIONLEVEL");
         }
         break;
       case D3DRS_MAXTESSELLATIONLEVEL:
         {
-          strcat(ss, "D3DRS_MAXTESSELLATIONLEVEL");
+          strcpy(ss, "D3DRS_MAXTESSELLATIONLEVEL");
         }
         break;
 
 
       case D3DRS_ADAPTIVETESS_X:
         {
-          strcat(ss, "D3DRS_ADAPTIVETESS_X");
+          strcpy(ss, "D3DRS_ADAPTIVETESS_X");
         }
         break;
       case D3DRS_ADAPTIVETESS_Y:
         {
-          strcat(ss, "D3DRS_ADAPTIVETESS_Y");
+          strcpy(ss, "D3DRS_ADAPTIVETESS_Y");
         }
         break;
       case D3DRS_ADAPTIVETESS_Z:
         {
-          strcat(ss, "D3DRS_ADAPTIVETESS_Z");
+          strcpy(ss, "D3DRS_ADAPTIVETESS_Z");
         }
         break;
       case D3DRS_ADAPTIVETESS_W:
         {
-          strcat(ss, "D3DRS_ADAPTIVETESS_W");
+          strcpy(ss, "D3DRS_ADAPTIVETESS_W");
         }
         break;
 
 
       case D3DRS_ENABLEADAPTIVETESSELLATION:
         {
-          strcat(ss, "D3DRS_ENABLEADAPTIVETESSELLATION");
+          strcpy(ss, "D3DRS_ENABLEADAPTIVETESSELLATION");
         }
         break;
       case D3DRS_TWOSIDEDSTENCILMODE:
         {
-          strcat(ss, "D3DRS_TWOSIDEDSTENCILMODE");
+          strcpy(ss, "D3DRS_TWOSIDEDSTENCILMODE");
         }
         break;
 
 
       case D3DRS_CCW_STENCILFAIL:
         {
-          strcat(ss, "D3DRS_CCW_STENCILFAIL");
+          strcpy(ss, "D3DRS_CCW_STENCILFAIL");
         }
         break;
       case D3DRS_CCW_STENCILZFAIL:
         {
-          strcat(ss, "D3DRS_CCW_STENCILZFAIL");
+          strcpy(ss, "D3DRS_CCW_STENCILZFAIL");
         }
         break;
       case D3DRS_CCW_STENCILPASS:
         {
-          strcat(ss, "D3DRS_CCW_STENCILPASS");
+          strcpy(ss, "D3DRS_CCW_STENCILPASS");
         }
         break;
       case D3DRS_CCW_STENCILFUNC:
         {
-          strcat(ss, "D3DRS_CCW_STENCILFUNC");
+          strcpy(ss, "D3DRS_CCW_STENCILFUNC");
         }
         break;
       case D3DRS_COLORWRITEENABLE1:
         {
-          strcat(ss, "D3DRS_COLORWRITEENABLE1");
+          strcpy(ss, "D3DRS_COLORWRITEENABLE1");
         }
         break;
       case D3DRS_COLORWRITEENABLE2:
         {
-          strcat(ss, "D3DRS_COLORWRITEENABLE2");
+          strcpy(ss, "D3DRS_COLORWRITEENABLE2");
         }
         break;
       case D3DRS_COLORWRITEENABLE3:
         {
-          strcat(ss, "D3DRS_COLORWRITEENABLE3");
+          strcpy(ss, "D3DRS_COLORWRITEENABLE3");
         }
         break;
 
@@ -1272,81 +1275,81 @@
 
       case D3DRS_BLENDFACTOR:
         {
-          strcat(ss, "D3DRS_BLENDFACTOR");
+          strcpy(ss, "D3DRS_BLENDFACTOR");
         }
         break;
       case D3DRS_SRGBWRITEENABLE:
         {
-          strcat(ss, "D3DRS_SRGBWRITEENABLE");
+          strcpy(ss, "D3DRS_SRGBWRITEENABLE");
         }
         break;
       case D3DRS_DEPTHBIAS:
         {
-          strcat(ss, "D3DRS_DEPTHBIAS");
+          strcpy(ss, "D3DRS_DEPTHBIAS");
         }
         break;
 
 
       case D3DRS_WRAP8:
         {
-          strcat(ss, "D3DRS_WRAP8");
+          strcpy(ss, "D3DRS_WRAP8");
         }
         break;
       case D3DRS_WRAP9:
         {
-          strcat(ss, "D3DRS_WRAP9");
+          strcpy(ss, "D3DRS_WRAP9");
         }
         break;
       case D3DRS_WRAP10:
         {
-          strcat(ss, "D3DRS_WRAP10");
+          strcpy(ss, "D3DRS_WRAP10");
         }
         break;
       case D3DRS_WRAP11:
         {
-          strcat(ss, "D3DRS_WRAP11");
+          strcpy(ss, "D3DRS_WRAP11");
         }
         break;
       case D3DRS_WRAP12:
         {
-          strcat(ss, "D3DRS_WRAP12");
+          strcpy(ss, "D3DRS_WRAP12");
         }
         break;
       case D3DRS_WRAP13:
         {
-          strcat(ss, "D3DRS_WRAP13");
+          strcpy(ss, "D3DRS_WRAP13");
         }
         break;
       case D3DRS_WRAP14:
         {
-          strcat(ss, "D3DRS_WRAP14");
+          strcpy(ss, "D3DRS_WRAP14");
         }
         break;
       case D3DRS_WRAP15:
         {
-          strcat(ss, "D3DRS_WRAP15");
+          strcpy(ss, "D3DRS_WRAP15");
         }
         break;
 
 
       case D3DRS_SEPARATEALPHABLENDENABLE:
         {
-          strcat(ss, "D3DRS_SEPARATEALPHABLENDENABLE");
+          strcpy(ss, "D3DRS_SEPARATEALPHABLENDENABLE");
         }
         break;
       case D3DRS_SRCBLENDALPHA:
         {
-          strcat(ss, "D3DRS_SRCBLENDALPHA");
+          strcpy(ss, "D3DRS_SRCBLENDALPHA");
         }
         break;
       case D3DRS_DESTBLENDALPHA:
         {
-          strcat(ss, "D3DRS_DESTBLENDALPHA");
+          strcpy(ss, "D3DRS_DESTBLENDALPHA");
         }
         break;
       case D3DRS_BLENDOPALPHA:
         {
-          strcat(ss, "D3DRS_BLENDOPALPHA");
+          strcpy(ss, "D3DRS_BLENDOPALPHA");
         }
         break;
 
@@ -2132,77 +2135,77 @@
     {
       case D3DBLEND_ZERO:
         {
-          strcat(ss, "D3DBLEND_ZERO");
+          strcpy(ss, "D3DBLEND_ZERO");
         }
         break;
       case D3DBLEND_ONE:
         {
-          strcat(ss, "D3DBLEND_ONE");
+          strcpy(ss, "D3DBLEND_ONE");
         }
         break;
       case D3DBLEND_SRCCOLOR:
         {
-          strcat(ss, "D3DBLEND_SRCCOLOR");
+          strcpy(ss, "D3DBLEND_SRCCOLOR");
         }
         break;
       case D3DBLEND_INVSRCCOLOR:
         {
-          strcat(ss, "D3DBLEND_INVSRCCOLOR");
+          strcpy(ss, "D3DBLEND_INVSRCCOLOR");
         }
         break;
       case D3DBLEND_SRCALPHA:
         {
-          strcat(ss, "D3DBLEND_SRCALPHA");
+          strcpy(ss, "D3DBLEND_SRCALPHA");
         }
         break;
       case D3DBLEND_INVSRCALPHA:
         {
-          strcat(ss, "D3DBLEND_INVSRCALPHA");
+          strcpy(ss, "D3DBLEND_INVSRCALPHA");
         }
         break;
       case D3DBLEND_DESTALPHA:
         {
-          strcat(ss, "D3DBLEND_DESTALPHA");
+          strcpy(ss, "D3DBLEND_DESTALPHA");
         }
         break;
       case D3DBLEND_INVDESTALPHA:
         {
-          strcat(ss, "D3DBLEND_INVDESTALPHA");
+          strcpy(ss, "D3DBLEND_INVDESTALPHA");
         }
         break;
       case D3DBLEND_DESTCOLOR:
         {
-          strcat(ss, "D3DBLEND_DESTCOLOR");
+          strcpy(ss, "D3DBLEND_DESTCOLOR");
         }
         break;
       case D3DBLEND_INVDESTCOLOR:
         {
-          strcat(ss, "D3DBLEND_INVDESTCOLOR");
+          strcpy(ss, "D3DBLEND_INVDESTCOLOR");
         }
         break;
       case D3DBLEND_SRCALPHASAT:
         {
-          strcat(ss, "D3DBLEND_SRCALPHASAT");
+          strcpy(ss, "D3DBLEND_SRCALPHASAT");
         }
         break;
       case D3DBLEND_BOTHSRCALPHA:
         {
-          strcat(ss, "D3DBLEND_BOTHSRCALPHA");
+          strcpy(ss, "D3DBLEND_BOTHSRCALPHA");
         }
         break;
       case D3DBLEND_BOTHINVSRCALPHA:
         {
-          strcat(ss, "D3DBLEND_BOTHINVSRCALPHA");
+          strcpy(ss, "D3DBLEND_BOTHINVSRCALPHA");
         }
         break;
       case D3DBLEND_BLENDFACTOR:
         {
-          strcat(ss, "D3DBLEND_BLENDFACTOR");
+          strcpy(ss, "D3DBLEND_BLENDFACTOR");
         }
         break;
       case D3DBLEND_INVBLENDFACTOR:
         {
-          strcat(ss, "D3DBLEND_INVBLENDFACTOR");
+          strcpy(ss, "D3DBLEND_INVBLENDFACTOR");
         }
         break;
 
