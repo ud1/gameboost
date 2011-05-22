@@ -15,8 +15,7 @@
 
 // library d3dx9
 #ifdef GB_D3DX9
-
-  #include <d3dx9.h>
+    #include <d3dx9.h>
  
 	#if defined(DEBUG) || defined(_DEBUG)
 	      #pragma comment( lib, "d3dx9d.lib" )
@@ -27,8 +26,6 @@
 
  // library d3d9
 #pragma comment( lib, "d3d9.lib" )
-
-
 
 #include <dxerr.h>
 #pragma comment( lib, "dxerr.lib" )
@@ -41,6 +38,7 @@
 
 
 // library gameboost d3d9 
+#if 0 
 
 #ifndef _LIB_GB_D3D9
 	#ifdef _DEBUG
@@ -48,6 +46,8 @@
 	#else
 		#pragma comment( lib , "gb_d3d9.lib" )
 	#endif
+#endif
+
 #endif
 
 

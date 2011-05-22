@@ -23,8 +23,8 @@
    #include <gb/color/color.h>
 #endif
 
-#ifdef GB_MATH
-  #include <gb/math/math.h>
+#ifdef GB_FMATH
+  #include <gb/fmath/fmath.h>
 #endif
 
 

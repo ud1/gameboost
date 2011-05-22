@@ -1,5 +1,5 @@
 ﻿
-#include "stdafx.h" 
+//#include "stdafx.h" 
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
@@ -1479,9 +1479,10 @@ static const char CTSR_D3DVBF_TWEENING []   =  "D3DVBF_TWEENING" ;
 static const char CTSR_D3DVBF_0WEIGHTS []   =  "D3DVBF_0WEIGHTS" ; 
 
 
+/**********************************************************************
 
 //=====================================================
-GB_D3D9_API  std::string  D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS val)
+  GB_D3D9_API  std::string  D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS val)
 {
 	std::string res;
 
@@ -1544,8 +1545,11 @@ GB_D3D9_API  std::string  D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
    return res;
 }; 
 
+ 
+
 //=====================================================
-GB_D3D9_API bool D3DVERTEXBLENDFLAGS_fromstr( D3DVERTEXBLENDFLAGS& valOut, const std::string& str)
+GB_D3D9_API bool D3DVERTEXBLENDFLAGS_fromstr( D3DVERTEXBLENDFLAGS& valOut, 
+											  const std::string& str)
 {
 	 
 	if( str == CTSR_D3DVBF_DISABLE )
@@ -1596,16 +1600,18 @@ GB_D3D9_API bool D3DVERTEXBLENDFLAGS_fromstr( D3DVERTEXBLENDFLAGS& valOut, const
 	};
 
 
+*****************************************************/
 
-/*
-typedef enum D3DZBUFFERTYPE
-{
-    D3DZB_FALSE = 0,
-    D3DZB_TRUE = 1,
-    D3DZB_USEW = 2,
- 
-} D3DZBUFFERTYPE 
-*/
+
+
+//typedef enum D3DZBUFFERTYPE
+//{
+//    D3DZB_FALSE = 0,
+//    D3DZB_TRUE = 1,
+//    D3DZB_USEW = 2,
+// 
+//} D3DZBUFFERTYPE 
+//
 
 static const char CSTR_D3DZB_FALSE []   =  "D3DZB_FALSE" ; 
 static const char CSTR_D3DZB_TRUE  []   =  "D3DZB_TRUE" ; 
@@ -2269,10 +2275,10 @@ GB_D3D9_API  std::string  D3DSTATEBLOCKTYPE_tostr(const D3DSTATEBLOCKTYPE val)
 	  break;	  
 	  
 	  
-				  default:
-				  {
-				  
-				  }
+	  default:
+	  {
+	  
+	  }
 	  
 	  }
 	  
@@ -2588,10 +2594,10 @@ GB_D3D9_API  std::string  D3DDECLTYPEtostr(const D3DDECLTYPE val)
 	  
 	  
    
-   
-	     default:
+
+		 default:
 		 {
-		
+
 		 }
    
    }

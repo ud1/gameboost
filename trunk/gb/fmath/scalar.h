@@ -53,7 +53,7 @@ namespace gb
    	static const float CPI       = 3.1415926536f; ///<   PI
    	static const float C1BYPI    = 0.3183098862f; ///<   1/PI	
 
-   	static const float C2PI         =  6.283185307f; ///<  	2PI
+   	static const float C2PI         =  6.283185307f; ///<  	2*PI
    	static const float CPIDIV2      =  1.570796326f; ///<   PI/2
    	static const float CPIDIV4      =  0.785398163f; ///<   PI/4
    	static const float CPIDIV6      =  0.523598776f; ///<   PI/6
@@ -92,6 +92,12 @@ namespace gb
 	//	{
 	//	    return !( a == a );
 	//	}
+	
+	/*  TODO  inline bool compare()float a1, float a2, float epsilon) 
+	{
+	
+	}
+	*/
 
 	
 	/** \brief Проверка float f   на корректное значение  */
@@ -170,7 +176,14 @@ namespace gb
 	     x>0 :  1   <br>
 	     x=0 :  0   <br>
 	     x<0 : -1	  */  
-    inline float  sign (const float val) { if(val==0.0f) return 0.0f;  if(val>0.0f) return 1.0f; return -1.0f; };
+    inline float  sign (const float val) 
+	{ 
+	    if(val==0.0f) 
+		  return 0.0f;  
+		if(val>0.0f) 
+		  return 1.0f; 
+		return -1.0f; 
+	}
 
 	/** \brief Возвращает  знак числа  <br>  
 	 x>0 :  1   <br>
@@ -183,9 +196,9 @@ namespace gb
 
 
 	/** \brief Отсечение значения в пределах между минимумом и максимумом включительно. */
-	inline float clump(float val, float _min, float _max)
+	inline float clump(float value, float _min, float _max)
 	{
-	      float r = val;
+	      float r = value;
 	    if(r < _min) r=_min;
 	    if(r > _max) r=_max;
 	      return r;
@@ -257,7 +270,7 @@ namespace gb
 	inline float normalize_angle( float angle ) 
 	{
 		static  const float _PI_ = 3.1415926535898f;
-		static const float TWO_PI = 6.2831853071795865f;
+		static  const float TWO_PI = 6.2831853071795865f;
 
 		return (angle - TWO_PI *  floor( ( angle + _PI_ ) / TWO_PI) );
 	}

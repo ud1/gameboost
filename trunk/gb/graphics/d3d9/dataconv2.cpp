@@ -1,10 +1,15 @@
-﻿#include "stdafx.h"
+﻿//#include "stdafx.h"
 //#include "pch.h"
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
   #include <gb/graphics/d3d9/dataconv.h>
   #include <gb/str/String.h>
+
+  #include <string>
+  #include <string.h>
+
+
 
   #pragma warning(push)
   #pragma warning(disable : 4996)
@@ -56,7 +61,7 @@
 
 
   //=================================================================
-  std::string RenderStateFloat_tostr(const DWORD val)
+  static std::string RenderStateFloat_tostr(const DWORD val)
   {
     union __uni_fldw
     {
@@ -104,7 +109,7 @@
 
 
   //=========================================================================
-  const char *RenderStateDwordHex_toCstr(DWORD val)
+  static const char *RenderStateDwordHex_toCstr(DWORD val)
   {
     static char ss[16];
     ss[0] = 0;
@@ -114,7 +119,7 @@
   };
 
   //=========================================================================
-  bool __RenderStateDwordHex_fromCstr(DWORD &val, const char *s)
+  static bool __RenderStateDwordHex_fromCstr(DWORD &val, const char *s)
   {
     unsigned long ulng = 0;
     const int NSCANRES = sscanf(s, "%X", &ulng);
@@ -127,7 +132,7 @@
   };
 
   //========================================================================= 
-  bool __RenderStateBoolean_fromCstr(DWORD val, const char *s)
+  static bool __RenderStateBoolean_fromCstr(DWORD val, const char *s)
   {
     if (strcmp(s, "1") == 0)
     {
@@ -148,7 +153,7 @@
 
 
   //=========================================================
-  std::string D3DMATERIALCOLORSOURCE_tostr(const D3DMATERIALCOLORSOURCE val)
+GB_D3D9_API   std::string D3DMATERIALCOLORSOURCE_tostr(const D3DMATERIALCOLORSOURCE val)
   {
     std::string s;
 
@@ -183,7 +188,7 @@
   };
 
   //=========================================================
-  bool D3DMATERIALCOLORSOURCE_fromstr(D3DMATERIALCOLORSOURCE &val, const std::string &s)
+ GB_D3D9_API  bool D3DMATERIALCOLORSOURCE_fromstr(D3DMATERIALCOLORSOURCE &val, const std::string &s)
   {
     if (s == "D3DMCS_MATERIAL")
     {
@@ -205,7 +210,7 @@
   }
 
   //======================================================
-  std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS val)
+GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS val)
   {
     std::string s;
 
@@ -256,7 +261,7 @@
   };
 
   //=============================================================
-  bool D3DVERTEXBLENDFLAGS_fromstr(D3DVERTEXBLENDFLAGS &val, const std::string &s)
+ GB_D3D9_API  bool D3DVERTEXBLENDFLAGS_fromstr(D3DVERTEXBLENDFLAGS &val, const std::string& s)
   {
     if (s == "D3DVBF_DISABLE")
     {
@@ -293,7 +298,7 @@
   }
 
   //======================================================
-  std::string D3DDEGREETYPE_tostr(const D3DDEGREETYPE val)
+  GB_D3D9_API  std::string D3DDEGREETYPE_tostr(const D3DDEGREETYPE val)
   {
     std::string s;
 
@@ -331,7 +336,7 @@
   };
 
   //=====================================================
-  bool D3DDEGREETYPE_fromstr(D3DDEGREETYPE &val, const std::string &s)
+  GB_D3D9_API   bool D3DDEGREETYPE_fromstr(D3DDEGREETYPE &val, const std::string &s)
   {
     if (s == "D3DDEGREE_LINEAR")
     {
@@ -360,7 +365,7 @@
 
 
   //=====================================================
-  std::string D3DPATCHEDGESTYLE_tostr(const D3DPATCHEDGESTYLE val)
+   GB_D3D9_API  std::string D3DPATCHEDGESTYLE_tostr(const D3DPATCHEDGESTYLE val)
   {
     std::string s;
 
@@ -388,7 +393,7 @@
   };
 
   //===============================================
-  bool D3DPATCHEDGESTYLE_fromstr(D3DPATCHEDGESTYLE &val, const std::string &s)
+  GB_D3D9_API   bool D3DPATCHEDGESTYLE_fromstr(D3DPATCHEDGESTYLE &val, const std::string &s)
   {
     if (s == "D3DPATCHEDGE_DISCRETE")
     {
@@ -405,7 +410,7 @@
   }
 
   //======================================================
-  std::string D3DDEBUGMONITORTOKENS_tostr(const D3DDEBUGMONITORTOKENS val)
+  GB_D3D9_API   std::string D3DDEBUGMONITORTOKENS_tostr(const D3DDEBUGMONITORTOKENS val)
   {
     std::string s;
     switch (val)
@@ -434,7 +439,7 @@
   };
 
   //============================================
-  bool D3DDEBUGMONITORTOKENS_fromstr(D3DDEBUGMONITORTOKENS &val, const std::string &s)
+  GB_D3D9_API   bool D3DDEBUGMONITORTOKENS_fromstr(D3DDEBUGMONITORTOKENS &val, const std::string &s)
   {
     if (s == "D3DDMT_ENABLE")
     {
@@ -454,7 +459,7 @@
 
 
   //=========================================================================
-  std::string D3DRENDERSTATEVALUE_tostr(const D3DRENDERSTATETYPE state, const DWORD val)
+GB_D3D9_API   std::string D3DRENDERSTATEVALUE_tostr(const D3DRENDERSTATETYPE state, const DWORD val)
   {
     std::string ss;
     ss.reserve(64);
@@ -731,6 +736,7 @@
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_STENCILWRITEMASK:
         {
           ss = RenderStateDwordHex_toCstr(val);
@@ -750,36 +756,43 @@
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP1:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP2:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP3:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP4:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP5:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP6:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP7:
         {
           ss = RenderStateDwordHex_toCstr(val);
@@ -802,6 +815,7 @@
           ;
         }
         break;
+		
       case D3DRS_LIGHTING:
         {
           if (val)
@@ -848,6 +862,7 @@
           ;
         }
         break;
+		
       case D3DRS_NORMALIZENORMALS:
         {
           if (val)
@@ -873,11 +888,13 @@
           ss = D3DMATERIALCOLORSOURCE_tostr((D3DMATERIALCOLORSOURCE)val);
         }
         break;
+		
       case D3DRS_AMBIENTMATERIALSOURCE:
         {
           ss = D3DMATERIALCOLORSOURCE_tostr((D3DMATERIALCOLORSOURCE)val);
         }
         break;
+		
       case D3DRS_EMISSIVEMATERIALSOURCE:
         {
           ss = D3DMATERIALCOLORSOURCE_tostr((D3DMATERIALCOLORSOURCE)val);
@@ -904,6 +921,7 @@
           ss = RenderStateFloat_tostr(val);
         }
         break;
+		
       case D3DRS_POINTSIZE_MIN:
         {
           ss = RenderStateFloat_tostr(val);
@@ -945,11 +963,13 @@
           ss = RenderStateFloat_tostr(val);
         }
         break;
+		
       case D3DRS_POINTSCALE_B:
         {
           ss = RenderStateFloat_tostr(val);
         }
         break;
+		
       case D3DRS_POINTSCALE_C:
         {
           ss = RenderStateFloat_tostr(val);
@@ -970,16 +990,19 @@
           ;
         }
         break;
+		
       case D3DRS_MULTISAMPLEMASK:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_PATCHEDGESTYLE:
         {
           ss = D3DPATCHEDGESTYLE_tostr((D3DPATCHEDGESTYLE)val);
         }
         break;
+		
       case D3DRS_DEBUGMONITORTOKEN:
         {
           ss = D3DDEBUGMONITORTOKENS_tostr((D3DDEBUGMONITORTOKENS)val);
@@ -991,6 +1014,7 @@
           ss = RenderStateFloat_tostr(val);
         }
         break;
+		
       case D3DRS_INDEXEDVERTEXBLENDENABLE:
         {
           if (val)
@@ -1010,6 +1034,7 @@
           ss = gb::str::uintToStr((UINT)val, false);
         }
         break;
+		
       case D3DRS_TWEENFACTOR:
         {
           ss = RenderStateFloat_tostr(val);
@@ -1029,6 +1054,7 @@
           ss = D3DDEGREETYPE_tostr((D3DDEGREETYPE)val);
         }
         break;
+		
       case D3DRS_NORMALDEGREE:
         {
           ss = D3DDEGREETYPE_tostr((D3DDEGREETYPE)val);
@@ -1048,6 +1074,7 @@
           ;
         }
         break;
+		
       case D3DRS_SLOPESCALEDEPTHBIAS:
         {
           ss = gb::str::uintToStr((UINT)val, true);
@@ -1074,6 +1101,7 @@
           ss = RenderStateFloat_tostr(val);
         }
         break;
+		
       case D3DRS_MAXTESSELLATIONLEVEL:
         {
           ss = RenderStateFloat_tostr(val);
@@ -1086,16 +1114,19 @@
           ss = RenderStateFloat_tostr(val);
         }
         break;
+		
       case D3DRS_ADAPTIVETESS_Y:
         {
           ss = RenderStateFloat_tostr(val);
         }
         break;
+		
       case D3DRS_ADAPTIVETESS_Z:
         {
           ss = RenderStateFloat_tostr(val);
         }
         break;
+		
       case D3DRS_ADAPTIVETESS_W:
         {
           ss = RenderStateFloat_tostr(val);
@@ -1116,6 +1147,7 @@
           ;
         }
         break;
+		
       case D3DRS_TWOSIDEDSTENCILMODE:
         {
           if (val)
@@ -1136,11 +1168,13 @@
           ss = D3DSTENCILOP_tostr((D3DSTENCILOP)val);
         }
         break;
+		
       case D3DRS_CCW_STENCILZFAIL:
         {
           ss = D3DSTENCILOP_tostr((D3DSTENCILOP)val);
         }
         break;
+		
       case D3DRS_CCW_STENCILPASS:
         {
           ss = D3DSTENCILOP_tostr((D3DSTENCILOP)val);
@@ -1160,11 +1194,13 @@
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_COLORWRITEENABLE2:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_COLORWRITEENABLE3:
         {
           ss = RenderStateDwordHex_toCstr(val);
@@ -1177,6 +1213,7 @@
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_SRGBWRITEENABLE:
         {
           if (val)
@@ -1189,6 +1226,7 @@
           }
         }
         break;
+		
       case D3DRS_DEPTHBIAS:
         {
           ss = RenderStateFloat_tostr(val);
@@ -1201,43 +1239,48 @@
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP9:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP10:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP11:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP12:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP13:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP14:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
+		
       case D3DRS_WRAP15:
         {
           ss = RenderStateDwordHex_toCstr(val);
         }
         break;
-
-
 
       case D3DRS_SEPARATEALPHABLENDENABLE:
         {
@@ -1252,17 +1295,18 @@
         }
         break;
 
-
       case D3DRS_SRCBLENDALPHA:
         {
           ss = D3DBLEND_tostr((D3DBLEND)val);
         }
         break;
+		
       case D3DRS_DESTBLENDALPHA:
         {
           ss = D3DBLEND_tostr((D3DBLEND)val);
         }
         break;
+		
       case D3DRS_BLENDOPALPHA:
         {
           ss = D3DBLEND_tostr((D3DBLEND)val);
@@ -1288,7 +1332,7 @@
 
 
   //============================================================
-  bool D3DRENDERSTATEVALUE_fromstr(DWORD &val, const D3DRENDERSTATETYPE state, const std::string &s)
+GB_D3D9_API   bool D3DRENDERSTATEVALUE_fromstr(DWORD &val, const D3DRENDERSTATETYPE state, const std::string &s)
   {
 
 
