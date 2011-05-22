@@ -1,11 +1,12 @@
-/** \file
- \brief  Конвертаци типот из строчки в строчку .
+п»ї/** \file
+ \brief  РљРѕРЅРІРµСЂС‚Р°С†Рё С‚РёРїРѕС‚ РёР· СЃС‚СЂРѕС‡РєРё РІ СЃС‚СЂРѕС‡РєСѓ .
 
  \author ksacvet777
 */
 
+
 #pragma once
-#include <gb/xxxxxxxx/enums.h>
+//#include <gb/xxxxxxxx/enums.h>
 
 #include <string>
 

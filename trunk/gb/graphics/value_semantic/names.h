@@ -1,6 +1,5 @@
-/** \file
- \brief  Определение имён  семантик
- 
+п»ї/** \file
+ \brief  РћРїСЂРµРґРµР»РµРЅРёРµ РёРјС‘РЅ  СЃРµРјР°РЅС‚РёРє
  
  
   \author  ksacvet777
@@ -14,7 +13,7 @@ namespace gb
  namespace graphics
  {
 
-  //! \brief Семантики(смысл) параметров отрисовки. Аналогично семантикам праметров RenderMonkey
+  //! \brief РЎРµРјР°РЅС‚РёРєРё(СЃРјС‹СЃР») РїР°СЂР°РјРµС‚СЂРѕРІ РѕС‚СЂРёСЃРѕРІРєРё. РђРЅР°Р»РѕРіРёС‡РЅРѕ СЃРµРјР°РЅС‚РёРєР°Рј РїСЂР°РјРµС‚СЂРѕРІ RenderMonkey
   namespace value_semantic
   {  
   
@@ -24,10 +23,10 @@ namespace gb
   
 
 
-  //*** сделать семантики (такие есть в fx от нвидии)
+  //*** СЃРґРµР»Р°С‚СЊ СЃРµРјР°РЅС‚РёРєРё (С‚Р°РєРёРµ РµСЃС‚СЊ РІ fx РѕС‚ РЅРІРёРґРёРё)
 //	string resourcename = "nvlobby_cube_mipmap.dds";
 	//string resourcetype = "cube";
-  //* ДОБАВИТЬ   FLOAT_BUMPHEIGHT , BUMPNESS
+  //* Р”РћР‘РђР’РРўР¬   FLOAT_BUMPHEIGHT , BUMPNESS
  
  
 //
@@ -36,7 +35,7 @@ namespace gb
 
 static const int  FLOAT_COUNT  = 55;
 
-//* \brief текущее время рендера
+//* \brief С‚РµРєСѓС‰РµРµ РІСЂРµРјСЏ СЂРµРЅРґРµСЂР°
 static const char*   FLOAT_TIME0           =   "TIME";
 static const char*   FLOAT_TIME            =   "TIME";
 static const char*   FLOAT_TIME0_X         =   "TIME0_X";
@@ -50,7 +49,7 @@ static const char*   FLOAT_SINTIME0_1      =   "SINTIME0_1";
 static const char*   FLOAT_TANTIME0_1      =   "TANTIME0_1";
 // 10
 
-//* \brief скорость течения времени
+//* \brief СЃРєРѕСЂРѕСЃС‚СЊ С‚РµС‡РµРЅРёСЏ РІСЂРµРјРµРЅРё
 static const char*   FLOAT_TIMESPEED        =   "TIMESPEED";
 
 static const char*   FLOAT_TAN0_2PI         =   "TAN0_2PI";
@@ -60,7 +59,7 @@ static const char*   FLOAT_TANTIME0_2PI     =   "TANTIME0_2PI";
 static const char*   FLOAT_TIMECYCLEPERIOD  =  "TIMECYCLEPERIOD";
 //  16
 static const char*   FLOAT_FPS                 =       "FPS";
-//* \brief текущее значение задержки между кадром
+//* \brief С‚РµРєСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ Р·Р°РґРµСЂР¶РєРё РјРµР¶РґСѓ РєР°РґСЂРѕРј
 static const char*   FLOAT_TIMEELAPSED         =       "TIMEELAPSED";
 static const char*   FLOAT_TIMEELAPSED2        =       "ELAPSED";
 
@@ -214,7 +213,7 @@ static const char*   COLOR_AMBIENT            =  "AMBIENT";
 static const char*   COLOR_DIFFUSE            =  "DIFFUSE";
 static const char*   COLOR_SPECULAR           =  "SPECULAR";
 static const char*   COLOR_LIGHTSOURCECOLOR   =  "LIGHTSOURCECOLOR";
-//* \BRIEF ЦВЕТ ЛАЙТМАПЫ
+//* \BRIEF Р¦Р’Р•Рў Р›РђР™РўРњРђРџР«
 static const char*   COLOR_LIGHTMAP      =  "LIGHTMAP";
 
 
@@ -303,40 +302,40 @@ static const char*   FLOAT4X4_WORLDVIEWINVERSETRANSPONE2 =  "WORLDVIEWINVTRANSP"
 
     static const int   TEXTURE_COUNT  = 29;
 	 
-//* \brief основная карта
+//* \brief РѕСЃРЅРѕРІРЅР°СЏ РєР°СЂС‚Р°
 static const char*   TXTR_DIFFUSEMAP          =   "DIFFUSEMAP";
 static const char*   TXTR_DIFFUSEMAP2         =   "DIFFUSE";
 static const char*   TXTR_DIFFUSEMAP3         =   "DIFFUSETEXTURE";
-//* \brief собственно нормалмапа
+//* \brief СЃРѕР±СЃС‚РІРµРЅРЅРѕ РЅРѕСЂРјР°Р»РјР°РїР°
 static const char*   TXTR_NORMALMAP         =     "NORMALMAP";
 static const char*   TXTR_NORMALMAP2        =     "NORMAL";
 static const char*   TXTR_NORMALMAP3        =     "NORMALTEXTURE";
-//* \brief карта самосвечения
+//* \brief РєР°СЂС‚Р° СЃР°РјРѕСЃРІРµС‡РµРЅРёСЏ
 static const char*   TXTR_SELFILUMINATIONMAP   =  "SELFILUMINATIONMAP";
 static const char*   TXTR_SELFILUMINATIONMAP2  =  "SELFILUMINATION";
 static const char*   TXTR_SELFILUMINATIONMAP3  =  "SELFILUMIN";
 static const char*   TXTR_SELFILUMINATIONMAP4  =  "ILUMINTEXTURE";
-//* \brief карта интенсивности отражения
+//* \brief РєР°СЂС‚Р° РёРЅС‚РµРЅСЃРёРІРЅРѕСЃС‚Рё РѕС‚СЂР°Р¶РµРЅРёСЏ
 static const char*   TXTR_REFLECTIONMAP     =       "REFLECTIONMAP";
 static const char*   TXTR_REFLECTIONMAP2    =       "REFLECTION";
 static const char*   TXTR_REFLECTIONMAP3    =       "REFLECTIONTEXTURE";
-//* \brief карта рельефности
+//* \brief РєР°СЂС‚Р° СЂРµР»СЊРµС„РЅРѕСЃС‚Рё
 static const char*   TXTR_BUMPMAP           =     "BUMPMAP";
 static const char*   TXTR_BUMPMAP2          =     "BUMP";
 static const char*   TXTR_BUMPMAP3          =     "BUMPTEXTURE";
-//* \brief  собственно лайтмап
+//* \brief  СЃРѕР±СЃС‚РІРµРЅРЅРѕ Р»Р°Р№С‚РјР°Рї
 static const char*   TXTR_LIGHTMAP          =     "LIGHTMAP";
 static const char*   TXTR_LIGHTMAP2         =     "LIGHT";
 static const char*   TXTR_LIGHTMAP3         =     "LIGHTTEXTURE";
-//* \brief карта высоты
+//* \brief РєР°СЂС‚Р° РІС‹СЃРѕС‚С‹
 static const char*   TXTR_HEIGHTMAP         =     "HEIGHTMAP";
 static const char*   TXTR_HEIGHTMAP2        =     "HEIGHT";
 static const char*   TXTR_HEIGHTMAP3        =     "HEIGHTTEXTURE";
-//* \brief карта интенсивности блика
+//* \brief РєР°СЂС‚Р° РёРЅС‚РµРЅСЃРёРІРЅРѕСЃС‚Рё Р±Р»РёРєР°
 static const char*   TXTR_SPECULARMAP       =     "SPECULARMAP";
 static const char*   TXTR_SPECULARMAP2      =     "SPECULAR";
 static const char*   TXTR_SPECULARMAP3      =     "SPECULARTEXTURE";
-//* \brief кубическая карта окружения
+//* \brief РєСѓР±РёС‡РµСЃРєР°СЏ РєР°СЂС‚Р° РѕРєСЂСѓР¶РµРЅРёСЏ
 static const char*    TXTR_ENVIRMAP      =    "ENVIRMAP";
 static const char*    TXTR_ENVIRMAP2     =    "ENVIRONMENT";
 static const char*    TXTR_ENVIRMAP3     =    "ENVIR";

@@ -1,5 +1,5 @@
-/**  \file
- \brief Подключение всех  заголовков этого пространства
+п»ї/**  \file
+ \brief РџРѕРґРєР»СЋС‡РµРЅРёРµ РІСЃРµС…  Р·Р°РіРѕР»РѕРІРєРѕРІ СЌС‚РѕРіРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР°
 
  \author ksacvet777
  
@@ -7,10 +7,10 @@
 
 #pragma once
 
+/*
 #include <gb/gra/d3d9/xxxxxxx>
 #include <gb/gra/d3d9/wwwwwwwwwwwwwww>
-
-
+ */
 
 
 
