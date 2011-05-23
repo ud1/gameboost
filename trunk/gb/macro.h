@@ -2,7 +2,6 @@
  \brief Макросы ,  макроопределения. Здесь ТОЛЬКО макросы.
 *
 *
-*
 */
 
 #pragma once
@@ -10,7 +9,7 @@
  // Отпостил тему.. добавляем ...
 
 
-//! \brief Печать на консоль функции. 
+//! \brief Печать на консоль функции. Для мониторинга
 #define GB_PRINT_FUNC  printf(" %s\n", __FUNCTION__); 
 
 //! Безопасное удаление объекта
@@ -43,6 +42,9 @@
 #ifdef WIN32
   //! \brief Для windows: Выбросить окошко с сообщением msg
   #define GB_MBOX(msg)  MessageBoxA(0,  (msg), "GB_MBOX", MB_OK | MB_ICONINFORMATION  | MB_TASKMODAL | MB_TOPMOST );
+  //! \brief Для windows: Выбросить окошко с сообщением и надписью об ошибке.
+  #define GB_MBOX_ERR(msg,caption)  MessageBoxA(0, (msg), (caption), MB_OK|MB_ICONERROR|MB_TASKMODAL|MB_TOPMOST);
+
 #endif
 
 #ifdef WIN32
@@ -51,14 +53,4 @@
 #endif
 
 #ifdef WIN32
-  //! \brief  Безопасное по исключению удаление COM-интерфейса
-  #define GB_SAFE_EXC_RELEASE(p) { if(NULL != (p) ) { try { (p)->Release(); } catch(...) { (p)=NULL; }; (p)=NULL; } }
-#endif
-
-
-#define GB_MONPRINT(msg)  printf("%s\n" , (msg) );
-
-
-
-
-// end file
+  //! \brief  Безопасное 
