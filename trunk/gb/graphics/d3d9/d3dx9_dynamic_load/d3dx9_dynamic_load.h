@@ -7,7 +7,7 @@
 
   \todo  сделать макрозащиту от неправильного включения.
   \todo поправить функцию  checkExistsDll на поиск в директории приложения.
-  \todo убрать GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR.
+  \todo убрать GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR.	
   \todo Precomputed Radiance Transfer Functions
   \todo  UVAtlas Functions
 
@@ -33,11 +33,14 @@
 #include <vector>
 #include <stdexcept>
 
+
 #include <gb/macro.h>
 #include <assert.h>
 
 #pragma warning( push )
 #pragma warning( disable : 4297 )
+
+
 
 namespace  gb
 {
@@ -51,8 +54,6 @@ namespace  d3d9
 //!  \brief Динамическая загрузка/ использование DLL   библиотеки D3DX9 .
 namespace d3dx9_dynamic_load
 {
-
-
 
 	//d3dx9_undef   = 0 ,
 
@@ -152,15 +153,12 @@ public:
 
 //-------------------------------------------------------------------------
 
+#ifdef __GB__D3DX9_DYNAMIC_LOAD_PFUNC_DECL_H__
 
 	//! temp!  времянка  убрать !!!!!
 #define GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(funcname)   throw std::runtime_error( GB_MAKE_STR2(funcname) );
 
-
-	//-------------------------------------------------------------
-	//	General Purpose Functions
-	//-------------------------------------------------------------
-
+	// version function
 
 	BOOL D3DXCheckVersion( UINT D3DSDKVersion, UINT D3DXSDKVersion)
 	{
@@ -171,6 +169,239 @@ public:
 
 		return m_fnc.m_TFunc_D3DXCheckVersion(D3DSDKVersion, D3DXSDKVersion );
 	}
+
+
+	//-------------------------------------------------------------
+	//	     Animation Functions
+	//-------------------------------------------------------------
+
+	HRESULT D3DXCreateAnimationController(
+		UINT MaxNumAnimationOutputs,
+		UINT MaxNumAnimationSets,
+		UINT MaxNumTracks,
+		UINT MaxNumEvents,
+		LPD3DXANIMATIONCONTROLLER* ppAnimController)
+	{
+		if(!m_fnc.m_TFunc_D3DXCreateAnimationController)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXCreateAnimationController)
+		}
+		return m_fnc.m_TFunc_D3DXCreateAnimationController( MaxNumAnimationOutputs,
+			MaxNumAnimationSets,  MaxNumTracks,  MaxNumEvents,  ppAnimController );
+	}  
+
+
+
+	HRESULT D3DXCreateCompressedAnimationSet(
+		LPCSTR pName,
+		DOUBLE TicksPerSecond,
+		D3DXPLAYBACK_TYPE Playback,
+		LPD3DXBUFFER pCompressedData,
+		UINT NumCallbackKeys,
+		CONST LPD3DXKEY_CALLBACK * pCallKeys,
+		LPD3DXCOMPRESSEDANIMATIONSET * ppAnimationSet)
+	{
+		if(!m_fnc.m_TFunc_D3DXCreateCompressedAnimationSet)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXCreateCompressedAnimationSet)
+		}
+		return m_fnc.m_TFunc_D3DXCreateCompressedAnimationSet( pName,  TicksPerSecond,  Playback, 
+			pCompressedData,  NumCallbackKeys, pCallKeys,  ppAnimationSet );
+	}  
+
+
+
+	HRESULT D3DXCreateKeyframedAnimationSet(
+		LPCSTR pName,
+		DOUBLE TicksPerSecond,
+		D3DXPLAYBACK_TYPE Playback,
+		UINT NumAnimations,
+		UINT NumCallbackKeys,
+		CONST LPD3DXKEY_CALLBACK * pCallKeys,
+		LPD3DXKEYFRAMEDANIMATIONSET * ppAnimationSet)
+	{
+		if(!m_fnc.m_TFunc_D3DXCreateKeyframedAnimationSet)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXCreateKeyframedAnimationSet)
+		}
+		return m_fnc.m_TFunc_D3DXCreateKeyframedAnimationSet( pName,
+			TicksPerSecond,  Playback,  NumAnimations,  NumCallbackKeys,  pCallKeys,
+			ppAnimationSet );
+	}  
+
+
+
+	HRESULT D3DXFrameAppendChild( LPD3DXFRAME pFrameParent,  CONST D3DXFRAME * pFrameChild)
+	{
+		if(!m_fnc.m_TFunc_D3DXFrameAppendChild)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXFrameAppendChild)
+		}
+		return m_fnc.m_TFunc_D3DXFrameAppendChild( pFrameParent,  pFrameChild );
+	}  
+
+
+
+	HRESULT D3DXFrameCalculateBoundingSphere(
+		CONST D3DXFRAME * pFrameRoot,
+		LPD3DXVECTOR3 pObjectCenter,
+		FLOAT * pObjectRadius)
+	{
+		if(!m_fnc.m_TFunc_D3DXFrameCalculateBoundingSphere)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXFrameCalculateBoundingSphere)
+		}
+		return m_fnc.m_TFunc_D3DXFrameCalculateBoundingSphere( pFrameRoot,
+			pObjectCenter,  pObjectRadius );
+	}  
+
+
+
+	HRESULT D3DXFrameDestroy(  LPD3DXFRAME pFrameRoot, LPD3DXALLOCATEHIERARCHY pAlloc)
+	{
+		if(!m_fnc.m_TFunc_D3DXFrameDestroy)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXFrameDestroy)
+		}
+		return m_fnc.m_TFunc_D3DXFrameDestroy(   pFrameRoot,  pAlloc );
+	}  
+
+
+
+	LPD3DXFRAME D3DXFrameFind( CONST D3DXFRAME * pFrameRoot,  LPCSTR Name)
+	{
+		if(!m_fnc.m_TFunc_D3DXFrameFind)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXFrameFind)
+		}
+		return m_fnc.m_TFunc_D3DXFrameFind(  pFrameRoot,  Name );
+	}
+
+
+
+	UINT D3DXFrameNumNamedMatrices( CONST D3DXFRAME * pFrameRoot)
+	{
+		if(!m_fnc.m_TFunc_D3DXFrameNumNamedMatrices)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXFrameNumNamedMatrices)
+		}
+		return m_fnc.m_TFunc_D3DXFrameNumNamedMatrices( pFrameRoot );
+	}  
+
+
+
+	HRESULT D3DXFrameRegisterNamedMatrices(
+		LPD3DXFRAME pFrameRoot,
+		LPD3DXANIMATIONCONTROLLER pAnimController)
+	{
+		if(!m_fnc.m_TFunc_D3DXFrameRegisterNamedMatrices)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXFrameRegisterNamedMatrices)
+		}
+		return m_fnc.m_TFunc_D3DXFrameRegisterNamedMatrices( pFrameRoot,  pAnimController );
+	}  
+
+
+	HRESULT D3DXLoadMeshHierarchyFromXA(
+		const CHAR* Filename,
+		DWORD MeshOptions,
+		LPDIRECT3DDEVICE9 pDevice,
+		LPD3DXALLOCATEHIERARCHY pAlloc,
+		LPD3DXLOADUSERDATA pUserDataLoader,
+		LPD3DXFRAME* ppFrameHierarchy,
+		LPD3DXANIMATIONCONTROLLER* ppAnimController)
+	{
+		if(!m_fnc.m_TFunc_D3DXLoadMeshHierarchyFromXA)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXLoadMeshHierarchyFromXA)
+		}
+		return m_fnc.m_TFunc_D3DXLoadMeshHierarchyFromXA( Filename, MeshOptions,   pDevice,
+			pAlloc,   pUserDataLoader,  ppFrameHierarchy,  ppAnimController );
+	}
+
+
+	HRESULT D3DXLoadMeshHierarchyFromXW(
+		const WCHAR* Filename,
+		DWORD MeshOptions,
+		LPDIRECT3DDEVICE9 pDevice,
+		LPD3DXALLOCATEHIERARCHY pAlloc,
+		LPD3DXLOADUSERDATA pUserDataLoader,
+		LPD3DXFRAME* ppFrameHierarchy,
+		LPD3DXANIMATIONCONTROLLER* ppAnimController)
+	{
+		if(!m_fnc.m_TFunc_D3DXLoadMeshHierarchyFromXW)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXLoadMeshHierarchyFromXW)
+		}
+		return m_fnc.m_TFunc_D3DXLoadMeshHierarchyFromXW( Filename,
+			MeshOptions,   pDevice,   pAlloc, pUserDataLoader,
+			ppFrameHierarchy,  ppAnimController );
+	}  
+
+
+
+	HRESULT D3DXLoadMeshHierarchyFromXInMemory(
+		LPCVOID pMemory,
+		DWORD SizeOfMemory,
+		DWORD MeshOptions,
+		LPDIRECT3DDEVICE9 pDevice,
+		LPD3DXALLOCATEHIERARCHY pAlloc,
+		LPD3DXLOADUSERDATA pUserDataLoader,
+		LPD3DXFRAME * ppFrameHeirarchy,
+		LPD3DXANIMATIONCONTROLLER * ppAnimController)
+	{
+		if(!m_fnc.m_TFunc_D3DXLoadMeshHierarchyFromXInMemory)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXLoadMeshHierarchyFromXInMemory)
+		}
+		return m_fnc.m_TFunc_D3DXLoadMeshHierarchyFromXInMemory( pMemory,
+			SizeOfMemory,  MeshOptions, pDevice,  pAlloc,  pUserDataLoader,
+			ppFrameHeirarchy,  ppAnimController );
+	}  
+
+
+
+	HRESULT D3DXSaveMeshHierarchyToFileA(
+		const CHAR* pFilename,
+		DWORD XFormat,
+		CONST D3DXFRAME * pFrameRoot,
+		LPD3DXANIMATIONCONTROLLER pAnimController,
+		LPD3DXSAVEUSERDATA pUserDataSaver)
+	{
+		if(!m_fnc.m_TFunc_D3DXSaveMeshHierarchyToFileA)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXSaveMeshHierarchyToFileA)
+		}
+		return m_fnc.m_TFunc_D3DXSaveMeshHierarchyToFileA( pFilename, XFormat, pFrameRoot, pAnimController,  pUserDataSaver );
+	}  
+
+
+	HRESULT D3DXSaveMeshHierarchyToFileW(
+		const WCHAR* pFilename,
+		DWORD XFormat,
+		CONST D3DXFRAME * pFrameRoot,
+		LPD3DXANIMATIONCONTROLLER pAnimController,
+		LPD3DXSAVEUSERDATA pUserDataSaver)
+	{
+		if(!m_fnc.m_TFunc_D3DXSaveMeshHierarchyToFileW)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXSaveMeshHierarchyToFileW)
+		}
+		return m_fnc.m_TFunc_D3DXSaveMeshHierarchyToFileW( pFilename,
+			XFormat,  pFrameRoot,  pAnimController,  pUserDataSaver );
+	}
+
+
+
+
+
+
+
+	//-------------------------------------------------------------
+	//	General Purpose Functions
+	//-------------------------------------------------------------
+
+
 
 
 	HRESULT D3DXCreateBuffer( DWORD NumBytes,    LPD3DXBUFFER * ppBuffer )
@@ -910,6 +1141,253 @@ public:
 		}
 		return m_fnc.m_TFunc_D3DXWeldVertices ( pMesh,  Flags,pEpsilons, pAdjacencyIn, pAdjacencyOut,  pFaceRemap,  ppVertexRemap );
 	}
+
+
+	//-------------------------------------------------------
+	//	   Precomputed Radiance Transfer Functions
+	//-------------------------------------------------------
+
+
+
+	HRESULT D3DXCreatePRTBuffer(
+		UINT NumSamples,
+		UINT NumCoeffs,
+		UINT NumChannels,
+		LPD3DXPRTBUFFER * ppBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXCreatePRTBuffer)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR (D3DXCreatePRTBuffer)
+
+		}
+		return m_fnc.m_TFunc_D3DXCreatePRTBuffer( NumSamples,  NumCoeffs,  NumChannels,  ppBuffer );
+	}  
+
+
+
+	HRESULT D3DXCreatePRTBufferTex(
+		UINT Width,
+		UINT Height,
+		UINT NumCoeffs,
+		UINT NumChannels,
+		LPD3DXPRTBUFFER * ppBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXCreatePRTBufferTex)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXCreatePRTBufferTex)
+		}
+		return m_fnc.m_TFunc_D3DXCreatePRTBufferTex(  Width,  Height, NumCoeffs,  NumChannels,  ppBuffer );
+	}  
+
+
+
+	HRESULT D3DXCreatePRTCompBuffer(
+		D3DXSHCOMPRESSQUALITYTYPE Quality,
+		UINT NumClusters,
+		UINT NumPCA,
+		LPD3DXSHPRTSIMCB pCB,
+		LPVOID lpUserContext,
+		LPD3DXPRTBUFFER pBuffer,
+		LPD3DXPRTCOMPBUFFER * ppBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXCreatePRTCompBuffer)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXCreatePRTCompBuffer)
+		}
+		return m_fnc.m_TFunc_D3DXCreatePRTCompBuffer( Quality,
+			NumClusters,  NumPCA,  pCB,  lpUserContext,  pBuffer,  ppBuffer );
+	}  
+
+
+
+	HRESULT D3DXCreatePRTEngine(
+		LPD3DXMESH pMesh,
+		DWORD * pAdjacency,
+		BOOL ExtractUVs,
+		LPD3DXMESH pBlockerMesh,
+		LPD3DXPRTENGINE ppEngine)
+	{
+		if(!m_fnc.m_TFunc_D3DXCreatePRTEngine)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXCreatePRTEngine)
+		}
+		return m_fnc.m_TFunc_D3DXCreatePRTEngine(  pMesh,  pAdjacency,  ExtractUVs,
+			pBlockerMesh,  ppEngine );
+	}  
+
+
+
+	HRESULT D3DXCreateTextureGutterHelper(
+		UINT Width,
+		UINT Height,
+		LPD3DXMESH pMesh,
+		FLOAT GutterSize,
+		LPD3DXTEXTUREGUTTERHELPER * ppBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXCreateTextureGutterHelper)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXCreateTextureGutterHelper)
+		}
+		return m_fnc.m_TFunc_D3DXCreateTextureGutterHelper( Width,  Height,  pMesh,
+			GutterSize, ppBuffer );
+	}  
+
+
+
+	HRESULT D3DXLoadPRTBufferFromFileA(
+		const CHAR* pFileName,
+		LPD3DXPRTBUFFER * ppBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXLoadPRTBufferFromFileA)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXLoadPRTBufferFromFileA)
+		}
+		return m_fnc.m_TFunc_D3DXLoadPRTBufferFromFileA( pFileName,  ppBuffer );
+	}  
+
+
+
+	HRESULT D3DXLoadPRTBufferFromFileW(
+		const WCHAR* pFileName,
+		LPD3DXPRTBUFFER * ppBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXLoadPRTBufferFromFileW)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXLoadPRTBufferFromFileW)
+		}
+		return m_fnc.m_TFunc_D3DXLoadPRTBufferFromFileW( pFileName,  ppBuffer );
+	}
+
+
+
+	HRESULT D3DXLoadPRTCompBufferFromFileA(
+		const CHAR* pFileName,
+		LPD3DXPRTCOMPBUFFER * ppBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXLoadPRTCompBufferFromFileA)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXLoadPRTCompBufferFromFileA)
+		}
+		return m_fnc.m_TFunc_D3DXLoadPRTCompBufferFromFileA( pFileName,  ppBuffer );
+	}  
+
+
+
+	HRESULT D3DXLoadPRTCompBufferFromFileW(
+		const WCHAR*  pFileName,
+		LPD3DXPRTCOMPBUFFER * ppBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXLoadPRTCompBufferFromFileW)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXLoadPRTCompBufferFromFileW)
+		}
+		return m_fnc.m_TFunc_D3DXLoadPRTCompBufferFromFileW( pFileName,  ppBuffer );
+	}  
+
+
+
+	HRESULT D3DXSavePRTBufferToFileA(
+		const CHAR* pFileName,
+		LPD3DXPRTBUFFER pBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXSavePRTBufferToFileA)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXSavePRTBufferToFileA)
+		}
+		return m_fnc.m_TFunc_D3DXSavePRTBufferToFileA( pFileName,  pBuffer );
+	}  
+
+
+
+	HRESULT D3DXSavePRTBufferToFileW(
+		const WCHAR* pFileName,
+		LPD3DXPRTBUFFER pBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXSavePRTBufferToFileW)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXSavePRTBufferToFileW)
+		}
+		return m_fnc.m_TFunc_D3DXSavePRTBufferToFileW( pFileName,  pBuffer );
+	}  
+
+
+
+	HRESULT D3DXSavePRTCompBufferToFileA(
+		const CHAR* pFileName,
+		LPD3DXPRTCOMPBUFFER pBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXSavePRTCompBufferToFileA)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXSavePRTCompBufferToFileA)
+		}
+		return m_fnc.m_TFunc_D3DXSavePRTCompBufferToFileA( pFileName,  pBuffer );
+	}  
+
+
+
+	HRESULT D3DXSavePRTCompBufferToFileW(
+		const WCHAR* pFileName,
+		LPD3DXPRTCOMPBUFFER pBuffer)
+	{
+		if(!m_fnc.m_TFunc_D3DXSavePRTCompBufferToFileW)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXSavePRTCompBufferToFileW)
+		}
+		return m_fnc.m_TFunc_D3DXSavePRTCompBufferToFileW( pFileName,  pBuffer );
+	}  
+
+
+
+	HRESULT D3DXSHPRTCompSplitMeshSC(
+		UINT * pClusterIDs,
+		UINT NumVertices,
+		UINT NumCs,
+		UINT * pSClusterIDs,
+		UINT NumSCs,
+		LPVOID pInputIB,
+		BOOL InputIBIs32Bit,
+		UINT NumFaces,
+		LPD3DXBUFFER * ppIBData,
+		UINT * pIBDataLength,
+		BOOL OutputIBIs32Bit,
+		LPD3DXBUFFER * ppFaceRemap,
+		LPD3DXBUFFER * ppVertData,
+		UINT * pVertDataLength,
+		UINT * pSCClusterList,
+		D3DXSHPRTSPLITMESHCLUSTERDATA* pSCData)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHPRTCompSplitMeshSC)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXSHPRTCompSplitMeshSC)
+		}
+		return m_fnc.m_TFunc_D3DXSHPRTCompSplitMeshSC( pClusterIDs,  NumVertices,  NumCs,  
+			pSClusterIDs, NumSCs,  pInputIB,  InputIBIs32Bit,  NumFaces,  ppIBData,
+			pIBDataLength,  OutputIBIs32Bit,  ppFaceRemap,  ppVertData,
+			pVertDataLength,  pSCClusterList,  pSCData );
+	}
+
+
+
+	HRESULT D3DXSHPRTCompSuperCluster(
+		UINT * pClusterIDs,
+		LPD3DXMESH pScene,
+		UINT MaxNumClusters,
+		UINT NumClusters,
+		UINT * pSClusterIDs,
+		UINT * pNumSCs)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHPRTCompSuperCluster)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXSHPRTCompSuperCluster)
+		}
+		return m_fnc.m_TFunc_D3DXSHPRTCompSuperCluster( pClusterIDs,  pScene, MaxNumClusters,
+			NumClusters, pSClusterIDs,  pNumSCs );
+	}
+
+
+
+
+
 
 
 	//-------------------------------------------------------
@@ -1778,37 +2256,6 @@ HRESULT D3DXCreateTextureFromFileInMemoryEx(
 		Format, Pool, Filter, MipFilter, ColorKey,	pSrcInfo, 
 		pPalette,  ppTexture  );
 }
-
-  /***********************      ***********************
-HRESULT D3DXCreateCubeTextureFromResourceA(
-	LPDIRECT3DDEVICE9 pDevice,
-	HMODULE hSrcModule,
-	const CHAR* pSrcResource,
-	LPDIRECT3DCUBETEXTURE9 * ppCubeTexture 	)
-{
-	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceA )
-	{
-		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR( D3DXCreateCubeTextureFromResourceA);
-	}
-	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceA ( pDevice,  hSrcModule,
-		  pSrcResource,	 ppCubeTexture  );
-}
-
-
-HRESULT D3DXCreateCubeTextureFromResourceW (
-	LPDIRECT3DDEVICE9 pDevice,
-	HMODULE hSrcModule,
-	const WCHAR* pSrcResource,
-	LPDIRECT3DCUBETEXTURE9 * ppCubeTexture 	)
-{
-	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceW )
-	{
-		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR( D3DXCreateCubeTextureFromResourceW );
-	}
-	return m_fnc.m_TFunc_D3DXCreateCubeTextureFromResourceW ( pDevice,  hSrcModule,
-		pSrcResource,	 ppCubeTexture  );
-}
- **************************    *******************************/
 
 
 
@@ -3027,14 +3474,203 @@ HRESULT D3DXDisassembleEffect(
 
 
 
- 
+
+//----------------------------------------
+//     UVAtlas Functions
+//----------------------------------------
+
+
+
+HRESULT D3DXUVAtlasCreate(
+						  LPD3DXMESH pMesh,
+						  UINT dwMaxChartNumber,
+						  FLOAT fMaxStretch,
+						  UINT dwWidth,
+						  UINT dwHeight,
+						  FLOAT fGutter,
+						  DWORD dwTextureIndex,
+						  CONST DWORD *pdwAdjacency,
+						  CONST DWORD *pdwFalseEdges,
+						  FLOAT *pfIMTArray,
+						  LPD3DXUVATLASCB pCallback,
+						  FLOAT fCallbackFrequency,
+						  LPVOID pUserContent,
+						  DWORD dwOptions,
+						  LPD3DXMESH *ppMeshOut,
+						  LPD3DXBUFFER *ppFacePartitioning,
+						  LPD3DXBUFFER *ppVertexRemapArray,
+						  FLOAT *pfMaxStretchOut,
+						  UINT *pdwNumChartsOut)
+{
+	if(!m_fnc.m_TFunc_D3DXUVAtlasCreate)
+	{
+		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXUVAtlasCreate)
+	}
+	return m_fnc.m_TFunc_D3DXUVAtlasCreate(  pMesh,  dwMaxChartNumber,  fMaxStretch,  
+		dwWidth, dwHeight,  fGutter,  dwTextureIndex, pdwAdjacency, pdwFalseEdges, 
+		pfIMTArray, pCallback, fCallbackFrequency,  pUserContent,  dwOptions, 
+		ppMeshOut, ppFacePartitioning, ppVertexRemapArray, 
+		pfMaxStretchOut, pdwNumChartsOut );
+}  
+
+
+
+HRESULT D3DXUVAtlasPack(
+						LPD3DXMESH pMesh,
+						UINT dwWidth,
+						UINT dwHeight,
+						FLOAT fGutter,
+						DWORD dwTextureIndex,
+						CONST DWORD * pdwPartitionResultAdjacency,
+						LPD3DXUVATLASCB pCallback,
+						FLOAT fCallbackFrequency,
+						LPVOID pUserContent,
+						DWORD dwOptions,
+						LPD3DXBUFFER pFacePartitioning)
+{
+	if(!m_fnc.m_TFunc_D3DXUVAtlasPack)
+	{
+		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXUVAtlasPack)
+	}
+	return m_fnc.m_TFunc_D3DXUVAtlasPack( pMesh,  dwWidth,  dwHeight,  fGutter,
+		dwTextureIndex,  pdwPartitionResultAdjacency,  pCallback,
+		fCallbackFrequency,  pUserContent,  dwOptions,  pFacePartitioning );
+}  
+
+
+
+HRESULT D3DXUVAtlasPartition(
+							 LPD3DXMESH pMesh,
+							 UINT dwMaxChartNumber,
+							 FLOAT fMaxStretch,
+							 DWORD dwTextureIndex,
+							 CONST DWORD *pdwAdjacency,
+							 CONST DWORD *pdwFalseEdges,
+							 FLOAT *pfIMTArray,
+							 LPD3DXUVATLASCB pCallback,
+							 FLOAT fCallbackFrequency,
+							 LPVOID pUserContent,
+							 DWORD dwOptions,
+							 LPD3DXMESH *ppMeshOut,
+							 LPD3DXBUFFER pFacePartitioning,
+							 LPD3DXBUFFER *ppVertexRemapArray,
+							 LPD3DXBUFFER *ppPartitionResultAdjacency,
+							 FLOAT *pfMaxStretchOut,
+							 UINT *pdwNumChartsOut)
+{
+	if(!m_fnc.m_TFunc_D3DXUVAtlasPartition)
+	{
+		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXUVAtlasPartition)
+	}
+	return m_fnc.m_TFunc_D3DXUVAtlasPartition( pMesh,  dwMaxChartNumber,  fMaxStretch,
+		dwTextureIndex, pdwAdjacency, pdwFalseEdges, pfIMTArray,  pCallback,
+		fCallbackFrequency,  pUserContent, dwOptions, ppMeshOut,
+		pFacePartitioning, ppVertexRemapArray, ppPartitionResultAdjacency,
+		pfMaxStretchOut, pdwNumChartsOut );
+}  
+
+
+
+HRESULT D3DXComputeIMTFromPerTexelSignal(
+	LPD3DXMESH pMesh,
+	DWORD dwTextureIndex,
+	FLOAT * pfTexelSignal,
+	UINT uWidth,
+	UINT uHeight,
+	UINT uSignalDimension,
+	UINT uComponents,
+	DWORD dwOptions,
+	LPD3DXUVATLASCB pStatusCallback,
+	LPVOID pUserContext,
+	LPD3DXBUFFER * ppIMTData)
+{
+	if(!m_fnc.m_TFunc_D3DXComputeIMTFromPerTexelSignal)
+	{
+		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXComputeIMTFromPerTexelSignal)
+	}
+	return m_fnc.m_TFunc_D3DXComputeIMTFromPerTexelSignal( pMesh,  dwTextureIndex, pfTexelSignal,
+		uWidth,  uHeight,  uSignalDimension, uComponents,  dwOptions,  pStatusCallback,  
+		pUserContext,   ppIMTData );
+}  
+
+
+
+HRESULT D3DXComputeIMTFromPerVertexSignal(
+	LPD3DXMESH pMesh,
+	CONST FLOAT * pfVertexSignal,
+	UINT uSignalDimension,
+	UINT uSignalStride,
+	DWORD dwOptions,
+	LPD3DXUVATLASCB pStatusCallback,
+	LPVOID pUserContext,
+	LPD3DXBUFFER * ppIMTData)
+{
+	if(!m_fnc.m_TFunc_D3DXComputeIMTFromPerVertexSignal)
+	{
+		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXComputeIMTFromPerVertexSignal)
+	}
+	return m_fnc.m_TFunc_D3DXComputeIMTFromPerVertexSignal( pMesh,  pfVertexSignal,
+		uSignalDimension,	uSignalStride, dwOptions,  pStatusCallback,  
+		pUserContext,  ppIMTData );
+}
+
+
+
+HRESULT D3DXComputeIMTFromSignal(
+								 LPD3DXMESH pMesh,
+								 DWORD dwTextureIndex,
+								 UINT uSignalDimension,
+								 FLOAT fMaxUVDistance,
+								 DWORD dwOptions,
+								 LPD3DXIMTSIGNALCALLBACK pSignalCallback,
+								 VOID * pUserData,
+								 LPD3DXUVATLASCB pStatusCallback,
+								 LPVOID pUserContext,
+								 LPD3DXBUFFER * ppIMTData)
+{
+	if(!m_fnc.m_TFunc_D3DXComputeIMTFromSignal)
+	{
+		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXComputeIMTFromSignal)
+	}
+	return m_fnc.m_TFunc_D3DXComputeIMTFromSignal( pMesh,  dwTextureIndex,  uSignalDimension,
+		fMaxUVDistance, dwOptions, pSignalCallback,  pUserData,
+		pStatusCallback,  pUserContext,  ppIMTData );
+}
+
+
+
+HRESULT D3DXComputeIMTFromTexture(
+								  LPD3DXMESH pMesh,
+								  LPDIRECT3DTEXTURE9 pTexture,
+								  DWORD dwTextureIndex,
+								  DWORD dwOptions,
+								  LPD3DXUVATLASCB pStatusCallback,
+								  LPVOID pUserContext,
+								  LPD3DXBUFFER * ppIMTData)
+{
+	if(!m_fnc.m_TFunc_D3DXComputeIMTFromTexture)
+	{
+		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(D3DXComputeIMTFromTexture)
+	}
+	return m_fnc.m_TFunc_D3DXComputeIMTFromTexture( pMesh,  pTexture,  dwTextureIndex,
+		dwOptions, pStatusCallback,  pUserContext,  ppIMTData );
+}
+
+
+
+
+
  
 
 
 //-------------------------------------------------------------------------
 
+protected:
+		Functions m_fnc;
 
-	Functions m_fnc;
+#endif // __GB__D3DX9_DYNAMIC_LOAD_PFUNC_DECL_H__
+
+
 
 protected:
 

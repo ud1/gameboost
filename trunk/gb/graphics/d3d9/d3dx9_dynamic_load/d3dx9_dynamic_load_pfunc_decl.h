@@ -3,12 +3,14 @@
 
 
  \author ksacvet777
+
 */
 
 #if ( defined(WIN32) && defined(GB_D3D9)  )
 
 
 #pragma once
+#define __GB__D3DX9_DYNAMIC_LOAD_PFUNC_DECL_H__
 
 #ifndef __GB_D3DX9_DYNAMIC_LOAD_H__
    #error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ.   ВКЛЮЧАЙТЕ:  #include <gb/graphics/d3d9/d3dx9_dynamic_load/d3dx9_dynamic_load.h>
@@ -16,7 +18,13 @@
 
 
 
-#include <windows.h>
+//#include <windows.h>
+#ifndef _WINDOWS_
+   #error  WINDOWS.H  НЕ БЫЛ ВКЛЮЧЁН РАНЕЕ
+#endif
+
+#include <string>
+#include <gb/macro.h>
 
 
 namespace  gb
@@ -40,6 +48,136 @@ namespace d3dx9_dynamic_load
  
 
 		typedef BOOL (__stdcall *TFunc_D3DXCheckVersion)(UINT D3DSDKVersion, UINT D3DXSDKVersion);
+
+
+
+		// 
+		//================================================================= 
+		//                 Animation Functions 
+		//=================================================================
+		// 
+
+ 
+ 
+		typedef HRESULT (__stdcall *TFunc_D3DXCreateAnimationController)(
+			UINT MaxNumAnimationOutputs,
+			UINT MaxNumAnimationSets,
+			UINT MaxNumTracks,
+			UINT MaxNumEvents,
+			LPD3DXANIMATIONCONTROLLER* ppAnimController
+			);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCreateCompressedAnimationSet)(
+			LPCSTR pName,
+			DOUBLE TicksPerSecond,
+			D3DXPLAYBACK_TYPE Playback,
+			LPD3DXBUFFER pCompressedData,
+			UINT NumCallbackKeys,
+			CONST LPD3DXKEY_CALLBACK * pCallKeys,
+			LPD3DXCOMPRESSEDANIMATIONSET * ppAnimationSet
+			);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCreateKeyframedAnimationSet)(
+			LPCSTR pName,
+			DOUBLE TicksPerSecond,
+			D3DXPLAYBACK_TYPE Playback,
+			UINT NumAnimations,
+			UINT NumCallbackKeys,
+			CONST LPD3DXKEY_CALLBACK * pCallKeys,
+			LPD3DXKEYFRAMEDANIMATIONSET * ppAnimationSet
+			);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXFrameAppendChild)(
+			LPD3DXFRAME pFrameParent,
+			CONST D3DXFRAME * pFrameChild
+			);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXFrameCalculateBoundingSphere)(
+			CONST D3DXFRAME * pFrameRoot,
+			LPD3DXVECTOR3 pObjectCenter,
+			FLOAT * pObjectRadius
+			);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXFrameDestroy)(
+			LPD3DXFRAME pFrameRoot,
+			LPD3DXALLOCATEHIERARCHY pAlloc
+			);
+
+		typedef LPD3DXFRAME (__stdcall *TFunc_D3DXFrameFind)(
+			CONST D3DXFRAME * pFrameRoot,
+			LPCSTR Name
+			);
+
+		typedef UINT (__stdcall *TFunc_D3DXFrameNumNamedMatrices)(
+			CONST D3DXFRAME * pFrameRoot
+			);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXFrameRegisterNamedMatrices)(
+			LPD3DXFRAME pFrameRoot,
+			LPD3DXANIMATIONCONTROLLER pAnimController
+			);
+
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXLoadMeshHierarchyFromXA)(
+			const CHAR* Filename,
+			DWORD MeshOptions,
+			LPDIRECT3DDEVICE9 pDevice,
+			LPD3DXALLOCATEHIERARCHY pAlloc,
+			LPD3DXLOADUSERDATA pUserDataLoader,
+			LPD3DXFRAME* ppFrameHierarchy,
+			LPD3DXANIMATIONCONTROLLER* ppAnimController
+			);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXLoadMeshHierarchyFromXW)(
+			const WCHAR* Filename,
+			DWORD MeshOptions,
+			LPDIRECT3DDEVICE9 pDevice,
+			LPD3DXALLOCATEHIERARCHY pAlloc,
+			LPD3DXLOADUSERDATA pUserDataLoader,
+			LPD3DXFRAME* ppFrameHierarchy,
+			LPD3DXANIMATIONCONTROLLER* ppAnimController
+			);
+
+
+
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXLoadMeshHierarchyFromXInMemory)(
+			LPCVOID pMemory,
+			DWORD SizeOfMemory,
+			DWORD MeshOptions,
+			LPDIRECT3DDEVICE9 pDevice,
+			LPD3DXALLOCATEHIERARCHY pAlloc,
+			LPD3DXLOADUSERDATA pUserDataLoader,
+			LPD3DXFRAME * ppFrameHeirarchy,
+			LPD3DXANIMATIONCONTROLLER * ppAnimController
+			);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXSaveMeshHierarchyToFileA)(
+			const CHAR* pFilename,
+			DWORD XFormat,
+			CONST D3DXFRAME * pFrameRoot,
+			LPD3DXANIMATIONCONTROLLER pAnimController,
+			LPD3DXSAVEUSERDATA pUserDataSaver
+			);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXSaveMeshHierarchyToFileW)(
+			const WCHAR* pFilename,
+			DWORD XFormat,
+			CONST D3DXFRAME * pFrameRoot,
+			LPD3DXANIMATIONCONTROLLER pAnimController,
+			LPD3DXSAVEUSERDATA pUserDataSaver
+			);
+
+	 
+
+ 
 
 		// 
 		//================================================================= 
@@ -608,6 +746,121 @@ namespace d3dx9_dynamic_load
 
 
 		//==============================================================
+		//        Precomputed Radiance Transfer Functions  
+		//==============================================================
+ 
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCreatePRTBuffer)(
+			UINT NumSamples,
+			UINT NumCoeffs,
+			UINT NumChannels,
+			LPD3DXPRTBUFFER * ppBuffer);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCreatePRTBufferTex)(
+			UINT Width,
+			UINT Height,
+			UINT NumCoeffs,
+			UINT NumChannels,
+			LPD3DXPRTBUFFER * ppBuffer);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCreatePRTCompBuffer)(
+			D3DXSHCOMPRESSQUALITYTYPE Quality,
+			UINT NumClusters,
+			UINT NumPCA,
+			LPD3DXSHPRTSIMCB pCB,
+			LPVOID lpUserContext,
+			LPD3DXPRTBUFFER pBuffer,
+			LPD3DXPRTCOMPBUFFER * ppBuffer);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCreatePRTEngine)(
+			LPD3DXMESH pMesh,
+			DWORD * pAdjacency,
+			BOOL ExtractUVs,
+			LPD3DXMESH pBlockerMesh,
+			LPD3DXPRTENGINE ppEngine);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXCreateTextureGutterHelper)(
+			UINT Width,
+			UINT Height,
+			LPD3DXMESH pMesh,
+			FLOAT GutterSize,
+			LPD3DXTEXTUREGUTTERHELPER * ppBuffer);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXLoadPRTBufferFromFileA)(
+			const CHAR* pFileName,
+			LPD3DXPRTBUFFER * ppBuffer);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXLoadPRTBufferFromFileW)(
+			const WCHAR* pFileName,
+			LPD3DXPRTBUFFER * ppBuffer);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXLoadPRTCompBufferFromFileA)(
+			const CHAR* pFileName,
+			LPD3DXPRTCOMPBUFFER * ppBuffer);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXLoadPRTCompBufferFromFileW)(
+			const WCHAR*  pFileName,
+			LPD3DXPRTCOMPBUFFER * ppBuffer);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXSavePRTBufferToFileA)(
+			const CHAR* pFileName,
+			LPD3DXPRTBUFFER pBuffer);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXSavePRTBufferToFileW)(
+			const WCHAR* pFileName,
+			LPD3DXPRTBUFFER pBuffer);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXSavePRTCompBufferToFileA)(
+			const CHAR* pFileName,
+			LPD3DXPRTCOMPBUFFER pBuffer);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXSavePRTCompBufferToFileW)(
+			const WCHAR* pFileName,
+			LPD3DXPRTCOMPBUFFER pBuffer);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXSHPRTCompSplitMeshSC)(
+			UINT * pClusterIDs,
+			UINT NumVertices,
+			UINT NumCs,
+			UINT * pSClusterIDs,
+			UINT NumSCs,
+			LPVOID pInputIB,
+			BOOL InputIBIs32Bit,
+			UINT NumFaces,
+			LPD3DXBUFFER * ppIBData,
+			UINT * pIBDataLength,
+			BOOL OutputIBIs32Bit,
+			LPD3DXBUFFER * ppFaceRemap,
+			LPD3DXBUFFER * ppVertData,
+			UINT * pVertDataLength,
+			UINT * pSCClusterList,
+			D3DXSHPRTSPLITMESHCLUSTERDATA* pSCData);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXSHPRTCompSuperCluster)(
+			UINT * pClusterIDs,
+			LPD3DXMESH pScene,
+			UINT MaxNumClusters,
+			UINT NumClusters,
+			UINT * pSClusterIDs,
+			UINT * pNumSCs);
+
+
+
+
+
+
+
+
+		//==============================================================
 		//        Shape Drawing Functions  
 		//==============================================================
 
@@ -951,6 +1204,110 @@ namespace d3dx9_dynamic_load
 			);
 
 
+
+
+		//-------------------------------------------------
+		//        UVAtlas Functions
+		//------------------------------------------------- 
+
+		typedef HRESULT (__stdcall *TFunc_D3DXUVAtlasCreate)(
+			LPD3DXMESH pMesh,
+			UINT dwMaxChartNumber,
+			FLOAT fMaxStretch,
+			UINT dwWidth,
+			UINT dwHeight,
+			FLOAT fGutter,
+			DWORD dwTextureIndex,
+			CONST DWORD *pdwAdjacency,
+			CONST DWORD *pdwFalseEdges,
+			FLOAT *pfIMTArray,
+			LPD3DXUVATLASCB pCallback,
+			FLOAT fCallbackFrequency,
+			LPVOID pUserContent,
+			DWORD dwOptions,
+			LPD3DXMESH *ppMeshOut,
+			LPD3DXBUFFER *ppFacePartitioning,
+			LPD3DXBUFFER *ppVertexRemapArray,
+			FLOAT *pfMaxStretchOut,
+			UINT *pdwNumChartsOut);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXUVAtlasPack)(
+			LPD3DXMESH pMesh,
+			UINT dwWidth,
+			UINT dwHeight,
+			FLOAT fGutter,
+			DWORD dwTextureIndex,
+			CONST DWORD * pdwPartitionResultAdjacency,
+			LPD3DXUVATLASCB pCallback,
+			FLOAT fCallbackFrequency,
+			LPVOID pUserContent,
+			DWORD dwOptions,
+			LPD3DXBUFFER pFacePartitioning);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXUVAtlasPartition)(
+			LPD3DXMESH pMesh,
+			UINT dwMaxChartNumber,
+			FLOAT fMaxStretch,
+			DWORD dwTextureIndex,
+			CONST DWORD *pdwAdjacency,
+			CONST DWORD *pdwFalseEdges,
+			FLOAT *pfIMTArray,
+			LPD3DXUVATLASCB pCallback,
+			FLOAT fCallbackFrequency,
+			LPVOID pUserContent,
+			DWORD dwOptions,
+			LPD3DXMESH *ppMeshOut,
+			LPD3DXBUFFER pFacePartitioning,
+			LPD3DXBUFFER *ppVertexRemapArray,
+			LPD3DXBUFFER *ppPartitionResultAdjacency,
+			FLOAT *pfMaxStretchOut,
+			UINT *pdwNumChartsOut);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXComputeIMTFromPerTexelSignal)(
+			LPD3DXMESH pMesh,
+			DWORD dwTextureIndex,
+			FLOAT * pfTexelSignal,
+			UINT uWidth,
+			UINT uHeight,
+			UINT uSignalDimension,
+			UINT uComponents,
+			DWORD dwOptions,
+			LPD3DXUVATLASCB pStatusCallback,
+			LPVOID pUserContext,
+			LPD3DXBUFFER * ppIMTData);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXComputeIMTFromPerVertexSignal)(
+			LPD3DXMESH pMesh,
+			CONST FLOAT * pfVertexSignal,
+			UINT uSignalDimension,
+			UINT uSignalStride,
+			DWORD dwOptions,
+			LPD3DXUVATLASCB pStatusCallback,
+			LPVOID pUserContext,
+			LPD3DXBUFFER * ppIMTData);
+
+		typedef HRESULT (__stdcall *TFunc_D3DXComputeIMTFromSignal)(
+			LPD3DXMESH pMesh,
+			DWORD dwTextureIndex,
+			UINT uSignalDimension,
+			FLOAT fMaxUVDistance,
+			DWORD dwOptions,
+			LPD3DXIMTSIGNALCALLBACK pSignalCallback,
+			VOID * pUserData,
+			LPD3DXUVATLASCB pStatusCallback,
+			LPVOID pUserContext,
+			LPD3DXBUFFER * ppIMTData);
+
+
+		typedef HRESULT (__stdcall *TFunc_D3DXComputeIMTFromTexture)(
+			LPD3DXMESH pMesh,
+			LPDIRECT3DTEXTURE9 pTexture,
+			DWORD dwTextureIndex,
+			DWORD dwOptions,
+			LPD3DXUVATLASCB pStatusCallback,
+			LPVOID pUserContext,
+			LPD3DXBUFFER * ppIMTData);
 
 
 
@@ -2089,7 +2446,34 @@ namespace d3dx9_dynamic_load
 		TFunc_D3DXCheckVersion m_TFunc_D3DXCheckVersion;
 
 
-		//   -----------   general purpose function   ------------------
+
+		//   -----------   Animation Functions   -----------------
+
+ 
+
+		TFunc_D3DXCreateAnimationController     m_TFunc_D3DXCreateAnimationController  ;
+		TFunc_D3DXCreateCompressedAnimationSet  m_TFunc_D3DXCreateCompressedAnimationSet   ;
+		TFunc_D3DXCreateKeyframedAnimationSet   m_TFunc_D3DXCreateKeyframedAnimationSet ;
+		TFunc_D3DXFrameAppendChild               m_TFunc_D3DXFrameAppendChild ;
+		TFunc_D3DXFrameCalculateBoundingSphere   m_TFunc_D3DXFrameCalculateBoundingSphere ;
+		TFunc_D3DXFrameDestroy      m_TFunc_D3DXFrameDestroy  ;
+		TFunc_D3DXFrameFind         m_TFunc_D3DXFrameFind ;
+		TFunc_D3DXFrameNumNamedMatrices           m_TFunc_D3DXFrameNumNamedMatrices ;
+		TFunc_D3DXFrameRegisterNamedMatrices      m_TFunc_D3DXFrameRegisterNamedMatrices ;
+
+		TFunc_D3DXLoadMeshHierarchyFromXA    m_TFunc_D3DXLoadMeshHierarchyFromXA ;
+		TFunc_D3DXLoadMeshHierarchyFromXW    m_TFunc_D3DXLoadMeshHierarchyFromXW ; 
+
+		TFunc_D3DXLoadMeshHierarchyFromXInMemory  m_TFunc_D3DXLoadMeshHierarchyFromXInMemory  ;
+
+		TFunc_D3DXSaveMeshHierarchyToFileA         m_TFunc_D3DXSaveMeshHierarchyToFileA;
+		TFunc_D3DXSaveMeshHierarchyToFileW         m_TFunc_D3DXSaveMeshHierarchyToFileW;
+
+ 
+
+
+
+		//   -----------   general purpose function   ---------------
 
 
 		TFunc_D3DXCreateBuffer        m_TFunc_D3DXCreateBuffer;
@@ -2200,7 +2584,36 @@ namespace d3dx9_dynamic_load
 		TFunc_D3DXWeldVertices		  m_TFunc_D3DXWeldVertices   ;
 
 
-		//-----------------   shaders    -----------------------------
+		//------  Precomputed Radiance Transfer Functions   -----------
+
+
+		TFunc_D3DXCreatePRTBuffer   m_TFunc_D3DXCreatePRTBuffer ;
+		TFunc_D3DXCreatePRTBufferTex   m_TFunc_D3DXCreatePRTBufferTex ;
+		TFunc_D3DXCreatePRTCompBuffer   m_TFunc_D3DXCreatePRTCompBuffer ;
+		TFunc_D3DXCreatePRTEngine   m_TFunc_D3DXCreatePRTEngine ;
+		TFunc_D3DXCreateTextureGutterHelper   m_TFunc_D3DXCreateTextureGutterHelper ;
+
+		TFunc_D3DXLoadPRTBufferFromFileA   m_TFunc_D3DXLoadPRTBufferFromFileA ;
+		TFunc_D3DXLoadPRTBufferFromFileW   m_TFunc_D3DXLoadPRTBufferFromFileW ;
+
+		TFunc_D3DXLoadPRTCompBufferFromFileA   m_TFunc_D3DXLoadPRTCompBufferFromFileA ;
+		TFunc_D3DXLoadPRTCompBufferFromFileW   m_TFunc_D3DXLoadPRTCompBufferFromFileW ;
+
+		TFunc_D3DXSavePRTBufferToFileA   m_TFunc_D3DXSavePRTBufferToFileA ;
+		TFunc_D3DXSavePRTBufferToFileW   m_TFunc_D3DXSavePRTBufferToFileW ;
+
+		TFunc_D3DXSavePRTCompBufferToFileA   m_TFunc_D3DXSavePRTCompBufferToFileA ;
+		TFunc_D3DXSavePRTCompBufferToFileW   m_TFunc_D3DXSavePRTCompBufferToFileW ;
+
+		TFunc_D3DXSHPRTCompSplitMeshSC   m_TFunc_D3DXSHPRTCompSplitMeshSC ;
+		TFunc_D3DXSHPRTCompSuperCluster   m_TFunc_D3DXSHPRTCompSuperCluster ;
+
+
+
+
+
+
+		//------------   Shader Functions   ------------------
 
 
 		TFunc_D3DXAssembleShader    m_TFunc_D3DXAssembleShader    ;
@@ -2410,6 +2823,26 @@ namespace d3dx9_dynamic_load
 
 
 
+	//--------------------------------------------
+	//            UVAtlas Functions
+	//--------------------------------------------
+
+
+	TFunc_D3DXUVAtlasCreate      m_TFunc_D3DXUVAtlasCreate;
+	TFunc_D3DXUVAtlasPack        m_TFunc_D3DXUVAtlasPack;
+	TFunc_D3DXUVAtlasPartition   m_TFunc_D3DXUVAtlasPartition;
+	TFunc_D3DXComputeIMTFromPerTexelSignal   m_TFunc_D3DXComputeIMTFromPerTexelSignal;
+	TFunc_D3DXComputeIMTFromPerVertexSignal  m_TFunc_D3DXComputeIMTFromPerVertexSignal;
+	TFunc_D3DXComputeIMTFromSignal      m_TFunc_D3DXComputeIMTFromSignal;
+	TFunc_D3DXComputeIMTFromTexture     m_TFunc_D3DXComputeIMTFromTexture;
+
+
+
+
+
+
+
+
 
 
 		Functions()
@@ -2421,6 +2854,12 @@ namespace d3dx9_dynamic_load
 		//!  \brief   обработка - функция sFuncName  не найдена в длл
 		void handleNotFoundAddr(const char* sFuncName)
 		{
+#ifdef _DEBUG
+			std::string temp;
+			temp = " Entry point not found in d3dx dll :  \n";
+	        temp += sFuncName;
+	 GB_MBOX(temp.c_str() );
+#endif
 
 			int stop = 0;
 		}

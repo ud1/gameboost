@@ -1,325 +1,448 @@
-Ôªø#include "stdafx.h"
-
-#if ( defined(WIN32) && defined(GB_D3D9) )
-
-#include <gb/graphics/d3d9/d3dx9_dynamic_load/d3dx9_dynamic_load.h>
-#include <gb/macro.h>
-
-#include <stdlib.h>
-#include <assert.h>
-
-
-//!  –ü–æ–∏—Å–∫ —Ç–æ—á–µ–∫ –≤—Ö–æ–¥–∞
-#define __HANDLE_DLL_ENTRY(funcname)   m_TFunc_##funcname =  \
-								( TFunc_##funcname ) ::GetProcAddress(hm, GB_MAKE_STR(funcname) ); \
-								\
-		if(!m_TFunc_##funcname) {\
-		  handleNotFoundAddr( GB_MAKE_STR(funcname) ); \
-		  /* return NERROR;*/ \
-		 }
-
-//==============================================================
-int gb::graphics::d3d9::d3dx9_dynamic_load::Functions::GetProcAddr(const HMODULE hm)
-{
- 
-			void* ptr = NULL;
-			const int NERROR = -1;
-
-
-	//------------------------------------------------------------
-	//	    General Purpose Functions
-	//------------------------------------------------------------
-
-   int _begin = 0;
-   
-  __HANDLE_DLL_ENTRY(D3DXCheckVersion) 
-  __HANDLE_DLL_ENTRY(D3DXCreateBuffer)
-  __HANDLE_DLL_ENTRY(D3DXCreateFontA)
-  __HANDLE_DLL_ENTRY(D3DXCreateFontW)
-
-  __HANDLE_DLL_ENTRY(D3DXCreateFontIndirectA)
-  __HANDLE_DLL_ENTRY(D3DXCreateFontIndirectW)
-
-  __HANDLE_DLL_ENTRY(D3DXCreateLine)
-  __HANDLE_DLL_ENTRY(D3DXCreateRenderToEnvMap)
-  __HANDLE_DLL_ENTRY(D3DXCreateRenderToSurface)
-  __HANDLE_DLL_ENTRY(D3DXCreateSprite)
-  __HANDLE_DLL_ENTRY(D3DXDebugMute)
-  __HANDLE_DLL_ENTRY(D3DXGetDriverLevel)
- 
-	//------------------------------------------------------------
-	//	        MATH  functions
-	//------------------------------------------------------------
-
-
-   __HANDLE_DLL_ENTRY(D3DXMatrixMultiply)
-   __HANDLE_DLL_ENTRY(D3DXMatrixInverse)
- 
-
-
-	//------------------------------------------------------------
-	//	     MESH functions
-	//------------------------------------------------------------
-
-	__HANDLE_DLL_ENTRY(D3DXBoxBoundProbe)
-	__HANDLE_DLL_ENTRY(D3DXCleanMesh)
-	__HANDLE_DLL_ENTRY(D3DXComputeBoundingBox)
-	__HANDLE_DLL_ENTRY(D3DXComputeBoundingSphere)
-	__HANDLE_DLL_ENTRY(D3DXComputeNormals)
-	__HANDLE_DLL_ENTRY(D3DXComputeTangent)
-	__HANDLE_DLL_ENTRY(D3DXComputeTangentFrame)
-	__HANDLE_DLL_ENTRY(D3DXComputeTangentFrameEx)
-	__HANDLE_DLL_ENTRY(D3DXConcatenateMeshes)
-	__HANDLE_DLL_ENTRY(D3DXCreateMesh)
-	__HANDLE_DLL_ENTRY(D3DXCreateMeshFVF)
-	__HANDLE_DLL_ENTRY(D3DXDeclaratorFromFVF)
-	__HANDLE_DLL_ENTRY(D3DXGetFVFVertexSize)
-	__HANDLE_DLL_ENTRY(D3DXIntersect)
-	__HANDLE_DLL_ENTRY(D3DXIntersectSubset)
-
-	__HANDLE_DLL_ENTRY(D3DXIntersectTri)
-
-	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXA)
-	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXW)
-
-	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXInMemory)
-	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXof)
-	__HANDLE_DLL_ENTRY(D3DXLoadMeshFromXResource)
-	__HANDLE_DLL_ENTRY(D3DXLoadPatchMeshFromXof)
-
- 	#pragma message(  "ks777: d3dx loader:: –ü–†–û–í–ï–†–ò–¢–¨ D3DXLoadSkinMeshFromXof  "  __FILE__ )
-
-	__HANDLE_DLL_ENTRY(D3DXLoadSkinMeshFromXof)
-	__HANDLE_DLL_ENTRY(D3DXOptimizeFaces)
-	__HANDLE_DLL_ENTRY(D3DXOptimizeVertices)
-	__HANDLE_DLL_ENTRY(D3DXRectPatchSize)
-	__HANDLE_DLL_ENTRY(D3DXSaveMeshToXA)
-	__HANDLE_DLL_ENTRY(D3DXSaveMeshToXW)
-	__HANDLE_DLL_ENTRY(D3DXSimplifyMesh)
-	__HANDLE_DLL_ENTRY(D3DXSplitMesh)
-	__HANDLE_DLL_ENTRY(D3DXTriPatchSize)
-	__HANDLE_DLL_ENTRY(D3DXValidMesh)	
-	__HANDLE_DLL_ENTRY(D3DXValidPatchMesh)
-	__HANDLE_DLL_ENTRY(D3DXWeldVertices)
-
-
-
-	//------------------------------------------------------------
-	//	    Shader functions
-	//------------------------------------------------------------
-
-	__HANDLE_DLL_ENTRY(D3DXAssembleShader)
-
-	__HANDLE_DLL_ENTRY(D3DXAssembleShaderFromFileA)
-	__HANDLE_DLL_ENTRY(D3DXAssembleShaderFromFileW)	
-
-	__HANDLE_DLL_ENTRY(D3DXAssembleShaderFromResourceA)
-	__HANDLE_DLL_ENTRY(D3DXAssembleShaderFromResourceW)	
-	__HANDLE_DLL_ENTRY(D3DXCompileShader)
-	__HANDLE_DLL_ENTRY(D3DXCompileShaderFromFileA)
-	__HANDLE_DLL_ENTRY(D3DXCompileShaderFromFileW)	
-	__HANDLE_DLL_ENTRY(D3DXCompileShaderFromResourceA)	
-	__HANDLE_DLL_ENTRY(D3DXCompileShaderFromResourceW)
-	__HANDLE_DLL_ENTRY(D3DXCreateTextureShader)
-	__HANDLE_DLL_ENTRY(D3DXDisassembleShader)	
-	__HANDLE_DLL_ENTRY(D3DXFindShaderComment)	
-	__HANDLE_DLL_ENTRY(D3DXGetPixelShaderProfile)
-	__HANDLE_DLL_ENTRY(D3DXGetShaderConstantTable)
-	__HANDLE_DLL_ENTRY(D3DXGetShaderConstantTableEx)	
-	__HANDLE_DLL_ENTRY(D3DXGetShaderInputSemantics)	
-	__HANDLE_DLL_ENTRY(D3DXGetShaderOutputSemantics)	
-	__HANDLE_DLL_ENTRY(D3DXGetShaderSamplers)	
-	__HANDLE_DLL_ENTRY(D3DXGetShaderSize)	
-	__HANDLE_DLL_ENTRY(D3DXGetShaderVersion)	
-	__HANDLE_DLL_ENTRY(D3DXGetVertexShaderProfile)	
-	__HANDLE_DLL_ENTRY(D3DXPreprocessShader)	
-	__HANDLE_DLL_ENTRY(D3DXPreprocessShaderFromFileA)
-	__HANDLE_DLL_ENTRY(D3DXPreprocessShaderFromFileW)	
-	__HANDLE_DLL_ENTRY(D3DXPreprocessShaderFromResourceA)
-	__HANDLE_DLL_ENTRY(D3DXPreprocessShaderFromResourceW)	
-
-
-
-	
-	//------------------------------------------------------------
-	//	   Effect functions
-	//------------------------------------------------------------
-	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffect)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectEx)		
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectCompiler)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectCompilerFromFileA)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectCompilerFromFileW)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectCompilerFromResourceA)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectCompilerFromResourceW)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectFromFileA)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectFromFileW)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectFromFileExA)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectFromFileExW)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectFromResourceA)		
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectFromResourceW)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectFromResourceExA)	
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectFromResourceExW)		
-    __HANDLE_DLL_ENTRY(D3DXCreateEffectPool)		
-    __HANDLE_DLL_ENTRY(D3DXDisassembleEffect)	
-
-
-	//------------------------------------------------------------
-	//		   shared   drawing functions
-	//------------------------------------------------------------
-
-    __HANDLE_DLL_ENTRY(D3DXCreateBox)	
-    __HANDLE_DLL_ENTRY(D3DXCreateCylinder)	
-    __HANDLE_DLL_ENTRY(D3DXCreatePolygon)	 
-    __HANDLE_DLL_ENTRY(D3DXCreateSphere)	
-    __HANDLE_DLL_ENTRY(D3DXCreateTeapot)	
-    __HANDLE_DLL_ENTRY(D3DXCreateTextA)	
-    __HANDLE_DLL_ENTRY(D3DXCreateTextW)	
-    __HANDLE_DLL_ENTRY(D3DXCreateBox)	
-    __HANDLE_DLL_ENTRY(D3DXCreateTorus)	
+// BBCode control. (based on bbcode.js from http://forum.dklab.ru)
+function BBCode(textarea) { this.construct(textarea) }
+BBCode.prototype = {
+	VK_TAB:		 9,
+	VK_ENTER:	 13,
+	VK_PAGE_UP: 33,
+	BRK_OP:		 '[',
+  BRK_CL:     ']',
+  textarea:   null,
+  stext:      '',
+  quoter:     null,
+  collapseAfterInsert: false,
+  replaceOnInsert: false,
+  hotKeyClicked: false,
+
+  // Create new BBCode control.
+  construct: function(textarea) {
+    this.textarea = textarea
+    this.tags     = new Object();
+    // Tag for quoting.
+    this.addTag(
+      '_quoter',
+      function() { return '[quote="'+th.quoter+'"]' },
+      '[/quote]\n',
+      null,
+      null,
+      function() { th.collapseAfterInsert=true; return th._prepareMultiline(th.quoterText) }
+    );
+
+    // Init events.
+    var th = this;
+    addEvent(textarea, 'keydown',   function(e) { return th.onKeyPress(e, window.HTMLElement? 'down' : 'press') });
+    addEvent(textarea, 'keypress',  function(e) { return th.onKeyPress(e, 'press') });
+  },
+
+  // Insert poster name or poster quotes to the text.
+  onclickPoster: function(name) {
+    var sel = this.getSelection()[0];
+		if (sel) {
+			this.quoter = name;
+			this.quoterText = sel;
+			this.insertTag('_quoter');
+		} else {
+			this.insertAtCursor("[b]" + name + '[/b]\n');
+		}
+		return false;
+	},
+
+	// Quote selected text
+	onclickQuoteSel: function() {
+		var sel = this.getSelection()[0];
+		if (sel) {
+			this.insertAtCursor('[quote]' + sel + '[/quote]\n');
+		}
+		else {
+			alert('Please select text.');
+		}
+		return false;
+	},
+
+	// Quote selected text
+	emoticon: function(em) {
+		if (em) {
+			this.insertAtCursor(' ' + em + ' ');
+		}
+		else {
+			return false;
+		}
+		return false;
+	},
+
+	// For stupid Opera - save selection before mouseover the button.
+	refreshSelection: function(get) {
+    if (get) this.stext = this.getSelection()[0];
+    else this.stext = '';
+  },
+
+  // Return current selection and range (if exists).
+  // In Opera, this function must be called periodically (on mouse over,
+  // for example), because on click stupid Opera breaks up the selection.
+  getSelection: function() {
+    var w = window;
+    var text='', range;
+    if (w.getSelection) {
+      // Opera & Mozilla?
+      text = w.getSelection();
+    } else if (w.document.getSelection) {
+      // the Navigator 4.0x code
+      text = w.document.getSelection();
+    } else if (w.document.selection && w.document.selection.createRange) {
+      // the Internet Explorer 4.0x code
+      range = w.document.selection.createRange();
+      text = range.text;
+    } else {
+      return [null, null];
+    }
+    if (text == '') text = this.stext;
+    text = ""+text;
+    text = text.replace("/^\s+|\s+$/g", "");
+    return [text, range];
+  },
+
+  // Insert string at cursor position of textarea.
+  insertAtCursor: function(text) {
+    // Focus is placed to textarea.
+    var t = this.textarea;
+    t.focus();
+    // Insert the string.
+    if (document.selection && document.selection.createRange) {
+      var r = document.selection.createRange();
+      if (!this.replaceOnInsert) r.collapse();
+      r.text = text;
+    } else if (t.setSelectionRange) {
+      var start = this.replaceOnInsert? t.selectionStart : t.selectionEnd;
+      var end   = t.selectionEnd;
+      var sel1  = t.value.substr(0, start);
+      var sel2  = t.value.substr(end);
+      t.value   = sel1 + text + sel2;
+      t.setSelectionRange(start+text.length, start+text.length);
+    } else{
+      t.value += text;
+    }
+    // For IE.
+    setTimeout(function() { t.focus() }, 100);
+  },
+
+  // Surround piece of textarea text with tags.
+  surround: function(open, close, fTrans) {
+    var t = this.textarea;
+    t.focus();
+    if (!fTrans) fTrans = function(t) { return t; };
+
+    var rt    = this.getSelection();
+    var text  = rt[0];
+    var range = rt[1];
+    if (text == null) return false;
+
+    var notEmpty = text != null && text != '';
+
+    // Surround.
+    if (range) {
+      var notEmpty = text != null && text != '';
+      var newText = open + fTrans(text) + (close? close : '');
+      range.text = newText;
+      range.collapse();
+      if (text != '') {
+        // Correction for stupid IE: \r for moveStart is 0 character.
+        var delta = 0;
+        for (var i=0; i<newText.length; i++) if (newText.charAt(i)=='\r') delta++;
+        range.moveStart("character", -close.length-text.length-open.length+delta);
+        range.moveEnd("character", -0);
+      } else {
+        range.moveEnd("character", -close.length);
+      }
+      if (!this.collapseAfterInsert) range.select();
+    } else if (t.setSelectionRange) {
+      var start = t.selectionStart;
+      var end   = t.selectionEnd;
+      var top   = t.scrollTop;
+      var sel1  = t.value.substr(0, start);
+      var sel2  = t.value.substr(end);
+      var sel   = fTrans(t.value.substr(start, end-start));
+      var inner = open + sel + close;
+      t.value   = sel1 + inner + sel2;
+      if (sel != '') {
+        t.setSelectionRange(start, start+inner.length);
+        notEmpty = true;
+      } else {
+        t.setSelectionRange(start+open.length, start+open.length);
+        notEmpty = false;
+      }
+      t.scrollTop = top;
+      if (this.collapseAfterInsert) t.setSelectionRange(start+inner.length, start+inner.length);
+    } else {
+      t.value += open + text + close;
+    }
+    this.collapseAfterInsert = false;
+    return notEmpty;
+  },
+
+  // Internal function for cross-browser event cancellation.
+  _cancelEvent: function(e) {
+    if (e.preventDefault) e.preventDefault();
+    if (e.stopPropagation) e.stopPropagation();
+    return e.returnValue = false;
+  },
+
+  // Available key combinations and these interpretaions for phpBB are
+  //     TAB              - Insert TAB char
+  //     CTRL-TAB         - Next form field (usual TAB)
+  //     ALT-ENTER        - Preview
+  //     CTRL-ENTER       - Submit
+  // The values of virtual codes of keys passed through event.keyCode are
+  // Rumata, http://forum.dklab.ru/about/todo/BistrieKlavishiDlyaOtpravkiForm.html
+  onKeyPress: function(e, type) {
+    // Try to match all the hot keys.
+    var key = String.fromCharCode(e.keyCode? e.keyCode : e.charCode);
+    for (var id in this.tags) {
+      var tag = this.tags[id];
+      // Pressed control key?..
+      if (tag.ctrlKey && !e[tag.ctrlKey+"Key"]) continue;
+      // Pressed needed key?
+      if (!tag.key || key.toUpperCase() != tag.key.toUpperCase()) continue;
+      // OK. Insert.
+      if (e.type == "keydown") this.insertTag(id);
+      // Reset event.
+      return this._cancelEvent(e);
+    }
+
+    // Ctrl+Tab.
+    if (e.keyCode == this.VK_TAB && !e.shiftKey && e.ctrlKey && !e.altKey) {
+      this.textarea.form.post.focus();
+      return this._cancelEvent(e);
+    }
+
+    // Hot keys (PHPbb-specific!!!).
+    var form = this.textarea.form;
+    var submitter = null;
+    if (e.keyCode == this.VK_ENTER && !e.shiftKey && !e.ctrlKey && e.altKey)
+      submitter = form.preview;
+    if (e.keyCode == this.VK_ENTER && !e.shiftKey && e.ctrlKey && !e.altKey)
+      submitter = form.post;
+    if (submitter && !this.hotKeyClicked) {
+			this.hotKeyClicked = true;
+      submitter.click();
+      return this._cancelEvent(e);
+    }
+
+    return true;
+  },
+
+  // Adds a BB tag to the list.
+  addTag: function(id, open, close, key, ctrlKey, multiline) {
+    if (!ctrlKey) ctrlKey = "ctrl";
+    var tag = new Object();
+    tag.id        = id;
+    tag.open      = open;
+    tag.close     = close;
+    tag.key       = key;
+    tag.ctrlKey   = ctrlKey;
+    tag.multiline = multiline;
+    tag.elt       = this.textarea.form[id]
+    this.tags[id] = tag;
+    // Setup events.
+    var elt = tag.elt;
+    if (elt) {
+      var th = this;
+      if (elt.type && elt.type.toUpperCase()=="BUTTON") {
+        addEvent(elt, 'click', function() { th.insertTag(id); return false; });
+      }
+      if (elt.tagName && elt.tagName.toUpperCase()=="SELECT") {
+        addEvent(elt, 'change', function() { th.insertTag(id); return false; });
+      }
+    } else {
+      if (id && id.indexOf('_') != 0) return alert("addTag('"+id+"'): no such element in the form");
+    }
+  },
+
+  // Inserts the tag with specified ID.
+  insertTag: function(id) {
+    // Find tag.
+    var tag = this.tags[id];
+    if (!tag) return alert("Unknown tag ID: "+id);
+
+    // Open tag is generated by callback?
+    var op = tag.open;
+    if (typeof(tag.open) == "function") op = tag.open(tag.elt);
+    var cl = tag.close!=null? tag.close : "/"+op;
+
+    // Use "[" if needed.
+    if (op.charAt(0) != this.BRK_OP) op = this.BRK_OP+op+this.BRK_CL;
+    if (cl && cl.charAt(0) != this.BRK_OP) cl = this.BRK_OP+cl+this.BRK_CL;
+
+    this.surround(op, cl, !tag.multiline? null : tag.multiline===true? this._prepareMultiline : tag.multiline);
+  },
+
+  _prepareMultiline: function(text) {
+    text = text.replace(/\s+$/, '');
+    text = text.replace(/^([ \t]*\r?\n)+/, '');
+    if (text.indexOf("\n") >= 0) text = "\n" + text + "\n";
+    return text;
+  }
 
-	
-	//-------------------------------------------------------
-	//	  texturing functions
-	//-------------------------------------------------------
-
-      __HANDLE_DLL_ENTRY(D3DXCheckCubeTextureRequirements) 
-      __HANDLE_DLL_ENTRY(D3DXCheckTextureRequirements) 
-      __HANDLE_DLL_ENTRY(D3DXCheckVolumeTextureRequirements) 
-      __HANDLE_DLL_ENTRY(D3DXComputeNormalMap) 
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTexture) 
-
-
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromFileA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromFileW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromFileExA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromFileExW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromFileInMemory) 
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromFileInMemoryEx) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromResourceA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromResourceW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromResourceExA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateCubeTextureFromResourceExW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateTexture) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromFileA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromFileW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromFileExA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromFileExW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromFileInMemory) 
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromFileInMemoryEx) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromResourceA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromResourceW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromResourceExA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateTextureFromResourceExW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTexture) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromFileA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromFileW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromFileExA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromFileExW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromFileInMemory) 
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromFileInMemoryEx) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromResourceA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromResourceW) 
-
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromResourceExA) 
-      __HANDLE_DLL_ENTRY(D3DXCreateVolumeTextureFromResourceExW) 
-
-      __HANDLE_DLL_ENTRY(D3DXFillCubeTexture) 
-      __HANDLE_DLL_ENTRY(D3DXFillCubeTextureTX) 
-      __HANDLE_DLL_ENTRY(D3DXFillTexture) 
-      __HANDLE_DLL_ENTRY(D3DXFillTextureTX) 
-      __HANDLE_DLL_ENTRY(D3DXFillVolumeTexture) 
-      __HANDLE_DLL_ENTRY(D3DXFillVolumeTextureTX) 
-      __HANDLE_DLL_ENTRY(D3DXFilterTexture) 
-
-      __HANDLE_DLL_ENTRY(D3DXGetImageInfoFromFileA) 
-      __HANDLE_DLL_ENTRY(D3DXGetImageInfoFromFileW) 
-
-      __HANDLE_DLL_ENTRY(D3DXGetImageInfoFromFileInMemory) 
-
-      __HANDLE_DLL_ENTRY(D3DXGetImageInfoFromResourceA) 
-      __HANDLE_DLL_ENTRY(D3DXGetImageInfoFromResourceW) 
-
-
-      __HANDLE_DLL_ENTRY(D3DXLoadSurfaceFromFileA) 
-      __HANDLE_DLL_ENTRY(D3DXLoadSurfaceFromFileW) 
-
-      __HANDLE_DLL_ENTRY(D3DXLoadSurfaceFromFileInMemory) 
-
-      __HANDLE_DLL_ENTRY(D3DXLoadSurfaceFromMemory) 
-
-      __HANDLE_DLL_ENTRY(D3DXLoadSurfaceFromResourceA) 
-      __HANDLE_DLL_ENTRY(D3DXLoadSurfaceFromResourceW) 
-
-      __HANDLE_DLL_ENTRY(D3DXLoadSurfaceFromSurface) 
-
-      __HANDLE_DLL_ENTRY(D3DXLoadVolumeFromFileA) 
-      __HANDLE_DLL_ENTRY(D3DXLoadVolumeFromFileW) 
-
-      __HANDLE_DLL_ENTRY(D3DXLoadVolumeFromFileInMemory) 
-      __HANDLE_DLL_ENTRY(D3DXLoadVolumeFromMemory) 
-
-      __HANDLE_DLL_ENTRY(D3DXLoadVolumeFromResourceA) 
-      __HANDLE_DLL_ENTRY(D3DXLoadVolumeFromResourceW) 
- 
-
-      __HANDLE_DLL_ENTRY(D3DXLoadVolumeFromVolume) 
- 
-
-      __HANDLE_DLL_ENTRY(D3DXSaveSurfaceToFileA) 
- 
-      __HANDLE_DLL_ENTRY(D3DXSaveSurfaceToFileW) 
- 
-
-      __HANDLE_DLL_ENTRY(D3DXSaveSurfaceToFileInMemory) 
- 
-
-      __HANDLE_DLL_ENTRY(D3DXSaveTextureToFileA) 
- 
-      __HANDLE_DLL_ENTRY(D3DXSaveTextureToFileW) 
- 
-
-      __HANDLE_DLL_ENTRY(D3DXSaveTextureToFileInMemory) 
- 
-
-      __HANDLE_DLL_ENTRY(D3DXSaveVolumeToFileA) 
- 
-      __HANDLE_DLL_ENTRY(D3DXSaveVolumeToFileW) 
- 
-
-      __HANDLE_DLL_ENTRY(D3DXSaveVolumeToFileInMemory) 
- 
-
-
- int _end_func = 0;
-
-
-	
-
- // ok
- 
-  return 0;
 }
 
+// Called before form submitting.
+function checkForm(form) {
+  var formErrors = false;
+  if (form.message.value.length < 2) {
+    formErrors = "Please enter the message.";
+  }
+  if (formErrors) {
+    setTimeout(function() { alert(formErrors) }, 100);
+    return false;
+  }
+  return true;
+}
 
+// Emulation of innerText for Mozilla.
+if (window.HTMLElement && window.HTMLElement.prototype.__defineSetter__) {
+  HTMLElement.prototype.__defineSetter__("innerText", function (sText) {
+     this.innerHTML = sText.replace(/\&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  });
+  HTMLElement.prototype.__defineGetter__("innerText", function () {
+     var r = this.ownerDocument.createRange();
+     r.selectNodeContents(this);
+     return r.toString();
+  });
+}
 
+function AddSelectedText(BBOpen, BBClose) {
+ if (document.post.message.caretPos) document.post.message.caretPos.text = BBOpen + document.post.message.caretPos.text + BBClose;
+ else document.post.message.value += BBOpen + BBClose;
+ document.post.message.focus()
+}
 
-//==============================================================
+function InsertBBCode(BBcode)
+{
+	AddSelectedText('[' + BBcode + ']','[/' + BBcode + ']');
+}
+
+function storeCaret(textEl) {
+	if (textEl.createTextRange) textEl.caretPos = document.selection.createRange().duplicate();
+}
+
+// Translit START
+
+// One character letters
+var t_table1 = "ABVGDEZIJKLMNOPRSTUFXHCYWabvgdezijklmnoprstufxhcyw'#";
+var w_table1 = "¿¡¬√ƒ≈«»… ÀÃÕŒœ–—“”‘’’÷€Ÿ‡·‚„‰ÂÁËÈÍÎÏÌÓÔÒÚÛÙııˆ˚˘¸˙";
+
+// Two character letters
+var t_table2 = "EHSZYOJOZHCHSHYUJUYAJAehszyojozhchshyujuyajaEhSzYoJoZhChShYuJuYaJa";
+var w_table2 = "›Ÿ®®∆◊ÿﬁﬁﬂﬂ˝˘∏∏Ê˜¯˛˛ˇˇ›Ÿ®®∆◊ÿﬁﬁﬂﬂ";
+
+var tagArray = [
+	'code',  '',
+	'img',   '',
+	'quote', "(=[\"']?[^"+String.fromCharCode(92,93)+"]+)?",
+	'email', "(=[\"']?[a-zA-Z0-9_.-]+@?[a-zA-Z0-9_.-]+[\"']?)?",
+	'url',   "(=[\"']?[^ \"'"+String.fromCharCode(92,93)+"]*[\"']?)?"
+];
+
+function translit2win (str)
+{
+  var len = str.length;
+  var new_str = "";
+
+  for (i = 0; i < len; i++)
+  {
+  /* non-translatable text must be in ^ */
+  if(str.substr(i).indexOf("^")==0){
+    end_len=str.substr(i+1).indexOf("^")+2;
+    if (end_len>1){
+      new_str+=str.substr(i,end_len);
+      i += end_len - 1;
+      continue;
+    }
+  }
+
+  /* Skipping emoticons */
+  if(str.substr(i).indexOf(":")==0){
+    iEnd = str.substr(i+1).indexOf(":")+2;
+    if (iEnd > 1 && str.substr(i,iEnd).match("^:[a-zA-Z0-9]+:$")){
+      new_str += str.substr(i,iEnd);
+      i += iEnd - 1;
+      continue;
+    }
+  }
+
+  /* Skipping http|news|ftp:/.../ links */
+  rExp = new RegExp("^((http|https|news|ftp|ed2k):\\/\\/[\\/a-zA-Z0-9%_?.:;&#|\(\)+=@-]+)","i");
+  if (newArr = str.substr(i).match(rExp)){
+    new_str += newArr[1];
+    i += newArr[1].length - 1;
+    continue;
+  }
+
+  /* Skipping FONT, COLOR, SIZE tags */
+  rExp = new RegExp("^(\\[\\/?(b|i|u|s|font(=[a-z0-9]+)?|size(=[0-9]+)?|color(=#?[a-z0-9]+)?)\\])","i");
+  if (newArr = str.substr(i).match(rExp)){
+    new_str += newArr[1];
+    i += newArr[1].length - 1;
+    continue;
+  }
+
+  /* Skipping [QUOTE]..[/QUOTE], [IMG]..[/IMG], [CODE]..[/CODE], [SQL]..[/SQL], [EMAIL]..[/EMAIL] tags */
+  bSkip = false;
+  for(j = 0; j < tagArray.length; j += 2){
+    rExp = new RegExp("^(\\["+tagArray[j]+tagArray[j+1]+"\\])","i");
+    if (newArr = str.substr(i).match(rExp)){
+      rExp = new RegExp("\\[\\/" + tagArray[j] + "\\]", "i");
+      if (iEnd = str.substr(i + newArr[1].length + 2).search(rExp)){
+        end_len = iEnd + newArr[1].length + tagArray[j].length + 4;
+        new_str += str.substr(i,end_len);
+        i += end_len - 1;
+        bSkip = true;
+      }
+    }
+    if(bSkip)break;
+  }
+  if(bSkip)continue;
+
+  // Check for 2-character letters
+  is2char=false;
+  if (i < len-1) {
+   for(j = 0; j < w_table2.length; j++)
+   {
+    if(str.substr(i, 2) == t_table2.substr(j*2,2)) {
+     new_str+= w_table2.substr(j, 1);
+     i++;
+     is2char=true;
+     break;
+    }
+   }
+  }
+
+  if(!is2char) {
+    // Convert one-character letter
+    var c = str.substr(i, 1);
+    var pos = t_table1.indexOf(c);
+    if (pos < 0)
+      new_str+= c;
+    else
+      new_str+= w_table1.substr(pos, 1);
+  }
+ }
+
+//  document.REPLIER.Post.focus();
+  return new_str;
+}
+
+function transliterate (msg, e)
+{
+	if (e) e.disabled = true;
+	setTimeout(function() {
+	 if (!bbcode.surround('', '', translit2win)) {
+			msg.value = translit2win(msg.value);
+		}
+		if (e) e.disabled = false;
+	}, 1);
+}
+
+// Translit END
+                                                      ======
 
 
 #endif // #if ( defined(WIN32) && defined(GB_D3D9) )
