@@ -13,9 +13,11 @@ namespace gb
  namespace graphics
  {
 
-  //! \brief Семантики(смысл) параметров отрисовки. Аналогично семантикам праметров RenderMonkey
   namespace value_semantic
-  {  
+  { 
+
+   namespace names
+   {
   
 //---------------------------------------------------------------  
   
@@ -350,7 +352,7 @@ static const char*    TXTR_ENVIRMAP4     =    "ENVIRONMENTTEXTURE";
 // 
      #define  STRING_COUNT   6
 static const char*   STRING_FILENAME       =    "FILENAME";
-static const char*   STRING_MODELDATA      =    "MODELDATA"
+static const char*   STRING_MODELDATA      =    "MODELDATA";
 static const char*   STRING_RESOURCENAME   =    "RESOURCENAME";
 
 
@@ -364,7 +366,8 @@ static const char*   STRING_RESOURCETYPE   =	 "RESOURCETYPE";
  
   
 //---------------------------------------------------------------   
-  
+ 
+   }
   }
  }
 }
