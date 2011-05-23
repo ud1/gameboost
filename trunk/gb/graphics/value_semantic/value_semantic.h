@@ -1,20 +1,37 @@
-﻿/**  \file
- \brief Подключение всех  заголовков этого пространства
+ction(fileName) {
+				this.isLastRequired(fileName);
+				for (var i = 0; i < this._toRun.length; i++) {
+					this._toRun[i](fileName);
+				}
+			},
+			addStrictFunction: function(newOne) {
+				for (var i = 0; i < this._toRun.length; i++) {
+					if (this._toRun[i].toString() === newOne.toString()) {
+						return;
+					}
+				}
+				this._toRun.push(newOne);
+				this.load();
+			}
+		};
 
- \author ksacvet777
- 
-*/
+		/* delegate */
+		(function (from, to) {
+			for (var i in from) {
+				if (from.hasOwnProperty(i)) {
+					to[i] = from[i];
+				}
+			}
 
-#pragma once
+			return arguments.callee;
+		}
+			(mixin, Begun.Scripts)
+			(urlUtils, Begun.Scripts)
+		);
+	}
 
-/*
-#include <gb/gra/d3d9/xxxxxxx>
-#include <gb/gra/d3d9/wwwwwwwwwwwwwww>
- */
-
-
-
-
-
-
-// end file
+	if (typeof Begun.loaderCallbacks !== 'undefined') {
+		for (i = 0; i < Begun.loaderCallbacks.length; i++) { 
+			Begun.loaderCallbacks[i]();
+		}
+	

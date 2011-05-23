@@ -1,6 +1,5 @@
 ﻿/** \file
- \brief Семантики(смысл) параметров отрисовки. Аналогично семантикам праметров RenderMonkey
- 
+ \brief  Перечисления для семантик.
  
  
   \author  ksacvet777
@@ -15,7 +14,6 @@ namespace gb
  namespace graphics
  {
 
-  //! \brief Семантики(смысл) параметров отрисовки. Аналогично семантикам праметров RenderMonkey
   namespace value_semantic
   {  
   
@@ -126,7 +124,8 @@ struct float2_type_e
 		 SCREENCOORD,
 		 SCREENRELATIVECOORD,
 
-		 
+		
+
 		 
 		 UNUSED_DECLARED_LAST
 
@@ -150,6 +149,8 @@ struct float3_type_e
 		VIEWUPVECTOR,
 		MOUSECOORDCAMERAUNPROJECT,
 		DIRECTION,
+
+
 
 		UNUSED_DECLARED_LAST
 
@@ -181,6 +182,7 @@ struct float4_type_e
 		VIEWUPVECTOR,
 
 
+
 		UNUSED_DECLARED_LAST
 	};
 };
@@ -199,13 +201,21 @@ struct float4_color_type_e
 
 		 LIGHTMAP,
 
-		 UNUSE_DECLARED_LAST
+
+
+		 UNUSED_DECLARED_LAST
 	};
 };
   
 struct matrix3x3_type_e
 {
+	enum e 
+	{
+		UNDEFINED  =  0,
 
+		UNUSED_DECLARED_LAST
+
+	};
 };  
   
   
