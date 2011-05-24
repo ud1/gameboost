@@ -13,7 +13,7 @@
 */
  
 
-#include <ddraw.h>
+//#include <ddraw.h>
 #include <dxgitype.h>
 #include <d3d9.h>
 

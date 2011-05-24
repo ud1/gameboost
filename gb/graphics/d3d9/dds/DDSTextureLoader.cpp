@@ -7,9 +7,12 @@
  
 */
 
-#include "stdafx.h"
- 
-#include <DDraw.h>
+#include "d3d9pch.h"
+
+// исключено 
+//#include <DDraw.h>
+#include <ce/add_system/ddraw.h> 
+
 #include <gb/graphics/d3d9/dds/DDSTextureLoader.h>
 #include <gb/graphics/d3d9/dds/ddsurfacedesc2_32bit.h>
 

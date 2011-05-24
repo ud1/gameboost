@@ -1,9 +1,10 @@
 
 
-#include "stdafx.h"
+#include "d3d9pch.h"
 //#include "pch.h"
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
+ 
 
 //#include "Z:\\CODE_EXPERIMENT\\newd9r\\ApplD3D9.h"
 //#include "dxut.h"

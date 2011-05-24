@@ -27,6 +27,9 @@
   #include <gb/fmath/fmath.h>
 #endif
 
+#ifdef GB_D3DX9
+  #include <d3dx9.h>
+#endif
 
 #include  <gb/graphics/d3d9/api_decl.h>
 

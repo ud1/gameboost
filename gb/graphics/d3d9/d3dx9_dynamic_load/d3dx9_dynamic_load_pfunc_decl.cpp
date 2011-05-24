@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "d3d9pch.h"
 
 
 
@@ -29,15 +29,45 @@ int gb::graphics::d3d9::d3dx9_dynamic_load::Functions::GetProcAddr(const HMODULE
 
 
    int _begin = 0;
+
+   // #error ПЕРЕДЕЛАТЬ !  НЕ все функции ищет  .. Точки входа.	
    
   __HANDLE_DLL_ENTRY(D3DXCheckVersion) 						
-						
+			
+
+	  //------------------------------------------------------------
+	  //           Animation Functions
+	  //------------------------------------------------------------
+
+
+
+	__HANDLE_DLL_ENTRY(D3DXCreateAnimationController)
+	__HANDLE_DLL_ENTRY(D3DXCreateCompressedAnimationSet)
+	__HANDLE_DLL_ENTRY(D3DXCreateKeyframedAnimationSet)
+	__HANDLE_DLL_ENTRY(D3DXFrameAppendChild)
+	__HANDLE_DLL_ENTRY(D3DXFrameCalculateBoundingSphere)
+	__HANDLE_DLL_ENTRY(D3DXFrameDestroy)
+	__HANDLE_DLL_ENTRY(D3DXFrameFind)
+	__HANDLE_DLL_ENTRY(D3DXFrameNumNamedMatrices)
+	__HANDLE_DLL_ENTRY(D3DXFrameRegisterNamedMatrices)
+
+	__HANDLE_DLL_ENTRY(D3DXLoadMeshHierarchyFromXA)
+	__HANDLE_DLL_ENTRY(D3DXLoadMeshHierarchyFromXW)
+
+	__HANDLE_DLL_ENTRY(D3DXLoadMeshHierarchyFromXInMemory)
+
+	__HANDLE_DLL_ENTRY(D3DXSaveMeshHierarchyToFileA)
+	__HANDLE_DLL_ENTRY(D3DXSaveMeshHierarchyToFileW)
+
+
+
+
 						
         //------------------------------------------------------------
         //          General Purpose Functions
         //------------------------------------------------------------
 		
-	#error ПЕРЕДЕЛАТЬ !  НЕ все функции ищет  .. Точки входа.	
+	
 
 
   __HANDLE_DLL_ENTRY(D3DXCreateBuffer)
@@ -108,6 +138,32 @@ int gb::graphics::d3d9::d3dx9_dynamic_load::Functions::GetProcAddr(const HMODULE
         __HANDLE_DLL_ENTRY(D3DXValidMesh)       
         __HANDLE_DLL_ENTRY(D3DXValidPatchMesh)
         __HANDLE_DLL_ENTRY(D3DXWeldVertices)
+
+
+        //------------------------------------------------------------
+        //       Precomputed Radiance Transfer Functions
+        //------------------------------------------------------------
+
+ __HANDLE_DLL_ENTRY(D3DXCreatePRTBuffer)
+ __HANDLE_DLL_ENTRY(D3DXCreatePRTBufferTex) 
+ __HANDLE_DLL_ENTRY(D3DXCreatePRTCompBuffer) 
+ __HANDLE_DLL_ENTRY(D3DXCreatePRTEngine)
+ __HANDLE_DLL_ENTRY(D3DXCreateTextureGutterHelper)
+
+ __HANDLE_DLL_ENTRY(D3DXLoadPRTBufferFromFileA)
+ __HANDLE_DLL_ENTRY(D3DXLoadPRTBufferFromFileW)
+
+ __HANDLE_DLL_ENTRY(D3DXLoadPRTCompBufferFromFileA)
+ __HANDLE_DLL_ENTRY(D3DXLoadPRTCompBufferFromFileW)
+
+ __HANDLE_DLL_ENTRY(D3DXSavePRTBufferToFileA) 
+ __HANDLE_DLL_ENTRY(D3DXSavePRTBufferToFileW) 
+
+ __HANDLE_DLL_ENTRY(D3DXSavePRTCompBufferToFileA)
+ __HANDLE_DLL_ENTRY(D3DXSavePRTCompBufferToFileW)
+
+ __HANDLE_DLL_ENTRY(D3DXSHPRTCompSplitMeshSC) 
+ __HANDLE_DLL_ENTRY(D3DXSHPRTCompSuperCluster)
 
 
 
@@ -312,6 +368,19 @@ int gb::graphics::d3d9::d3dx9_dynamic_load::Functions::GetProcAddr(const HMODULE
       __HANDLE_DLL_ENTRY(D3DXSaveVolumeToFileInMemory) 
  
 
+	 //-----------------------------------------------------
+	 //	   UVAtlas Functions
+	 //-----------------------------------------------------
+
+__HANDLE_DLL_ENTRY(D3DXUVAtlasCreate)
+__HANDLE_DLL_ENTRY(D3DXUVAtlasPack)
+__HANDLE_DLL_ENTRY(D3DXUVAtlasPartition)
+__HANDLE_DLL_ENTRY(D3DXComputeIMTFromPerVertexSignal)
+__HANDLE_DLL_ENTRY(D3DXComputeIMTFromPerTexelSignal)
+__HANDLE_DLL_ENTRY(D3DXComputeIMTFromSignal)
+__HANDLE_DLL_ENTRY(D3DXComputeIMTFromTexture)
+ 
+ 
 
  int _end_func = 0;
 

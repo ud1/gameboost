@@ -5,7 +5,7 @@
 */
 
 
-#include "stdafx.h"
+#include "d3d9pch.h"
 
 #include  <gb/graphics/d3d9/mdxutgui/mdxutgui.h>
 
