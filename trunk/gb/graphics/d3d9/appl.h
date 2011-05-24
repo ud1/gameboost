@@ -12,14 +12,19 @@
 
 #pragma once
 
+#include <gb/graphics/d3d9/d3d9.h>
+#include <gb/graphics/d3d9/auto_include_libr.h>
+
+
 #ifndef _WINDOWS_
     #error WINDOWS.H MOST INCLUDED
 #endif
+  
 
 //#include <windows.h>
-//#include <mmsystem.h>
 
-#include <gb/graphics/d3d9/d3d9.h>
+
+
 //#include <d3d9.h>
 
 
@@ -27,10 +32,14 @@
 #include <gb/system/winappl.h>
 #include <gb/graphics/d3d9/common.h>
 
-
+ // temp !!
 #ifdef GB_D3DX9
   #include <d3dx9.h>
   #include <d3dx9Core.h>
+#endif
+
+#ifndef __D3DX9_H__
+#error d3dx9.h need
 #endif
 
 #include <stdexcept>

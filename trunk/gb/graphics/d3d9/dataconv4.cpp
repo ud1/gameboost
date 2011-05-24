@@ -1,5 +1,4 @@
-
-//#include "stdafx.h" 
+#include "d3d9pch.h"
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
