@@ -1,115 +1,81 @@
-﻿// Перечисление c++ в строку
+﻿/**    Перечисление c++ в строку
+ **    Скопировать перечисление в буфер . 
+ **    Затем запустить программу. 
+ **    Программа создаст временный файл с функциями 
+ **    преобразование перечисления в строку/ из строки.
+ **    
+ **    
+ **    
+ **    */
 
 
- 
 
 #include <gb/str/String.h>
+#include <gb/makecppcode/makecppcode.h>
+using namespace gb::makecppcode;
+
+#include <windows.h>
+#include <gb/clipboard/clipboard.h>
 
 namespace ss = gb::str;
+using namespace std;
 
-std::string make_decl_h()
-{
-	std::string res ;
-	 res += "\n";
-	 res += "//----------------------------------------------------\n";
-	 res += "//                        H\n";
-	 res += "//----------------------------------------------------\n";
-	 res += "\n";
-	return res;
-}
+// открывает файл с заданной программой .
+ int OpenFileWithApplA(const char* fname) {
+	HINSTANCE hi =  ShellExecuteA(
+		NULL, //__in_opt  HWND hwnd,
+		"open", //, __in_opt  LPCTSTR lpOperation,
+		fname, //__in      LPCTSTR lpFile,
+		NULL, //__in_opt  LPCTSTR lpParameters,
+		NULL, //__in_opt  LPCTSTR lpDirectory,
+		SW_SHOW //, //__in      INT nShowCmd
+		);
 
-std::string make_decl_cpp()
-{
-	std::string res ;
+	if(hi > (HINSTANCE)32) 
+		return 0;
+
+	return 0-1;
+};
  
-	 res += "\n";
-	 res += "//----------------------------------------------------\n";
-	 res += "//                       CPP\n";
-	 res += "//----------------------------------------------------\n";
-	 res += "\n";
 
-
-	return res;
-}
-
-
-
-std::string make_code_tostr(bool bDeclOnly,  const std::vector<std::string>& vitems)
+std::string make_code_tostr(  const std::vector<std::string>& vitems)
 {
 	std::string res = "";
-	
- //res += make_decl_h();
 
-	if(bDeclOnly)
-	{
-     res += "std::string myenum_tostr(const myenum val);\n";
-	 return res;
-	}
-
-
- res += make_decl_cpp();
-
-
-  // begin function 
-  res += "std::string myenum_tostr(const myenum val)\n";
-  res += "{\n";
-  res += "   std::string result = \"\";\n\n";
-
+  res += "   std::string result;\n\n";
 
     // begin switch
 	  res += "   switch(val) \n";
 	  res += "  {\n\n";
 
-	for(size_t c=0; c<vitems.size(); c++)
-	{
+	  for(size_t c=0; c<vitems.size(); c++)
+	  {
+		  // case item
+		  res += " case "; 
+		  res += vitems[c]; 
+		  res += ": \n";
 
-	  // case item
-	  res += " case "; 
-	  res += vitems[c]; 
-	  res += ": \n";
-
-	  res += "   {\n";    
-		res += "    result = \"";  res +=  vitems[c];  res += "\";\n";
-	  res += "   }\n    break;\n\n";
-
-
-     }// for
+		  res += "   {\n";    
+		  res += "    result = \"";  res +=  vitems[c];  res += "\";\n";
+		  res += "   }\n    break;\n\n";
+	  }
 
 	  // switch default:
   res += "  default:  {  \n\n\n     }\n";
 
-
-
 	  // end switch
   res += "  }\n\n";
 
-
    // end func
   res += "    return result;\n";
-  res += "};\n";
 
   return res;
 }
 
-std::string make_code_fromstr(bool bDeclOnly,  const std::vector<std::string>& vitems)
+std::string make_code_fromstr( const std::vector<std::string>& vitems)
 {
 	std::string res;
-	res += "\n\n";
-
-
- //  res += make_decl_h();
-	if(bDeclOnly)
-	{
-      res += "bool myenum_fromstr(myenum& valOut, const std::string& str);\n";
-	  return res;
-	};
-
-
-
-   	res += "\n\n";
-
-   res += "bool myenum_fromstr(myenum& valOut, const std::string& str)\n";
-   res += "{\n";
+	res += "\n";
 
    for(size_t c=0; c<vitems.size(); c++)
    {
@@ -125,70 +91,145 @@ std::string make_code_fromstr(bool bDeclOnly,  const std::vector<std::string>& v
    res += "    }\n\n";
 
    }
-   // if
-
 
    res += "    return false;\n";
-   res += "};\n\n";
 
   return res;
 }
 
+
+bool __extractEnum(vector<string>& vEnumItems, string& enumName, const string& strArg)
+{
+  vEnumItems.clear();
+  enumName = "";
+
+  string str = strArg;
+  ss::preprocessCppComments(str);
+
+  std::string sEnumLine ;
+  int32_t posit = 0;
+  if(!ss::findSubstringBetween(sEnumLine,	  str, '{', '}',   posit ))
+  {
+	  printf("not found ! ");
+	  return  false;
+  }
+
+  ss::ksSplit(vEnumItems,  sEnumLine, ',', true );
+
+
+  if(vEnumItems.size() == 0)
+  {
+	  printf("Enum not found \n");
+	  return false;
+  }
+
+ 
+  // trim vector
+  std::string temp, t2;
+
+  for(size_t c=0 ;c<vEnumItems.size(); c++)
+  {
+	  t2 = "";
+	  temp = vEnumItems[c];
+	  for(size_t j=0; j<temp.length(); j++)
+	  {
+		  char curr = temp[j];
+		  if(curr == '=')
+		  {
+			 break;
+		  }
+
+		   t2 += curr;
+	  }
+	 // temp = vEnumItems[c];
+	  ss::trim(t2);
+	  vEnumItems[c] = t2;
+  }
+
+
+  // хз пока как  извлекать имя
+  enumName = "myenum";
+
+
+   return true;
+}
 
 
 //=================================================
 int   main(int argc,   char* argv[])
 {
 
-	std::string  str  = "  enum myenum { one, two, three, four  }; " ;
-	
-	ss::preprocessCppComments(str);
-
-	std::string sEnumLine ;
-	int32_t posit = 0;
-	if(!ss::findSubstringBetween(sEnumLine,	  str, '{', '}',   posit ))
-	{
-	  printf("not found ! ");
-	  return -1;
-	
-	}
-
+	std::string  str ;
 	std::vector<std::string> vec_items;
-	ss::ksSplit(vec_items,  sEnumLine, ',', true );
 
-	if(vec_items.size() == 0)
+	if(0)
+	{	// test 
+		str = "  enum myenum { one, two, three, four  }; " ;
+	}
+
+	if(! gb::clipboard::readTextFromClipBoardA(str))
 	{
-	 printf("Enum not found \n");
+		printf("\n Error read text from clipboard \n\n");
+		Sleep(1000);
+		return -1;
+	}
+
+	if(str.length()==0)
+	{
+		printf("\n Clipboard empty ! \n");
+		Sleep(1000);
+		return -1;
+	}
+	
+  string enumName;
+ if(!__extractEnum(vec_items, enumName, str))
+ {
+	 printf(" Error extract enum! ");
+	 Sleep(1000);
 	 return -1;
-	}
+ }
 
-	// trim vector
-	std::string temp;
-	for(size_t c=0 ;c<vec_items.size(); c++)
-	{
-	  temp = vec_items[c];
-	  ss::trim(temp);
-	   vec_items[c] = temp;
-	}
+ if(vec_items.size() == 0)
+ {
+    printf("\n   Enum not found ! \n");
+	 Sleep(1000);
+	 return  -1;
+ }
 
-	printf("  \n\n  Found items:  \n");
-	for(int c=0; c<vec_items. size(); c++)
-	{
+	
+ printf("  \n\n  Found items:  \n");
+ for(size_t c=0; c<vec_items. size(); c++)
+ {
 	 printf("%s\n",  vec_items.at(c).c_str() );
-	}
+ }	
+ 
+   const string sFuncName_tostr = enumName + "_tostr";
+   const string sFuncName_formstr = enumName + "_formstr";
+
+   CppHeaderFile* ph = new CppHeaderFile("temp.h", "");
 
 
+   CppFunction* pfunc_tostr = ph->AddFunction(sFuncName_tostr, "std::string",
+	   "enum to string",  make_code_tostr( vec_items) );
 
-   int _stop = 0;
+  pfunc_tostr->AddParameter("const " + enumName, "val");
 
 
-   std::string scode = make_code_tostr(vec_items);
+   CppFunction* pfunc_fromstr = ph->AddFunction(sFuncName_formstr,
+	 "bool", "enum from string", make_code_fromstr( vec_items)  
+	   );
+   pfunc_fromstr->AddParameter(enumName+"&", "valOut"  );
+   pfunc_fromstr->AddParameter("const std::string&", "str");
 
-   scode += "\n\n//*******************************\n\n"	;
-   scode += make_code_fromstr(vec_items);
+	//ph->MakeFullText();	
 
-   ss::saveStrToFileA(scode, "z:\\temp\\enum_code.h"  );
 
+   ph->Save();
+
+   delete ph;
+   ph = NULL;
+
+  OpenFileWithApplA( "temp.h"  );
 
 	return 0;
 }

@@ -36,19 +36,20 @@ using   std::string;
 
 #pragma  warning( push )
 #pragma  warning(disable : 4996)
+#pragma  warning(disable : 4297) // trow warning
 
-static const char  SC_BOOLEAN[]   = "bool";
-static const char  SC_VOID[]      = "void";
-static const char  SC_INT[]       = "int";
-static const char  SC_UINT[]      = "unsigned int";
-static const char  SC_LONG[]      = "long";
-static const char  SC_ULONG[]     = "unsigned long";
-static const char  SC_FLOAT[]     = "float";
+static const char*  SC_BOOLEAN     =  "bool";
+static const char*  SC_VOID        =  "void";
+static const char*  SC_INT         =  "int";
+static const char*  SC_UINT        =  "unsigned int";
+static const char*  SC_LONG        =  "long";
+static const char*  SC_ULONG       =  "unsigned long";
+static const char*  SC_FLOAT       =  "float";
 
-static const char  SC_HRESULT[]    = "HRESULT";
+static const char  SC_HRESULT[]    =  "HRESULT";
 
  
-// temp
+ 
 
 template <class T, bool owned>
 //! \brief Простой вектор для указателей с самоудалением. вместо бустовского.
@@ -58,17 +59,17 @@ public:
 
 	 vector_pointers() {}
 	~vector_pointers()
-	{
-		if(!owned) 
-			return ;
+	 {
+		if(!owned) return ;
+
 	  for(size_t c=0; c<size(); c++)
 	  {
 		  T* p = at(c);
-		  delete p;
+		  if(p) delete p;
 	  }
 
 	  clear();
-	}
+	 }
 
 
 
@@ -235,7 +236,7 @@ public:
 	{
 	  std::string s;
 		 s += MakeDeclarationString(false, szLineBeforeName);
-		 s += "{\n";
+		 s += "\n{\n";
 		 s += GetCodeText();
 		 s += "\n};\n\n";
 		    return s ;
@@ -632,13 +633,6 @@ std::string MakeFullText();
 long Save();
 
 
-static std::string MakeDivDeclString(const std::string caption) ;
-
-static std::string MakeImplemDivLine() 
-{  
-  std::string s =  "//============================================================"; 
-  return s; 
-}
  
 
 private:
@@ -659,6 +653,15 @@ private:
 };
 // end class
 
+bool saveString(std::string& s,  const char* fname);
+
+std::string MakeDivDeclString(const std::string caption) ;
+
+inline std::string MakeImplemDivLine() 
+{  
+	std::string s =  "//============================================================"; 
+	return s; 
+}
 
 
 //-------------------------------------------------------------------------
