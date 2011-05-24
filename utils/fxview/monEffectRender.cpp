@@ -1,8 +1,4 @@
-/** \file monEffectRender.cpp
- \brief тест использования материала MaterialColored
-
-
-*/
+п»ї#error РЎРўРђР Р«Р™ Р¤РђР™Р›.  Р’Р—РЇРўР¬ РЎ РќР•Р“Рћ РљРћР” 
 
 #include "stdafx.h"
 
@@ -32,7 +28,7 @@ ITX* g_pNM_normalmap   = NULL;
 
 static DAPLIB_InitData  g_InitData;
 static DAPLIB_CallBackData g_pCallBack;
-  // надо ли кидать в лог сообщения
+  // РЅР°РґРѕ Р»Рё РєРёРґР°С‚СЊ РІ Р»РѕРі СЃРѕРѕР±С‰РµРЅРёСЏ
   bool g_bneedputlog = true; 
 
 
@@ -77,7 +73,7 @@ static HRESULT __SetEffFloat(PINC context, IEFF* pEff, const Parameter* par ) {
 		sem =   par->pd.Semantic;
   int semid = GetSemanticIDbyName_float(sem);
 
-   // пока не устанавливаются...
+   // РїРѕРєР° РЅРµ СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋС‚СЃСЏ...
   return hr;
 
   if( semid <= 0 ) {
@@ -267,7 +263,7 @@ static HRESULT __SetEffTexture(PINC context, IEFF* pEff, const  Parameter* par )
 };
 
 
-// функция установки всех параметров в эффект
+// С„СѓРЅРєС†РёСЏ СѓСЃС‚Р°РЅРѕРІРєРё РІСЃРµС… РїР°СЂР°РјРµС‚СЂРѕРІ РІ СЌС„С„РµРєС‚
 HRESULT   __SetRenderEffParams(PINC context, IEFF* pEff, const D3DXMATRIX* w) {
   HRESULT hr =0;
  
