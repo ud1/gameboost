@@ -8,8 +8,8 @@
 
 #include <gb/str/String.h>
 
-#include <gb/deplib/utfcpp.sourceforge.net/utfcpp/checked.h>
-#include <gb/deplib/utfcpp.sourceforge.net/utfcpp/unchecked.h>
+#include <utfcpp/checked.h>
+#include <utfcpp/unchecked.h>
 
 
 #include <sstream>
