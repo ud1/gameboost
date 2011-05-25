@@ -18,8 +18,6 @@
 #pragma once
 
  
- //  __GB_TYPES_H__
-//#include <gb/base/Types.h>
 
 #ifndef __GB_FMATH_H__
     #error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ. ВКЛЮЧАЙТЕ:   #include <gb/fmath/math.h>  
@@ -122,7 +120,7 @@ public:
 
    inline void operator = (const  vec2& v) { _x=v.x; _y=v.y; }
 
-#ifdef __GB_TYPES_H__
+#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )
    inline void operator = (const POINT& p) { _x=(float)p.x; _y=(float)p.y; }
 #endif 
  
@@ -169,7 +167,7 @@ public:
 			inline Rect(const Rect& r) {x1=r.x1; y1=r.y1;  x2=r.x2; y2=r.y2; }
 			inline Rect(float _x1, float _y1, float _x2, float _y2) { x1=_x1; y1=_y1; x2=_x2; y2=_y2; }
 
-#ifdef __GB_TYPES_H__	
+#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )	
 			Rect(const POINT p1, const POINT p2)  
 			{ 
 				x1=(float)p1.x;  
@@ -187,7 +185,7 @@ public:
 
 
 
-#ifdef __GB_TYPES_H__	
+#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )	
 
 			inline void set(const POINT& np1, const POINT& np2) { x1=(float)np1.x; y1=(float)np1.y; x2=(float)np2.x; y2=(float)np2.y; };
 			inline void operator = (const RECT& rec) 
@@ -209,7 +207,7 @@ public:
 				return res; 
 			};  
 
-#endif // #ifdef __GB_TYPES_H__
+#endif  
 
 			//! \brief Занулить 
 			inline void setzero() { x1=y1=x2=y2=0.0; }
@@ -222,12 +220,12 @@ public:
 			//! \brief Сдвиг координат. Движение прямоугольника на значение val
 			inline void translate(const  vec2& val) { x1+=val.x; y1+=val.y;	x2+=val.x; y2+=val.y; }
 
-#ifdef __GB_TYPES_H__  
+#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )
 
 			/** \brief Движение координат на указаное значение */
 			inline void translate(const POINT& p) {  translate( (float)p.x, (float)p.y );   }
 
-#endif // #ifdef __GB_TYPES_H__ 
+#endif  
 
 
 			//! \brief Получение ширины прямоугольника  
@@ -277,7 +275,8 @@ public:
 
 			inline void setPositionTopLeft(const  vec2& v) { setPositionTopLeft(v.x,v.y); }  
 
-#ifdef __GB_TYPES_H__ 
+#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )
+
 			/** \brief Установить новую позицию по верхнему левому краю прямоугольника. 
 			        Размеры сохраняются. */
 			inline void setPositionTopLeft(const POINT& pnt) {  setPositionTopLeft((float)pnt.x, (float)pnt.y);   };

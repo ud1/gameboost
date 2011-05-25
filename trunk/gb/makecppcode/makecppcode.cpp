@@ -4,7 +4,8 @@
 #include <gb/makecppcode/makecppcode.h>
 #include <gb/system/filefunc.h>
 namespace ff = gb::system::filefunc;
-using std::string;
+
+using    std::string; ;
 
 #pragma warning(disable : 4996)
 
@@ -18,7 +19,7 @@ namespace makecppcode
 
 
 	//======================================================
-	bool saveString(std::string& s,  const char* fname)  
+	bool saveString( string & s,  const char* fname)  
 	{
 		FILE* file = fopen(fname, "w+b");
 		if(!file) return false;
@@ -36,8 +37,8 @@ namespace makecppcode
 //=============================================================
 
 //=============================================================
-std::string    CppDefine::MakeDeclarationString() const {
-	   std::string s;
+ string     CppDefine::MakeDeclarationString() const {
+	    string  s;
 	   if(m_sBrief.length() > 0)
 	   {
 		   s += "/** \\brief ";
@@ -63,8 +64,8 @@ std::string    CppDefine::MakeDeclarationString() const {
 //=============================================================
 
 //=============================================================
-std::string      CppVariable::MakeVarDeclStr() const {
-		std::string s = "";
+ string       CppVariable::MakeVarDeclStr() const {
+		 string  s = "";
 		s += m_sType;
 		s += " ";
 		s += m_sName;
@@ -96,8 +97,8 @@ std::string      CppVariable::MakeVarDeclStr() const {
 //=============================================================
 
 //=============================================================
-std::string       CppEnum::MakeDeclaration() const {
-		std::string s;
+ string        CppEnum::MakeDeclaration() const {
+		 string  s;
 		if(m_sBrief.length() > 0)
 		{
 			s += "/** \\brief ";
@@ -145,8 +146,8 @@ std::string       CppEnum::MakeDeclaration() const {
 //=======================================================
 
 //=========================================================================
-std::string  CppClassMethod::MakeDeclarationString(bool bIncBriefComment ) const {
-	    std::string s;
+ string   CppClassMethod::MakeDeclarationString(bool bIncBriefComment ) const {
+	     string  s;
 
 		s =  CppFunction::MakeDeclarationString(bIncBriefComment);
 
@@ -168,15 +169,15 @@ std::string  CppClassMethod::MakeDeclarationString(bool bIncBriefComment ) const
 };
 
 //=========================================================================
-std::string  CppClassMethod::MakeImplementationString() const {
-	std::string s = "";
+ string   CppClassMethod::MakeImplementationString() const {
+	 string  s = "";
 
 	if(m_bForceImplemIntoDecl) {
 	   return s;
 	};
 
 
-	std::string sLineBeforeName = m_pClassOwner->m_sName;
+	 string  sLineBeforeName = m_pClassOwner->m_sName;
 	sLineBeforeName += "::";
 	s =  CppFunction::MakeImplementationString(  sLineBeforeName.c_str()    );
 
@@ -196,8 +197,8 @@ std::string  CppClassMethod::MakeImplementationString() const {
 //=============================================================
 
 //=============================================================
-std::string         CppFunction::MakeDeclarationString(bool bIncBriefComment, const char* szLineBeforeName ) const {
-		  std::string s;
+ string          CppFunction::MakeDeclarationString(bool bIncBriefComment, const char* szLineBeforeName ) const {
+		   string  s;
 
 		  if(bIncBriefComment) 
 		  {
@@ -288,7 +289,7 @@ long  CppHeaderFile::Save() {
 };
 
 //=================================================================
- CppDefine*    CppHeaderFile::AddHeaderDefine(const string sDefName, 
+ CppDefine*    CppHeaderFile::AddHeaderDefineFloat(const string sDefName, 
 		const float val, const string sBrief) 
 {
    char temp[32];
@@ -299,7 +300,7 @@ long  CppHeaderFile::Save() {
 };
 
 //================================================================
- CppDefine*   CppHeaderFile::AddHeaderDefine(const string sDefName, 
+ CppDefine*   CppHeaderFile::AddHeaderDefineInt(const string sDefName, 
 						const int val, const string sBrief) 
 {
    char temp[32];
@@ -336,27 +337,12 @@ long  CppHeaderFile::Save() {
 
 
 
-//================================================================
-std::string   MakeDivDeclString(const std::string caption)   
-{
-  std::string s;
-
-   s += "\n";
-   s += "//-----------------------------------------------\n";
-   s += "//         ";
-   s += caption;
-   s += "\n";
-   s += "//-----------------------------------------------\n";
-   s += "\n";
-
-  return s;
-};
-
+ 
 
 
 //========================================================
-std::string    CppClass::MakeImplementationString() const {
-	 std::string s = "";
+ string     CppClass::MakeImplementationString() const {
+	  string  s = "";
 
 	 // проверка на существование методов
   if( ( m_decl_public.m_vec_ClassMethods.size()==0 ) && 
@@ -446,8 +432,8 @@ std::string    CppClass::MakeImplementationString() const {
 };
 
 //========================================================
-std::string   CppClass::MakeDeclarationString() const {
-	std::string s;
+ string    CppClass::MakeDeclarationString() const {
+	 string  s;
 
 		  if( m_sBrief.length() )
 		  {
@@ -648,8 +634,8 @@ std::string   CppClass::MakeDeclarationString() const {
 
 
 //========================================================
-std::string  CppHeaderFile::MakeFullText() {
-  std::string s;
+ string   CppHeaderFile::MakeFullText() {
+   string  s;
   
   
 
@@ -711,7 +697,7 @@ char sfile[MAX_PATH];
   //
   {
   s += " #pragma once\n";
-     std::string sInc;
+      string  sInc;
     for(size_t c=0; c<m_vecInclude.size(); c++) {
 	 sInc = "#include \"";
 	 sInc += m_vecInclude[c];

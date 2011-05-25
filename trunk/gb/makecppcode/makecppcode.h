@@ -9,6 +9,9 @@
   \todo Прокомментировать
   \todo Добавить методы доступа в объектам в векторах.
   \todo  Добавить примеров.
+  \todo  расширить функционал.  
+
+
 
 */
 
@@ -19,6 +22,9 @@
 #include <string>
 #include <vector>
 #include <assert.h>
+
+#pragma warning(push)
+#pragma warning(disable : 4290)
 
 namespace gb
 {
@@ -32,7 +38,7 @@ namespace makecppcode
 //-------------------------------------------------------------------------
 
 
-using   std::string;
+ using    std::string;
 
 #pragma  warning( push )
 #pragma  warning(disable : 4996)
@@ -71,8 +77,6 @@ public:
 	  clear();
 	 }
 
-
-
 };
  
 
@@ -94,7 +98,7 @@ public:
 		   m_sDefaultVal(sDefaultVal),  
 		   m_sBrief(sBrief)  {}
 
-std::string MakeVarDeclStr() const;
+   string MakeVarDeclStr() const;
 
 };
 // end class
@@ -102,7 +106,7 @@ std::string MakeVarDeclStr() const;
 typedef   vector_pointers<CppVariable,true>    Vec_Variables;
 
 
-//! \brief  xxxxxxxxxxxxxxxxxxxxxxxxx
+//! \brief  Определение в коде. например #define name  value  .
 class CppDefine {
 public:
    const  string m_sName;
@@ -115,34 +119,35 @@ public:
 			 )			 
 	   : m_sName(sName),  m_sValue(sValue), m_sBrief(sBrief)    {} 
 
-   std::string MakeDeclarationString() const;
+   //! \brief Получить текст декларации .
+   string MakeDeclarationString() const;
 
 };
-// end class
 
-//! \brief  xxxxxxxxxxxxxxxxxxxxxxxxx
+ 
 typedef  vector_pointers<CppDefine,true> Vec_Defines;
 
 
 
-//! \brief xxxxxxxxxxxxxxxxxx
+//! \brief Декларация перечисления в коде.
 class CppEnum {
 public:
-   const  string m_sName;
-   const  string m_sBrief;
+   const  string m_sName;  ///< имя
+   const  string m_sBrief; ///<	бриф-комментарий в стиле doxygen
 
    class EnumItem {
    public:
 	    string m_sItemValue;
 	    string m_sBriefLine;
 
-		EnumItem() {};
+		EnumItem() {}
    };
 
 	CppEnum(const  string sName, const  string sBrief) 
 		: m_sName(sName), m_sBrief(sBrief) 
 	{}
 
+	//! добавить пункт перечисления. Параметры(имя и комментарий)
 	void AddEnumItem(const string sItemValue, 
 					 const  string sBriefLine) 
 	{
@@ -152,26 +157,25 @@ public:
 		   m_vecItems.push_back(ei);
 	}
 
-//! \brief  xxxxxxxxxxxxxxxxxxxxxxxxx
-std::string MakeDeclaration() const ;
+ //! \brief  Получить текст декларации .
+ string MakeDeclaration() const ;
 
 
  std::vector<EnumItem> m_vecItems;
 
 };
-// end class
 
-//! \brief  xxxxxxxxxxxxxxxxxxxxxxxxx
+ 
 typedef  vector_pointers<CppEnum,true> Vec_Enums;
 
 
 
-//! \brief xxxxxxxxxxxxxxxxxx
+//! \brief Параметр функции/метода.
 class CppFuncParameter {
 public:
-   const string m_sType; 
-   const string m_sName;
-   const string m_sComment;
+   const string m_sType; ///<  тип параметра (например float)
+   const string m_sName; ///<   имя параметра (например  value)
+   const string m_sComment;	///< комментарий 
 
 	CppFuncParameter( const string sType, 
 					  const string sName, 
@@ -181,38 +185,44 @@ public:
 		  m_sComment(sComment)  
 	{}
 
-//! \brief  xxxxxxxxxxxxxxxxxxxxxxxxx
-std::string MakeDeclString( ) const 
-{
-		std::string s;
+	//! \brief  Получить текст декларации .
+	string MakeDeclString( ) const 
+	{
+			string s;
 
-		s +=  m_sType;
-		s += " ";
-		s += m_sName;
- 
-		return s;
-}; 
+			s +=  m_sType;
+			s += " ";
+			s += m_sName;
+	 
+			return s;
+	}
 
 
 };
-// end class
 
-//! \brief  xxxxxxxxxxxxxxxxxxxxxxxxx
+
 typedef  vector_pointers<CppFuncParameter,true>  Vec_FuncParams;
 
 
 
-//! \brief xxxxxxxxxxxxxxxxxx
+//! \brief  Функиция в коде.
 class CppFunction {
 public:
-  const std::string m_sName; 
-  const std::string m_sRetVal; 
-  const std::string m_sBrief;
+  const string m_sName; ///< имя . Например MyFunction. 
+  const string m_sRetVal; ///< Тип возвр. значения. Например void. 
+  const string m_sBrief; ///<	комментарий в стиле dozygen.
  
-	  CppFunction(const std::string sName, 
-				  const std::string sRetVal, 
-				  const std::string sBrief, 
-				  const std::string& sCode )
+
+      /**  \brief Конструктор
+	    \param sName - имя . Например MyFunction.
+	    \param sRetVal - Тип возвр. значения. Например void.
+	    \param sBrief - комментарий в стиле dozygen.
+	    \param sCode - код функции. В код можно добавить с помощью AppendStrToCode.	  
+	  */
+	  CppFunction(const string sName, 
+				  const string sRetVal, 
+				  const string sBrief, 
+				  const string& sCode )
 		  : m_sName(sName), 
 		    m_sRetVal(sRetVal), 
 			m_sBrief(sBrief)   
@@ -221,31 +231,36 @@ public:
 		}
 
 
-	void AddParameter(const std::string sType, 
-					  const std::string sName, 
-					  const std::string sComment="") 
+	//! \brief Добавить параметр.
+	CppFuncParameter* AddParameter(const string sType, 
+					  const string sName, 
+					  const string sComment="") 
 	{
 	   CppFuncParameter* par = new CppFuncParameter(sType,  sName, sComment); 
 			m_vec_FuncParams.push_back(par);
+			return par;
 	}
 
- 
-	virtual std::string MakeDeclarationString(bool bIncBriefComment, const char* szLineBeforeName=NULL) const;
+	//! Получить текст декларации .
+	virtual  string  MakeDeclarationString(
+						bool bIncBriefComment, 
+						const char* szLineBeforeName=NULL) const;
 
-	virtual std::string MakeImplementationString(const char* szLineBeforeName=NULL) const 
+	//! Получить текст  реализации .
+	virtual  string  MakeImplementationString(const char* szLineBeforeName=NULL) const 
 	{
-	  std::string s;
-		 s += MakeDeclarationString(false, szLineBeforeName);
-		 s += "\n{\n";
-		 s += GetCodeText();
-		 s += "\n};\n\n";
-		    return s ;
+		 string  s;
+		s += MakeDeclarationString(false, szLineBeforeName);
+		s += "\n{\n";
+		s += GetCodeText();
+		s += "\n};\n\n";
+		return s ;
 	}
 
-	  
-	std::string GetCodeText() const {  return m_sCode; }
+	//! \brief получить  код функции.  
+	 string  GetCodeText() const {  return m_sCode; }
 
-
+	//!	\brief Добавить текст к коду функции.
 	void AppendStrToCode(const string& s) 
 	{
 	   m_sCode += s;
@@ -260,18 +275,20 @@ protected:
 
 typedef  vector_pointers<CppFunction,true> Vec_Functions;
  
+
+
 //! \brief  Член класса
 class CppMember {
 public:
-	const string m_sType;
-    const string m_sName;
-	const string m_sBrief;
-	const string m_sBeforeDecl;
+	const string m_sType;  ///< тип.
+    const string m_sName;  ///< имя.
+	const string m_sBrief;   ///< бриф-комментарий.
+	const string m_sBeforeDecl;	///< строка перед декларацией.
 
 	CppMember(const string sType, 
 			  const string sName, 
 			  const string sBrief, 
-			  const std::string sBeforeDecl=""  
+			  const  string  sBeforeDecl=""  
 			  ) 
 		: m_sType(sType), 
 		  m_sName(sName), 
@@ -279,6 +296,7 @@ public:
 		  m_sBeforeDecl(sBeforeDecl) 
 	{}
 
+	//! Получить текст декларации .
 	string MakeDeclarationString() const 
 	{
 			  string s;
@@ -305,15 +323,16 @@ typedef  vector_pointers<CppMember,true> Vec_ClassMembers;
 
 class   CppClass;
 
+
 //!   Метод класса
 class CppClassMethod : public  CppFunction {
 public:
 
 	CppClassMethod( const CppClass* pClassOwner, 
-					const std::string sName, 
-					const std::string sRetVal, 
-					const std::string sBrief, 
-					const std::string& sCode,
+					const  string  sName, 
+					const  string  sRetVal, 
+					const  string  sBrief, 
+					const  string & sCode,
 					const bool bForceImplemIntoDecl )
 
 		: CppFunction(sName,  sRetVal,  sBrief,   sCode), 
@@ -322,8 +341,8 @@ public:
 	{}
 
 
-	std::string MakeDeclarationString(bool bIncBriefComment ) const;
-	std::string MakeImplementationString() const;
+	 string  MakeDeclarationString(bool bIncBriefComment ) const;
+	 string  MakeImplementationString() const;
 
 
 	const bool IsForceImplemIntoDecl() const 
@@ -331,7 +350,7 @@ public:
 		return m_bForceImplemIntoDecl; 
 	}
 
-	void SetLineAfterDecl(const std::string s) 
+	void SetLineAfterDecl(const  string  s) 
 	{ 
 	  m_sLineAfterDecl = s;
 	}
@@ -339,7 +358,7 @@ public:
 private:
    const CppClass* m_pClassOwner;
    bool m_bForceImplemIntoDecl;
-   std::string m_sLineAfterDecl;
+    string  m_sLineAfterDecl;
 
 
 };
@@ -348,14 +367,17 @@ private:
 typedef  vector_pointers<CppClassMethod,true>   Vec_ClassMethods;
 
 
+/** \brief Структура в коде. 
+ В отличие от класса нет спецификаторов доступа и методов.  */
 class CppStruct{
 public:
 
-	const string m_sName;
-	const string m_sBrief;
+	const string m_sName;  ///< 
+	const string m_sBrief; ///< 
 
 	CppStruct(const string sName, const string sBrief) 
-		: m_sName(sName), m_sBrief(sBrief)  {}
+		: m_sName(sName), m_sBrief(sBrief)  
+	{}
 
 	virtual ~CppStruct() {}
 
@@ -366,7 +388,7 @@ public:
 	   return res;
 	}
 
- 	std::string   MakeDeclarationString() const 
+ 	 string    MakeDeclarationString() const 
 	{
 		// none code
 		assert(false&&"NEED INSERT CODE !"); 
@@ -392,13 +414,14 @@ struct DECL_VISIBLE
 	};
 };
 
-//! Класс
+
+//! \brief   Класс
 class CppClass {
 public:
-  const string m_sName;
-  const string m_sBrief;
-  const CppClass* m_pClassBase;
-  const bool m_bHasDestructor;
+  const string m_sName;	///< 
+  const string m_sBrief; ///< 
+  const CppClass* m_pClassBase;	///< 
+  const bool m_bHasDestructor;   ///< 
 
 	  class Declaration 
 	  {
@@ -409,7 +432,7 @@ public:
 	  
 	  };
 
-
+	//! \brief  
     CppClass(const string sName, 
 			 const string sBrief, 
 			 const CppClass* pClassBase, 
@@ -420,12 +443,12 @@ public:
 			 m_bHasDestructor(bHasDestructor)  
 	{}
 
-
+	//! 
 	CppMember* AddMember(const DECL_VISIBLE::e dv, 
 						 const string sType, 
 						 const string sName, 
 						 const string sBrief, 
-						 const std::string sBeforeDecl="") 
+						 const  string  sBeforeDecl="") 
 	{
 		CppMember* pm = new CppMember(  sType,   sName,   sBrief, sBeforeDecl);
 
@@ -454,12 +477,12 @@ public:
 		return pm;
 	};
 
-
+	//! 
 	CppClassMethod* AddMethod(const DECL_VISIBLE::e dv, 
-							  const std::string sName, 
-							  const std::string sRetVal, 
-							  const std::string sBrief, 
-							  const std::string& sCode, 
+							  const  string  sName, 
+							  const  string  sRetVal, 
+							  const  string  sBrief, 
+							  const  string & sCode, 
 							  bool bForceImplemIntoDecl=false   ) 
 	{
 		CppClassMethod* pcm = new CppClassMethod(this, sName, sRetVal, 
@@ -498,10 +521,10 @@ public:
 	 return pcm;
 	}
 
-
-	CppClassMethod* AddPublicConstructor(const std::string sBrief, 
-										 const std::string sInitLine,  
-										 const std::string& sCode, 
+	//! 
+	CppClassMethod* AddPublicConstructor(const  string  sBrief, 
+										 const  string  sInitLine,  
+										 const  string & sCode, 
 										 bool bForceImplemIntoDecl ) 
 	{
 
@@ -512,7 +535,8 @@ public:
 		return pm;
 	}
 
-	void AddCodeToDestructor(const std::string& sCode) throw()
+	///< 
+	void AddCodeToDestructor(const  string & sCode) throw(std::runtime_error&)
 	{
 		if(!m_bHasDestructor) 
 		{
@@ -522,8 +546,8 @@ public:
 		m_sDestrCode += sCode;
 	}
  
-	std::string   MakeDeclarationString() const ;
-	std::string   MakeImplementationString() const ;
+	 string    MakeDeclarationString() const ;
+	 string    MakeImplementationString() const ;
 	   
 private:
 
@@ -531,7 +555,7 @@ private:
 	Declaration m_decl_protected;
 	Declaration m_decl_private;
 
-	std::string m_sDestrCode;
+	 string  m_sDestrCode;
  
 };
 // end class
@@ -542,8 +566,9 @@ typedef  vector_pointers<CppClass,true> Vec_CppClasses;
 //!  \brief  c++ заголовок
 class CppHeaderFile {
 public:
-const string m_sHeaderFilename;
-const string m_sHeaderBrief;
+  const string m_sHeaderFilename; ///<  имя файла заголовка . В этот же файл и будет сохранение
+  const string m_sHeaderBrief;   ///< бриф-комментарий в стиле doxygen .
+
   
    CppHeaderFile(const string sHeaderFilename, 
 			     const string sHeaderBrief) 
@@ -551,7 +576,8 @@ const string m_sHeaderBrief;
 	       m_sHeaderBrief(sHeaderBrief)  
    {}
 
-
+/** \brief Добавить директиву включения файла sInclude.  
+  Например AddInclude("source.h") вставит в код #include "source.h" */
 string&  AddInclude(const string sInclude)	   
 {
   string s = sInclude;
@@ -559,37 +585,57 @@ string&  AddInclude(const string sInclude)
   return m_vecInclude[m_vecInclude.size()-1];
 }
 
+/**  \brief Добавить  сырое определение  .	 
+   например AddHeaderDefineStr("MYDEF", "define line", "")  
+   вставит в код #define MYDEF   define line  */
 CppDefine* AddHeaderDefine(const string sDefName, const string sValue, const string sBrief);
-	
+ 
+
+/**  \brief Добавить строковое определение  .	 
+   например AddHeaderDefineStr("MYDEF", "my_string", "")  
+   вставит в код #define MYDEF  "my_string"   */
 CppDefine* AddHeaderDefineStr(const string sDefName, const string sValue, const string sBrief) ;
 
-CppDefine* AddHeaderDefine(const string sDefName, const int val, const string sBrief) ;
+/**  \brief Добавить определение  .	 
+   например AddHeaderDefineInt("MYDEF", 777, "")  
+   вставит в код #define MYDEF  777   */
+CppDefine* AddHeaderDefineInt(const string sDefName, const int val, const string sBrief) ;
 
-CppDefine* AddHeaderDefine(const string sDefName, const float val, const string sBrief) ;
+/**  \brief Добавить float-определение  .	 
+   например AddHeaderDefineFloat("MYDEF", 1.44f, "")  
+   вставит в код #define MYDEF  1.44f   */
+CppDefine* AddHeaderDefineFloat(const string sDefName, const float val, const string sBrief) ;
 
+/**  \brief Добавить целочисленое   определение  в hex-виде .	  
+  например AddHeaderDefineHex("MYDEF", 255, "")  
+  вставит в код #define MYDEF 0xFF   */
 CppDefine* AddHeaderDefineHex(const string sDefName, const unsigned int val, const string sBrief) ;
 
-CppEnum* AddEnum(const std::string sName, const std::string sBrief) 
+
+ /**  \brief Добавить перечисление  . */
+CppEnum* AddEnum(const  string  sName, const  string  sBrief) 
 {
 	CppEnum* penm = new CppEnum( sName,  sBrief );
 	m_vec_Enums.push_back(penm);
 	return penm;
 }
 
-CppFunction* AddFunction(const std::string sName, 
-						 const std::string sRetVal, 
-						 const std::string sBrief, 
-						 const std::string& sCode ) 
+ /**  \brief Добавить функцию  . */
+CppFunction* AddFunction(const  string  sName, 
+						 const  string  sRetVal, 
+						 const  string  sBrief, 
+						 const  string & sCode ) 
 {
 	CppFunction* pfunc = new CppFunction(sName,   sRetVal,   sBrief, sCode);
 	m_vec_Functions.push_back(pfunc);
 	return pfunc;
 }
 
-CppFunction* AddInternalFunction(const std::string sName, 
-								 const std::string sRetVal, 
-								 const std::string sBrief, 
-								 const std::string& sCode ) 
+ /**  \brief  внутренюю статическую функцию  . */
+CppFunction* AddInternalFunction(const  string  sName, 
+								 const  string  sRetVal, 
+								 const  string  sBrief, 
+								 const  string & sCode ) 
 {
 	CppFunction* pfunc  = new CppFunction(sName,   sRetVal,   sBrief, sCode);
 	m_vec_InternalFunctions.push_back(pfunc);
@@ -626,7 +672,7 @@ CppVariable* AddInternalVariable(const  string sName, const  string  sType, cons
 }
 
 //! \brief  Построение полного текста  кода.
-std::string MakeFullText();	
+ string  MakeFullText();	
 
 
 //! \brief   Запись кода заголовка  в файл.
@@ -636,7 +682,7 @@ long Save();
  
 
 private:
-  std::vector<std::string> m_vecInclude;
+  std::vector< string > m_vecInclude;
   Vec_Defines     m_vecDefines; 
   std::vector<unsigned short> m_vecPragmaWarnDisable;
 
@@ -653,14 +699,25 @@ private:
 };
 // end class
 
-bool saveString(std::string& s,  const char* fname);
+//! \brief  Записать строку в файл.
+bool saveString( string & s,  const char* fname);
 
-std::string MakeDivDeclString(const std::string caption) ;
 
-inline std::string MakeImplemDivLine() 
+//! строчка визуального разделения  декларации
+inline string    MakeDivDeclString(const string& caption)   
+{
+   string  s;
+   s += "\n//-----------------------------------------------\n";
+   s += "//         "; s += caption;
+   s += "\n//-----------------------------------------------\n\n";
+  return s;
+};
+
+//! строчка визуального разделения методов в коде
+inline  string  MakeImplemDivLine() 
 {  
-	std::string s =  "//============================================================"; 
-	return s; 
+  string  s =  "//============================================================"; 
+  return s; 
 }
 
 
@@ -671,5 +728,6 @@ inline std::string MakeImplemDivLine()
 }
 // end namespace
 
+#pragma warning(pop)
 
 // end file
