@@ -95,6 +95,19 @@ namespace gb
 #endif
 
 
+
+//#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) || defined(__wtypes_h__) )
+#if ( defined(_WINDOWS_) || defined(__GB_TYPES_H__) )
+	 void operator = (const POINT& p)
+	 {
+		 x = (float)p.x;
+		 y = (float)p.y;
+	 }
+#endif
+
+
+
+
 				inline void setzero() {x=y=0.0f; }
 				inline bool empty() const { return ( (x==0.0f) && (y==0.0f) ); }
 

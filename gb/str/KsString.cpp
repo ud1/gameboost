@@ -10,7 +10,7 @@
 #include <gb/str/String.h>
 #include <gb/str/KsString.h>
  
-
+#pragma warning(disable : 4290)
  
 
 #if GB_ALLOW_BOOST_LIBRARY

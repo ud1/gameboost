@@ -243,6 +243,14 @@ namespace gb
 		// end class
 
 
+   //! \brief Сборка векторов вида.
+   struct EyeData
+   {
+	 Point3   eyePosition; ///<	позиция наблюдателя.
+	 Point3   eyeAt;  ///< точка цель наблюдателя.
+	 Normal3  eyeUp;  ///< верх  наблюдателя.
+   
+   };
 
 
 	//! \brief   Проскость 
@@ -903,7 +911,7 @@ ObjContainsE checkContainsSphere( const Sphere& s)  const
 	};
 
 
-	//! \brief   Линия в трёхмерном пространстве по двум точкам  
+	//! \brief   Линия(Прямая) в трёхмерном пространстве по двум точкам  
 	class Line {
 	public:
 		 vec3   src; 
