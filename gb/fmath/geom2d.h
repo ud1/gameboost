@@ -120,7 +120,7 @@ public:
 
    inline void operator = (const  vec2& v) { _x=v.x; _y=v.y; }
 
-#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )
+#ifdef _WINDOWS_  
    inline void operator = (const POINT& p) { _x=(float)p.x; _y=(float)p.y; }
 #endif 
  
@@ -167,7 +167,7 @@ public:
 			inline Rect(const Rect& r) {x1=r.x1; y1=r.y1;  x2=r.x2; y2=r.y2; }
 			inline Rect(float _x1, float _y1, float _x2, float _y2) { x1=_x1; y1=_y1; x2=_x2; y2=_y2; }
 
-#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )	
+#if ( defined(_WINDOWS_)  )	
 			Rect(const POINT p1, const POINT p2)  
 			{ 
 				x1=(float)p1.x;  
@@ -185,7 +185,7 @@ public:
 
 
 
-#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )	
+#if ( defined(_WINDOWS_) )	
 
 			inline void set(const POINT& np1, const POINT& np2) { x1=(float)np1.x; y1=(float)np1.y; x2=(float)np2.x; y2=(float)np2.y; };
 			inline void operator = (const RECT& rec) 
@@ -194,7 +194,7 @@ public:
 				y1 = (float)rec.top;
 				x2 = (float)rec.right;
 				y2 = (float)rec.bottom;    
-			};
+			}
 
 
 			inline operator RECT () const 
@@ -205,7 +205,7 @@ public:
 				res.right  = (long)x2;
 				res.bottom = (long)y2;
 				return res; 
-			};  
+			}  
 
 #endif  
 
@@ -220,10 +220,13 @@ public:
 			//! \brief Сдвиг координат. Движение прямоугольника на значение val
 			inline void translate(const  vec2& val) { x1+=val.x; y1+=val.y;	x2+=val.x; y2+=val.y; }
 
-#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )
+#if ( defined(_WINDOWS_) )
 
 			/** \brief Движение координат на указаное значение */
-			inline void translate(const POINT& p) {  translate( (float)p.x, (float)p.y );   }
+			inline void translate(const POINT& p) 
+			{  
+				translate( (float)p.x, (float)p.y );   
+			}
 
 #endif  
 
@@ -243,7 +246,14 @@ public:
 			}
 		
 			//! \brief Получить/установить Вторичную координату прямоугольника
-			inline  vec2 maxCoord() const {  vec2 res; res.x=x2; res.y=y2; return res; }
+			inline  vec2 maxCoord() const 
+			{  
+				vec2 res; 
+				res.x=x2; 
+				res.y=y2; 
+				return res; 
+			}
+
 			inline void         maxCoord( vec2& coord)       
 			{ 
 				x2=coord.x;
@@ -275,14 +285,23 @@ public:
 
 			inline void setPositionTopLeft(const  vec2& v) { setPositionTopLeft(v.x,v.y); }  
 
-#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )
+#if ( defined(_WINDOWS_) )
 
 			/** \brief Установить новую позицию по верхнему левому краю прямоугольника. 
 			        Размеры сохраняются. */
-			inline void setPositionTopLeft(const POINT& pnt) {  setPositionTopLeft((float)pnt.x, (float)pnt.y);   };
+			inline void setPositionTopLeft(const POINT& pnt) 
+			{  
+				setPositionTopLeft((float)pnt.x, (float)pnt.y);   
+			}
 
 			/** \brief Получить точку координату верхнего левого угла прямоугольника. */
-			inline POINT getPositionTopLeft() const { POINT res; res.x=(long)x1; res.y=(long)y1; return res; };
+			inline POINT getPositionTopLeft() const 
+			{ 
+				POINT res; 
+				res.x=(long)x1; 
+				res.y=(long)y1; 
+				return res; 
+			}
 
 #endif 
 
@@ -300,16 +319,46 @@ public:
   }
 
 
-//  /** \brief Получить  координату верхнего левого угла прямоугольника. */
-//  inline POINT getTopLeft() const {  POINT res; res.x=(long)x1; res.y=(long)y1; return res; };
-//  /** \brief Получить  координату нижнег оправого угла прямоугольника. */
-//  inline POINT getBottomRight() const {  POINT res; res.x=(long)x2; res.y=(long)y2; return res; };
+#if defined(_WINDOWS_)
+
+  //! \brief Получить  координату верхнего левого угла прямоугольника. 
+  inline POINT getTopLeft_p() const 
+  {  
+	  POINT res; 
+	  res.x=(long)x1; 
+	  res.y=(long)y1; 
+	  return res; 
+  }
+
+  //! \brief Получить  координату нижнег оправого угла прямоугольника.
+  inline POINT getBottomRight_p() const 
+  {  
+	  POINT res; 
+	  res.x=(long)x2; 
+	  res.y=(long)y2; 
+	  return res; 
+  }
+
+#endif
 
 
   //! \brief Получить  координату верхнего левого угла прямоугольника.
-  inline  vec2 getTopLeft() const {   vec2 res; res.x=x1; res.y=y1; return res; }
-  //! \brief Получить  координату нижнег оправого угла прямоугольника. 
-  inline  vec2 getBottomRight() const {   vec2 res; res.x=x2; res.y=y2; return res; }
+  inline  vec2 getTopLeft() const 
+  {   
+	  vec2 res; 
+	  res.x=x1; 
+	  res.y=y1; 
+	  return res; 
+  }
+
+  //! \brief Получить  координату нижнего правого угла прямоугольника. 
+  inline  vec2 getBottomRight() const 
+  {   
+	  vec2 res; 
+	  res.x=x2; 
+	  res.y=y2; 
+	  return res; 
+  }
 
 
 
@@ -343,7 +392,7 @@ public:
 	  y2=y1 + nh; 
   };
 
-#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )
+#if ( defined(_WINDOWS_)  )
 
   /** \brief Отсечение координат точки p в пределах прямоугольника */
   inline void clumpCoord(   POINT& pntTobeClump ) const 
@@ -374,7 +423,7 @@ public:
 	  return false;
   }
 
-#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) )
+#if ( defined(_WINDOWS_) )
   //! \brief Проверка попадания точки в прямоугольник .
   inline bool checkContainPoint(const POINT& pnt) const { return checkContainPoint(pnt.x, pnt.y); }
 #endif

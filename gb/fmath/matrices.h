@@ -1268,13 +1268,12 @@ namespace gb
 			{ 
                 #pragma message ("KS777 MATH::MAT44  need check setViewDirLH" __FILE__ )
 
-				vec3 to = dir.normalized();
+				vec3 dirn = dir.normalized();
 				const float flen = eye.length();
-				to.x += flen;
-				to.y += flen;
-				to.z += flen;
-
-				vec3 at = eye + to;
+				dirn.x += flen;
+				dirn.y += flen;
+				dirn.z += flen;
+				vec3 at = eye + dirn;
 				setViewLookAtLH( eye, at, up);
 			}
 

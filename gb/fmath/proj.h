@@ -28,13 +28,25 @@ namespace gb
 //--------------------------------------------------------------------------------------
   
   
-	  //! \brief  Сборка из данных проекции.
+	  //! \brief  Сборка из данных перспективной проекции.
 	  struct PerspectiveProjData
 	  {
 		float fovy;
 		float aspect;
 		float zn;
 		float zf;
+
+		//! \brief Извлечь проекционные данные из левосторонней перспективной матрицы .
+		inline void extractProjPerspectLH(const mat44& mPerspectProjLh)
+		{
+			aspect = mPerspectProjLh._22/mPerspectProjLh._11;
+			fovy   = 2.0f  * atan(1.0f/mPerspectProjLh._22);
+			zn = -mPerspectProjLh._43/mPerspectProjLh._33; 
+			zf =  mPerspectProjLh._43/(1.0f-mPerspectProjLh._33);
+		}
+
+
+
 	  };
 
 

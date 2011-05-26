@@ -1,17 +1,15 @@
 ﻿ 
-#include <Windows.h>
 
 #include "context.h"
 
 using namespace gb::fmath;
 using namespace gb::fmath::geom3d;
 using namespace gb::fmath::proj;
-
-
+ 
 //============================================================= 
-int  Context::setMatrices(const mat44 *mWorld, const mat44 *mView, const mat44 *mProj) 
+long  Context::setMatrices(const mat44 *mWorld, const mat44 *mView, const mat44 *mProj) 
 {
-  int  hr = 0;
+  long  hr = 0;
 
   if (mWorld)
   {
@@ -20,18 +18,18 @@ int  Context::setMatrices(const mat44 *mWorld, const mat44 *mView, const mat44 *
     m_bMouseCoordCameraUnproject_change = true;
 
 
-    m_matr.mWorldViewProjection.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewProjectionTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewProjectionInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mWorldViewProjection.bChangeFlag = 1;
+    m_matr.mWorldViewProjectionTranspone.bChangeFlag = 1;
+    m_matr.mWorldViewProjectionInverse.bChangeFlag = 1;
+    m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag =  1 ;
 
-    m_matr.mWorldTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldInverseTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldView.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewInverseTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mWorldTranspone.bChangeFlag =  1 ;
+    m_matr.mWorldInverse.bChangeFlag =  1 ;
+    m_matr.mWorldInverseTranspone.bChangeFlag =  1 ;
+    m_matr.mWorldView.bChangeFlag =  1 ;
+    m_matr.mWorldViewTranspone.bChangeFlag =  1 ;
+    m_matr.mWorldViewInverse.bChangeFlag =  1 ;
+    m_matr.mWorldViewInverseTranspone.bChangeFlag =  1 ;
 
 
   } // if(mWorld)
@@ -42,24 +40,24 @@ int  Context::setMatrices(const mat44 *mWorld, const mat44 *mView, const mat44 *
     m_BoolChangedMatr.bViewChange = true;
     m_bMouseCoordCameraUnproject_change = true;
 
-    m_matr.mViewProjection.bChangeFlag = TRUE_VAL;
-    m_matr.mViewProjectionInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mViewProjectionInverseTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mViewProjectionTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mViewProjection.bChangeFlag =  1 ;
+    m_matr.mViewProjectionInverse.bChangeFlag =  1 ;
+    m_matr.mViewProjectionInverseTranspone.bChangeFlag =  1 ;
+    m_matr.mViewProjectionTranspone.bChangeFlag =  1 ;
 
-    m_matr.mViewTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mViewInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mViewInverseTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mViewTranspone.bChangeFlag =  1 ;
+    m_matr.mViewInverse.bChangeFlag =  1 ;
+    m_matr.mViewInverseTranspone.bChangeFlag =  1 ;
 
-    m_matr.mWorldViewProjection.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewProjectionTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewProjectionInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mWorldViewProjection.bChangeFlag =  1 ;
+    m_matr.mWorldViewProjectionTranspone.bChangeFlag =  1 ;
+    m_matr.mWorldViewProjectionInverse.bChangeFlag =  1 ;
+    m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag =  1 ;
 
-    m_matr.mWorldView.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewInverseTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mWorldView.bChangeFlag =  1 ;
+    m_matr.mWorldViewTranspone.bChangeFlag =  1 ;
+    m_matr.mWorldViewInverse.bChangeFlag =  1 ;
+    m_matr.mWorldViewInverseTranspone.bChangeFlag =  1 ;
 
   } // if(mView)
 
@@ -71,19 +69,19 @@ int  Context::setMatrices(const mat44 *mWorld, const mat44 *mView, const mat44 *
     m_BoolChangedMatr.bProjChange = true;
     m_bMouseCoordCameraUnproject_change = true;
 
-    m_matr.mViewProjection.bChangeFlag = TRUE_VAL;
-    m_matr.mViewProjectionInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mViewProjectionInverseTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mViewProjectionTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mViewProjection.bChangeFlag =  1 ;
+    m_matr.mViewProjectionInverse.bChangeFlag =  1 ;
+    m_matr.mViewProjectionInverseTranspone.bChangeFlag =  1 ;
+    m_matr.mViewProjectionTranspone.bChangeFlag =  1 ;
 
-    m_matr.mProjectionInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mProjectionTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mProjectionInverseTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mProjectionInverse.bChangeFlag =  1 ;
+    m_matr.mProjectionTranspone.bChangeFlag =  1 ;
+    m_matr.mProjectionInverseTranspone.bChangeFlag =  1 ;
 
-    m_matr.mWorldViewProjection.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewProjectionTranspone.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewProjectionInverse.bChangeFlag = TRUE_VAL;
-    m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mWorldViewProjection.bChangeFlag =  1 ;
+    m_matr.mWorldViewProjectionTranspone.bChangeFlag =  1 ;
+    m_matr.mWorldViewProjectionInverse.bChangeFlag =  1 ;
+    m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag =  1 ;
 
 
   } // if(mProj)
@@ -124,21 +122,21 @@ int  Context::setMatrices(const mat44 *mWorld, const mat44 *mView, const mat44 *
 };
 
 //====================================================================  
-const mat44 *Context::GetMatrixViewProjection()const
+const mat44 *Context::getMatrixViewProjection()const
 {
   if (m_matr.mViewProjection .bChangeFlag)
   {
     //MMUL(&m_matr.mViewProjection.matrix, &m_mView, &m_mProj);
 	m_matr.mViewProjection.matrix = m_mView * m_mProj;
 
-    m_matr.mViewProjection .bChangeFlag = FALSE_VAL;
+    m_matr.mViewProjection .bChangeFlag =  0 ;
   }
 
   return  &m_matr.mViewProjection.matrix;
 };
 
 //==================================================================== 
-const mat44 *Context::GetMatrixViewProjectionInverse()const
+const mat44 *Context::getMatrixViewProjectionInverse()const
 {
   if (m_matr.mViewProjectionInverse.bChangeFlag)
   {
@@ -148,14 +146,14 @@ const mat44 *Context::GetMatrixViewProjectionInverse()const
     //D3DXMatrixInverse(&m_matr.mViewProjectionInverse.matrix, NULL, &m_temp);
 	m_matr.mViewProjectionInverse.matrix = m_temp.inverted();
 
-    m_matr.mViewProjectionInverse.bChangeFlag = FALSE_VAL;
+    m_matr.mViewProjectionInverse.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mViewProjectionInverse.matrix;
 };
 
 //==================================================================== 
-const mat44 *Context::GetMatrixViewProjectionInverseTranspone()const
+const mat44 *Context::getMatrixViewProjectionInverseTranspone()const
 {
   if (m_matr.mViewProjectionInverseTranspone.bChangeFlag)
   {
@@ -169,14 +167,14 @@ const mat44 *Context::GetMatrixViewProjectionInverseTranspone()const
 	 m_matr.mViewProjectionInverseTranspone.matrix=m_temp2.transponed();
 
 
-    m_matr.mViewProjectionInverseTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mViewProjectionInverseTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mViewProjectionInverseTranspone.matrix;
 };
 
 //==================================================================== 
-const mat44 *Context::GetMatrixViewProjectionTranspone()const
+const mat44 *Context::getMatrixViewProjectionTranspone()const
 {
   if (m_matr.mViewProjectionTranspone.bChangeFlag)
   {
@@ -185,42 +183,42 @@ const mat44 *Context::GetMatrixViewProjectionTranspone()const
     //D3DXMatrixTranspose(&m_matr.mViewProjectionTranspone.matrix, &m_temp);
 
 
-    m_matr.mViewProjectionTranspone.bChangeFlag = TRUE_VAL;
+    m_matr.mViewProjectionTranspone.bChangeFlag =  1 ;
   }
 
   return  &m_matr.mViewProjectionTranspone.matrix;
 };
 
 //==================================================================== 
-const mat44 *Context::GetMatrixViewTranspone()const
+const mat44 *Context::getMatrixViewTranspone()const
 {
   if (m_matr.mViewTranspone.bChangeFlag)
   {
    // D3DXMatrixTranspose(&m_matr.mViewTranspone.matrix, &m_mView);
    m_matr.mViewTranspone.matrix = m_mView.transponed();
 
-    m_matr.mViewTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mViewTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mViewTranspone.matrix;
 };
 
 //==================================================================== 
-const mat44 *Context::GetMatrixViewInverse()const
+const mat44 *Context::getMatrixViewInverse()const
 {
   if (m_matr.mViewInverse.bChangeFlag)
   {
    // D3DXMatrixInverse(&m_matr.mViewInverse.matrix, NULL, &m_mView);
 	m_matr.mViewInverse.matrix = m_mView.inverted();
 
-    m_matr.mViewInverse.bChangeFlag = FALSE_VAL;
+    m_matr.mViewInverse.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mViewInverse.matrix;
 };
 
 //==================================================================== 
-const mat44 *Context::GetMatrixViewInverseTranspone()const
+const mat44 *Context::getMatrixViewInverseTranspone()const
 {
   if (m_matr.mViewInverseTranspone.bChangeFlag)
   {
@@ -229,58 +227,58 @@ const mat44 *Context::GetMatrixViewInverseTranspone()const
    // D3DXMatrixTranspose(&m_matr.mViewInverseTranspone.matrix, &m_temp);
    m_matr.mViewInverseTranspone.matrix = m_temp.transponed();
 
-    m_matr.mViewInverseTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mViewInverseTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mViewInverseTranspone.matrix;
 };
 
 //==================================================================== 
-const mat44 *Context::GetMatrixProjectionInverse()const
+const mat44 *Context::getMatrixProjectionInverse()const
 {
   if (m_matr.mProjectionInverse.bChangeFlag)
   {
     //D3DXMatrixInverse(&m_matr.mProjectionInverse.matrix, NULL, &m_mProj);
 	m_matr.mProjectionInverse.matrix = m_mProj.inverted();
 
-    m_matr.mProjectionInverse.bChangeFlag = FALSE_VAL;
+    m_matr.mProjectionInverse.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mProjectionInverse.matrix;
 };
 
 //==================================================================== 
-const mat44 *Context::GetMatrixProjectionTranspone()const
+const mat44 *Context::getMatrixProjectionTranspone()const
 {
   if (m_matr.mProjectionTranspone.bChangeFlag)
   {
    // D3DXMatrixTranspose(&m_matr.mProjectionTranspone.matrix, &m_mProj);
 	 m_matr.mProjectionTranspone.matrix = m_mProj.transponed();
 
-    m_matr.mProjectionTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mProjectionTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mProjectionTranspone.matrix;
 };
 
 //====================================================================   
-const mat44 *Context::GetMatrixProjectionInverseTranspone()const
+const mat44 *Context::getMatrixProjectionInverseTranspone()const
 {
   if (m_matr.mProjectionInverseTranspone.bChangeFlag)
   {
    // D3DXMatrixInverse(&m_temp, NULL, &m_mProj);
 	  m_temp = m_mProj.inverted();
    // D3DXMatrixTranspose(&m_matr.mProjectionInverseTranspone.matrix, &m_temp);
-	 m_matr.mProjectionInverseTranspone = m_temp.transponed();
+	 m_matr.mProjectionInverseTranspone.matrix = m_temp.transponed();
 
-    m_matr.mProjectionInverseTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mProjectionInverseTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mProjectionInverseTranspone.matrix;
 };
 
 //====================================================================   
-const mat44 *Context::GetMatrixWorldViewProjection()const
+const mat44 *Context::getMatrixWorldViewProjection()const
 {
   if (m_matr.mWorldViewProjection.bChangeFlag)
   {
@@ -290,14 +288,14 @@ const mat44 *Context::GetMatrixWorldViewProjection()const
    // MMUL(&m_matr.mWorldViewProjection.matrix, &m_mWorld, &m_temp);
    m_matr.mWorldViewProjection.matrix = m_mWorld * m_temp;
 
-    m_matr.mWorldViewProjection.bChangeFlag = TRUE_VAL;
+    m_matr.mWorldViewProjection.bChangeFlag =  1 ;
   }
 
   return  &m_matr.mWorldViewProjection.matrix;
 };
 
 //====================================================================  
-const mat44 *Context::GetMatrixWorldViewProjectionTranspone()const
+const mat44 *Context::getMatrixWorldViewProjectionTranspone()const
 {
   if (m_matr.mWorldViewProjectionTranspone.bChangeFlag)
   {
@@ -306,17 +304,17 @@ const mat44 *Context::GetMatrixWorldViewProjectionTranspone()const
     //MMUL(&m_temp2, &m_mWorld, &m_temp);
 		  m_temp2 = m_mWorld * m_temp;
 
-    D3DXMatrixTranspose(&m_matr.mWorldViewProjectionTranspone.matrix, &m_temp2);
+//    D3DXMatrixTranspose(&m_matr.mWorldViewProjectionTranspone.matrix, &m_temp2);
 	 m_matr.mWorldViewProjectionTranspone.matrix = m_temp2.transponed();
 
-    m_matr.mWorldViewProjectionTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mWorldViewProjectionTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mWorldViewProjectionTranspone.matrix;
 };
 
 //====================================================================  
-const mat44 *Context::GetMatrixWorldViewProjectionInverse()const
+const mat44 *Context::getMatrixWorldViewProjectionInverse()const
 {
   if (m_matr.mWorldViewProjectionInverse.bChangeFlag)
   {
@@ -326,17 +324,17 @@ const mat44 *Context::GetMatrixWorldViewProjectionInverse()const
     //MMUL(&m_temp2, &m_mWorld, &m_temp);
 		  m_temp2 =m_mWorld * m_temp;
 
-    D3DXMatrixInverse(&m_matr.mWorldViewProjectionInverse.matrix, NULL, &m_temp2);
+//    D3DXMatrixInverse(&m_matr.mWorldViewProjectionInverse.matrix, NULL, &m_temp2);
 	 m_matr.mWorldViewProjectionInverse.matrix = m_temp2.inverted();
 
-    m_matr.mWorldViewProjectionInverse.bChangeFlag = FALSE_VAL;
+    m_matr.mWorldViewProjectionInverse.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mWorldViewProjectionInverse.matrix;
 };
 
 //====================================================================   
-const mat44 *Context::GetMatrixWorldViewProjectionInverseTranspone()const
+const mat44 *Context::getMatrixWorldViewProjectionInverseTranspone()const
 {
   mat44 temp;
   if (m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag)
@@ -350,45 +348,45 @@ const mat44 *Context::GetMatrixWorldViewProjectionInverseTranspone()const
    // D3DXMatrixInverse(&temp, NULL, &m_temp2);
 	   temp = m_temp2.inverted();
 
-    D3DXMatrixTranspose(&m_matr.mWorldViewProjectionInverseTranspone.matrix, &temp);
+//    D3DXMatrixTranspose(&m_matr.mWorldViewProjectionInverseTranspone.matrix, &temp);
 	  m_matr.mWorldViewProjectionInverseTranspone.matrix=temp.transponed();
 
-    m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mWorldViewProjectionInverseTranspone.matrix;
 };
 
 //====================================================================  
-const mat44 *Context::GetMatrixWorldTranspone()const
+const mat44 *Context::getMatrixWorldTranspone()const
 {
   if (m_matr.mWorldTranspone.bChangeFlag)
   {
     //D3DXMatrixTranspose(&m_matr.mWorldTranspone.matrix, &m_mWorld);
 	m_matr.mWorldTranspone.matrix=m_mWorld.transponed();
 
-    m_matr.mWorldTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mWorldTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mWorldTranspone.matrix;
 };
 
 //====================================================================   
-const mat44 *Context::GetMatrixWorldInverse()const
+const mat44 *Context::getMatrixWorldInverse()const
 {
   if (m_matr.mWorldInverse.bChangeFlag)
   {
    // D3DXMatrixInverse(&m_matr.mWorldInverse.matrix, NULL, &m_mWorld);
 		m_matr.mWorldInverse.matrix = m_mWorld.inverted();
 
-    m_matr.mWorldInverse.bChangeFlag = FALSE_VAL;
+    m_matr.mWorldInverse.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mWorldInverse.matrix;
 };
 
 //====================================================================   
-const mat44 *Context::GetMatrixWorldInverseTranspone()const
+const mat44 *Context::getMatrixWorldInverseTranspone()const
 {
   if (m_matr.mWorldInverseTranspone.bChangeFlag)
   {
@@ -398,28 +396,28 @@ const mat44 *Context::GetMatrixWorldInverseTranspone()const
     //D3DXMatrixTranspose(&m_matr.mWorldInverseTranspone.matrix, &m_temp);
 	m_matr.mWorldInverseTranspone.matrix=m_temp.transponed();
 
-    m_matr.mWorldInverseTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mWorldInverseTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mWorldInverseTranspone.matrix;
 };
 
 //====================================================================   
-const mat44 *Context::GetMatrixWorldView()const
+const mat44 *Context::getMatrixWorldView()const
 {
   if (m_matr.mWorldView .bChangeFlag)
   {
     //MMUL(&m_matr.mWorldView.matrix, &m_mWorld, &m_mView);
     m_matr.mWorldView.matrix * m_mWorld * m_mView;
 
-    m_matr.mWorldView.bChangeFlag = FALSE_VAL;
+    m_matr.mWorldView.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mWorldView.matrix;
 };
 
 //====================================================================  
-const mat44 *Context::GetMatrixWorldViewTranspone()const
+const mat44 *Context::getMatrixWorldViewTranspone()const
 {
   if (m_matr.mWorldViewTranspone.bChangeFlag)
   {
@@ -429,36 +427,48 @@ const mat44 *Context::GetMatrixWorldViewTranspone()const
     //D3DXMatrixTranspose(&m_matr.mWorldViewTranspone.matrix, &m_temp);
 	m_matr.mWorldViewTranspone.matrix=m_temp.transponed();
 
-    m_matr.mWorldViewTranspone.bChangeFlag = FALSE_VAL;
+    m_matr.mWorldViewTranspone.bChangeFlag =  0 ;
   }
 
   return  &m_matr.mWorldViewTranspone.matrix;
 };
 
-#error ДОДЕЛАТЬ ДАЛЬШЕ !!!!
+//#error ДОДЕЛАТЬ ДАЛЬШЕ !!!!
 
 
 //====================================================================  
-const mat44 *Context::GetMatrixWorldViewInverse()const
+const mat44 *Context::getMatrixWorldViewInverse()const
 {
   if (m_matr.mWorldViewInverse.bChangeFlag)
   {
-    MMUL(&m_temp, &m_mWorld, &m_mView);
-    D3DXMatrixInverse(&m_matr.mWorldViewInverse.matrix, NULL, &m_temp);
-    m_matr.mWorldViewInverse.bChangeFlag = FALSE_VAL;
+    //MMUL(&m_temp, &m_mWorld, &m_mView);
+	m_temp =  m_mWorld * m_mView;
+
+    //D3DXMatrixInverse(&m_matr.mWorldViewInverse.matrix, NULL, &m_temp);
+ m_matr.mWorldViewInverse.matrix = m_temp.inverted();
+
+
+    m_matr.mWorldViewInverse.bChangeFlag =  0 ;
   };
   return  &m_matr.mWorldViewInverse.matrix;
 };
 
 //====================================================================  
-const mat44 *Context::GetMatrixWorldViewInverseTranspone()const
+const mat44 *Context::getMatrixWorldViewInverseTranspone()const
 {
   if (m_matr.mWorldViewInverseTranspone.bChangeFlag)
   {
-    MMUL(&m_temp, &m_mWorld, &m_mView);
-    D3DXMatrixInverse(&m_temp2, NULL, &m_temp);
-    D3DXMatrixTranspose(&m_matr.mWorldViewInverseTranspone.matrix, &m_temp2);
-    m_matr.mWorldViewInverseTranspone.bChangeFlag = FALSE_VAL;
+   // MMUL(&m_temp, &m_mWorld, &m_mView);
+	 m_temp = m_mWorld * m_mView;
+
+
+    //D3DXMatrixInverse(&m_temp2, NULL, &m_temp);
+	 m_temp2 = m_temp.inverted();
+
+   // D3DXMatrixTranspose(&m_matr.mWorldViewInverseTranspone.matrix, &m_temp2);
+   m_matr.mWorldViewInverseTranspone.matrix = m_temp2.inverted();
+
+    m_matr.mWorldViewInverseTranspone.bChangeFlag =  0 ;
   };
   return  &m_matr.mWorldViewInverseTranspone.matrix;
 };
@@ -468,7 +478,7 @@ void Context::__checkViewVectors()const
 {
   if (m_matr.mViewInverse.bChangeFlag)
   {
-    GetMatrixViewInverse();
+    getMatrixViewInverse();
     #pragma message ("ПРОВЕРИТЬ ПОЛУЧЕНИЕ ВЕКТОРОВ  ВИДА ИЗ ИНВЕРСНОЙ ВИДОВОЙ МАТРИЦЫ ")
     m_VewPos = *((vec3*) &m_matr.mViewInverse.matrix._41);
     m_ViewDir = *((vec3*) &m_matr.mViewInverse.matrix._31);
@@ -477,7 +487,7 @@ void Context::__checkViewVectors()const
 };
 
 //==================================================================== 
-const vec4 *Context::GetVector4ViewPos()const
+const vec4 *Context::get_vector4_ViewPos()const
 {
   __checkViewVectors();
   m_vec4Temp.x = m_VewPos.x;
@@ -488,7 +498,7 @@ const vec4 *Context::GetVector4ViewPos()const
 };
 
 //====================================================================  
-const vec4 *Context::GetVector4ViewDir()const
+const vec4 *Context::get_vector4_ViewDir()const
 {
   __checkViewVectors();
   m_vec4Temp.x = m_ViewDir.x;
@@ -499,7 +509,7 @@ const vec4 *Context::GetVector4ViewDir()const
 };
 
 //==================================================================== 
-const vec4 *Context::GetVector4ViewUp()const
+const vec4 *Context::get_vector4_ViewUp()const
 {
   __checkViewVectors();
   m_vec4Temp.x = m_ViewUp.x;
@@ -510,17 +520,20 @@ const vec4 *Context::GetVector4ViewUp()const
 };
 
 //====================================================================  
-const vec3 *Context::GetVector3ViewSideUp()const
+const vec3 *Context::get_vector3_ViewSideUp()const
 {
   #pragma message ("ПРОВЕРИТЬ ПОЛУЧЕНИЕ БОКОВОГО ВЕКТОРА ВИДА")
-  D3DXVec3Cross(&m_vec3Temp, &m_ViewDir, &m_ViewUp);
+ // D3DXVec3Cross(&m_vec3Temp, &m_ViewDir, &m_ViewUp);
+  m_vec3Temp =	m_ViewDir.cross( m_ViewUp );
+
+
   return  &m_vec3Temp;
 };
 
 //====================================================================  
-const vec4 *Context::GetVector4ViewSideUp()const
+const vec4 *Context::get_vector4_ViewSideUp()const
 {
-  vec3 res =  *GetVector3ViewUp();
+  vec3 res =  *get_vector3_ViewUp();
   m_vec4Temp.x = res.x;
   m_vec4Temp.y = res.y;
   m_vec4Temp.z = res.z;
@@ -528,7 +541,7 @@ const vec4 *Context::GetVector4ViewSideUp()const
   return  &m_vec4Temp;
 };
 
-
+ /************************
 //==================================================================
 const vec3 *Context::GetMouseCoordCameraUnproject()const
 {
@@ -546,7 +559,7 @@ const vec3 *Context::GetMouseCoordCameraUnproject()const
 };
 
 //==================================================================
-const vec3 *Context::GetVector3Unproject(_in_opt ViewportZ *vp, _in POINT *pntCoord)const
+const vec3 *Context::get_vector3_Unproject(const  ViewportZ *vp, const  POINT *pntCoord)const
 {
   vec3 vsrc;
   vsrc.x = (FLOAT)pntCoord->x;
@@ -588,9 +601,9 @@ const vec3 *Context::GetVector3Unproject(_in_opt ViewportZ *vp, _in POINT *pntCo
   D3DXVec3Unproject(pResult,  // vec3 * pOut,
    &vsrc,  //CONST vec3 * pV,
    &__viewport,  //CONST ViewportZ * pViewport,
-  GetMatrixProj(),  //CONST mat44 * pProjection,
-  GetMatrixView(),  //CONST mat44 * pView,
-  GetMatrixWorld() // CONST mat44 * pWorld
+  getMatrixProj(),  //CONST mat44 * pProjection,
+  getMatrixView(),  //CONST mat44 * pView,
+  getMatrixWorld() // CONST mat44 * pWorld
   );
 
 
@@ -613,9 +626,9 @@ const vec3 *Context::GetMouseCoordCameraUnproject(const ViewportZ *vp, const POI
     D3DXVec3Unproject( &m_vec3_MouseCoordCameraUnproject,  // vec3 * pOut,
      &vsrc,  //CONST vec3 * pV,
     vp,  //CONST ViewportZ * pViewport,
-    GetMatrixProj(),  //CONST mat44 * pProjection,
-    GetMatrixView(),  //CONST mat44 * pView,
-    GetMatrixWorld() // CONST mat44 * pWorld
+    getMatrixProj(),  //CONST mat44 * pProjection,
+    getMatrixView(),  //CONST mat44 * pView,
+    getMatrixWorld() // CONST mat44 * pWorld
     );
 
 
@@ -624,19 +637,19 @@ const vec3 *Context::GetMouseCoordCameraUnproject(const ViewportZ *vp, const POI
 
   return  &m_vec3_MouseCoordCameraUnproject;
 };
+ ************************************/
 
-
-const vec3 *Context::GetVector3VewPos()const
+const vec3 *Context::get_vector3_VewPos()const
 {
   __checkViewVectors();
   return  &m_VewPos;
 };
-const vec3 *Context::GetVector3ViewDir()const
+const vec3 *Context::get_vector3_ViewDir()const
 {
   __checkViewVectors();
   return  &m_ViewDir;
 };
-const vec3 *Context::GetVector3ViewUp()const
+const vec3 *Context::get_vector3_ViewUp()const
 {
   __checkViewVectors();
   return  &m_ViewUp;
@@ -644,17 +657,17 @@ const vec3 *Context::GetVector3ViewUp()const
 
 
 //===============================================
-const PerspectiveProjData *Context::GetProjectionData()const
+const PerspectiveProjData *Context::get_projection_Data()const
 {
   if (m_BoolChangedMatr.bProjChange)
   {
 
     if (m_bChangeProjectionData)
     {
-      D3DXEX_ExtractProjPerspectLH(m_PerspectiveProjData.fFovy, m_PerspectiveProjData.fAspect, m_PerspectiveProjData.fZnear, m_PerspectiveProjData.fZfar, GetMatrixProj());
+    //  D3DXEX_ExtractProjPerspectLH(m_PerspectiveProjData.fFovy, m_PerspectiveProjData.fAspect, m_PerspectiveProjData.fZnear, m_PerspectiveProjData.fZfar, getMatrixProj());
+	 m_PerspectiveProjData.extractProjPerspectLH(m_mProj);
 
-
-      m_bChangeProjectionData = FALSE_VAL;
+      m_bChangeProjectionData =  0 ;
 
     } // if
 
@@ -666,23 +679,25 @@ const PerspectiveProjData *Context::GetProjectionData()const
 };
 
 
+/****************************
+
 //============================================================
 int  Context::PushMatrixWorld()const
 {
   int  hr = 0;
 
   if (m_MatrixStackWorld.full())
-    return E_FAIL;
+    return (-1);
 
-  __try
+  try
   {
-    m_MatrixStackWorld.top() =  *GetMatrixWorld();
+    m_MatrixStackWorld.top() =  *getMatrixWorld();
     m_MatrixStackWorld.push();
 
   }
-  __except(1)
+  catch(...)
   {
-    hr |= E_FAIL;
+    hr |= (-1);
   };
 
 
@@ -694,17 +709,17 @@ int  Context::PushMatrixView()const
 {
   int  hr = 0;
   if (m_MatrixStackView.full())
-    return E_FAIL;
+    return (-1);
 
-  __try
+  try
   {
-    m_MatrixStackView.top() =  *GetMatrixView();
+    m_MatrixStackView.top() =  *getMatrixView();
     m_MatrixStackView.push();
 
   }
-  __except(1)
+  catch(...)
   {
-    hr |= E_FAIL;
+    hr |= (-1);
   };
 
 
@@ -717,17 +732,17 @@ int  Context::PushMatrixProj()const
   int  hr = 0;
 
   if (m_MatrixStackProj.full())
-    return E_FAIL;
+    return (-1);
 
-  __try
+  try
   {
-    m_MatrixStackProj.top() =  *GetMatrixProj();
+    m_MatrixStackProj.top() =  *getMatrixProj();
     m_MatrixStackProj.push();
 
   }
-  __except(1)
+  catch(...)
   {
-    hr |= E_FAIL;
+    hr |= (-1);
   };
 
 
@@ -747,11 +762,11 @@ int  Context::PushMatrices(BOOLFLAG bWorld, BOOLFLAG bView, BOOLFLAG bProj)const
     if (m_MatrixStackWorld.full())
     {
       MONPRINT(" MatrixStackWorld is full");
-      hr |= E_FAIL;
+      hr |= (-1);
     }
     else
     {
-      *m_MatrixStackWorld.top_ptr() =  *GetMatrixWorld();
+      *m_MatrixStackWorld.top_ptr() =  *getMatrixWorld();
       m_MatrixStackWorld.push();
     }
 
@@ -763,11 +778,11 @@ int  Context::PushMatrices(BOOLFLAG bWorld, BOOLFLAG bView, BOOLFLAG bProj)const
     if (m_MatrixStackView.full())
     {
       MONPRINT(" MatrixStackView is full");
-      hr |= E_FAIL;
+      hr |= (-1);
     }
     else
     {
-      *m_MatrixStackView.top_ptr() =  *GetMatrixView();
+      *m_MatrixStackView.top_ptr() =  *getMatrixView();
       m_MatrixStackView.push();
     }
   };
@@ -778,11 +793,11 @@ int  Context::PushMatrices(BOOLFLAG bWorld, BOOLFLAG bView, BOOLFLAG bProj)const
     if (m_MatrixStackProj.full())
     {
       MONPRINT(" MatrixStackProj is full");
-      hr |= E_FAIL;
+      hr |= (-1);
     }
     else
     {
-      *m_MatrixStackProj.top_ptr() =  *GetMatrixProj();
+      *m_MatrixStackProj.top_ptr() =  *getMatrixProj();
       m_MatrixStackProj.push();
     }
 
@@ -879,16 +894,17 @@ int  Context::PopAllMatrices()const
   return PopMatrices(1, 1, 1);
 
 };
+****************************************/
 
 //=======================================================
-EyeData Context::GetViewParams()const
+EyeData Context::getViewParams()const
 {
-  EyeData res =  *GetViewParamsPtr();
+  EyeData res =  *getViewParamsPtr();
   return res;
 };
 
 //=======================================================
-const EyeData *Context::GetViewParamsPtr()const
+const EyeData *Context::getViewParamsPtr()const
 {
   #pragma message ("ПОГОНЯТЬ В ОТЛАДКЕ ЭТОТ МЕТОД")
 
@@ -900,28 +916,30 @@ const EyeData *Context::GetViewParamsPtr()const
   };*/
 
 
-  const mat44 *pmViewInv = GetMatrixViewInverse();
+  const mat44 *pmViewInv = getMatrixViewInverse();
 
   if (m_bIsParameter_EyeData_changed)
   {
 
     #pragma message ("ПРОВЕРИТЬ ПОЛУЧЕНИЕ ВЕКТОРОВ  ВИДА ИЗ ИНВЕРСНОЙ ВИДОВОЙ МАТРИЦЫ ")
-    m_EyeData.vEye = *((vec3*) &m_matr.mViewInverse.matrix._41);
+    m_EyeData.eyePosition = *((vec3*) &m_matr.mViewInverse.matrix._41);
     vec3 vViewDir = *((vec3*) &m_matr.mViewInverse.matrix._31);
-    m_EyeData.vUp = *((vec3*) &m_matr.mViewInverse.matrix._21);
+    m_EyeData.eyeUp = *((Normal3*) &m_matr.mViewInverse.matrix._21);
 
-    #pragma message("ПРОВЕРИТЬ ПОЛУЧЕНИЕ m_EyeData.vAt  ")
-    float fDistToCenter = D3DXVec3Length(&vViewDir);
-    m_EyeData.vAt = m_EyeData.vEye;
-    m_EyeData.vAt.x += fDistToCenter;
-    m_EyeData.vAt.y += fDistToCenter;
-    m_EyeData.vAt.z += fDistToCenter;
+    #pragma message("ПРОВЕРИТЬ ПОЛУЧЕНИЕ m_EyeData.eyeUp  ")
 
+	
+    float fDistToCenter = vViewDir.length();  // D3DXVec3Length(&vViewDir);
 
-    m_bIsParameter_EyeData_changed = FALSE_VAL;
-  }; // if
+	/**
+    m_EyeData.eyeUp = m_EyeData.eyePosition;
+    m_EyeData.eyeUp.x() += fDistToCenter;
+    m_EyeData.eyeUp.y() += fDistToCenter;
+    m_EyeData.eyeUp.z() += fDistToCenter;
+	   */
 
-
+    m_bIsParameter_EyeData_changed =  0 ;
+  }
 
   return  &m_EyeData;
 };
@@ -929,71 +947,76 @@ const EyeData *Context::GetViewParamsPtr()const
 
 
 //===========================================================
-int  Context::SetViewParams(_in_opt vec3 *eye, _in_opt vec3 *at, _in_opt vec3 *up)const
+int  Context::setViewParams(const  vec3 *eye, const  vec3 *at, const  vec3 *up) 
 {
   int  hr = 0;
 
-  EyeData vp = GetViewParams();
+  EyeData vp = getViewParams();
 
   if (eye)
-    vp.vEye =  *eye;
-  if (at)
-    vp.vAt =  *at;
-  if (up)
-    vp.vUp =  *up;
+    vp.eyePosition=  *eye;
 
-  hr |= SetViewParams(&vp);
+  if (at)
+    vp.eyeAt=  *at;
+
+  if (up)
+    vp.eyeUp =  *up;
+
+  hr |= setViewParams(&vp);
 
   return hr;
 };
 
 //===========================================================
-int  Context::SetViewParams(const EyeData *pvp)const
+int  Context::setViewParams(const EyeData *pvp) 
 {
   int  hr = 0;
 
   mat44 mv;
   m_EyeData =  *pvp;
 
-  D3DXMatrixLookAtLH(&mv, &m_EyeData.vEye, &m_EyeData.vAt, &m_EyeData.vUp);
+//  D3DXMatrixLookAtLH(&mv, &m_EyeData.eyePosition, &m_EyeData.eyeUp, &m_EyeData.eyeUp);
+   
+  mv.setViewLookAtLH( m_EyeData.eyePosition, m_EyeData.eyeAt, m_EyeData.eyeUp  );
+
 
   hr |= SetMatrixView(&mv);
-  m_bIsParameter_EyeData_changed = FALSE_VAL;
+  m_bIsParameter_EyeData_changed =  0 ;
   return hr;
 };
 
 //===========================================================
-int  Context::SetViewEye(const vec3 *eye)const
+int  Context::setViewEye(const vec3 *eye) 
 {
   int  hr = 0;
 
-  EyeData vp = GetViewParams();
-  vp.vEye =  *eye;
-  hr |= SetViewParams(&vp);
-
-  return hr;
-};
-
-//===========================================================
-int  Context::SetViewAt(const vec3 *at)const
-{
-  int  hr = 0;
-
-  EyeData vp = GetViewParams();
-  vp.vAt =  *at;
-  hr |= SetViewParams(&vp);
+  EyeData vp = getViewParams();
+  vp.eyePosition =  *eye;
+  hr |= setViewParams(&vp);
 
   return hr;
 };
 
 //===========================================================
-int  Context::SetViewUp(const vec3 *up)const
+int  Context::setViewAt(const vec3 *at) 
 {
   int  hr = 0;
 
-  EyeData vp = GetViewParams();
-  vp.vUp =  *up;
-  hr |= SetViewParams(&vp);
+  EyeData vp = getViewParams();
+  vp.eyeAt =  *at;
+  hr |= setViewParams(&vp);
+
+  return hr;
+};
+
+//===========================================================
+int  Context::setViewUp(const vec3 *up) 
+{
+  int  hr = 0;
+
+  EyeData vp = getViewParams();
+  vp.eyeUp =  *up;
+  hr |= setViewParams(&vp);
 
   return hr;
 };
@@ -1004,78 +1027,81 @@ int  Context::SetViewUp(const vec3 *up)const
 
 
 //==============================================
-int  Context::SetProjectionParams(float fFov, float fAsp, float fZNear, float fZFar)const
+int  Context::setProjectionParams(float fFov, float fAsp, float fZNear, float fZFar) 
 {
   int  hr = 0;
 
   PerspectiveProjData pd;
 
-  pd.fFovy = fFov;
-  pd.fAspect = fAsp;
-  pd.fZnear = fZNear;
-  pd.fZfar = fZFar;
+  pd.fovy = fFov;
+  pd.aspect = fAsp;
+  pd.zn = fZNear;
+  pd.zf = fZFar;
 
-  hr |= SetProjectionParams(&pd);
+  hr |= setProjectionParams(&pd);
 
   return hr;
 };
 
 //===================================
-int  Context::SetProjectionParams(const PerspectiveProjData *proj)const
+int  Context::setProjectionParams(const PerspectiveProjData *proj) 
 {
   int  hr = 0;
-  __try
+  try
   {
 
     mat44 mproj;
-    D3DXMatrixPerspectiveFovLH(&mproj, proj->fFovy, proj->fAspect, proj->fZnear, proj->fZfar);
-    hr |= SetMatrixProj(&mproj);
+   // D3DXMatrixPerspectiveFovLH(&mproj, proj->fFovy, proj->fAspect, proj->fZnear, proj->fZfar);
+   mproj.setPerspectiveFovLH(proj->fovy, proj->aspect, proj->zn, proj->zf);
+	 
+
+	hr |= SetMatrixProj(&mproj);
 
   }
-  __exc_mon
+  catch(...)
   {
-    hr |= E_FAIL;
-  };
+    hr |= (-1);
+  }
 
   return hr;
 };
 
 //==============================================
-int  Context::SetProjectionFov(float fFov)const
+int  Context::setProjectionFov(float fFov) 
 {
   int  hr = 0;
 
-  __try
+  try
   {
-    PerspectiveProjData proj =  *GetProjectionData();
-    proj.fFovy = fFov;
-    SetProjectionParams(&proj);
+    PerspectiveProjData proj =  *get_projection_Data();
+    proj.fovy = fFov;
+    setProjectionParams(&proj);
   }
-  __except(1)
+  catch(...)
   {
-    MONPRINT("Exception ");
-    hr |= E_FAIL;
+    //MONPRINT("Exception ");
+    hr |= (-1);
   };
 
   return hr;
 };
 
 //===================================================
-int  Context::SetProjectionAsp(float fAsp)const
+int  Context::setProjectionAsp(float fAsp) 
 {
   int  hr = 0;
 
 
-  __try
+  try
   {
-    PerspectiveProjData proj =  *GetProjectionData();
-    proj.fAspect = fAsp;
-    SetProjectionParams(&proj);
+    PerspectiveProjData proj =  *get_projection_Data();
+    proj.aspect = fAsp;
+    setProjectionParams(&proj);
   }
-  __except(1)
+  catch(...)
   {
-    MONPRINT("Exception ");
-    hr |= E_FAIL;
+    //MONPRINT("Exception ");
+    hr |= (-1);
   };
 
 
@@ -1084,20 +1110,20 @@ int  Context::SetProjectionAsp(float fAsp)const
 };
 
 //===================================================
-int  Context::SetProjectionZNear(float fZNear)const
+int  Context::setProjectionZNear(float fZNear) 
 {
   int  hr = 0;
 
-  __try
+  try
   {
-    PerspectiveProjData proj =  *GetProjectionData();
-    proj.fZnear = fZNear;
-    SetProjectionParams(&proj);
+    PerspectiveProjData proj =  *get_projection_Data();
+    proj.zn = fZNear;
+    setProjectionParams(&proj);
   }
-  __except(1)
+  catch(...)
   {
-    MONPRINT("Exception ");
-    hr |= E_FAIL;
+//    MONPRINT("Exception ");
+    hr |= (-1);
   };
 
 
@@ -1105,60 +1131,56 @@ int  Context::SetProjectionZNear(float fZNear)const
 };
 
 //===================================================
-int  Context::SetProjectionZFar(float fZFar)const
+int  Context::setProjectionZFar(float fZFar) 
 {
   int  hr = 0;
 
-  __try
+  try
   {
-    PerspectiveProjData proj =  *GetProjectionData();
-    proj.fZfar = fZFar;
-    SetProjectionParams(&proj);
+    PerspectiveProjData proj =  *get_projection_Data();
+    proj.zf = fZFar;
+    setProjectionParams(&proj);
   }
-  __except(1)
+  catch(...)
   {
-    MONPRINT("Exception ");
-    hr |= E_FAIL;
+//    MONPRINT("Exception ");
+    hr |= (-1);
   };
 
   return hr;
 };
 
 //=====================================================
-int  Context::SetProjectionZNearZFar(float fZNear, float fZFar)const
+int  Context::setProjectionZNearZFar(float fZNear, float fZFar) 
 {
   int  hr = 0;
 
-  __try
+  try
   {
-    PerspectiveProjData proj =  *GetProjectionData();
-    proj.fZnear = fZNear;
-    proj.fZfar = fZFar;
-    SetProjectionParams(&proj);
+    PerspectiveProjData proj =  *get_projection_Data();
+    proj.zn = fZNear;
+    proj.zf = fZFar;
+    setProjectionParams(&proj);
   }
-  __except(1)
+  catch(...)
   {
-    MONPRINT("Exception ");
-    hr |= E_FAIL;
+//    MONPRINT("Exception ");
+    hr |= (-1);
   };
 
   return hr;
 };
-
-//=============================================
-
-
-
+ 
 //==========================================
-TransformData  Context::GetWorldTransformData()const
+TransformData  Context::getWorldTransformData()const
 {
-  TransformData  res =  *GetWorldTransformDataPtr();
+  TransformData  res =  *getWorldTransformDataPtr();
   return res;
 };
 
 
 //==========================================
-const TransformData  *Context::GetWorldTransformDataPtr()const
+const TransformData  *Context::getWorldTransformDataPtr()const
 {
 
   if (m_bTransfDataChange)
@@ -1166,163 +1188,237 @@ const TransformData  *Context::GetWorldTransformDataPtr()const
 
     #pragma message("NEED CHECK IMPLEMENTATION" __FILE__ )
 
-    const mat44 *mw = GetMatrixWorld();
+    const mat44 *mw = getMatrixWorld();
 
-    int  hrDecomp = D3DXMatrixDecompose( &m_D3DXTRANSFORMDATA.vSc,  //vec3 * pOutScale, 
+
+
+   /**********  OLD  CODE :  *******
+    int  hrDecomp = D3DXMatrixDecompose( 
+		&m_TransformData.vSc,  //vec3 * pOutScale, 
      &m_qRotation,  //Quaternion * pOutRotation,
-     &m_D3DXTRANSFORMDATA.vTrnsl,  //  vec3 * pOutTranslation, 
+     &m_TransformData.vTranslation ,  //  vec3 * pOutTranslation, 
     mw  // CONST mat44 * pM
     );
+	*************/
 
-    if FAILED(hrDecomp)
-    {
-      throw std::runtime_error("Error decompose matrix");
-    };
+	// new
+   mw->decompose(    
+	   m_TransformData.vScaling,  //vec3 * pOutScale, 
+	   m_TransformData.qRotation,  //Quaternion * pOutRotation,
+	   m_TransformData.vTranslation   //  vec3 * pOutTranslation,   
+	   );
+ 
 
-    D3DXQuaternionToAxisAngle( &m_qRotation,  // CONST Quaternion * pQ, 
-     &m_D3DXTRANSFORMDATA.rot.vRotAx,  //vec3 * pAxis,
-     &m_D3DXTRANSFORMDATA.rot.fAngle  //  FLOAT * pAngle
-    );
+  //  if FAILED(hrDecomp)
+  //  {
+    //  throw std::runtime_error("Error decompose matrix");
+   // }
 
-    m_bTransfDataChange = FALSE_VAL;
+
+   // D3DXQuaternionToAxisAngle( &m_qRotation,  // CONST Quaternion * pQ, 
+   //  &m_TransformData.rot.vRotAx,  //vec3 * pAxis,
+   //  &m_TransformData.rot.fAngle  //  FLOAT * pAngle
+  //  );
+
+
+   assert(false);
+   // дальше нвадо разобраццо !!
+
+	 // NEW !!!!
+	// m_qRotation.toAxiesAngle(  m_TransformData.rot.vRotAx,  m_TransformData.rot.fAngle  );
+
+ 
+
+
+
+    m_bTransfDataChange =  0 ;
   }; // if
 
 
-  return  &m_D3DXTRANSFORMDATA;
+  return  &m_TransformData;
 };
 
 //==========================================
-vec3 Context::GetWorldScaling()const
+vec3 Context::getWorldScaling()const
 {
 
-  vec3 res = GetWorldTransformDataPtr()->vSc;
+  vec3 res = getWorldTransformDataPtr()->vScaling;
 
   return res;
 
 };
 
 //==========================================
-D3DXROTATION Context::GetWorldRotationData()const
+AxiesAngle Context::getWorldRotationAxiesAngle() const
 {
-
-  const TransformData  *ptd = GetWorldTransformDataPtr();
-
-  return ptd->rot;
-
+	const TransformData  *ptd = getWorldTransformDataPtr();
+	Quaternion qrot =  ptd->qRotation;
+	return qrot.toAxiesAngle();
 };
 
 //==========================================
-Quaternion Context::GetWorldRotationQnt()const
+Quaternion Context::getWorldRotationQuaternion()const
 {
   // get const to check calculate
-  const TransformData  *ptr = GetWorldTransformDataPtr();
+  const TransformData  *ptr = getWorldTransformDataPtr();
 
   #pragma message("NEED CHECK CODE IMPLEMENTATION" __FILE__ )
 
-  return m_qRotation;
+#pragma message("ks777: Need check code !!  "  __FILE__ )
+  assert(false);
+	return ptr->qRotation;
+
+  // OLD
+  //return m_qRotation;
 };
 
 //==========================================
-vec3 Context::GetWorldPosition()const
+vec3 Context::getWorldPosition()const
 {
 
-  const TransformData  *ptd = GetWorldTransformDataPtr();
+  const TransformData  *ptd = getWorldTransformDataPtr();
 
-  return ptd->vTrnsl;
+  return ptd->vTranslation;
 
 };
 
 
 //==========================================
-int  Context::SetWorldTransformData(const TransformData  *pTr)const
+int  Context::setWorldTransformData(const TransformData  *pTr) 
 {
   int  hr = 0;
 
   m_bTransfDataChange = true;
-  m_D3DXTRANSFORMDATA =  *pTr;
+  m_TransformData =  *pTr;
 
+  /***********************
   mat44 mscale, mrotate, mtransl;
 
-  D3DXMatrixTranslation(&mtransl, m_D3DXTRANSFORMDATA.vTrnsl.x, m_D3DXTRANSFORMDATA.vTrnsl.y, m_D3DXTRANSFORMDATA.vTrnsl.z);
-  D3DXMatrixRotationAxis(&mrotate, &m_D3DXTRANSFORMDATA.rot.vRotAx, m_D3DXTRANSFORMDATA.rot.fAngle);
-  D3DXMatrixScaling(&mscale, m_D3DXTRANSFORMDATA.vSc.x, m_D3DXTRANSFORMDATA.vSc.y, m_D3DXTRANSFORMDATA.vSc.z);
+ // D3DXMatrixTranslation(&mtransl, m_TransformData.vTrnsl.x, 
+//			m_TransformData.vTrnsl.y, 
+//			m_TransformData.vTrnsl.z);
 
+   mtransl.setTranslation(
+	   m_TransformData.vTranslation.x  ,
+	   m_TransformData.vTranslation.y , 
+	   m_TransformData.vTranslation.z );
+
+
+ // D3DXMatrixRotationAxis(&mrotate, &m_TransformData.rot.vRotAx, m_TransformData.rot.fAngle);
+  mrotate.setRotationAxis(m_TransformData.rot.vRotAx, m_TransformData.rot.fAngle);
+
+
+ // D3DXMatrixScaling(&mscale, m_TransformData.vSc.x, 
+//	  m_TransformData.vSc.y,
+//	  m_TransformData.vSc.z);
+
+ mscale.setScaling(
+	  m_TransformData.vScaling.x, 
+	  m_TransformData.vScaling.y,
+	  m_TransformData.vScaling.z );
+ 
   mat44 mworld = mtransl * mscale * mrotate;
+  ******************************/
+
+   mat44 mworld; 
+   mworld.setTransformation(pTr->vScaling, pTr->qRotation, pTr->vTranslation);
+
   hr |= setMatrices(&mworld, NULL, NULL);
 
-  #pragma message("NEED CHECK IMPLEMENTATION" __FILE__ )
+#pragma message("ks777::context  NEED CHECK IMPLEMENTATION  " __FILE__ )
 
   return hr;
 };
 
 //==========================================
-int  Context::SetWorldPositionVal(float x, float y, float z)const
+int  Context::setWorldPositionVal(float x, float y, float z) 
 {
   int  hr = 0;
-  TransformData  trd = GetWorldTransformData();
+  TransformData  trd = getWorldTransformData();
 
-  trd.vTrnsl.x = x;
-  trd.vTrnsl.y = y;
-  trd.vTrnsl.z = z;
+   
+  trd.vTranslation.x = x;
+  trd.vTranslation.y = y;
+  trd.vTranslation.z = z;
 
-  hr |= SetWorldTransformData(&trd);
+  hr |= setWorldTransformData(&trd);
 
   return hr;
 };
 
 //==========================================
-int  Context::SetWorldPositionVec(const vec3 *pos)const
+int  Context::setWorldPositionVec(const vec3 *pos) 
 {
   int  hr = 0;
   vec3 vpos =  *pos;
-  hr |= SetWorldPositionVal(vpos.x, vpos.y, vpos.z);
+  hr |= setWorldPositionVal(vpos.x, vpos.y, vpos.z);
 
   return hr;
 };
 
 
 //==========================================
-int  Context::SetWorldRotationEulers(float yaw, float pitch, float roll)const
+int  Context::setWorldRotationYawPitchRoll(float yaw, float pitch, float roll) 
 {
   int  hr = 0;
   Quaternion q;
-  D3DXQuaternionRotationYawPitchRoll(&q, yaw, pitch, roll);
-  hr |= SetWorldRotationQnt(&q);
+
+  //D3DXQuaternionRotationYawPitchRoll(&q, yaw, pitch, roll);
+   q.setRotationYawPitchRoll(  yaw, pitch, roll )  ;
+
+  hr |= setWorldRotationQuaternion(&q);
 
   return hr;
 };
 
-//==========================================
-int  Context::SetWorldRotationVal(float axX, float axY, float axZ, float angle)const
+/********************************
+int  Context::setWorldRotationVal(float axX, float axY, float axZ, float angle) 
 {
   int  hr = 0;
-  TransformData  trd = GetWorldTransformData();
-  trd.rot.vRotAx.x = axX;
-  trd.rot.vRotAx.y = axY;
-  trd.rot.vRotAx.z = axZ;
-  D3DXVec3Normalize(&trd.rot.vRotAx, &trd.rot.vRotAx);
+  TransformData  trd = getWorldTransformData();
 
-  hr |= SetWorldTransformData(&trd);
+
+   assert(false);
+ 
+   // НАДО ПОПРАВИТЬ ЭТОТ КОД!!!
+//  trd.rot.vRotAx.x = axX;
+ // trd.rot.vRotAx.y = axY;
+//  trd.rot.vRotAx.z = axZ;
+
+   // БЫЛО
+ // D3DXVec3Normalize(&trd.rot.vRotAx, &trd.rot.vRotAx);
+  // НАДО	 
+  //>>>>>  trd.rot.normalize();
+
+
+  hr |= setWorldTransformData(&trd);
 
   return hr;
 };
+*******************************/
 
 //========================================== 
-int  Context::SetWorldRotationQnt(const Quaternion *q)const
+int  Context::setWorldRotationQuaternion(const Quaternion *q) 
 {
   int  hr = 0;
-  TransformData  trd = GetWorldTransformData();
-  m_qRotation =  *q;
+  TransformData  trd = getWorldTransformData();
+//  m_qRotation =  *q;
 
 
-  D3DXQuaternionToAxisAngle( &m_qRotation,  // CONST Quaternion * pQ,
-   &trd.rot.vRotAx,  // vec3 * pAxis,
-   &trd.rot.fAngle  //  FLOAT * pAngle
-  );
+ // D3DXQuaternionToAxisAngle( &m_qRotation,  // CONST Quaternion * pQ,
+//   &trd.rot.vRotAx,  // vec3 * pAxis,
+//   &trd.rot.fAngle  //  FLOAT * pAngle
+//  );
+trd.qRotation = *q;
+   
+
+ // m_qRotation.setRotationAxis(trd.rot.vRotAx, trd.rot.fAngle );
+
 
 
   mat44 world;
 
+  /******************
   D3DXMatrixTransformation( &world,  //mat44 * pOut,
   NULL,  //CONST vec3 * pScalingCenter,
   NULL,  //CONST Quaternion * pScalingRotation,
@@ -1331,6 +1427,9 @@ int  Context::SetWorldRotationQnt(const Quaternion *q)const
    &m_qRotation,  // CONST Quaternion * pRotation,
    &trd.vTrnsl  //  CONST vec3 * pTranslation
   );
+  ***************/
+   world.setTransformation(trd.vScaling , trd.qRotation , trd.vTranslation);
+
 
   m_bTransfDataChange = true;
 
@@ -1340,74 +1439,76 @@ int  Context::SetWorldRotationQnt(const Quaternion *q)const
   return hr;
 };
 
-//========================================
-int  Context::SetWorldRotationAx(const vec3 *vAx, float angle, bool bNeedAxNormalize)const
+//=========================================================================
+int  Context::setWorldRotationAxiesAngle(const vec3 *vAx, float angle ) 
 {
   int  hr = 0;
 
-  TransformData  trd = GetWorldTransformData();
+  TransformData  trd = getWorldTransformData();
 
-  trd.rot.vRotAx =  *vAx;
-  trd.rot.fAngle = angle;
-  if (bNeedAxNormalize)
-  {
-    D3DXVec3Normalize(&trd.rot.vRotAx, &trd.rot.vRotAx);
-  };
 
-  hr |= SetWorldTransformData(&trd);
+  vec3 vax_norm = vAx->normalized();
+  trd.qRotation.setRotationAxis( vax_norm, angle );
+ // trd.rot.vRotAx =  *vAx;
+ // trd.rot.fAngle = angle;
+ 
+   // D3DXVec3Normalize(&trd.rot.vRotAx, &trd.rot.vRotAx);
+   // trd.rot.vRotAx.normalize();
+ 
+  hr |= setWorldTransformData(&trd);
 
   return hr;
 };
 
 
-//==========================================
-int  Context::SetWorldScaling(float val)const
+//=========================================================================
+int  Context::setWorldScaling(float val) 
 {
   int  hr = 0;
-  hr |= SetWorldScalingVal(val, val, val);
+  hr |= setWorldScaling(val, val, val);
 
   return hr;
 };
 
-//==========================================
-int  Context::SetWorldScalingVal(float x, float y, float z)const
+//=========================================================================
+int  Context::setWorldScaling(float x, float y, float z) 
 {
-  int  hr = 0;
+	int  hr = 0;
 
-  TransformData  tr = GetWorldTransformData();
+	TransformData  tr = getWorldTransformData();
 
-  tr.vSc.x = x;
-  tr.vSc.y = y;
-  tr.vSc.z = z;
+	tr.vScaling.x = x;
+	tr.vScaling.y = y;
+	tr.vScaling.z = z;
 
-  hr |= SetWorldTransformData(&tr);
-  return hr;
+	hr |= setWorldTransformData(&tr);
+	return hr;
 };
 
-//=======================================================================
-int  Context::SetWorldScalingVec(const vec3 *vSc)const
+//=========================================================================
+int  Context::setWorldScalingVec(const vec3 *vSc) 
 {
   int  hr = 0;
   vec3 scale =  *vSc;
-  hr |= SetWorldScalingVal(scale.x, scale.y, scale.z);
+  hr |= setWorldScaling(scale.x, scale.y, scale.z);
 
   return hr;
 };
 
-//========================================================================
-int  Context::SetWorldScalingTranslation(float fScale, const vec3 *vTrnsl)const
+//=========================================================================
+int  Context::setWorldScalingTranslation(float fScale, const vec3 *vTrnsl) 
 {
   int  hr = 0;
-  TransformData  tr = GetWorldTransformData();
-  tr.vSc.x = tr.vSc.y = tr.vSc.z = fScale;
-  tr.vTrnsl =  *vTrnsl;
-  hr |= SetWorldTransformData(&tr);
+  TransformData  tr = getWorldTransformData();
+  tr.vScaling.x = tr.vScaling.y = tr.vScaling.z = fScale;
+  tr.vTranslation =  *vTrnsl;
+  hr |= setWorldTransformData(&tr);
 
   return hr;
 };
 
-//==========================================
-int  Context::SetWorldScalingTranslation(float fScale, float x, float y, float z)const
+//=========================================================================
+int  Context::setWorldScalingTranslation(float fScale, float x, float y, float z) 
 {
   int  hr = 0;
   vec3 vtr;
@@ -1416,16 +1517,11 @@ int  Context::SetWorldScalingTranslation(float fScale, float x, float y, float z
   vtr.y = y;
   vtr.z = z;
 
-  hr |= SetWorldScalingTranslation(fScale, &vtr);
+  hr |= setWorldScalingTranslation(fScale, &vtr);
 
   return hr;
 };
 
+ 
 
-//============================================================
-int  Context::SetWorldIdentity()const
-{
-  return setMatrices(&D3DXMATRIX_IDENTITY, NULL, NULL);
-
-
-};
+// end file

@@ -2,7 +2,7 @@
 
 //#include "pch.h"
     // temp
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include <gb/Config.h>
 

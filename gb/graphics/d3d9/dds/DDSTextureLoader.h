@@ -12,6 +12,7 @@
 
 */
  
+ #error ОБЕРНУТЬ В ПРОСТРАНСТВО ИМЁН .. ПОПРАВИТЬ !
 
 //#include <ddraw.h>
 #include <dxgitype.h>

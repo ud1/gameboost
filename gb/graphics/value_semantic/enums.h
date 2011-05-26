@@ -19,7 +19,23 @@ namespace gb
   
 //---------------------------------------------------------------  
   
+//! \brief Тип,   размерность параметра
+struct type_e 
+{
+	  enum e
+	  {
+		  UNDEFINED  = 0 ,   ///<  не определён
+
+		  FLOAT,	///< float
+		  FLOAT2,	///< 2d vector
+		  FLOAT3,	///< 3d vector
+		  FLOAT4,	///< 4d vector/color
+		  FLOAT3x3,	///<  matrix 3x3
+		  FLOAT4x4	///<  matrix 4x4
+	  };
+};
   
+//!  семантика параметра типа  float
 struct float_type_e
 {
 	enum e
@@ -105,15 +121,14 @@ struct float_type_e
 	};
 }; 
 
-
-
+//!  семантика параметра 2d-вектора 
 struct float2_type_e
 {
 	enum e
 	{
-		 UNDEFINED  =  0,
+		// UNDEFINED  =  0,
 
-		 VIEWPORTDIMENSIONS,
+		 VIEWPORTDIMENSIONS = float_type_e::UNUSED_DECLARED_LAST ,
 		 VIEWPORTDIMENSIONSINVERSE,
 		 MOUSECOORDINATEXY,
 		 MOUSECOORDINATEXYNDC,
@@ -132,16 +147,15 @@ struct float2_type_e
 	};
 }; 
 
-
-  
+//!  семантика параметра 3d-вектора   
 struct float3_type_e
 {
 	enum e
 	{
 
-		UNDEFINED = 0,
+		//UNDEFINED = 0,
 
-		POSITION,
+		POSITION = float2_type_e::UNUSED_DECLARED_LAST,
 		LIGHTPOSITION,
 		VIEWDIRECTION,
 		VIEWPOSITION,
@@ -157,14 +171,14 @@ struct float3_type_e
 	}; 
 }; 
 
-
+//!  семантика параметра 4d-вектора 
 struct float4_type_e
 {
 	enum e
 	{
-		UNDEFINED  = 0 ,
+		//UNDEFINED  = 0 ,
 
-		TIME0_X_PACKED,
+		TIME0_X_PACKED = float3_type_e::UNUSED_DECLARED_LAST ,
 		TIME0_1_PACKED,
 		TIME0_2PI_PACKED,
 		MOUSEBUTTONSPACKED,
@@ -187,14 +201,14 @@ struct float4_type_e
 	};
 };
 
-
+//!  семантика параметра 2d-вектора трактуемого как цвет 
 struct float4_color_type_e
 {
 	enum e
 	{
-		 UNDEFINED = 0,
+		 //UNDEFINED = 0,
 		  
-		 AMBIENT,
+		 AMBIENT = float4_type_e::UNUSED_DECLARED_LAST,
 		 DIFFUSE,
 		 SPECULAR,
 		 LIGHTSOURCE,
@@ -206,26 +220,31 @@ struct float4_color_type_e
 		 UNUSED_DECLARED_LAST
 	};
 };
-  
+ 
+//!  семантика параметра 3x3-матрицы 
 struct matrix3x3_type_e
 {
 	enum e 
 	{
-		UNDEFINED  =  0,
+		//UNDEFINED  =  0,
 
-		UNUSED_DECLARED_LAST
+		ROTATION = float4_color_type_e::UNUSED_DECLARED_LAST,
+
+
+		UNUSED_DECLARED_LAST 
 
 	};
 };  
   
-  
+//!  семантика параметра 4x4-матрицы    
 struct matrix4x4_type_e
 {
 	enum e
 	{ 	
-		  UNDEFINED  = 0,
+		//  UNDEFINED  = 0,
 
-          VIEWPROJECTION,
+		  VIEWPROJECTION = matrix3x3_type_e::UNUSED_DECLARED_LAST,
+
           VIEWPROJECTIONINVERSE,
           VIEWPROJECTIONINVERSETRANSPONE,
           VIEWPROJECTIONTRANSPONE,

@@ -1,7 +1,7 @@
 ﻿
 //#include "pch.h"
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
 
 #include <gb/fmath/fmath.h>

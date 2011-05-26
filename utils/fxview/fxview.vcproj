@@ -60,6 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="s:\temp2\fdfsd.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -179,6 +180,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\gb\graphics\value_semantic\conv.cpp"
+				>
+			</File>
+			<File
 				RelativePath="Z:\!!GB\gameboost\utils\fxview\main.cpp"
 				>
 			</File>
@@ -188,6 +193,34 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\gb\fmath\geom2d.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\fmath\geom3d.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\fmath\matrices.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\fmath\proj.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\fmath\quaternion.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\fmath\scalar.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\fmath\vectors.cpp"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -93,17 +93,30 @@ namespace gb
 			
 			inline void operator = (const D3DXVECTOR2& v) {	x=v.x; y=v.y; }
 #endif
+ 
 
-
-
-//#if ( defined(_WINDEF_) || defined(__GB_TYPES_H__) || defined(__wtypes_h__) )
-#if ( defined(_WINDOWS_) || defined(__GB_TYPES_H__) )
+ 
+#if  defined(_WINDOWS_) && defined(WIN32)
+	 void operator = (const POINT& p)
+	 {
+		 x = (float)p.x;
+		 y = (float)p.y;
+	 }
+#else
+			/*
+#ifdef   __GB_TYPES_H__
 	 void operator = (const POINT& p)
 	 {
 		 x = (float)p.x;
 		 y = (float)p.y;
 	 }
 #endif
+	 */
+#endif
+ 
+
+
+
 
 
 
@@ -325,6 +338,8 @@ namespace gb
 			inline vec3 &  operator /= (float f)            {	x /= f;	y /= f;	z /= f;	return *this; }
 			inline vec3 &  operator /= (const vec3 &v)    {	x /= v.x;	y /= v.y;	z /= v.z;	return *this; }
  
+			//inline vec3 &  operator += (float f) {  } 
+
 			inline operator  const float*() const  { return &x; }
 			inline operator        float*()        { return &x; }
 
