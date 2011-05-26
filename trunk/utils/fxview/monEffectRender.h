@@ -6,10 +6,17 @@
 
 
 #include <string>
+#include <gb/macro.h>
+#include "context.h"
+#include <gb/graphics/value_semantic/value_semantic.h>
+using namespace gb::graphics::value_semantic;
+
+#define MONPRINT(msg)  assert(false&&(msg));
 
 #pragma warning (push)
 #pragma warning (disable : 4996)
 
+Context g_context;
 
 ID3DXEffect *g_pEff = NULL;
 static char g_filename[MAX_PATH];
@@ -23,8 +30,11 @@ IDirect3DTexture9 *g_pNM_normalmap = NULL;
 
 static float fRotateTime = 0.0f;
 
+/*
 static DAPLIB_InitData g_InitData;
 static DAPLIB_CallBackData g_pCallBack;
+ */
+
 // надо ли кидать в лог сообщения
 bool g_bneedputlog = true;
 
@@ -33,7 +43,7 @@ bool g_bneedputlog = true;
 
 #define __PUTLOG(m) //	MONPRINT(m);
 
-
+#define PINC  void*
 
 
 //-------------------------------------------------------
@@ -45,10 +55,10 @@ static HRESULT __SetEffFloat(PINC context, ID3DXEffect *pEff,
   if (!par->pd.Semantic)
     return hr;
 
-  static SemanticNameBuffer sem;
+  std::string sem;
   //	strcpy(sem.buffer  ,  par->pd.Semantic );
   sem = par->pd.Semantic;
-  int semid = GetSemanticIDbyName_float(sem);
+  int semid = matrix4x4_type_fromstr GetSemanticIDbyName_float(sem);
 
   // пока не устанавливаются...
   return hr;
@@ -88,6 +98,10 @@ static HRESULT __SetEffVector3(PINC context, ID3DXEffect *pEff,
 {
   HRESULT hr = 0;
   __PUTLOG(__FUNCTION__);
+
+
+
+
   if (!par->pd.Semantic)
     return hr;
 
@@ -96,7 +110,7 @@ static HRESULT __SetEffVector3(PINC context, ID3DXEffect *pEff,
   {
     case RMSEM_f3_ViewPosition:
       {
-        hr |= pEff->SetFloatArray(par->hp, (FLOAT*)g_efmatrcntxt.GetViewPos4(),
+        hr |= pEff->SetFloatArray(par->hp, (FLOAT*)g_context.GetViewPos4(),
           3);
       }
       break;
@@ -127,7 +141,7 @@ HRESULT __SetEffVector4(PINC context, ID3DXEffect *pEff, const Parameter *par)
   {
     case RMSEM_f4_ViewPosition:
       {
-        hr |= pEff->SetVector(par->hp, g_efmatrcntxt.GetViewPos4());
+        hr |= pEff->SetVector(par->hp, g_context.GetViewPos4());
       }
       break;
 
@@ -152,27 +166,33 @@ static HRESULT __SetEffFloat4x4(PINC context, ID3DXEffect *pEff, const
   if (!par->pd.Semantic)
     return hr;
 
+  matrix4x4_type_e::e etype= (matrix4x4_type_e::e)par->m_sem_id;
 
-  switch (par->m_sem_id)
+  switch (etype)
   {
-    case RMSEM_f4x4_View:
+	 
+
+
+  case matrix4x4_type_e::VIEW :
       {
-        hr |= pEff->SetMatrix(par->hp, g_efmatrcntxt.GetView());
+        hr |= pEff->SetMatrix(par->hp, g_context.GetMatrixView());
       }
       break;
-    case RMSEM_f4x4_ViewProjection:
+
+  case matrix4x4_type_e::VIEWPROJECTION  :
       {
-        hr |= pEff->SetMatrix(par->hp, g_efmatrcntxt.GetViewProjection());
+        hr |= pEff->SetMatrix(par->hp, g_context.GetMatrixViewProjection());
       }
       break;
-    case RMSEM_f4x4_World:
+
+  case matrix4x4_type_e::WORLD :
       {
-        hr |= pEff->SetMatrix(par->hp, g_efmatrcntxt.GetWorld());
+        hr |= pEff->SetMatrix(par->hp, g_context.GetMatrixWorld());
       }
       break;
-    case RMSEM_f4x4_WorldViewProjection:
+  case matrix4x4_type_e::WORLDVIEWPROJECTION :
       {
-        hr |= pEff->SetMatrix(par->hp, g_efmatrcntxt.GetWorldViewProjection());
+        hr |= pEff->SetMatrix(par->hp, g_context.GetMatrixWorldViewProjection());
       }
       break;
 
@@ -337,7 +357,7 @@ HRESULT __SetRenderEffParams(PINC context, ID3DXEffect *pEff,
   if FAILED(hr)
   {
     MONPRINT("Faile set  BumpyShinyVariations \n");
-  };
+  }
 
 
   const UINT CSZE = (UINT)g_vector_params.size();
@@ -457,28 +477,30 @@ HRESULT __FuncDAPLIB_OnCreateDevice(IDVC *pdvc,
   // hr |= D3DXCreateTextureFromFileA(pdvc, "z:\\_KSW\\CLIENT\\GRAPHIC\\LDXEFH\\LDXEFH\\test_texture\\txtr_DF.bmp", &g_pTextureDiffuse);
   hr |= D3DXCreateTextureFromFileA(pdvc, 
     "z:\\!TEXTURES\\!DVD\\!GROUND\\7651a055.dds", &g_pTextureDiffuse);
+
   hr |= D3DXCreateCubeTextureFromFileA(pdvc, 
     "Z:\\!TEXTURES\\!DVD\\!CUBEMAP\\Sky128.dds", &g_pCubemap);
 
+
   hr |= D3DXCreateTextureFromFileA(pdvc, 
-    "Z:\\_KSW\\CLIENT\\GRAPHIC\\__LDXEFH_old\\LDXEFH\\media\\rockwall_diffuse.dds", &g_pNM_diffuse);
+    "Z:\\_KSW\\CLIENT\\GRAPHIC\\__LDXEFH_old\\LDXEFH\\media\\rockwall_diffuse.dds", 
+	&g_pNM_diffuse);
+
   hr |= D3DXCreateTextureFromFileA(pdvc, 
-    "Z:\\_KSW\\CLIENT\\GRAPHIC\\__LDXEFH_old\\LDXEFH\\media\\rockwall_normal.dds", &g_pNM_normalmap);
+    "Z:\\_KSW\\CLIENT\\GRAPHIC\\__LDXEFH_old\\LDXEFH\\media\\rockwall_normal.dds", 
+	&g_pNM_normalmap);
+
 
 
 
   return hr;
 };
 
-HRESULT __FuncDAPLIB_OnResetDevice(IDVC *pdvc, const D3DSURFACE_DESC *pbbsd,
-  void *pUserData)
+HRESULT __FuncDAPLIB_OnResetDevice(IDVC *pdvc, 
+								   const D3DSURFACE_DESC *pbbsd, void *pUserData)
 {
   HRESULT hr = 0;
-  g_Material_test_EffectParam.ResetDevice();
-  g_MaterialBumpReflectNoDiffuse.ResetDevice();
-  g_MaterialBumpPointLight.ResetDevice();
-  g_MaterialBumpSpecular.ResetDevice();
-
+ 
   if (g_pEff)
   {
     hr |= g_pEff->OnResetDevice();
@@ -491,10 +513,7 @@ HRESULT __FuncDAPLIB_OnResetDevice(IDVC *pdvc, const D3DSURFACE_DESC *pbbsd,
 HRESULT __FuncDAPLIB_OnLostDevice(void *pUserData)
 {
   HRESULT hr = 0;
-  g_Material_test_EffectParam.LostDevice();
-  g_MaterialBumpReflectNoDiffuse.LostDevice();
-  g_MaterialBumpPointLight.LostDevice();
-  g_MaterialBumpSpecular.LostDevice();
+ 
 
   if (g_pEff)
   {
@@ -508,20 +527,17 @@ HRESULT __FuncDAPLIB_OnLostDevice(void *pUserData)
 HRESULT __FuncDAPLIB_OnDestroyDevice(void *pUserData)
 {
   HRESULT hr = 0;
-  g_Material_test_EffectParam.Release();
-  g_MaterialBumpReflectNoDiffuse.Release();
-  g_MaterialBumpPointLight.Release();
-  g_MaterialBumpSpecular.Release();
+ 
 
 
-  SAFE_REL(g_pTextureDiffuse);
-  SAFE_REL(g_pCubemap);
+  GB_SAFE_REL(g_pTextureDiffuse);
+  GB_SAFE_REL(g_pCubemap);
 
-  SAFE_REL(g_pNM_diffuse);
-  SAFE_REL(g_pNM_normalmap);
+  GB_SAFE_REL(g_pNM_diffuse);
+  GB_SAFE_REL(g_pNM_normalmap);
 
 
-  SAFE_REL(g_pEff);
+  GB_SAFE_REL(g_pEff);
 
   return 0;
 };
@@ -673,7 +689,7 @@ HRESULT __FuncDAPLIB_FrameRender(const DAPLIB_RenderContext *context, void
 
 
 
-  g_efmatrcntxt.SetNew(&mWorld, &context->mView, &context->mProj);
+  g_context.SetNew(&mWorld, &context->mView, &context->mProj);
 
   // execute render
   __try

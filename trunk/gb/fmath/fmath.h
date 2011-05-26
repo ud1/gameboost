@@ -11,6 +11,7 @@
 \todo  удалить собственные #ifdef XXXXXX
 \todo  Поправить макрозащиту на типы RECT и POINT
 \todo Добавить каст к типам OpenGL
+\todo print() поменять на << 
 
 *
 *
@@ -40,6 +41,8 @@
 #pragma  warning(push)
 #pragma  warning(disable : 4995)
 #pragma  warning(disable : 4996)
+
+#include <gb/base/Types.h>
  
 #include <gb/fmath/fmath_forward_decl.h>
 #include <gb/fmath/scalar.h>

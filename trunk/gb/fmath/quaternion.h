@@ -367,7 +367,7 @@ namespace gb
 
 		geom3d::AxiesAngle getRotationAxiesAngle() const;
 
-		inline geom3d::AxiesAngle toAxiesAngle() const ;
+		geom3d::AxiesAngle toAxiesAngle() const ;
 
 
 		inline Quaternion& setRotationX(float theta) {

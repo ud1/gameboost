@@ -1,7 +1,7 @@
 
 //#include "pch.h"
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include <gb/fmath/fmath.h>
 
@@ -291,7 +291,7 @@ inline geom3d::AxiesAngle Quaternion::getRotationAxiesAngle() const
 }
 
 //=========================================================================
-inline geom3d::AxiesAngle Quaternion::toAxiesAngle() const 
+geom3d::AxiesAngle Quaternion::toAxiesAngle() const 
 { 
 	return getRotationAxiesAngle(); 
 }

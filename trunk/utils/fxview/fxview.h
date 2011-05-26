@@ -18,7 +18,7 @@
 	  Parameter() { memset(&m_sem_id, 0, sizeof(Parameter) );  };
 	 // virtual ~Parameter() {   };
 
-	int m_sem_id;
+	unsigned int m_sem_id;
 	D3DXPARAMETER_DESC pd;
 	D3DXHANDLE hp;
 

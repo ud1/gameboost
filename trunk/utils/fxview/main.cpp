@@ -1,14 +1,16 @@
 ﻿
-#include "context.h"
+ 
 
 
 #include <ce/dxut_wonly/dxut_wonly.h>
+#include "context.h"
 #include <assert.h>
 #include <string>
 #include <vector>
 
 
 #include "fxview.h"
+#include <gb/graphics/value_semantic/value_semantic.h>
 #include "monEffectRender.h"
 
 
@@ -45,9 +47,9 @@ bool CALLBACK ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSettings, const D
 //--------------------------------------------------------------------------------------
 // Create any D3DPOOL_MANAGED resources here 
 //--------------------------------------------------------------------------------------
-int  CALLBACK OnCreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc, void* pUserContext )
+HRESULT  CALLBACK OnCreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc, void* pUserContext )
 {
-	int  hr = 0;
+	HRESULT  hr = 0;
 	  Appl* pappl = (Appl*)pUserContext;
 	 hr |= pappl->OnCreateDevice(pd3dDevice, pBackBufferSurfaceDesc);
 
@@ -59,10 +61,10 @@ int  CALLBACK OnCreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DES
 //--------------------------------------------------------------------------------------
 // Create any D3DPOOL_DEFAULT resources here 
 //--------------------------------------------------------------------------------------
-int  CALLBACK OnResetDevice( IDirect3DDevice9* pd3dDevice, 
+HRESULT  CALLBACK OnResetDevice( IDirect3DDevice9* pd3dDevice, 
 							   const D3DSURFACE_DESC* pBackBufferSurfaceDesc, void* pUserContext )
 {
-	int  hr = 0;
+	HRESULT  hr = 0;
 	  Appl* pappl = (Appl*)pUserContext;
 	 hr |= pappl->OnResetDevice(pd3dDevice, pBackBufferSurfaceDesc);
 
@@ -87,7 +89,7 @@ void CALLBACK OnFrameMove( IDirect3DDevice9* pd3dDevice, double fTime, float fEl
 void CALLBACK OnFrameRender( IDirect3DDevice9* pd3dDevice, double fTime, float fElapsedTime, void* pUserContext )
 {
 	  Appl* pappl = (Appl*)pUserContext;
-	int  hr;
+	HRESULT  hr;
  
 	V( pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB(0, 45, 50, 170), 1.0f, 0) );
 
@@ -166,10 +168,7 @@ void   CALLBACK OnMouse( bool bLeftButtonDown,
 
 
 }
-
-// temp
-#include <Windows.h>
-
+ 
  
 int main(int argc,  char* argv[])
 {

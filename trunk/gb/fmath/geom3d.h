@@ -76,8 +76,11 @@ namespace gb
 
 			inline void __normalize() 
 			{
+#pragma message("ks777: need insert code check zero " __FILE__)
 				register float len = sqrt ( _x*_x + _y*_y + _z*_z );
-				_x/=len; _y/=len; _z/=len;
+				_x/=len; 
+				_y/=len; 
+				_z/=len;
 			}
 
 		public:
@@ -91,7 +94,7 @@ namespace gb
 
 		
 			inline operator  const float*() const  { return &_x; };
-			inline operator        float*()        { return &_x; };
+			//inline operator        float*()        { return &_x; };
 
 			inline float x() const { return _x; }
 			inline float y() const { return _y; }
@@ -99,6 +102,7 @@ namespace gb
 
 			inline void operator = (const  vec3& vn)	{ _x = vn.x; _y = vn.y; _z = vn.z; __normalize(); }
 			inline operator  vec3() const { return  vec3 (_x,_y,_z);  }
+			inline operator  const vec3*() const { return (vec3*)&_x; }
 
 			//! \brief  Вычислить угол между нормалями
 			inline float angle (const Normal3& n) 
@@ -118,7 +122,6 @@ namespace gb
 			{ 
 			    vec3 v = *this;
 			   v.transformNormal(m);
-			   //*this = v;
 			   _x = v.x;
 			   _y = v.y;
 			   _z = v.z;
@@ -144,6 +147,7 @@ namespace gb
 		// end class
 
 
+
 		/** \brief Сущность описывает точку/координату/позицию в 3х-мерном пространстве.
 		   Уровень выше, чем вектор */
 		class Point3 {
@@ -154,13 +158,16 @@ namespace gb
 
 			//! \brief  По дефолту координата нулевая .
 			inline Point3() { _x=0.0f; _y=0.0f; _z=0.0f;  }
+			inline Point3(const Point3& p) { _x=p._x; _y=p._y; _z=p._z; }
 			inline Point3(float x, float y, float z) {_x=x; _y=y; _z=z; }
 
 			inline operator  const float*() const  { return &_x; };
 			inline operator        float*()        { return &_x; };
 
 			inline void operator = (const  vec3& v) { _x=v.x; _y=v.y; _z=v.z; }
-			inline operator  vec3() const { return  vec3 (_x,_y,_z);  }
+
+			inline operator       vec3 () const { return  vec3 (_x,_y,_z);  }
+			inline operator const vec3*() const { return (vec3*)&_x; }
 	
 #ifdef _D3D9_H_
 			inline operator D3DVECTOR*() { return (D3DVECTOR*)&_x; }
@@ -246,10 +253,32 @@ namespace gb
    //! \brief Сборка векторов вида.
    struct EyeData
    {
-	 Point3   eyePosition; ///<	позиция наблюдателя.
-	 Point3   eyeAt;  ///< точка цель наблюдателя.
-	 Normal3  eyeUp;  ///< верх  наблюдателя.
+	 vec3   eyePosition;  ///<	 Точка позиция наблюдателя.
+	 vec3   eyeAt;        ///<   Точка цель наблюдателя.
+	 vec3   eyeUp;        ///<   Верх  наблюдателя.
+
+	 //! \brief  Получить вектор направления наблюдения.
+	 vec3 direction() const 
+	 { 
+		 vec3 res(eyeAt-eyePosition);
+		 res.normalize();
+		 return res;
+	 }
    
+	 void decomposeInverseView(const mat44& mInvView)
+	 {
+		 assert(false);
+	 // eyePosition.x = minv._41;
+	 // eyePosition.y = minv._42;
+	 // eyePosition.z = minv._43;
+
+     // dir = *( (vec3*)&minv._31);
+
+
+     // up  = *( (vec3*)&minv._21);
+	 
+	 }
+
    };
 
 
@@ -1505,9 +1534,9 @@ inline float distanceToPlane( plane_s& plane )   const
    //! \brief Сборка из данных трансформации: скалирование(вектор) + поворот(кват.) + позиция(вектор).
    struct TransformData
    {
-	    vec3     vScaling;     ///< масштабирование
-	   Quaternion       qRotation;    ///< вращение
-	    vec3     vTranslation; ///<  позиция
+	    vec3         vScaling;      ///< масштабирование
+	    Quaternion   qRotation;     ///< вращение
+	    vec3         vTranslation;  ///<  позиция
 
 
 
