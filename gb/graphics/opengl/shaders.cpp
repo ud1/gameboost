@@ -7,105 +7,77 @@
 #include "shaders.h"
 
 #include <io.h>
-#include <Ñstdio>
-#include <Ñstdlib>
+#include <stdio.h>
+#include <stdlib.h>
 
 namespace gb {
 namespace graphics {
 namespace opengl {
 
+char * loadFromFile(const char *fn);
+void printInfoLog(GLuint obj, const char *title);
 
-ShaderProgram::ShaderProgram(const char *vs, const char *fs, bool L) {
-    logs = L;
-    sh_program_object = glCreateProgramObjectARB();
 
-    if (vs) loadVertShader(vs);
-    if (fs) loadFragShader(fs);
-
-    glLinkProgramARB(sh_program_object);
-    //glValidateProgramARB(sh_program_object);
-
-    GLint status;
-    glGetProgramiv(sh_program_object, GL_LINK_STATUS, &status);
-    if (logs && status != GL_TRUE)
-        printInfoLog(sh_program_object, "Shader Program");
+ShaderProgram::ShaderProgram() {
+    sh_num = 0;
+    sh_program_object = glCreateProgram();
 }
 
 
 ShaderProgram::~ShaderProgram() {
-    glUseProgramObjectARB(0);
-    glDetachObjectARB(sh_program_object, vsh_object);
-    glDetachObjectARB(sh_program_object, fsh_object);
-    glDeleteObjectARB(vsh_object);
-    glDeleteObjectARB(fsh_object);
+    off();
+    for (int i=0; i<sh_num; ++i) {
+        glDetachShader(sh_program_object, shaders[i]);
+    }
 }
 
 
 void ShaderProgram::on() {
-    glUseProgramObjectARB(sh_program_object);
+    glUseProgram(sh_program_object);
 }
 
 
 void ShaderProgram::off() {
-    glUseProgramObjectARB(0);
+    glUseProgram(0);
 }
 
 
-// ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð²ÐµÑ€ÑˆÐ¸Ð½Ð½Ð¾Ð³Ð¾ ÑˆÐµÐ¹Ð´ÐµÑ€Ð°
-void ShaderProgram::loadVertShader(const char * filename) {
-    if (access(filename, 0)) return;
-    const char * sh_code = LoadFromFile(filename);
+void ShaderProgram::attachShader (ShaderBase const & shader) {
+    glAttachShader(sh_program_object, shader.getHandle());
+    ++sh_num;
+}
 
-    GLhandleARB sh_object = glCreateShaderObjectARB(GL_VERTEX_SHADER);
-    glShaderSourceARB(sh_object, 1, &sh_code, NULL);
-    glCompileShaderARB(sh_object);
+void ShaderProgram::link (bool log) {
+    glLinkProgram(sh_program_object);
 
     GLint status;
-    glGetShaderiv(sh_object, GL_COMPILE_STATUS, &status);
-    if (logs && status != GL_TRUE)
-        printInfoLog(sh_object, "Vertex shader");
-
-    glAttachObjectARB(sh_program_object, sh_object);
-
-    vsh_object = sh_object;
-    delete[] sh_code;
+    glGetProgramiv(sh_program_object, GL_LINK_STATUS, &status);
+    if (log && status != GL_TRUE)
+        printInfoLog(sh_program_object, "Shader Program linking");
 }
 
-
-// ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ñ„Ñ€Ð°Ð³Ð¼ÐµÐ½Ñ‚Ð½Ð¾Ð³Ð¾ ÑˆÐµÐ¹Ð´ÐµÑ€Ð°
-void ShaderProgram::loadFragShader(const char * filename) {
-    if (access(filename, 0)) return;
-    const char * sh_code = LoadFromFile(filename);
-
-    GLhandleARB sh_object = glCreateShaderObjectARB(GL_FRAGMENT_SHADER);
-    glShaderSourceARB(sh_object, 1, &sh_code, NULL);
-    glCompileShaderARB(sh_object);
-
+void ShaderProgram::validate (bool log) {
+    glValidateProgram(sh_program_object);
 
     GLint status;
-    glGetShaderiv(sh_object, GL_COMPILE_STATUS, &status);
-    if (logs && status != GL_TRUE)
-        printInfoLog(sh_object, "Fragment shader");
-
-    glAttachObjectARB(sh_program_object, sh_object);
-
-    fsh_object = sh_object;
-    delete[] sh_code;
+    glGetProgramiv(sh_program_object, GL_LINK_STATUS, &status);
+    if (log && status != GL_TRUE)
+        printInfoLog(sh_program_object, "Shader Program validating");
 }
 
 
-// ÐŸÑ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¸ ÑˆÐµÐ¹Ð´ÐµÑ€Ð¾Ð²
+// Ïðîâåðêà ïîääåðæêè øåéäåðîâ
 bool ShaderProgram::GLSLcheck() {
     char *szGLExtensions = (char*) glGetString(GL_EXTENSIONS);
     if (!strstr(szGLExtensions, "GL_ARB_shader_objects ")) {
-        MessageBoxA(0, "Ð Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸Ðµ Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ ÑˆÐµÐ¹Ð´ÐµÑ€Ð°Ð¼Ð¸ Ð½Ðµ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÐµÑ‚ÑÑ!", "Error", MB_OK);
+        //MessageBoxA(0, "Ðàñøèðåíèå äëÿ ðàáîòû ñ øåéäåðàìè íå ïîääåðæèâàåòñÿ!", "Error", MB_OK);
         return false;
     }
     if (!glCreateProgramObjectARB || !glDeleteObjectARB || !glUseProgramObjectARB
             || !glCreateShaderObjectARB || !glCompileShaderARB
             || !glAttachObjectARB || !glLinkProgramARB || !glDetachObjectARB) {
-        MessageBoxA(0, "ÐžÐ´Ð½Ð° Ð¸Ð»Ð¸ Ð±Ð¾Ð»ÐµÐµ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¹ Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ ÑˆÐµÐ¹Ð´ÐµÑ€Ð°Ð¼Ð¸ Ð½Ðµ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÐµÑ‚ÑÑ",
-                "ERROR", MB_OK | MB_ICONEXCLAMATION);
+        //MessageBoxA(0, "Îäíà èëè áîëåå ôóíêöèé äëÿ ðàáîòû ñ øåéäåðàìè íå ïîääåðæèâàåòñÿ",
+        //        "ERROR", MB_OK | MB_ICONEXCLAMATION);
         return false;
     }
     return true;
@@ -113,38 +85,86 @@ bool ShaderProgram::GLSLcheck() {
 
 
 void ShaderProgram::setUniform1i (const char *uname, int v) {
-    GLint p = glGetUniformLocationARB(sh_program_object, uname);
-    glUniform1iARB(p, v);
+    GLint p = glGetUniformLocation(sh_program_object, uname);
+    glUniform1i(p, v);
 }
 
 
 void ShaderProgram::setUniform1f (const char *uname, float v) {
-    GLint p = glGetUniformLocationARB(sh_program_object, uname);
-    glUniform1fARB(p, v);
+    GLint p = glGetUniformLocation(sh_program_object, uname);
+    glUniform1f(p, v);
 }
 
 // PRIVATE
 //###################################################################
 
 
-// Ð’Ñ‹Ð²Ð¾Ð´ Ð»Ð¾Ð³Ð° ÐºÐ¾Ð¼Ð¿Ð¸Ð»ÑÑ†Ð¸Ð¸
-void ShaderProgram::printInfoLog(GLhandleARB obj, const char *title) {
-    int len = 0, chWritten = 0;
-    char *infoLog;
-    glGetObjectParameterivARB(obj, GL_OBJECT_INFO_LOG_LENGTH_ARB, &len);
+///////////////////////////////////////////////////////////
+// Shader Base
+///////////////////////////////////////////////////////////
 
-    if (len > 1) {
-        infoLog = new char [len+1];
-        glGetInfoLogARB(obj, len, &chWritten, infoLog);
-        MessageBoxA(NULL, infoLog, title, 0);
-        delete[] infoLog;
-    }
-    else MessageBoxA(NULL, "all right", title, 0);
+
+ShaderBase::ShaderBase (const char * filename) {
+    source = loadFromFile(filename);
 }
 
 
-// Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° ÐºÐ¾Ð´Ð° ÑˆÐµÐ¹Ð´ÐµÑ€Ð° Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð°
-char * ShaderProgram::LoadFromFile(const char *fn) {
+ShaderBase::~ShaderBase () {
+    delete source;
+    glDeleteShader(sh_object);
+}
+
+
+const char * ShaderBase::getSource () const {
+    return source;
+}
+
+
+GLuint ShaderBase::getHandle () const {
+    return sh_object;
+}
+
+///////////////////////////////////////////////////////////
+// Vertex Shader
+///////////////////////////////////////////////////////////
+
+VertexShader::VertexShader (const char * filename, bool log)
+        : ShaderBase (filename) {
+    sh_object = glCreateShaderObjectARB(GL_VERTEX_SHADER);
+    glShaderSourceARB(sh_object, 1, (const char**) &source, NULL);
+    glCompileShaderARB(sh_object);
+
+    GLint status;
+    glGetShaderiv(sh_object, GL_COMPILE_STATUS, &status);
+    if (log && status != GL_TRUE) {
+        printInfoLog(sh_object, filename);
+    }
+}
+
+///////////////////////////////////////////////////////////
+// Fragment Shader
+///////////////////////////////////////////////////////////
+
+FragmentShader::FragmentShader (const char * filename, bool log)
+        : ShaderBase (filename) {
+    sh_object = glCreateShaderObjectARB(GL_FRAGMENT_SHADER);
+    glShaderSourceARB(sh_object, 1, (const char**) &source, NULL);
+    glCompileShaderARB(sh_object);
+
+    GLint status;
+    glGetShaderiv(sh_object, GL_COMPILE_STATUS, &status);
+    if (log && status != GL_TRUE) {
+        printInfoLog(sh_object, filename);
+    }
+}
+
+
+///////////////////////////////////////////////////////////
+// Utils
+///////////////////////////////////////////////////////////
+
+// Çàãðóçêà êîäà øåéäåðà èç ôàéëà
+char * loadFromFile(const char *fn) {
     FILE *file;
     char *content = NULL;
     int count = 0;
@@ -162,6 +182,22 @@ char * ShaderProgram::LoadFromFile(const char *fn) {
     }
     fclose(file);
     return content;
+}
+
+
+// Âûâîä ëîãà êîìïèëÿöèè
+void printInfoLog(GLuint obj, const char *title) {
+    int len = 0, chWritten = 0;
+    char *infoLog;
+    glGetProgramiv(obj, GL_INFO_LOG_LENGTH, &len);
+
+    if (len > 1) {
+        infoLog = new char [len+1];
+        glGetShaderInfoLog(obj, len, &chWritten, infoLog);
+        MessageBoxA(NULL, infoLog, title, 0);
+        delete[] infoLog;
+    }
+    else MessageBoxA(NULL, "all right", title, 0);
 }
 
 }}} // namespaces
