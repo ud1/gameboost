@@ -219,7 +219,7 @@ bool saveStrToFileW(KS_IN std::string& s, const wchar_t* fname)
 #endif
 
 //=============================================================
-#pragma message("KS777   ПРОВЕРИТЬ "  __FILE__ )
+//#pragma message("KS777   ПРОВЕРИТЬ "  __FILE__ )
 bool iCompareCstr(const char* src1, const char* src2,   uint32_t nMax  ) 
 {
 	uint32_t c=0;
@@ -233,17 +233,19 @@ bool iCompareCstr(const char* src1, const char* src2,   uint32_t nMax  )
 		char ch1 = tolower( *(src1 + c) );
 		char ch2 = tolower( *(src2 + c) );
 
-		if(ch1 != ch2) {
+		if(ch1 != ch2) 
+		{
 			return false;
 		}
 
-		if(  (ch1 == 0) || (ch2 == 0) ) {
+		if(  (ch1 == 0) || (ch2 == 0) ) 
+		{
 			return true;
 		}
 
+
+
 		c++;
-
-
 	}
 
 	return false;
@@ -1351,6 +1353,58 @@ void removeAnyFromBeginAndEnd_Vec(
 	}
 
 }
+//===================================================
+
+//======================================================
+bool searchChars( std::vector<CharsPos_t>& vchpos, 
+							 const char* szSrc,
+							 //const std::string& src, 
+							 int nStartIndex
+							 )
+{
+	bool res = false;
+
+	// clear indexes
+	for(size_t c=0; c<vchpos.size(); c++)
+	{
+		vchpos[c].vecFoundIndexes.clear();
+	}
+
+
+	//if( nStartIndex >=(int)src.length()-1 ) 
+	//{
+	//	return false;
+	//}
+
+	//const char* psrc = ( src.c_str() + nStartIndex );
+
+	int c=0;
+	for(;;) //int c=0; c<(int)src.length(); c++)
+	{
+		const char curr =  *(szSrc + c); //*(psrc + c);
+		if(curr == '\0')
+		{
+			return res;
+		}
+
+		for(size_t j=0;  j<(int)vchpos.size(); j++)
+		{
+			if(curr == vchpos[j].charToBeSearsh )
+			{
+				vchpos[j].vecFoundIndexes.push_back(c);
+				res = true;
+
+			};
+
+		} // for j
+
+	  c++;
+	} // for c
+
+	return res;
+};
+
+
 
 //============================================
 void strArrayToStr(KS_OUT std::string& sOut,
