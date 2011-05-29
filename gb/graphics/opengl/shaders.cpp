@@ -66,17 +66,17 @@ void ShaderProgram::validate (bool log) {
 }
 
 
-// Проверка поддержки шейдеров
+// РџСЂРѕРІРµСЂРєР° РїРѕРґРґРµСЂР¶РєРё С€РµР№РґРµСЂРѕРІ
 bool ShaderProgram::GLSLcheck() {
     char *szGLExtensions = (char*) glGetString(GL_EXTENSIONS);
     if (!strstr(szGLExtensions, "GL_ARB_shader_objects ")) {
-        //MessageBoxA(0, "Расширение для работы с шейдерами не поддерживается!", "Error", MB_OK);
+        //MessageBoxA(0, "Р Р°СЃС€РёСЂРµРЅРёРµ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С€РµР№РґРµСЂР°РјРё РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ!", "Error", MB_OK);
         return false;
     }
     if (!glCreateProgramObjectARB || !glDeleteObjectARB || !glUseProgramObjectARB
             || !glCreateShaderObjectARB || !glCompileShaderARB
             || !glAttachObjectARB || !glLinkProgramARB || !glDetachObjectARB) {
-        //MessageBoxA(0, "Одна или более функций для работы с шейдерами не поддерживается",
+        //MessageBoxA(0, "РћРґРЅР° РёР»Рё Р±РѕР»РµРµ С„СѓРЅРєС†РёР№ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С€РµР№РґРµСЂР°РјРё РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ",
         //        "ERROR", MB_OK | MB_ICONEXCLAMATION);
         return false;
     }
@@ -163,7 +163,7 @@ FragmentShader::FragmentShader (const char * filename, bool log)
 // Utils
 ///////////////////////////////////////////////////////////
 
-// Загрузка кода шейдера из файла
+// Р—Р°РіСЂСѓР·РєР° РєРѕРґР° С€РµР№РґРµСЂР° РёР· С„Р°Р№Р»Р°
 char * loadFromFile(const char *fn) {
     FILE *file;
     char *content = NULL;
@@ -185,7 +185,7 @@ char * loadFromFile(const char *fn) {
 }
 
 
-// Вывод лога компиляции
+// Р’С‹РІРѕРґ Р»РѕРіР° РєРѕРјРїРёР»СЏС†РёРё
 void printInfoLog(GLuint obj, const char *title) {
     int len = 0, chWritten = 0;
     char *infoLog;
