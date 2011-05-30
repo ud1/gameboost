@@ -87,7 +87,8 @@ long  Context::setMatrices(const mat44 *mWorld, const mat44 *mView, const mat44 
   } // if(mProj)
 
 
-  // set to device
+   long lres =0;
+   lres=onNewMatrices(mWorld, mView, mProj);
 
 
   //if (pdvc)
@@ -122,7 +123,7 @@ long  Context::setMatrices(const mat44 *mWorld, const mat44 *mView, const mat44 
 };
 
 //====================================================================  
-const mat44 *Context::getMatrixViewProjection()const
+const mat44 *Context::get_matrix_ViewProjection()const
 {
   if (m_matr.mViewProjection .bChangeFlag)
   {
@@ -136,7 +137,7 @@ const mat44 *Context::getMatrixViewProjection()const
 };
 
 //==================================================================== 
-const mat44 *Context::getMatrixViewProjectionInverse()const
+const mat44 *Context::get_matrix_ViewProjectionInverse()const
 {
   if (m_matr.mViewProjectionInverse.bChangeFlag)
   {
@@ -153,7 +154,7 @@ const mat44 *Context::getMatrixViewProjectionInverse()const
 };
 
 //==================================================================== 
-const mat44 *Context::getMatrixViewProjectionInverseTranspone()const
+const mat44 *Context::get_matrix_ViewProjectionInverseTranspone()const
 {
   if (m_matr.mViewProjectionInverseTranspone.bChangeFlag)
   {
@@ -174,7 +175,7 @@ const mat44 *Context::getMatrixViewProjectionInverseTranspone()const
 };
 
 //==================================================================== 
-const mat44 *Context::getMatrixViewProjectionTranspone()const
+const mat44 *Context::get_matrix_ViewProjectionTranspone()const
 {
   if (m_matr.mViewProjectionTranspone.bChangeFlag)
   {
@@ -190,7 +191,7 @@ const mat44 *Context::getMatrixViewProjectionTranspone()const
 };
 
 //==================================================================== 
-const mat44 *Context::getMatrixViewTranspone()const
+const mat44 *Context::get_matrix_ViewTranspone()const
 {
   if (m_matr.mViewTranspone.bChangeFlag)
   {
@@ -204,7 +205,7 @@ const mat44 *Context::getMatrixViewTranspone()const
 };
 
 //==================================================================== 
-const mat44 *Context::getMatrixViewInverse()const
+const mat44 *Context::get_matrix_ViewInverse()const
 {
   if (m_matr.mViewInverse.bChangeFlag)
   {
@@ -218,7 +219,7 @@ const mat44 *Context::getMatrixViewInverse()const
 };
 
 //==================================================================== 
-const mat44 *Context::getMatrixViewInverseTranspone()const
+const mat44 *Context::get_matrix_ViewInverseTranspone()const
 {
   if (m_matr.mViewInverseTranspone.bChangeFlag)
   {
@@ -234,7 +235,7 @@ const mat44 *Context::getMatrixViewInverseTranspone()const
 };
 
 //==================================================================== 
-const mat44 *Context::getMatrixProjectionInverse()const
+const mat44 *Context::get_matrix_ProjectionInverse()const
 {
   if (m_matr.mProjectionInverse.bChangeFlag)
   {
@@ -248,7 +249,7 @@ const mat44 *Context::getMatrixProjectionInverse()const
 };
 
 //==================================================================== 
-const mat44 *Context::getMatrixProjectionTranspone()const
+const mat44 *Context::get_matrix_ProjectionTranspone()const
 {
   if (m_matr.mProjectionTranspone.bChangeFlag)
   {
@@ -262,7 +263,7 @@ const mat44 *Context::getMatrixProjectionTranspone()const
 };
 
 //====================================================================   
-const mat44 *Context::getMatrixProjectionInverseTranspone()const
+const mat44 *Context::get_matrix_ProjectionInverseTranspone()const
 {
   if (m_matr.mProjectionInverseTranspone.bChangeFlag)
   {
@@ -278,7 +279,7 @@ const mat44 *Context::getMatrixProjectionInverseTranspone()const
 };
 
 //====================================================================   
-const mat44 *Context::getMatrixWorldViewProjection()const
+const mat44 *Context::get_matrix_WorldViewProjection()const
 {
   if (m_matr.mWorldViewProjection.bChangeFlag)
   {
@@ -295,7 +296,7 @@ const mat44 *Context::getMatrixWorldViewProjection()const
 };
 
 //====================================================================  
-const mat44 *Context::getMatrixWorldViewProjectionTranspone()const
+const mat44 *Context::get_matrix_WorldViewProjectionTranspone()const
 {
   if (m_matr.mWorldViewProjectionTranspone.bChangeFlag)
   {
@@ -314,7 +315,7 @@ const mat44 *Context::getMatrixWorldViewProjectionTranspone()const
 };
 
 //====================================================================  
-const mat44 *Context::getMatrixWorldViewProjectionInverse()const
+const mat44 *Context::get_matrix_WorldViewProjectionInverse()const
 {
   if (m_matr.mWorldViewProjectionInverse.bChangeFlag)
   {
@@ -334,7 +335,7 @@ const mat44 *Context::getMatrixWorldViewProjectionInverse()const
 };
 
 //====================================================================   
-const mat44 *Context::getMatrixWorldViewProjectionInverseTranspone()const
+const mat44 *Context::get_matrix_WorldViewProjectionInverseTranspone()const
 {
   mat44 temp;
   if (m_matr.mWorldViewProjectionInverseTranspone.bChangeFlag)
@@ -358,7 +359,7 @@ const mat44 *Context::getMatrixWorldViewProjectionInverseTranspone()const
 };
 
 //====================================================================  
-const mat44 *Context::getMatrixWorldTranspone()const
+const mat44 *Context::get_matrix_WorldTranspone()const
 {
   if (m_matr.mWorldTranspone.bChangeFlag)
   {
@@ -372,7 +373,7 @@ const mat44 *Context::getMatrixWorldTranspone()const
 };
 
 //====================================================================   
-const mat44 *Context::getMatrixWorldInverse()const
+const mat44 *Context::get_matrix_WorldInverse()const
 {
   if (m_matr.mWorldInverse.bChangeFlag)
   {
@@ -386,7 +387,7 @@ const mat44 *Context::getMatrixWorldInverse()const
 };
 
 //====================================================================   
-const mat44 *Context::getMatrixWorldInverseTranspone()const
+const mat44 *Context::get_matrix_WorldInverseTranspone()const
 {
   if (m_matr.mWorldInverseTranspone.bChangeFlag)
   {
@@ -403,7 +404,7 @@ const mat44 *Context::getMatrixWorldInverseTranspone()const
 };
 
 //====================================================================   
-const mat44 *Context::getMatrixWorldView()const
+const mat44 *Context::get_matrix_WorldView()const
 {
   if (m_matr.mWorldView .bChangeFlag)
   {
@@ -417,7 +418,7 @@ const mat44 *Context::getMatrixWorldView()const
 };
 
 //====================================================================  
-const mat44 *Context::getMatrixWorldViewTranspone()const
+const mat44 *Context::get_matrix_WorldViewTranspone()const
 {
   if (m_matr.mWorldViewTranspone.bChangeFlag)
   {
@@ -437,7 +438,7 @@ const mat44 *Context::getMatrixWorldViewTranspone()const
 
 
 //====================================================================  
-const mat44 *Context::getMatrixWorldViewInverse()const
+const mat44 *Context::get_matrix_WorldViewInverse()const
 {
   if (m_matr.mWorldViewInverse.bChangeFlag)
   {
@@ -454,7 +455,7 @@ const mat44 *Context::getMatrixWorldViewInverse()const
 };
 
 //====================================================================  
-const mat44 *Context::getMatrixWorldViewInverseTranspone()const
+const mat44 *Context::get_matrix_WorldViewInverseTranspone()const
 {
   if (m_matr.mWorldViewInverseTranspone.bChangeFlag)
   {
@@ -478,7 +479,7 @@ void Context::__checkViewVectors()const
 {
   if (m_matr.mViewInverse.bChangeFlag)
   {
-    getMatrixViewInverse();
+    get_matrix_ViewInverse();
     #pragma message ("ПРОВЕРИТЬ ПОЛУЧЕНИЕ ВЕКТОРОВ  ВИДА ИЗ ИНВЕРСНОЙ ВИДОВОЙ МАТРИЦЫ ")
     m_VewPos = *((vec3*) &m_matr.mViewInverse.matrix._41);
     m_ViewDir = *((vec3*) &m_matr.mViewInverse.matrix._31);
@@ -601,9 +602,9 @@ const vec3 *Context::get_vector3_Unproject(const  ViewportZ *vp, const  POINT *p
   D3DXVec3Unproject(pResult,  // vec3 * pOut,
    &vsrc,  //CONST vec3 * pV,
    &__viewport,  //CONST ViewportZ * pViewport,
-  getMatrixProj(),  //CONST mat44 * pProjection,
-  getMatrixView(),  //CONST mat44 * pView,
-  getMatrixWorld() // CONST mat44 * pWorld
+  get_matrix_Proj(),  //CONST mat44 * pProjection,
+  get_matrix_View(),  //CONST mat44 * pView,
+  get_matrix_World() // CONST mat44 * pWorld
   );
 
 
@@ -626,9 +627,9 @@ const vec3 *Context::GetMouseCoordCameraUnproject(const ViewportZ *vp, const POI
     D3DXVec3Unproject( &m_vec3_MouseCoordCameraUnproject,  // vec3 * pOut,
      &vsrc,  //CONST vec3 * pV,
     vp,  //CONST ViewportZ * pViewport,
-    getMatrixProj(),  //CONST mat44 * pProjection,
-    getMatrixView(),  //CONST mat44 * pView,
-    getMatrixWorld() // CONST mat44 * pWorld
+    get_matrix_Proj(),  //CONST mat44 * pProjection,
+    get_matrix_View(),  //CONST mat44 * pView,
+    get_matrix_World() // CONST mat44 * pWorld
     );
 
 
@@ -664,7 +665,7 @@ const PerspectiveProjData *Context::get_projection_Data()const
 
     if (m_bChangeProjectionData)
     {
-    //  D3DXEX_ExtractProjPerspectLH(m_PerspectiveProjData.fFovy, m_PerspectiveProjData.fAspect, m_PerspectiveProjData.fZnear, m_PerspectiveProjData.fZfar, getMatrixProj());
+    //  D3DXEX_ExtractProjPerspectLH(m_PerspectiveProjData.fFovy, m_PerspectiveProjData.fAspect, m_PerspectiveProjData.fZnear, m_PerspectiveProjData.fZfar, get_matrix_Proj());
 	 m_PerspectiveProjData.extractProjPerspectLH(m_mProj);
 
       m_bChangeProjectionData =  0 ;
@@ -691,7 +692,7 @@ int  Context::PushMatrixWorld()const
 
   try
   {
-    m_MatrixStackWorld.top() =  *getMatrixWorld();
+    m_MatrixStackWorld.top() =  *get_matrix_World();
     m_MatrixStackWorld.push();
 
   }
@@ -713,7 +714,7 @@ int  Context::PushMatrixView()const
 
   try
   {
-    m_MatrixStackView.top() =  *getMatrixView();
+    m_MatrixStackView.top() =  *get_matrix_View();
     m_MatrixStackView.push();
 
   }
@@ -736,7 +737,7 @@ int  Context::PushMatrixProj()const
 
   try
   {
-    m_MatrixStackProj.top() =  *getMatrixProj();
+    m_MatrixStackProj.top() =  *get_matrix_Proj();
     m_MatrixStackProj.push();
 
   }
@@ -766,7 +767,7 @@ int  Context::PushMatrices(BOOLFLAG bWorld, BOOLFLAG bView, BOOLFLAG bProj)const
     }
     else
     {
-      *m_MatrixStackWorld.top_ptr() =  *getMatrixWorld();
+      *m_MatrixStackWorld.top_ptr() =  *get_matrix_World();
       m_MatrixStackWorld.push();
     }
 
@@ -782,7 +783,7 @@ int  Context::PushMatrices(BOOLFLAG bWorld, BOOLFLAG bView, BOOLFLAG bProj)const
     }
     else
     {
-      *m_MatrixStackView.top_ptr() =  *getMatrixView();
+      *m_MatrixStackView.top_ptr() =  *get_matrix_View();
       m_MatrixStackView.push();
     }
   };
@@ -797,7 +798,7 @@ int  Context::PushMatrices(BOOLFLAG bWorld, BOOLFLAG bView, BOOLFLAG bProj)const
     }
     else
     {
-      *m_MatrixStackProj.top_ptr() =  *getMatrixProj();
+      *m_MatrixStackProj.top_ptr() =  *get_matrix_Proj();
       m_MatrixStackProj.push();
     }
 
@@ -907,29 +908,22 @@ EyeData Context::getViewParams()const
 const EyeData *Context::getViewParamsPtr()const
 {
   #pragma message ("ПОГОНЯТЬ В ОТЛАДКЕ ЭТОТ МЕТОД")
+ 
 
-  /*struct EyeData {
-
-  vec3 vEye;
-  vec3 vAt;
-  vec3 vUp;
-  };*/
-
-
-  const mat44 *pmViewInv = getMatrixViewInverse();
+  const mat44 *pmViewInv = get_matrix_ViewInverse();
 
   if (m_bIsParameter_EyeData_changed)
   {
+	 m_EyeData.decomposeInverseView(m_matr.mViewInverse.matrix);
 
-    #pragma message ("ПРОВЕРИТЬ ПОЛУЧЕНИЕ ВЕКТОРОВ  ВИДА ИЗ ИНВЕРСНОЙ ВИДОВОЙ МАТРИЦЫ ")
-    m_EyeData.eyePosition = *((vec3*) &m_matr.mViewInverse.matrix._41);
-    vec3 vViewDir = *((vec3*) &m_matr.mViewInverse.matrix._31);
-    m_EyeData.eyeUp = *((Normal3*) &m_matr.mViewInverse.matrix._21);
+   // #pragma message ("ПРОВЕРИТЬ ПОЛУЧЕНИЕ ВЕКТОРОВ  ВИДА ИЗ ИНВЕРСНОЙ ВИДОВОЙ МАТРИЦЫ ")
+   // m_EyeData.eyePosition = *((vec3*) &m_matr.mViewInverse.matrix._41);
+   // vec3 vViewDir = *((vec3*) &m_matr.mViewInverse.matrix._31);
+   // m_EyeData.eyeUp = *((Normal3*) &m_matr.mViewInverse.matrix._21);
 
-    #pragma message("ПРОВЕРИТЬ ПОЛУЧЕНИЕ m_EyeData.eyeUp  ")
-
-	
-    float fDistToCenter = vViewDir.length();  // D3DXVec3Length(&vViewDir);
+    #pragma message("ks777  ПРОВЕРИТЬ !!!!  " __FILE__)
+      assert(false&&"NEED CKECK!! ");
+   // float fDistToCenter = vViewDir.length();  // D3DXVec3Length(&vViewDir);
 
 	/**
     m_EyeData.eyeUp = m_EyeData.eyePosition;
@@ -980,7 +974,7 @@ int  Context::setViewParams(const EyeData *pvp)
   mv.setViewLookAtLH( m_EyeData.eyePosition, m_EyeData.eyeAt, m_EyeData.eyeUp  );
 
 
-  hr |= SetMatrixView(&mv);
+  hr |= set_matrix_View(&mv);
   m_bIsParameter_EyeData_changed =  0 ;
   return hr;
 };
@@ -1055,7 +1049,7 @@ int  Context::setProjectionParams(const PerspectiveProjData *proj)
    mproj.setPerspectiveFovLH(proj->fovy, proj->aspect, proj->zn, proj->zf);
 	 
 
-	hr |= SetMatrixProj(&mproj);
+	hr |= set_matrix_Proj(&mproj);
 
   }
   catch(...)
@@ -1143,12 +1137,11 @@ int  Context::setProjectionZFar(float fZFar)
   }
   catch(...)
   {
-//    MONPRINT("Exception ");
-    hr |= (-1);
-  };
+    hr |= -1;
+  }
 
   return hr;
-};
+}
 
 //=====================================================
 int  Context::setProjectionZNearZFar(float fZNear, float fZFar) 
@@ -1188,7 +1181,7 @@ const TransformData  *Context::getWorldTransformDataPtr()const
 
     #pragma message("NEED CHECK IMPLEMENTATION" __FILE__ )
 
-    const mat44 *mw = getMatrixWorld();
+    const mat44 *mw = get_matrix_World();
 
 
 
@@ -1291,7 +1284,7 @@ int  Context::setWorldTransformData(const TransformData  *pTr)
   m_bTransfDataChange = true;
   m_TransformData =  *pTr;
 
-  /***********************
+ /*****************************
   mat44 mscale, mrotate, mtransl;
 
  // D3DXMatrixTranslation(&mtransl, m_TransformData.vTrnsl.x, 
@@ -1522,6 +1515,11 @@ int  Context::setWorldScalingTranslation(float fScale, float x, float y, float z
   return hr;
 };
 
+#pragma message("ks777: NEED DELETE MAIN()  " __FILE__ )
+int main()
+{
+	return 0;
+}
  
 
 // end file

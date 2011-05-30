@@ -19,74 +19,86 @@ using namespace gb::fmath;
 using namespace gb::fmath::geom3d;
 using namespace gb::fmath::proj;
  
- 
+
+
+#include "MatrixStack.h"
 
  
 
 class Context  {
 public:
    Context() {}
+   virtual ~Context() {} 
  
 
   long  setMatrices(const  mat44 *mWorld,
 				    const  mat44 *mView, 
 				    const  mat44 *mProj );
 
-	inline long  SetMatrixWorld(const mat44 *m) 
+  /** \brief Для перекрытия пользователем.  При изменении матриц.  
+			 Если матрица не меняется тгда параметр NULL. */
+  virtual long onNewMatrices(const  mat44 *mWorld,
+							 const  mat44 *mView, 
+							 const  mat44 *mProj ) 
+  {
+     return 0; 
+  }
+
+	inline long  set_matrix_World(const mat44 *m) 
 	{
 	  return setMatrices(m, NULL, NULL);
 	}	 
 
-	inline long SetMatrixView(const mat44 *m) 
+	inline long set_matrix_View(const mat44 *m) 
 	{
 	  return setMatrices(NULL, m, NULL);
 	}
 
-	inline long SetMatrixProj(const mat44 *m) 
+	inline long set_matrix_Proj(const mat44 *m) 
 	{
 	  return setMatrices(NULL, NULL, m);
 	}
 
 
-  const mat44 *getMatrixWorld()const
+  const mat44 *get_matrix_World()const
   {
     return  &m_mWorld;
   }
 
-  const mat44 *getMatrixView()const
+  const mat44 *get_matrix_View()const
   {
     return  &m_mView;
   }
 
-  const mat44 *getMatrixProj()const
+  const mat44 *get_matrix_Proj()const
   {
     return  &m_mProj;
   }
 
 
-  const mat44 *getMatrixViewProjection()const;
-  const mat44 *getMatrixViewProjectionInverse()const;
-  const mat44 *getMatrixViewProjectionInverseTranspone()const;
-  const mat44 *getMatrixViewProjectionTranspone()const;
-  const mat44 *getMatrixViewTranspone()const;
-  const mat44 *getMatrixViewInverse()const;
-  const mat44 *getMatrixViewInverseTranspone()const;
+  const mat44 *get_matrix_ViewProjection()const;
+  const mat44 *get_matrix_ViewProjectionInverse()const;
+  const mat44 *get_matrix_ViewProjectionInverseTranspone()const;
+  const mat44 *get_matrix_ViewProjectionTranspone()const;
+  const mat44 *get_matrix_ViewTranspone()const;
+  const mat44 *get_matrix_ViewInverse()const;
+  const mat44 *get_matrix_ViewInverseTranspone()const;
 
-  const mat44 *getMatrixProjectionInverse()const;
-  const mat44 *getMatrixProjectionTranspone()const;
-  const mat44 *getMatrixProjectionInverseTranspone()const;
+  const mat44 *get_matrix_ProjectionInverse()const;
+  const mat44 *get_matrix_ProjectionTranspone()const;
+  const mat44 *get_matrix_ProjectionInverseTranspone()const;
 
-  const mat44 *getMatrixWorldViewProjection()const;
-  const mat44 *getMatrixWorldViewProjectionTranspone()const;
-  const mat44 *getMatrixWorldViewProjectionInverse()const;
-  const mat44 *getMatrixWorldViewProjectionInverseTranspone()const;
-  const mat44 *getMatrixWorldTranspone()const;
-  const mat44 *getMatrixWorldInverse()const;
-  const mat44 *getMatrixWorldInverseTranspone()const;
-  const mat44 *getMatrixWorldView()const;
-  const mat44 *getMatrixWorldViewTranspone()const;
-  const mat44 *getMatrixWorldViewInverse()const;
-  const mat44 *getMatrixWorldViewInverseTranspone()const;
+  const mat44 *get_matrix_WorldViewProjection()const;
+  const mat44 *get_matrix_WorldViewProjectionTranspone()const;
+  const mat44 *get_matrix_WorldViewProjectionInverse()const;
+  const mat44 *get_matrix_WorldViewProjectionInverseTranspone()const;
+  const mat44 *get_matrix_WorldTranspone()const;
+  const mat44 *get_matrix_WorldInverse()const;
+  const mat44 *get_matrix_WorldInverseTranspone()const;
+  const mat44 *get_matrix_WorldView()const;
+  const mat44 *get_matrix_WorldViewTranspone()const;
+  const mat44 *get_matrix_WorldViewInverse()const;
+  const mat44 *get_matrix_WorldViewInverseTranspone()const;
 
   const vec3 *get_vector3_VewPos()const;
   const vec3 *get_vector3_ViewDir()const;
@@ -149,9 +161,9 @@ public:
   int  PopMatrices(BOOLFLAG bWorld, BOOLFLAG bView, BOOLFLAG bProj)const;
   int  PopAllMatrices()const;
 
-    int  SetMatrixWorld(const mat44 *m)const;
-    int  SetMatrixView(const mat44 *m)const;
-    int  SetMatrixProj(const mat44 *m)const;
+    int  set_matrix_World(const mat44 *m)const;
+    int  set_matrix_View(const mat44 *m)const;
+    int  set_matrix_Proj(const mat44 *m)const;
 	*/
 
 
@@ -216,15 +228,15 @@ public:
 
   
 	/*
-    UINT getMatrixWorldStackSize()const
+    UINT get_matrix_WorldStackSize()const
   {
     return (UINT)m_MatrixStackWorld.size();
   };
-    UINT getMatrixViewStackSize()const
+    UINT get_matrix_ViewStackSize()const
   {
     return (UINT)m_MatrixStackView.size();
   };
-    UINT getMatrixProjStackSize()const
+    UINT get_matrix_ProjStackSize()const
   {
     return (UINT)m_MatrixStackProj.size();
   };
