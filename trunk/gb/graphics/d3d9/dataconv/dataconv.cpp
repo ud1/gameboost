@@ -3,7 +3,7 @@
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
-  #include <gb/graphics/d3d9/dataconv.h>
+  #include <gb/graphics/d3d9/dataconv/dataconv.h>
 
  
   namespace gb
@@ -18,10 +18,33 @@
 
   //=======================================================================
 
+	  static void __str_touper(std::string& str)
+	  {
+		  for(size_t c=0; c<str.length(); c++)
+		  {
+			    char curr = str[c];
+			  curr = toupper(curr);
+			  str[c] = curr;
+		  }
+	  }
+
+	  static void __Cstr_toupper(char* buf)
+	  {
+		  int c=0;
+		  while(1)
+		  {
+			char _char = buf[c];
+			if(_char=='\0')
+				return ;
+
+			_char = toupper(_char);
+			buf[c] = _char;
+		  }
+	  }
 
 
   //=======================================================================
-  GB_D3D9_API std::string D3DFORMAT_tostr(const D3DFORMAT format)
+  GB_D3D9_API std::string D3DFORMAT_tostr(const D3DFORMAT format, bool bShortWord)
   {
     std::string s;
 
@@ -35,51 +58,67 @@
       case D3DFMT_R8G8B8:
         s = "D3DFMT_R8G8B8";
         break; //        = 20,
+
       case D3DFMT_A8R8G8B8:
         s = "D3DFMT_A8R8G8B8";
         break; //            = 21,
+
       case D3DFMT_X8R8G8B8:
         s = "D3DFMT_X8R8G8B8";
         break; //            = 22,
+
       case D3DFMT_R5G6B5:
         s = "D3DFMT_R5G6B5";
         break; //           = 23,
+
       case D3DFMT_X1R5G5B5:
         s = "D3DFMT_X1R5G5B5";
         break; //            = 24,
+
       case D3DFMT_A1R5G5B5:
         s = "D3DFMT_A1R5G5B5";
         break; //             = 25,
+
       case D3DFMT_A4R4G4B4:
         s = "D3DFMT_A4R4G4B4";
         break; //             = 26,
+
       case D3DFMT_R3G3B2:
         s = "D3DFMT_R3G3B2";
         break; //              = 27,
+
       case D3DFMT_A8:
         s = "D3DFMT_A8";
         break; //              = 28,
+
       case D3DFMT_A8R3G3B2:
         s = "D3DFMT_A8R3G3B2";
         break; //             = 29,
+
       case D3DFMT_X4R4G4B4:
         s = "D3DFMT_X4R4G4B4";
         break; //           = 30,
+
       case D3DFMT_A2B10G10R10:
         s = "D3DFMT_A2B10G10R10";
         break; //         = 31,
+
       case D3DFMT_A8B8G8R8:
         s = "D3DFMT_A8B8G8R8";
         break; //           = 32,
+
       case D3DFMT_X8B8G8R8:
         s = "D3DFMT_X8B8G8R8";
         break; //            = 33,
+
       case D3DFMT_G16R16:
         s = "D3DFMT_G16R16";
         break; //              = 34,
+
       case D3DFMT_A2R10G10B10:
         s = "D3DFMT_A2R10G10B10";
         break; //         = 35,
+
       case D3DFMT_A16B16G16R16:
         s = "D3DFMT_A16B16G16R16";
         break; //        = 36,
@@ -87,6 +126,7 @@
       case D3DFMT_A8P8:
         s = "D3DFMT_A8P8";
         break; //                = 40,
+
       case D3DFMT_P8:
         s = "D3DFMT_P8";
         break; //                  = 41,
@@ -94,9 +134,11 @@
       case D3DFMT_L8:
         s = "D3DFMT_L8";
         break; //                  = 50,
+
       case D3DFMT_A8L8:
         s = "D3DFMT_A8L8";
         break; //                = 51,
+
       case D3DFMT_A4L4:
         s = "D3DFMT_A4L4";
         break; //                = 52,
@@ -104,18 +146,23 @@
       case D3DFMT_V8U8:
         s = "D3DFMT_V8U8";
         break; //                = 60,
+
       case D3DFMT_L6V5U5:
         s = "D3DFMT_L6V5U5";
         break; //             = 61,
+
       case D3DFMT_X8L8V8U8:
         s = "D3DFMT_X8L8V8U8";
         break; //            = 62,
+
       case D3DFMT_Q8W8V8U8:
         s = "D3DFMT_Q8W8V8U8";
         break; //            = 63,
+
       case D3DFMT_V16U16:
         s = "D3DFMT_V16U16";
         break; //           = 64,
+
       case D3DFMT_A2W10V10U10:
         s = "D3DFMT_A2W10V10U10";
         break; //         = 67,
@@ -123,27 +170,34 @@
       case D3DFMT_UYVY:
         s = "D3DFMT_UYVY";
         break; //             = MAKEFOURCC('U', 'Y', 'V', 'Y'),
+
       case D3DFMT_R8G8_B8G8:
         s = "D3DFMT_R8G8_B8G8";
         break; //          = MAKEFOURCC('R', 'G', 'B', 'G'),
+
       case D3DFMT_YUY2:
         s = "D3DFMT_YUY2";
         break; //           = MAKEFOURCC('Y', 'U', 'Y', '2'),
+
       case D3DFMT_G8R8_G8B8:
         s = "D3DFMT_G8R8_G8B8";
         break; //           = MAKEFOURCC('G', 'R', 'G', 'B'),
       case D3DFMT_DXT1:
         s = "D3DFMT_DXT1";
         break; //           = MAKEFOURCC('D', 'X', 'T', '1'),
+
       case D3DFMT_DXT2:
         s = "D3DFMT_DXT2";
         break; //           = MAKEFOURCC('D', 'X', 'T', '2'),
+
       case D3DFMT_DXT3:
         s = "D3DFMT_DXT3";
         break; //           = MAKEFOURCC('D', 'X', 'T', '3'),
+
       case D3DFMT_DXT4:
         s = "D3DFMT_DXT4";
         break; //           = MAKEFOURCC('D', 'X', 'T', '4'),
+
       case D3DFMT_DXT5:
         s = "D3DFMT_DXT5";
         break; //           = MAKEFOURCC('D', 'X', 'T', '5'),
@@ -151,18 +205,22 @@
       case D3DFMT_D16_LOCKABLE:
         s = "D3DFMT_D16_LOCKABLE";
         break; //        = 70,
+
       case D3DFMT_D32:
         s = "D3DFMT_D32";
         break; //        = 71,
+
       case D3DFMT_D15S1:
         s = "D3DFMT_D15S1";
         break; //        = 73,
       case D3DFMT_D24S8:
         s = "D3DFMT_D24S8";
         break; //        = 75,
+
       case D3DFMT_D24X8:
         s = "D3DFMT_D24X8";
         break; //        = 77,
+
       case D3DFMT_D24X4S4:
         s = "D3DFMT_D24X4S4";
         break; //        = 79,
@@ -173,6 +231,7 @@
       case D3DFMT_D32F_LOCKABLE:
         s = "D3DFMT_D32F_LOCKABLE";
         break; //      = 82,
+
       case D3DFMT_D24FS8:
         s = "D3DFMT_D24FS8";
         break; //      = 83,
@@ -185,9 +244,11 @@
       case D3DFMT_VERTEXDATA:
         s = "D3DFMT_VERTEXDATA";
         break; //       =100,
+
       case D3DFMT_INDEX16:
         s = "D3DFMT_INDEX16";
         break; //      =101,
+
       case D3DFMT_INDEX32:
         s = "D3DFMT_INDEX32";
         break; //      =102,
@@ -206,9 +267,11 @@
       case D3DFMT_R16F:
         s = "D3DFMT_R16F";
         break; //     = 111,
+
       case D3DFMT_G16R16F:
         s = "D3DFMT_G16R16F";
         break; //     = 112,
+
       case D3DFMT_A16B16G16R16F:
         s = "D3DFMT_A16B16G16R16F";
         break; //    = 113,
@@ -217,9 +280,11 @@
       case D3DFMT_R32F:
         s = "D3DFMT_R32F";
         break; //       = 114,
+
       case D3DFMT_G32R32F:
         s = "D3DFMT_G32R32F";
         break; //      = 115,
+
       case D3DFMT_A32B32G32R32F:
         s = "D3DFMT_A32B32G32R32F";
         break; //      = 116,
@@ -235,19 +300,45 @@
 
     }
 
+	if( !s.length() )
+	{
+		return s;
+	}
+
+	std::string res;
+   if(bShortWord)
+   {
+	 res = s.c_str() + 7;
+   }
+   else
+   {
+	 res = s;
+   }
 
 
-
-    return s;
+    return res;
   };
 
   //=======================================================================
-  GB_D3D9_API bool D3DFORMAT_fromstr(D3DFORMAT &fOut, const std::string &str)
+  GB_D3D9_API bool D3DFORMAT_fromstr(D3DFORMAT &fOut, const std::string &strarg,bool bShortWord)
   {
-    if (str.length() == 0)
+    if (strarg.length() == 0)
     {
       return false;
     }
+
+   std::string str;
+   if(bShortWord)
+   {
+	 str = "D3DFMT_";
+	 str += strarg;
+   }
+   else
+   {
+	 str = strarg;
+   }
+
+
     // D3DFMT_UNKNOWN;
 
     //            =  0,
@@ -686,9 +777,9 @@
   };
 
   //=========================================================================
-  GB_D3D9_API std::string D3DRESOURCETYPE_tostr(const D3DRESOURCETYPE val)
+  GB_D3D9_API std::string D3DRESOURCETYPE_tostr(const D3DRESOURCETYPE val,bool bShortWord)
   {
-
+    
     std::string s;
 
     switch (val)
@@ -698,31 +789,37 @@
           s = "D3DRTYPE_SURFACE";
         }
         break;
+
       case D3DRTYPE_VOLUME:
         {
           s = "D3DRTYPE_VOLUME";
         }
         break;
+
       case D3DRTYPE_TEXTURE:
         {
           s = "D3DRTYPE_TEXTURE";
         }
         break;
+
       case D3DRTYPE_VOLUMETEXTURE:
         {
           s = "D3DRTYPE_VOLUMETEXTURE";
         }
         break;
+
       case D3DRTYPE_CUBETEXTURE:
         {
           s = "D3DRTYPE_CUBETEXTURE";
         }
         break;
+
       case D3DRTYPE_VERTEXBUFFER:
         {
           s = "D3DRTYPE_VERTEXBUFFER";
         }
         break;
+
       case D3DRTYPE_INDEXBUFFER:
         {
           s = "D3DRTYPE_INDEXBUFFER";
@@ -734,23 +831,50 @@
           // none
 
         }
-        ;
+ 
+    }
 
+	if( !s.length() )
+	{
+		return s;
+	}
 
-    };
+	std::string res;
+	if(bShortWord)
+	{
+	 res = s.c_str() +  9;
+	}
+	else
+	{
+		res = s;
+	}
 
-    return s;
+    return res;
   };
 
   //=========================================================================
-  GB_D3D9_API bool D3DRESOURCETYPE_fromstr(D3DRESOURCETYPE &rOut, const std
-    ::string &str)
+  GB_D3D9_API bool D3DRESOURCETYPE_fromstr(D3DRESOURCETYPE &rOut, 
+							const std ::string &strarg,
+							bool bShortWord)
   {
+	  std::string str;
+	  if(bShortWord)
+	  {
+		  str = "D3DRTYPE_";
+		  str += strarg;
+	  }
+	  else
+	  {
+		  str = strarg;
+	  }
+
+
     if (str == "D3DRTYPE_SURFACE")
     {
       rOut = D3DRTYPE_SURFACE;
       return true;
-    };
+    }
+
     if (str == "D3DRTYPE_VOLUME")
     {
       rOut = D3DRTYPE_VOLUME;
@@ -792,12 +916,14 @@
 
 
   //=========================================================================
-  GB_D3D9_API std::string D3DRENDERSTATETYPE_tostr(const D3DRENDERSTATETYPE val)
+  GB_D3D9_API std::string D3DRENDERSTATETYPE_tostr(const D3DRENDERSTATETYPE val,
+				bool bShortWord)
   {
-
-    std::string s;
+	   
+ 
     char ss[64];
-    ss[0] = 0;
+    ss[0] = '\0';
+
 
     switch (val)
     {
@@ -911,18 +1037,19 @@
           strcpy(ss, "D3DRS_FOGDENSITY");
         }
         break;
+
       case D3DRS_RANGEFOGENABLE:
         {
           strcpy(ss, "D3DRS_RANGEFOGENABLE");
         }
         break;
 
-
       case D3DRS_STENCILENABLE:
         {
           strcpy(ss, "D3DRS_STENCILENABLE");
         }
         break;
+
       case D3DRS_STENCILFAIL:
         {
           strcpy(ss, "D3DRS_STENCILFAIL");
@@ -933,6 +1060,7 @@
           strcpy(ss, "D3DRS_STENCILZFAIL");
         }
         break;
+
       case D3DRS_STENCILPASS:
         {
           strcpy(ss, "D3DRS_STENCILPASS");
@@ -943,22 +1071,24 @@
           strcpy(ss, "D3DRS_STENCILFUNC");
         }
         break;
+
       case D3DRS_STENCILREF:
         {
           strcpy(ss, "D3DRS_STENCILREF");
         }
         break;
+
       case D3DRS_STENCILMASK:
         {
           strcpy(ss, "D3DRS_STENCILMASK");
         }
         break;
+
       case D3DRS_STENCILWRITEMASK:
         {
           strcpy(ss, "D3DRS_STENCILWRITEMASK");
         }
         break;
-
 
       case D3DRS_TEXTUREFACTOR:
         {
@@ -971,42 +1101,48 @@
           strcpy(ss, "D3DRS_WRAP0");
         }
         break;
+
       case D3DRS_WRAP1:
         {
           strcpy(ss, "D3DRS_WRAP1");
         }
         break;
+
       case D3DRS_WRAP2:
         {
           strcpy(ss, "D3DRS_WRAP2");
         }
         break;
+
       case D3DRS_WRAP3:
         {
           strcpy(ss, "D3DRS_WRAP3");
         }
         break;
+
       case D3DRS_WRAP4:
         {
           strcpy(ss, "D3DRS_WRAP4");
         }
         break;
+
       case D3DRS_WRAP5:
         {
           strcpy(ss, "D3DRS_WRAP5");
         }
         break;
+
       case D3DRS_WRAP6:
         {
           strcpy(ss, "D3DRS_WRAP6");
         }
         break;
+
       case D3DRS_WRAP7:
         {
           strcpy(ss, "D3DRS_WRAP7");
         }
         break;
-
 
       case D3DRS_CLIPPING:
         {
@@ -1234,7 +1370,6 @@
         }
         break;
 
-
       case D3DRS_CCW_STENCILFAIL:
         {
           strcpy(ss, "D3DRS_CCW_STENCILFAIL");
@@ -1359,30 +1494,63 @@
           // none
 
         }
-        ;
+ 
 
-    }; // switch
+    } // switch
+
+	std::string res;
+	if(!*ss)
+	{
+		return res; 
+	}
+
 
     if (ss[0])
     {
-      s = ss;
+      res = ss;
     }
 
-    return s;
+ 
+	if(bShortWord)
+	{
+	  res = ss  +  6;
+	}
+	else
+	{
+	  res = ss;
+	}
+
+    return  res;
   };
 
   //=======================================================================
-  GB_D3D9_API bool D3DRENDERSTATETYPE_fromstr(D3DRENDERSTATETYPE &val, std
-    ::string &str)
+  GB_D3D9_API bool D3DRENDERSTATETYPE_fromstr(D3DRENDERSTATETYPE &val,
+									std::string &strarg,
+									bool bShortWord)
   {
-    if (str.length() == 0)
+    if (strarg.length() == 0)
     {
       return false;
     }
 
-    const char *s = str.c_str();
-    const size_t ns = str.length();
 
+	char buffer[64];
+	buffer[0]='\0';
+
+	if(bShortWord)
+	{
+	   strcat(buffer, "D3DRS_");
+	   strncat(buffer, strarg.c_str(), 54 );
+	}
+	else
+	{
+	   strncat(buffer, strarg.c_str(), 54 );
+	}
+
+	const char *s = buffer;
+	const size_t ns = strlen(buffer);
+
+	//-------------------------------------
 
     if (strncmp(s, "D3DRS_ZENABLE", ns) == 0)
     {
@@ -1936,9 +2104,10 @@
 
 
   //=======================================================================
-  GB_D3D9_API std::string D3DPOOL_tostr(const D3DPOOL val)
+  GB_D3D9_API std::string D3DPOOL_tostr(const D3DPOOL val,bool bShortWord)
   {
     std::string s;
+
 
     switch (val)
     {
@@ -1969,20 +2138,50 @@
           // none
         }
 
-    }; // switch
+    } // switch
+
+	if( !s.length() )
+	{
+		return s;
+	}
+ 
+	std::string res;
+	if(bShortWord)
+	{
+	  res =	s.c_str() + 8;
+	}
+	else
+	{
+	  res = s;
+	}
 
 
-    return s;
+    return res;
   };
 
   //=======================================================================
-  GB_D3D9_API bool D3DPOOL_fromstr(D3DPOOL &val, const std::string &str)
+  GB_D3D9_API bool D3DPOOL_fromstr(D3DPOOL &val, const std::string &strarg, bool bShortWord)
   {
+	  std::string str;
+	if(bShortWord)
+	{
+	 str = "D3DPOOL_";
+	 str += strarg;
+	}
+	else
+	{
+	  str = strarg;
+	}
+
+	__str_touper(str);
+
     if (str == "D3DPOOL_DEFAULT")
     {
       val = D3DPOOL_DEFAULT;
       return true;
-    };
+    }
+
+
     if (str == "D3DPOOL_MANAGED")
     {
       val = D3DPOOL_MANAGED;
@@ -2004,7 +2203,7 @@
   };
 
   //=======================================================================
-  GB_D3D9_API std::string D3DFILLMODE_tostr(const D3DFILLMODE val)
+  GB_D3D9_API std::string D3DFILLMODE_tostr(const D3DFILLMODE val  ,bool bShortWord )
   {
     std::string s;
 
@@ -2031,16 +2230,49 @@
         {
           // not found !
         }
-        ;
+      
     }
 
-    return s;
+	if( !s.length() )
+	{
+		return s;
+	}
+
+	if( !s.length() )
+	{
+		return s;
+	}
+
+	std::string res;
+	if(bShortWord)
+	{
+	  res = s.c_str() + 8;
+	}
+	else
+	{
+	 res = s;
+	}
+
+    return res;
   };
 
   //===============================================
-  GB_D3D9_API bool D3DFILLMODE_fromstr(D3DFILLMODE &valOut, const std::string
-                                       &str)
+  GB_D3D9_API bool D3DFILLMODE_fromstr(D3DFILLMODE &valOut, 
+										const std::string &strarg,
+										bool bShortWord)
   {
+	  std::string str; 
+	  if(bShortWord)
+	  {
+	     str = "D3DFILL_";
+		 str += strarg;
+	  }
+	  else
+	  {
+	    str = strarg;
+	  }
+
+	  __str_touper(str);
 
     if (str == "D3DFILL_POINT")
     {
@@ -2063,9 +2295,11 @@
 
 
   //==============================================
-  GB_D3D9_API std::string D3DSHADEMODE_tostr(const D3DSHADEMODE val)
+  GB_D3D9_API std::string D3DSHADEMODE_tostr(const D3DSHADEMODE val,
+											bool bShortWord)
   {
     std::string s;
+
 
     switch (val)
     {
@@ -2090,21 +2324,50 @@
         {
           // not found !		   
         }
-        ;
-    };
+        
+    }
 
-    return s;
+	if( !s.length() )
+	{
+		return s;
+	}
+
+	std::string res;
+	if(bShortWord)
+	{
+	   res = s.c_str() + 9;
+	}
+	else
+	{
+	  res = s;
+	}
+
+    return res;
   };
 
   //=========================================================
-  GB_D3D9_API bool D3DSHADEMODE_fromstr(D3DSHADEMODE &valOut, const std::string
-                                        &str)
+  GB_D3D9_API bool D3DSHADEMODE_fromstr(D3DSHADEMODE &valOut, 
+			const std::string  &strarg, bool bShortWord)
   {
+	  std::string str;
+	 if(bShortWord)
+	 {
+		 str = "D3DSHADE_";
+		 str += strarg;
+	 }
+	 else
+	 {
+	   str = strarg;
+	 }
+
+	 __str_touper(str);
+
+
     if (str == "D3DSHADE_FLAT")
     {
       valOut = D3DSHADE_FLAT;
       return true;
-    };
+    }
     if (str == "D3DSHADE_GOURAUD")
     {
       valOut = D3DSHADE_GOURAUD;
@@ -2124,12 +2387,13 @@
   #pragma warning(disable : 4996)
 
   //================================================
-  GB_D3D9_API std::string D3DBLEND_tostr(const D3DBLEND val)
+  GB_D3D9_API std::string D3DBLEND_tostr(const D3DBLEND val,bool bShortWord)
   {
     std::string s;
 
-    char ss[32];
-    ss[0] = 0;
+    char ss[64];
+    ss[0] = '\0';
+
 
     switch (val)
     {
@@ -2214,30 +2478,68 @@
         {
 
         }
-        ;
-    };
-
-    if (ss[0])
-    {
-      s = ss;
+        
     }
 
+	std::string res;
+	if(!*ss)
+	{
+		return res;
+	}
 
-    return s;
+	if( !*ss )
+	{
+		return res;
+	}
+
+ 
+	if(bShortWord)
+	{
+	  res = ss + 9;
+	}
+	else 
+	{
+	  res = ss;
+	}
+
+   // if (ss[0])
+   // {
+   //   s = ss;
+   // }
+
+
+    return  res;
   };
 
 
 
   //======================================================
-  GB_D3D9_API bool D3DBLEND_fromstr(D3DBLEND &valOut, const std::string &str)
+  GB_D3D9_API bool D3DBLEND_fromstr(D3DBLEND &valOut, 
+								const std::string &strarg,
+								bool bShortWord)
   {
-    if (str.length() == 0)
+    if (strarg.length() == 0)
     {
       return false;
     }
+ 
+	char buffer[64];
+	buffer[0] = '\0';
 
-    const char *s = str.c_str();
-    const size_t NSLEN = str.length();
+	if(bShortWord)
+	{
+	   strcat(buffer, "D3DBLEND_");
+	   strncat(buffer, strarg.c_str(), 50 );
+	}
+	else
+	{
+	   strncat(buffer, strarg.c_str(), 50 );
+	}
+
+	const char *s = buffer; 
+	const size_t NSLEN = strlen(buffer); 
+
+
 
     if (strncmp(s, "D3DBLEND_ZERO", NSLEN) == 0)
     {
@@ -2323,7 +2625,7 @@
 
 
   //=====================================================
-  GB_D3D9_API std::string D3DCULL_tostr(const D3DCULL val)
+  GB_D3D9_API std::string D3DCULL_tostr(const D3DCULL val,bool bShortWord)
   {
     std::string s;
 
@@ -2350,39 +2652,70 @@
         {
 
         }
-        ;
 
-    };
+    }
 
-    return s;
+	if( !s.length() )
+	{
+		return s;
+	}
+
+	std::string res;
+	if(bShortWord)
+	{
+	  res = s.c_str() + 8;
+	}
+	else
+	{
+	 res = s;
+	}
+
+    return res;
   };
 
   //========================================================
-  GB_D3D9_API bool D3DCULL_fromstr(D3DCULL &valOut, const std::string &str)
+  GB_D3D9_API bool D3DCULL_fromstr( D3DCULL &valOut, 
+									const std::string &strarg,
+									bool bShortWord)
   {
+
+	std::string str;
+
+    if( bShortWord )
+    {
+	 str = "D3DCULL_";
+	 str += strarg;
+    }
+	else
+	{
+	 str = strarg;
+
+	}
 
     if (str == "D3DCULL_NONE")
     {
       valOut = D3DCULL_NONE;
       return true;
-    };
+    }
+
     if (str == "D3DCULL_CW")
     {
       valOut = D3DCULL_CW;
       return true;
-    };
+    }
+
     if (str == "D3DCULL_CCW")
     {
       valOut = D3DCULL_CCW;
       return true;
-    };
+    }
 
     return false;
   };
 
 
   //========================================================
-  GB_D3D9_API std::string D3DCMPFUNC_tostr(const D3DCMPFUNC val)
+  GB_D3D9_API std::string D3DCMPFUNC_tostr(const D3DCMPFUNC val,bool bShortWord)
   {
     std::string s;
 
@@ -2434,64 +2767,94 @@
         {
           //  not found !
         }
-        ;
+ 
 
-    };
+    }
 
-    return s;
+	if( !s.length() )
+	{
+		return s;
+	}
+ 
+		std::string res;
+	if(bShortWord)
+	{
+	  res = s.c_str() +	 7;
+	}
+	else
+	{
+	  res = s;
+	}
+
+    return res;
   };
 
   //=====================================================
   GB_D3D9_API bool D3DCMPFUNC_fromstr(D3DCMPFUNC &valOut, 
-										const std::string &str)
+										const std::string &strarg,
+										bool bShortWord)
   {
+ 
+	  std::string str;
+	  if(bShortWord)
+	  {
+		  str = "D3DCMP_";
+		  str += strarg;
+	  }
+	  else
+	  {
+		 str = strarg;
+	  }
+
+
     if (str == "D3DCMP_NEVER")
     {
       valOut = D3DCMP_NEVER;
       return true;
-    };
+    }
     if (str == "D3DCMP_LESS")
     {
       valOut = D3DCMP_LESS;
       return true;
-    };
+    }
     if (str == "D3DCMP_EQUAL")
     {
       valOut = D3DCMP_EQUAL;
       return true;
-    };
+    }
     if (str == "D3DCMP_LESSEQUAL")
     {
       valOut = D3DCMP_LESSEQUAL;
       return true;
-    };
+    }
     if (str == "D3DCMP_GREATER")
     {
       valOut = D3DCMP_GREATER;
       return true;
-    };
+    }
     if (str == "D3DCMP_NOTEQUAL")
     {
       valOut = D3DCMP_NOTEQUAL;
       return true;
-    };
+    }
     if (str == "D3DCMP_GREATEREQUAL")
     {
       valOut = D3DCMP_GREATEREQUAL;
       return true;
-    };
+    }
     if (str == "D3DCMP_ALWAYS")
     {
       valOut = D3DCMP_ALWAYS;
       return true;
-    };
+    }
 
     return false;
-  };
+  }
 
 
   //=================================================================
-  GB_D3D9_API std::string D3DFOGMODE_tostr(const D3DFOGMODE val)
+  GB_D3D9_API std::string D3DFOGMODE_tostr(const D3DFOGMODE val,
+										   bool bShortWord)
   {
     std::string s;
 
@@ -2507,11 +2870,13 @@
           s = "D3DFOG_EXP";
         }
         break;
+
       case D3DFOG_EXP2:
         {
           s = "D3DFOG_EXP2";
         }
         break;
+
       case D3DFOG_LINEAR:
         {
           s = "D3DFOG_LINEAR";
@@ -2523,45 +2888,74 @@
         {
           // not found .
         }
-        ;
+    
 
-    }; // switch
+    }
 
-    return s;
+	if( !s.length() )
+	{
+	  return s;
+	}
+
+	std::string res;
+	if(bShortWord)
+	{
+	 res = s.c_str() +  7 ;
+	}
+	else
+	{
+	 res = s;
+	}
+ 
+
+    return  res;
   };
 
   //=====================================================
   GB_D3D9_API bool D3DFOGMODE_fromstr(D3DFOGMODE &valOut, 
-										 const std::string	 &str)
+										 const std::string	 &strarg,
+										 bool bShortWord)
   {
+	  std::string str;
+	  if(bShortWord)
+	  {
+		 str = "D3DFOG_";
+		 str += strarg;
+	  }	 
+	  else
+	  {
+	    str = strarg;
+	  }
+
+	 
 
     if (str == "D3DFOG_NONE")
     {
       valOut = D3DFOG_NONE;
       return true;
-    };
+    }
     if (str == "D3DFOG_EXP")
     {
       valOut = D3DFOG_EXP;
       return true;
-    };
+    }
     if (str == "D3DFOG_EXP2")
     {
       valOut = D3DFOG_EXP2;
       return true;
-    };
+    }
     if (str == "D3DFOG_LINEAR")
     {
       valOut = D3DFOG_LINEAR;
       return true;
-    };
+    }
 
     return false;
   };
 
 
   //=========================================================================
-  GB_D3D9_API std::string D3DSTENCILOP_tostr(const D3DSTENCILOP val)
+  GB_D3D9_API std::string D3DSTENCILOP_tostr(const D3DSTENCILOP val,bool bShortWord)
   {
     std::string s;
 
@@ -2614,57 +3008,96 @@
         {
 
         }
-        ;
+ 
 
-    }; // switch
+    } // switch
 
-    return s;
+	if( !s.length() )
+	{
+		return s;
+	}
+
+	std::string res;
+	if(bShortWord)
+	{
+	 res = s.c_str() + 13;
+	}
+	else
+	{
+	  res = s;
+	}
+
+    return res;
   };
 
   //=========================================================================
-  GB_D3D9_API bool D3DSTENCILOP_fromstr(D3DSTENCILOP &valOut, const std::string
-                                        &str)
+  GB_D3D9_API bool D3DSTENCILOP_fromstr(D3DSTENCILOP &valOut, 
+										const std::string &strarg,
+										bool bShortWord)
   {
+
+   std::string str;
+   if(bShortWord)
+   {
+	 str = "D3DSTENCILOP_";
+	 str += strarg;	    
+   }
+   else
+   {
+	 str = strarg;
+   }
+
+
+
     if (str == "D3DSTENCILOP_KEEP")
     {
       valOut = D3DSTENCILOP_KEEP;
       return true;
-    };
+    }
+
     if (str == "D3DSTENCILOP_ZERO")
     {
       valOut = D3DSTENCILOP_ZERO;
       return true;
-    };
+    }
+
     if (str == "D3DSTENCILOP_REPLACE")
     {
       valOut = D3DSTENCILOP_REPLACE;
       return true;
-    };
+    }
+
     if (str == "D3DSTENCILOP_INCRSAT")
     {
       valOut = D3DSTENCILOP_INCRSAT;
       return true;
-    };
+    }
+
     if (str == "D3DSTENCILOP_DECRSAT")
     {
       valOut = D3DSTENCILOP_DECRSAT;
       return true;
-    };
+    }
+
     if (str == "D3DSTENCILOP_INVERT")
     {
       valOut = D3DSTENCILOP_INVERT;
       return true;
-    };
+    }
+
     if (str == "D3DSTENCILOP_INCR")
     {
       valOut = D3DSTENCILOP_INCR;
       return true;
-    };
+    }
+
     if (str == "D3DSTENCILOP_DECR")
     {
       valOut = D3DSTENCILOP_DECR;
       return true;
-    };
+    }
+
+
 
     return false;
   };
