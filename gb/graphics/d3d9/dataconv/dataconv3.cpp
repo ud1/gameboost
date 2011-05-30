@@ -2,7 +2,7 @@
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
-#include <gb/graphics/d3d9/dataconv.h>
+#include <gb/graphics/d3d9/dataconv/dataconv.h>
 
 namespace gb 
 {
@@ -36,56 +36,85 @@ static const char CSTR_D3DTADDRESS_MIRRORONCE  []   = "D3DTADDRESS_MIRRORONCE" ;
 
 
 //=================================================================================
-GB_D3D9_API  std::string  D3DTEXTUREADDRESS_tostr(const D3DTEXTUREADDRESS val)
+GB_D3D9_API  std::string  D3DTEXTUREADDRESS_tostr(const D3DTEXTUREADDRESS val,bool bShortWord )
 {
-   std::string res = "";
+   std::string  s;
 
 	switch(val)
 	{
 	
 	case D3DTADDRESS_WRAP:  
 	{
-	  res = CSTR_D3DTADDRESS_WRAP;
+	  s = CSTR_D3DTADDRESS_WRAP;
  	
 	} break;
 	
 	case D3DTADDRESS_MIRROR:  
 	{
-	  res = CSTR_D3DTADDRESS_MIRROR;
+	  s = CSTR_D3DTADDRESS_MIRROR;
  
 	} break;
 
 	case D3DTADDRESS_CLAMP :  
 	{
-	  res = CSTR_D3DTADDRESS_CLAMP;
+	  s = CSTR_D3DTADDRESS_CLAMP;
  
 	} break;
 
 	case D3DTADDRESS_BORDER:  
 	{
-	 res = CSTR_D3DTADDRESS_BORDER;
+	 s = CSTR_D3DTADDRESS_BORDER;
  
 	} break;
 
 	case D3DTADDRESS_MIRRORONCE:  
 	{
-	res = CSTR_D3DTADDRESS_MIRRORONCE;
+	s = CSTR_D3DTADDRESS_MIRRORONCE;
  
 	} break;	
 
 
-	default: {
- 
+		default: {
+	 
+		}
+
 	}
 
-	}// switch
+	if(!s.length())
+	{
+		return s;
+	}
+
+	std::string res;
+	if(bShortWord)
+	{
+	 res = s.c_str() +  12;
+	}
+	else
+	{
+	 res = s;
+	}
 
 	return res;
 }; 
 
 //=============================================================================
-GB_D3D9_API bool D3DTEXTUREADDRESS_fromstr( D3DTEXTUREADDRESS& valOut, const std::string& str)
+GB_D3D9_API bool D3DTEXTUREADDRESS_fromstr( D3DTEXTUREADDRESS& valOut, 
+										   const std::string& strarg,
+										   bool bShortWord)
 {
+  std::string str;
+  if(bShortWord)
+  {
+    str = "D3DTADDRESS_";
+    str += strarg;
+  }
+  else
+  {
+    str = strarg;
+  }
+
+
   if( str == CSTR_D3DTADDRESS_WRAP )
   {
    valOut = D3DTADDRESS_WRAP;
@@ -141,51 +170,40 @@ static const char CSTR_D3DTEXF_GAUSSIANQUAD   []   = "D3DTEXF_GAUSSIANQUAD" ;
 
 
 //=============================================================================
-GB_D3D9_API  std::string  D3DTEXTUREFILTERTYPE_tostr(const D3DTEXTUREFILTERTYPE val)
+GB_D3D9_API  std::string  D3DTEXTUREFILTERTYPE_tostr(const D3DTEXTUREFILTERTYPE val,bool bShortWord )
 {
-  std::string res;
+  std::string s;
 
   switch(val)
   {
     case D3DTEXF_NONE:
 	{
-	res = CSTR_D3DTEXF_NONE;
-	return res;
-	
+	s = CSTR_D3DTEXF_NONE;
 	} break;
   
     case D3DTEXF_POINT:
 	{
-	res = CSTR_D3DTEXF_POINT;
-	return res;
-
+	s = CSTR_D3DTEXF_POINT;
 	}  break;
   
     case D3DTEXF_LINEAR:
 	{
-	res = CSTR_D3DTEXF_LINEAR;
-	return res;
-	
+	s = CSTR_D3DTEXF_LINEAR;
 	} break;
 
     case D3DTEXF_ANISOTROPIC:
 	{
-	res = CSTR_D3DTEXF_ANISOTROPIC;
-	return res;
-	
+	s = CSTR_D3DTEXF_ANISOTROPIC;
 	} break;
 
     case D3DTEXF_PYRAMIDALQUAD:
 	{
-	res = CSTR_D3DTEXF_PYRAMIDALQUAD;
-	return res;
-	
+	s = CSTR_D3DTEXF_PYRAMIDALQUAD;	
 	}	break;
   
     case D3DTEXF_GAUSSIANQUAD:
 	{
-	res = CSTR_D3DTEXF_GAUSSIANQUAD;
-	return res;
+	s = CSTR_D3DTEXF_GAUSSIANQUAD;
 	
 	} break;
  
@@ -195,43 +213,69 @@ GB_D3D9_API  std::string  D3DTEXTUREFILTERTYPE_tostr(const D3DTEXTUREFILTERTYPE 
    } 
    
   }
+ 
+  if(!s.length())
+  {
+	  return s;
+  }
+ 
 
-
+  std::string res;
+  if(bShortWord)
+  {
+	  res = s.c_str() +  8;
+  }
+  else
+  {
+	  res = s;
+  }
+ 
     return res;
 }; 
 
 
 //=============================================================================
-GB_D3D9_API bool D3DTEXTUREFILTERTYPE_fromstr( D3DTEXTUREFILTERTYPE& valOut, const std::string& str )
+GB_D3D9_API bool D3DTEXTUREFILTERTYPE_fromstr( D3DTEXTUREFILTERTYPE& valOut, 
+											  const std::string& strarg,
+											  bool bShortWord )
 {
  
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DTEXF_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
+
+
   if(str == CSTR_D3DTEXF_NONE)
   {
     valOut = D3DTEXF_NONE;
     return true;
   }
 
-  
   if(str == CSTR_D3DTEXF_POINT)
   {
     valOut = D3DTEXF_POINT;
     return true;
   }
   
-
   if(str == CSTR_D3DTEXF_LINEAR)
   {
     valOut = D3DTEXF_LINEAR;
     return true;
   }  
   
- 
   if(str == CSTR_D3DTEXF_ANISOTROPIC)
   {
     valOut = D3DTEXF_ANISOTROPIC;
     return true;
   }
-
 
   if(str == CSTR_D3DTEXF_PYRAMIDALQUAD)
   {
@@ -246,12 +290,11 @@ GB_D3D9_API bool D3DTEXTUREFILTERTYPE_fromstr( D3DTEXTUREFILTERTYPE& valOut, con
   }  
 
  
-
     return false;
 };
 
 
-/*
+ /*
 typedef enum D3DTEXTUREOP
 {
 
@@ -291,7 +334,7 @@ typedef enum D3DTEXTUREOP
     D3DTOP_LERP = 26,
  
 } D3DTEXTUREOP 
-*/
+ */
  
 // 1
 static const char C_STR_D3DTOP_DISABLE     []  = "D3DTOP_DISABLE" ;
@@ -333,9 +376,9 @@ static const char C_STR_D3DTOP_LERP  []  = "D3DTOP_LERP" ;
 
 
 //=================================================================
-GB_D3D9_API  std::string  D3DTEXTUREOP_tostr(const D3DTEXTUREOP val)
+GB_D3D9_API  std::string  D3DTEXTUREOP_tostr(const D3DTEXTUREOP val,bool bShortWord )
 {
-  std::string res = "";
+  std::string s ;
   
   switch(val)
   {
@@ -345,43 +388,33 @@ GB_D3D9_API  std::string  D3DTEXTUREOP_tostr(const D3DTEXTUREOP val)
   
     case D3DTOP_DISABLE:
 	{
-	res = C_STR_D3DTOP_DISABLE;
-	return res;
+	s = C_STR_D3DTOP_DISABLE;
 	} 
 	break;
-  
    
     case D3DTOP_SELECTARG1:
 	{
-	res = C_STR_D3DTOP_SELECTARG1;
-	return res;
+	s = C_STR_D3DTOP_SELECTARG1;
 	} 
 	break; 
-  
-  
+   
     case D3DTOP_SELECTARG2:
 	{
-	res = C_STR_D3DTOP_SELECTARG2;
-	return res;
+	s = C_STR_D3DTOP_SELECTARG2;
 	} 
 	break;  
   
-   
     case D3DTOP_MODULATE:
 	{
-	res = C_STR_D3DTOP_MODULATE;
-	return res;
+	s = C_STR_D3DTOP_MODULATE;
 	} 
 	break;
-
-	  
+  
     case D3DTOP_MODULATE2X:
 	{
-	res = C_STR_D3DTOP_MODULATE2X;
-	return res;
+	s = C_STR_D3DTOP_MODULATE2X;
 	} 
 	break;
-	
 	
 	
  
@@ -390,40 +423,34 @@ GB_D3D9_API  std::string  D3DTEXTUREOP_tostr(const D3DTEXTUREOP val)
   
     case D3DTOP_MODULATE4X:
 	{
-	res = C_STR_D3DTOP_MODULATE4X;
-	return res;
+	s = C_STR_D3DTOP_MODULATE4X;
 	} 
 	break;
   
    
     case D3DTOP_ADD:
 	{
-	res = C_STR_D3DTOP_ADD;
-	return res;
+	s = C_STR_D3DTOP_ADD;
 	} 
 	break; 
   
   
     case D3DTOP_ADDSIGNED:
 	{
-	res = C_STR_D3DTOP_ADDSIGNED;
-	return res;
+	s = C_STR_D3DTOP_ADDSIGNED;
 	} 
 	break;  
   
    
     case D3DTOP_ADDSIGNED2X:
 	{
-	res = C_STR_D3DTOP_ADDSIGNED2X;
-	return res;
+	s = C_STR_D3DTOP_ADDSIGNED2X;
 	} 
 	break;
-
-	  
+  
     case D3DTOP_SUBTRACT:
 	{
-	res = C_STR_D3DTOP_SUBTRACT;
-	return res;
+	s = C_STR_D3DTOP_SUBTRACT;
 	} 
 	break;
 	
@@ -434,129 +461,103 @@ GB_D3D9_API  std::string  D3DTEXTUREOP_tostr(const D3DTEXTUREOP val)
   
     case D3DTOP_ADDSMOOTH:
 	{
-	res = C_STR_D3DTOP_ADDSMOOTH;
-	return res;
+	s = C_STR_D3DTOP_ADDSMOOTH;
 	} 
 	break;
   
    
     case D3DTOP_BLENDDIFFUSEALPHA:
 	{
-	res = C_STR_D3DTOP_BLENDDIFFUSEALPHA;
-	return res;
+	s = C_STR_D3DTOP_BLENDDIFFUSEALPHA;
 	} 
 	break; 
   
   
     case D3DTOP_BLENDTEXTUREALPHA:
 	{
-	res = C_STR_D3DTOP_BLENDTEXTUREALPHA;
-	return res;
+	s = C_STR_D3DTOP_BLENDTEXTUREALPHA;
 	} 
 	break;  
-  
-   
+     
     case  D3DTOP_BLENDFACTORALPHA:
 	{
-	res = C_STR_D3DTOP_BLENDFACTORALPHA;
-	return res;
+	s = C_STR_D3DTOP_BLENDFACTORALPHA;
 	} 
 	break;
-
-	  
+  
     case  D3DTOP_BLENDTEXTUREALPHAPM:
 	{
-	res =  C_STR_D3DTOP_BLENDTEXTUREALPHAPM;
-	return res;
+	s =  C_STR_D3DTOP_BLENDTEXTUREALPHAPM;
 	} 
 	break;
-	
-	
-	
+		
  
     // 4
 	//
   
     case D3DTOP_BLENDCURRENTALPHA:
 	{
-	res = C_STR_D3DTOP_BLENDCURRENTALPHA;
-	return res;
+	s = C_STR_D3DTOP_BLENDCURRENTALPHA;
 	} 
 	break;
-  
-   
+    
     case D3DTOP_PREMODULATE:
 	{
-	res = C_STR_D3DTOP_PREMODULATE;
-	return res;
+	s = C_STR_D3DTOP_PREMODULATE;
 	} 
 	break; 
   
-  
     case D3DTOP_MODULATEALPHA_ADDCOLOR:
 	{
-	res = C_STR_D3DTOP_MODULATEALPHA_ADDCOLOR;
-	return res;
+	s = C_STR_D3DTOP_MODULATEALPHA_ADDCOLOR;
 	} 
 	break;  
-  
-   
+    
     case D3DTOP_MODULATECOLOR_ADDALPHA:
 	{
-	res = C_STR_D3DTOP_MODULATECOLOR_ADDALPHA;
-	return res;
+	s = C_STR_D3DTOP_MODULATECOLOR_ADDALPHA;
 	} 
 	break;
-
 	  
     case D3DTOP_MODULATEINVALPHA_ADDCOLOR:
 	{
-	res = C_STR_D3DTOP_MODULATEINVALPHA_ADDCOLOR;
-	return res;
+	s = C_STR_D3DTOP_MODULATEINVALPHA_ADDCOLOR;
 	} 
 	break;
 	
- 
  
     // 5
 	//
   
     case D3DTOP_MODULATEINVCOLOR_ADDALPHA:
 	{
-	res = C_STR_D3DTOP_MODULATEINVCOLOR_ADDALPHA;
-	return res;
+	s = C_STR_D3DTOP_MODULATEINVCOLOR_ADDALPHA;
 	} 
 	break;
   
-   
     case D3DTOP_BUMPENVMAP:
 	{
-	res = C_STR_D3DTOP_BUMPENVMAP;
-	return res;
+	s = C_STR_D3DTOP_BUMPENVMAP;
 	} 
 	break; 
   
-  
     case D3DTOP_BUMPENVMAPLUMINANCE:
 	{
-	res = C_STR_D3DTOP_BUMPENVMAPLUMINANCE;
-	return res;
+	s = C_STR_D3DTOP_BUMPENVMAPLUMINANCE;
 	} 
 	break;  
   
    
     case  D3DTOP_DOTPRODUCT3:
 	{
-	res = C_STR_D3DTOP_DOTPRODUCT3;
-	return res;
+	s = C_STR_D3DTOP_DOTPRODUCT3;
 	} 
 	break;
 
 	  
     case D3DTOP_MULTIPLYADD :
 	{
-	res = C_STR_D3DTOP_MULTIPLYADD;
-	return res;
+	s = C_STR_D3DTOP_MULTIPLYADD;
 	} 
 	break;
 	
@@ -566,29 +567,56 @@ GB_D3D9_API  std::string  D3DTEXTUREOP_tostr(const D3DTEXTUREOP val)
 	
     case D3DTOP_LERP :
 	{
-	res = C_STR_D3DTOP_LERP;
-	return res;
+	s = C_STR_D3DTOP_LERP;
 	} 
 	break;	
 	
 	
-   default :
-   {
-   
-   }
+	   default :
+	   {
+	   
+	   }
 	
   
   }
-  // end switch
 
+  if(!s.length())
+  {
+	  return s;
+  }
+
+  std::string res;
+  if(bShortWord)
+  {
+	  res = s.c_str() + 7;
+  }
+  else
+  {
+	  res = s;
+  }
 
   return res;
 }; 
 
 
 //==============================================================
-GB_D3D9_API bool D3DTEXTUREOP_fromstr( D3DTEXTUREOP& valOut, const std::string& str)
+GB_D3D9_API bool D3DTEXTUREOP_fromstr( D3DTEXTUREOP& valOut, 
+									  const std::string& strarg,
+									  bool bShortWord )
 {
+
+ 
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DTOP_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
 
  
 // 1
@@ -833,9 +861,10 @@ static const char  CSTR_D3DTSS_CONSTANT    []   =  "D3DTSS_CONSTANT" ;
 
 
 //========================================================================
-GB_D3D9_API  std::string  D3DTEXTURESTAGESTATETYPE_tostr(const D3DTEXTURESTAGESTATETYPE val)
+GB_D3D9_API  std::string  D3DTEXTURESTAGESTATETYPE_tostr(const D3DTEXTURESTAGESTATETYPE val,
+														 bool bShortWord )
 {
-  std::string res;
+  std::string s;
 
   
   switch(val)
@@ -846,46 +875,42 @@ GB_D3D9_API  std::string  D3DTEXTURESTAGESTATETYPE_tostr(const D3DTEXTURESTAGEST
   // 1
   case D3DTSS_COLOROP:
   {
-    res = CSTR_D3DTSS_COLOROP;
-    return res;
+    s = CSTR_D3DTSS_COLOROP;
+ 
   }
   break;
   
   
   case D3DTSS_COLORARG1:
   {
-    res = CSTR_D3DTSS_COLORARG1;
-    return res;
+    s = CSTR_D3DTSS_COLORARG1;
+ 
   }
   break;
   
   
   case D3DTSS_COLORARG2:
   {
-    res = CSTR_D3DTSS_COLORARG2;
-    return res;
+    s = CSTR_D3DTSS_COLORARG2;
+ 
   }
   break;
   
   
   case D3DTSS_ALPHAOP:
   {
-    res = CSTR_D3DTSS_ALPHAOP;
-    return res;
+    s = CSTR_D3DTSS_ALPHAOP;
+ 
   }
   break;
   
   
   case D3DTSS_ALPHAARG1:
   {
-    res = CSTR_D3DTSS_ALPHAARG1;
-    return res;
+    s = CSTR_D3DTSS_ALPHAARG1;
+ 
   }
   break;
-  
- 
- 
- 
  
 
 
@@ -893,37 +918,37 @@ GB_D3D9_API  std::string  D3DTEXTURESTAGESTATETYPE_tostr(const D3DTEXTURESTAGEST
 
   case D3DTSS_ALPHAARG2:
   {
-    res = CSTR_D3DTSS_ALPHAARG2;
-    return res;
+    s = CSTR_D3DTSS_ALPHAARG2;
+ 
   }
   break;
 
 
   case D3DTSS_BUMPENVMAT00:
   {
-    res = CSTR_D3DTSS_BUMPENVMAT00;
-    return res;
+    s = CSTR_D3DTSS_BUMPENVMAT00;
+ 
   }
   break;
   
   case D3DTSS_BUMPENVMAT01:
   {
-    res = CSTR_D3DTSS_BUMPENVMAT01;
-    return res;
+    s = CSTR_D3DTSS_BUMPENVMAT01;
+ 
   }
   break;
   
   case D3DTSS_BUMPENVMAT10:
   {
-    res = CSTR_D3DTSS_BUMPENVMAT10;
-    return res;
+    s = CSTR_D3DTSS_BUMPENVMAT10;
+ 
   }
   break;
   
   case D3DTSS_BUMPENVMAT11:
   {
-    res = CSTR_D3DTSS_BUMPENVMAT11;
-    return res;
+    s = CSTR_D3DTSS_BUMPENVMAT11;
+ 
   }
   break;
 
@@ -933,63 +958,60 @@ GB_D3D9_API  std::string  D3DTEXTURESTAGESTATETYPE_tostr(const D3DTEXTURESTAGEST
 
   case D3DTSS_TEXCOORDINDEX:
   {
-    res = CSTR_D3DTSS_TEXCOORDINDEX;
-    return res;
+    s = CSTR_D3DTSS_TEXCOORDINDEX;
+ 
   }
   break;
 
   case D3DTSS_BUMPENVLSCALE:
   {
-    res = CSTR_D3DTSS_BUMPENVLSCALE;
-    return res;
+    s = CSTR_D3DTSS_BUMPENVLSCALE;
+ 
   }
   break;
   
   case D3DTSS_BUMPENVLOFFSET:
   {
-    res = CSTR_D3DTSS_BUMPENVLOFFSET;
-    return res;
+    s = CSTR_D3DTSS_BUMPENVLOFFSET;
+ 
   }
   break;  
   
   case D3DTSS_TEXTURETRANSFORMFLAGS:
   {
-    res = CSTR_D3DTSS_TEXTURETRANSFORMFLAGS;
-    return res;
+    s = CSTR_D3DTSS_TEXTURETRANSFORMFLAGS;
+ 
   }
   break;  
 
   case D3DTSS_COLORARG0:
   {
-    res = CSTR_D3DTSS_COLORARG0;
-    return res;
+    s = CSTR_D3DTSS_COLORARG0;
+ 
   }
   break;
   
-  
-  
-  
-
+ 
 // last
 
   case D3DTSS_ALPHAARG0:
   {
-    res = CSTR_D3DTSS_ALPHAARG0;
-    return res;
+    s = CSTR_D3DTSS_ALPHAARG0;
+  
   }
   break; 
   
   case D3DTSS_RESULTARG:
   {
-    res = CSTR_D3DTSS_RESULTARG;
-    return res;
+    s = CSTR_D3DTSS_RESULTARG;
+ 
   }
   break;   
   
   case D3DTSS_CONSTANT:
   {
-    res = CSTR_D3DTSS_CONSTANT;
-    return res;
+    s = CSTR_D3DTSS_CONSTANT;
+ 
   }
   break;  
   
@@ -1003,14 +1025,44 @@ GB_D3D9_API  std::string  D3DTEXTURESTAGESTATETYPE_tostr(const D3DTEXTURESTAGEST
   // switch
 
 
+  if(!s.length())
+  {
+	  return s;
+  }
+
+  std::string res;
+  if(bShortWord)
+  {
+	  res = s.c_str() + 7;
+  }
+  else
+  {
+	  res = s;
+  }
+ 
   return res;
 }; 
 
 //========================================================================
 GB_D3D9_API bool D3DTEXTURESTAGESTATETYPE_fromstr( D3DTEXTURESTAGESTATETYPE& valOut, 
-												const std::string& str)
+												const std::string& strarg,
+												bool bShortWord)
 {
  
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DTSS_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
+
+
+
 // 1
 	 if(str == CSTR_D3DTSS_COLOROP)
 	 {
@@ -1158,65 +1210,93 @@ static const char CSTR_D3DTTFF_PROJECTED  []  = "D3DTTFF_PROJECTED";
 
 
 //============================================================
-GB_D3D9_API  std::string  D3DTEXTURETRANSFORMFLAGS_tostr(const D3DTEXTURETRANSFORMFLAGS val)
+GB_D3D9_API  std::string  D3DTEXTURETRANSFORMFLAGS_tostr(const D3DTEXTURETRANSFORMFLAGS val,
+														 bool bShortWord)
 {
- std::string res;
+ std::string  s;
  
 switch(val)
 {
 
 	 case D3DTTFF_DISABLE :
 	 {
-	  res =  CSTR_D3DTTFF_DISABLE;
+	  s =  CSTR_D3DTTFF_DISABLE;
 	 }
 	 break;
 	 
 	 case D3DTTFF_COUNT1 :
 	 {
-	   res =  CSTR_D3DTTFF_COUNT1;
+	   s =  CSTR_D3DTTFF_COUNT1;
 	 }
 	 break;
 	 
 	 case D3DTTFF_COUNT2 :
 	 {
-	   res =  CSTR_D3DTTFF_COUNT2;
+	   s =  CSTR_D3DTTFF_COUNT2;
 	 }
 	 break;
 	 
 	 case D3DTTFF_COUNT3 :
 	 {
-	   res =  CSTR_D3DTTFF_COUNT3;
+	   s =  CSTR_D3DTTFF_COUNT3;
 	 }
 	 break;
 	 
 	 case D3DTTFF_COUNT4 :
 	 {
-	   res =  CSTR_D3DTTFF_COUNT4;
+	   s =  CSTR_D3DTTFF_COUNT4;
 	 }
 	 break;
 	 
 	 case D3DTTFF_PROJECTED :
 	 {
-	   res =  CSTR_D3DTTFF_PROJECTED;
+	   s =  CSTR_D3DTTFF_PROJECTED;
 	 }
 	 break;	 
-	 
-	 
-	 
+ 
+	 default: 
+		 {
 
-   default: {
-
-   }
-
+		 }
 } 
-	 
 
+	if(!s.length())
+	{
+		return s;
+	}
+
+	std::string res;
+	if(bShortWord)
+	{
+		res = s.c_str() +  8;
+	}
+	else
+	{
+		res = s;
+	}
+
+	 
  return res;
 };
 
 //============================================================ 
-GB_D3D9_API bool D3DTEXTURETRANSFORMFLAGS_fromstr( D3DTEXTURETRANSFORMFLAGS& valOut, const std::string& str)
+GB_D3D9_API bool D3DTEXTURETRANSFORMFLAGS_fromstr( D3DTEXTURETRANSFORMFLAGS& valOut, 
+												  const std::string& strarg,
+												  bool bShortWord)
 {
+
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DTTFF_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
+ 
  
   if( str == CSTR_D3DTTFF_DISABLE )
   {
@@ -1296,74 +1376,73 @@ static  const char CSTR_D3DTS_TEXTURE7      []   = "D3DTS_TEXTURE7"  ;
 
 
 //==============================================================
-GB_D3D9_API  std::string  D3DTRANSFORMSTATETYPE_tostr(const D3DTRANSFORMSTATETYPE val)
+GB_D3D9_API  std::string  D3DTRANSFORMSTATETYPE_tostr(const D3DTRANSFORMSTATETYPE val, bool bShortWord)
 {
-  std::string res;
+  std::string s;
   
   
   switch(val)
   {
  
- 
 	  case D3DTS_VIEW: 
 	  {
-	   res = CSTR_D3DTS_VIEW;
+	   s = CSTR_D3DTS_VIEW;
 	  }
 	  break;
   
 	  case D3DTS_PROJECTION: 
 	  {
-	   res = CSTR_D3DTS_PROJECTION;
+	   s = CSTR_D3DTS_PROJECTION;
 	  }
 	  break;  
   
 	  case D3DTS_TEXTURE0: 
 	  {
-	   res = CSTR_D3DTS_TEXTURE0;
+	   s = CSTR_D3DTS_TEXTURE0;
 	  }
 	  break;  
   
 	  case D3DTS_TEXTURE1: 
 	  {
-	   res = CSTR_D3DTS_TEXTURE1;
+	   s = CSTR_D3DTS_TEXTURE1;
 	  }
 	  break;  
   
 	  case D3DTS_TEXTURE2: 
 	  {
-	   res = CSTR_D3DTS_TEXTURE2;
+	   s = CSTR_D3DTS_TEXTURE2;
 	  }
 	  break;  
   
   
 	  case D3DTS_TEXTURE3: 
 	  {
-	   res = CSTR_D3DTS_TEXTURE3;
+	   s = CSTR_D3DTS_TEXTURE3;
 	  }
 	  break;    
   
   
  	  case D3DTS_TEXTURE4: 
 	  {
-	   res = CSTR_D3DTS_TEXTURE4;
+	   s = CSTR_D3DTS_TEXTURE4;
 	  }
 	  break;   
   
 	  case D3DTS_TEXTURE5: 
 	  {
-	   res = CSTR_D3DTS_TEXTURE5;
+	   s = CSTR_D3DTS_TEXTURE5;
 	  }
 	  break;    
   
 	  case D3DTS_TEXTURE6: 
 	  {
-	   res = CSTR_D3DTS_TEXTURE6;
+	   s = CSTR_D3DTS_TEXTURE6;
 	  }
 	  break;    
   
  	  case D3DTS_TEXTURE7: 
 	  {
-	   res = CSTR_D3DTS_TEXTURE7;
+	   s = CSTR_D3DTS_TEXTURE7;
 	  }
 	  break;   
   
@@ -1373,14 +1452,44 @@ GB_D3D9_API  std::string  D3DTRANSFORMSTATETYPE_tostr(const D3DTRANSFORMSTATETYP
 	
 	    }
   }
-  
+
+  if(!s.length())
+  {
+	  return s;
+  }
+
+  std::string res;
+  if(bShortWord)
+  {
+	  res = s.c_str() + 6;
+  }
+  else
+  {
+	  res = s;
+  }
+ 
   return res;
 }; 
 
 //==============================================================
-GB_D3D9_API bool D3DTRANSFORMSTATETYPE_fromstr( D3DTRANSFORMSTATETYPE& valOut, const std::string& str)
+GB_D3D9_API bool D3DTRANSFORMSTATETYPE_fromstr( D3DTRANSFORMSTATETYPE& valOut, 
+											   const std::string& strarg,
+											   bool bShortWord)
 {
  
+	std::string str; // D3DTS_
+	if(bShortWord)
+	{
+		str = "D3DTS_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
+
+
   
   if( str == CSTR_D3DTS_VIEW )
   {
@@ -1477,131 +1586,7 @@ static const char CTSR_D3DVBF_3WEIGHTS []   =  "D3DVBF_3WEIGHTS" ;
 static const char CTSR_D3DVBF_TWEENING []   =  "D3DVBF_TWEENING" ; 
 static const char CTSR_D3DVBF_0WEIGHTS []   =  "D3DVBF_0WEIGHTS" ; 
 
-
-/**********************************************************************
-
-//=====================================================
-  GB_D3D9_API  std::string  D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS val)
-{
-	std::string res;
-
-	switch(val)
-	{
-
-	case D3DVBF_DISABLE :
-		{
-			res = CTSR_D3DVBF_DISABLE;
-			return res;
-		}
-		break;
-
-
-	case D3DVBF_1WEIGHTS :
-		{
-			res = CTSR_D3DVBF_1WEIGHTS;
-			return res;
-		}
-		break;
-
-	case D3DVBF_2WEIGHTS :
-		{
-			res = CTSR_D3DVBF_2WEIGHTS;
-			return res;
-		}
-		break;
-
-	case D3DVBF_3WEIGHTS :
-		{
-			res = CTSR_D3DVBF_3WEIGHTS;
-			return res;
-		}
-		break;
-
-	case D3DVBF_TWEENING :
-		{
-			res = CTSR_D3DVBF_TWEENING;
-			return res;
-		}
-		break;
-
-	case D3DVBF_0WEIGHTS :
-		{
-			res = CTSR_D3DVBF_0WEIGHTS;
-			return res;
-		}
-		break;
-
-
-
-	default: {
-			 
-			 }
-	
-	}
-	// switch
-
-
-   return res;
-}; 
-
- 
-
-//=====================================================
-GB_D3D9_API bool D3DVERTEXBLENDFLAGS_fromstr( D3DVERTEXBLENDFLAGS& valOut, 
-											  const std::string& str)
-{
-	 
-	if( str == CTSR_D3DVBF_DISABLE )
-	{
-		valOut = D3DVBF_DISABLE;
-		return  true;
-	}
-
-
-
-	if( str == CTSR_D3DVBF_1WEIGHTS )
-	{
-		valOut = D3DVBF_1WEIGHTS;
-		return  true;
-	}
-
-
-	if( str == CTSR_D3DVBF_2WEIGHTS )
-	{
-		valOut = D3DVBF_2WEIGHTS;
-		return  true;
-	}
-
-
-	if( str == CTSR_D3DVBF_3WEIGHTS )
-	{
-		valOut = D3DVBF_3WEIGHTS;
-		return  true;
-	}
-
-
-
-	if( str == CTSR_D3DVBF_TWEENING )
-	{
-		valOut = D3DVBF_TWEENING;
-		return  true;
-	}
-
-
-	if( str == CTSR_D3DVBF_0WEIGHTS )
-	{
-		valOut = D3DVBF_0WEIGHTS;
-		return  true;
-	}
-
-
-	   return false;
-	};
-
-
-*****************************************************/
-
-
+  
 
 //typedef enum D3DZBUFFERTYPE
 //{
@@ -1618,46 +1603,74 @@ static const char CSTR_D3DZB_USEW  []   =  "D3DZB_USEW" ;
 
 
 //===========================================================
-GB_D3D9_API  std::string  D3DZBUFFERTYPE_tostr(const D3DZBUFFERTYPE val)
+GB_D3D9_API  std::string  D3DZBUFFERTYPE_tostr(const D3DZBUFFERTYPE val,
+											   bool bShortWord )
 {
-  std::string res;
+  std::string s;
 
    switch(val)
    {
      case D3DZB_FALSE :
 	 {
-	   res = CSTR_D3DZB_FALSE;
+	   s = CSTR_D3DZB_FALSE;
 	 }
 	 break;
 	 
      case D3DZB_TRUE :
 	 {
-	   res = CSTR_D3DZB_TRUE;
+	   s = CSTR_D3DZB_TRUE;
 	 }
 	 break;	 
 	 
      case D3DZB_USEW :
 	 {
-	   res = CSTR_D3DZB_USEW;
+	   s = CSTR_D3DZB_USEW;
 	 }
 	 break;	 
-	 
-	 
-   
+ 
       default:
 	  {
 	 
 	  }
    }
 
+   if(!s.length())
+   {
+	   return s;
+   }
+
+   std::string res;
+   if(bShortWord)
+   {
+	   res = s.c_str() +  6;
+   }
+   else
+   {
+	   res = s;
+   }
 
    return res;
 };
  
 //===========================================================
-GB_D3D9_API bool D3DZBUFFERTYPE_fromstr( D3DZBUFFERTYPE& valOut, const std::string& str)
+GB_D3D9_API bool D3DZBUFFERTYPE_fromstr( D3DZBUFFERTYPE& valOut, 
+										const std::string& strarg,
+										bool bShortWord)
 {
  
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DZB_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
+
+
   if( str == CSTR_D3DZB_FALSE )
   {
    valOut = D3DZB_FALSE ;
@@ -1708,39 +1721,40 @@ static const char  CSTR_D3DPT_TRIANGLEFAN    []  = "D3DPT_TRIANGLEFAN" ;
 
 
 //===================================================================================
-GB_D3D9_API  std::string  D3DPRIMITIVETYPE_tostr(const D3DPRIMITIVETYPE val)
+GB_D3D9_API  std::string  D3DPRIMITIVETYPE_tostr(const D3DPRIMITIVETYPE val,
+												 bool bShortWord )
 {
- std::string res;
+ std::string s;
  
   switch(val)
   {
 	   case D3DPT_POINTLIST:
 	   {
-	    res = CSTR_D3DPT_POINTLIST;
-	    return res;
+	    s = CSTR_D3DPT_POINTLIST;
+ 
 	   }
 	   break;
  
  
 	   case D3DPT_LINELIST:
 	   {
-	    res = CSTR_D3DPT_LINELIST;
-	    return res;
+	    s = CSTR_D3DPT_LINELIST;
+ 
 	   }
 	   break;
  
 	   case D3DPT_LINESTRIP:
 	   {
-	    res = CSTR_D3DPT_LINESTRIP;
-	    return res;
+	    s = CSTR_D3DPT_LINESTRIP;
+ 
 	   }
 	   break; 
  
  
 	   case D3DPT_TRIANGLELIST:
 	   {
-	    res = CSTR_D3DPT_TRIANGLELIST;
-	    return  res;
+	    s = CSTR_D3DPT_TRIANGLELIST;
+ 
 	   }
 	   break;
  
@@ -1748,16 +1762,16 @@ GB_D3D9_API  std::string  D3DPRIMITIVETYPE_tostr(const D3DPRIMITIVETYPE val)
  
 	   case D3DPT_TRIANGLESTRIP:
 	   {
-	    res = CSTR_D3DPT_TRIANGLESTRIP;
-	    return res;
+	    s = CSTR_D3DPT_TRIANGLESTRIP;
+ 
 	   }
 	    break;
 	 
  
 	   case D3DPT_TRIANGLEFAN:
 	   {
-	    res = CSTR_D3DPT_TRIANGLEFAN;
-	    return res;
+	    s = CSTR_D3DPT_TRIANGLEFAN;
+ 
 	   }
 	   break;	 
  
@@ -1771,13 +1785,43 @@ GB_D3D9_API  std::string  D3DPRIMITIVETYPE_tostr(const D3DPRIMITIVETYPE val)
   }
   // switch
 
+  if(!s.length())
+  {
+	  return s;
+  }
 
-  return false;
+  std::string res;
+  if(bShortWord)
+  {
+	  res = s.c_str() +  6; // D3DPT_
+  }
+  else
+  {
+	  res = s;
+  }
+
+  return res;
+ 
 };
  
 //=================================================================================== 
-GB_D3D9_API bool D3DPRIMITIVETYPE_fromstr( D3DPRIMITIVETYPE& valOut, const std::string& str)
+GB_D3D9_API bool D3DPRIMITIVETYPE_fromstr( D3DPRIMITIVETYPE& valOut, 
+										  const std::string& strarg,
+										  bool bShortWord)
 {
+
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DPT_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
+
  
   if( str == CSTR_D3DPT_POINTLIST )
   {
@@ -1843,9 +1887,11 @@ static const char  CSTR_D3DSTT_VOLUME     []    =  "D3DSTT_VOLUME";
 
 
 //==============================================================
-GB_D3D9_API  std::string D3DSAMPLER_TEXTURE_TYPE_tostr(const D3DSAMPLER_TEXTURE_TYPE val)
+GB_D3D9_API  std::string D3DSAMPLER_TEXTURE_TYPE_tostr(
+						const D3DSAMPLER_TEXTURE_TYPE val,
+						bool bShortWord )
 {
-  std::string res;
+  std::string s;
   
   
   switch(val)
@@ -1853,8 +1899,8 @@ GB_D3D9_API  std::string D3DSAMPLER_TEXTURE_TYPE_tostr(const D3DSAMPLER_TEXTURE_
   
   case D3DSTT_UNKNOWN: 
   {
-    res =  CSTR_D3DSTT_UNKNOWN;
-	return res;
+    s =  CSTR_D3DSTT_UNKNOWN;
+ 
   }
   break;
   
@@ -1870,44 +1916,70 @@ GB_D3D9_API  std::string D3DSAMPLER_TEXTURE_TYPE_tostr(const D3DSAMPLER_TEXTURE_
   
    case D3DSTT_2D: 
   {
-    res =  CSTR_D3DSTT_2D;
-	return res;
+    s =  CSTR_D3DSTT_2D;
+ 
   }
   break; 
   
   
   case D3DSTT_CUBE: 
   {
-    res =  CSTR_D3DSTT_CUBE;
-	return res;
+    s =  CSTR_D3DSTT_CUBE;
+ 
   }
   break;
   
   
   case D3DSTT_VOLUME: 
   {
-    res =  CSTR_D3DSTT_VOLUME;
-	return res;
+    s =  CSTR_D3DSTT_VOLUME;
+ 
   }
   break;
-  
  
-  
-		  default:
-		  {
-		  
-		  }
+	  default:
+	  {
+	  
+	  }
   
   }
 
+  if(!s.length())
+  {
+	  return s;
+  }
 
+  std::string res;
+  if(bShortWord)
+  {
+	  res = s.c_str() +  7; // D3DSTT_
+  }
+  else
+  {
+	  res = s;
+  }
+ 
  return res;
 }; 
 
 //==============================================================
-GB_D3D9_API bool D3DSAMPLER_TEXTURE_TYPE_fromstr( D3DSAMPLER_TEXTURE_TYPE& valOut, const std::string& str)
+GB_D3D9_API bool D3DSAMPLER_TEXTURE_TYPE_fromstr( D3DSAMPLER_TEXTURE_TYPE& valOut, 
+												 const std::string& strarg,
+												 bool bShortWord )
 {
  
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DSTT_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
+
    
    if( str == CSTR_D3DSTT_UNKNOWN )
    {
@@ -1999,9 +2071,10 @@ static const char CSTR_D3DSAMP_DMAPOFFSET      []    =  "D3DSAMP_DMAPOFFSET" ;
 
 
 //==================================================================
-GB_D3D9_API  std::string  D3DSAMPLERSTATETYPE_tostr(const D3DSAMPLERSTATETYPE val)
+GB_D3D9_API  std::string  D3DSAMPLERSTATETYPE_tostr(const D3DSAMPLERSTATETYPE val,
+													bool bShortWord )
 {
-  std::string res;
+  std::string s;
   
  
   switch(val)
@@ -2010,38 +2083,38 @@ GB_D3D9_API  std::string  D3DSAMPLERSTATETYPE_tostr(const D3DSAMPLERSTATETYPE va
   // 1
     case D3DSAMP_ADDRESSU:
 	{
-	  res = CSTR_D3DSAMP_ADDRESSU;
-	  return res;
+	  s = CSTR_D3DSAMP_ADDRESSU;
+ 
 	}
 	break;
 
   
     case D3DSAMP_ADDRESSV:
 	{
-	  res = CSTR_D3DSAMP_ADDRESSV;
-	  return res;
+	  s = CSTR_D3DSAMP_ADDRESSV;
+ 
 	}
 	break;  
   
     case D3DSAMP_ADDRESSW:
 	{
-	  res = CSTR_D3DSAMP_ADDRESSW;
-	  return res;
+	  s = CSTR_D3DSAMP_ADDRESSW;
+ 
 	}
 	break;  
   
     case D3DSAMP_BORDERCOLOR:
 	{
-	  res = CSTR_D3DSAMP_BORDERCOLOR;
-	  return res;
+	  s = CSTR_D3DSAMP_BORDERCOLOR;
+ 
 	}
 	break;  
   
   
     case D3DSAMP_MAGFILTER:
 	{
-	  res = CSTR_D3DSAMP_MAGFILTER;
-	  return res;
+	  s = CSTR_D3DSAMP_MAGFILTER;
+ 
 	}
 	break;
 
@@ -2052,36 +2125,36 @@ GB_D3D9_API  std::string  D3DSAMPLERSTATETYPE_tostr(const D3DSAMPLERSTATETYPE va
    
      case D3DSAMP_MINFILTER:
 	{
-	  res = CSTR_D3DSAMP_MINFILTER;
-	  return res;
+	  s = CSTR_D3DSAMP_MINFILTER;
+ 
 	}
 	break;
   
      case D3DSAMP_MIPFILTER:
 	{
-	  res = CSTR_D3DSAMP_MIPFILTER;
-	  return res;
+	  s = CSTR_D3DSAMP_MIPFILTER;
+ 
 	}
 	break;  
   
      case D3DSAMP_MIPMAPLODBIAS:
 	{
-	  res = CSTR_D3DSAMP_MIPMAPLODBIAS;
-	  return res;
+	  s = CSTR_D3DSAMP_MIPMAPLODBIAS;
+ 
 	}
 	break;  
   
      case D3DSAMP_MAXMIPLEVEL:
 	{
-	  res = CSTR_D3DSAMP_MAXMIPLEVEL;
-	  return res;
+	  s = CSTR_D3DSAMP_MAXMIPLEVEL;
+ 
 	}
 	break;  
   
      case D3DSAMP_MAXANISOTROPY:
 	{
-	  res = CSTR_D3DSAMP_MAXANISOTROPY;
-	  return res;
+	  s = CSTR_D3DSAMP_MAXANISOTROPY;
+ 
 	}
 	break;  
   
@@ -2090,29 +2163,26 @@ GB_D3D9_API  std::string  D3DSAMPLERSTATETYPE_tostr(const D3DSAMPLERSTATETYPE va
   
     case D3DSAMP_SRGBTEXTURE:
 	{
-	  res = CSTR_D3DSAMP_SRGBTEXTURE;
-	  return res;
+	  s = CSTR_D3DSAMP_SRGBTEXTURE;
+ 
 	}
 	break;   
   
   
     case D3DSAMP_ELEMENTINDEX:
 	{
-	  res = CSTR_D3DSAMP_ELEMENTINDEX;
-	  return res;
+	  s = CSTR_D3DSAMP_ELEMENTINDEX;
+ 
 	}
 	break;   
   
     case D3DSAMP_DMAPOFFSET:
 	{
-	  res = CSTR_D3DSAMP_DMAPOFFSET;
-	  return res;
+	  s = CSTR_D3DSAMP_DMAPOFFSET;
+ 
 	}
 	break;   
-  
-   
-  
-  
+ 
 	  default:
 	  {
 	  
@@ -2120,15 +2190,44 @@ GB_D3D9_API  std::string  D3DSAMPLERSTATETYPE_tostr(const D3DSAMPLERSTATETYPE va
 	  
   }
   // switch
-  
- 
+
+  if(!s.length())
+  {
+	  return s;
+  }
+
+  std::string res;
+  if(bShortWord)
+  {
+	  res = s.c_str() + 8; // D3DSAMP_
+  }
+  else
+  {
+	  res = s;
+  }
+
   return res;
+ 
 }; 
 
 //==================================================================
-GB_D3D9_API bool D3DSAMPLERSTATETYPE_fromstr( D3DSAMPLERSTATETYPE& valOut, const std::string& str)
+GB_D3D9_API bool D3DSAMPLERSTATETYPE_fromstr( D3DSAMPLERSTATETYPE& valOut, 
+											  const std::string& strarg,
+											  bool bShortWord )
 {
  
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DSAMP_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+ 
+
 // 1
 
   if( str == CSTR_D3DSAMP_ADDRESSU )
@@ -2244,49 +2343,81 @@ typedef enum D3DSTATEBLOCKTYPE
 */
 
 //======================================
-GB_D3D9_API  std::string  D3DSTATEBLOCKTYPE_tostr(const D3DSTATEBLOCKTYPE val)
+GB_D3D9_API  std::string  D3DSTATEBLOCKTYPE_tostr(const D3DSTATEBLOCKTYPE val,
+												  bool bShortWord)
 {
-   std::string res;
+   std::string s;
 
       switch(val)
 	  {
 	  
 	  case D3DSBT_ALL :
 	  {
-	    res = "D3DSBT_ALL";
-		return res;
+	    s = "D3DSBT_ALL";
+ 
 	  }
 	  break;
 	  
 	  
 	  case D3DSBT_PIXELSTATE :
 	  {
-	    res = "D3DSBT_PIXELSTATE";
-		return res;
+	    s = "D3DSBT_PIXELSTATE";
+ 
 	  }
 	  break;	  
 	  
 	  case D3DSBT_VERTEXSTATE :
 	  {
-	    res = "D3DSBT_VERTEXSTATE";
-		return res;
+	    s = "D3DSBT_VERTEXSTATE";
+ 
 	  }
 	  break;	  
 	  
 	  
-	  default:
+		  default:
+		  {
+		  
+		  }
+	  
+	  }
+
+
+	  if(!s.length())
 	  {
-	  
+		  return s;
 	  }
-	  
+
+	  std::string res;
+	  if(bShortWord)
+	  {
+		  res = s.c_str() +  7;	// D3DSBT_
 	  }
-	  
+	  else
+	  {
+		  res = s;
+	  }
+ 
 	  return res; 
 }; 
 
 //======================================
-GB_D3D9_API bool D3DSTATEBLOCKTYPE_fromstr( D3DSTATEBLOCKTYPE& valOut, const std::string& str)
+GB_D3D9_API bool D3DSTATEBLOCKTYPE_fromstr( D3DSTATEBLOCKTYPE& valOut, 
+										   const std::string& strarg,
+										   bool bShortWord)
 {
+
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DSBT_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
+
     if( str == "D3DSBT_ALL" )
 	{
 	   valOut = D3DSBT_ALL;
@@ -2324,31 +2455,32 @@ GB_D3D9_API bool D3DSTATEBLOCKTYPE_fromstr( D3DSTATEBLOCKTYPE& valOut, const std
 */
 
 //=====================================================
-GB_D3D9_API  std::string  D3DSWAPEFFECT_tostr(const D3DSWAPEFFECT val)
+GB_D3D9_API  std::string  D3DSWAPEFFECT_tostr(const D3DSWAPEFFECT val,
+											  bool bShortWord)
 {
- std::string res;
+ std::string s;
 
   switch(val)
   {
 	  
 	  case D3DSWAPEFFECT_DISCARD :
 	  {
-	   res = "D3DSWAPEFFECT_DISCARD";
-	   return res;
+	   s = "D3DSWAPEFFECT_DISCARD";
+ 
 	  }
 	  break;
 	  
 	  case D3DSWAPEFFECT_FLIP :
 	  {
-	   res = "D3DSWAPEFFECT_FLIP";
-	   return res;	  
+	   s = "D3DSWAPEFFECT_FLIP";
+   
 	  }
 	  break;	  
 	  
 	  case D3DSWAPEFFECT_COPY :
 	  {
-	   res = "D3DSWAPEFFECT_COPY";
-	   return res;	  
+	   s = "D3DSWAPEFFECT_COPY";
+ 	  
 	  }
 	  break;	  
 	  
@@ -2363,13 +2495,43 @@ GB_D3D9_API  std::string  D3DSWAPEFFECT_tostr(const D3DSWAPEFFECT val)
   // switch
 	  
 	  
-	  return res;
+  if(!s.length())
+  {
+	  return s;
+  }
 
+  std::string res;
+  if(bShortWord)
+  {
+	  res = s.c_str() + 14; // D3DSWAPEFFECT_
+  }
+  else
+  {
+	  res = s;
+  }
+
+  return res;
 }; 
 
 //=====================================================
-GB_D3D9_API bool D3DSWAPEFFECT_fromstr( D3DSWAPEFFECT& valOut, const std::string& str)
+GB_D3D9_API bool D3DSWAPEFFECT_fromstr( D3DSWAPEFFECT& valOut, 
+									   const std::string& strarg,
+									   bool bShortWord )
 {
+
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DSWAPEFFECT_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+
+ //
+
     if( str == "D3DSWAPEFFECT_DISCARD" )
 	{
 	   valOut = D3DSWAPEFFECT_DISCARD;
@@ -2451,9 +2613,10 @@ static const char CSTR_D3DDECLTYPE_UNUSED   []   =   "D3DDECLTYPE_UNUSED";
 
 
 //====================================================================
-GB_D3D9_API  std::string  D3DDECLTYPEtostr(const D3DDECLTYPE val)
+GB_D3D9_API  std::string  D3DDECLTYPEtostr(const D3DDECLTYPE val,
+										   bool bShortWord )
 {
-   std::string res;
+   std::string s;
 
  
    // 1
@@ -2461,33 +2624,33 @@ GB_D3D9_API  std::string  D3DDECLTYPEtostr(const D3DDECLTYPE val)
    {
       case D3DDECLTYPE_FLOAT1:
 	  {
-	    res = CSTR_D3DDECLTYPE_FLOAT1;
+	    s = CSTR_D3DDECLTYPE_FLOAT1;
 	  }
 	  break;
    
    
       case D3DDECLTYPE_FLOAT2:
 	  {
-	    res = CSTR_D3DDECLTYPE_FLOAT2;
+	    s = CSTR_D3DDECLTYPE_FLOAT2;
 	  }
 	  break;   
    
    
        case D3DDECLTYPE_FLOAT3:
 	  {
-	    res = CSTR_D3DDECLTYPE_FLOAT3;
+	    s = CSTR_D3DDECLTYPE_FLOAT3;
 	  }
 	  break;  
    
       case D3DDECLTYPE_FLOAT4:
 	  {
-	    res = CSTR_D3DDECLTYPE_FLOAT4;
+	    s = CSTR_D3DDECLTYPE_FLOAT4;
 	  }
 	  break;   
    
        case D3DDECLTYPE_D3DCOLOR:
 	  {
-	    res = CSTR_D3DDECLTYPE_D3DCOLOR;
+	    s = CSTR_D3DDECLTYPE_D3DCOLOR;
 	  }
 	  break;  
    
@@ -2498,33 +2661,33 @@ GB_D3D9_API  std::string  D3DDECLTYPEtostr(const D3DDECLTYPE val)
    // 2
       case D3DDECLTYPE_UBYTE4:
 	  {
-	    res = CSTR_D3DDECLTYPE_UBYTE4;
+	    s = CSTR_D3DDECLTYPE_UBYTE4;
 	  }
 	  break;   
    
    
        case D3DDECLTYPE_SHORT2:
 	  {
-	    res = CSTR_D3DDECLTYPE_SHORT2;
+	    s = CSTR_D3DDECLTYPE_SHORT2;
 	  }
 	  break;  
    
        case D3DDECLTYPE_SHORT4:
 	  {
-	    res = CSTR_D3DDECLTYPE_SHORT4;
+	    s = CSTR_D3DDECLTYPE_SHORT4;
 	  }
 	  break;
 
       case D3DDECLTYPE_UBYTE4N:
 	  {
-	    res = CSTR_D3DDECLTYPE_UBYTE4N;
+	    s = CSTR_D3DDECLTYPE_UBYTE4N;
 	  }
 	  break;
 
 
       case D3DDECLTYPE_SHORT2N:
 	  {
-	    res = CSTR_D3DDECLTYPE_SHORT2N;
+	    s = CSTR_D3DDECLTYPE_SHORT2N;
 	  }
 	  break;
 	  
@@ -2536,33 +2699,33 @@ GB_D3D9_API  std::string  D3DDECLTYPEtostr(const D3DDECLTYPE val)
    // 3
       case D3DDECLTYPE_SHORT4N:
 	  {
-	    res = CSTR_D3DDECLTYPE_SHORT4N;
+	    s = CSTR_D3DDECLTYPE_SHORT4N;
 	  }
 	  break;
 
       case D3DDECLTYPE_USHORT2N:
 	  {
-	    res = CSTR_D3DDECLTYPE_USHORT2N;
+	    s = CSTR_D3DDECLTYPE_USHORT2N;
 	  }
 	  break;
 
 
       case D3DDECLTYPE_USHORT4N:
 	  {
-	    res = CSTR_D3DDECLTYPE_USHORT4N;
+	    s = CSTR_D3DDECLTYPE_USHORT4N;
 	  }
 	  break;
 
       case D3DDECLTYPE_UDEC3:
 	  {
-	    res = CSTR_D3DDECLTYPE_UDEC3;
+	    s = CSTR_D3DDECLTYPE_UDEC3;
 	  }
 	  break;
 
 
       case D3DDECLTYPE_DEC3N:
 	  {
-	    res = CSTR_D3DDECLTYPE_DEC3N;
+	    s = CSTR_D3DDECLTYPE_DEC3N;
 	  }
 	  break;	  
 	  
@@ -2573,27 +2736,22 @@ GB_D3D9_API  std::string  D3DDECLTYPEtostr(const D3DDECLTYPE val)
 	// 4  
       case D3DDECLTYPE_FLOAT16_2:
 	  {
-	    res = CSTR_D3DDECLTYPE_FLOAT16_2;
+	    s = CSTR_D3DDECLTYPE_FLOAT16_2;
 	  }
 	  break;	  
 	  
       case D3DDECLTYPE_FLOAT16_4:
 	  {
-	    res = CSTR_D3DDECLTYPE_FLOAT16_4;
+	    s = CSTR_D3DDECLTYPE_FLOAT16_4;
 	  }
 	  break;
 
       case D3DDECLTYPE_UNUSED:
 	  {
-	    res = CSTR_D3DDECLTYPE_UNUSED;
+	    s = CSTR_D3DDECLTYPE_UNUSED;
 	  }
 	  break;
-
-
-	  
-	  
-   
-
+ 
 		 default:
 		 {
 
@@ -2601,15 +2759,42 @@ GB_D3D9_API  std::string  D3DDECLTYPEtostr(const D3DDECLTYPE val)
    
    }
    // switch
-   
-   
+
+
+   if(!s.length())
+   {
+	   return s;
+   }
+
+   std::string res;
+   if(bShortWord)
+   {
+	   res = s.c_str() + 12;	// D3DDECLTYPE_
+   }
+   else
+   {
+	   res = s;
+   }
+ 
    return res;
 }; 
 
 //====================================================================
-GB_D3D9_API bool D3DDECLTYPE_fromstr( D3DDECLTYPE& valOut, const std::string& str)
+GB_D3D9_API bool D3DDECLTYPE_fromstr( D3DDECLTYPE& valOut, 
+									 const std::string& strarg,
+									 bool bShortWord )
 {
  
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DDECLTYPE_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
  
   // 1
     if( str == CSTR_D3DDECLTYPE_FLOAT1 )
@@ -2762,57 +2947,54 @@ typedef enum D3DDECLMETHOD
 */
 
 //============================================================
-GB_D3D9_API  std::string  D3DDECLMETHOD_tostr(const D3DDECLMETHOD val)
+GB_D3D9_API  std::string  D3DDECLMETHOD_tostr(const D3DDECLMETHOD val,
+											  bool bShortWord)
 {
-  std::string res;
+  std::string s;
  
   switch(val)
   {
  
      case D3DDECLMETHOD_DEFAULT :
 	 {
-	   res = "D3DDECLMETHOD_DEFAULT"; 
+	   s = "D3DDECLMETHOD_DEFAULT"; 
 	 }
 	 break;
   
-  
      case D3DDECLMETHOD_PARTIALU :
 	 {
-	   res = "D3DDECLMETHOD_PARTIALU"; 
+	   s = "D3DDECLMETHOD_PARTIALU"; 
 	 }
 	 break;  
   
-  
-      case D3DDECLMETHOD_PARTIALV :
+     case D3DDECLMETHOD_PARTIALV :
 	 {
-	   res = D3DDECLMETHOD_PARTIALV; 
+	   s = D3DDECLMETHOD_PARTIALV; 
 	 }
 	 break; 
   
-      case D3DDECLMETHOD_CROSSUV :
+     case D3DDECLMETHOD_CROSSUV :
 	 {
-	   res = "D3DDECLMETHOD_CROSSUV"; 
+	   s = "D3DDECLMETHOD_CROSSUV"; 
 	 }
 	 break; 
 	 
- 
 	 case D3DDECLMETHOD_UV :
 	 {
-	   res = "D3DDECLMETHOD_UV"; 
+	   s = "D3DDECLMETHOD_UV"; 
 	 }
 	 break; 
   
-  
      case D3DDECLMETHOD_LOOKUP :
 	 {
-	   res = "D3DDECLMETHOD_LOOKUP"; 
+	   s = "D3DDECLMETHOD_LOOKUP"; 
 	 }
 	 break;  
   
   
      case D3DDECLMETHOD_LOOKUPPRESAMPLED :
 	 {
-	   res = "D3DDECLMETHOD_LOOKUPPRESAMPLED"; 
+	   s = "D3DDECLMETHOD_LOOKUPPRESAMPLED"; 
 	 }
 	 break; 
   
@@ -2824,15 +3006,43 @@ GB_D3D9_API  std::string  D3DDECLMETHOD_tostr(const D3DDECLMETHOD val)
 			}
   
   }
-  
- 
+
+  if(!s.length())
+  {
+	  return s;
+  }
+
+  std::string res;
+  if(bShortWord)
+  {
+	  res = s.c_str() + 14;   // D3DDECLMETHOD_
+  }
+  else
+  {
+	  res = s;
+  }
+
   return res;
 }; 
 
 //============================================================
-GB_D3D9_API bool D3DDECLMETHOD_fromstr( D3DDECLMETHOD& valOut, const std::string& str)
+GB_D3D9_API bool D3DDECLMETHOD_fromstr( D3DDECLMETHOD& valOut, 
+									   const std::string& strarg,
+									   bool bShortWord)
 {
  
+	std::string str;
+	if(bShortWord)
+	{
+		str = "D3DDECLMETHOD_";
+		str += strarg;
+	}
+	else
+	{
+		str = strarg;
+	}
+ 
+
    if(  str ==  "D3DDECLMETHOD_DEFAULT" )
    {
     valOut = D3DDECLMETHOD_DEFAULT;

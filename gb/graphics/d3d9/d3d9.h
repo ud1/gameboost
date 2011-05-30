@@ -35,10 +35,10 @@
 
 #include <gb/graphics/d3d9/auto_include_libr.h>
 
-#include <gb/graphics/d3d9/dataconv.h>
+  #include <gb/graphics/d3d9/dataconv/dataconv.h>
 #include <gb/graphics/d3d9/Device.h>
-#include <gb/graphics/d3d9/draw.h>
-#include <gb/graphics/d3d9/fvf.h>
+#include <gb/graphics/d3d9/draw/draw.h>
+#include <gb/graphics/d3d9/fvf/fvf.h>
 #include <gb/graphics/d3d9/hlsl/hlsl.h>
 #include <gb/graphics/d3d9/d3dFont.h>
 
