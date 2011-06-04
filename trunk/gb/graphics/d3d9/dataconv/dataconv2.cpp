@@ -28,7 +28,15 @@
 
   //=======================================================================
 
-
+	  static void __str_touper(std::string& str)
+	  {
+		  for(size_t c=0; c<str.length(); c++)
+		  {
+			  char curr = str[c];
+			  curr = toupper(curr);
+			  str[c] = curr;
+		  }
+	  }
 
 
   //=====================================================
@@ -216,7 +224,7 @@ GB_D3D9_API   std::string D3DMATERIALCOLORSOURCE_tostr(const D3DMATERIALCOLORSOU
 		  str = strarg;
 	  }
 
-
+	 __str_touper(str);
 
     if (str == "D3DMCS_MATERIAL")
     {
@@ -326,6 +334,7 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
 		  str = strarg;
 	  }
 
+	  __str_touper(str);
 
     if (str == "D3DVBF_DISABLE")
     {
@@ -401,34 +410,67 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
 
     } // switch
 
-    return s;
+
+	if(!s.length())
+	{
+		return s;
+	}
+
+	std::string res;
+	if(bShortWord)
+	{								 
+		res = s.c_str() + 10; //  D3DDEGREE_
+	}
+	else
+	{
+		res = s;
+	}
+ 
+    return res;
   };
 
   //=====================================================
   GB_D3D9_API   bool D3DDEGREETYPE_fromstr(D3DDEGREETYPE &val, 
-										  const std::string &s,
+										  const std::string &strarg,
 										  bool bShortWord)
   {
-    if (s == "D3DDEGREE_LINEAR")
+
+	  std::string str;
+	  if(bShortWord)
+	  {
+		  str = "D3DDEGREE_";
+		  str += strarg;
+	  }
+	  else
+	  {
+		  str = strarg;
+	  }
+
+  __str_touper(str);
+
+    if (str == "D3DDEGREE_LINEAR")
     {
       val = D3DDEGREE_LINEAR;
       return true;
-    };
-    if (s == "D3DDEGREE_QUADRATIC")
+    }
+
+    if (str == "D3DDEGREE_QUADRATIC")
     {
       val = D3DDEGREE_QUADRATIC;
       return true;
-    };
-    if (s == "D3DDEGREE_CUBIC")
+    }
+
+    if (str == "D3DDEGREE_CUBIC")
     {
       val = D3DDEGREE_CUBIC;
       return true;
-    };
-    if (s == "D3DDEGREE_QUINTIC")
+    }
+
+    if (str == "D3DDEGREE_QUINTIC")
     {
       val = D3DDEGREE_QUINTIC;
       return true;
-    };
+    }
 
     return false;
   };
@@ -461,24 +503,57 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
 
     } // switch
 
-    return s;
+
+
+
+	if(!s.length())
+	{
+		return s;
+	}
+
+	std::string res;
+	if(bShortWord)
+	{								 
+		res = s.c_str() + 13; //  D3DPATCHEDGE_
+	}
+	else
+	{
+		res = s;
+	}
+
+
+    return res;
   };
 
   //===============================================
   GB_D3D9_API   bool D3DPATCHEDGESTYLE_fromstr(D3DPATCHEDGESTYLE &val, 
-											   const std::string &s,
+											   const std::string &strarg,
 											   bool bShortWord)
   {
-    if (s == "D3DPATCHEDGE_DISCRETE")
+	  std::string str;
+	  if(bShortWord)
+	  {
+		  str = "D3DPATCHEDGE_";
+		  str += strarg;
+	  }
+	  else
+	  {
+		  str = strarg;
+	  }
+
+  __str_touper(str);
+
+    if (str == "D3DPATCHEDGE_DISCRETE")
     {
       val = D3DPATCHEDGE_DISCRETE;
       return true;
-    };
-    if (s == "D3DPATCHEDGE_CONTINUOUS")
+    }
+
+    if (str == "D3DPATCHEDGE_CONTINUOUS")
     {
       val = D3DPATCHEDGE_CONTINUOUS;
       return true;
-    };
+    }
 
     return false;
   }
@@ -511,10 +586,12 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
 
     } // switch
 
-    if(!s.length())
-  {
+
+
+	if(!s.length())
+	{
 	  return s;
-  }
+	}
 
 	std::string res;
 	if(bShortWord)
@@ -527,9 +604,6 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
 	}
 
 	return res;
-
-
-    return s;
   };
 
   //============================================
@@ -548,6 +622,8 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
   {
     str = strarg;
   }
+
+  __str_touper(str);
 
     if (str == "D3DDMT_ENABLE")
     {
@@ -1449,7 +1525,9 @@ GB_D3D9_API   bool D3DRENDERSTATEVALUE_fromstr(DWORD &val,
 											   const std::string &s, 
 											   bool bShortWord )
   {
-	  
+
+	// ggggggggggg
+	// __str_touper(str);  
 
     switch (state)
     {
@@ -1744,7 +1822,7 @@ GB_D3D9_API   bool D3DRENDERSTATEVALUE_fromstr(DWORD &val,
 
       case D3DRS_AMBIENTMATERIALSOURCE:
         {
-          return D3DMATERIALCOLORSOURCE_fromstr((D3DMATERIALCOLORSOURCE &)val, s);
+          return D3DMATERIALCOLORSOURCE_fromstr((D3DMATERIALCOLORSOURCE &)val, s, bShortWord );
         }
         break;
 
