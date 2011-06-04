@@ -338,6 +338,7 @@
 	 str = strarg;
    }
 
+   __str_touper(str);
 
     // D3DFMT_UNKNOWN;
 
@@ -867,6 +868,8 @@
 	  {
 		  str = strarg;
 	  }
+
+	  __str_touper(str);
 
 
     if (str == "D3DRTYPE_SURFACE")
@@ -1549,6 +1552,8 @@
 
 	const char *s = buffer;
 	const size_t ns = strlen(buffer);
+
+	__Cstr_toupper(buffer);
 
 	//-------------------------------------
 
@@ -2347,7 +2352,8 @@
 
   //=========================================================
   GB_D3D9_API bool D3DSHADEMODE_fromstr(D3DSHADEMODE &valOut, 
-			const std::string  &strarg, bool bShortWord)
+										const std::string  &strarg,
+										bool bShortWord)
   {
 	  std::string str;
 	 if(bShortWord)
@@ -2515,8 +2521,8 @@
 
   //======================================================
   GB_D3D9_API bool D3DBLEND_fromstr(D3DBLEND &valOut, 
-								const std::string &strarg,
-								bool bShortWord)
+									const std::string &strarg,
+									bool bShortWord)
   {
     if (strarg.length() == 0)
     {
@@ -2535,6 +2541,8 @@
 	{
 	   strncat(buffer, strarg.c_str(), 50 );
 	}
+
+	__Cstr_toupper(buffer);
 
 	const char *s = buffer; 
 	const size_t NSLEN = strlen(buffer); 
@@ -2692,6 +2700,8 @@
 
 	}
 
+	__str_touper(str);
+
     if (str == "D3DCULL_NONE")
     {
       valOut = D3DCULL_NONE;
@@ -2806,6 +2816,7 @@
 		 str = strarg;
 	  }
 
+	  __str_touper(str);
 
     if (str == "D3DCMP_NEVER")
     {
@@ -2927,7 +2938,7 @@
 	    str = strarg;
 	  }
 
-	 
+	__str_touper(str); 
 
     if (str == "D3DFOG_NONE")
     {
@@ -3047,7 +3058,7 @@
 	 str = strarg;
    }
 
-
+    __str_touper(str); 
 
     if (str == "D3DSTENCILOP_KEEP")
     {

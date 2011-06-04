@@ -16,6 +16,16 @@ namespace dataconv
 //=========================================================
 
 
+	static void __str_touper(std::string& str)
+	{
+		for(size_t c=0; c<str.length(); c++)
+		{
+			char curr = str[c];
+			curr = toupper(curr);
+			str[c] = curr;
+		}
+	}
+
 
 
 /*
@@ -113,6 +123,8 @@ GB_D3D9_API bool D3DTEXTUREADDRESS_fromstr( D3DTEXTUREADDRESS& valOut,
   {
     str = strarg;
   }
+
+   __str_touper(str);
 
 
   if( str == CSTR_D3DTADDRESS_WRAP )
@@ -251,6 +263,7 @@ GB_D3D9_API bool D3DTEXTUREFILTERTYPE_fromstr( D3DTEXTUREFILTERTYPE& valOut,
 		str = strarg;
 	}
 
+	__str_touper(str);
 
 
   if(str == CSTR_D3DTEXF_NONE)
@@ -617,7 +630,7 @@ GB_D3D9_API bool D3DTEXTUREOP_fromstr( D3DTEXTUREOP& valOut,
 		str = strarg;
 	}
 
-
+   __str_touper(str);
  
 // 1
 
@@ -1060,7 +1073,7 @@ GB_D3D9_API bool D3DTEXTURESTAGESTATETYPE_fromstr( D3DTEXTURESTAGESTATETYPE& val
 		str = strarg;
 	}
 
-
+   	__str_touper(str);
 
 
 // 1
@@ -1296,7 +1309,7 @@ GB_D3D9_API bool D3DTEXTURETRANSFORMFLAGS_fromstr( D3DTEXTURETRANSFORMFLAGS& val
 		str = strarg;
 	}
 
- 
+  __str_touper(str);
  
   if( str == CSTR_D3DTTFF_DISABLE )
   {
@@ -1488,7 +1501,7 @@ GB_D3D9_API bool D3DTRANSFORMSTATETYPE_fromstr( D3DTRANSFORMSTATETYPE& valOut,
 		str = strarg;
 	}
 
-
+		__str_touper(str);
 
   
   if( str == CSTR_D3DTS_VIEW )
@@ -1669,7 +1682,7 @@ GB_D3D9_API bool D3DZBUFFERTYPE_fromstr( D3DZBUFFERTYPE& valOut,
 		str = strarg;
 	}
 
-
+   __str_touper(str);
 
   if( str == CSTR_D3DZB_FALSE )
   {
@@ -1821,7 +1834,7 @@ GB_D3D9_API bool D3DPRIMITIVETYPE_fromstr( D3DPRIMITIVETYPE& valOut,
 		str = strarg;
 	}
 
-
+   	__str_touper(str);
  
   if( str == CSTR_D3DPT_POINTLIST )
   {
@@ -1979,7 +1992,7 @@ GB_D3D9_API bool D3DSAMPLER_TEXTURE_TYPE_fromstr( D3DSAMPLER_TEXTURE_TYPE& valOu
 		str = strarg;
 	}
 
-
+	__str_touper(str);
    
    if( str == CSTR_D3DSTT_UNKNOWN )
    {
@@ -2226,6 +2239,8 @@ GB_D3D9_API bool D3DSAMPLERSTATETYPE_fromstr( D3DSAMPLERSTATETYPE& valOut,
 	{
 		str = strarg;
 	}
+
+		__str_touper(str);
  
 
 // 1
@@ -2417,6 +2432,8 @@ GB_D3D9_API bool D3DSTATEBLOCKTYPE_fromstr( D3DSTATEBLOCKTYPE& valOut,
 		str = strarg;
 	}
 
+	__str_touper(str);
+
 
     if( str == "D3DSBT_ALL" )
 	{
@@ -2529,6 +2546,8 @@ GB_D3D9_API bool D3DSWAPEFFECT_fromstr( D3DSWAPEFFECT& valOut,
 	{
 		str = strarg;
 	}
+
+	__str_touper(str);
 
  //
 
@@ -2795,6 +2814,8 @@ GB_D3D9_API bool D3DDECLTYPE_fromstr( D3DDECLTYPE& valOut,
 	{
 		str = strarg;
 	}
+
+	__str_touper(str);
  
   // 1
     if( str == CSTR_D3DDECLTYPE_FLOAT1 )
@@ -3041,6 +3062,8 @@ GB_D3D9_API bool D3DDECLMETHOD_fromstr( D3DDECLMETHOD& valOut,
 	{
 		str = strarg;
 	}
+
+	__str_touper(str);
  
 
    if(  str ==  "D3DDECLMETHOD_DEFAULT" )
