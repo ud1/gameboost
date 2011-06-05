@@ -1,21 +1,22 @@
 /*=============================================*\
  * file:      gb/graphics/opengl/shaders.cpp   *
  * author:    Sharov "Zefick" Sergey           *
- * date:      13.03.2011                       *
+ * version    2.1                              *
+ * date:      05.06.2011                       *
 \*=============================================*/
 
 #include "shaders.h"
 
-#include <io.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 namespace gb {
 namespace graphics {
 namespace opengl {
 
 char * loadFromFile(const char *fn);
-void printInfoLog(GLuint obj, const char *title);
+void printShaderInfoLog(GLuint obj, const char *title);
+void printProgramInfoLog(GLuint obj, const char *title);
 
 
 ShaderProgram::ShaderProgram() {
@@ -47,22 +48,24 @@ void ShaderProgram::attachShader (ShaderBase const & shader) {
     ++sh_num;
 }
 
+
 void ShaderProgram::link (bool log) {
     glLinkProgram(sh_program_object);
 
     GLint status;
     glGetProgramiv(sh_program_object, GL_LINK_STATUS, &status);
     if (log && status != GL_TRUE)
-        printInfoLog(sh_program_object, "Shader Program linking");
+        printProgramInfoLog(sh_program_object, "Shader Program linking");
 }
+
 
 void ShaderProgram::validate (bool log) {
     glValidateProgram(sh_program_object);
 
     GLint status;
-    glGetProgramiv(sh_program_object, GL_LINK_STATUS, &status);
+    glGetProgramiv(sh_program_object, GL_VALIDATE_STATUS, &status);
     if (log && status != GL_TRUE)
-        printInfoLog(sh_program_object, "Shader Program validating");
+        printProgramInfoLog(sh_program_object, "Shader Program validating");
 }
 
 
@@ -95,9 +98,6 @@ void ShaderProgram::setUniform1f (const char *uname, float v) {
     glUniform1f(p, v);
 }
 
-// PRIVATE
-//###################################################################
-
 
 ///////////////////////////////////////////////////////////
 // Shader Base
@@ -124,9 +124,9 @@ GLuint ShaderBase::getHandle () const {
     return sh_object;
 }
 
-///////////////////////////////////////////////////////////
+
 // Vertex Shader
-///////////////////////////////////////////////////////////
+//#########################################################
 
 VertexShader::VertexShader (const char * filename, bool log)
         : ShaderBase (filename) {
@@ -137,13 +137,13 @@ VertexShader::VertexShader (const char * filename, bool log)
     GLint status;
     glGetShaderiv(sh_object, GL_COMPILE_STATUS, &status);
     if (log && status != GL_TRUE) {
-        printInfoLog(sh_object, filename);
+        printShaderInfoLog(sh_object, filename);
     }
 }
 
-///////////////////////////////////////////////////////////
+
 // Fragment Shader
-///////////////////////////////////////////////////////////
+//#########################################################
 
 FragmentShader::FragmentShader (const char * filename, bool log)
         : ShaderBase (filename) {
@@ -154,14 +154,13 @@ FragmentShader::FragmentShader (const char * filename, bool log)
     GLint status;
     glGetShaderiv(sh_object, GL_COMPILE_STATUS, &status);
     if (log && status != GL_TRUE) {
-        printInfoLog(sh_object, filename);
+        printShaderInfoLog(sh_object, filename);
     }
 }
 
 
-///////////////////////////////////////////////////////////
 // Utils
-///////////////////////////////////////////////////////////
+//#########################################################
 
 // Загрузка кода шейдера из файла
 char * loadFromFile(const char *fn) {
@@ -185,15 +184,31 @@ char * loadFromFile(const char *fn) {
 }
 
 
-// Вывод лога компиляции
-void printInfoLog(GLuint obj, const char *title) {
+// Вывод лога компиляции шейдера
+void printShaderInfoLog(GLuint obj, const char *title) {
+    int len = 0, chWritten = 0;
+    char *infoLog;
+    glGetShaderiv(obj, GL_INFO_LOG_LENGTH, &len);
+
+    if (len > 1) {
+        infoLog = new char [len+1];
+        glGetShaderInfoLog(obj, len, &chWritten, infoLog);
+        MessageBoxA(NULL, infoLog, title, 0);
+        delete[] infoLog;
+    }
+    else MessageBoxA(NULL, "all right", title, 0);
+}
+
+
+// Вывод лога компиляции программы
+void printProgramInfoLog(GLuint obj, const char *title) {
     int len = 0, chWritten = 0;
     char *infoLog;
     glGetProgramiv(obj, GL_INFO_LOG_LENGTH, &len);
 
     if (len > 1) {
         infoLog = new char [len+1];
-        glGetShaderInfoLog(obj, len, &chWritten, infoLog);
+        glGetProgramInfoLog(obj, len, &chWritten, infoLog);
         MessageBoxA(NULL, infoLog, title, 0);
         delete[] infoLog;
     }
