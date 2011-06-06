@@ -8,6 +8,8 @@
  
 #pragma once
 
+#include <d3d9.h>
+
 
 // library d3d9
 
@@ -17,11 +19,16 @@
 #ifdef GB_D3DX9
     #include <d3dx9.h>
  
+
+#if 0 // include static lib
 	#if defined(DEBUG) || defined(_DEBUG)
 	      #pragma comment( lib, "d3dx9d.lib" )
 	#else
 	      #pragma comment( lib, "d3dx9.lib" )
 	#endif
+#endif
+
+
 #endif
 
  // library d3d9

@@ -1,6 +1,6 @@
 ﻿#include "d3d9pch.h"
 
-#if ( defined(WIN32) && defined(GB_D3D9) )
+#if ( defined(WIN32)  )     // && defined(GB_D3D9) )
 
 #pragma warning(push)
 #pragma warning(disable : 4996)
@@ -185,5 +185,5 @@ GB_D3D9_API HMODULE loadDllLastVersion(unsigned int* piOutVers )
 
 #pragma warning(pop)
 
-#endif // #if ( defined(WIN32) && defined(GB_D3D9) )
+#endif // #if ( defined(WIN32) )      // && defined(GB_D3D9) )
 // end file

@@ -15,7 +15,7 @@
 */
 
 
-#if ( defined(WIN32) && defined(GB_D3D9) )
+#if ( defined(WIN32) )  // && defined(GB_D3D9) )
 
 #pragma once
 #define __GB_D3DX9_DYNAMIC_LOAD_H__
@@ -3707,6 +3707,6 @@ protected:
 
 #pragma warning( pop )
 
-#endif // #if ( defined(WIN32) && defined(GB_D3D9) )
+#endif // #if (...)    // defined(WIN32) && defined(GB_D3D9) )
 
 // end file
