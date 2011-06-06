@@ -32,20 +32,18 @@ STORY:
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <cfloat>
-#include <cmath>
-#include <cassert>
+//#include <cfloat>
+//#include <cmath>
+#include <float.h>
+#include <math.h>
+
+//#include <cassert>
+#include <assert.h>
+#include <string.h>
 #include <string>
 
 #include <gb\base\Types.h>
-
-#ifdef GB_D3D9
- //  #include <d3d9types.h>
-#endif
-
-#ifdef GB_D3DX9
-  #include <d3dx9math.h>
-#endif
+ 
 
 namespace gb
 {
@@ -840,13 +838,13 @@ public:
 
 
 
-#if ( defined(GB_D3D9) ) //  && defined (_d3d9TYPES_H_)  )
+#ifdef _D3D9_H_
   inline void operator = (const D3DCOLORVALUE& val) { r=val.r; g=val.g; b=val.b; a=val.a; }
   inline operator const D3DCOLORVALUE*() const { return (D3DCOLORVALUE*)&r; }
   inline operator       D3DCOLORVALUE () const { D3DCOLORVALUE res;  res.a=a; res.r=r; res.g=g; res.b=b; return res; }
 #endif   // GB_D3D9
 
-#ifdef GB_D3DX9
+#ifdef __D3DX9MATH_H__
   inline void operator = (const D3DXCOLOR& c) {r=c.r; g=c.g; b=c.b; a=c.a; }
   inline operator const D3DXCOLOR*() const { return (D3DXCOLOR*)&r; }
   inline operator       D3DXCOLOR () const { return D3DXCOLOR(r,g,b,a); }

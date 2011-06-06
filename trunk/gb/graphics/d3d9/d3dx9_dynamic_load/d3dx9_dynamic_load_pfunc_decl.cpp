@@ -2,7 +2,7 @@
 
 
 
-#if ( defined(WIN32) && defined(GB_D3D9) )
+#if ( defined(WIN32) )     // && defined(GB_D3D9) )
 
 #include <gb/graphics/d3d9/d3dx9_dynamic_load/d3dx9_dynamic_load.h>
 #include <gb/macro.h>

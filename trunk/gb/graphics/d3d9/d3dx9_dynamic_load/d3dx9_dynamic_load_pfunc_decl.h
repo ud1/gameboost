@@ -6,7 +6,7 @@
 
 */
 
-#if ( defined(WIN32) && defined(GB_D3D9)  )
+#if ( defined(WIN32) )       // && defined(GB_D3D9)  )
 
 
 #pragma once
@@ -2889,5 +2889,5 @@ namespace d3dx9_dynamic_load
 
 
 
-#endif // #if ( defined(WIN32) && defined(GB_D3D9)  )
+#endif // #if ( defined(WIN32) )      // && defined(GB_D3D9)  )
 // end file

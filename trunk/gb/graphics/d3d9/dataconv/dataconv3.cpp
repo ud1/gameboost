@@ -46,7 +46,8 @@ static const char CSTR_D3DTADDRESS_MIRRORONCE  []   = "D3DTADDRESS_MIRRORONCE" ;
 
 
 //=================================================================================
-GB_D3D9_API  std::string  D3DTEXTUREADDRESS_tostr(const D3DTEXTUREADDRESS val,bool bShortWord )
+GB_D3D9_API  std::string  D3DTEXTUREADDRESS_tostr(const D3DTEXTUREADDRESS val,
+												  bool bShortWord )
 {
    std::string  s;
 
@@ -98,7 +99,7 @@ GB_D3D9_API  std::string  D3DTEXTUREADDRESS_tostr(const D3DTEXTUREADDRESS val,bo
 	std::string res;
 	if(bShortWord)
 	{
-	 res = s.c_str() +  12;
+	 res = s.c_str() +  12;	 // D3DTADDRESS_
 	}
 	else
 	{
@@ -182,7 +183,8 @@ static const char CSTR_D3DTEXF_GAUSSIANQUAD   []   = "D3DTEXF_GAUSSIANQUAD" ;
 
 
 //=============================================================================
-GB_D3D9_API  std::string  D3DTEXTUREFILTERTYPE_tostr(const D3DTEXTUREFILTERTYPE val,bool bShortWord )
+GB_D3D9_API  std::string  D3DTEXTUREFILTERTYPE_tostr(const D3DTEXTUREFILTERTYPE val,
+													 bool bShortWord )
 {
   std::string s;
 
@@ -235,7 +237,7 @@ GB_D3D9_API  std::string  D3DTEXTUREFILTERTYPE_tostr(const D3DTEXTUREFILTERTYPE 
   std::string res;
   if(bShortWord)
   {
-	  res = s.c_str() +  8;
+	  res = s.c_str() +  8;	 // D3DTEXF_
   }
   else
   {
@@ -302,8 +304,7 @@ GB_D3D9_API bool D3DTEXTUREFILTERTYPE_fromstr( D3DTEXTUREFILTERTYPE& valOut,
     return true;
   }  
 
- 
-    return false;
+  return false;
 };
 
 
@@ -389,9 +390,10 @@ static const char C_STR_D3DTOP_LERP  []  = "D3DTOP_LERP" ;
 
 
 //=================================================================
-GB_D3D9_API  std::string  D3DTEXTUREOP_tostr(const D3DTEXTUREOP val,bool bShortWord )
+GB_D3D9_API  std::string  D3DTEXTUREOP_tostr( const D3DTEXTUREOP val,
+											  bool bShortWord )
 {
-  std::string s ;
+  std::string s;
   
   switch(val)
   {
@@ -601,7 +603,7 @@ GB_D3D9_API  std::string  D3DTEXTUREOP_tostr(const D3DTEXTUREOP val,bool bShortW
   std::string res;
   if(bShortWord)
   {
-	  res = s.c_str() + 7;
+	  res = s.c_str() + 7;   // D3DTOP_
   }
   else
   {
@@ -1046,7 +1048,7 @@ GB_D3D9_API  std::string  D3DTEXTURESTAGESTATETYPE_tostr(const D3DTEXTURESTAGEST
   std::string res;
   if(bShortWord)
   {
-	  res = s.c_str() + 7;
+	  res = s.c_str() + 7;   // D3DTSS_
   }
   else
   {
@@ -1223,8 +1225,9 @@ static const char CSTR_D3DTTFF_PROJECTED  []  = "D3DTTFF_PROJECTED";
 
 
 //============================================================
-GB_D3D9_API  std::string  D3DTEXTURETRANSFORMFLAGS_tostr(const D3DTEXTURETRANSFORMFLAGS val,
-														 bool bShortWord)
+GB_D3D9_API  std::string  D3DTEXTURETRANSFORMFLAGS_tostr(
+								const D3DTEXTURETRANSFORMFLAGS val,
+								bool bShortWord )
 {
  std::string  s;
  
@@ -1281,7 +1284,7 @@ switch(val)
 	std::string res;
 	if(bShortWord)
 	{
-		res = s.c_str() +  8;
+		res = s.c_str() +  8;  // D3DTTFF_
 	}
 	else
 	{
@@ -1392,8 +1395,7 @@ static  const char CSTR_D3DTS_TEXTURE7      []   = "D3DTS_TEXTURE7"  ;
 GB_D3D9_API  std::string  D3DTRANSFORMSTATETYPE_tostr(const D3DTRANSFORMSTATETYPE val, bool bShortWord)
 {
   std::string s;
-  
-  
+ 
   switch(val)
   {
  
@@ -1474,7 +1476,7 @@ GB_D3D9_API  std::string  D3DTRANSFORMSTATETYPE_tostr(const D3DTRANSFORMSTATETYP
   std::string res;
   if(bShortWord)
   {
-	  res = s.c_str() + 6;
+	  res = s.c_str() + 6;   // D3DTS_
   }
   else
   {
@@ -1655,7 +1657,7 @@ GB_D3D9_API  std::string  D3DZBUFFERTYPE_tostr(const D3DZBUFFERTYPE val,
    std::string res;
    if(bShortWord)
    {
-	   res = s.c_str() +  6;
+	   res = s.c_str() +  6; // D3DZB_
    }
    else
    {
@@ -1901,8 +1903,8 @@ static const char  CSTR_D3DSTT_VOLUME     []    =  "D3DSTT_VOLUME";
 
 //==============================================================
 GB_D3D9_API  std::string D3DSAMPLER_TEXTURE_TYPE_tostr(
-						const D3DSAMPLER_TEXTURE_TYPE val,
-						bool bShortWord )
+							const D3DSAMPLER_TEXTURE_TYPE val,
+							bool bShortWord )
 {
   std::string s;
   
@@ -1972,7 +1974,7 @@ GB_D3D9_API  std::string D3DSAMPLER_TEXTURE_TYPE_tostr(
 	  res = s;
   }
  
- return res;
+  return res;
 }; 
 
 //==============================================================
