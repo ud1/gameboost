@@ -12,19 +12,21 @@
 
 
 
-#if ( defined(GB_D3D9) && defined(WIN32) )
-
+//#if ( defined(GB_D3D9) && defined(WIN32) )
+#if ( defined(WIN32) && defined(_D3D9_H_) )
 						  
 #pragma once
 #define __GB_D3D9_DRAW_H__
  
 //#include <d3d9.h>
 
+#include <gb/graphics/d3d9/auto_include_libr.h> 
+
 #include <gb/graphics/d3d9/common.h>
-
 #include <gb/graphics/d3d9/api_decl.h>
+#include <stdlib.h>
+#include <stdarg.h>
 
-#include <d3d9.h>
 
 namespace gb 
 {
@@ -39,6 +41,9 @@ namespace gb
 	
 //-------------------------------------------------------------------------
 
+/** \brief Удалить все ресурсы , которые создаёт эта часть библиотеки изнутри.
+  ОБЯЗАТЕЛЬНО вызвать при потере, сбросе или удалении девайса  */
+GB_D3D9_API HRESULT ReleaseAllInternalData();
  
 
 /** \brief   Отрисовка сети куба  с координатами вершин от (-1,-1,-1)  до (1,1,1)
@@ -181,6 +186,44 @@ GB_D3D9_API HRESULT Draw3dAxiesAlignBoundBox(IDirect3DDevice9* pdevice,
 GB_D3D9_API HRESULT Draw3dAxies(IDirect3DDevice9* pdevice, 
 								const float* vec3_coord, float  axiesLen);
 
+
+//-------------------------------------------------------------------------
+
+GB_D3D9_API HRESULT DrawStr(
+				IDirect3DDevice9* pdevice,
+				int x, 
+				int y, 
+				const char* str, 
+				D3DCOLOR color
+							);
+
+
+
+GB_D3D9_API HRESULT DrawStrFormat(
+			  IDirect3DDevice9* pdevice, 
+			  int x, int y, 
+			  D3DCOLOR color, 
+			  const char *_Format, ...
+								  );
+//! \brief  Размер шрифта для DrawStrEx
+struct FontSize_e 
+{
+	  enum e
+	  {
+		 NORMAL = 0,
+		 BIG    = 1,
+		 SMALL  = 2
+	  };
+};
+
+GB_D3D9_API HRESULT DrawStrEx(
+							IDirect3DDevice9* pdevice,
+							int x, 
+							int y,
+							FontSize_e::e fontSize,
+							const char* str, 
+							D3DCOLOR color
+							);
 
 
 /**************************************************************

@@ -1,8 +1,10 @@
 ﻿#include "d3d9pch.h"
 
-#if ( defined(GB_D3D9) && defined(WIN32) )
+#if ( defined(WIN32) && defined(_D3D9_H_) )
 
-#include <gb/graphics/d3d9/draw.h>
+#include <gb/graphics/d3d9/draw/draw.h>
+#include "internal.h"
+
 #include <gb/color/color.h>
 #include <gb/fmath/fmath.h>
 using namespace gb::fmath;
