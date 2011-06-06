@@ -161,7 +161,7 @@ GB_D3D9_API HRESULT DrawStrEx(
 			  g_pFont_big = new D3dFont( pdevice, L"Courier New", 18, GB_D3D9_FONT_D3DFONT_BOLD);
 			}
 		    
-		   g_pFont_big->DrawTextA(x,y,color, str, 0);
+		   hr |= g_pFont_big->DrawTextA(x,y,color, str, 0);
 		}
 		break;
 
@@ -169,10 +169,10 @@ GB_D3D9_API HRESULT DrawStrEx(
 		{
 			if( !g_pFont_small )
 			{
-				g_pFont_small = new D3dFont( pdevice, L"Courier New", 8, 0);
+				g_pFont_small = new D3dFont( pdevice, L"Arial", 7, 0);
 			}
 
-			g_pFont_big->DrawTextA(x,y,color, str, 0);
+			hr |= g_pFont_small->DrawTextA(x,y,color, str, 0);
 
 		}
 		break;
