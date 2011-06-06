@@ -8,7 +8,8 @@
 */
 
 
-#if ( defined(GB_D3D9) && defined(WIN32) ) 
+//#if ( defined(GB_D3D9) && defined(WIN32) ) 
+#if ( defined(WIN32) && defined(_D3D9_H_) )
 
 #pragma once
 
