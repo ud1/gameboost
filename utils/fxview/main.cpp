@@ -3,7 +3,7 @@
 
 
 #include <ce/dxut_wonly/dxut_wonly.h>
-#include "context.h"
+//#include "context.h"
 #include <assert.h>
 #include <string>
 #include <vector>
