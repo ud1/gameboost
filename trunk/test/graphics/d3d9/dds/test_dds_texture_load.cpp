@@ -1,4 +1,4 @@
-﻿
+﻿#include "d3d9pch.h"
 
 #include <Windows.h>
 #include <mmsystem.h>
@@ -77,9 +77,22 @@ HRESULT InitD3D( HWND hWnd )
 	return S_OK;
 }
 
-#include <gb/graphics/d3d9/dds/DDSTextureLoader.h>
+#include <gb/graphics/d3d9/dds/DDSTextureLoader.h>   
+using namespace gb::graphics::d3d9::dds;
 
 //#include "DDSTextureLoader.h"
+
+
+#include <gb/graphics/d3d9/draw/draw.h>
+void test_getdraw_sampletexture(IDirect3DDevice9* pdevice)
+{
+	IDirect3DTexture9* ptext = gb::graphics::d3d9::draw::getSampleDebugTexture(pdevice);
+
+
+
+   int _stop =0;
+}
+
 
 
 //-----------------------------------------------------------------------------
@@ -93,7 +106,9 @@ HRESULT InitGeometry()
     CreateDDSOptions opt;
 
  // hr |= D3DXCreateTextureFromFile( g_pd3dDevice,  "banana.bmp", &g_pTexture );
-    hr |= CreateDDSTextureFromFileW( g_pd3dDevice,  L"c:\\Microsoft DirectX SDK (February 2007)\\Samples\\C++\\Direct3D\\__Tut02_Vertices\\texture.dds", &g_pTexture, &opt );
+    hr |= CreateDDSTextureFromFileW( g_pd3dDevice, 
+ L"c:\\Microsoft DirectX SDK (February 2007)\\Samples\\Media\\misc\\cellceiling.dds",
+ &g_pTexture, &opt );
 
 		if(	 FAILED(  hr  )	)
 		{
@@ -214,6 +229,10 @@ VOID Render()
 	// Begin the scene
 	if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
 	{
+	   // temp
+		test_getdraw_sampletexture(g_pd3dDevice);
+
+
 		// Setup the world, view, and projection matrices
 		SetupMatrices();
 
@@ -304,16 +323,17 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 // Name: WinMain()
 // Desc: The application's entry point
 //-----------------------------------------------------------------------------
-INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, INT )
+//INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, INT )
+int main()
 {
 	// Register the window class
 	WNDCLASSEXW wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-		"D3D Tutorial", NULL };
+		L"D3D Tutorial", NULL };
 	RegisterClassExW( &wc );
 
 	// Create the application's window
-	HWND hWnd = CreateWindowW( "D3D Tutorial", "D3D Tutorial 05: Textures",
+	HWND hWnd = CreateWindowW( L"D3D Tutorial", L"D3D Tutorial 05: Textures",
 		WS_OVERLAPPEDWINDOW, 10, 10, 800, 600,
 		NULL, NULL, wc.hInstance, NULL );
 
@@ -343,7 +363,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, INT )
 		}
 	}
 
-	UnregisterClass( "D3D Tutorial", wc.hInstance );
+	UnregisterClassW( L"D3D Tutorial", wc.hInstance );
 	return 0;
 }
 
