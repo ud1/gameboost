@@ -307,7 +307,7 @@ namespace gb
 		for(unsigned int c=0; c<num; c++) 
 		{
 			r +=  *( pf + c );
-		};
+		}
 
 		return r/(float)num;  
 	}
@@ -324,6 +324,9 @@ namespace gb
 
 		return   pow(r, 1.0f/(float)num);  
 	}
+
+	//! \brief Получение случайного значения в диапазоне ( 0.0f ... 1.0f )
+	float random();
 
 
 	

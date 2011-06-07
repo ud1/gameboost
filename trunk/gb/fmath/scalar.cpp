@@ -5,6 +5,8 @@
 
 
 #include <gb/fmath/fmath.h>
+#include <stdlib.h>
+#include <time.h>
 
 
 namespace gb 
@@ -33,6 +35,26 @@ namespace scalar
 	//	return res;
 	//};	
 	
+
+//=====================================================================
+
+	//=================================================================
+	float random() 
+	{
+		static bool sbFirstCall = true;
+		static int stime;
+
+		if(sbFirstCall) { 
+			sbFirstCall = false; 
+
+			stime=  (int32_t)(time(NULL)/2);  
+			srand(stime);  
+		}
+
+
+		return  (float) ::rand() /  (float)RAND_MAX   ;
+	}
+
 	
 	
 //=====================================================================	
