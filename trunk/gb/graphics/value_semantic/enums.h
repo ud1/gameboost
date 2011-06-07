@@ -147,6 +147,8 @@ struct float2_type_e
 	};
 }; 
 
+ #pragma message("KS777: некоторые параметры для векторов уже определены в fmath  "  __FILE__ )
+
 //!  семантика параметра 3d-вектора   
 struct float3_type_e
 {
@@ -235,6 +237,8 @@ struct matrix3x3_type_e
 
 	};
 };  
+  
+ #pragma message("KS777: те параметры  уже определены в fmath  "  __FILE__ ) 
   
 //!  семантика параметра 4x4-матрицы    
 struct matrix4x4_type_e

@@ -48,10 +48,12 @@
 #include <gb/fmath/scalar.h>
 #include <gb/fmath/vectors.h>
 #include <gb/fmath/matrices.h>
+#include <gb/fmath/matrix_stack.h>
 #include <gb/fmath/quaternion.h>
 #include <gb/fmath/geom2d.h>
 #include <gb/fmath/geom3d.h>
 #include <gb/fmath/proj.h>
+#include <gb/fmath/context.h>
 
 
  

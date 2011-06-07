@@ -256,6 +256,100 @@ inline void  colorRgb24_SwapGB( color_rgb24_s& color ) { register uint8_t temp; 
 /** \brief Конвертация uicolor32_t в color_rgb24_s.  */
 inline color_rgb24_s   colorRgbFromUiColor (uicolor32_t color) { register color_rgb24_s res; res.r=(color >> 16); res.g=(color>>8); res.b=(color); return res;  };
    
+//--------------------------------------------------------
+
+struct ObjectColotType_e
+{
+	enum e
+	{
+		UNDEFINED = 0,  ///< не определено
+
+		AMBIENT, 
+		DIFFUSE,
+		SPECULAR,
+		EMISSIVE 
+
+	};
+
+	//! перечисление в строку. Вернёт пустую строку, если _enum некорректно.
+	std::string e_tostr(e _enum)
+	{
+		std::string res;
+		switch(_enum)
+		{
+		case AMBIENT:
+			{
+			res = "AMBIENT";
+			}
+			break;
+
+		case DIFFUSE:
+			{
+			res = "DIFFUSE";
+			}
+			break;
+
+		case SPECULAR:
+			{
+			 res = "SPECULAR";
+			}
+			break;
+
+		case EMISSIVE:
+			{
+			 res = "EMISSIVE";
+			}
+			break;
+
+		default:
+			{
+			}	    
+		}
+
+		return res;
+	}
+
+	//! перечисление из строки. Вернёт false, если строка некорректна
+	bool e_fromstr(e& outval, const char* str)
+	{
+		outval = UNDEFINED;
+		std::string s = str;
+		for(size_t c=0; c<s.length(); c++)
+		{
+			s[c] = toupper( s[c] );
+		}
+
+		if("AMBIENT" == s)
+		{
+			outval =  AMBIENT;
+			return true;
+		}
+
+		if("DIFFUSE" == s)
+		{
+			outval =  DIFFUSE;
+			return true;
+		}
+
+		if("SPECULAR" == s)
+		{
+			outval =  SPECULAR;
+			return true;
+		}
+
+		if("EMISSIVE" == s)
+		{
+			outval =  EMISSIVE;
+			return true;
+		}
+
+	  return false;
+	}
+};
+
+
+
+
 
 //--------------------------------------------------------
 

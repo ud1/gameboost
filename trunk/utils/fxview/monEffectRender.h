@@ -7,7 +7,7 @@
 
 #include <string>
 #include <gb/macro.h>
-#include "context.h"
+//#include "context.h"
 #include <gb/graphics/value_semantic/value_semantic.h>
 using namespace gb::graphics::value_semantic;
 
@@ -16,7 +16,7 @@ using namespace gb::graphics::value_semantic;
 #pragma warning (push)
 #pragma warning (disable : 4996)
 
-Context g_context;
+gb::fmath::context::Context g_context;
 
 ID3DXEffect *g_pEff = NULL;
 static char g_filename[MAX_PATH];
@@ -468,7 +468,7 @@ HRESULT __SetTechn(PINC context, ID3DXEffect *pEff, UINT number)
 };
 
 
-HRESULT __FuncDAPLIB_OnCreateDevice(IDVC *pdvc, 
+HRESULT __FuncDAPLIB_OnCreateDevice(IDirect3DDevice9 *pdvc, 
 									const D3DSURFACE_DESC *pbbsd,
 									void *pUserData)
 {
@@ -496,7 +496,7 @@ HRESULT __FuncDAPLIB_OnCreateDevice(IDVC *pdvc,
   return hr;
 };
 
-HRESULT __FuncDAPLIB_OnResetDevice(IDVC *pdvc, 
+HRESULT __FuncDAPLIB_OnResetDevice(IDirect3DDevice9 *pdvc, 
 								   const D3DSURFACE_DESC *pbbsd, void *pUserData)
 {
   HRESULT hr = 0;
@@ -542,7 +542,7 @@ HRESULT __FuncDAPLIB_OnDestroyDevice(void *pUserData)
   return 0;
 };
 
-static HRESULT __Create(ID3DXEffect **ppOut, IDVC *pdevice)
+static HRESULT __Create(ID3DXEffect **ppOut, IDirect3DDevice9 *pdevice)
 {
   HRESULT hr = 0;
   if (g_filename[0] == 0)
