@@ -20,7 +20,7 @@
     #include <d3dx9.h>
  
 
-#if 0 // include static lib
+#ifdef GB_D3DX9_INC_STATIC_LIB  // include static lib
 	#if defined(DEBUG) || defined(_DEBUG)
 	      #pragma comment( lib, "d3dx9d.lib" )
 	#else

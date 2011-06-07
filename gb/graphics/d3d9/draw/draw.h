@@ -20,11 +20,16 @@
  
 //#include <d3d9.h>
 
+#include <gb/graphics/d3d9/api_decl.h>
 #include <gb/graphics/d3d9/auto_include_libr.h> 
 
-#include <gb/graphics/d3d9/common.h>
-#include <gb/graphics/d3d9/api_decl.h>
+//#include <gb/graphics/d3d9/common.h>
+
+
+ 
+
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdarg.h>
 
 
@@ -35,14 +40,15 @@ namespace gb
   namespace d3d9 
   {
 
-   //! \brief функции, типы D3D9 связаные с выводом вершин
+   //! \brief функции, типы D3D9 связаные с выводом вершин, визуальных примитивов и прочего
    namespace draw
    {
 	
 //-------------------------------------------------------------------------
 
 /** \brief Удалить все ресурсы , которые создаёт эта часть библиотеки изнутри.
-  ОБЯЗАТЕЛЬНО вызвать при потере, сбросе или удалении девайса  */
+ 
+  ОБЯЗАТЕЛЬНО ВЫЗВАТЬ ПРИ :  потере, сбросе или удалении девайса  */
 GB_D3D9_API HRESULT ReleaseAllInternalData();
  
 
@@ -224,6 +230,14 @@ GB_D3D9_API HRESULT DrawStrEx(
 							const char* str, 
 							D3DCOLOR color
 							);
+
+
+
+//-----------------------------------------------------------------
+
+
+GB_D3D9_API  IDirect3DTexture9* getSampleDebugTexture(IDirect3DDevice9* pdevice)  throw();
+
 
 
 /**************************************************************

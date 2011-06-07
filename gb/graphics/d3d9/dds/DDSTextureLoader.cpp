@@ -3,11 +3,23 @@
  
  Functions for loading a DDS texture without using D3DX
  Copyright (c) Microsoft Corporation. All rights reserved.
+
+  \todo  убрать нужду в GB_D3DX9
   \todo убрать макросы  поменять на gb macro
  
 */
 
 #include "d3d9pch.h"
+
+/*
+#ifndef  GB_D3DX9 
+   #error  GB_D3DX9 most be defined
+#endif
+   */
+
+#include <d3d9.h>
+
+#if ( defined(WIN32) && defined(_D3D9_H_) )
 
 // исключено 
 //#include <DDraw.h>
@@ -38,14 +50,31 @@
 #define max(a,b)    (((a) > (b)) ? (a) : (b))
 #define min(a,b)    (((a) < (b)) ? (a) : (b))
 
+static BOOL __fileExistsA (const LPCSTR fname)   
+{    
+	return ::GetFileAttributesA(fname) != DWORD(-1);
+}
 
-//--------------------------------------------------------------------------------------
+//======================================================================
+static BOOL __fileExistsW (const LPCTSTR fname)
+{    
+	return ::GetFileAttributesW(fname) != DWORD(-1);
+}
+
+//=========================================================================
 BOOL LoadTextureDataFromFileA( CHAR* szFileName, BYTE** ppHeapData, DDSURFACEDESC2_32BIT** ppSurfDesc, BYTE** ppBitData, UINT* pBitSize )
 {
 	*ppHeapData = NULL;
 	*ppSurfDesc = NULL;
 	*ppBitData  = NULL;
 	*pBitSize   = 0;
+
+   if(!__fileExistsA(szFileName))
+   {
+	  assert(false && " file not found ");
+	   return E_FAIL;
+   }
+
 
 	// open the file
 	HANDLE hFile = CreateFileA( szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, NULL );
@@ -82,13 +111,20 @@ BOOL LoadTextureDataFromFileA( CHAR* szFileName, BYTE** ppHeapData, DDSURFACEDES
 }
 
 
-//--------------------------------------------------------------------------------------
+//=========================================================================
 BOOL LoadTextureDataFromFileW( WCHAR* szFileName, BYTE** ppHeapData, DDSURFACEDESC2_32BIT** ppSurfDesc, BYTE** ppBitData, UINT* pBitSize )
 {
     *ppHeapData = NULL;
     *ppSurfDesc = NULL;
     *ppBitData  = NULL;
     *pBitSize   = 0;
+
+
+	if(!__fileExistsW(szFileName))
+	{
+		assert(false && " file not found ");
+		return E_FAIL;
+	}
 
     // open the file
     HANDLE hFile = CreateFileW( szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, NULL );
@@ -124,9 +160,71 @@ BOOL LoadTextureDataFromFileW( WCHAR* szFileName, BYTE** ppHeapData, DDSURFACEDE
     return TRUE;
 }
 
-//--------------------------------------------------------------------------------------
+//=========================================================================
+
+//=========================================================================
+BOOL LoadTextureDataFromFileInMemory(
+					const void* pdata,
+					const UINT datalen,
+					BYTE** ppHeapData, 
+					DDSURFACEDESC2_32BIT** ppSurfDesc, 
+					BYTE** ppBitData, 
+					UINT* pBitSize 
+							  )
+{
+	*ppHeapData = NULL;
+	*ppSurfDesc = NULL;
+	*ppBitData  = NULL;
+	*pBitSize   = 0;
+
+	assert(pdata);
+	assert(datalen);
+
+ 
+	//HANDLE hFile = CreateFileW( szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, NULL );
+
+	//if( INVALID_HANDLE_VALUE == hFile )	 return FALSE;
+
+
+	// Get the file size
+	LARGE_INTEGER FileSize;
+	//GetFileSizeEx( hFile, &FileSize );
+	memset(&FileSize, 0, sizeof(FileSize) );
+	FileSize.LowPart =  (DWORD)datalen;
+
+	// create enough space for the file data
+	*ppHeapData = new BYTE[ FileSize.LowPart ];
+	if( !(*ppHeapData) )
+		return FALSE;
+
+	// read the data in
+//	DWORD BytesRead;
+
+	//if( !ReadFile( hFile, *ppHeapData, FileSize.LowPart, &BytesRead, NULL ) )
+	//	return FALSE;
+	memcpy(*ppHeapData, pdata ,FileSize.LowPart);
+
+
+
+	// DDS files always start with the same magic number
+	DWORD dwMagicNumber = *(DWORD*)(*ppHeapData);
+	if( dwMagicNumber != 0x20534444 )
+		return FALSE;
+
+	// setup the pointers in the process request
+	*ppSurfDesc = (DDSURFACEDESC2_32BIT*)( *ppHeapData + sizeof(DWORD) );
+	*ppBitData  = *ppHeapData + sizeof(DWORD) + sizeof(DDSURFACEDESC2_32BIT);
+	*pBitSize   = FileSize.LowPart - sizeof(DWORD) - sizeof(DDSURFACEDESC2_32BIT);
+
+	//CloseHandle( hFile );
+
+	return TRUE;
+}
+
+
+//=========================================================================
 // Return the BPP for a particular format
-//--------------------------------------------------------------------------------------
+//=========================================================================
 UINT BitsPerPixel( D3DFORMAT fmt )
 {
     UINT fmtU = (UINT)fmt;
@@ -222,7 +320,7 @@ UINT BitsPerPixel( D3DFORMAT fmt )
     }
 }
 
-//--------------------------------------------------------------------------------------
+//=========================================================================
 DXGI_FORMAT ConvertToDXGI_FORMAT( D3DFORMAT d3dformat )
 {
     switch( d3dformat )
@@ -277,9 +375,9 @@ DXGI_FORMAT ConvertToDXGI_FORMAT( D3DFORMAT d3dformat )
     }
 }
 
-//--------------------------------------------------------------------------------------
+//=========================================================================
 // Get surface information for a particular format
-//--------------------------------------------------------------------------------------
+//=========================================================================
 void GetSurfaceInfo( UINT width, UINT height, D3DFORMAT fmt, UINT* pNumBytes, UINT* pRowBytes, UINT* pNumRows )
 {
     UINT numBytes = 0;
@@ -394,13 +492,13 @@ D3DFORMAT GetD3D9Format( DDPIXELFORMAT ddpf )
     return D3DFMT_UNKNOWN;
 }
 
-//--------------------------------------------------------------------------------------
+//=========================================================================
 HRESULT CreateTextureFromDDS( LPDIRECT3DDEVICE9 pDev, 
 							 DDSURFACEDESC2_32BIT* pSurfDesc, 
 							 BYTE* pBitData, 
 							 UINT BitSize, 
 							 LPDIRECT3DTEXTURE9* ppTex,
-							 CreateDDSOptions* opt)
+							 gb::graphics::d3d9::dds::CreateDDSOptions* opt)
 {
     HRESULT hr = S_OK;
     D3DLOCKED_RECT LockedRect;
@@ -443,8 +541,13 @@ HRESULT CreateTextureFromDDS( LPDIRECT3DDEVICE9 pDev,
                               opt->pool,      // old pool is:  D3DPOOL_DEFAULT,
                               &pTexture,
                               NULL );
-    if(FAILED(hr))
-        return hr;
+	    if(FAILED(hr))
+		{
+		 assert(false && " failed create texture ");
+
+		return hr;
+		}
+
     hr = pDev->CreateTexture( iWidth,
                               iHeight,
                               iMipCount,
@@ -497,6 +600,23 @@ HRESULT CreateTextureFromDDS( LPDIRECT3DDEVICE9 pDev,
     return hr;
 }
 
+//
+//
+//	 namespace dds
+//
+
+namespace gb 
+{
+namespace graphics 
+{
+namespace d3d9 
+{
+namespace dds
+{
+
+
+
+//=========================================================================
 
 //--------------------------------------------------------------------------------------
 GB_D3D9_API HRESULT CreateDDSTextureFromFileA( LPDIRECT3DDEVICE9 pDev,  
@@ -558,4 +678,48 @@ GB_D3D9_API HRESULT CreateDDSTextureFromFileW( LPDIRECT3DDEVICE9 pDev,
     SAFE_DELETE_ARRAY( pHeapData );
     return hr;
 }
+
+//=========================================================================
+GB_D3D9_API HRESULT CreateDDSTextureFromFileInMemory( LPDIRECT3DDEVICE9 pDev, 
+													 const void* pdata,
+													 const UINT datalen,
+													 IDirect3DTexture9** ppTex,
+													 const CreateDDSOptions* pOpt)
+{
+HRESULT hr = S_OK;
+
+BYTE*                 pHeapData = NULL;
+DDSURFACEDESC2_32BIT* pSurfDesc = NULL;
+BYTE*                 pBitData = NULL;
+UINT                  BitSize = 0;
+
+CreateDDSOptions options;
+if(pOpt)
+	{
+	options = *pOpt;
+	}
+
+if( !LoadTextureDataFromFileInMemory( pdata,datalen, &pHeapData, &pSurfDesc, &pBitData, &BitSize ) )
+return E_FAIL;
+
+hr |= CreateTextureFromDDS( pDev, pSurfDesc, pBitData, BitSize, ppTex, &options );
+
+ 
+
   
+
+
+     SAFE_DELETE_ARRAY( pHeapData );
+  return hr;
+}													
+ 
+//=========================================================================
+
+
+}
+}
+}
+}
+
+#endif
+// end file
