@@ -47,8 +47,8 @@
 			  UNUSED_FORCE32 = 0x7f000000
 		  };
 
-		  std::string tostr(const e);
-		  bool fromstr(e& valOut, const char* str);
+		  static std::string tostr(const e);
+		  static bool fromstr(e& valOut, const char* str);
 
 	  }; 
 
@@ -94,8 +94,8 @@
 			  UNUSED_FORCE32  = 0x7f000000	///< НЕ ИСПОЛЬЗУЕТСЯ. Для выравнивания по 4 байтам.
 		  };
 
-		  std::string tostr(const e);
-		  bool fromstr(e& valOut, const char* str);
+		  static std::string tostr(const e);
+		  static bool fromstr(e& valOut, const char* str);
 	  };
 
 
