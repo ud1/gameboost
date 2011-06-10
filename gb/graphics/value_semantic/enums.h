@@ -31,11 +31,15 @@ struct type_e
 		  FLOAT3,	///< 3d vector
 		  FLOAT4,	///< 4d vector/color
 		  FLOAT3x3,	///<  matrix 3x3
-		  FLOAT4x4	///<  matrix 4x4
+		  FLOAT4x4, ///<  matrix 4x4
+		  
+		  UNUSED_DECL_LAST,
+		  UNUSED_FROCE32  =  0x7f000000
 	  };
 };
   
 //!  семантика параметра типа  float
+  #pragma message("ks777 Перенос почти всего в fmath "  __FILE__ )
 struct float_type_e
 {
 	enum e
@@ -118,8 +122,12 @@ struct float_type_e
 		
 
 		UNUSED_DECLARED_LAST
+		
+		
+		UNUSED_FORCE32 = 0x7f000000		
 	};
 }; 
+
 
 //!  семантика параметра 2d-вектора 
 struct float2_type_e
@@ -142,7 +150,9 @@ struct float2_type_e
 		
 
 		 
-		 UNUSED_DECLARED_LAST
+		 UNUSED_DECLARED_LAST,
+		 UNUSED_FORCE32 = 0x7f000000		 
+		 
 
 	};
 }; 
@@ -168,8 +178,8 @@ struct float3_type_e
 
 
 
-		UNUSED_DECLARED_LAST
-
+		UNUSED_DECLARED_LAST,
+	    UNUSED_FORCE32 = 0x7f000000	
 	}; 
 }; 
 
@@ -199,7 +209,8 @@ struct float4_type_e
 
 
 
-		UNUSED_DECLARED_LAST
+		UNUSED_DECLARED_LAST,
+	    UNUSED_FORCE32 = 0x7f000000	
 	};
 };
 
@@ -219,7 +230,8 @@ struct float4_color_type_e
 
 
 
-		 UNUSED_DECLARED_LAST
+		 UNUSED_DECLARED_LAST,
+		 UNUSED_FORCE32 = 0x7f000000	
 	};
 };
  
@@ -233,7 +245,8 @@ struct matrix3x3_type_e
 		ROTATION = float4_color_type_e::UNUSED_DECLARED_LAST,
 
 
-		UNUSED_DECLARED_LAST 
+		UNUSED_DECLARED_LAST,
+		UNUSED_FORCE32 = 0x7f000000		
 
 	};
 };  
@@ -275,7 +288,9 @@ struct matrix4x4_type_e
  
 
  
-         UNUSED_DECLARED_LAST
+         UNUSED_DECLARED_LAST,
+		 UNUSED_FORCE32 = 0x7f000000			 
+		 
 	};
 };
   
