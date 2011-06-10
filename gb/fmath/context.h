@@ -27,6 +27,140 @@
   namespace context
   { 
 
+  //---------------------------------------------------------- 
+
+
+
+
+
+      //!  семантика параметра типа  float
+      struct float_context_type_e
+      {
+	      enum e
+		  {
+		  UNDEFINED  =  0,
+
+		  TIME,
+ 
+		  COSTIME,
+		  SINTIME,
+		  TANTIME,
+		  TIME0_1,
+		  //COSTIME0_1,
+		  //SINTIME0_1,
+		  //TANTIME0_1,
+
+		  //TIMESPEED,
+
+		  //TAN0_2PI,
+		  //COSTIME0_2PI,
+		  //SINTIME0_PI,
+		  //TANTIME0_2PI,
+		  //TIMECYCLEPERIOD,
+
+		  FPS,
+
+		  TIMEELAPSED,
+
+
+		  VIEWPORTWIDTH,
+		  VIEWPORTHEIGHT,
+		  VIEWPORTWIDTHINVERSE,
+		  VIEWPORTHEIGHTINVERSE,
+
+		  FOV,
+
+		  FARCLIPPLANE,
+
+
+		  NEARCLIPPLANE,
+
+			  /*
+		  RANDOMFRACTION1PERPASS,
+		  RANDOMFRACTION2PERPASS,
+		  RANDOMFRACTION3PERPASS,
+		  RANDOMFRACTION4PERPASS,
+
+		  RANDOMFRACTION1PEREFFECT,
+		  RANDOMFRACTION2PEREFFECT,
+		  RANDOMFRACTION3PEREFFECT,
+		  RANDOMFRACTION4PEREFFECT,
+			 */
+ 
+		  //PASSINDEX,
+
+		  RIGTHMOUSEBUTTON,
+		  LEFTMOUSEBUTTON,
+
+		  //MIDDLEMOUSEBUTTON,
+			 
+
+		  MOUSECOORDINATEX,
+		  MOUSECOORDINATEY,
+
+		  MOUSECOORDINATEXNDC,
+		  MOUSECOORDINATEYNDC,
+		  MODELBOUNDINGSPHERERADIUS,
+
+		  ASPECT,
+
+		  SPECULARPOWER,
+
+		  ROTATEZ,
+
+		  BRIGHTNESS,
+
+		  CONTRAST,
+
+		  //ALPHA,
+		  //LIGTHMAPINTENSITY,
+		  //ANIMATESPEED,
+ 
+
+		  UNUSED_DECLARED_LAST,
+		  UNUSED_FORCE32 = 0x7f000000		
+		  };
+
+
+
+		 static std::string tostr(const float_context_type_e::e);
+		 static bool fromstr(float_context_type_e::e&, const char*);
+
+
+	  }; 
+
+
+   class FloatContext {
+   public:
+
+	 float time;
+	 float timeElapsed;
+
+	 int fps;
+
+		struct mouseData_s
+		{
+			 int x, y;
+			 bool bLeftButtonDown;
+			 bool bRIghtButtonDown;
+		};
+
+	mouseData_s  mouseData;
+
+	proj::vieport_s  viewport;
+ 
+	proj::PerspectiveProjData projData;
+
+	float modelBoundingSphereRadius;
+
+	float getValue_by_context_type(const float_context_type_e::e) const throw(std::runtime_error&);
+
+   };
+
+
+
+
+
   //----------------------------------------------------------  
 
 

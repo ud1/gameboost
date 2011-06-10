@@ -41,6 +41,7 @@
 #pragma  warning(push)
 #pragma  warning(disable : 4995)
 #pragma  warning(disable : 4996)
+#pragma  warning(disable : 4290)
 
 #include <gb/base/Types.h>
  
