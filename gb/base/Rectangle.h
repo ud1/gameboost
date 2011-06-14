@@ -10,6 +10,8 @@
 #include <gb/Config.h>
 #include <gb/base/Types.h>
 #include <gb/base/Point.h>
+#include <stdlib.h>
+#include <string>
 
 namespace gb
 {
@@ -39,10 +41,12 @@ namespace gb
 				init(other);
 			}
 
+#ifdef _WINDOWS_
 			Rectangle(const RECT& r)
 			{
 				*this = r;
 			}
+#endif
 
 			Rectangle &operator = (const Rectangle &other)
 			{
@@ -72,6 +76,7 @@ namespace gb
 				return height < other.height;
 			}
 
+#ifdef _WINDOWS_
 			inline void operator = (const RECT& r)
 			{
 				left = r.left;
@@ -79,6 +84,7 @@ namespace gb
 				width  = r.right - r.left;
 				height = r.bottom - r.top;
 			}
+
 
 			inline operator RECT() const 
 			{
@@ -89,6 +95,7 @@ namespace gb
 				r.right  = left + width;
 				return r;
 			}
+#endif
 
 			// \brief Проверка нахождения точки в прямоугольнике. 
 			inline bool checkPoint(int x, int y) const 
@@ -102,10 +109,12 @@ namespace gb
 				return checkPoint( p.x , p.y );
 			}
 
+#ifdef _WINDOWS_
 			inline bool checkPoint(const POINT& p) 
 			{
 				return checkPoint( p.x , p.y );
 			}
+#endif
 
 			inline void offset(int x, int y)
 			{
@@ -113,17 +122,21 @@ namespace gb
 				top  += y;
 			}
 
+#ifdef _WINDOWS_
 			inline void offset(const POINT& p)
 			{
 				left  += p.x;
 				top   += p.y;
 			}
+#endif
 
+#ifdef _WINDOWS_
 			//! \brief offset coord.
 			inline void operator += (const POINT& p)
 			{
 				offset (p);
 			}
+#endif
 
 			//! \brief offset coord.
 			inline void operator += (const Point& p)
@@ -131,11 +144,30 @@ namespace gb
 				offset (p);
 			}
 
+#ifdef _WINDOWS_
 			//! \brief  Получить центральную координату.
 			inline POINT center() const 
 			{
 				POINT res = { (left+width)/2 , (top+height)/2 };
 				return res;
+			}
+#endif
+
+			//!  order:  left, top, width, height
+			std::string tostr() const
+			{
+				char buffer [64];
+				sprintf(buffer, "%i %i %i %i", left, top, width, height);
+				std::string res = buffer;
+				return res; 
+			}
+
+			//!  order:  left, top, width, height
+			bool fromstr(const std::string& str)
+			{
+				const int NSCANRES = sscanf(str.c_str(), "%i %i %i %i", &left, &top, &width, &height);
+				if(NSCANRES != 4) return false;
+				return true;
 			}
 
 

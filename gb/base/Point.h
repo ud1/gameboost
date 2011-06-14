@@ -7,6 +7,8 @@
 
 #include <gb/Config.h>
 #include <gb/base/Types.h>
+#include <stdlib.h>
+#include <string>
 
 namespace gb
 {
@@ -23,15 +25,21 @@ public:
  
  inline Point() { x=y=0; }
  inline Point(const Point& p) { x=p.x; y=p.y; }
+
+#ifdef _WINDOWS_
  inline Point(const POINT& p) { *this = p; }
- inline Point(int _x, int _y) { x=_x; y=_y; }
+#endif
+
+ inline Point(int _x, int _y) { init(_x,_y);  }
   
  inline void init(int _x, int _y) { x=_x; y=_y; }
  
+#ifdef _WINDOWS_
+
  inline void operator = (const POINT& p) 
  {
-   x = p.x;
-   y = p.y;
+	 x = p.x;
+	 y = p.y;
  }
  
  inline operator POINT() const 
@@ -39,6 +47,8 @@ public:
    POINT res = {x,y};
    return res;
  }
+
+#endif
  
  inline Point operator + (const Point& p) const 
  {
@@ -64,13 +74,20 @@ public:
 	 return *this;
  } 
 
- inline void offset(int _x, int _y)
+ std::string tostr() const
  {
-	 x += _x;
-	 y += _y;
+   char buffer [32];
+   sprintf(buffer, "%i %i", x, y);
+   std::string res = buffer;
+   return res; 
  }
 
- 
+ bool fromstr(const std::string& str)
+ {
+	 const int NSCANRES = sscanf(str.c_str(), "%i %i", &x, &y);
+	 if(NSCANRES != 2) return false;
+	 return true;
+ }
  
 
 
