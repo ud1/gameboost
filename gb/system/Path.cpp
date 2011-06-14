@@ -1,9 +1,13 @@
+#include "pch.h"
+
 /*!	\file Path.cpp
  *  Пути к файлам и ресурсам, работа с директориями и путями. Платформонезависимая часть.
  *	\author Дмитрий Литовченко kvakvs@yandex.ru
  */
 #include <gb/system/Path.h>
 #include <gb/str/String.h>
+
+#include <string>
 
 #ifdef _WIN32
 
@@ -101,7 +105,8 @@ Path & Path::operator /= ( const Path & other )
 std::string Path::getLeaf()
 {
 #if GB_ALLOW_BOOST_LIBRARY__PATH
-	return value.filename().string();
+	   
+	return value.filename()  ; //.string();
 #else
 	
 	size_t slashpos = value.rfind( '/' );
