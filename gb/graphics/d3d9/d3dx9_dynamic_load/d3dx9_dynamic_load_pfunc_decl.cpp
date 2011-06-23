@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#pragma warning(disable : 4996)
+
 
 //!  Поиск точек входа
 #define __HANDLE_DLL_ENTRY(funcname)   m_TFunc_##funcname =  \
@@ -19,6 +21,37 @@
                   handleNotFoundAddr( GB_MAKE_STR(funcname) ); \
                   /* return NERROR;*/ \
                  }
+
+
+//==============================================================
+void gb::graphics::d3d9::d3dx9_dynamic_load::Functions::handleNotFoundAddr(
+				const char* sFuncName, void* opt)
+{
+#ifdef _DEBUG
+	std::string temp;
+	temp = " Entry point not found in d3dx dll :  \n";
+	temp += sFuncName;
+	//GB_MBOX(temp.c_str() );
+
+
+	static FILE* st_file = NULL;
+	if(st_file == NULL)
+	{
+	st_file =  fopen( "__getProcAddrlog.txt", "w");
+	}
+
+	fputs(sFuncName, st_file);
+	fputs( "\n", st_file);
+
+#endif
+
+	int stop = 0;
+}
+
+
+
+
+
 
 //==============================================================
 int gb::graphics::d3d9::d3dx9_dynamic_load::Functions::GetProcAddr(const HMODULE hm)
@@ -91,6 +124,161 @@ int gb::graphics::d3d9::d3dx9_dynamic_load::Functions::GetProcAddr(const HMODULE
 
    __HANDLE_DLL_ENTRY(D3DXMatrixMultiply)
    __HANDLE_DLL_ENTRY(D3DXMatrixInverse)
+
+ 
+
+//	__HANDLE_DLL_ENTRY(D3DXColorAdd);
+	__HANDLE_DLL_ENTRY(D3DXColorAdjustContrast);
+	__HANDLE_DLL_ENTRY(D3DXColorAdjustSaturation);
+//	__HANDLE_DLL_ENTRY(D3DXColorLerp);
+//	__HANDLE_DLL_ENTRY(D3DXColorModulate);
+//	__HANDLE_DLL_ENTRY(D3DXColorNegative);
+//	__HANDLE_DLL_ENTRY(D3DXColorScale);
+//	__HANDLE_DLL_ENTRY(D3DXColorSubtract);
+	__HANDLE_DLL_ENTRY(D3DXCreateMatrixStack);
+	__HANDLE_DLL_ENTRY(D3DXFloat16To32Array);
+	__HANDLE_DLL_ENTRY(D3DXFloat32To16Array);
+	__HANDLE_DLL_ENTRY(D3DXFresnelTerm);
+	__HANDLE_DLL_ENTRY(D3DXMatrixAffineTransformation);
+	__HANDLE_DLL_ENTRY(D3DXMatrixAffineTransformation2D);
+	__HANDLE_DLL_ENTRY(D3DXMatrixDecompose);
+	__HANDLE_DLL_ENTRY(D3DXMatrixDeterminant);
+//	__HANDLE_DLL_ENTRY(D3DXMatrixIdentity);
+	__HANDLE_DLL_ENTRY(D3DXMatrixInverse);
+//	__HANDLE_DLL_ENTRY(D3DXMatrixIsIdentity);
+	__HANDLE_DLL_ENTRY(D3DXMatrixLookAtLH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixLookAtRH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixMultiply);
+	__HANDLE_DLL_ENTRY(D3DXMatrixMultiplyTranspose);
+	__HANDLE_DLL_ENTRY(D3DXMatrixOrthoLH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixOrthoOffCenterLH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixOrthoOffCenterRH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixOrthoRH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixPerspectiveFovLH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixPerspectiveFovRH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixPerspectiveLH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixPerspectiveOffCenterLH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixPerspectiveOffCenterRH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixPerspectiveRH);
+	__HANDLE_DLL_ENTRY(D3DXMatrixReflect);
+	__HANDLE_DLL_ENTRY(D3DXMatrixRotationAxis);
+	__HANDLE_DLL_ENTRY(D3DXMatrixRotationQuaternion);
+	__HANDLE_DLL_ENTRY(D3DXMatrixRotationX);
+	__HANDLE_DLL_ENTRY(D3DXMatrixRotationY);
+	__HANDLE_DLL_ENTRY(D3DXMatrixRotationYawPitchRoll);
+	__HANDLE_DLL_ENTRY(D3DXMatrixRotationZ);
+	__HANDLE_DLL_ENTRY(D3DXMatrixScaling);
+	__HANDLE_DLL_ENTRY(D3DXMatrixShadow);
+	__HANDLE_DLL_ENTRY(D3DXMatrixTransformation);
+	__HANDLE_DLL_ENTRY(D3DXMatrixTransformation2D);
+	__HANDLE_DLL_ENTRY(D3DXMatrixTranslation);
+	__HANDLE_DLL_ENTRY(D3DXMatrixTranspose);
+//	__HANDLE_DLL_ENTRY(D3DXPlaneDot);
+//	__HANDLE_DLL_ENTRY(D3DXPlaneDotCoord);
+//	__HANDLE_DLL_ENTRY(D3DXPlaneDotNormal);
+	__HANDLE_DLL_ENTRY(D3DXPlaneFromPointNormal);
+	__HANDLE_DLL_ENTRY(D3DXPlaneFromPoints);
+	__HANDLE_DLL_ENTRY(D3DXPlaneIntersectLine);
+	__HANDLE_DLL_ENTRY(D3DXPlaneNormalize);
+//	__HANDLE_DLL_ENTRY(D3DXPlaneScale);
+	__HANDLE_DLL_ENTRY(D3DXPlaneTransform);
+	__HANDLE_DLL_ENTRY(D3DXPlaneTransformArray);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionBaryCentric);
+//	__HANDLE_DLL_ENTRY(D3DXQuaternionConjugate);
+//	__HANDLE_DLL_ENTRY(D3DXQuaternionDot);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionExp);
+//	__HANDLE_DLL_ENTRY(D3DXQuaternionIdentity);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionInverse);
+//	__HANDLE_DLL_ENTRY(D3DXQuaternionIsIdentity);
+//	__HANDLE_DLL_ENTRY(D3DXQuaternionLength);
+//	__HANDLE_DLL_ENTRY(D3DXQuaternionLengthSq);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionLn);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionMultiply);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionNormalize);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionRotationAxis);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionRotationMatrix);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionRotationYawPitchRoll);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionSlerp);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionSquad);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionSquadSetup);
+	__HANDLE_DLL_ENTRY(D3DXQuaternionToAxisAngle);
+	__HANDLE_DLL_ENTRY(D3DXSHAdd);
+	__HANDLE_DLL_ENTRY(D3DXSHDot);
+	__HANDLE_DLL_ENTRY(D3DXSHEvalConeLight);
+	__HANDLE_DLL_ENTRY(D3DXSHEvalDirection);
+	__HANDLE_DLL_ENTRY(D3DXSHEvalDirectionalLight);
+	__HANDLE_DLL_ENTRY(D3DXSHEvalHemisphereLight);
+	__HANDLE_DLL_ENTRY(D3DXSHEvalSphericalLight);
+	__HANDLE_DLL_ENTRY(D3DXSHMultiply2);
+	__HANDLE_DLL_ENTRY(D3DXSHProjectCubeMap);
+	__HANDLE_DLL_ENTRY(D3DXSHRotate);
+	__HANDLE_DLL_ENTRY(D3DXSHRotateZ);
+	__HANDLE_DLL_ENTRY(D3DXSHScale);
+//	__HANDLE_DLL_ENTRY(D3DXVec2Add);
+	__HANDLE_DLL_ENTRY(D3DXVec2BaryCentric);
+	__HANDLE_DLL_ENTRY(D3DXVec2CatmullRom);
+//	__HANDLE_DLL_ENTRY(D3DXVec2CCW);
+//	__HANDLE_DLL_ENTRY(D3DXVec2Dot);
+	__HANDLE_DLL_ENTRY(D3DXVec2Hermite);
+//	__HANDLE_DLL_ENTRY(D3DXVec2Length);
+//	__HANDLE_DLL_ENTRY(D3DXVec2LengthSq);
+//	__HANDLE_DLL_ENTRY(D3DXVec2Lerp);
+//	__HANDLE_DLL_ENTRY(D3DXVec2Maximize);
+//	__HANDLE_DLL_ENTRY(D3DXVec2Minimize);
+	__HANDLE_DLL_ENTRY(D3DXVec2Normalize);
+//	__HANDLE_DLL_ENTRY(D3DXVec2Scale);
+//	__HANDLE_DLL_ENTRY(D3DXVec2Subtract);
+	__HANDLE_DLL_ENTRY(D3DXVec2Transform);
+	__HANDLE_DLL_ENTRY(D3DXVec2TransformArray);
+	__HANDLE_DLL_ENTRY(D3DXVec2TransformCoord);
+	__HANDLE_DLL_ENTRY(D3DXVec2TransformCoordArray);
+	__HANDLE_DLL_ENTRY(D3DXVec2TransformNormal);
+	__HANDLE_DLL_ENTRY(D3DXVec2TransformNormalArray);
+//	__HANDLE_DLL_ENTRY(D3DXVec3Add);
+	__HANDLE_DLL_ENTRY(D3DXVec3BaryCentric);
+	__HANDLE_DLL_ENTRY(D3DXVec3CatmullRom);
+//	__HANDLE_DLL_ENTRY(D3DXVec3Cross);
+//	__HANDLE_DLL_ENTRY(D3DXVec3Dot);
+	__HANDLE_DLL_ENTRY(D3DXVec3Hermite);
+//	__HANDLE_DLL_ENTRY(D3DXVec3Length);
+//	__HANDLE_DLL_ENTRY(D3DXVec3LengthSq);
+//	__HANDLE_DLL_ENTRY(D3DXVec3Lerp);
+//	__HANDLE_DLL_ENTRY(D3DXVec3Maximize);
+//	__HANDLE_DLL_ENTRY(D3DXVec3Minimize);
+	__HANDLE_DLL_ENTRY(D3DXVec3Normalize);
+	__HANDLE_DLL_ENTRY(D3DXVec3Project);
+	__HANDLE_DLL_ENTRY(D3DXVec3ProjectArray);
+//	__HANDLE_DLL_ENTRY(D3DXVec3Scale);
+//	__HANDLE_DLL_ENTRY(D3DXVec3Subtract);
+	__HANDLE_DLL_ENTRY(D3DXVec3Transform);
+	__HANDLE_DLL_ENTRY(D3DXVec3TransformArray);
+	__HANDLE_DLL_ENTRY(D3DXVec3TransformCoord);
+	__HANDLE_DLL_ENTRY(D3DXVec3TransformCoordArray);
+	__HANDLE_DLL_ENTRY(D3DXVec3TransformNormal);
+	__HANDLE_DLL_ENTRY(D3DXVec3TransformNormalArray);
+	__HANDLE_DLL_ENTRY(D3DXVec3Unproject);
+	__HANDLE_DLL_ENTRY(D3DXVec3UnprojectArray);
+//	__HANDLE_DLL_ENTRY(D3DXVec4Add);
+	__HANDLE_DLL_ENTRY(D3DXVec4BaryCentric);
+	__HANDLE_DLL_ENTRY(D3DXVec4CatmullRom);
+	__HANDLE_DLL_ENTRY(D3DXVec4Cross);
+//	__HANDLE_DLL_ENTRY(D3DXVec4Dot);
+	__HANDLE_DLL_ENTRY(D3DXVec4Hermite);
+//	__HANDLE_DLL_ENTRY(D3DXVec4Length);
+//	__HANDLE_DLL_ENTRY(D3DXVec4LengthSq);
+//	__HANDLE_DLL_ENTRY(D3DXVec4Lerp);
+//	__HANDLE_DLL_ENTRY(D3DXVec4Maximize);
+//	__HANDLE_DLL_ENTRY(D3DXVec4Minimize);
+	__HANDLE_DLL_ENTRY(D3DXVec4Normalize);
+//	__HANDLE_DLL_ENTRY(D3DXVec4Scale);
+//	__HANDLE_DLL_ENTRY(D3DXVec4Subtract);
+	__HANDLE_DLL_ENTRY(D3DXVec4Transform);
+	__HANDLE_DLL_ENTRY(D3DXVec4TransformArray);
+
+
+
+
+
  
 
 

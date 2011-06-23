@@ -29,6 +29,8 @@ STORY:
 
 #pragma once
 
+#include <gb\base\Types.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -42,7 +44,7 @@ STORY:
 #include <string.h>
 #include <string>
 
-#include <gb\base\Types.h>
+
  
 
 namespace gb
@@ -264,15 +266,20 @@ struct ObjectColotType_e
 	{
 		UNDEFINED = 0,  ///< не определено
 
-		AMBIENT, 
-		DIFFUSE,
-		SPECULAR,
-		EMISSIVE 
+
+		AMBIENT   = (200 + 1), 
+		DIFFUSE   = (200 + 2),
+		SPECULAR  = (200 + 3),
+		EMISSIVE  = (200 + 4),
+
+
+		UNUSED_DACLARED_LAST, ///< не используется . Декларировать последним
+		UNUSED_FROCE32 = 0xff000000  ///< не используется. Для выравнивания по 4 байтам
 
 	};
 
 	//! перечисление в строку. Вернёт пустую строку, если _enum некорректно.
-	std::string e_tostr(e _enum)
+	std::string tostr(e _enum)
 	{
 		std::string res;
 		switch(_enum)
@@ -310,7 +317,7 @@ struct ObjectColotType_e
 	}
 
 	//! перечисление из строки. Вернёт false, если строка некорректна
-	bool e_fromstr(e& outval, const char* str)
+	bool fromstr(e& outval, const char* str)
 	{
 		outval = UNDEFINED;
 		std::string s = str;
@@ -365,7 +372,7 @@ public:
 
   inline Color3f() {};
   inline Color3f(const Color3f& col)           { r=col.r;   g=col.g;   b=col.b;   };
-  inline Color3f(const Color3f* col)           { r=col->r;  g=col->g;  b=col->b;  };
+  //inline Color3f(const Color3f* col)           { r=col->r;  g=col->g;  b=col->b;  };
   inline Color3f(float _r, float _g, float _b) { r=_r;      g=_g;      b=_b;      };
 
   inline Color3f(const color4f_s& col )         { r=col.r;   g=col.g;   b=col.b;   };
@@ -955,119 +962,123 @@ public:
     namespace color_const 
 	{
 
+	
+
+
 //-------------------------------------------------------------------------
-//                   COLOR CONST	 color4f_s
+//                   COLOR CONST	 Color4f
 //-------------------------------------------------------------------------
 
 
-static const color4f_s  COLOR4F_WHITE                 = { 1.0f,       1.0f,       1.0f,       1.0f };
-static const color4f_s  COLOR4F_BLACK                 = { 0.0f,       0.0f,       0.0f,       1.0f };
-static const color4f_s  COLOR4F_DIMGRAY               = { 0.329412f,  0.329412f,  0.329412f,  1.0f };
-static const color4f_s  COLOR4F_GRAY                  = { 0.752941f,  0.752941f,  0.752941f,  1.0f };
-static const color4f_s  COLOR4F_LIGHTGRAY             = { 0.658824f,  0.658824f,  0.658824f,  1.0f };
-static const color4f_s  COLOR4F_AQUAMARINE            = { 0.439216f,  0.858824f,  0.576471f,  1.0f };
-static const color4f_s  COLOR4F_BLUEVIOLET            = { 0.62352f,   0.372549f,  0.623529f,  1.0f };
-static const color4f_s  COLOR4F_BROWN                 = { 0.647059f,  0.164706f,  0.164706f,  1.0f };
-static const color4f_s  COLOR4F_CADETBLUE             = { 0.372549f,  0.623529f,  0.623529f,  1.0f };
-static const color4f_s  COLOR4F_CORAL                 = { 1.0f,       0.498039f,  0.0f,       1.0f };
-static const color4f_s  COLOR4F_CORNFLOWERBLUE        = { 0.258824f,  0.258824f,  0.435294f,  1.0f };
-static const color4f_s  COLOR4F_DARKGREEN             = { 0.184314f,  0.309804f,  0.184314f,  1.0f };
-static const color4f_s  COLOR4F_DARKOLIVEGREEN        = { 0.309804f,  0.309804f,  0.184314f,  1.0f };
-static const color4f_s  COLOR4F_DARKORCHID            = { 0.6f,       0.196078f,  0.8f,       1.0f };
-static const color4f_s  COLOR4F_DARKSLATEBLUE         = { 0.419608f,  0.137255f,  0.556863f,  1.0f };
-static const color4f_s  COLOR4F_DARKSLATEGRAY         = { 0.184314f,  0.309804f,  0.309804f,  1.0f };
-static const color4f_s  COLOR4F_DARKSLATEGREY         = { 0.184314f,  0.309804f,  0.309804f,  1.0f };
-static const color4f_s  COLOR4F_DARKTURQUOISE         = { 0.439216f,  0.576471f,  0.858824f,  1.0f };
-static const color4f_s  COLOR4F_FIREBRICK             = { 0.556863f,  0.137255f,  0.137255f,  1.0f };
-static const color4f_s  COLOR4F_FORESTGREEN           = { 0.137255f,  0.556863f,  0.137255f,  1.0f };
-static const color4f_s  COLOR4F_GOLD                  = { 0.8f,       0.498039f,  0.196078f,  1.0f };
-static const color4f_s  COLOR4F_GOLDENROD             = { 0.858824f,  0.858824f,  0.439216f,  1.0f };
-static const color4f_s  COLOR4F_GREENYELLOW           = { 0.576471f,  0.858824f,  0.439216f,  1.0f };
-static const color4f_s  COLOR4F_INDIAN                = { 0.309804f,  0.184314f,  0.184314f,  1.0f };
-static const color4f_s  COLOR4F_KHAKI                 = { 0.623529f,  0.623529f,  0.372549f,  1.0f };
-static const color4f_s  COLOR4F_LIGHTBLUE             = { 0.74902f,   0.847059f,  0.847059f,  1.0f };
-static const color4f_s  COLOR4F_LIGHTSTEELBLUE        = { 0.560784f,  0.560784f,  0.737255f,  1.0f };
-static const color4f_s  COLOR4F_LIMEGREEN             = { 0.196078f,  0.8f,       0.196078f,  1.0f };
-static const color4f_s  COLOR4F_MAROON                = { 0.556863f,  0.137255f,  0.419608f,  1.0f };
-static const color4f_s  COLOR4F_MEDIUMAQUAMARINE      = { 0.196078f,  0.8f,       0.6f,       1.0f };
-static const color4f_s  COLOR4F_MEDIUMBLUE            = { 0.196078f,  0.196078f,  0.8f,       1.0f };
-static const color4f_s  COLOR4F_MEDIUMFORESTGREEN     = { 0.419608f,  0.556863f,  0.137255f,  1.0f };
-static const color4f_s  COLOR4F_MEDIUMGOLDENROD       = { 0.917647f,  0.917647f,  0.678431f,  1.0f };
-static const color4f_s  COLOR4F_MEDIUMORCHID          = { 0.576471f,  0.439216f,  0.858824f,  1.0f };
-static const color4f_s  COLOR4F_MEDIUMSEAGREEN        = { 0.258824f,  0.435294f,  0.258824f,  1.0f };
-static const color4f_s  COLOR4F_MEDIUMSLATEBLUE       = { 0.498039f,  0.0f,       1.0f,       1.0f };
-static const color4f_s  COLOR4F_MEDIUMSPRINGGREEN     = { 0.498039f,  1.0f,       0.0f,       1.0f };
-static const color4f_s  COLOR4F_MEDIUMTURQUOISE       = { 0.439216f,  0.858824f,  0.858824f,  1.0f };
-static const color4f_s  COLOR4F_MEDIUMVIOLET          = { 0.858824f,  0.439216f,  0.576471f,  1.0f };
-static const color4f_s  COLOR4F_MIDNIGHTBLUE          = { 0.184314f,  0.184314f,  0.309804f,  1.0f };
-static const color4f_s  COLOR4F_NAVY                  = { 0.137255f,  0.137255f,  0.556863f,  1.0f };
-static const color4f_s  COLOR4F_NAVYBLUE              = { 0.137255f,  0.137255f,  0.556863f,  1.0f };
-static const color4f_s  COLOR4F_ORANGE                = { 1.0f,       0.5f,       0.0f,       1.0f };
-static const color4f_s  COLOR4F_ORANGERED             = { 1.0f,       0.25f,      0.0f,       1.0f };
-static const color4f_s  COLOR4F_ORCHID                = { 0.858824f,  0.439216f,  0.858824f,  1.0f };
-static const color4f_s  COLOR4F_PALEGREEN             = { 0.560784f,  0.737255f,  0.560784f,  1.0f };
-static const color4f_s  COLOR4F_PINK                  = { 0.737255f,  0.560784f,  0.560784f,  1.0f };
-static const color4f_s  COLOR4F_PLUM                  = { 0.917647f,  0.678431f,  0.917647f,  1.0f };
-static const color4f_s  COLOR4F_SALMON                = { 0.435294f,  0.258824f,  0.258824f,  1.0f };
-static const color4f_s  COLOR4F_SEAGREEN              = { 0.137255f,  0.556863f,  0.419608f,  1.0f };
-static const color4f_s  COLOR4F_SIENNA                = { 0.556863f,  0.419608f,  0.137255f,  1.0f };
-static const color4f_s  COLOR4F_SKYBLUE               = { 0.196078f,  0.6f,       0.8f,       1.0f };
-static const color4f_s  COLOR4F_SLATEBLUE             = { 0.0f,       0.498039f,  1.0f,       1.0f };
-static const color4f_s  COLOR4F_SPRINGGREEN           = { 0.0f,       1.0f,       0.498039f,  1.0f };
-static const color4f_s  COLOR4F_STEELBLUE             = { 0.137255f,  0.419608f,  0.556863f,  1.0f };
-static const color4f_s  COLOR4F_TAN                   = { 0.858824f,  0.576471f,  0.439216f,  1.0f };
-static const color4f_s  COLOR4F_THISTLE               = { 0.847059f,  0.74902f,   0.847059f,  1.0f };
-static const color4f_s  COLOR4F_TURQUOISE             = { 0.678431f,  0.917647f,  0.917647f,  1.0f };
-static const color4f_s  COLOR4F_VIOLET                = { 0.309804f,  0.184314f,  0.309804f,  1.0f };
-static const color4f_s  COLOR4F_VIOLETRED             = { 0.8f,       0.196078f,  0.6f,       1.0f };
-static const color4f_s  COLOR4F_WHEAT                 = { 0.847059f,  0.847059f,  0.74902f,   1.0f };
-static const color4f_s  COLOR4F_YELLOWGREEN           = { 0.6f,       0.8f,       0.196078f,  1.0f };
-static const color4f_s  COLOR4F_SUMMERSKY             = { 0.22f,      0.69f,      0.87f,      1.0f };
-static const color4f_s  COLOR4F_RICHBLUE              = { 0.35f,      0.35f,      0.67f,      1.0f };
-static const color4f_s  COLOR4F_BRASS                 = { 0.71f,      0.65f,      0.26f,      1.0f };
-static const color4f_s  COLOR4F_COPPER                = { 0.72f,      0.45f,      0.20f,      1.0f };
-static const color4f_s  COLOR4F_BRONZE                = { 0.55f,      0.47f,      0.14f,      1.0f };
-static const color4f_s  COLOR4F_BRONZE2               = { 0.65f,      0.49f,      0.24f,      1.0f };
-static const color4f_s  COLOR4F_SILVER                = { 0.90f,      0.91f,      0.98f,      1.0f };
-static const color4f_s  COLOR4F_BRIGHTGOLD            = { 0.85f,      0.85f,      0.10f,      1.0f };
-static const color4f_s  COLOR4F_OLDGOLD               = { 0.81f,      0.71f,      0.23f,      1.0f };
-static const color4f_s  COLOR4F_FELDSPAR              = { 0.82f,      0.57f,      0.46f,      1.0f };
-static const color4f_s  COLOR4F_QUARTZ                = { 0.85f,      0.85f,      0.95f,      1.0f };
-static const color4f_s  COLOR4F_NEONPINK              = { 1.00f,      0.43f,      0.78f,      1.0f };
-static const color4f_s  COLOR4F_DARKPURPLE            = { 0.53f,      0.12f,      0.47f,      1.0f };
-static const color4f_s  COLOR4F_NEONBLUE              = { 0.30f,      0.30f,      1.00f,      1.0f };
-static const color4f_s  COLOR4F_COOLCOPPER            = { 0.85f,      0.53f,      0.10f,      1.0f };
-static const color4f_s  COLOR4F_MANDARINORANGE        = { 0.89f,      0.47f,      0.20f,      1.0f };
-static const color4f_s  COLOR4F_LIGHTWOOD             = { 0.91f,      0.76f,      0.65f,      1.0f };
-static const color4f_s  COLOR4F_MEDIUMWOOD            = { 0.65f,      0.50f,      0.39f,      1.0f };
-static const color4f_s  COLOR4F_DARKWOOD              = { 0.52f,      0.37f,      0.26f,      1.0f };
-static const color4f_s  COLOR4F_SPICYPINK             = { 1.00f,      0.11f,      0.68f,      1.0f };
-static const color4f_s  COLOR4F_SEMISWEETCHOC         = { 0.42f,      0.26f,      0.15f,      1.0f };
-static const color4f_s  COLOR4F_BAKERSCHOC            = { 0.36f,      0.20f,      0.09f,      1.0f };
-static const color4f_s  COLOR4F_FLESH                 = { 0.96f,      0.80f,      0.69f,      1.0f };
-static const color4f_s  COLOR4F_NEWTAN                = { 0.92f,      0.78f,      0.62f,      1.0f };
-static const color4f_s  COLOR4F_NEWMIDNIGHTBLUE       = { 0.00f,      0.00f,      0.61f,      1.0f };
-static const color4f_s  COLOR4F_VERYDARKBROWN         = { 0.35f,      0.16f,      0.14f,      1.0f };
-static const color4f_s  COLOR4F_DARKBROWN             = { 0.36f,      0.25f,      0.20f,      1.0f };
-static const color4f_s  COLOR4F_DARKTAN               = { 0.59f,      0.41f,      0.31f,      1.0f };
-static const color4f_s  COLOR4F_GREENCOPPER           = { 0.32f,      0.49f,      0.46f,      1.0f };
-static const color4f_s  COLOR4F_DKGREENCOPPER         = { 0.29f,      0.46f,      0.43f,      1.0f };
-static const color4f_s  COLOR4F_DUSTYROSE             = { 0.52f,      0.39f,      0.39f,      1.0f };
-static const color4f_s  COLOR4F_HUNTERSGREEN          = { 0.13f,      0.37f,      0.31f,      1.0f };
-static const color4f_s  COLOR4F_SCARLET               = { 0.55f,      0.09f,      0.09f,      1.0f };
-static const color4f_s  COLOR4F_MEDIUMPURPLE          = { 0.73f,      0.16f,      0.96f,      1.0f };
-static const color4f_s  COLOR4F_LIGHTPURPLE           = { 0.87f,      0.58f,      0.98f,      1.0f };
-static const color4f_s  COLOR4F_VERYLIGHTPURPLE       = { 0.94f,      0.81f,      0.99f,      1.0f };
-static const color4f_s  COLOR4F_GREEN                 = { 0.0f,       0.5f,       0.0f,       1.0f };
-static const color4f_s  COLOR4F_OLIVE                 = { 0.5f,       0.5f,       1.0f,       1.0f };
-static const color4f_s  COLOR4F_PURPLE                = { 1.0f,       0.0f,       1.0f,       1.0f };
-static const color4f_s  COLOR4F_TEAL                  = { 0.0f,       0.5f,       0.5f,       1.0f };
-static const color4f_s  COLOR4F_RED                   = { 1.0f,       0.0f,       0.0f,       1.0f };
-static const color4f_s  COLOR4F_LIME                  = { 0.0f,       1.0f,       0.0f,       1.0f };
-static const color4f_s  COLOR4F_YELLOW                = { 1.0f,       1.0f,       0.0f,       1.0f };
-static const color4f_s  COLOR4F_BLUE                  = { 0.0f,       0.0f,       1.0f,       1.0f };
-static const color4f_s  COLOR4F_FUCHSIA               = { 1.0f,       0.0f,       1.0f,       1.0f };
-static const color4f_s  COLOR4F_AQUA                  = { 0.0f,       1.0f,       1.0f,       1.0f };
+static const Color4f  COLOR4F_WHITE                 = Color4f( 1.0f,       1.0f,       1.0f,       1.0f );
+static const Color4f  COLOR4F_BLACK                 = Color4f( 0.0f,       0.0f,       0.0f,       1.0f );
+static const Color4f  COLOR4F_DIMGRAY               = Color4f( 0.329412f,  0.329412f,  0.329412f,  1.0f );
+static const Color4f  COLOR4F_GRAY                  = Color4f( 0.752941f,  0.752941f,  0.752941f,  1.0f );
+static const Color4f  COLOR4F_LIGHTGRAY             = Color4f( 0.658824f,  0.658824f,  0.658824f,  1.0f );
+static const Color4f  COLOR4F_AQUAMARINE            = Color4f( 0.439216f,  0.858824f,  0.576471f,  1.0f );
+static const Color4f  COLOR4F_BLUEVIOLET            = Color4f( 0.62352f,   0.372549f,  0.623529f,  1.0f );
+static const Color4f  COLOR4F_BROWN                 = Color4f( 0.647059f,  0.164706f,  0.164706f,  1.0f );
+static const Color4f  COLOR4F_CADETBLUE             = Color4f( 0.372549f,  0.623529f,  0.623529f,  1.0f );
+static const Color4f  COLOR4F_CORAL                 = Color4f( 1.0f,       0.498039f,  0.0f,       1.0f );
+static const Color4f  COLOR4F_CORNFLOWERBLUE        = Color4f( 0.258824f,  0.258824f,  0.435294f,  1.0f );
+static const Color4f  COLOR4F_DARKGREEN             = Color4f( 0.184314f,  0.309804f,  0.184314f,  1.0f );
+static const Color4f  COLOR4F_DARKOLIVEGREEN        = Color4f( 0.309804f,  0.309804f,  0.184314f,  1.0f );
+static const Color4f  COLOR4F_DARKORCHID            = Color4f( 0.6f,       0.196078f,  0.8f,       1.0f );
+static const Color4f  COLOR4F_DARKSLATEBLUE         = Color4f( 0.419608f,  0.137255f,  0.556863f,  1.0f );
+static const Color4f  COLOR4F_DARKSLATEGRAY         = Color4f( 0.184314f,  0.309804f,  0.309804f,  1.0f );
+static const Color4f  COLOR4F_DARKSLATEGREY         = Color4f( 0.184314f,  0.309804f,  0.309804f,  1.0f );
+static const Color4f  COLOR4F_DARKTURQUOISE         = Color4f( 0.439216f,  0.576471f,  0.858824f,  1.0f );
+static const Color4f  COLOR4F_FIREBRICK             = Color4f( 0.556863f,  0.137255f,  0.137255f,  1.0f );
+static const Color4f  COLOR4F_FORESTGREEN           = Color4f( 0.137255f,  0.556863f,  0.137255f,  1.0f );
+static const Color4f  COLOR4F_GOLD                  = Color4f( 0.8f,       0.498039f,  0.196078f,  1.0f );
+static const Color4f  COLOR4F_GOLDENROD             = Color4f( 0.858824f,  0.858824f,  0.439216f,  1.0f );
+static const Color4f  COLOR4F_GREENYELLOW           = Color4f( 0.576471f,  0.858824f,  0.439216f,  1.0f );
+static const Color4f  COLOR4F_INDIAN                = Color4f( 0.309804f,  0.184314f,  0.184314f,  1.0f );
+static const Color4f  COLOR4F_KHAKI                 = Color4f( 0.623529f,  0.623529f,  0.372549f,  1.0f );
+static const Color4f  COLOR4F_LIGHTBLUE             = Color4f( 0.74902f,   0.847059f,  0.847059f,  1.0f );
+static const Color4f  COLOR4F_LIGHTSTEELBLUE        = Color4f( 0.560784f,  0.560784f,  0.737255f,  1.0f );
+static const Color4f  COLOR4F_LIMEGREEN             = Color4f( 0.196078f,  0.8f,       0.196078f,  1.0f );
+static const Color4f  COLOR4F_MAROON                = Color4f( 0.556863f,  0.137255f,  0.419608f,  1.0f );
+static const Color4f  COLOR4F_MEDIUMAQUAMARINE      = Color4f( 0.196078f,  0.8f,       0.6f,       1.0f );
+static const Color4f  COLOR4F_MEDIUMBLUE            = Color4f( 0.196078f,  0.196078f,  0.8f,       1.0f );
+static const Color4f  COLOR4F_MEDIUMFORESTGREEN     = Color4f( 0.419608f,  0.556863f,  0.137255f,  1.0f );
+static const Color4f  COLOR4F_MEDIUMGOLDENROD       = Color4f( 0.917647f,  0.917647f,  0.678431f,  1.0f );
+static const Color4f  COLOR4F_MEDIUMORCHID          = Color4f( 0.576471f,  0.439216f,  0.858824f,  1.0f );
+static const Color4f  COLOR4F_MEDIUMSEAGREEN        = Color4f( 0.258824f,  0.435294f,  0.258824f,  1.0f );
+static const Color4f  COLOR4F_MEDIUMSLATEBLUE       = Color4f( 0.498039f,  0.0f,       1.0f,       1.0f );
+static const Color4f  COLOR4F_MEDIUMSPRINGGREEN     = Color4f( 0.498039f,  1.0f,       0.0f,       1.0f );
+static const Color4f  COLOR4F_MEDIUMTURQUOISE       = Color4f( 0.439216f,  0.858824f,  0.858824f,  1.0f );
+static const Color4f  COLOR4F_MEDIUMVIOLET          = Color4f( 0.858824f,  0.439216f,  0.576471f,  1.0f );
+static const Color4f  COLOR4F_MIDNIGHTBLUE          = Color4f( 0.184314f,  0.184314f,  0.309804f,  1.0f );
+static const Color4f  COLOR4F_NAVY                  = Color4f( 0.137255f,  0.137255f,  0.556863f,  1.0f );
+static const Color4f  COLOR4F_NAVYBLUE              = Color4f( 0.137255f,  0.137255f,  0.556863f,  1.0f );
+static const Color4f  COLOR4F_ORANGE                = Color4f( 1.0f,       0.5f,       0.0f,       1.0f );
+static const Color4f  COLOR4F_ORANGERED             = Color4f( 1.0f,       0.25f,      0.0f,       1.0f );
+static const Color4f  COLOR4F_ORCHID                = Color4f( 0.858824f,  0.439216f,  0.858824f,  1.0f );
+static const Color4f  COLOR4F_PALEGREEN             = Color4f( 0.560784f,  0.737255f,  0.560784f,  1.0f );
+static const Color4f  COLOR4F_PINK                  = Color4f( 0.737255f,  0.560784f,  0.560784f,  1.0f );
+static const Color4f  COLOR4F_PLUM                  = Color4f( 0.917647f,  0.678431f,  0.917647f,  1.0f );
+static const Color4f  Color4fALMON                  = Color4f( 0.435294f,  0.258824f,  0.258824f,  1.0f );
+static const Color4f  Color4fEAGREEN                = Color4f( 0.137255f,  0.556863f,  0.419608f,  1.0f );
+static const Color4f  Color4fIENNA                  = Color4f( 0.556863f,  0.419608f,  0.137255f,  1.0f );
+static const Color4f  Color4fKYBLUE                 = Color4f( 0.196078f,  0.6f,       0.8f,       1.0f );
+static const Color4f  Color4fLATEBLUE               = Color4f( 0.0f,       0.498039f,  1.0f,       1.0f );
+static const Color4f  Color4fPRINGGREEN             = Color4f( 0.0f,       1.0f,       0.498039f,  1.0f );
+static const Color4f  Color4fTEELBLUE               = Color4f( 0.137255f,  0.419608f,  0.556863f,  1.0f );
+static const Color4f  COLOR4F_TAN                   = Color4f( 0.858824f,  0.576471f,  0.439216f,  1.0f );
+static const Color4f  COLOR4F_THISTLE               = Color4f( 0.847059f,  0.74902f,   0.847059f,  1.0f );
+static const Color4f  COLOR4F_TURQUOISE             = Color4f( 0.678431f,  0.917647f,  0.917647f,  1.0f );
+static const Color4f  COLOR4F_VIOLET                = Color4f( 0.309804f,  0.184314f,  0.309804f,  1.0f );
+static const Color4f  COLOR4F_VIOLETRED             = Color4f( 0.8f,       0.196078f,  0.6f,       1.0f );
+static const Color4f  COLOR4F_WHEAT                 = Color4f( 0.847059f,  0.847059f,  0.74902f,   1.0f );
+static const Color4f  COLOR4F_YELLOWGREEN           = Color4f( 0.6f,       0.8f,       0.196078f,  1.0f );
+static const Color4f  Color4fUMMERSKY               = Color4f( 0.22f,      0.69f,      0.87f,      1.0f );
+static const Color4f  COLOR4F_RICHBLUE              = Color4f( 0.35f,      0.35f,      0.67f,      1.0f );
+static const Color4f  COLOR4F_BRASS                 = Color4f( 0.71f,      0.65f,      0.26f,      1.0f );
+static const Color4f  COLOR4F_COPPER                = Color4f( 0.72f,      0.45f,      0.20f,      1.0f );
+static const Color4f  COLOR4F_BRONZE                = Color4f( 0.55f,      0.47f,      0.14f,      1.0f );
+static const Color4f  COLOR4F_BRONZE2               = Color4f( 0.65f,      0.49f,      0.24f,      1.0f );
+static const Color4f  Color4fILVER                  = Color4f( 0.90f,      0.91f,      0.98f,      1.0f );
+static const Color4f  COLOR4F_BRIGHTGOLD            = Color4f( 0.85f,      0.85f,      0.10f,      1.0f );
+static const Color4f  COLOR4F_OLDGOLD               = Color4f( 0.81f,      0.71f,      0.23f,      1.0f );
+static const Color4f  COLOR4F_FELDSPAR              = Color4f( 0.82f,      0.57f,      0.46f,      1.0f );
+static const Color4f  COLOR4F_QUARTZ                = Color4f( 0.85f,      0.85f,      0.95f,      1.0f );
+static const Color4f  COLOR4F_NEONPINK              = Color4f( 1.00f,      0.43f,      0.78f,      1.0f );
+static const Color4f  COLOR4F_DARKPURPLE            = Color4f( 0.53f,      0.12f,      0.47f,      1.0f );
+static const Color4f  COLOR4F_NEONBLUE              = Color4f( 0.30f,      0.30f,      1.00f,      1.0f );
+static const Color4f  COLOR4F_COOLCOPPER            = Color4f( 0.85f,      0.53f,      0.10f,      1.0f );
+static const Color4f  COLOR4F_MANDARINORANGE        = Color4f( 0.89f,      0.47f,      0.20f,      1.0f );
+static const Color4f  COLOR4F_LIGHTWOOD             = Color4f( 0.91f,      0.76f,      0.65f,      1.0f );
+static const Color4f  COLOR4F_MEDIUMWOOD            = Color4f( 0.65f,      0.50f,      0.39f,      1.0f );
+static const Color4f  COLOR4F_DARKWOOD              = Color4f( 0.52f,      0.37f,      0.26f,      1.0f );
+static const Color4f  Color4fPICYPINK               = Color4f( 1.00f,      0.11f,      0.68f,      1.0f );
+static const Color4f  Color4fEMISWEETCHOC           = Color4f( 0.42f,      0.26f,      0.15f,      1.0f );
+static const Color4f  COLOR4F_BAKERSCHOC            = Color4f( 0.36f,      0.20f,      0.09f,      1.0f );
+static const Color4f  COLOR4F_FLESH                 = Color4f( 0.96f,      0.80f,      0.69f,      1.0f );
+static const Color4f  COLOR4F_NEWTAN                = Color4f( 0.92f,      0.78f,      0.62f,      1.0f );
+static const Color4f  COLOR4F_NEWMIDNIGHTBLUE       = Color4f( 0.00f,      0.00f,      0.61f,      1.0f );
+static const Color4f  COLOR4F_VERYDARKBROWN         = Color4f( 0.35f,      0.16f,      0.14f,      1.0f );
+static const Color4f  COLOR4F_DARKBROWN             = Color4f( 0.36f,      0.25f,      0.20f,      1.0f );
+static const Color4f  COLOR4F_DARKTAN               = Color4f( 0.59f,      0.41f,      0.31f,      1.0f );
+static const Color4f  COLOR4F_GREENCOPPER           = Color4f( 0.32f,      0.49f,      0.46f,      1.0f );
+static const Color4f  COLOR4F_DKGREENCOPPER         = Color4f( 0.29f,      0.46f,      0.43f,      1.0f );
+static const Color4f  COLOR4F_DUSTYROSE             = Color4f( 0.52f,      0.39f,      0.39f,      1.0f );
+static const Color4f  COLOR4F_HUNTERSGREEN          = Color4f( 0.13f,      0.37f,      0.31f,      1.0f );
+static const Color4f  Color4fCARLET                 = Color4f( 0.55f,      0.09f,      0.09f,      1.0f );
+static const Color4f  COLOR4F_MEDIUMPURPLE          = Color4f( 0.73f,      0.16f,      0.96f,      1.0f );
+static const Color4f  COLOR4F_LIGHTPURPLE           = Color4f( 0.87f,      0.58f,      0.98f,      1.0f );
+static const Color4f  COLOR4F_VERYLIGHTPURPLE       = Color4f( 0.94f,      0.81f,      0.99f,      1.0f );
+static const Color4f  COLOR4F_GREEN                 = Color4f( 0.0f,       0.5f,       0.0f,       1.0f );
+static const Color4f  COLOR4F_OLIVE                 = Color4f( 0.5f,       0.5f,       1.0f,       1.0f );
+static const Color4f  COLOR4F_PURPLE                = Color4f( 1.0f,       0.0f,       1.0f,       1.0f );
+static const Color4f  COLOR4F_TEAL                  = Color4f( 0.0f,       0.5f,       0.5f,       1.0f );
+static const Color4f  COLOR4F_RED                   = Color4f( 1.0f,       0.0f,       0.0f,       1.0f );
+static const Color4f  COLOR4F_LIME                  = Color4f( 0.0f,       1.0f,       0.0f,       1.0f );
+static const Color4f  COLOR4F_YELLOW                = Color4f( 1.0f,       1.0f,       0.0f,       1.0f );
+static const Color4f  COLOR4F_BLUE                  = Color4f( 0.0f,       0.0f,       1.0f,       1.0f );
+static const Color4f  COLOR4F_FUCHSIA               = Color4f( 1.0f,       0.0f,       1.0f,       1.0f );
+static const Color4f  COLOR4F_AQUA                  = Color4f( 0.0f,       1.0f,       1.0f,       1.0f );
+
 
 
 

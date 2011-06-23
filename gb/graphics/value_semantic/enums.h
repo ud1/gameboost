@@ -121,7 +121,7 @@ struct float_type_e
 
 		
 
-		UNUSED_DECLARED_LAST
+		UNUSED_DECLARED_LAST,
 		
 		
 		UNUSED_FORCE32 = 0x7f000000		

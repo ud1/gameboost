@@ -90,6 +90,18 @@ class ViewportZ;
 }
 //---------------------------------------------------------------
 
+namespace context 
+{
+
+struct float_context_type_e;
+class FloatContext;
+struct vector_context_type_e;
+struct matrix4x4_context_type_e;
+class GeometryContext;
+ 
+
+}
+
 
 //---------------------------------------------------------------
 }

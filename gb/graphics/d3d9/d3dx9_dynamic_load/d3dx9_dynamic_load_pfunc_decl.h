@@ -237,8 +237,7 @@ namespace d3dx9_dynamic_load
 		//                         D3DX math
 		//====================================================================
 		// 
-
-
+ 
 
 
 		typedef D3DXMATRIX* ( __stdcall  *TFunc_D3DXMatrixMultiply)(
@@ -254,6 +253,1087 @@ namespace d3dx9_dynamic_load
 			FLOAT * pDeterminant,
 			CONST D3DXMATRIX * pM
 			);
+
+
+
+	   ////////////////////////////////////////////
+
+ 
+
+	/*	
+typedef  D3DXCOLOR * ( __stdcall  *TFunc_D3DXColorAdd)(
+           D3DXCOLOR *pOut,
+           const D3DXCOLOR *pC1,
+           const D3DXCOLOR *pC2
+);   */
+
+ typedef D3DXCOLOR * ( __stdcall  *TFunc_D3DXColorAdjustContrast)(
+           D3DXCOLOR *pOut,
+           const D3DXCOLOR *pC,
+           FLOAT c
+);
+
+typedef  D3DXCOLOR * ( __stdcall  *TFunc_D3DXColorAdjustSaturation)(
+           D3DXCOLOR *pOut,
+           const D3DXCOLOR *pC,
+           FLOAT s
+);
+	  /*
+typedef  D3DXCOLOR * ( __stdcall  *TFunc_D3DXColorLerp)(
+           D3DXCOLOR *pOut,
+           const D3DXCOLOR *pC1,
+           const D3DXCOLOR *pC2,
+           FLOAT s
+);   */
+
+/*
+typedef  D3DXCOLOR * ( __stdcall  *TFunc_D3DXColorModulate)(
+           D3DXCOLOR *pOut,
+           const D3DXCOLOR *pC1,
+           const D3DXCOLOR *pC2
+);
+
+
+typedef  D3DXCOLOR * ( __stdcall  *TFunc_D3DXColorNegative)(
+           D3DXCOLOR *pOut,
+           const D3DXCOLOR *pC
+);
+*/
+
+
+
+/*
+typedef  D3DXCOLOR * ( __stdcall  *TFunc_D3DXColorScale)(
+           D3DXCOLOR *pOut,
+           const D3DXCOLOR *pC,
+           FLOAT s
+);   
+
+typedef   D3DXCOLOR * ( __stdcall  *TFunc_D3DXColorSubtract)(
+           D3DXCOLOR *pOut,
+           const D3DXCOLOR *pC1,
+           const D3DXCOLOR *pC2
+);   */
+
+typedef  HRESULT  ( __stdcall  *TFunc_D3DXCreateMatrixStack)(
+         DWORD Flags,
+         LPD3DXMATRIXSTACK *ppStack
+);
+
+typedef  FLOAT * ( __stdcall  *TFunc_D3DXFloat16To32Array)(
+           FLOAT *pOut,
+           const D3DXFLOAT16 *pIn,
+           UINT n
+);
+
+typedef  D3DXFLOAT16 * ( __stdcall  *TFunc_D3DXFloat32To16Array)(
+           D3DXFLOAT16 *pOut,
+           const FLOAT *pIn,
+           UINT n
+);
+
+typedef  FLOAT  ( __stdcall  *TFunc_D3DXFresnelTerm)(
+        FLOAT CosTheta,
+        FLOAT RefractionIndex
+);
+
+typedef   D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixAffineTransformation)(
+           D3DXMATRIX *pOut,
+           FLOAT Scaling,
+           const D3DXVECTOR3 *pRotationCenter,
+           const D3DXQUATERNION *pRotation,
+           const D3DXVECTOR3 *pTranslation
+);
+
+typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixAffineTransformation2D)(
+           D3DXMATRIX *pOut,
+           FLOAT Scaling,
+           const D3DXVECTOR2 *pRotationCenter,
+           FLOAT Rotation,
+           const D3DXVECTOR2 *pTranslation
+);
+
+ typedef  HRESULT  ( __stdcall  *TFunc_D3DXMatrixDecompose)(
+           D3DXVECTOR3 *pOutScale,
+           D3DXQUATERNION *pOutRotation,
+           D3DXVECTOR3 *pOutTranslation,
+           const D3DXMATRIX *pM
+);
+
+typedef  FLOAT  ( __stdcall  *TFunc_D3DXMatrixDeterminant)(
+        const D3DXMATRIX *pM
+);
+
+/*
+ typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixIdentity)(
+           D3DXMATRIX *pOut
+);
+*/
+
+ 
+ 
+
+ /*
+typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixInverse)(
+           D3DXMATRIX *pOut,
+           FLOAT *pDeterminant,
+           const D3DXMATRIX *pM
+);
+*/
+
+
+
+/*
+typedef  BOOL  ( __stdcall  *TFunc_D3DXMatrixIsIdentity)(
+        const D3DXMATRIX *pM
+);
+*/
+
+typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixLookAtLH)(
+           D3DXMATRIX *pOut,
+           const D3DXVECTOR3 *pEye,
+           const D3DXVECTOR3 *pAt,
+           const D3DXVECTOR3 *pUp
+);
+
+
+typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixLookAtRH)(
+           D3DXMATRIX *pOut,
+           const D3DXVECTOR3 *pEye,
+           const D3DXVECTOR3 *pAt,
+           const D3DXVECTOR3 *pUp
+);
+
+/**************
+typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixMultiply)(
+           D3DXMATRIX *pOut,
+           const D3DXMATRIX *pM1,
+           const D3DXMATRIX *pM2
+);   ******************/
+
+typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixMultiplyTranspose)(
+           D3DXMATRIX *pOut,
+           const D3DXMATRIX *pM1,
+           const D3DXMATRIX *pM2
+);
+
+typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixOrthoLH)(
+           D3DXMATRIX *pOut,
+           FLOAT w,
+           FLOAT h,
+           FLOAT zn,
+           FLOAT zf
+);
+
+typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixOrthoOffCenterLH)(
+           D3DXMATRIX *pOut,
+           FLOAT l,
+           FLOAT r,
+           FLOAT b,
+           FLOAT t,
+           FLOAT zn,
+           FLOAT zf
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixOrthoOffCenterRH)(
+           D3DXMATRIX *pOut,
+           FLOAT l,
+           FLOAT r,
+           FLOAT b,
+           FLOAT t,
+           FLOAT zn,
+           FLOAT zf
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixOrthoRH)(
+           D3DXMATRIX *pOut,
+           FLOAT w,
+           FLOAT h,
+           FLOAT zn,
+           FLOAT zf
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixPerspectiveFovLH)(
+           D3DXMATRIX *pOut,
+           FLOAT fovy,
+           FLOAT Aspect,
+           FLOAT zn,
+           FLOAT zf
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixPerspectiveFovRH)(
+           D3DXMATRIX *pOut,
+           FLOAT fovy,
+           FLOAT Aspect,
+           FLOAT zn,
+           FLOAT zf
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixPerspectiveLH)(
+           D3DXMATRIX *pOut,
+           FLOAT w,
+           FLOAT h,
+           FLOAT zn,
+           FLOAT zf
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixPerspectiveOffCenterLH)(
+           D3DXMATRIX *pOut,
+           FLOAT l,
+           FLOAT r,
+           FLOAT b,
+           FLOAT t,
+           FLOAT zn,
+           FLOAT zf
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixPerspectiveOffCenterRH)(
+           D3DXMATRIX *pOut,
+           FLOAT l,
+           FLOAT r,
+           FLOAT b,
+           FLOAT t,
+           FLOAT zn,
+           FLOAT zf
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixPerspectiveRH)(
+           D3DXMATRIX *pOut,
+           FLOAT w,
+           FLOAT h,
+           FLOAT zn,
+           FLOAT zf
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixReflect)(
+           D3DXMATRIX *pOut,
+           const D3DXPLANE *pPlane
+);
+
+typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixRotationAxis)(
+           D3DXMATRIX *pOut,
+           const D3DXVECTOR3 *pV,
+           FLOAT Angle
+);
+
+
+typedef  D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixRotationQuaternion)(
+           D3DXMATRIX *pOut,
+           const D3DXQUATERNION *pQ
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixRotationX)(
+           D3DXMATRIX *pOut,
+           FLOAT Angle
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixRotationY)(
+           D3DXMATRIX *pOut,
+           FLOAT Angle
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixRotationYawPitchRoll)(
+           D3DXMATRIX *pOut,
+           FLOAT Yaw,
+           FLOAT Pitch,
+           FLOAT Roll
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixRotationZ)(
+           D3DXMATRIX *pOut,
+           FLOAT Angle
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixScaling)(
+           D3DXMATRIX *pOut,
+           FLOAT sx,
+           FLOAT sy,
+           FLOAT sz
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixShadow)(
+           D3DXMATRIX *pOut,
+           const D3DXVECTOR4 *pLight,
+           const D3DXPLANE *pPlane
+);
+
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixTransformation)(
+           D3DXMATRIX *pOut,
+           const D3DXVECTOR3 *pScalingCenter,
+           const D3DXQUATERNION *pScalingRotation,
+           const D3DXVECTOR3 *pScaling,
+           const D3DXVECTOR3 *pRotationCenter,
+           const D3DXQUATERNION *pRotation,
+           const D3DXVECTOR3 *pTranslation
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixTransformation2D)(
+           D3DXMATRIX *pOut,
+           const D3DXVECTOR2 *pScalingCenter,
+           FLOAT pScalingRotation,
+           const D3DXVECTOR2 *pScaling,
+           const D3DXVECTOR2 *pRotationCenter,
+           FLOAT Rotation,
+           const D3DXVECTOR2 *pTranslation
+);
+
+ typedef D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixTranslation)(
+           D3DXMATRIX *pOut,
+           FLOAT x,
+           FLOAT y,
+           FLOAT z
+);
+
+typedef   D3DXMATRIX * ( __stdcall  *TFunc_D3DXMatrixTranspose)(
+           D3DXMATRIX *pOut,
+           const D3DXMATRIX *pM
+);
+
+//D3DXPlaneDot
+//D3DXPlaneDotCoord
+//D3DXPlaneDotNormal
+//D3DXPlaneScale
+
+
+
+/*
+typedef   FLOAT  ( __stdcall  *TFunc_D3DXPlaneDot)(
+        const D3DXPLANE *pP,
+        const D3DXVECTOR4 *pV
+);
+
+typedef  FLOAT  ( __stdcall  *TFunc_D3DXPlaneDotCoord)(
+        const D3DXPLANE *pP,
+        const D3DXVECTOR3 *pV
+);
+
+typedef  FLOAT  ( __stdcall  *TFunc_D3DXPlaneDotNormal)(
+        const D3DXPLANE *pP,
+        const D3DXVECTOR3 *pV
+);	*/
+
+typedef  D3DXPLANE * ( __stdcall  *TFunc_D3DXPlaneFromPointNormal)(
+           D3DXPLANE *pOut,
+           const D3DXVECTOR3 *pPoint,
+           const D3DXVECTOR3 *pNormal
+);
+
+
+typedef  D3DXPLANE * ( __stdcall  *TFunc_D3DXPlaneFromPoints)(
+           D3DXPLANE *pOut,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pV2,
+           const D3DXVECTOR3 *pV3
+);
+
+typedef  D3DXVECTOR3 * ( __stdcall  *TFunc_D3DXPlaneIntersectLine)(
+           D3DXVECTOR3 *pOut,
+           const D3DXPLANE *pP,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pV2
+);
+
+typedef  D3DXPLANE * ( __stdcall  *TFunc_D3DXPlaneNormalize)(
+           D3DXPLANE *pOut,
+           const D3DXPLANE *pP
+);
+
+/*
+typedef  D3DXPLANE * ( __stdcall  *TFunc_D3DXPlaneScale)(
+           D3DXPLANE *pOut,
+           const D3DXPLANE *pP,
+           FLOAT s
+);   */
+
+typedef  D3DXPLANE * ( __stdcall  *TFunc_D3DXPlaneTransform)(
+           D3DXPLANE *pOut,
+           const D3DXPLANE *pP,
+           const D3DXMATRIX *pM
+);
+
+typedef  D3DXPLANE * ( __stdcall  *TFunc_D3DXPlaneTransformArray)(
+           D3DXPLANE *pOut,
+           UINT OutStride,
+           const D3DXPLANE *pP,
+           UINT PStride,
+           const D3DXMATRIX *pM,
+           UINT n
+);
+
+typedef  D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionBaryCentric)(
+           D3DXQUATERNION *pOut,
+           const D3DXQUATERNION *pQ1,
+           const D3DXQUATERNION *pQ2,
+           const D3DXQUATERNION *pQ3,
+           FLOAT f,
+           FLOAT g
+);
+
+ 
+ 
+
+/*
+typedef  D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionConjugate)(
+           D3DXQUATERNION *pOut,
+           const D3DXQUATERNION *pQ
+);   
+
+typedef  FLOAT  ( __stdcall  *TFunc_D3DXQuaternionDot)(
+        const D3DXQUATERNION *pQ1,
+        const D3DXQUATERNION *pQ2
+);	*/
+
+typedef  D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionExp)(
+           D3DXQUATERNION *pOut,
+           const D3DXQUATERNION *pQ
+);
+
+/*
+typedef  D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionIdentity)(
+           D3DXQUATERNION *pOut
+);*/
+
+typedef  D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionInverse)(
+           D3DXQUATERNION *pOut,
+           const D3DXQUATERNION *pQ
+);
+
+/*
+typedef BOOL  ( __stdcall  *TFunc_D3DXQuaternionIsIdentity)(
+        const D3DXQUATERNION *pQ
+); 
+ 
+typedef  FLOAT  ( __stdcall  *TFunc_D3DXQuaternionLength)(
+        const D3DXQUATERNION *pQ
+);
+
+typedef  FLOAT  ( __stdcall  *TFunc_D3DXQuaternionLengthSq)(
+        const D3DXQUATERNION *pQ
+);   
+*/
+
+typedef  D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionLn)(
+           D3DXQUATERNION *pOut,
+           const D3DXQUATERNION *pQ
+);
+
+typedef  D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionMultiply)(
+           D3DXQUATERNION *pOut,
+           const D3DXQUATERNION *pQ1,
+           const D3DXQUATERNION *pQ2
+);
+
+ typedef D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionNormalize)(
+           D3DXQUATERNION *pOut,
+           const D3DXQUATERNION *pQ
+);
+
+ typedef D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionRotationAxis)(
+           D3DXQUATERNION *pOut,
+           const D3DXVECTOR3 *pV,
+           FLOAT Angle
+);
+
+ typedef D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionRotationMatrix)(
+           D3DXQUATERNION *pOut,
+           const D3DXMATRIX *pM
+);
+
+ typedef D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionRotationYawPitchRoll)(
+           D3DXQUATERNION *pOut,
+           FLOAT Yaw,
+           FLOAT Pitch,
+           FLOAT Roll
+);
+
+ typedef D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionSlerp)(
+           D3DXQUATERNION *pOut,
+           const D3DXQUATERNION *pQ1,
+           const D3DXQUATERNION *pQ2,
+           FLOAT t
+);
+
+ typedef D3DXQUATERNION * ( __stdcall  *TFunc_D3DXQuaternionSquad)(
+           D3DXQUATERNION *pOut,
+           const D3DXQUATERNION *pQ1,
+           const D3DXQUATERNION *pA,
+           const D3DXQUATERNION *pB,
+           const D3DXQUATERNION *pC,
+           FLOAT t
+);
+
+typedef void ( __stdcall  *TFunc_D3DXQuaternionSquadSetup)(
+         D3DXQUATERNION *pAOut,
+         D3DXQUATERNION *pBOut,
+         D3DXQUATERNION *pCOut,
+         const D3DXQUATERNION *pQ0,
+         const D3DXQUATERNION *pQ1,
+         const D3DXQUATERNION *pQ2,
+         const D3DXQUATERNION *pQ3
+);
+
+typedef void ( __stdcall  *TFunc_D3DXQuaternionToAxisAngle)(
+           const D3DXQUATERNION *pQ,
+           D3DXVECTOR3 *pAxis,
+           FLOAT *pAngle
+);
+
+
+ typedef FLOAT * ( __stdcall  *TFunc_D3DXSHAdd)(
+         FLOAT *pOut,
+         UINT Order,
+         const FLOAT *pA,
+         const FLOAT *pB
+);
+
+ typedef FLOAT  ( __stdcall  *TFunc_D3DXSHDot)(
+        UINT Order,
+        const FLOAT *pA,
+        const FLOAT *pB
+);
+
+ typedef HRESULT  ( __stdcall  *TFunc_D3DXSHEvalConeLight)(
+         UINT Order,
+         const D3DXVECTOR3 *pDir,
+         FLOAT Radius,
+         FLOAT RIntensity,
+         FLOAT GIntensity,
+         FLOAT BIntensity,
+         FLOAT *pROut,
+         FLOAT *pGOut,
+         FLOAT *pBOut
+);
+
+
+ typedef FLOAT * ( __stdcall  *TFunc_D3DXSHEvalDirection)(
+         FLOAT *pOut,
+         UINT Order,
+         const D3DXVECTOR3 *pDir
+);
+
+ typedef HRESULT  ( __stdcall  *TFunc_D3DXSHEvalDirectionalLight)(
+         UINT Order,
+         const D3DXVECTOR3 *pDir,
+         FLOAT RIntensity,
+         FLOAT GIntensity,
+         FLOAT BIntensity,
+         FLOAT *pROut,
+         FLOAT *pGOut,
+         FLOAT *pBOut
+);
+
+
+ typedef HRESULT  ( __stdcall  *TFunc_D3DXSHEvalHemisphereLight)(
+        UINT Order,
+        const D3DXVECTOR3 *pDir,
+        D3DXCOLOR Top,
+        D3DXCOLOR Bottom,
+        FLOAT *pROut,
+        FLOAT *pGOut,
+        FLOAT *pBOut
+);
+
+ typedef HRESULT  ( __stdcall  *TFunc_D3DXSHEvalSphericalLight)(
+         UINT Order,
+         const D3DXVECTOR3 *pPos,
+         FLOAT Radius,
+         FLOAT RIntensity,
+         FLOAT GIntensity,
+         FLOAT BIntensity,
+         FLOAT *pROut,
+         FLOAT *pGOut,
+         FLOAT *pBOut
+);
+
+ typedef FLOAT * ( __stdcall  *TFunc_D3DXSHMultiply2)(
+        FLOAT *pOut,
+        const FLOAT *pF,
+        const FLOAT *pG
+);
+
+
+ typedef HRESULT  ( __stdcall  *TFunc_D3DXSHProjectCubeMap)(
+        UINT Order,
+        LPDIRECT3DCUBETEXTURE9 pCubeMap,
+        FLOAT *pROut,
+        FLOAT *pGOut,
+        FLOAT *pBOut
+);
+
+ typedef FLOAT* ( __stdcall  *TFunc_D3DXSHRotate)(
+         FLOAT *pOut,
+         UINT Order,
+         const D3DXMATRIX *pMatrix,
+         const FLOAT *pIn
+);
+
+ typedef FLOAT* ( __stdcall  *TFunc_D3DXSHRotateZ)(
+         FLOAT *pOut,
+         UINT Order,
+         FLOAT Angle,
+         const FLOAT *pIn
+);
+
+ typedef FLOAT* ( __stdcall  *TFunc_D3DXSHScale)(
+         FLOAT *pOut,
+         UINT Order,
+         const FLOAT *pIn,
+         const FLOAT *Scale
+);
+
+ 
+ 
+	/*
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2Add)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV1,
+           const D3DXVECTOR2 *pV2
+);   */
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2BaryCentric)(
+         D3DXVECTOR2 *pOut,
+         const D3DXVECTOR2 *pV1,
+         const D3DXVECTOR2 *pV2,
+         const D3DXVECTOR2 *pV3,
+         FLOAT f,
+         FLOAT g
+);
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2CatmullRom)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV0,
+           const D3DXVECTOR2 *pV1,
+           const D3DXVECTOR2 *pV2,
+           const D3DXVECTOR2 *pV3,
+           FLOAT s
+);
+
+	 /*
+ typedef FLOAT  ( __stdcall  *TFunc_D3DXVec2CCW)(
+        const D3DXVECTOR2 *pV1,
+        const D3DXVECTOR2 *pV2
+);   */
+
+ /*
+ typedef FLOAT  ( __stdcall  *TFunc_D3DXVec2Dot)(
+        const D3DXVECTOR2 *pV1,
+        const D3DXVECTOR2 *pV2
+);	*/
+
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2Hermite)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV1,
+           const D3DXVECTOR2 *pT1,
+           const D3DXVECTOR2 *pV2,
+           const D3DXVECTOR2 *pT2,
+           FLOAT s
+);
+
+		/*
+ typedef FLOAT  ( __stdcall  *TFunc_D3DXVec2Length)(
+        const D3DXVECTOR2 *pV
+);
+
+ typedef FLOAT  ( __stdcall  *TFunc_D3DXVec2LengthSq)(
+        const D3DXVECTOR2 *pV
+);   */
+
+ /*
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2Lerp)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV1,
+           const D3DXVECTOR2 *pV2,
+           FLOAT s
+);   */
+
+
+
+ /****
+
+ typedef D3DXVECTOR2 * ( __stdcall  *TFunc_D3DXVec2Maximize)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV1,
+           const D3DXVECTOR2 *pV2
+);
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2Minimize)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV1,
+           const D3DXVECTOR2 *pV2
+);
+
+*/
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2Normalize)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV
+);
+
+
+ /*
+ typedef D3DXVECTOR2 * ( __stdcall  *TFunc_D3DXVec2Scale)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV,
+           FLOAT s
+);
+
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2Subtract)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV1,
+           const D3DXVECTOR2 *pV2
+);   */
+
+
+ typedef D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec2Transform)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR2 *pV,
+           const D3DXMATRIX *pM
+);
+
+ typedef D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec2TransformArray)(
+           D3DXVECTOR4 *pOut,
+           UINT OutStride,
+           const D3DXVECTOR2 *pV,
+           UINT VStride,
+           const D3DXMATRIX *pM,
+           UINT n
+);
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2TransformCoord)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV,
+           const D3DXMATRIX *pM
+);
+
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2TransformCoordArray)(
+           D3DXVECTOR2 *pOut,
+           UINT OutStride,
+           const D3DXVECTOR2 *pV,
+           UINT VStride,
+           const D3DXMATRIX *pM,
+           UINT n
+);
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2TransformNormal)(
+           D3DXVECTOR2 *pOut,
+           const D3DXVECTOR2 *pV,
+           const D3DXMATRIX *pM
+);
+
+ typedef D3DXVECTOR2* ( __stdcall  *TFunc_D3DXVec2TransformNormalArray)(
+           D3DXVECTOR2 *pOut,
+           UINT OutStride,
+           const D3DXVECTOR2 *pV,
+           UINT VStride,
+           const D3DXMATRIX *pM,
+           UINT n
+);
+
+
+ //
+ //--------
+ //
+
+ /*********************************************
+ 
+ 
+
+ *********************************************/
+
+ /*
+ typedef D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Add)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pV2
+);   */
+
+ typedef D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3BaryCentric)(
+         D3DXVECTOR3 *pOut,
+         const D3DXVECTOR3 *pV1,
+         const D3DXVECTOR3 *pV2,
+         const D3DXVECTOR3 *pV3,
+         FLOAT f,
+         FLOAT g
+);
+
+ typedef D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3CatmullRom)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV0,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pV2,
+           const D3DXVECTOR3 *pV3,
+           FLOAT s
+);
+	  /*
+ typedef D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Cross)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pV2
+);
+
+ typedef FLOAT  ( __stdcall  *TFunc_D3DXVec3Dot)(
+        const D3DXVECTOR3 *pV1,
+        const D3DXVECTOR3 *pV2
+);	*/
+
+ typedef D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Hermite)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pT1,
+           const D3DXVECTOR3 *pV2,
+           const D3DXVECTOR3 *pT2,
+           FLOAT s
+);
+
+
+ /*
+ typedef FLOAT  ( __stdcall  *TFunc_D3DXVec3Length)(
+        const D3DXVECTOR3 *pV
+);
+
+ typedef FLOAT  ( __stdcall  *TFunc_D3DXVec3LengthSq)(
+        const D3DXVECTOR3 *pV
+);	
+*/
+
+
+ /*
+ typedef D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Lerp)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pV2,
+           FLOAT s
+);
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Maximize)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pV2
+);
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Minimize)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pV2
+);*/
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Normalize)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV
+);
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Project)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV,
+           const D3DVIEWPORT9 *pViewport,
+           const D3DXMATRIX *pProjection,
+           const D3DXMATRIX *pView,
+           const D3DXMATRIX *pWorld
+);
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3ProjectArray)(
+           D3DXVECTOR3 *pOut,
+           UINT OutStride,
+           const D3DXVECTOR3 *pV,
+           UINT VStride,
+           const D3DVIEWPORT9 *pViewport,
+           const D3DXMATRIX *pProjection,
+           const D3DXMATRIX *pView,
+           const D3DXMATRIX *pWorld,
+           UINT n
+);
+
+
+/*
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Scale)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV,
+           FLOAT s
+);
+
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Subtract)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV1,
+           const D3DXVECTOR3 *pV2
+);	*/
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec3Transform)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR3 *pV,
+           const D3DXMATRIX *pM
+);
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec3TransformArray)(
+           D3DXVECTOR4 *pOut,
+           UINT OutStride,
+           const D3DXVECTOR3 *pV,
+           UINT VStride,
+           const D3DXMATRIX *pM,
+           UINT n);
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3TransformCoord)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV,
+           const D3DXMATRIX *pM);
+
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3TransformCoordArray)(
+           D3DXVECTOR3 *pOut,
+           UINT OutStride,
+           const D3DXVECTOR3 *pV,
+           UINT VStride,
+           const D3DXMATRIX *pM,
+           UINT n);
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3TransformNormal)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV,
+           const D3DXMATRIX *pM);
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3TransformNormalArray)(
+           D3DXVECTOR3 *pOut,
+           UINT OutStride,
+           const D3DXVECTOR3 *pV,
+           UINT VStride,
+           const D3DXMATRIX *pM,
+           UINT n);
+
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3Unproject)(
+           D3DXVECTOR3 *pOut,
+           const D3DXVECTOR3 *pV,
+           const D3DVIEWPORT9 *pViewport,
+           const D3DXMATRIX *pProjection,
+           const D3DXMATRIX *pView,
+           const D3DXMATRIX *pWorld);
+
+typedef  D3DXVECTOR3* ( __stdcall  *TFunc_D3DXVec3UnprojectArray)(
+           D3DXVECTOR3 *pOut,
+           UINT OutStride,
+           const D3DXVECTOR3 *pV,
+           UINT VStride,
+           const D3DVIEWPORT9 *pViewport,
+           const D3DXMATRIX *pProjection,
+           const D3DXMATRIX *pView,
+           const D3DXMATRIX *pWorld,
+           UINT n);
+
+ 
+
+
+  /*
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Add)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV1,
+           const D3DXVECTOR4 *pV2);*/
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4BaryCentric)(
+         D3DXVECTOR4 *pOut,
+         const D3DXVECTOR4 *pV1,
+         const D3DXVECTOR4 *pV2,
+         const D3DXVECTOR4 *pV3,
+         FLOAT f,
+         FLOAT g);
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4CatmullRom)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV0,
+           const D3DXVECTOR4 *pV1,
+           const D3DXVECTOR4 *pV2,
+           const D3DXVECTOR4 *pV3,
+           FLOAT s);
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Cross)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV1,
+           const D3DXVECTOR4 *pV2,
+           const D3DXVECTOR4 *pV3);
+
+   /*
+typedef  FLOAT  ( __stdcall  *TFunc_D3DXVec4Dot)(
+        const D3DXVECTOR4 *pV1,
+        const D3DXVECTOR4 *pV2
+);*/
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Hermite)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV1,
+           const D3DXVECTOR4 *pT1,
+           const D3DXVECTOR4 *pV2,
+           const D3DXVECTOR4 *pT2,
+           FLOAT s);
+
+
+ /*
+typedef  FLOAT  ( __stdcall  *TFunc_D3DXVec4Length)(
+        const D3DXVECTOR4 *pV
+);
+
+ typedef FLOAT  ( __stdcall  *TFunc_D3DXVec4LengthSq)(
+        const D3DXVECTOR4 *pV
+);
+*/
+
+   /*
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Lerp)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV1,
+           const D3DXVECTOR4 *pV2,
+           FLOAT s
+);
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Maximize)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV1,
+           const D3DXVECTOR4 *pV2
+);
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Minimize)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV1,
+           const D3DXVECTOR4 *pV2
+);	*/
+
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Normalize)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV
+);
+
+	 /*
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Scale)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV,
+           FLOAT s
+);
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Subtract)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV1,
+           const D3DXVECTOR4 *pV2
+);   */
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4Transform)(
+           D3DXVECTOR4 *pOut,
+           const D3DXVECTOR4 *pV,
+           const D3DXMATRIX *pM
+);
+
+typedef  D3DXVECTOR4* ( __stdcall  *TFunc_D3DXVec4TransformArray)(
+           D3DXVECTOR4 *pOut,
+           UINT OutStride,
+           const D3DXVECTOR4 *pV,
+           UINT VStride,
+           const D3DXMATRIX *pM,
+           UINT n
+);
+
+
 
 
 
@@ -2495,6 +3575,163 @@ namespace d3dx9_dynamic_load
 
 	    TFunc_D3DXMatrixMultiply		  m_TFunc_D3DXMatrixMultiply;
 	    TFunc_D3DXMatrixInverse			  m_TFunc_D3DXMatrixInverse;
+
+			   ////////////////////////
+
+
+
+			   
+		//TFunc_D3DXColorAdd                m_TFunc_D3DXColorAdd;
+		TFunc_D3DXColorAdjustContrast     m_TFunc_D3DXColorAdjustContrast;
+		TFunc_D3DXColorAdjustSaturation   m_TFunc_D3DXColorAdjustSaturation;
+		//TFunc_D3DXColorLerp               m_TFunc_D3DXColorLerp;
+		//TFunc_D3DXColorModulate           m_TFunc_D3DXColorModulate;
+		//TFunc_D3DXColorNegative           m_TFunc_D3DXColorNegative;
+		//TFunc_D3DXColorScale         m_TFunc_D3DXColorScale;
+		//TFunc_D3DXColorSubtract      m_TFunc_D3DXColorSubtract;
+		TFunc_D3DXCreateMatrixStack  m_TFunc_D3DXCreateMatrixStack;
+		TFunc_D3DXFloat16To32Array   m_TFunc_D3DXFloat16To32Array;
+		TFunc_D3DXFloat32To16Array   m_TFunc_D3DXFloat32To16Array;
+		TFunc_D3DXFresnelTerm        m_TFunc_D3DXFresnelTerm;
+		TFunc_D3DXMatrixAffineTransformation     m_TFunc_D3DXMatrixAffineTransformation;
+		TFunc_D3DXMatrixAffineTransformation2D   m_TFunc_D3DXMatrixAffineTransformation2D;
+		TFunc_D3DXMatrixDecompose   m_TFunc_D3DXMatrixDecompose;
+		TFunc_D3DXMatrixDeterminant m_TFunc_D3DXMatrixDeterminant;
+		//TFunc_D3DXMatrixIdentity    m_TFunc_D3DXMatrixIdentity;
+//		TFunc_D3DXMatrixInverse     m_TFunc_D3DXMatrixInverse;
+		//TFunc_D3DXMatrixIsIdentity  m_TFunc_D3DXMatrixIsIdentity;
+		TFunc_D3DXMatrixLookAtLH    m_TFunc_D3DXMatrixLookAtLH;
+		TFunc_D3DXMatrixLookAtRH    m_TFunc_D3DXMatrixLookAtRH;
+//		TFunc_D3DXMatrixMultiply    m_TFunc_D3DXMatrixMultiply;
+		TFunc_D3DXMatrixMultiplyTranspose   m_TFunc_D3DXMatrixMultiplyTranspose;
+		TFunc_D3DXMatrixOrthoLH             m_TFunc_D3DXMatrixOrthoLH;
+		TFunc_D3DXMatrixOrthoOffCenterLH    m_TFunc_D3DXMatrixOrthoOffCenterLH;
+		TFunc_D3DXMatrixOrthoOffCenterRH    m_TFunc_D3DXMatrixOrthoOffCenterRH;
+		TFunc_D3DXMatrixOrthoRH             m_TFunc_D3DXMatrixOrthoRH;
+		TFunc_D3DXMatrixPerspectiveFovLH    m_TFunc_D3DXMatrixPerspectiveFovLH;
+		TFunc_D3DXMatrixPerspectiveFovRH    m_TFunc_D3DXMatrixPerspectiveFovRH;
+		TFunc_D3DXMatrixPerspectiveLH       m_TFunc_D3DXMatrixPerspectiveLH;
+		TFunc_D3DXMatrixPerspectiveOffCenterLH   m_TFunc_D3DXMatrixPerspectiveOffCenterLH;
+		TFunc_D3DXMatrixPerspectiveOffCenterRH   m_TFunc_D3DXMatrixPerspectiveOffCenterRH;
+		TFunc_D3DXMatrixPerspectiveRH            m_TFunc_D3DXMatrixPerspectiveRH;
+		TFunc_D3DXMatrixReflect                  m_TFunc_D3DXMatrixReflect;
+		TFunc_D3DXMatrixRotationAxis             m_TFunc_D3DXMatrixRotationAxis;
+		TFunc_D3DXMatrixRotationQuaternion       m_TFunc_D3DXMatrixRotationQuaternion;
+		TFunc_D3DXMatrixRotationX                m_TFunc_D3DXMatrixRotationX;
+		TFunc_D3DXMatrixRotationY                m_TFunc_D3DXMatrixRotationY;
+		TFunc_D3DXMatrixRotationYawPitchRoll     m_TFunc_D3DXMatrixRotationYawPitchRoll;
+		TFunc_D3DXMatrixRotationZ   m_TFunc_D3DXMatrixRotationZ;
+		TFunc_D3DXMatrixScaling     m_TFunc_D3DXMatrixScaling;
+		TFunc_D3DXMatrixShadow      m_TFunc_D3DXMatrixShadow;
+		TFunc_D3DXMatrixTransformation   m_TFunc_D3DXMatrixTransformation;
+		TFunc_D3DXMatrixTransformation2D m_TFunc_D3DXMatrixTransformation2D;
+		TFunc_D3DXMatrixTranslation      m_TFunc_D3DXMatrixTranslation;
+		TFunc_D3DXMatrixTranspose        m_TFunc_D3DXMatrixTranspose;
+		//TFunc_D3DXPlaneDot               m_TFunc_D3DXPlaneDot;
+		//TFunc_D3DXPlaneDotCoord          m_TFunc_D3DXPlaneDotCoord;
+		//TFunc_D3DXPlaneDotNormal         m_TFunc_D3DXPlaneDotNormal;
+		TFunc_D3DXPlaneFromPointNormal   m_TFunc_D3DXPlaneFromPointNormal;
+		TFunc_D3DXPlaneFromPoints        m_TFunc_D3DXPlaneFromPoints;
+		TFunc_D3DXPlaneIntersectLine     m_TFunc_D3DXPlaneIntersectLine;
+		TFunc_D3DXPlaneNormalize         m_TFunc_D3DXPlaneNormalize;
+		//TFunc_D3DXPlaneScale             m_TFunc_D3DXPlaneScale;
+		TFunc_D3DXPlaneTransform         m_TFunc_D3DXPlaneTransform;
+		TFunc_D3DXPlaneTransformArray    m_TFunc_D3DXPlaneTransformArray;
+		TFunc_D3DXQuaternionBaryCentric  m_TFunc_D3DXQuaternionBaryCentric;
+		//TFunc_D3DXQuaternionConjugate    m_TFunc_D3DXQuaternionConjugate;
+		//TFunc_D3DXQuaternionDot          m_TFunc_D3DXQuaternionDot;
+		TFunc_D3DXQuaternionExp          m_TFunc_D3DXQuaternionExp;
+		//TFunc_D3DXQuaternionIdentity     m_TFunc_D3DXQuaternionIdentity;
+		TFunc_D3DXQuaternionInverse      m_TFunc_D3DXQuaternionInverse;
+		//TFunc_D3DXQuaternionIsIdentity   m_TFunc_D3DXQuaternionIsIdentity;
+		//TFunc_D3DXQuaternionLength       m_TFunc_D3DXQuaternionLength;
+		//TFunc_D3DXQuaternionLengthSq     m_TFunc_D3DXQuaternionLengthSq;
+		TFunc_D3DXQuaternionLn           m_TFunc_D3DXQuaternionLn;
+		TFunc_D3DXQuaternionMultiply     m_TFunc_D3DXQuaternionMultiply;
+		TFunc_D3DXQuaternionNormalize        m_TFunc_D3DXQuaternionNormalize;
+		TFunc_D3DXQuaternionRotationAxis     m_TFunc_D3DXQuaternionRotationAxis;
+		TFunc_D3DXQuaternionRotationMatrix   m_TFunc_D3DXQuaternionRotationMatrix;
+		TFunc_D3DXQuaternionRotationYawPitchRoll  m_TFunc_D3DXQuaternionRotationYawPitchRoll;
+		TFunc_D3DXQuaternionSlerp       m_TFunc_D3DXQuaternionSlerp;
+		TFunc_D3DXQuaternionSquad       m_TFunc_D3DXQuaternionSquad;
+		TFunc_D3DXQuaternionSquadSetup  m_TFunc_D3DXQuaternionSquadSetup;
+		TFunc_D3DXQuaternionToAxisAngle m_TFunc_D3DXQuaternionToAxisAngle;
+		TFunc_D3DXSHAdd    m_TFunc_D3DXSHAdd;
+		TFunc_D3DXSHDot    m_TFunc_D3DXSHDot;
+		TFunc_D3DXSHEvalConeLight   m_TFunc_D3DXSHEvalConeLight;
+		TFunc_D3DXSHEvalDirection   m_TFunc_D3DXSHEvalDirection;
+		TFunc_D3DXSHEvalDirectionalLight   m_TFunc_D3DXSHEvalDirectionalLight;
+		TFunc_D3DXSHEvalHemisphereLight    m_TFunc_D3DXSHEvalHemisphereLight;
+		TFunc_D3DXSHEvalSphericalLight     m_TFunc_D3DXSHEvalSphericalLight;
+		TFunc_D3DXSHMultiply2              m_TFunc_D3DXSHMultiply2;
+		TFunc_D3DXSHProjectCubeMap    m_TFunc_D3DXSHProjectCubeMap;
+		TFunc_D3DXSHRotate            m_TFunc_D3DXSHRotate;
+		TFunc_D3DXSHRotateZ           m_TFunc_D3DXSHRotateZ;
+		TFunc_D3DXSHScale             m_TFunc_D3DXSHScale;
+		//TFunc_D3DXVec2Add             m_TFunc_D3DXVec2Add;
+		TFunc_D3DXVec2BaryCentric     m_TFunc_D3DXVec2BaryCentric;
+		TFunc_D3DXVec2CatmullRom      m_TFunc_D3DXVec2CatmullRom;
+		//TFunc_D3DXVec2CCW             m_TFunc_D3DXVec2CCW;
+		//TFunc_D3DXVec2Dot             m_TFunc_D3DXVec2Dot;
+		TFunc_D3DXVec2Hermite         m_TFunc_D3DXVec2Hermite;
+		//TFunc_D3DXVec2Length          m_TFunc_D3DXVec2Length;
+		//TFunc_D3DXVec2LengthSq        m_TFunc_D3DXVec2LengthSq;
+		//TFunc_D3DXVec2Lerp            m_TFunc_D3DXVec2Lerp;
+		//TFunc_D3DXVec2Maximize        m_TFunc_D3DXVec2Maximize;
+		//TFunc_D3DXVec2Minimize        m_TFunc_D3DXVec2Minimize;
+		TFunc_D3DXVec2Normalize       m_TFunc_D3DXVec2Normalize;
+		//TFunc_D3DXVec2Scale           m_TFunc_D3DXVec2Scale;
+		//TFunc_D3DXVec2Subtract             m_TFunc_D3DXVec2Subtract;
+		TFunc_D3DXVec2Transform            m_TFunc_D3DXVec2Transform;
+		TFunc_D3DXVec2TransformArray       m_TFunc_D3DXVec2TransformArray;
+		TFunc_D3DXVec2TransformCoord       m_TFunc_D3DXVec2TransformCoord;
+		TFunc_D3DXVec2TransformCoordArray  m_TFunc_D3DXVec2TransformCoordArray;
+		TFunc_D3DXVec2TransformNormal      m_TFunc_D3DXVec2TransformNormal;
+		TFunc_D3DXVec2TransformNormalArray m_TFunc_D3DXVec2TransformNormalArray;
+		//TFunc_D3DXVec3Add           m_TFunc_D3DXVec3Add;
+		TFunc_D3DXVec3BaryCentric   m_TFunc_D3DXVec3BaryCentric;
+		TFunc_D3DXVec3CatmullRom    m_TFunc_D3DXVec3CatmullRom;
+		//TFunc_D3DXVec3Cross         m_TFunc_D3DXVec3Cross;
+		//TFunc_D3DXVec3Dot           m_TFunc_D3DXVec3Dot;
+		TFunc_D3DXVec3Hermite       m_TFunc_D3DXVec3Hermite;
+		//TFunc_D3DXVec3Length        m_TFunc_D3DXVec3Length;
+		//TFunc_D3DXVec3LengthSq      m_TFunc_D3DXVec3LengthSq;
+		//TFunc_D3DXVec3Lerp          m_TFunc_D3DXVec3Lerp;
+		//TFunc_D3DXVec3Maximize      m_TFunc_D3DXVec3Maximize;
+		//TFunc_D3DXVec3Minimize        m_TFunc_D3DXVec3Minimize;
+		TFunc_D3DXVec3Normalize       m_TFunc_D3DXVec3Normalize;
+		TFunc_D3DXVec3Project         m_TFunc_D3DXVec3Project;
+		TFunc_D3DXVec3ProjectArray    m_TFunc_D3DXVec3ProjectArray;
+		//TFunc_D3DXVec3Scale           m_TFunc_D3DXVec3Scale;
+		//TFunc_D3DXVec3Subtract        m_TFunc_D3DXVec3Subtract;
+		TFunc_D3DXVec3Transform       m_TFunc_D3DXVec3Transform;
+		TFunc_D3DXVec3TransformArray  m_TFunc_D3DXVec3TransformArray;
+		TFunc_D3DXVec3TransformCoord  m_TFunc_D3DXVec3TransformCoord;
+		TFunc_D3DXVec3TransformCoordArray   m_TFunc_D3DXVec3TransformCoordArray;
+		TFunc_D3DXVec3TransformNormal       m_TFunc_D3DXVec3TransformNormal;
+		TFunc_D3DXVec3TransformNormalArray  m_TFunc_D3DXVec3TransformNormalArray;
+		TFunc_D3DXVec3Unproject      m_TFunc_D3DXVec3Unproject;
+		TFunc_D3DXVec3UnprojectArray m_TFunc_D3DXVec3UnprojectArray;
+		//TFunc_D3DXVec4Add            m_TFunc_D3DXVec4Add;
+		TFunc_D3DXVec4BaryCentric    m_TFunc_D3DXVec4BaryCentric;
+		TFunc_D3DXVec4CatmullRom m_TFunc_D3DXVec4CatmullRom;
+		TFunc_D3DXVec4Cross      m_TFunc_D3DXVec4Cross;
+		//TFunc_D3DXVec4Dot        m_TFunc_D3DXVec4Dot;
+		TFunc_D3DXVec4Hermite    m_TFunc_D3DXVec4Hermite;
+		//TFunc_D3DXVec4Length     m_TFunc_D3DXVec4Length;
+		//TFunc_D3DXVec4LengthSq   m_TFunc_D3DXVec4LengthSq;
+		//TFunc_D3DXVec4Lerp       m_TFunc_D3DXVec4Lerp;
+		//TFunc_D3DXVec4Maximize   m_TFunc_D3DXVec4Maximize;
+		//TFunc_D3DXVec4Minimize        m_TFunc_D3DXVec4Minimize;
+		TFunc_D3DXVec4Normalize       m_TFunc_D3DXVec4Normalize;
+		//TFunc_D3DXVec4Scale           m_TFunc_D3DXVec4Scale;
+		//TFunc_D3DXVec4Subtract        m_TFunc_D3DXVec4Subtract;
+		TFunc_D3DXVec4Transform       m_TFunc_D3DXVec4Transform;
+		TFunc_D3DXVec4TransformArray  m_TFunc_D3DXVec4TransformArray;
+
+
+
+ 
 							   
 		//------------------     mesh    ---------------------
 
@@ -2852,17 +4089,7 @@ namespace d3dx9_dynamic_load
 
 
 		//!  \brief   обработка - функция sFuncName  не найдена в длл
-		void handleNotFoundAddr(const char* sFuncName)
-		{
-#ifdef _DEBUG
-			std::string temp;
-			temp = " Entry point not found in d3dx dll :  \n";
-	        temp += sFuncName;
-	 GB_MBOX(temp.c_str() );
-#endif
-
-			int stop = 0;
-		}
+		void handleNotFoundAddr(const char* sFuncName, void* opt=NULL) ;
 
 		//! \brief Найти все точки входа в длл
 		int GetProcAddr(const HMODULE hm);

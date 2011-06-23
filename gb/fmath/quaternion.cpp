@@ -2,6 +2,7 @@
 //#include "pch.h"
 
 //#include "stdafx.h"
+#include "d3d9pch.h"
 
 #include <gb/fmath/fmath.h>
 

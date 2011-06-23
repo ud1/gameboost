@@ -73,7 +73,7 @@ namespace fx
 
 	{
 		HRESULT hr =S_OK;
-
+ 
 		strError = "";
 		const UINT LEN = (UINT)strlen(effectText);
 		ID3DXBuffer* pCompilationErrors = NULL;

@@ -44,6 +44,9 @@
 #pragma  warning(disable : 4290)
 
 #include <gb/base/Types.h>
+#include <gb/base/Point.h>
+#include <gb/base/Rectangle.h>
+
  
 #include <gb/fmath/fmath_forward_decl.h>
 #include <gb/fmath/scalar.h>

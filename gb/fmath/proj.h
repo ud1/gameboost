@@ -4,6 +4,7 @@
 
 * \todo Перевод координат прожект /анпрожект. ...... 
  \todo Относительные координаты и перевод.
+ \todo  vieport_s  в нём типы заменить на стандартные.
 
 */
 
@@ -12,6 +13,10 @@
 #ifndef __GB_FMATH_H__
   #error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ. ВКЛЮЧАЙТЕ:   #include <gb/fmath/math.h>  
 #endif
+
+#pragma warning(push)
+#pragma warning(disable : 4297)
+
  
  
 namespace gb 
@@ -37,12 +42,12 @@ namespace gb
 		float zf;
 
 		//! \brief Извлечь проекционные данные из левосторонней перспективной матрицы .
-		inline void extractProjPerspectLH(const mat44& mPerspectProjLh)
+		inline void extractProjPerspectLH(const mat44& mPerspectProjLH)
 		{
-			aspect = mPerspectProjLh._22/mPerspectProjLh._11;
-			fovy   = 2.0f  * atan(1.0f/mPerspectProjLh._22);
-			zn = -mPerspectProjLh._43/mPerspectProjLh._33; 
-			zf =  mPerspectProjLh._43/(1.0f-mPerspectProjLh._33);
+			aspect = mPerspectProjLH._22/mPerspectProjLH._11;
+			fovy   = 2.0f  * atan(1.0f/mPerspectProjLH._22);
+			zn = -mPerspectProjLH._43/mPerspectProjLH._33; 
+			zf =  mPerspectProjLH._43/(1.0f-mPerspectProjLH._33);
 		}
 
 
@@ -91,6 +96,26 @@ inline  vec2  toScreenCoord(const int vpWidth, const int vpHeight ) const
    
    unsigned int  width;  ///< ширина
    unsigned int  height; ///< высота
+
+#ifdef _D3D9_H_
+   inline void operator =  (const D3DVIEWPORT9& vp)
+   {
+	   x = (unsigned int)vp.X;
+	   y = (unsigned int)vp.Y;   
+
+	   width  = (unsigned int)vp.Width;
+	   height = (unsigned int)vp.Height;
+ 
+   }
+
+   inline void fromdevice(IDirect3DDevice9* pdevice) throw()
+   {
+	   D3DVIEWPORT9 vp;
+	   if FAILED( pdevice->GetViewport(&vp) ) throw std::runtime_error("operation failed");
+	   *this = vp;
+   }
+
+#endif
  
  };
   
@@ -165,5 +190,7 @@ inline  vec2  toScreenCoord(const int vpWidth, const int vpHeight ) const
   } // end ns
  } // end ns
 } // end ns
+
+#pragma warning(pop)
   
 // end file

@@ -143,6 +143,8 @@ void print_vector(const std::vector<T>& v)
  };
 
 
+#pragma message ( "ks777 gb::t::  УДАЛИТЬ одну из findFirstEmptyFromBuffer"   __FILE__ )
+
 
  template <typename T>
  /** \brief Поиск индекса первого свободного элемента в массиве. Для T требуется: bool empty() const .

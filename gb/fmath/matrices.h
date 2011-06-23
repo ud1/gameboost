@@ -196,10 +196,15 @@ namespace gb
 			}			
 			
 
-
-			inline mat22&  setzero()     { _11=_12=_21=_22=0.0f; return *this; };
-			inline mat22&  setIdentity() {	_11=1.0f; _12=0.0f;	_21=0.0f; _22=1.0f;	return *this; };
-			inline mat22&  transpone()   {  register float f=_12; _12=_21; _21=f;  return *this; };
+			inline bool empty() const { return _11==0.0f && _12==0.0f && _21==0.0f && _22==0.0f; }
+			inline mat22&  setzero()     { _11=_12=_21=_22=0.0f; return *this; }
+			inline mat22&  setIdentity() {	_11=1.0f; _12=0.0f;	_21=0.0f; _22=1.0f;	return *this; }
+			inline mat22&  transpone()   {  register float f=_12; _12=_21; _21=f;  return *this; }
+			inline bool isIdentity() const	   
+			{
+			    return floats[0][0] == 1.0f && floats[0][1] == 0.0f &&  
+					   floats[1][0] == 0.0f && floats[1][1] == 1.0f;
+			}
 
 			inline float determinant () const { return floats [0][0] * floats [1][1] - floats [0][1] * floats [1][0];	};
 
@@ -342,18 +347,33 @@ namespace gb
 			inline operator mat22()
 			{
 				return mat22( _11, _12,
-					            _21, _22 );
+					          _21, _22 );
+			}
+
+			inline bool empty() const 
+			{ 
+				return _11==0.0f && _12==0.0f && _13==0.0f 
+					&& _21==0.0f && _22==0.0f && _23==0.0f 
+					&& _31==0.0f && _32==0.0f && _33==0.0f; 
 			}
 
 			//! \brief  Занулить все элементы
-			inline void setzero() { _11=_12=_13=_21=_22=_23=_31=_32=_33=0.0f; };
+			inline void setzero() { _11=_12=_13=_21=_22=_23=_31=_32=_33=0.0f; }
 
 			//! \brief Сбросить в идентичную
-			inline void setIdentity() {
+			inline void setIdentity() 
+			{
 				_11=1.0f; _12=0.0f; _13=0.0f;
 				_21=0.0f; _22=1.0f; _23=0.0f;
 				_31=0.0f; _32=0.0f; _33=1.0f;
-		    };
+		    }
+
+			inline bool isIdentity() const	   
+			{
+			    return floats[0][0] == 1.0f && floats[0][1] == 0.0f && floats[0][2] == 0.0f &&
+					   floats[1][0] == 0.0f && floats[1][1] == 1.0f && floats[1][2] == 0.0f &&
+					   floats[2][0] == 0.0f && floats[2][1] == 0.0f && floats[2][2] == 1.0f ;
+			}
 
 			//! \brief Сбросить в идентичную
 			inline void reset() { setIdentity(); }
@@ -366,7 +386,7 @@ namespace gb
 			    t=_13;  _13=_31; _31=t;
 			    t=_23;  _23=_32; _32=t; 
 				  return *this;
-			};
+			}
 
 			//! \brief    Вернуть транспонированую матрицу
 			inline mat33 getTransponed() const 
@@ -521,6 +541,7 @@ namespace gb
 			   }
 			   return res;
 			}
+
 			inline void operator = (const D3DXMATRIX& m)
 			{
 			   for(int c=0;c<4; c++)
@@ -819,8 +840,15 @@ namespace gb
 				r.w =  _14 * v.x +  _24 * v.y +  _34 * v.z +  _44 * v.w;
 				  return r;
 			}
- 
 
+			bool empty() const
+			{
+		      static const mat44 _ZERO(0.0f);
+			  if( memcmp( &_ZERO._11 , &_11 , sizeof(mat44) ) == 0 ) 
+				      return true;
+			  return false;
+			}
+ 
 			//! \brief Зануление всех элементов.
 			inline void       setzero() { memset(&_11, 0, sizeof(mat44)  ); }
 
@@ -833,6 +861,14 @@ namespace gb
 				_41=0.0f; _42=0.0f; _43=0.0f; _44=1.0f; 
 				 return *this;
 	        }
+
+			inline bool isIdentity() const	   
+			{
+			 return floats[0][0] == 1.0f && floats[0][1] == 0.0f && floats[0][2] == 0.0f && floats[0][3] == 0.0f &&
+					floats[1][0] == 0.0f && floats[1][1] == 1.0f && floats[1][2] == 0.0f && floats[1][3] == 0.0f &&
+					floats[2][0] == 0.0f && floats[2][1] == 0.0f && floats[2][2] == 1.0f && floats[2][3] == 0.0f &&
+					floats[3][0] == 0.0f && floats[3][1] == 0.0f && floats[3][2] == 0.0f && floats[3][3] == 1.0f;
+			}
 
 			//! \brief Установить в идентичную
 			inline mat44& reset() { setIdentity(); return *this; }

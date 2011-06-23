@@ -178,6 +178,12 @@ public:
 			Rect(const RECT& rec) {  *this = rec; }
 #endif 
 
+#ifdef __GB__BASE__RECTANGLE_H__
+			Rect(const gb::base::Rectangle& rec)
+			{
+			   *this = rec;
+			}
+#endif
 
 			inline void set(int nx1, int ny1, int nx2, int ny2)         { x1=(float)nx1;   y1=(float)ny1;   x2=(float)nx2;   y2=(float)ny2; }
 			inline void set(float _x1, float _y1, float _x2, float _y2) { x1=_x1; y1=_y1; x2=_x2; y2=_y2; }
@@ -208,6 +214,23 @@ public:
 			}  
 
 #endif  
+
+
+#ifdef __GB__BASE__RECTANGLE_H__
+			inline void operator = (const gb::base::Rectangle& rec)
+			{
+				x1 = (float)rec.left;
+				y1 = (float)rec.top;
+				x2 = x1 + (float)rec.width;
+				y2 = y1 + (float)rec.height;
+			}
+
+			inline operator gb::base::Rectangle() const 
+			{
+				return gb::base::Rectangle( (int)x1, (int)y1, (int)(x2-x1), (int)(y2-y1) );
+			}
+#endif
+
 
 			//! \brief Занулить 
 			inline void setzero() { x1=y1=x2=y2=0.0; }

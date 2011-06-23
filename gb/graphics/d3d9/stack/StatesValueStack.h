@@ -14,7 +14,7 @@
 #pragma once
 
 #include <gb/Config.h>
-#include "d3d9.h"
+#include <d3d9.h>
 
 namespace gb {
 

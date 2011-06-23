@@ -1,158 +1,114 @@
 ﻿/** \file 
 * \brief Рендертаргет для dapplLibr
-*
-*
-*
 
 
  \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
  
- \todo убрать __exc_mon
+ \todo убрать __except(1)
  \todo Убрать зависимость от gb::color
  \todo  Переименовать макролпределения
- \todo  Убрать __exc_mon
+ 
 */
 
-#if ( defined(WIN32) && defined(GB_D3D9) )
+ 
+
+#if ( defined(WIN32) && defined(_D3D9_H_) )
 
 #pragma once
 #define __GB_D3D9_RENDERTARGET_H__
 
-#include <gb/Config.h>
+//#include <gb/Config.h>
 #include <gb/base/Types.h>
 #include <gb/base/Rectangle.h>
 
+#include <gb/color/color.h>
+#include <gb/fmath/fmath.h>
+#include <gb/graphics/RenderTarget.h>
+ 
 #include <d3d9.h>
+//#include <gb/graphics/d3d9/auto_include_libr.h>
 
-#ifdef GB_COLOR
-   #include <gb/color/color.h>
-#endif
-
-#ifndef GB_COLOR
-#error gb::color пока нужен. Определить макрос GB_COLOR
-#endif
-
-
-
-//#ifdef GB_FMATH
-   #include <gb/fmath/fmath.h>
-//#endif
-
-/*
-#ifndef GB_FMATH
-  #error  gb::math  пока нужен. Определить GB_MATH
-#endif
-*/
-
-
-// УБРАТЬ !!
-#define  __exc_mon __except(1)
-
-
-/// begin макро-метки параметров -------------
-
-
-/** \brief Обязательный параметр  только  для чтения (нельзя NULL если указатель).  */
-#define   _in  const
-/** \brief Обязательный параметр для записи (нельзя NULL если указатель).  */
-#define   _out
-/** \brief Обязательный параметр для чтения и записи (нельзя NULL если указатель) .  */
-#define   _inout
-/** \brief Опциональный параметр (по умолчанию)  для чтения (можно передать NULL если указатель).  */
-#define   _in_opt  const
-/** \brief Опциональный параметр (по умолчанию) для записи (можно передать NULL если указатель) .  */
-#define   _out_opt
-/** \brief Опциональный параметр (по умолчанию) для чтения и записи (можно передать NULL если указатель).  */
-#define   _inout_opt
-/** \brief Опциональный параметр указатель (можно передать NULL ).   */
-#define   _opt 
-
-
-/// end ---------------------------------------
-
-
-
-
-//#ifndef  DAPPLLIBR_H
-//   #pragma  message("ЗАЩИТА ОТ НЕПРАВИЛЬНОГО ВКЛЮЧЕНИЯ СНЯТА !!"  __FILE__)
-//    // #error file dapplLibr.h most be a first included
-//#endif
-
-//! \brief Если != 0 , то будет использована DLL   
-#define DAPL_RENDERTARGET_AS_DLL  1
-
-#ifndef  DAPPLLIBR_H
-  #define DLL_DAPPLLIBRARY_API
-#endif
  
 
-#if (DAPL_RENDERTARGET_AS_DLL != 0)
-	   #define  DAPP_RT_API  HRESULT  DLL_DAPPLLIBRARY_API 
-	   #define  DAPP_RT_CONSTRUCT   DLL_DAPPLLIBRARY_API 
-#else
-       #define  DAPP_RT_API  HRESULT 
-       #define  DAPP_RT_CONSTRUCT   
-#endif
+#define  GB_D3D9_RT_API HRESULT  
 
-
-/** \brief Максимальное кол-во рендертаргетов в пуле  ПЕРЕИМЕНОВАТЬ!!!! */
+/** \brief Максимальное кол-во рендертаргетов в пуле   */
 #define GB_D3D9_MAX_RENDERTARGETS_ONPOOL     32
 
 
-namespace gb {
-namespace graphics {
-namespace d3d9 { 
-namespace rt {
+namespace gb 
+{
+namespace graphics 
+{
+namespace d3d9 
+{ 
+namespace rendertarget 
+{
+
 
 
 /** \brief Размер поверхность рендертаргета в виде перечисления   ПЕРЕИМЕНОВАТЬ !!! */
-enum RENDERTARGET_SIZE_ENUM 
+enum RenderTargeteSize_e 
 {
-  RTSZ_UNDEF = 0,  ///< не определено
+  UNDEFINED = 0,  ///< НЕ ОПРЕДЕЛЕНО !
 
-  RTSZ_FULLSCREEN,   ///<  полноэкранные размеры
+  FULLSCREEN,   ///<  полноэкранные размеры
 
-  RTSZ_HALF_FULLSCREEN,	     ///<    ширина и высота на пол экрана
-  RTSZ_THIRD_FULLSCREEN,     ///<    ширина и высота на треть экрана
-  RTSZ_FOURTH_FULLSCREEN,    ///<	 ширина и высота на четверть экрана
+  HALF_FULLSCREEN,	    ///<    ширина и высота на пол экрана
+  THIRD_FULLSCREEN,     ///<    ширина и высота на треть экрана
+  FOURTH_FULLSCREEN,    ///<	 ширина и высота на четверть экрана
 
-  RTSZ_64x64,      ///<   64 x 64
-  RTSZ_256x256,	   ///<	  256 x 256
-  RTSZ_512x512,	   ///<   512 x 512
-  RTSZ_1024x1024   ///<   1024 x 1024
+  _64X64,      ///<   64 x 64
+  _256X256,	   ///<	  256 x 256
+  _512X512,	   ///<   512 x 512
+  _1024X1024   ///<   1024 x 1024
 };
+
 
 /** \brief Вычисление требуемого размера поверхности рендертаргета. 
   Вернёт E_FAIL если переданы некорректные аргументы  */
-DAPP_RT_API ComputeNeedRtSize(_out UINT& nOutWidth, _out UINT& nOutHeight, 
-										const RENDERTARGET_SIZE_ENUM eSize, 
-										const UINT nScreenWidth, const UINT nScreenHeight  );
+GB_D3D9_RT_API ComputeNeedRtSize(
+				gb_out UINT& nOutWidth, 
+				gb_out UINT& nOutHeight, 
+				const RenderTargeteSize_e eSize, 
+				const UINT nScreenWidth, 
+				const UINT nScreenHeight  
+								);
 
 
 /** \brief Создать интерфейсы поверхности   */
-DAPP_RT_API CreateRenderTargetInterfaces(_out IDirect3DSurface9** ppOutISrf,
-									   _out IDirect3DTexture9** ppOutITxtr, 
-									   IDirect3DDevice9* pdevice, 
-									   const UINT nWidth, 
-									   const UINT nHeight, 
-									   const D3DFORMAT frmt );
+GB_D3D9_RT_API CreateRenderTargetInterfaces(
+				gb_out IDirect3DSurface9** ppOutISrf,
+				gb_out IDirect3DTexture9** ppOutITxtr, 
+				IDirect3DDevice9* pdevice, 
+				const UINT nWidth, 
+				const UINT nHeight, 
+				const D3DFORMAT frmt 
+									   );
 
 /** \brief Утсановить  девайс для рендертаргетов УДАЛИТЬ */
-DAPP_RT_API RenderTargetSetDevice(IDirect3DDevice9* pdevice);
+GB_D3D9_RT_API RenderTargetSetDevice(IDirect3DDevice9* pdevice);
+
 /** \brief Установить структуру буфера отрисовки  (бэкбуфера) УДАЛИТЬ  */
-DAPP_RT_API DAPLIB_RT_SetBackBufSurfDescr(const D3DSURFACE_DESC* descr);
+GB_D3D9_RT_API SetBackBufSurfDescr(const D3DSURFACE_DESC* descr);
+
 /** \brief Установить указатель на поверхность буфера отрисовки  (бэкбуфера) */
-DAPP_RT_API DAPLIB_RT_SetBackBufFrameDrawIntrfPtr(IDirect3DSurface9* psurf);
+GB_D3D9_RT_API SetBackBufFrameDrawIntrfPtr(IDirect3DSurface9* psurf);
+
 /** \brief Установить Пометить все рендертаргеты в пуле как неиспользуемые   */
-DAPP_RT_API DAPLIB_RT_SetUnUsedAll();
+GB_D3D9_RT_API SetUnUsedAll();
 
 /** \brief Вычисление общего среднего цвета поверхности  */
-DAPP_RT_API DAPLIB_RT_ComputeAverSurfaceColor(
-			_out gb::color::Color4f* pOut, 
-			_inout_opt IDirect3DSurface9* surf,
-			_in_opt gb::fmath::geom2d::Rect* rect);
+GB_D3D9_RT_API ComputeAverSurfaceColor(
+			gb_out gb::color::Color4f* pOut, 
+			gb_inout_opt IDirect3DSurface9* surf,
+			gb_in_opt gb::fmath::geom2d::Rect* rect);
 
-DAPP_RT_API DAPLIB_RT_ComputeSurfacePixelColor(_out gb::color::Color4f* pColorOut, _in POINT& pntCoord, _inout_opt IDirect3DSurface9* pSrf);
+GB_D3D9_RT_API ComputeSurfacePixelColor(
+			gb_out gb::color::Color4f* pColorOut, 
+			gb_in POINT& pntCoord, 
+			gb_inout_opt IDirect3DSurface9* pSrf
+	);
 
 
  
@@ -215,31 +171,31 @@ public:
 
 	/** \brief Проверка на валидность интерфейсов . Проверка в лоб с перехватом исключения  */
     virtual HRESULT  ValidateInterfaces() const =0;
-	
-
-
-protected:
-	virtual HRESULT  CreateInterfeces(IDirect3DDevice9* pdevice) = 0;
  
-	/** \brief Удалить интерфейсы.  */
-	virtual HRESULT ReleaseInterfaces() const =0;
  
 };
 // end class
 
  
 /** \brief Получить свободную для отрисовки поверхность */
-DAPP_RT_API DAPLIB_RT_GetUnusedRenderTarget(_out IRenderTarget** ppOut, const RENDERTARGET_SIZE_ENUM eSize);
-DAPP_RT_API DAPLIB_RT_GetUnusedRenderTarget(_out IRenderTarget** ppOut, const UINT nWidth, const UINT nHeight);
+GB_D3D9_RT_API GetUnusedRenderTarget(gb_out IRenderTarget** ppOut, 
+									 const RenderTargeteSize_e eSize);
+
+GB_D3D9_RT_API GetUnusedRenderTarget(gb_out IRenderTarget** ppOut, 
+									 const UINT nWidth, const UINT nHeight);
 
 
 
 
 
-} // end namespace
-} // end namespace
-} // end namespace
-} // end namespace
+} 
+// end namespace
+} 
+// end namespace
+} 
+// end namespace
+} 
+// end namespace
 
 
 #endif // #if ( defined(WIN32) && defined(GB_D3D9) )

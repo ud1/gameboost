@@ -40,6 +40,7 @@
  // library win32 
 #pragma comment( lib, "winmm.lib" )
 #pragma comment( lib, "comctl32.lib" )
+#pragma comment( lib, "netapi32.lib" )
 #include <mmsystem.h>
 #include <mmreg.h>
 

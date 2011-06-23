@@ -5,11 +5,17 @@
   \author kscvet777
 
 
+  \todo  insert inline
   \todo  сделать макрозащиту от неправильного включения.
   \todo поправить функцию  checkExistsDll на поиск в директории приложения.
   \todo убрать GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR.	
-  \todo Precomputed Radiance Transfer Functions
-  \todo  UVAtlas Functions
+
+
+  <br><br>
+  ГОТОВО:
+     -- Precomputed Radiance Transfer Functions
+     --  UVAtlas Functions
+    --  math functions
 
 
 */
@@ -20,7 +26,7 @@
 #pragma once
 #define __GB_D3DX9_DYNAMIC_LOAD_H__
 
-
+#include <gb/base/abstract.h>
 #include <gb/graphics/d3d9/api_decl.h>
 
 #include <d3dx9.h>
@@ -108,7 +114,7 @@ GB_D3D9_API HMODULE loadDllLastVersion(unsigned int* piOutVers );
  
 
 //! \brief  Загрузчик d3dx9 dll  . Так же использование d3dx9  через него. 
-class CD3DX9_Dll_Loader {
+class CD3DX9_Dll_Loader  : public gb::base::IObject  {
 public:
 
     /** \brief Конструктор выполняет загрузку новейшей версии d3dx9 dll , 
@@ -156,7 +162,7 @@ public:
 #ifdef __GB__D3DX9_DYNAMIC_LOAD_PFUNC_DECL_H__
 
 	//! temp!  времянка  убрать !!!!!
-#define GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(funcname)   throw std::runtime_error( GB_MAKE_STR2(funcname) );
+#define GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(funcname)  assert(false && GB_MAKE_STR2(funcname) );  throw std::runtime_error( GB_MAKE_STR2(funcname) );
 
 	// version function
 
@@ -540,7 +546,7 @@ public:
 	//-------------------------------------------------------------
 
 
-
+	/*
 	D3DXMATRIX * D3DXMatrixInverse(D3DXMATRIX * pOut, FLOAT * pDeterminant, CONST D3DXMATRIX * pM )
 	{
 	   if(!m_fnc.m_TFunc_D3DXMatrixInverse)
@@ -559,6 +565,1931 @@ public:
 	   }
 	   return m_fnc.m_TFunc_D3DXMatrixMultiply( pOut, pM1, pM2 );
 	}
+	*/
+
+
+	/////////////////////////////////////////////////////
+
+		struct _M_BEGIN_MATHFUNC {};
+#if  1
+
+
+	D3DXCOLOR * D3DXColorAdd(
+		D3DXCOLOR *pOut,
+		const D3DXCOLOR *pC1,
+		const D3DXCOLOR *pC2)
+	{
+		pOut->r = pC1->r + pC2->r;
+		pOut->g = pC1->g + pC2->g;
+		pOut->b = pC1->b + pC2->b;
+		pOut->a = pC1->a + pC2->a;
+		return pOut;
+	};
+
+
+	D3DXCOLOR * D3DXColorAdjustContrast(
+		D3DXCOLOR *pOut,
+		const D3DXCOLOR *pC,
+		FLOAT c)
+	{
+		if(!m_fnc.m_TFunc_D3DXColorAdjustContrast)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXColorAdjustContrast);
+		}
+		return m_fnc.m_TFunc_D3DXColorAdjustContrast(  pOut,  pC,  c );
+	};
+
+
+	D3DXCOLOR * D3DXColorAdjustSaturation(D3DXCOLOR *pOut, const D3DXCOLOR *pC,	FLOAT s)
+	{
+		if(!m_fnc.m_TFunc_D3DXColorAdjustSaturation)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXColorAdjustSaturation);
+		}
+		return m_fnc.m_TFunc_D3DXColorAdjustSaturation(  pOut,    pC,  s );
+	};
+
+
+	D3DXCOLOR * D3DXColorLerp(
+		D3DXCOLOR *pOut,
+		const D3DXCOLOR *pC1,
+		const D3DXCOLOR *pC2,
+		FLOAT s)
+	{
+		pOut->r = pC1->r + s * (pC2->r - pC1->r);
+		pOut->g = pC1->g + s * (pC2->g - pC1->g);
+		pOut->b = pC1->b + s * (pC2->b - pC1->b);
+		pOut->a = pC1->a + s * (pC2->a - pC1->a);
+		return pOut;
+	};
+
+	D3DXCOLOR * D3DXColorModulate(
+		D3DXCOLOR *pOut,
+		const D3DXCOLOR *pC1,
+		const D3DXCOLOR *pC2)
+	{
+		pOut->r = pC1->r * pC2->r;
+		pOut->g = pC1->g * pC2->g;
+		pOut->b = pC1->b * pC2->b;
+		pOut->a = pC1->a * pC2->a;
+		return pOut;
+	};
+
+
+	D3DXCOLOR * D3DXColorNegative(
+		D3DXCOLOR *pOut,
+		const D3DXCOLOR *pC)
+	{
+		pOut->r = 1.0f - pC->r;
+		pOut->g = 1.0f - pC->g;
+		pOut->b = 1.0f - pC->b;
+		pOut->a = pC->a;
+		return pOut;
+	};
+
+
+	D3DXCOLOR * D3DXColorScale(
+		D3DXCOLOR *pOut,
+		const D3DXCOLOR *pC,
+		FLOAT s)
+	{
+		pOut->r = pC->r * s;
+		pOut->g = pC->g * s;
+		pOut->b = pC->b * s;
+		pOut->a = pC->a * s;
+		return pOut;		 
+	};
+
+
+	D3DXCOLOR * D3DXColorSubtract(
+		D3DXCOLOR *pOut,
+		const D3DXCOLOR *pC1,
+		const D3DXCOLOR *pC2)
+	{
+		pOut->r = pC1->r - pC2->r;
+		pOut->g = pC1->g - pC2->g;
+		pOut->b = pC1->b - pC2->b;
+		pOut->a = pC1->a - pC2->a;
+		return pOut;
+	};
+
+
+	HRESULT  D3DXCreateMatrixStack(DWORD Flags, LPD3DXMATRIXSTACK *ppStack)
+	{
+		if(!m_fnc.m_TFunc_D3DXCreateMatrixStack)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXCreateMatrixStack);
+		}
+		return m_fnc.m_TFunc_D3DXCreateMatrixStack(  Flags, ppStack );
+	};
+
+
+	FLOAT * D3DXFloat16To32Array(
+		FLOAT *pOut,
+		const D3DXFLOAT16 *pIn,
+		UINT n)
+	{
+		if(!m_fnc.m_TFunc_D3DXFloat16To32Array)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXFloat16To32Array);
+		}
+		return m_fnc.m_TFunc_D3DXFloat16To32Array(  pOut, pIn, n );
+	};
+
+
+	D3DXFLOAT16 * D3DXFloat32To16Array(
+		D3DXFLOAT16 *pOut,
+		const FLOAT *pIn,
+		UINT n)
+	{
+		if(!m_fnc.m_TFunc_D3DXFloat32To16Array)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXFloat32To16Array);
+		}
+		return m_fnc.m_TFunc_D3DXFloat32To16Array(  pOut,   pIn,  n );
+	};
+
+
+	FLOAT  D3DXFresnelTerm(
+		FLOAT CosTheta,
+		FLOAT RefractionIndex)
+	{
+		if(!m_fnc.m_TFunc_D3DXFresnelTerm )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXFresnelTerm);
+		}
+		return m_fnc.m_TFunc_D3DXFresnelTerm(  CosTheta,  RefractionIndex );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixAffineTransformation(
+		D3DXMATRIX *pOut,
+		FLOAT Scaling,
+		const D3DXVECTOR3 *pRotationCenter,
+		const D3DXQUATERNION *pRotation,
+		const D3DXVECTOR3 *pTranslation)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixAffineTransformation )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixAffineTransformation);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixAffineTransformation(  pOut,  Scaling,   pRotationCenter,
+		        pRotation, pTranslation );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixAffineTransformation2D(
+		D3DXMATRIX *pOut,
+		FLOAT Scaling,
+		const D3DXVECTOR2 *pRotationCenter,
+		FLOAT Rotation,
+		const D3DXVECTOR2 *pTranslation)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixAffineTransformation2D)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixAffineTransformation2D);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixAffineTransformation2D(  pOut,    Scaling, pRotationCenter,
+		       Rotation, pTranslation );
+	};
+
+
+	HRESULT  D3DXMatrixDecompose(
+		D3DXVECTOR3 *pOutScale,
+		D3DXQUATERNION *pOutRotation,
+		D3DXVECTOR3 *pOutTranslation,
+		const D3DXMATRIX *pM)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixDecompose )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixDecompose);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixDecompose(  pOutScale, pOutRotation,
+		    pOutTranslation, pM );
+	};
+
+
+	FLOAT  D3DXMatrixDeterminant( const D3DXMATRIX *pM)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixDeterminant)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixDeterminant);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixDeterminant(  pM );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixIdentity( D3DXMATRIX *pOut)
+	{
+		pOut->m[0][1] = pOut->m[0][2] = pOut->m[0][3] =
+		pOut->m[1][0] = pOut->m[1][2] = pOut->m[1][3] =
+		pOut->m[2][0] = pOut->m[2][1] = pOut->m[2][3] =
+		pOut->m[3][0] = pOut->m[3][1] = pOut->m[3][2] = 0.0f;
+
+		pOut->m[0][0] = pOut->m[1][1] = pOut->m[2][2] = pOut->m[3][3] = 1.0f;
+		return pOut;
+	};
+
+
+	D3DXMATRIX * D3DXMatrixInverse(
+		D3DXMATRIX *pOut,
+		FLOAT *pDeterminant,
+		const D3DXMATRIX *pM)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixInverse)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixInverse);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixInverse(  pOut, pDeterminant, pM );
+	};
+
+
+	BOOL  D3DXMatrixIsIdentity(const D3DXMATRIX *pM)
+	{
+    return pM->m[0][0] == 1.0f && pM->m[0][1] == 0.0f && pM->m[0][2] == 0.0f && pM->m[0][3] == 0.0f &&
+           pM->m[1][0] == 0.0f && pM->m[1][1] == 1.0f && pM->m[1][2] == 0.0f && pM->m[1][3] == 0.0f &&
+           pM->m[2][0] == 0.0f && pM->m[2][1] == 0.0f && pM->m[2][2] == 1.0f && pM->m[2][3] == 0.0f &&
+           pM->m[3][0] == 0.0f && pM->m[3][1] == 0.0f && pM->m[3][2] == 0.0f && pM->m[3][3] == 1.0f;
+	};
+
+
+	D3DXMATRIX * D3DXMatrixLookAtLH(
+		D3DXMATRIX *pOut,
+		const D3DXVECTOR3 *pEye,
+		const D3DXVECTOR3 *pAt,
+		const D3DXVECTOR3 *pUp)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixLookAtLH )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixLookAtLH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixLookAtLH(  pOut, pEye, pAt, pUp );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixLookAtRH(
+		D3DXMATRIX *pOut,
+		const D3DXVECTOR3 *pEye,
+		const D3DXVECTOR3 *pAt,
+		const D3DXVECTOR3 *pUp)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixLookAtRH )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixLookAtRH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixLookAtRH(  pOut, pEye, pAt, pUp );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixMultiply(
+		D3DXMATRIX *pOut,
+		const D3DXMATRIX *pM1,
+		const D3DXMATRIX *pM2)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixMultiply)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixMultiply);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixMultiply(   pOut, pM1, pM2 );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixMultiplyTranspose(
+		D3DXMATRIX *pOut,
+		const D3DXMATRIX *pM1,
+		const D3DXMATRIX *pM2)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixMultiplyTranspose )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixMultiplyTranspose);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixMultiplyTranspose(   pOut, pM1, pM2  );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixOrthoLH(
+		D3DXMATRIX *pOut,
+		FLOAT w,
+		FLOAT h,
+		FLOAT zn,
+		FLOAT zf)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixOrthoLH )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixOrthoLH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixOrthoLH(  pOut,  w, h, zn , zf );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixOrthoOffCenterLH(
+		D3DXMATRIX *pOut,
+		FLOAT l,
+		FLOAT r,
+		FLOAT b,
+		FLOAT t,
+		FLOAT zn,
+		FLOAT zf)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixOrthoOffCenterLH )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixOrthoOffCenterLH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixOrthoOffCenterLH(  pOut,  l,  r,  b, t,  zn, zf );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixOrthoOffCenterRH(
+		D3DXMATRIX *pOut,
+		FLOAT l,
+		FLOAT r,
+		FLOAT b,
+		FLOAT t,
+		FLOAT zn,
+		FLOAT zf)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixOrthoOffCenterRH )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixOrthoOffCenterRH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixOrthoOffCenterRH( pOut, l, r, b, t, zn,  zf );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixOrthoRH(
+		D3DXMATRIX *pOut,
+		FLOAT w,
+		FLOAT h,
+		FLOAT zn,
+		FLOAT zf )
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixOrthoRH )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixOrthoRH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixOrthoRH(  pOut,  w,  h, zn,  zf );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixPerspectiveFovLH(
+		D3DXMATRIX *pOut,
+		FLOAT fovy,
+		FLOAT Aspect,
+		FLOAT zn,
+		FLOAT zf)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixPerspectiveFovLH)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixPerspectiveFovLH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixPerspectiveFovLH(  pOut,  fovy,  Aspect,  zn,  zf );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixPerspectiveFovRH(
+		D3DXMATRIX *pOut,
+		FLOAT fovy,
+		FLOAT Aspect,
+		FLOAT zn,
+		FLOAT zf)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixPerspectiveFovRH )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixPerspectiveFovRH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixPerspectiveFovRH(  pOut,  fovy,	  Aspect,  zn, zf );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixPerspectiveLH(
+		D3DXMATRIX *pOut,
+		FLOAT w,
+		FLOAT h,
+		FLOAT zn,
+		FLOAT zf)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixPerspectiveLH)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixPerspectiveLH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixPerspectiveLH( pOut, w, h,  zn, zf );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixPerspectiveOffCenterLH(
+		D3DXMATRIX *pOut,
+		FLOAT l,
+		FLOAT r,
+		FLOAT b,
+		FLOAT t,
+		FLOAT zn,
+		FLOAT zf)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixPerspectiveOffCenterLH )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixPerspectiveOffCenterLH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixPerspectiveOffCenterLH(  pOut,
+		  l,
+		  r,
+		  b,
+		  t,
+		  zn,
+		  zf );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixPerspectiveOffCenterRH(
+		D3DXMATRIX *pOut,
+		FLOAT l,
+		FLOAT r,
+		FLOAT b,
+		FLOAT t,
+		FLOAT zn,
+		FLOAT zf)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixPerspectiveOffCenterRH)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixPerspectiveOffCenterRH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixPerspectiveOffCenterRH(  pOut,
+		  l,
+		  r,
+		  b,
+		  t,
+		  zn,
+		  zf );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixPerspectiveRH(
+		D3DXMATRIX *pOut,
+		FLOAT w,
+		FLOAT h,
+		FLOAT zn,
+		FLOAT zf)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixPerspectiveRH)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixPerspectiveRH);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixPerspectiveRH(  pOut,
+		  w,
+		  h,
+		  zn,
+		  zf );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixReflect(D3DXMATRIX *pOut,const D3DXPLANE *pPlane)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixReflect)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixReflect);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixReflect(  pOut, pPlane );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixRotationAxis(
+		D3DXMATRIX *pOut,
+		const D3DXVECTOR3 *pV,
+		FLOAT Angle)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixRotationAxis)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixRotationAxis);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixRotationAxis(  pOut, pV, Angle );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixRotationQuaternion(
+		D3DXMATRIX *pOut,
+		const D3DXQUATERNION *pQ)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixRotationQuaternion)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixRotationQuaternion);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixRotationQuaternion(  pOut, pQ );
+	};		   
+ 
+	D3DXMATRIX * D3DXMatrixRotationX( D3DXMATRIX *pOut,	FLOAT Angle)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixRotationX)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixRotationX);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixRotationX(  pOut,    Angle );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixRotationY(D3DXMATRIX *pOut, 	FLOAT Angle)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixRotationY)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixRotationY);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixRotationY(    pOut,    Angle  );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixRotationYawPitchRoll(D3DXMATRIX *pOut,
+		   FLOAT Yaw,	 FLOAT Pitch,  	FLOAT Roll)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixRotationYawPitchRoll)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixRotationYawPitchRoll);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixRotationYawPitchRoll(  pOut,
+		     Yaw,	   Pitch,  	  Roll );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixRotationZ(D3DXMATRIX *pOut, FLOAT Angle)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixRotationZ )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixRotationZ);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixRotationZ(  pOut,   Angle );
+	};
+
+
+	D3DXMATRIX * D3DXMatrixScaling(
+		D3DXMATRIX *pOut,
+		FLOAT sx,
+		FLOAT sy,
+		FLOAT sz)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixScaling)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixScaling);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixScaling( pOut, sx,  sy, sz );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixShadow(
+		D3DXMATRIX *pOut,
+		const D3DXVECTOR4 *pLight,
+		const D3DXPLANE *pPlane)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixShadow)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixShadow);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixShadow(  pOut,   pLight,	 pPlane );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixTransformation(
+		D3DXMATRIX *pOut,
+		const D3DXVECTOR3 *pScalingCenter,
+		const D3DXQUATERNION *pScalingRotation,
+		const D3DXVECTOR3 *pScaling,
+		const D3DXVECTOR3 *pRotationCenter,
+		const D3DXQUATERNION *pRotation,
+		const D3DXVECTOR3 *pTranslation)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixTransformation )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixTransformation);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixTransformation(  pOut, pScalingCenter,
+		    pScalingRotation, pScaling, pRotationCenter, pRotation,  pTranslation );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixTransformation2D(
+		D3DXMATRIX *pOut,
+		const D3DXVECTOR2 *pScalingCenter,
+		FLOAT pScalingRotation,
+		const D3DXVECTOR2 *pScaling,
+		const D3DXVECTOR2 *pRotationCenter,
+		FLOAT Rotation,
+		const D3DXVECTOR2 *pTranslation)
+	{			  
+		if(!m_fnc.m_TFunc_D3DXMatrixTransformation2D)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixTransformation2D);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixTransformation2D(  pOut, pScalingCenter,
+		  pScalingRotation, pScaling, pRotationCenter,     Rotation, pTranslation );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixTranslation(
+		D3DXMATRIX *pOut,
+		FLOAT x,
+		FLOAT y,
+		FLOAT z)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixTranslation)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixTranslation);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixTranslation(  pOut,  x,  y, z );
+	};		   
+
+
+	D3DXMATRIX * D3DXMatrixTranspose(D3DXMATRIX *pOut,const D3DXMATRIX *pM)
+	{
+		if(!m_fnc.m_TFunc_D3DXMatrixTranspose)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixTranspose);
+		}
+		return m_fnc.m_TFunc_D3DXMatrixTranspose(  pOut,pM );
+	};		   
+
+
+	FLOAT  D3DXPlaneDot(const D3DXPLANE *pP, const D3DXVECTOR4 *pV)
+	{
+	  return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z + pP->d * pV->w;
+	};		
+
+	FLOAT  D3DXPlaneDotCoord( const D3DXPLANE *pP, const D3DXVECTOR3 *pV)
+	{
+	  return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z + pP->d;
+	};
+
+
+	FLOAT  D3DXPlaneDotNormal( const D3DXPLANE *pP, const D3DXVECTOR3 *pV)
+	{
+	   return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z;
+	};
+
+
+	D3DXPLANE * D3DXPlaneFromPointNormal(
+		D3DXPLANE *pOut,
+		const D3DXVECTOR3 *pPoint,
+		const D3DXVECTOR3 *pNormal)
+	{
+		if(!m_fnc.m_TFunc_D3DXPlaneFromPointNormal)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXPlaneFromPointNormal);
+		}
+		return m_fnc.m_TFunc_D3DXPlaneFromPointNormal(  pOut,
+		     pPoint,    pNormal );
+	};
+
+
+	D3DXPLANE * D3DXPlaneFromPoints(
+		D3DXPLANE *pOut,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2,
+		const D3DXVECTOR3 *pV3)
+	{
+		if(!m_fnc.m_TFunc_D3DXPlaneFromPoints)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXPlaneFromPoints);
+		}
+		return m_fnc.m_TFunc_D3DXPlaneFromPoints(  pOut, pV1, pV2, pV3 );
+	};
+
+
+	D3DXVECTOR3 * D3DXPlaneIntersectLine(
+		D3DXVECTOR3 *pOut,
+		const D3DXPLANE *pP,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2)
+	{
+		if(!m_fnc.m_TFunc_D3DXPlaneIntersectLine)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXPlaneIntersectLine);
+		}
+		return m_fnc.m_TFunc_D3DXPlaneIntersectLine(  pOut, pP, pV1, pV2 );
+	};
+
+
+	D3DXPLANE * D3DXPlaneNormalize(D3DXPLANE *pOut,	const D3DXPLANE *pP)
+	{
+		if(!m_fnc.m_TFunc_D3DXPlaneNormalize)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXPlaneNormalize);
+		}
+		return m_fnc.m_TFunc_D3DXPlaneNormalize(  pOut, pP );
+	};
+
+
+	D3DXPLANE * D3DXPlaneScale(D3DXPLANE *pOut,	const D3DXPLANE *pP, FLOAT s)
+	{
+		pOut->a = pP->a * s;
+		pOut->b = pP->b * s;
+		pOut->c = pP->c * s;
+		pOut->d = pP->d * s;
+		return pOut;
+	};
+
+
+	D3DXPLANE * D3DXPlaneTransform(
+		D3DXPLANE *pOut,
+		const D3DXPLANE *pP,
+		const D3DXMATRIX *pM)
+	{
+		if(!m_fnc.m_TFunc_D3DXPlaneTransform)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXPlaneTransform);
+		}
+		return m_fnc.m_TFunc_D3DXPlaneTransform(  pOut, pP, pM );
+	};
+
+
+	D3DXPLANE * D3DXPlaneTransformArray(
+		D3DXPLANE *pOut,
+		UINT OutStride,
+		const D3DXPLANE *pP,
+		UINT PStride,
+		const D3DXMATRIX *pM,
+		UINT n)
+	{
+		if(!m_fnc.m_TFunc_D3DXPlaneTransformArray )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXPlaneTransformArray);
+		}
+		return m_fnc.m_TFunc_D3DXPlaneTransformArray(  pOut, OutStride, pP, 
+			  PStride, pM, n );
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionBaryCentric(
+		D3DXQUATERNION *pOut,
+		const D3DXQUATERNION *pQ1,
+		const D3DXQUATERNION *pQ2,
+		const D3DXQUATERNION *pQ3,
+		FLOAT f,
+		FLOAT g	)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionBaryCentric)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionBaryCentric);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionBaryCentric(  pOut, pQ1, pQ2, pQ3,  f, g );
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionConjugate( D3DXQUATERNION *pOut,  const D3DXQUATERNION *pQ)
+	{
+		pOut->x = -pQ->x;
+		pOut->y = -pQ->y;
+		pOut->z = -pQ->z;
+		pOut->w =  pQ->w;
+		return pOut;
+	};
+
+
+	FLOAT  D3DXQuaternionDot( const D3DXQUATERNION *pQ1, const D3DXQUATERNION *pQ2)
+	{
+	   return pQ1->x * pQ2->x + pQ1->y * pQ2->y + pQ1->z * pQ2->z + pQ1->w * pQ2->w;
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionExp( D3DXQUATERNION *pOut,  const D3DXQUATERNION *pQ)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionExp)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionExp);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionExp(  pOut, pQ );
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionIdentity(D3DXQUATERNION *pOut)
+	{
+		pOut->x = pOut->y = pOut->z = 0.0f;
+		pOut->w = 1.0f;
+		return pOut;
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionInverse(D3DXQUATERNION *pOut, const D3DXQUATERNION *pQ)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionInverse)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionInverse);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionInverse(  pOut, pQ );
+	};
+
+
+	BOOL  D3DXQuaternionIsIdentity(   const D3DXQUATERNION *pQ)
+	{
+	      return pQ->x == 0.0f && pQ->y == 0.0f && pQ->z == 0.0f && pQ->w == 1.0f;
+	};
+
+
+	FLOAT  D3DXQuaternionLength(  const D3DXQUATERNION *pQ)
+	{
+	   return sqrtf(pQ->x * pQ->x + pQ->y * pQ->y + pQ->z * pQ->z + pQ->w * pQ->w);
+	};
+
+
+	FLOAT  D3DXQuaternionLengthSq( const D3DXQUATERNION *pQ )
+	{
+	    return pQ->x * pQ->x + pQ->y * pQ->y + pQ->z * pQ->z + pQ->w * pQ->w;
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionLn(D3DXQUATERNION *pOut, const D3DXQUATERNION *pQ)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionLn)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionLn);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionLn(  pOut, pQ );
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionMultiply(
+		D3DXQUATERNION *pOut,
+		const D3DXQUATERNION *pQ1,
+		const D3DXQUATERNION *pQ2
+		)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionMultiply)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionMultiply);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionMultiply( pOut, pQ1, pQ2);
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionNormalize(D3DXQUATERNION *pOut,const D3DXQUATERNION *pQ)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionNormalize)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionNormalize);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionNormalize(  pOut, pQ );
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionRotationAxis(D3DXQUATERNION *pOut, const D3DXVECTOR3 *pV, FLOAT Angle)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionRotationAxis)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionRotationAxis);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionRotationAxis(  pOut, pV, Angle );
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionRotationMatrix( D3DXQUATERNION *pOut, const D3DXMATRIX *pM )
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionRotationMatrix)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionRotationMatrix);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionRotationMatrix( pOut, pM );
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionRotationYawPitchRoll(
+		D3DXQUATERNION *pOut,
+		FLOAT Yaw,
+		FLOAT Pitch,
+		FLOAT Roll
+		)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionRotationYawPitchRoll)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionRotationYawPitchRoll);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionRotationYawPitchRoll(  pOut, Yaw,  Pitch, Roll );
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionSlerp(
+		D3DXQUATERNION *pOut,
+		const D3DXQUATERNION *pQ1,
+		const D3DXQUATERNION *pQ2,
+		FLOAT t	 )
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionSlerp)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionSlerp);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionSlerp(  pOut, pQ1, pQ2, t );
+	};
+
+
+	D3DXQUATERNION * D3DXQuaternionSquad(
+		D3DXQUATERNION *pOut,
+		const D3DXQUATERNION *pQ1,
+		const D3DXQUATERNION *pA,
+		const D3DXQUATERNION *pB,
+		const D3DXQUATERNION *pC,
+		FLOAT t	)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionSquad)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionSquad);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionSquad(  pOut, pQ1, pA, pB, pC, t );
+	};
+
+
+	void D3DXQuaternionSquadSetup(
+		D3DXQUATERNION *pAOut,
+		D3DXQUATERNION *pBOut,
+		D3DXQUATERNION *pCOut,
+		const D3DXQUATERNION *pQ0,
+		const D3DXQUATERNION *pQ1,
+		const D3DXQUATERNION *pQ2,
+		const D3DXQUATERNION *pQ3
+		)
+	{
+		if(!m_fnc.m_TFunc_D3DXQuaternionSquadSetup)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionSquadSetup);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionSquadSetup(  pAOut, pBOut,	pCOut, pQ0, pQ1, pQ2, pQ3 );
+	};
+
+
+	void D3DXQuaternionToAxisAngle(  const D3DXQUATERNION *pQ, D3DXVECTOR3 *pAxis,  FLOAT *pAngle)
+	{	  
+		if(!m_fnc.m_TFunc_D3DXQuaternionToAxisAngle)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXQuaternionToAxisAngle);
+		}
+		return m_fnc.m_TFunc_D3DXQuaternionToAxisAngle(  pQ, pAxis,  pAngle );
+	};
+
+
+	FLOAT * D3DXSHAdd(
+		FLOAT *pOut,
+		UINT Order,
+		const FLOAT *pA,
+		const FLOAT *pB	)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHAdd)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHAdd);
+		}
+		return m_fnc.m_TFunc_D3DXSHAdd( pOut, Order, pA, pB);
+	};
+
+
+	FLOAT  D3DXSHDot( UINT Order,  const FLOAT *pA,  const FLOAT *pB )
+	{
+		if(!m_fnc.m_TFunc_D3DXSHDot)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHDot);
+		}
+		return m_fnc.m_TFunc_D3DXSHDot(  Order, pA,  pB  );
+	};
+
+
+	HRESULT  D3DXSHEvalConeLight(
+		UINT Order,
+		const D3DXVECTOR3 *pDir,
+		FLOAT Radius,
+		FLOAT RIntensity,
+		FLOAT GIntensity,
+		FLOAT BIntensity,
+		FLOAT *pROut,
+		FLOAT *pGOut,
+		FLOAT *pBOut )
+	{
+		if(!m_fnc.m_TFunc_D3DXSHEvalConeLight)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHEvalConeLight);
+		}
+		return m_fnc.m_TFunc_D3DXSHEvalConeLight(  Order,
+		  pDir,
+		  Radius,
+		  RIntensity,
+		  GIntensity,
+		  BIntensity,
+		 pROut,
+		 pGOut,
+		 pBOut );
+	};
+
+
+	FLOAT * D3DXSHEvalDirection( FLOAT *pOut, UINT Order,  const D3DXVECTOR3 *pDir)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHEvalDirection)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHEvalDirection);
+		}
+		return m_fnc.m_TFunc_D3DXSHEvalDirection(  pOut, Order, pDir );
+	};
+
+
+	HRESULT  D3DXSHEvalDirectionalLight(
+		UINT Order,
+		const D3DXVECTOR3 *pDir,
+		FLOAT RIntensity,
+		FLOAT GIntensity,
+		FLOAT BIntensity,
+		FLOAT *pROut,
+		FLOAT *pGOut,
+		FLOAT *pBOut)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHEvalDirectionalLight)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHEvalDirectionalLight);
+		}
+		return m_fnc.m_TFunc_D3DXSHEvalDirectionalLight(   Order,
+		 pDir,
+		  RIntensity,
+		  GIntensity,
+		  BIntensity,
+		 pROut,
+		 pGOut,
+		 pBOut );
+	};
+
+
+	HRESULT  D3DXSHEvalHemisphereLight(
+		UINT Order,
+		const D3DXVECTOR3 *pDir,
+		D3DXCOLOR Top,
+		D3DXCOLOR Bottom,
+		FLOAT *pROut,
+		FLOAT *pGOut,
+		FLOAT *pBOut )
+	{
+		if(!m_fnc.m_TFunc_D3DXSHEvalHemisphereLight)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHEvalHemisphereLight);
+		}
+		return m_fnc.m_TFunc_D3DXSHEvalHemisphereLight(  Order,
+		   pDir,  Top,  Bottom,   pROut, pGOut,   pBOut );
+	};
+
+
+	HRESULT  D3DXSHEvalSphericalLight(
+		UINT Order,
+		const D3DXVECTOR3 *pPos,
+		FLOAT Radius,
+		FLOAT RIntensity,
+		FLOAT GIntensity,
+		FLOAT BIntensity,
+		FLOAT *pROut,
+		FLOAT *pGOut,
+		FLOAT *pBOut 	)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHEvalSphericalLight)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHEvalSphericalLight);
+		}
+		return m_fnc.m_TFunc_D3DXSHEvalSphericalLight(   Order,
+		 pPos,
+		 Radius,
+		 RIntensity,
+		 GIntensity,
+		 BIntensity, pROut, pGOut, pBOut  );
+	};
+
+
+	FLOAT * D3DXSHMultiply2( FLOAT *pOut,  const FLOAT *pF, const FLOAT *pG)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHMultiply2)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHMultiply2);
+		}
+		return m_fnc.m_TFunc_D3DXSHMultiply2(  pOut,  pF, pG );
+	};
+
+
+	HRESULT  D3DXSHProjectCubeMap(
+		UINT Order,
+		LPDIRECT3DCUBETEXTURE9 pCubeMap,
+		FLOAT *pROut,
+		FLOAT *pGOut,
+		FLOAT *pBOut)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHProjectCubeMap)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHProjectCubeMap);
+		}
+		return m_fnc.m_TFunc_D3DXSHProjectCubeMap(  Order, pCubeMap, pROut, pGOut, pBOut );
+	};
+
+
+	FLOAT * D3DXSHRotate(
+		FLOAT *pOut,
+		UINT Order,
+		const D3DXMATRIX *pMatrix,
+		const FLOAT *pIn)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHRotate)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHRotate);
+		}
+		return m_fnc.m_TFunc_D3DXSHRotate(  pOut,  Order,	  pMatrix,    pIn );
+	};
+
+
+	FLOAT * D3DXSHRotateZ(
+		FLOAT *pOut,
+		UINT Order,
+		FLOAT Angle,
+		const FLOAT *pIn)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHRotateZ)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHRotateZ);
+		}
+		return m_fnc.m_TFunc_D3DXSHRotateZ(  pOut, Order,	 Angle, pIn );
+	};
+
+
+	FLOAT * D3DXSHScale(
+		FLOAT *pOut,
+		UINT Order,
+		const FLOAT *pIn,
+		const FLOAT *Scale
+		)
+	{
+		if(!m_fnc.m_TFunc_D3DXSHScale)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXSHScale);
+		}
+		return m_fnc.m_TFunc_D3DXSHScale(  pOut,   Order, pIn, Scale );
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2Add(
+		D3DXVECTOR2 *pOut,
+		const D3DXVECTOR2 *pV1,
+		const D3DXVECTOR2 *pV2
+		)
+	{
+		pOut->x = pV1->x + pV2->x;
+		pOut->y = pV1->y + pV2->y;
+		return pOut;
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2BaryCentric(
+		D3DXVECTOR2 *pOut,
+		const D3DXVECTOR2 *pV1,
+		const D3DXVECTOR2 *pV2,
+		const D3DXVECTOR2 *pV3,
+		FLOAT f,
+		FLOAT g)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2BaryCentric)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2BaryCentric);
+		}
+		return m_fnc.m_TFunc_D3DXVec2BaryCentric(  pOut, pV1, pV2, pV3,  f,  g );
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2CatmullRom(
+		D3DXVECTOR2 *pOut,
+		const D3DXVECTOR2 *pV0,
+		const D3DXVECTOR2 *pV1,
+		const D3DXVECTOR2 *pV2,
+		const D3DXVECTOR2 *pV3,
+		FLOAT s )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2CatmullRom)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2CatmullRom);
+		}
+		return m_fnc.m_TFunc_D3DXVec2CatmullRom(  pOut, pV0, pV1, pV2, pV3, s );
+	};
+
+
+	FLOAT  D3DXVec2CCW(	const D3DXVECTOR2 *pV1,	const D3DXVECTOR2 *pV2)
+	{
+		  return pV1->x * pV2->y - pV1->y * pV2->x;
+	};
+
+
+	FLOAT  D3DXVec2Dot(  const D3DXVECTOR2 *pV1,  const D3DXVECTOR2 *pV2)
+	{
+	   return pV1->x * pV2->x + pV1->y * pV2->y;
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2Hermite(
+		D3DXVECTOR2 *pOut,
+		const D3DXVECTOR2 *pV1,
+		const D3DXVECTOR2 *pT1,
+		const D3DXVECTOR2 *pV2,
+		const D3DXVECTOR2 *pT2,
+		FLOAT s )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2Hermite )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2Hermite);
+		}
+		return m_fnc.m_TFunc_D3DXVec2Hermite(  pOut, pV1, pT1, pV2, pT2, s  );
+	};
+
+
+	FLOAT  D3DXVec2Length(const D3DXVECTOR2 *pV	)
+	{
+	   return sqrtf(pV->x * pV->x + pV->y * pV->y);
+	};
+
+
+	FLOAT  D3DXVec2LengthSq (const D3DXVECTOR2 *pV	)
+	{
+		     return pV->x * pV->x + pV->y * pV->y;
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2Lerp(
+		D3DXVECTOR2 *pOut,
+		const D3DXVECTOR2 *pV1,
+		const D3DXVECTOR2 *pV2,
+		FLOAT s
+		)
+	{
+		pOut->x = pV1->x + s * (pV2->x - pV1->x);
+		pOut->y = pV1->y + s * (pV2->y - pV1->y);
+		return pOut;
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2Maximize(
+		D3DXVECTOR2 *pOut,
+		const D3DXVECTOR2 *pV1,
+		const D3DXVECTOR2 *pV2
+		)
+	{
+		pOut->x = pV1->x > pV2->x ? pV1->x : pV2->x;
+		pOut->y = pV1->y > pV2->y ? pV1->y : pV2->y;
+		return pOut;
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2Minimize(
+		D3DXVECTOR2 *pOut,
+		const D3DXVECTOR2 *pV1,
+		const D3DXVECTOR2 *pV2
+		)
+	{
+		pOut->x = pV1->x < pV2->x ? pV1->x : pV2->x;
+		pOut->y = pV1->y < pV2->y ? pV1->y : pV2->y;
+		return pOut;
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2Normalize(D3DXVECTOR2 *pOut,const D3DXVECTOR2 *pV)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2Normalize)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2Normalize);
+		}
+		return m_fnc.m_TFunc_D3DXVec2Normalize(  pOut, pV );
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2Scale(D3DXVECTOR2 *pOut, 	const D3DXVECTOR2 *pV, FLOAT s)
+	{
+		pOut->x = pV->x * s;
+		pOut->y = pV->y * s;
+		return pOut;
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2Subtract(	
+				D3DXVECTOR2 *pOut,
+				const D3DXVECTOR2 *pV1,
+				const D3DXVECTOR2 *pV2)
+	{
+		pOut->x = pV1->x - pV2->x;
+		pOut->y = pV1->y - pV2->y;
+		return pOut;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec2Transform(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR2 *pV,
+		const D3DXMATRIX *pM
+		)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2Transform)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2Transform);
+		}
+		return m_fnc.m_TFunc_D3DXVec2Transform(  pOut, pV, pM );
+	};
+
+
+	D3DXVECTOR4 * D3DXVec2TransformArray(
+		D3DXVECTOR4 *pOut,
+		UINT OutStride,
+		const D3DXVECTOR2 *pV,
+		UINT VStride,
+		const D3DXMATRIX *pM,
+		UINT n)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2TransformArray)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2TransformArray);
+		}
+		return m_fnc.m_TFunc_D3DXVec2TransformArray(  pOut,  OutStride, pV,  VStride, pM,  n );
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2TransformCoord(
+		D3DXVECTOR2 *pOut,
+		const D3DXVECTOR2 *pV,
+		const D3DXMATRIX *pM)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2TransformCoord )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2TransformCoord);
+		}
+		return m_fnc.m_TFunc_D3DXVec2TransformCoord(  pOut, pV, pM );
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2TransformCoordArray(
+		D3DXVECTOR2 *pOut,
+		UINT OutStride,
+		const D3DXVECTOR2 *pV,
+		UINT VStride,
+		const D3DXMATRIX *pM,
+		UINT n)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2TransformCoordArray )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2TransformCoordArray);
+		}
+		return m_fnc.m_TFunc_D3DXVec2TransformCoordArray( pOut, OutStride, pV, VStride, pM ,n );
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2TransformNormal(
+		D3DXVECTOR2 *pOut,
+		const D3DXVECTOR2 *pV,
+		const D3DXMATRIX *pM)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2TransformNormal)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2TransformNormal);
+		}
+		return m_fnc.m_TFunc_D3DXVec2TransformNormal(  pOut, pV, pM );
+	};
+
+
+	D3DXVECTOR2 * D3DXVec2TransformNormalArray(
+		D3DXVECTOR2 *pOut,
+		UINT OutStride,
+		const D3DXVECTOR2 *pV,
+		UINT VStride,
+		const D3DXMATRIX *pM,
+		UINT n)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec2TransformNormalArray)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec2TransformNormalArray);
+		}
+		return m_fnc.m_TFunc_D3DXVec2TransformNormalArray(  pOut, OutStride, pV,  VStride, pM, n );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Add(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2)
+	{
+		pOut->x = pV1->x + pV2->x;
+		pOut->y = pV1->y + pV2->y;
+		pOut->z = pV1->z + pV2->z;
+		return pOut;
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3BaryCentric(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2,
+		const D3DXVECTOR3 *pV3,
+		FLOAT f,
+		FLOAT g )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3BaryCentric )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3BaryCentric);
+		}
+		return m_fnc.m_TFunc_D3DXVec3BaryCentric(  pOut, pV1, pV2, pV3,  f, g);
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3CatmullRom(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV0,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2,
+		const D3DXVECTOR3 *pV3,
+		FLOAT s )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3CatmullRom)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3CatmullRom);
+		}
+		return m_fnc.m_TFunc_D3DXVec3CatmullRom(pOut, pV0, pV1, pV2, pV3, s);
+	};
+
+
+
+	D3DXVECTOR3 * D3DXVec3Cross(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2 )
+	{
+		D3DXVECTOR3 v;
+		v.x = pV1->y * pV2->z - pV1->z * pV2->y;
+		v.y = pV1->z * pV2->x - pV1->x * pV2->z;
+		v.z = pV1->x * pV2->y - pV1->y * pV2->x;
+
+		*pOut = v;
+		return pOut;
+	};
+
+
+	FLOAT  D3DXVec3Dot(const D3DXVECTOR3 *pV1, const D3DXVECTOR3 *pV2)
+	{
+		 return pV1->x * pV2->x + pV1->y * pV2->y + pV1->z * pV2->z;
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Hermite(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pT1,
+		const D3DXVECTOR3 *pV2,
+		const D3DXVECTOR3 *pT2,
+		FLOAT s )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3Hermite)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3Hermite);
+		}
+		return m_fnc.m_TFunc_D3DXVec3Hermite(  pOut,  pV1, pT1,  pV2,
+		     pT2,	  s );
+	};
+
+
+	FLOAT  D3DXVec3Length( const D3DXVECTOR3 *pV)
+	{
+		  return sqrtf(pV->x * pV->x + pV->y * pV->y + pV->z * pV->z);
+	};
+
+
+	FLOAT  D3DXVec3LengthSq( const D3DXVECTOR3 *pV)
+	{
+	   return pV->x * pV->x + pV->y * pV->y + pV->z * pV->z;
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Lerp(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2,
+		FLOAT s	)
+	{
+		pOut->x = pV1->x + s * (pV2->x - pV1->x);
+		pOut->y = pV1->y + s * (pV2->y - pV1->y);
+		pOut->z = pV1->z + s * (pV2->z - pV1->z);
+		return pOut;
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Maximize(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2 )
+	{
+		pOut->x = pV1->x > pV2->x ? pV1->x : pV2->x;
+		pOut->y = pV1->y > pV2->y ? pV1->y : pV2->y;
+		pOut->z = pV1->z > pV2->z ? pV1->z : pV2->z;
+		return pOut;
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Minimize(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2)
+	{
+		pOut->x = pV1->x < pV2->x ? pV1->x : pV2->x;
+		pOut->y = pV1->y < pV2->y ? pV1->y : pV2->y;
+		pOut->z = pV1->z < pV2->z ? pV1->z : pV2->z;
+		return pOut;
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Normalize(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV
+		)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3Normalize)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3Normalize);
+		}
+		return m_fnc.m_TFunc_D3DXVec3Normalize(  pOut, pV );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Project(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV,
+		const D3DVIEWPORT9 *pViewport,
+		const D3DXMATRIX *pProjection,
+		const D3DXMATRIX *pView,
+		const D3DXMATRIX *pWorld
+		)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3Project)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3Project);
+		}
+		return m_fnc.m_TFunc_D3DXVec3Project(  pOut, pV, pViewport, pProjection, pView,
+			pWorld );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3ProjectArray(
+		D3DXVECTOR3 *pOut,
+		UINT OutStride,
+		const D3DXVECTOR3 *pV,
+		UINT VStride,
+		const D3DVIEWPORT9 *pViewport,
+		const D3DXMATRIX *pProjection,
+		const D3DXMATRIX *pView,
+		const D3DXMATRIX *pWorld,
+		UINT n )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3ProjectArray )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3ProjectArray);
+		}
+		return m_fnc.m_TFunc_D3DXVec3ProjectArray(  pOut,  OutStride, pV, VStride, pViewport,
+			pProjection, pView, pWorld, n  );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Scale(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV,
+		FLOAT s	)
+	{
+		pOut->x = pV->x * s;
+		pOut->y = pV->y * s;
+		pOut->z = pV->z * s;
+		return pOut;
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Subtract(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV1,
+		const D3DXVECTOR3 *pV2
+		)
+	{
+		pOut->x = pV1->x - pV2->x;
+		pOut->y = pV1->y - pV2->y;
+		pOut->z = pV1->z - pV2->z;
+		return pOut;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec3Transform(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR3 *pV,
+		const D3DXMATRIX *pM )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3Transform)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3Transform);
+		}
+		return m_fnc.m_TFunc_D3DXVec3Transform(  pOut, pV, pM );
+	};
+
+
+	D3DXVECTOR4 * D3DXVec3TransformArray(
+		D3DXVECTOR4 *pOut,
+		UINT OutStride,
+		const D3DXVECTOR3 *pV,
+		UINT VStride,
+		const D3DXMATRIX *pM,
+		UINT n )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3TransformArray)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3TransformArray);
+		}
+		return m_fnc.m_TFunc_D3DXVec3TransformArray(  pOut, OutStride, pV, VStride, pM,  n );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3TransformCoord(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV,
+		const D3DXMATRIX *pM )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3TransformCoord)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3TransformCoord);
+		}
+		return m_fnc.m_TFunc_D3DXVec3TransformCoord(  pOut, pV, pM );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3TransformCoordArray(
+		D3DXVECTOR3 *pOut,
+		UINT OutStride,
+		const D3DXVECTOR3 *pV,
+		UINT VStride,
+		const D3DXMATRIX *pM,
+		UINT n )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3TransformCoordArray)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3TransformCoordArray);
+		}
+		return m_fnc.m_TFunc_D3DXVec3TransformCoordArray(  pOut, OutStride, pV, VStride, pM, n );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3TransformNormal(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV,
+		const D3DXMATRIX *pM )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3TransformNormal)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3TransformNormal);
+		}
+		return m_fnc.m_TFunc_D3DXVec3TransformNormal(  pOut, pV, pM );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3TransformNormalArray(
+		D3DXVECTOR3 *pOut,
+		UINT OutStride,
+		const D3DXVECTOR3 *pV,
+		UINT VStride,
+		const D3DXMATRIX *pM,
+		UINT n )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3TransformNormalArray)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3TransformNormalArray);
+		}
+		return m_fnc.m_TFunc_D3DXVec3TransformNormalArray(  pOut, OutStride, pV,  VStride, pM,n );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3Unproject(
+		D3DXVECTOR3 *pOut,
+		const D3DXVECTOR3 *pV,
+		const D3DVIEWPORT9 *pViewport,
+		const D3DXMATRIX *pProjection,
+		const D3DXMATRIX *pView,
+		const D3DXMATRIX *pWorld
+		)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3Unproject)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3Unproject);
+		}
+		return m_fnc.m_TFunc_D3DXVec3Unproject(  pOut,
+			pV, pViewport, pProjection, pView, pWorld );
+	};
+
+
+	D3DXVECTOR3 * D3DXVec3UnprojectArray(
+		D3DXVECTOR3 *pOut,
+		UINT OutStride,
+		const D3DXVECTOR3 *pV,
+		UINT VStride,
+		const D3DVIEWPORT9 *pViewport,
+		const D3DXMATRIX *pProjection,
+		const D3DXMATRIX *pView,
+		const D3DXMATRIX *pWorld,
+		UINT n)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec3UnprojectArray )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec3UnprojectArray);
+		}
+		return m_fnc.m_TFunc_D3DXVec3UnprojectArray( pOut, OutStride, pV,
+			VStride, pViewport, pProjection, pView, pWorld, n );
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Add(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV1,
+		const D3DXVECTOR4 *pV2)
+	{
+		pOut->x = pV1->x + pV2->x;
+		pOut->y = pV1->y + pV2->y;
+		pOut->z = pV1->z + pV2->z;
+		pOut->w = pV1->w + pV2->w;
+		return pOut;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4BaryCentric(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV1,
+		const D3DXVECTOR4 *pV2,
+		const D3DXVECTOR4 *pV3,
+		FLOAT f,
+		FLOAT g)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec4BaryCentric)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec4BaryCentric);
+		}
+		return m_fnc.m_TFunc_D3DXVec4BaryCentric( pOut, pV1, pV2, pV3,  f, g	);
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4CatmullRom(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV0,
+		const D3DXVECTOR4 *pV1,
+		const D3DXVECTOR4 *pV2,
+		const D3DXVECTOR4 *pV3,
+		FLOAT s)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec4CatmullRom)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec4CatmullRom);
+		}
+		return m_fnc.m_TFunc_D3DXVec4CatmullRom(  pOut,
+			pV0, pV1, pV2, pV3, s );
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Cross(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV1,
+		const D3DXVECTOR4 *pV2,
+		const D3DXVECTOR4 *pV3)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec4Cross)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec4Cross);
+		}
+		return m_fnc.m_TFunc_D3DXVec4Cross(  pOut, pV1, pV2, pV3 );
+	};
+
+
+	FLOAT  D3DXVec4Dot(	const D3DXVECTOR4 *pV1,	const D3DXVECTOR4 *pV2)	    
+	{
+	      return pV1->x * pV2->x + pV1->y * pV2->y + pV1->z * pV2->z + pV1->w * pV2->w;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Hermite(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV1,
+		const D3DXVECTOR4 *pT1,
+		const D3DXVECTOR4 *pV2,
+		const D3DXVECTOR4 *pT2,
+		FLOAT s
+		)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec4Hermite )
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec4Hermite);
+		}
+		return m_fnc.m_TFunc_D3DXVec4Hermite(  pOut,
+		       pV1, pT1, pV2, pT2,  s );
+	};
+
+
+	FLOAT  D3DXVec4Length( const D3DXVECTOR4 *pV)
+	{
+		return sqrtf(pV->x * pV->x + pV->y * pV->y + pV->z * pV->z + pV->w * pV->w);
+	};
+
+
+	FLOAT  D3DXVec4LengthSq(  const D3DXVECTOR4 *pV)
+	{
+		   return pV->x * pV->x + pV->y * pV->y + pV->z * pV->z + pV->w * pV->w;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Lerp(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV1,
+		const D3DXVECTOR4 *pV2,
+		FLOAT s)
+	{
+		pOut->x = pV1->x + s * (pV2->x - pV1->x);
+		pOut->y = pV1->y + s * (pV2->y - pV1->y);
+		pOut->z = pV1->z + s * (pV2->z - pV1->z);
+		pOut->w = pV1->w + s * (pV2->w - pV1->w);
+		return pOut;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Maximize(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV1,
+		const D3DXVECTOR4 *pV2)
+	{
+		pOut->x = pV1->x > pV2->x ? pV1->x : pV2->x;
+		pOut->y = pV1->y > pV2->y ? pV1->y : pV2->y;
+		pOut->z = pV1->z > pV2->z ? pV1->z : pV2->z;
+		pOut->w = pV1->w > pV2->w ? pV1->w : pV2->w;
+		return pOut;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Minimize(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV1,
+		const D3DXVECTOR4 *pV2)
+	{
+		pOut->x = pV1->x < pV2->x ? pV1->x : pV2->x;
+		pOut->y = pV1->y < pV2->y ? pV1->y : pV2->y;
+		pOut->z = pV1->z < pV2->z ? pV1->z : pV2->z;
+		pOut->w = pV1->w < pV2->w ? pV1->w : pV2->w;
+		return pOut;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Normalize(D3DXVECTOR4 *pOut, const D3DXVECTOR4 *pV)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec4Normalize)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec4Normalize);
+		}
+		return m_fnc.m_TFunc_D3DXVec4Normalize(  pOut, pV );
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Scale(D3DXVECTOR4 *pOut,	const D3DXVECTOR4 *pV, 	FLOAT s)
+	{
+		pOut->x = pV->x * s;
+		pOut->y = pV->y * s;
+		pOut->z = pV->z * s;
+		pOut->w = pV->w * s;
+		return pOut;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Subtract(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV1,
+		const D3DXVECTOR4 *pV2)
+	{
+		pOut->x = pV1->x - pV2->x;
+		pOut->y = pV1->y - pV2->y;
+		pOut->z = pV1->z - pV2->z;
+		pOut->w = pV1->w - pV2->w;
+		return pOut;
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4Transform(
+		D3DXVECTOR4 *pOut,
+		const D3DXVECTOR4 *pV,
+		const D3DXMATRIX *pM  )
+	{
+		if(!m_fnc.m_TFunc_D3DXVec4Transform)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec4Transform);
+		}
+		return m_fnc.m_TFunc_D3DXVec4Transform( pOut, pV, pM );
+	};
+
+
+	D3DXVECTOR4 * D3DXVec4TransformArray(
+		D3DXVECTOR4 *pOut,
+		UINT OutStride,
+		const D3DXVECTOR4 *pV,
+		UINT VStride,
+		const D3DXMATRIX *pM,
+		UINT n)
+	{
+		if(!m_fnc.m_TFunc_D3DXVec4TransformArray)
+		{
+			GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXVec4TransformArray);
+		}
+		return m_fnc.m_TFunc_D3DXVec4TransformArray(  pOut, OutStride, pV, VStride, pM,  n );
+	};
+
+
+#endif
+
+	struct _M_END_MATHFUNC {};
+
+
+
+
 
 
 
@@ -3008,7 +4939,7 @@ HRESULT D3DXSaveSurfaceToFileW( const WCHAR* pDestFile,    D3DXIMAGE_FILEFORMAT 
 	{
 		GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR( D3DXSaveSurfaceToFileW );
 	}
-	return m_fnc.m_TFunc_D3DXSaveSurfaceToFileW (pDestFile,      DestFormat,
+	return m_fnc.m_TFunc_D3DXSaveSurfaceToFileW (pDestFile, DestFormat,
 		  pSrcSurface,    pSrcPalette,     pSrcRect  );
 }
 
@@ -3017,11 +4948,11 @@ HRESULT D3DXSaveSurfaceToFileW( const WCHAR* pDestFile,    D3DXIMAGE_FILEFORMAT 
 
 
 HRESULT D3DXSaveSurfaceToFileInMemory(
-									  LPD3DXBUFFER * ppDestBuf,
-									  D3DXIMAGE_FILEFORMAT DestFormat,
-									  LPDIRECT3DSURFACE9 pSrcSurface,
-									  CONST PALETTEENTRY * pSrcPalette,
-									  CONST RECT * pSrcRect)
+			  LPD3DXBUFFER * ppDestBuf,
+			  D3DXIMAGE_FILEFORMAT DestFormat,
+			  LPDIRECT3DSURFACE9 pSrcSurface,
+			  CONST PALETTEENTRY * pSrcPalette,
+			  CONST RECT * pSrcRect)
 {
 	if( !m_fnc.m_TFunc_D3DXSaveSurfaceToFileInMemory )
 	{

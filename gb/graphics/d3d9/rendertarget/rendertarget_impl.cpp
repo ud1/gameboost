@@ -1,16 +1,20 @@
-﻿#include "stdafx.h"
-//#include "pch.h"
-
-#if ( defined(GB_D3D9) && defined(WIN32) )
  
-#include <gb/graphics/d3d9/d3d9.h>
-#include <gb/graphics/d3d9/rt/rendertarget_impl.h>
- 
+#include "d3d9pch.h"
 
-namespace gb {
-namespace graphics {
-namespace d3d9 { 
-namespace rt {
+#if ( defined(_D3D9_H_) && defined(WIN32) )
+
+  #include <gb/graphics/d3d9/d3d9.h>
+  #include "rendertarget_impl.h"
+
+
+namespace gb
+{
+namespace graphics
+{
+namespace d3d9
+{
+namespace rendertarget
+{
 
 
 
@@ -20,189 +24,232 @@ namespace rt {
 //=========================================================================
 
 //=========================================================================
-HRESULT  RenderTarget::MakeAsCurrentRender()  const  
+HRESULT RenderTarget::MakeAsCurrentRender()const
 {
-  HRESULT hr =0;
-	if(NULL == m_pdevice) 
-		   return E_FAIL;
- 
-	 if( (NULL==m_pITexture) || (NULL==m_pISurface) ) { 
-	   return E_FAIL;
-	 }
+	HRESULT hr = 0;
+	if (NULL == m_pdevice)
+	{
+	  return E_FAIL;
+	}
 
-	 _try {
-	 hr |= m_pdevice->SetRenderTarget(0, m_pISurface);
-	 } 
-	 __except(EXCEPTION_EXECUTE_HANDLER) 
-	 {
-	   return E_FAIL;
-	 }
+	if ((NULL == m_pITexture) || (NULL == m_pISurface))
+	{
+	  return E_FAIL;
+	}
 
-   return hr;
+	_try
+	{
+	  hr |= m_pdevice->SetRenderTarget(0, m_pISurface);
+	}
+	__except(EXCEPTION_EXECUTE_HANDLER)
+	{
+	  return E_FAIL;
+	}
+
+	return hr;
 };
 
 
 //===========================================================
-HRESULT  RenderTarget::MakeRenderToBackBuffer()  const  
+HRESULT RenderTarget::MakeRenderToBackBuffer()const
 {
-   HRESULT hr = 0;
-   
-#pragma message ("ВСТАВИТЬ КОД ДЛЯ УСТАНОВКИ В КОНТЕКСТ "  __FILE__ )
+	HRESULT hr = 0;
 
-	 assert(false&&"ВСТАВИТЬ КОД ДЛЯ УСТАНОВКИ В КОНТЕКСТ");
- 
-   //if( ( g_pISrfFrameDraw == NULL) || (m_pdevice == NULL) ) 
+	#pragma message ("ВСТАВИТЬ КОД ДЛЯ УСТАНОВКИ В КОНТЕКСТ "  __FILE__ )
+
+	assert(false && "ВСТАВИТЬ КОД ДЛЯ УСТАНОВКИ В КОНТЕКСТ");
+
+	//if( ( g_pISrfFrameDraw == NULL) || (m_pdevice == NULL) ) 
 	//{
 	//   return E_FAIL;
 	//};
 
 
-   //hr |= m_pdevice->SetRenderTarget(0 , g_pISrfFrameDraw);
- 
-   return hr;   
+	//hr |= m_pdevice->SetRenderTarget(0 , g_pISrfFrameDraw);
+
+	return hr;
 };
 
 //====================================================
-HRESULT RenderTarget::CheckCreateInterfaces( ) const 
+HRESULT RenderTarget::CheckCreateInterfaces()const
 {
-	   if(  (m_pISurface) && (m_pITexture)  )   return  0;
+	if ((m_pISurface) && (m_pITexture))
+	{
+	  return 0;
+	}
 
-	   ReleaseInterfaces();
-   return  E_FAIL;
+	ReleaseInterfaces();
+	return E_FAIL;
 };
 
 
 //===================================================
-HRESULT RenderTarget::FillSurfaceColor(const D3DCOLORVALUE& color) const  
+HRESULT RenderTarget::FillSurfaceColor(const D3DCOLORVALUE &color) const
 {
-  HRESULT hr =0;
-   D3DCOLOR col = D3DCOLOR_COLORVALUE( color.r, color.g, color.b, color.a);
-	   hr |= FillSurfaceColor(col);
- 
-  return hr;
+	HRESULT hr = 0;
+	D3DCOLOR col = D3DCOLOR_COLORVALUE(color.r, color.g, color.b, color.a);
+	hr |= FillSurfaceColor(col);
+
+	return hr;
 };
 
 //=========================================================================
-HRESULT RenderTarget::FillSurfaceColor(  const D3DCOLOR color) const 
+HRESULT RenderTarget::FillSurfaceColor(const D3DCOLOR color)const
 {
-  HRESULT hr =0;
+	HRESULT hr = 0;
 
-  if(  NULL == m_pdevice  )
-  {     
-		  return E_FAIL;   
-  };
-
- 
-		  if(!m_pISurface) return E_FAIL;
-
-		__try { 
-			hr =  m_pdevice->ColorFill(m_pISurface, NULL, color);  
-		}
-		__except(EXCEPTION_EXECUTE_HANDLER) { 
-			return E_FAIL; 
-		}
-
-   return hr;
-};
+	if (NULL == m_pdevice)
+	{
+	  return E_FAIL;
+	};
 
 
-//=========================================================================
-HRESULT RenderTarget::StretchFrom(const IRenderTarget* rtarget, 
-											   const D3DTEXTUREFILTERTYPE ft ) const 
-{
-   HRESULT hr=0;
-   __try {
-	    hr |= StretchFrom( rtarget->getISurface() , ft );
-	  } __except(1) { hr |= E_FAIL; };
-  return  hr;
+	if (!m_pISurface)
+	{
+	  return E_FAIL;
+	}
+
+	__try
+	{
+	  hr = m_pdevice->ColorFill(m_pISurface, NULL, color);
+	}
+	__except(EXCEPTION_EXECUTE_HANDLER)
+	{
+	  return E_FAIL;
+	}
+
+	return hr;
 };
 
 
 //=========================================================================
-HRESULT RenderTarget::StretchFrom(IDirect3DSurface9* pISurface, 
-											   const D3DTEXTUREFILTERTYPE ft ) const  
-{  
-	
-	HRESULT hr=0;
-	   if(NULL == m_pdevice)
-	   {     
-			   return E_FAIL;   
-	   };
+HRESULT RenderTarget::StretchFrom(const IRenderTarget *rtarget, 
+								  const D3DTEXTUREFILTERTYPE ft)  const
+{
+	HRESULT hr = 0;
+	__try
+	{
+	  hr |= StretchFrom(rtarget->getISurface(), ft);
+	}
+
+	__except(1)
+	{
+	  hr |= E_FAIL;
+	};
+	return hr;
+};
 
 
- 
-	__try {
-		if(!m_pISurface) return E_FAIL;
-		if(!pISurface ) return E_FAIL;
- 
-		if FAILED(hr) { 
-			// MONPRINT("");
-			return hr;   
-			};
+//=========================================================================
+HRESULT RenderTarget::StretchFrom(IDirect3DSurface9 *pISurface, 
+								  const	D3DTEXTUREFILTERTYPE ft) const
+{
+	HRESULT hr = 0;
+	if (NULL == m_pdevice)
+	{
+	  return E_FAIL;
+	};
 
-		
-		// Stretch From
-	 hr|= m_pdevice->StretchRect( pISurface, NULL, m_pISurface, NULL,  ft );
-  // (StretchRect)(THIS_ IDirect3DSurface9* pSourceSurface,CONST RECT* pSourceRect,
-	          //IDirect3DSurface9* pDestSurface,CONST RECT* pDestRect,  
-	           //D3DTEXTUREFILTERTYPE Filter) PURE;
 
-		} 
-      __exc_mon
-		{
-			//SAFE_EXC_RELEASE(pdevice);
-			hr |= E_FAIL;
-		};
 
-       return hr;
+	__try
+	{
+	  if (!m_pISurface)
+	  {
+		return E_FAIL;
+	  }
+	  if (!pISurface)
+	  {
+		return E_FAIL;
+	  }
+
+	  if FAILED(hr)
+	  {
+		// MONPRINT("");
+		return hr;
+	  };
+
+
+	  // Stretch From
+	  hr |= m_pdevice->StretchRect(pISurface, NULL, m_pISurface, NULL,
+		ft);
+	  // (StretchRect)(THIS_ IDirect3DSurface9* pSourceSurface,CONST RECT* pSourceRect,
+	  //IDirect3DSurface9* pDestSurface,CONST RECT* pDestRect,  
+	  //D3DTEXTUREFILTERTYPE Filter) PURE;
+
+	}
+	__except(1)
+	{
+	  //SAFE_EXC_RELEASE(pdevice);
+	  hr |= E_FAIL;
+	}
+
+	return hr;
 };
 
 //=============================================================
-HRESULT RenderTarget::StretchTo(const IRenderTarget* rtarget, 
-											const D3DTEXTUREFILTERTYPE ft) const 
+HRESULT RenderTarget::StretchTo(const IRenderTarget *rtarget, const
+D3DTEXTUREFILTERTYPE ft)const
 {
- 	HRESULT hr=0;
-	__try {
-	 hr |= StretchTo( rtarget->getISurface() , ft );
-	} __except(1) { hr |= E_FAIL; };
-    return hr;
+HRESULT hr = 0;
+__try
+{
+  hr |= StretchTo(rtarget->getISurface(), ft);
+}
+
+__except(1)
+{
+  hr |= E_FAIL;
+};
+return hr;
 };
 
 
 //=======================================================
-HRESULT RenderTarget::StretchTo(IDirect3DSurface9* pISurface, 
-											const D3DTEXTUREFILTERTYPE ft ) const 
+HRESULT RenderTarget::StretchTo(IDirect3DSurface9 *pISurface, const
+D3DTEXTUREFILTERTYPE ft)const
 {
-	HRESULT hr=0;
-	if(NULL == m_pdevice)
-	{     return E_FAIL;   };
+HRESULT hr = 0;
+if (NULL == m_pdevice)
+{
+  return E_FAIL;
+};
 
 
 
-	__try {
-		if(!m_pISurface) return E_FAIL;
-		if(!pISurface ) return E_FAIL;
+__try
+{
+  if (!m_pISurface)
+  {
+    return E_FAIL;
+  }
+  if (!pISurface)
+  {
+    return E_FAIL;
+  }
 
-		if FAILED(hr) { 
-			// MONPRINT("");
-			return hr;   
-		};
+  if FAILED(hr)
+  {
+    // MONPRINT("");
+    return hr;
+  };
 
-		// stretch to ...
-		hr|= m_pdevice->StretchRect(  m_pISurface, NULL,  pISurface, NULL, ft );
-		// (StretchRect)(THIS_ IDirect3DSurface9* pSourceSurface,CONST RECT* pSourceRect,
-		//IDirect3DSurface9* pDestSurface,CONST RECT* pDestRect,  
-		//D3DTEXTUREFILTERTYPE Filter) PURE;
+  // stretch to ...
+  hr |= m_pdevice->StretchRect(m_pISurface, NULL, pISurface, NULL,
+    ft);
+  // (StretchRect)(THIS_ IDirect3DSurface9* pSourceSurface,CONST RECT* pSourceRect,
+  //IDirect3DSurface9* pDestSurface,CONST RECT* pDestRect,  
+  //D3DTEXTUREFILTERTYPE Filter) PURE;
 
 
-	} 
-	__exc_mon
-	{
-	 
-		hr |= E_FAIL;
-	};
+}
+__except(1)
+{
 
-	return hr;
+  hr |= E_FAIL;
+};
+
+return hr;
 };
 
 
@@ -210,34 +257,45 @@ HRESULT RenderTarget::StretchTo(IDirect3DSurface9* pISurface,
 
 
 //=========================================================================
-HRESULT RenderTarget::ValidateInterfaces() const {
-  HRESULT hr =0;	
- 
-  	  if(!m_pITexture ) return E_FAIL;
-	  if(!m_pISurface) return E_FAIL;
-	
-		// check texture
-		  __try {
-		   DWORD dwlc = m_pITexture->GetLevelCount();
-		  }
-		  __except(1) {
-		   return E_FAIL;
-		  };
+HRESULT RenderTarget::ValidateInterfaces()const
+{
+HRESULT hr = 0;
 
-		// check surface
-		  __try {
-		    D3DSURFACE_DESC sd;
-			HRESULT hr = m_pISurface->GetDesc(&sd);
-		  }
-		  __except(1) {
-		   return E_FAIL;
-		  };
+if (!m_pITexture)
+{
+  return E_FAIL;
+}
+if (!m_pISurface)
+{
+  return E_FAIL;
+}
 
- 
-	return hr;
+// check texture
+__try
+{
+  DWORD dwlc = m_pITexture->GetLevelCount();
+}
+__except(1)
+{
+  return E_FAIL;
 };
 
- 
+// check surface
+__try
+{
+  D3DSURFACE_DESC sd;
+  HRESULT hr = m_pISurface->GetDesc(&sd);
+}
+__except(1)
+{
+  return E_FAIL;
+};
+
+
+return hr;
+};
+
+
 
 
 

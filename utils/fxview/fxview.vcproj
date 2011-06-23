@@ -40,11 +40,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;GB_D3D9;GB_D3DX9"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="1"
+				PrecompiledHeaderThrough="d3d9pch.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
@@ -176,11 +177,67 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\gb\graphics\value_semantic\conv.cpp"
+				RelativePath="..\..\gb\graphics\d3d9\d3dfont.cpp"
 				>
 			</File>
 			<File
-				RelativePath="Z:\!!GB\gameboost\utils\fxview\main.cpp"
+				RelativePath="..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load_pfunc_decl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\d3d9\dds\DDSTextureLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\devhelp\devcamera.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\d3d9\draw\source\draw.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\d3d9\draw\source\draw2_3d.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\d3d9\draw\source\draw_text.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\d3d9\draw\source\getSampleDebugTexture.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\d3d9\draw\source\internal.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\d3d9\draw\source\internal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\str\KsString.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\d3d9\fx\param.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\str\String.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\gb\graphics\Teapot.cpp"
 				>
 			</File>
 		</Filter>
