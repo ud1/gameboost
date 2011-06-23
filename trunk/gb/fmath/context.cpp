@@ -1,5 +1,7 @@
 ﻿ 
 
+#include "d3d9pch.h"
+
 #include <gb/fmath/fmath.h>
 
 
@@ -19,6 +21,34 @@ static void __str_touper(std::string& str)
 		str[c] = curr;
 	}
 }
+
+
+static const char* CSTR_VIEWPROJECTION = "VIEWPROJECTION";
+static const char* CSTR_VIEWPROJECTIONINVERSE = "VIEWPROJECTIONINVERSE";
+static const char* CSTR_VIEWPROJECTIONINVERSETRANSPONE = "VIEWPROJECTIONINVERSETRANSPONE";
+static const char* CSTR_VIEWPROJECTIONTRANSPONE = "VIEWPROJECTIONTRANSPONE";
+static const char* CSTR_VIEW = "VIEW";
+static const char* CSTR_VIEWTRANSPONE = "VIEWTRANSPONE";
+static const char* CSTR_VIEWINVERSE = "VIEWINVERSE";
+static const char* CSTR_VIEWINVERSETRANSPONE = "VIEWINVERSETRANSPONE";
+static const char* CSTR_PROJECTION = "PROJECTION";
+static const char* CSTR_PROJECTIONINVERSE = "PROJECTIONINVERSE";
+static const char* CSTR_PROJECTIONTRANSPONE = "PROJECTIONTRANSPONE";
+static const char* CSTR_PROJECTIONINVERSETRANSPONE = "PROJECTIONINVERSETRANSPONE";
+static const char* CSTR_WORLDVIEWPROJECTION = "WORLDVIEWPROJECTION";
+static const char* CSTR_WORLDVIEWPROJECTIONTRANSPONE = "WORLDVIEWPROJECTIONTRANSPONE";
+static const char* CSTR_WORLDVIEWPROJECTIONINVERSE = "WORLDVIEWPROJECTIONINVERSE";
+static const char* CSTR_WORLDVIEWPROJECTIONINVERSETRANSPONE = "WORLDVIEWPROJECTIONINVERSETRANSPONE";
+static const char* CSTR_WORLD = "WORLD";
+static const char* CSTR_WORLDTRANSPONE = "WORLDTRANSPONE";
+static const char* CSTR_WORLDINVERSE = "WORLDINVERSE";
+static const char* CSTR_WORLDINVERSETRANSPONE = "WORLDINVERSETRANSPONE";
+static const char* CSTR_WORLDVIEW = "WORLDVIEW";
+static const char* CSTR_WORLDVIEWTRANSPONE = "WORLDVIEWTRANSPONE";
+static const char* CSTR_WORLDVIEWINVERSE = "WORLDVIEWINVERSE";
+static const char* CSTR_WORLDVIEWINVERSETRANSPONE = "WORLDVIEWINVERSETRANSPONE";
+
+
 
 
 namespace gb
@@ -59,17 +89,215 @@ bool float_context_type_e::fromstr(float_context_type_e::e& valOut,
 std::string str = strarg;
    __str_touper(str);
 
-   assert(false);
-				 /*
-  if("XXXXX" == str)
-	  {
-	  valOut =  XXXXXX;
-	  return true;
-	  }
+	/***************************
+   if("XXXXX" == str)
+   {
+	   valOut =  XXXXXX;
+	   return true;
+   } 
+   ******************************/
+ 
+
+   if( ("TIME" == str) || ("TIME0_X" == str) )
+   {
+	   valOut =  TIME;
+	   return true;
+   } 
+
+   if( ("COSTIME" == str) || ("COSTIME0_1" == str))
+   {
+	   valOut =  COSTIME;
+	   return true;
+   } 
+
+   if( ("SINTIME" == str) || ("SINTIME0_1" == str))
+   {
+	   valOut =  SINTIME;
+	   return true;
+   } 
+
+   if( ("TANTIME" == str) || ("TANTIME0_1" == str))
+   {
+	   valOut =  TANTIME;
+	   return true;
+   } 
+
+   /**************
+   if("XXXXX" == str)
+   {
+	   valOut =  XXXXXX;
+	   return true;
+   } ****************/
+
+ 
 
 
-				   */
+		  //TIMESPEED,
 
+		  //TAN0_2PI,
+		  //COSTIME0_2PI,
+		  //SINTIME0_PI,
+		  //TANTIME0_2PI,
+		  //TIMECYCLEPERIOD,
+
+   if("FPS" == str)
+   {
+	 valOut = FPS;
+     return true;
+   }
+
+
+   if(  ("TIMEELAPSED" == str)  || ("ELAPSED" == str) || ("DELTA" == str) )
+   {
+	 valOut = TIMEELAPSED;
+     return true;
+   }
+ 
+   if("VIEWPORTWIDTH" == str)
+   {
+	   valOut =  VIEWPORTWIDTH;
+	   return true;
+   } 
+
+   if("VIEWPORTHEIGHT" == str)
+   {
+	   valOut =  VIEWPORTHEIGHT;
+	   return true;
+   } 
+
+
+   if("VIEWPORTWIDTHINVERSE" == str)
+   {
+	   valOut =  VIEWPORTWIDTHINVERSE;
+	   return true;
+   } 
+
+   if("VIEWPORTHEIGHTINVERSE" == str)
+   {
+	   valOut =  VIEWPORTHEIGHTINVERSE;
+	   return true;
+   } 
+ 
+
+   if("FOV" == str)
+   {
+	   valOut =  FOV;
+	   return true;
+   } 
+
+   if( ("FARCLIPPLANE" == str) || ("FAR" == str))
+   {
+	   valOut =  FARCLIPPLANE;
+	   return true;
+   }  
+
+   if( ("NEARCLIPPLANE" == str) || ("NEAR" == str))
+   {
+	   valOut =  NEARCLIPPLANE;
+	   return true;
+   } 
+
+
+   if( ("ASPECT" == str) || ("ASP" == str) )
+   {
+	   valOut =  ASPECT;
+	   return true;
+   } 
+ 
+ 
+
+			  /***********************************
+		  RANDOMFRACTION1PERPASS,
+		  RANDOMFRACTION2PERPASS,
+		  RANDOMFRACTION3PERPASS,
+		  RANDOMFRACTION4PERPASS,
+
+		  RANDOMFRACTION1PEREFFECT,
+		  RANDOMFRACTION2PEREFFECT,
+		  RANDOMFRACTION3PEREFFECT,
+		  RANDOMFRACTION4PEREFFECT,
+			 ****************************************/
+ 
+		  //PASSINDEX,
+
+
+   if("RIGTHMOUSEBUTTON" == str)
+   {
+	 valOut = RIGTHMOUSEBUTTON;
+     return true;
+   }
+
+   if("LEFTMOUSEBUTTON" == str)
+   {
+	 valOut = LEFTMOUSEBUTTON;
+     return true;
+   }
+
+   if("MIDDLEMOUSEBUTTON" == str)
+   {
+	 valOut = MIDDLEMOUSEBUTTON;
+     return true;
+   }
+
+   //-----------------------------------------
+  
+   if("MOUSECOORDINATEX" == str)
+   {
+	 valOut = MOUSECOORDINATEX;
+     return true;
+   }
+
+ 
+   if("MOUSECOORDINATEY" == str)
+   {
+	 valOut = MOUSECOORDINATEY;
+     return true;
+   }
+
+ 
+   if("MOUSECOORDINATEXNDC" == str)
+   {
+	 valOut = MOUSECOORDINATEXNDC;
+     return true;
+   }			 
+
+  
+   if("MOUSECOORDINATEYNDC" == str)
+   {
+	 valOut = MOUSECOORDINATEYNDC;
+     return true;
+   }
+
+  
+   if("MODELBOUNDINGSPHERERADIUS" == str)
+   {
+	 valOut = MODELBOUNDINGSPHERERADIUS;
+     return true;
+   }
+
+  
+ //  if("SPECULARPOWER" == str)
+ //  {
+//	 valOut = SPECULARPOWER;
+ //    return true;
+ //  }
+
+ 
+
+		//  ROTATEZ,
+
+		//  BRIGHTNESS,
+
+		 // CONTRAST,
+
+		  //ALPHA,
+		  //LIGTHMAPINTENSITY,
+		  //ANIMATESPEED,
+ 
+
+ 
+
+ 
 
   return false;
 }
@@ -1934,37 +2162,7 @@ int main()
 
 //=========================================================================
 
-
-
-//=================================================================
-
-
-static const char* CSTR_VIEWPROJECTION = "VIEWPROJECTION";
-static const char* CSTR_VIEWPROJECTIONINVERSE = "VIEWPROJECTIONINVERSE";
-static const char* CSTR_VIEWPROJECTIONINVERSETRANSPONE = "VIEWPROJECTIONINVERSETRANSPONE";
-static const char* CSTR_VIEWPROJECTIONTRANSPONE = "VIEWPROJECTIONTRANSPONE";
-static const char* CSTR_VIEW = "VIEW";
-static const char* CSTR_VIEWTRANSPONE = "VIEWTRANSPONE";
-static const char* CSTR_VIEWINVERSE = "VIEWINVERSE";
-static const char* CSTR_VIEWINVERSETRANSPONE = "VIEWINVERSETRANSPONE";
-static const char* CSTR_PROJECTION = "PROJECTION";
-static const char* CSTR_PROJECTIONINVERSE = "PROJECTIONINVERSE";
-static const char* CSTR_PROJECTIONTRANSPONE = "PROJECTIONTRANSPONE";
-static const char* CSTR_PROJECTIONINVERSETRANSPONE = "PROJECTIONINVERSETRANSPONE";
-static const char* CSTR_WORLDVIEWPROJECTION = "WORLDVIEWPROJECTION";
-static const char* CSTR_WORLDVIEWPROJECTIONTRANSPONE = "WORLDVIEWPROJECTIONTRANSPONE";
-static const char* CSTR_WORLDVIEWPROJECTIONINVERSE = "WORLDVIEWPROJECTIONINVERSE";
-static const char* CSTR_WORLDVIEWPROJECTIONINVERSETRANSPONE = "WORLDVIEWPROJECTIONINVERSETRANSPONE";
-static const char* CSTR_WORLD = "WORLD";
-static const char* CSTR_WORLDTRANSPONE = "WORLDTRANSPONE";
-static const char* CSTR_WORLDINVERSE = "WORLDINVERSE";
-static const char* CSTR_WORLDINVERSETRANSPONE = "WORLDINVERSETRANSPONE";
-static const char* CSTR_WORLDVIEW = "WORLDVIEW";
-static const char* CSTR_WORLDVIEWTRANSPONE = "WORLDVIEWTRANSPONE";
-static const char* CSTR_WORLDVIEWINVERSE = "WORLDVIEWINVERSE";
-static const char* CSTR_WORLDVIEWINVERSETRANSPONE = "WORLDVIEWINVERSETRANSPONE";
-
-
+ 
 
 //=================================================================
 std::string  matrix4x4_context_type_e::tostr(const matrix4x4_context_type_e::e val)
@@ -2139,25 +2337,31 @@ std::string  matrix4x4_context_type_e::tostr(const matrix4x4_context_type_e::e v
 //=================================================================
 bool  matrix4x4_context_type_e::fromstr( 
 								matrix4x4_context_type_e::e& valOut, 
-							    const char* str
+							    const char* strArg
 								)
 {
+	assert(strArg);
+	std::string str =   strArg;
+	for(size_t c=0; c<str.length(); c++)
+	{
+		str[c] = toupper(str[c]);
+	}
 
 
-	if( (str == CSTR_VIEWPROJECTION)||(str=="VIEWPROJ")||(str=="VP") )
+	if( (str == CSTR_VIEWPROJECTION)||(str=="VIEWPROJ")||(str=="VP")||(str=="VIEWPROJECTION") )
 	{
 		valOut = matrix4x4_context_type_e::VIEWPROJECTION;
 		return true;
 	}
 
-	if( (str==CSTR_VIEWPROJECTIONINVERSE)||(str=="VIEWPROJINV")||(str=="VPI") )
+	if( (str==CSTR_VIEWPROJECTIONINVERSE)||(str=="VIEWPROJINV")||(str=="VPI")||(str=="VIEWPROJECTIONINVERSE") )
 	{
 		valOut = matrix4x4_context_type_e::VIEWPROJECTIONINVERSE;
 		return true;
 	}
 
 	if( (str == CSTR_VIEWPROJECTIONINVERSETRANSPONE) ||
-		(str=="CSTR_VIEWPROJINVTRANSP") || (str=="VPIT")  )
+		(str=="CSTR_VIEWPROJINVTRANSP") || (str=="VPIT") || (str=="VIEWPROJECTIONINVERSETRANSPONE") )
 	{
 		valOut = matrix4x4_context_type_e::VIEWPROJECTIONINVERSETRANSPONE;
 		return true;
@@ -2170,7 +2374,7 @@ bool  matrix4x4_context_type_e::fromstr(
 	// VIEWPROJECTIONTRANSPONE
 
 	if( (str == CSTR_VIEWPROJECTIONTRANSPONE) || (str=="VIEWPROJTRANSP") 
-		|| (str=="VPT") )
+		|| (str=="VPT") || (str=="VIEWPROJECTIONTRANSPONE") )
 	{
 		valOut = matrix4x4_context_type_e::VIEWPROJECTIONTRANSPONE;
 		return true;
@@ -2183,7 +2387,7 @@ bool  matrix4x4_context_type_e::fromstr(
 		return true;
 	}
 
-	if( (str == CSTR_VIEWTRANSPONE) || (str=="VIEWTRANSP") || (str=="VT") )
+	if( (str == CSTR_VIEWTRANSPONE) || (str=="VIEWTRANSP") || (str=="VT")||(str=="VIEWTRANSPONE") )
 	{
 		valOut = matrix4x4_context_type_e::VIEWTRANSPONE;
 		return true;
@@ -2417,13 +2621,13 @@ bool   vector_context_type_e::fromstr(vector_context_type_e::e& valOut, const ch
 
 	__str_touper(str);
  
-	if("VIEWPOSITION" == str)
+	if( ("VIEWPOSITION" == str) || ("VIEW_POSITION" == str) || ("VIEWPOS" == str))
 	{
 		valOut = VIEWPOSITION;
 		return true;
 	}
 
-	if("VIEWDIRECTION" == str)
+	if( ("VIEWDIRECTION" == str) || ("VIEW_DIRECTION" == str) || ("VIEWDIR" == str)  )
 	{
 		valOut = VIEWDIRECTION;
 		return true;

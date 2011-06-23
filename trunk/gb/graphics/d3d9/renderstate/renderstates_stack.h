@@ -8,10 +8,25 @@
 */
 
 #pragma once
+
+#if ( defined(WIN32) && defined(_D3D9_H_) )
  
 #include <d3d9.h>
 #include <stack>
 #include <stdexcept>
+
+#pragma warning(push)
+#pragma warning(disable : 4290)
+
+namespace gb  {
+
+namespace graphics {
+
+namespace d3d9 {
+
+namespace renderstate {
+
+//-----------------------------------------------------------------------
  
 
 //! \brief Стек зачения стейта девайса  
@@ -185,4 +200,16 @@ private:
 // end class
  
 
+
+
+//-----------------------------------------------------------------------
+
+}
+}
+}
+}
+
+#pragma warning(pop)
+
+#endif
 // end file

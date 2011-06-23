@@ -21,7 +21,7 @@
 #include <gb/config.h>
 #include <gb/base/Types.h>
 
-#include <gb/math/math.h>
+#include <gb/fmath/fmath.h>
 
 #include <windows.h>
 #include <mmsystem.h>

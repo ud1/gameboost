@@ -960,6 +960,18 @@ ObjContainsE checkContainsSphere( const Sphere& s)  const
 		inline void glVertex() { glVertex3f(src.x, src.y, src.z); glVertex3f(dest.x, dest.y, dest.z);   };
       #endif
 
+	inline void operator += (const vec3& v)
+	{
+		src  += v;
+		dest += v;
+	}
+
+	inline void operator -= (const vec3& v)
+	{
+		src  -= v;
+		dest -= v;
+	}
+
 
 		//! вывод на консоль.
 		inline void print() const { src.print(); printf("  "); dest.print(); printf("  \n"); };

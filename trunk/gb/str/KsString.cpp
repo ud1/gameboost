@@ -5,7 +5,8 @@
 * \author Reviewer/imported by: kvakvs (kvakvs@yandex.ru)
 */
 
-#include "pch.h"
+//#include "pch.h"
+#include "d3d9pch.h"
 
 #include <gb/str/String.h>
 #include <gb/str/KsString.h>

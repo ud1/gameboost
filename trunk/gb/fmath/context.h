@@ -31,25 +31,28 @@
 
 
 
-
+#pragma message("ks777: gb::fmath::context  ПРОВЕРЯТЬ И ДОБАВЛЯТЬ ПО СЕМАНТИКАМ RENDER MONKEY  "  __FILE__)
 
       //!  семантика параметра типа  float
       struct float_context_type_e
       {
 	      enum e
 		  {
-		  UNDEFINED  =  0,
+		  UNDEFINED  =  0,   ///< не определено !
 
+
+ 
 		  TIME,
  
 		  COSTIME,
 		  SINTIME,
 		  TANTIME,
-		  TIME0_1,
+
+		  //TIME0_1,
 		  //COSTIME0_1,
 		  //SINTIME0_1,
 		  //TANTIME0_1,
-
+ 
 		  //TIMESPEED,
 
 		  //TAN0_2PI,
@@ -65,15 +68,16 @@
 
 		  VIEWPORTWIDTH,
 		  VIEWPORTHEIGHT,
+
 		  VIEWPORTWIDTHINVERSE,
 		  VIEWPORTHEIGHTINVERSE,
 
 		  FOV,
 
 		  FARCLIPPLANE,
-
-
 		  NEARCLIPPLANE,
+
+		  ASPECT,
 
 			  /*
 		  RANDOMFRACTION1PERPASS,
@@ -91,6 +95,7 @@
 
 		  RIGTHMOUSEBUTTON,
 		  LEFTMOUSEBUTTON,
+		  MIDDLEMOUSEBUTTON,
 
 		  //MIDDLEMOUSEBUTTON,
 			 
@@ -102,23 +107,25 @@
 		  MOUSECOORDINATEYNDC,
 		  MODELBOUNDINGSPHERERADIUS,
 
-		  ASPECT,
 
-		  SPECULARPOWER,
 
-		  ROTATEZ,
+		//  SPECULARPOWER,
 
-		  BRIGHTNESS,
+		//  ROTATEZ,
 
-		  CONTRAST,
+		//  BRIGHTNESS,
+
+		 // CONTRAST,
 
 		  //ALPHA,
 		  //LIGTHMAPINTENSITY,
 		  //ANIMATESPEED,
  
 
-		  UNUSED_DECLARED_LAST,
-		  UNUSED_FORCE32 = 0x7f000000		
+
+		  UNUSED_DECLARED_LAST,	///< Этот пункт не используется. Декларируется последним.
+		  UNUSED_FORCE32 = 0xff000000
+
 		  };
 
 
@@ -136,7 +143,7 @@
 	 float time;
 	 float timeElapsed;
 
-	 int fps;
+	 float fps;
 
 		struct mouseData_s
 		{
@@ -362,7 +369,7 @@ public:
     return prj->zf; 
   }
 
-   /*
+   /* ****************************************
   int  PushMatrixWorld()const;
   int  PushMatrixView()const;
   int  PushMatrixProj()const;
@@ -384,7 +391,8 @@ public:
     int  set_matrix_World(const mat44 *m)const;
     int  set_matrix_View(const mat44 *m)const;
     int  set_matrix_Proj(const mat44 *m)const;
-	*/
+
+	***************************************************/
 
 
 
@@ -472,14 +480,14 @@ protected:
 private:
 	typedef unsigned long BOOLFLAG;
 
-  /** \brief Сборка для класса MatricesContext */
+  //  /** \brief Сборка для класса MatricesContext */
   struct matrixStore_s
   {
     mat44 matrix;
     BOOLFLAG bChangeFlag;
   };
 
-  /** \brief Структура Вспомогательная сборка матриц для класса MatricesContext */
+  //    /** \brief Структура Вспомогательная сборка матриц для класса MatricesContext */
   struct MatricesStore
   {
     matrixStore_s 
@@ -510,18 +518,18 @@ private:
 
 
 
-  /** \brief Вспомогательная структура для класса MatricesContext  */
+  //     /** \brief Вспомогательная структура для класса MatricesContext  */
   struct BoolChangedMainMatrisec
   {
     BOOLFLAG bViewChange, bWorldChange, bProjChange;
   };
 
 
-    mat44 m_mWorld, m_mView, m_mProj; //*< основные матрицы
+    mat44 m_mWorld, m_mView, m_mProj; ///< основные матрицы
 
 
   mutable mat44 m_temp;
-  mutable mat44 m_temp2; //*< для временных вычислений
+  mutable mat44 m_temp2; ///< для временных вычислений
 
   mutable MatricesStore m_matr;
   mutable BoolChangedMainMatrisec m_BoolChangedMatr;
@@ -545,17 +553,18 @@ private:
 
   //* изменились ли вью параметры
   mutable BOOLFLAG m_bIsParameter_EyeData_changed;
+
   //* вью параметры
   mutable geom3d::EyeData m_EyeData;
 
  // gb::fmath::geom3d::EyeData
  
 
-	/*
+	/******************************
   mutable CFixedMatrixStack m_MatrixStackWorld;
   mutable CFixedMatrixStack m_MatrixStackView;
   mutable CFixedMatrixStack m_MatrixStackProj;
-    */
+    *********************************/
 
   mutable bool m_bTransfDataChange;
   mutable geom3d::TransformData  m_TransformData;

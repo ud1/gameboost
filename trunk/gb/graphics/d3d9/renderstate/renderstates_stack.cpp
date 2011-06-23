@@ -2,11 +2,23 @@
 
 #include "renderstates_stack.h"
 
+
+/* ********************
+
 #pragma warning("!!!!!!!!!!  MAIN() !!!!!!!!!!!!! " __FILE__)
 int main()
 {
 	return 0;
 }
+***********************/
+
+namespace gb  {
+
+namespace graphics {
+
+namespace d3d9 {
+
+namespace renderstate {
 
 //=====================================================================================
 bool StateStack::CheckAllEmpty() const 
@@ -440,6 +452,13 @@ HRESULT StateStack::PopState(IDirect3DDevice9* pdevice, D3DRENDERSTATETYPE state
   return hr;
 };
  
+ 
+//==================================================================
+
+}
+}
+}
+} 
 
 
 // end file

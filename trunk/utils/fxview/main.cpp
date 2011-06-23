@@ -1,21 +1,13 @@
-﻿
+﻿#include "d3d9pch.h"
+
+ 
+#pragma warning (disable : 4996)
+ 
+#include "fxview.h"
  
 
-
-#include <ce/dxut_wonly/dxut_wonly.h>
-//#include "context.h"
-#include <assert.h>
-#include <string>
-#include <vector>
-
-
-#include "fxview.h"
-#include <gb/graphics/value_semantic/value_semantic.h>
-#include "monEffectRender.h"
-
-
-
-
+ 
+ 
 
 //--------------------------------------------------------------------------------------
 // Rejects any devices that aren't acceptable by returning false
@@ -54,6 +46,9 @@ HRESULT  CALLBACK OnCreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE
 	 hr |= pappl->OnCreateDevice(pd3dDevice, pBackBufferSurfaceDesc);
 
 
+
+  pappl->m_camera.setViewParams( vec3(5, 0 , 0 ) , vec3(0,0,0) );
+
 	return  hr;
 }
 
@@ -69,6 +64,15 @@ HRESULT  CALLBACK OnResetDevice( IDirect3DDevice9* pd3dDevice,
 	 hr |= pappl->OnResetDevice(pd3dDevice, pBackBufferSurfaceDesc);
 
 
+   float asp = (float)pBackBufferSurfaceDesc->Width/(float)pBackBufferSurfaceDesc->Height;
+
+   pappl->m_camera.setProjParams( gb::fmath::constan::CPI/3.0f,  asp , 0.1f , 1000.0f  );
+   pappl->m_camera.setWindow( pBackBufferSurfaceDesc->Width , pBackBufferSurfaceDesc->Height );
+
+
+
+
+
 	return  hr;
 }
 
@@ -79,6 +83,8 @@ HRESULT  CALLBACK OnResetDevice( IDirect3DDevice9* pd3dDevice,
 void CALLBACK OnFrameMove( IDirect3DDevice9* pd3dDevice, double fTime, float fElapsedTime, void* pUserContext )
 {
 	  Appl* pappl = (Appl*)pUserContext;
+
+	pappl->m_camera.frameMove(fElapsedTime);
  
 }
 
@@ -91,13 +97,20 @@ void CALLBACK OnFrameRender( IDirect3DDevice9* pd3dDevice, double fTime, float f
 	  Appl* pappl = (Appl*)pUserContext;
 	HRESULT  hr;
  
-	V( pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB(0, 45, 50, 170), 1.0f, 0) );
+	V( pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 
+		D3DCOLOR_ARGB(0, 45, 50, 170),
+		1.0f, 0) );
 
  
 	if( SUCCEEDED( pd3dDevice->BeginScene() ) )
 	{
 	
-	
+
+
+
+	 hr |=	pappl->OnFrameRender(pd3dDevice, (float)fTime,  fElapsedTime);
+
+
 	
 	
 		V( pd3dDevice->EndScene() );
@@ -112,7 +125,7 @@ LRESULT CALLBACK MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam,
 						 bool* pbNoFurtherProcessing, void* pUserContext )
 {
 	  Appl* pappl = (Appl*)pUserContext;
-
+   pappl->m_camera.handleMessages(hWnd , uMsg, wParam, lParam);
 
 	return 0;
 }
@@ -150,7 +163,10 @@ void CALLBACK OnDestroyDevice( void* pUserContext )
 
 void CALLBACK OnKeyboard( UINT nChar, bool bKeyDown, bool bAltDown, void* pUserContext )
 {
-  Appl* pappl = (Appl*)pUserContext;
+  Appl* appl = (Appl*)pUserContext;
+
+  appl->OnKeyboard(nChar);
+  // 
 
 }
 
@@ -166,7 +182,7 @@ void   CALLBACK OnMouse( bool bLeftButtonDown,
    Appl* pappl = (Appl*)pUserContext;
 
 
-
+	 
 }
  
  
@@ -177,9 +193,15 @@ int main(int argc,  char* argv[])
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 
-   Appl* appl = NULL;  
+   Appl* appl =  new   Appl( argc, argv );
  
-   appl = new   Appl( argc, argv );
+
+  // temp code !!!
+   memcpy(appl->m_strFxFilePath,
+	   "j:\\!!MYCODE\\ce\\exp\\test_effect.fx", 
+	   MAX_PATH );
+
+
 
 	// Set the callback functions
 	DXUTSetCallbackDeviceCreated( OnCreateDevice, (void*)appl );
@@ -191,26 +213,15 @@ int main(int argc,  char* argv[])
 	DXUTSetCallbackFrameMove( OnFrameMove,(void*)appl );
 	DXUTSetCallbackKeyboard( OnKeyboard, (void*)appl );
 	DXUTSetCallbackMouse( OnMouse , true, (void*)appl  );
-
-
  
 	DXUTInit( true, true, true );  
 	DXUTSetCursorSettings( true, true );  
-	DXUTCreateWindow( L"EmptyProject" );
-	DXUTCreateDevice( D3DADAPTER_DEFAULT, true, 640, 480, IsDeviceAcceptable, ModifyDeviceSettings );
-
- 
+	DXUTCreateWindow( L"fx view" );
+	DXUTCreateDevice( D3DADAPTER_DEFAULT, true, 800, 600, IsDeviceAcceptable, ModifyDeviceSettings ); 
 	DXUTMainLoop();
-
-	DXUTShutdown(0);
-
-	delete appl;
- 
+	DXUTShutdown(0); 
 	 int nexcode =  DXUTGetExitCode();
-
-	//GB_SAFE_DEL_OBJ(pappl)
- 
-
+	  delete appl;
 	 return nexcode;
 }
  

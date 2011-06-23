@@ -26,7 +26,10 @@ namespace gb
 			int width;  //< ширина.
 			int height; //< высота.
 
-			Rectangle(){}
+			Rectangle() 
+			{
+				left = top = width = height = 0;
+			}
 			
 			Rectangle(int w, int h)
 			{
@@ -39,6 +42,11 @@ namespace gb
 			Rectangle(const Rectangle &other)
 			{
 				init(other);
+			}
+
+			Rectangle(int x, int y, int w, int h)
+			{
+				void init(int x, int y, int w, int h);
 			}
 
 #ifdef _WINDOWS_
@@ -153,6 +161,10 @@ namespace gb
 			}
 #endif
 
+
+#pragma warning(push)
+#pragma warning(disable : 4996)
+
 			//!  order:  left, top, width, height
 			std::string tostr() const
 			{
@@ -169,6 +181,9 @@ namespace gb
 				if(NSCANRES != 4) return false;
 				return true;
 			}
+
+#pragma warning(pop)
+
 
 
 

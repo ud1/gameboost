@@ -46,17 +46,13 @@
 
 #ifdef _DEBUG  // debug
 
-
-
-
 #else // release
-
-
 
 #endif // #ifdef _DEBUG
 
 
-
+#pragma warning(push)
+#pragma warning( disable : 4996 )
 
 namespace gb
 {
@@ -622,7 +618,7 @@ namespace gb
 
 } // end ns
 
-
+#pragma warning(pop)
 #endif // #ifdef  WIN32 
 
 // end file

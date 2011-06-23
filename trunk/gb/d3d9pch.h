@@ -23,7 +23,33 @@
 
 
 #include <d3d9.h>
+
+#ifdef GB_D3DX9
+  #include <d3dx9.h>
+#endif
+
 #include <gb/graphics/d3d9/auto_include_libr.h>
+#include <gb/graphics/d3d9/api_decl.h>
+
+
+#include <gb/macro.h>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#include <lm.h>
+
+#include <algorithm>
+#include <string>
+#include <iterator>
+#include <vector>
+#include <list>
+#include <stdexcept>
+
+#include <assert.h>
+
+#include <typeinfo.h>
 
 
 // end file

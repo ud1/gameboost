@@ -74,6 +74,9 @@ public:
 	 return *this;
  } 
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+
  std::string tostr() const
  {
    char buffer [32];
@@ -89,7 +92,7 @@ public:
 	 return true;
  }
  
-
+#pragma warning(pop)
 
 };
 
