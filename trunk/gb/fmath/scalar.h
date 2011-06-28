@@ -84,21 +84,23 @@ namespace gb
     namespace scalar
 	{
 	
-	//-----------------------------------------------------------------------
+	//---------------------------------------------------------------------
 
 	
-	// TODO   
-	//  inline bool isNAN( float a ) 
-	//	{
-	//	    return !( a == a );
-	//	}
-	
-	/*  TODO  inline bool compare()float a1, float a2, float epsilon) 
+ 
+	//inline bool is_nan( float a ) 
+	//{
+	//	bool r = a==a;
+	//	return !( a == a );
+	//}
+ 
+	inline bool compare(float a, float b, float eps)
 	{
-	
+	   return fabs(a - b) < eps;
 	}
-	*/
 
+
+ 
 	
 	/** \brief Проверка float f   на корректное значение  */
 	inline bool check(float f) 
@@ -302,7 +304,7 @@ namespace gb
 	/** \brief  Вычислить и вернуть среднее АРИФМЕТИЧЕСКОЕ массива pf размером num */
 	inline float aver_a(const float* pf, const unsigned int num) 
 	{
-		float r =0.0f;
+		float r = 0.0f;
 		if(num==0) return r;
 		for(unsigned int c=0; c<num; c++) 
 		{
@@ -320,7 +322,7 @@ namespace gb
 		for(unsigned int c=0; c<num; c++) 
 		{
 			r *=  *( pf + c );
-		};
+		}
 
 		return   pow(r, 1.0f/(float)num);  
 	}
@@ -330,7 +332,8 @@ namespace gb
 
 
 	
-	
+	//---------------------------------------------------------------------
+
 	}
 	
   }

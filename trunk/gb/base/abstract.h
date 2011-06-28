@@ -2,6 +2,7 @@
  \brief Самые базовые абстрактные интерфейсы
 
 
+  \todo все реализации перенести в другой заголовок, тут оставить только абстрактники
 */
 
 
@@ -30,6 +31,7 @@ protected:
    virtual ~IObject() {}
 };
 
+//! \brief  абстрактные опции , например ini или прочее подобное.
 class IOptions {
 public:
 
@@ -74,6 +76,13 @@ class INamed {
 public:
 	  //! \brief  Получить имя объекта в виде c-строки .
       virtual const char* name() const =0;
+};
+
+//! \brief  Для объектов имеющих имя типа  в виде строкового буфера.
+class ITypeNamed {
+public:
+	  //! \brief  Получить имя объекта в виде c-строки .
+      virtual const char* type_name() const =0;
 };
 
 

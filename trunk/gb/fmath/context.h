@@ -323,7 +323,7 @@ public:
   const mat44 *get_matrix_WorldViewInverse()const;
   const mat44 *get_matrix_WorldViewInverseTranspone()const;
 
-  const mat44 *get_matrix_by_context_type(const matrix4x4_context_type_e::e) const; 
+
 
   const vec3 *get_vector3_VewPos()const;
   const vec3 *get_vector3_ViewDir()const;
@@ -334,7 +334,9 @@ public:
   const vec4 *get_vector4_ViewDir()const;
   const vec4 *get_vector4_ViewUp()const;
   const vec4 *get_vector4_ViewSide()const;
-
+  
+   
+  const mat44 *get_matrix_by_context_type(const matrix4x4_context_type_e::e) const; 
   const vec4 *get_vector4_by_context_type(const vector_context_type_e::e) const;
 
 
