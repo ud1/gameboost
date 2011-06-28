@@ -76,5 +76,6 @@ namespace gb
 			bool is_autogenerate_mipmaps;
 		};
 		
+		typedef base::RefCntHolder<Texture> PTexture;
 	}
 }

@@ -1,34 +1,69 @@
 #pragma once
 
 #include "../Device.h"
+#include <gb/mt/ThreadPolicy.h>
 #include <boost/thread/mutex.hpp>
+
+#include <GL/glew.h>
+
+#ifdef WIN32
+#include <GL/wglew.h>
+#endif
+
+#include <GL3/gl3.h>
+
+//------------------- Safe opengl refcountable objects deletion macros---------
+
+#define GL_SAFE_OBJECT_DELETION														\
+	void DestroyThis()																\
+	{																				\
+		if (mt::ThreadMapping::getCurrentThreadGroup() == mt::RENDER_THREAD_GROUP)	\
+		{																			\
+			delete this;															\
+			return;																	\
+		}																			\
+		device->forDeletion_(this); /*delete later by render thread*/				\
+	}
 
 namespace gb
 {
 	namespace graphics
 	{
-		class GLDevice : public Device
+		namespace gl
 		{
-		public:
-			RenderTarget *createWindowRenderTarget(window_subsystem::Window *wnd);
-			bool getSize(int &width, int &height);
-			void setScissorRect(const base::Rectangle &rc);
+			
+			class GLDevice : public Device
+			{
+			public:
+				RenderTarget *createWindowRenderTarget(window_subsystem::Window *wnd);
+				bool getSize(int &width, int &height);
+				void setScissorRect(const base::Rectangle &rc);
 
-			Texture *createTexture(Texture::Type type);
-			Buffer *createIndexBuffer();
-			Buffer *createVertexBuffer();
-			RenderState *createRenderState();
-			void draw(ShaderProgram *prg, size_t count, size_t first, PrimitiveType type, Buffer *indexBuffer, int base = 0);
+				Texture *createTexture(Texture::Type type);
+				Buffer *createIndexBuffer();
+				Buffer *createVertexBuffer();
+				RenderState *createRenderState();
+				void draw(ShaderProgram *prg, size_t count, size_t first, PrimitiveType type, Buffer *indexBuffer, int base = 0);
 
-			ShaderServer *createShaderServer();
+				Shader *createVertexShader();
+				Shader *createGeometryShader();
+				Shader *createFragmentShader();
+				ShaderProgram *createShaderProgram();
+				
+				void deleteUnusedObjects();
+				void clean();
+				void forDeletion_(IRefCountable *res);
 
-			void deleteUnusedObjects();
-			void forDeletion_(IRefCountable *res);
-
-		protected:
-			PShaderProgram activated_program;
-			std::vector<IRefCountable *> for_deletion;
-			boost::mutex for_deletion_guard;
-		};
+				void setCurrentRenderTarget_(RenderTarget *rt) {current_render_target = rt;}
+				
+			protected:
+				PShaderProgram activated_program;
+				std::vector<IRefCountable *> for_deletion;
+				boost::mutex for_deletion_guard;
+				
+				static RenderTarget *current_render_target;
+			};
+		
+		}
 	}
 }

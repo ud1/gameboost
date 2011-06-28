@@ -43,7 +43,7 @@ namespace gb
 		 * @code
 		 * bool checkRequest(const Resource::Request &req); // проверяет валидность запроса.
 		 * void load(const Resource::Request &req, Resouce &res); // непосредственная загрузка ресурса
-		 * void update(const Resource::Request &req, Resouce &res); // обновление состояния ресурса.
+		 * void update(const Resource::Request &req, Resource &res); // обновление состояния ресурса.
 		 * @endcode
 		 */
 		template <typename Resource, typename Mutex, typename Loader, typename Derived>

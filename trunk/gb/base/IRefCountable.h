@@ -221,7 +221,17 @@ namespace gb
 				return ptr;
 			}
 			
+			operator const T *() const
+			{
+				return ptr;
+			}
+			
 			T *operator -> ()
+			{
+				return ptr;
+			}
+			
+			const T *operator -> () const
 			{
 				return ptr;
 			}

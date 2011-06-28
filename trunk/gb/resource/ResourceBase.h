@@ -12,6 +12,7 @@
 #include <gb/mt/Job.h>
 #include <gb/base/nullptr.h>
 #include <gb/base/Timer.h>
+#include "ResourceTraits.h"
 
 namespace gb
 {
@@ -25,7 +26,7 @@ namespace gb
 		 * после создания, а требует некоторого времени на подготовку (например на загрузку с диска).
 		 * Является центральным элементом в системе асинхронной загрузки ресурсов.
 		 */
-		class Resource : public base::IRefCountable
+		class ResourceBase : public base::IRefCountable
 		{
 		public:
 			/**
@@ -78,7 +79,7 @@ namespace gb
 			}
 
 		protected:
-			Resource() : wait_sem(0)
+			ResourceBase() : wait_sem(0)
 			{
 				status = RESOURCE_PREPARING;
 				preparation_time = 0.0;
@@ -86,7 +87,7 @@ namespace gb
 				timer.reset();
 			}
 
-			~Resource()
+			~ResourceBase()
 			{
 				cancelPreparationJobs();
 			}
@@ -147,7 +148,7 @@ namespace gb
 			friend struct Callback;
 			struct Callback : public mt::JobProxy, public BaseListHook
 			{
-				Callback(Resource *owner_)
+				Callback(ResourceBase *owner_)
 				{
 					owner = owner_;
 					owner->addRef();
@@ -164,7 +165,7 @@ namespace gb
 
 				mt::JobTask task_to_do;
 			private:
-				Resource *owner;
+				ResourceBase *owner;
 
 				bool getJobOwnership(mt::JobTask::Action a)
 				{
@@ -187,5 +188,29 @@ namespace gb
 			ResourceStatus wait_(int millisecs);
 			void doCallback(mt::JobTask::Action s);
 		};
+		
+// 		template <>
+// 		struct isAsync<ResourceBase>
+// 		{
+// 			typedef boost::mpl::bool_<true> type;
+// 		};
+// 		
+// 		template <>
+// 		struct isReady<ResourceBase>
+// 		{
+// 			static bool operator()(ResourceBase &res)
+// 			{
+// 				return res.getStatus() == ResourceBase::RESOURCE_OK;
+// 			}
+// 		};
+// 		
+// 		template <>
+// 		struct addOnfinishCallback<ResourceBase>
+// 		{
+// 			static mt::Job *operator()(ResourceBase &res, const mt::JobTask &task)
+// 			{
+// 				return res.addOnFinishCallback(task);
+// 			}
+// 		};
 	}
 }

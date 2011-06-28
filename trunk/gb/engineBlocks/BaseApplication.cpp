@@ -108,10 +108,6 @@ namespace gb
 			if (!device)
 				return false;
 			
-			shader_server = base::CreateRFHolder(device->createShaderServer());
-			if (!shader_server)
-				return false;
-			
 			main_window_rt = base::CreateRFHolder(device->createWindowRenderTarget(main_window));
 			if (!main_window_rt)
 				return false;
@@ -144,6 +140,8 @@ namespace gb
 					base::Timer::sleep(20.0 - 1000.0*dt);
 				dt = timer.getTime();
 			}
+			
+			device->clean();
 		}
 		
 		void BaseApplication::setupInputHandler()

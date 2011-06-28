@@ -27,7 +27,6 @@ namespace gb
 			window_subsystem::PWindowManager window_manager;
 			window_subsystem::PWindow main_window;
 			graphics::PDevice device;
-			graphics::PShaderServer shader_server;
 			graphics::PRenderTarget main_window_rt;
 			fs::PFileSystem file_system;
 			CameraInput camera;
