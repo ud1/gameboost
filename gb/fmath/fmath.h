@@ -59,7 +59,20 @@
 #include <gb/fmath/proj.h>
 #include <gb/fmath/context.h>
 
+#pragma  warning(pop)
+
+
+// do include static lib for VC
+
+#ifndef _LIB_GB_FMATH
+	#ifdef _DEBUG
+	   #pragma comment( lib , "gb_fmath_d.lib" )
+	#else
+	   #pragma comment( lib , "gb_fmath.lib" )
+	#endif
+#endif
+
 
  
-#pragma  warning(pop)
+
 // end file

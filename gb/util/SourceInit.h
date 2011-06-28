@@ -21,7 +21,7 @@ namespace util
 bool   Initialize(void* pUserData);
 bool   Finalize(void* pUserData); 
 
-bool   Initialize(void* pUserData) {
+static  bool   Initialize(void* pUserData) {
 static bool sbFirstCall = true;
 if(!sbFirstCall) return true;
 sbFirstCall = false;
@@ -30,7 +30,7 @@ sbFirstCall = false;
 return true;
 }
 
-bool   Finalize(void* pUserData) {
+static  bool   Finalize(void* pUserData) {
 static bool sbFirstCall = true;
 if(!sbFirstCall) return true;
 sbFirstCall = false;

@@ -1,4 +1,9 @@
-﻿#include "stdafx.h"
+﻿
+// temp !!
+#include "d3d9pch.h"
+//#include "stdafx.h"
+
+
 #include <gb/util/SourceInit.h>
 
 namespace gb

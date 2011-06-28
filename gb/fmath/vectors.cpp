@@ -1,14 +1,7 @@
-﻿/**  \file
- \brief Реализация  gb::fmath  для векторов.
-
-
- \TODO  Вынести все функции специфик  max2x2 
-
-*/
-
-
+﻿
+//#include "pch.h"
 //#include "stdafx.h"
-#include "d3d9pch.h"
+//#include "d3d9pch.h"
 
 #include <gb/fmath/fmath.h>
 
