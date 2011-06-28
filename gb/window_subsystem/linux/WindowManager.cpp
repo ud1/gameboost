@@ -42,6 +42,7 @@ namespace
 			info = i;
 			registerWindow(info.window, this);
 			input = NULL;
+			last_release_event_set = false;
 			
 			delete_window_protocol = XInternAtom (info.display, "WM_DELETE_WINDOW", True);
 			wm_protocols = XInternAtom (info.display, "WM_PROTOCOLS", True);
@@ -209,7 +210,8 @@ namespace
 		bool flush()
 		{
 			ws::KbdMessage kbd;
-			if (last_release_event_set) {
+			if (last_release_event_set)
+			{
 				last_release_event_set = false;
 				if (input)
 				{
@@ -541,7 +543,7 @@ namespace
 		if (!initialized)
 			return NULL;
 		
-		int gl_version = 30;
+		int gl_version = 33;
 		bool forward_compatible = true;
 		
 		setlocale(LC_ALL, "ru_RU.UTF-8");

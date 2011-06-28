@@ -21,7 +21,7 @@ namespace gb
 	{
 		Device *createDevice(const char *)
 		{
-			return new GLDevice;
+			return new gl::GLDevice;
 		}
 		
 		Device::PrimitiveType Device::getPrimTypeByName(const std::string &name)

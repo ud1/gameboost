@@ -13,9 +13,10 @@ namespace gb
 		/**
 		 * \brief Ассинхронный загрузчик ресурсов, для выполнения своих задач использует IJobScheduler.
 		 * 
-		 * SyncLoader помимо требований указаных в CacheBase должен иметь функцию
+		 * SyncLoader помимо требований указаных в CacheBase должен иметь дополнительные функции
 		 * @code
 		 * void cancel(const Resource::Request &req, Resouce &res);
+		 * void setJob(Resource &res, mt::Job *job);
 		 * @endcode
 		 */
 		template <typename SyncLoader, typename Resource>
@@ -42,8 +43,10 @@ namespace gb
 				res.addRef();
 				mt::JobTask task;
 				task.policy = mt::getIOThreadPolicy();
-				task.run = boost::bind(&AsyncLoader<SyncLoader, Resource>::loan_func, req, &res, boost::lambda::_1);
-				scheduler->scheduleJob0(0, task);
+				task.run = boost::bind(&AsyncLoader<SyncLoader, Resource>::load_func, req, &res, boost::lambda::_1);
+				mt::Job *job =  scheduler->scheduleJob(0, task);
+				loader.setJob(res, job);
+				job->release();
 			}
 			
 			void update(const Resource::Request &req, Resouce &res)
@@ -55,7 +58,7 @@ namespace gb
 			SyncLoader &loader;
 			mt::IJobScheduler *scheduler;
 			
-			void loan_func(Resource::Request req, Resouce *res, mt::JobTask::Action a)
+			void load_func(Resource::Request req, Resouce *res, mt::JobTask::Action a)
 			{
 				if (a == mt::JobTask::DO_JOB)
 				{

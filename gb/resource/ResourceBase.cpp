@@ -1,4 +1,4 @@
-#include "Resource.h"
+#include "ResourceBase.h"
 
 namespace gb
 {
@@ -6,9 +6,9 @@ namespace gb
 	{
 		using namespace mt;
 		
-		//----------------------- Resource --------------------------------
+		//----------------------- ResourceBase --------------------------------
 
-		Resource::ResourceStatus Resource::wait(int millisecs)
+		ResourceBase::ResourceStatus ResourceBase::wait(int millisecs)
 		{
 			if (millisecs == -1)
 			{
@@ -22,7 +22,7 @@ namespace gb
 			return wait_(millisecs);
 		}
 
-		Job *Resource::addOnFinishCallback(const JobTask &task)
+		Job *ResourceBase::addOnFinishCallback(const JobTask &task)
 		{
 			if (task.policy && !sched)
 				return nullptr; // Не можем выполнять задачи с политикой без шедулера
@@ -43,7 +43,7 @@ namespace gb
 			return callback;
 		}
 
-		void Resource::addPreparationJob0(Job *op)
+		void ResourceBase::addPreparationJob0(Job *op)
 		{
 			{
 				boost::lock_guard<boost::mutex> guard(preparation_jobs_guard);
@@ -52,7 +52,7 @@ namespace gb
 			partitialyLoaded();
 		}
 
-		void Resource::preparationFinished(ResourceStatus s)
+		void ResourceBase::preparationFinished(ResourceStatus s)
 		{
 			preparation_time = timer.getTime();
 			status = s;
@@ -62,7 +62,7 @@ namespace gb
 			doCallback(JobTask::DO_JOB);
 		}
 
-		bool Resource::eraseCallback(Callback &callback)
+		bool ResourceBase::eraseCallback(Callback &callback)
 		{
 			boost::lock_guard<boost::mutex> guard(callbacks_guard);
 			if (callback.is_linked())
@@ -77,7 +77,7 @@ namespace gb
 			}
 		}
 
-		void Resource::onWait(int millisecs)
+		void ResourceBase::onWait(int millisecs)
 		{
 			if (millisecs == -1)
 				millisecs = 10;
@@ -129,7 +129,7 @@ namespace gb
 			}
 		}
 
-		void Resource::cancelPreparationJobs()
+		void ResourceBase::cancelPreparationJobs()
 		{
 			boost::lock_guard<boost::mutex> guard(preparation_jobs_guard);
 			for (PreparationJobs::iterator it = preparation_jobs.begin(); it != preparation_jobs.end(); ++it)
@@ -140,7 +140,7 @@ namespace gb
 			preparation_jobs.clear();
 		}
 
-		Resource::ResourceStatus Resource::wait_(int millisecs)
+		ResourceBase::ResourceStatus ResourceBase::wait_(int millisecs)
 		{
 			double t, millisecs_remains = millisecs;
 			t = timer.getTime();
@@ -168,7 +168,7 @@ namespace gb
 			return getStatus();
 		}
 
-		void Resource::doCallback(JobTask::Action s)
+		void ResourceBase::doCallback(JobTask::Action s)
 		{
 			while (1)
 			{

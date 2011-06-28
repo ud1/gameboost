@@ -19,7 +19,7 @@ namespace gb {
 			IO_THREAD_GROUP,
 			CPU_INTENSIVE_THREAD_GROUP,
 			
-			THREAD_GROUP_NUMBER,
+			THREAD_GROUP_NUMBER
 		};
 		
 		/**

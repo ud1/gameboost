@@ -27,7 +27,16 @@ set( GAMEBOOST_SOURCES
 		t/clamp.h t/debug_cast.h
 		window_subsystem/Input.h window_subsystem/KeyCodes.h window_subsystem/Window.h
 		window_subsystem/WindowManager.h window_subsystem/linux/WindowManager.cpp
-		graphics/Device.h graphics/Device.cpp graphics/Texture.h graphics/opengl/GLDevice.h graphics/opengl/GLDevice.cpp
+		graphics/Device.h graphics/Device.cpp graphics/Texture.h
+		graphics/opengl/GLDevice.h graphics/opengl/GLDevice.cpp
+		graphics/opengl/GLTexture.h graphics/opengl/GLTexture.cpp
+		graphics/opengl/GLBuffer.h graphics/opengl/GLBuffer.cpp
+		graphics/opengl/GLShader.h graphics/opengl/GLShader.cpp
+		graphics/opengl/GLAttribute.h graphics/opengl/GLAttribute.cpp
+		graphics/opengl/GLUniform.h graphics/opengl/GLUniform.cpp
+		graphics/opengl/GLShaderProgram.h graphics/opengl/GLShaderProgram.cpp
+		graphics/opengl/GLWindowRenderTarget.h graphics/opengl/GLWindowRenderTarget.cpp
+		graphics/opengl/GLRenderState.h graphics/opengl/GLRenderState.cpp
 
 		engineBlocks/BaseApplication.h engineBlocks/BaseApplication.cpp engineBlocks/GameApplication.h engineBlocks/GameApplication.cpp
 		engineBlocks/EventTranslator.h engineBlocks/EventTranslator.cpp engineBlocks/InputHandlerContainer.h engineBlocks/InputHandlerMap.h
@@ -52,7 +61,7 @@ set( GAMEBOOST_SOURCES
 		
 		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp mt/syncPrimitives.h
 
- 		resource/Resource.h resource/Resource.cpp
+ 		resource/ResourceBase.h resource/ResourceBase.cpp
 		resource/CacheBase.h resource/CacheNoGarbage.h resource/LRUCache.h resource/AsyncLoader.h
 
 		shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
@@ -63,6 +72,11 @@ set( GAMEBOOST_SOURCES
 		i18n/Japanese.h  i18n/Japanese.cpp
 
 		terrain/ElevationData.h terrain/IndexBuffer.h terrain/IndexBuffer.cpp
+
+		graphics/2d/ImageBlock.h
+		graphics/2d/rects.h
+		graphics/2d/RectsBuffer.h graphics/2d/RectsBuffer.cpp
+		graphics/2d/TextureAtlas.h graphics/2d/TextureAtlas.cpp
 		
 		Config.h )
 

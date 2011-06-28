@@ -104,7 +104,8 @@ namespace gb
 		AutoImage::~AutoImage()
 		{
 			if (image.data)
-				base::alignedFree((void *) image.data);
+				//base::alignedFree((void *) image.data);
+				free(image.data);
 		}
 		
 		void AutoImage::copyFrom(const Image &o, ePixelFormat::PixelFormat pf)
@@ -123,14 +124,16 @@ namespace gb
 		bool AutoImage::load(loaders::ImageLoader &loader, fs::InputStream &input)
 		{
 			if (image.data)
-				base::alignedFree((void *) image.data);
+				//base::alignedFree((void *) image.data);
+				free(image.data);
 			image.data = NULL;
 			
 			if (!loader.loadImageHeader(input, image))
 				return false;
 			
 			image.pitch = image.row_size + image.padding_bytes;
-			image.data = (char *) base::alignedMalloc(image.data_size, 4);
+			//image.data = (char *) base::alignedMalloc(image.data_size, 4);
+			image.data = (char *)malloc(image.data_size);
 			
 			return loader.loadImage(input, image);
 		}
