@@ -48,7 +48,7 @@
 				RuntimeLibrary="3"
 				FloatingPointExceptions="true"
 				UsePrecompiledHeader="1"
-				PrecompiledHeaderThrough="stdafx.h"
+				PrecompiledHeaderThrough="d3d9pch.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
@@ -111,8 +111,8 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB_GB_D3D9;GB_D3D9;GB_D3DX9;GB_COLOR;GB_MATH"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderThrough="stdafx.h"
+				UsePrecompiledHeader="1"
+				PrecompiledHeaderThrough="d3d9pch.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
@@ -166,72 +166,24 @@
 				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dfont.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load.cpp"
+			<Filter
+				Name="NewFilter1"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load_pfunc_decl.cpp"
+			</Filter>
+			<Filter
+				Name="NewFilter2"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv.cpp"
+			</Filter>
+			<Filter
+				Name="NewFilter3"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv2.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dds\DDSTextureLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\fvf.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\hlsl\hlsl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\Renderbilliboard.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\RenderBitmapFont.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\RenderCubemapEnvironment.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rt\rendertarget.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rt\rendertarget_impl.cpp"
-				>
-			</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="h"
 			>
 			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\api_decl.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\appl.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\auto_include_libr.h"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\auto_include_libr.h"
 				>
 			</File>
 			<File
@@ -239,7 +191,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\!!GB\gameboost\gb\graphics\d3d9\d3d9.h"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3d9.h"
 				>
 			</File>
 			<File
@@ -247,29 +199,41 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\Device.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="NewFilter1"
+			>
+		</Filter>
+		<Filter
+			Name="d3dx9_dynamic_load"
+			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load_pfunc_decl.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dx9_dynamic_load\d3dx9_dynamic_load_pfunc_decl.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\device.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\fvf.h"
-				>
-			</File>
+		</Filter>
+		<Filter
+			Name="NewFilter2"
+			>
+		</Filter>
+		<Filter
+			Name="NewFilter3"
+			>
 		</Filter>
 	</Files>
 	<Globals>
