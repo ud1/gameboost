@@ -3,12 +3,18 @@
 
 
   \todo все реализации перенести в другой заголовок, тут оставить только абстрактники
+
+  
 */
 
 
 #pragma once
 #include "Types.h"
 #include <string>
+
+// temp !!!!!
+#pragma warning (push)
+#pragma warning (disable : 4996)
 
 namespace gb
 {
@@ -78,12 +84,6 @@ public:
       virtual const char* name() const =0;
 };
 
-//! \brief  Для объектов имеющих имя типа  в виде строкового буфера.
-class ITypeNamed {
-public:
-	  //! \brief  Получить имя объекта в виде c-строки .
-      virtual const char* type_name() const =0;
-};
 
 
 //! для объектов имеющих имя в виде буфера строки (32 байта)
@@ -99,6 +99,14 @@ public:
   
 private:
   char m_strName[32];
+};
+
+
+//! \brief  Для объектов имеющих имя типа  в виде строкового буфера.
+class ITypeNamed {
+public:
+	  //! \brief  Получить имя объекта в виде c-строки .
+      virtual const char* type_name() const =0;
 };
 
 
@@ -126,5 +134,7 @@ private:
 //---------------------------------------------------------------
 }
 }
+
+#pragma warning (pop)
 
 // end file

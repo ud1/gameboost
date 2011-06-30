@@ -1,4 +1,8 @@
-
+/** \file
+ \brief Ќебольша€ надстройка над ID3DXMeth
+ 
+  \todo убрать абстрактник .. сделать простой класс.
+*/
 
 #if ( defined(WIN32) && defined(__D3DX9_H__) )
 #pragma once

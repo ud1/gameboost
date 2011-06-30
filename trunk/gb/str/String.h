@@ -39,15 +39,25 @@
 #include <gb/Config.h>
 #include <gb/base/Types.h>
 
- 
+/************* 
 #ifdef WIN32
 #include <windows.h> 
 #endif
+#*************/
 
 #if GB_ALLOW_BOOST_LIBRARY
 #include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
 #endif
+
+#ifndef _LIB_GB_STR
+	#ifdef _DEBUG
+		#pragma comment(lib , "gb_str_d.lib")
+	#else
+		#pragma comment(lib , "gb_str.lib")
+	#endif
+#endif
+
 
 
 #pragma warning(push)

@@ -46,7 +46,7 @@
 
 
 // library gameboost d3d9 
-#if 0 
+#if 1 
 
 #ifndef _LIB_GB_D3D9
 	#ifdef _DEBUG
