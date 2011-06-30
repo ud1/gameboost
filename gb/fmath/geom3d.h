@@ -505,7 +505,12 @@ namespace gb
 	   vec3  center;  ///<  центральная координата сферы.
 	  float   radius;  ///<  радиус сферы.
 	  
-	  inline Sphere() {}
+	  inline Sphere() 
+	  {
+		   center.setzero();
+		   radius = 0.0f;
+	  }
+
 	  inline Sphere(const Sphere& s) {center=s.center; radius=s.radius; }
 	  inline Sphere(const  vec3& _center, const float _radius) {center=_center; radius=_radius; }	  
 	  
@@ -604,6 +609,11 @@ namespace gb
 	  inline AABB(const AABB& aabb) {min=aabb.min; max=aabb.max;}	  
 	  inline AABB(const  vec3& _min, const  vec3& _max) { min=_min; max=_max;  }
 	
+	  inline void setzero()
+	  {
+		  min.setzero();
+		  max.setzero();
+	  }
 
 	  inline bool operator == (const AABB& aabb) { return (min == aabb.min) && (max == aabb.max); }
 	  

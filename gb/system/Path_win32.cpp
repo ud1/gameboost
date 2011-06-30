@@ -4,12 +4,16 @@
  *  Пути к файлам и ресурсам, работа с директориями и путями. Win32 реализация.
  *	\author Дмитрий Литовченко kvakvs@yandex.ru
  */
+
+#include <gb/Config.h>
+
 #include <gb/system/Path.h>
 #include <gb/str/String.h>
 
-#ifdef _WIN32
+//#ifdef _WIN32
+#if ( defined(_WIN32) || defined(WIN32) )
 
-#include <Windows.h>
+#include <windows.h>
 #include <Shlobj.h>
 #include <direct.h>
 

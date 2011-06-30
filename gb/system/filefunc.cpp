@@ -20,7 +20,7 @@
 #pragma warning(push)
 #pragma warning( disable : 4995 )
 #pragma warning( disable : 4290 ) // пока отключено
-
+#pragma warning( disable : 4297 )
 
 //=========================================================================
 

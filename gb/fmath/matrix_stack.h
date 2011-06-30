@@ -29,11 +29,8 @@ namespace fmath
 //! \brief Стек матриц на основе std::stack
 class MatrixStackStd {
 public:
-	          MatrixStackStd() 
-			  {
 
-			  }
-
+			  MatrixStackStd()  {}
 	virtual  ~MatrixStackStd() 
 	{ 
 		while( !m_stack.empty() ) 
@@ -42,8 +39,8 @@ public:
 		}
 	}
 
-	//    //! \brief Заглушка для перекрытия пользователем. Изменение матрицы.
-	//virtual long onSetMatrix(const mat44& m)
+	//! \brief Заглушка для перекрытия пользователем. Обработка события изменения матрицы.
+	//virtual long onSetNewMatrix(const mat44& m)
 	//{
 	//	 return 0;
 	//}
@@ -55,7 +52,11 @@ public:
 
 	void push()
 	{
-		mat44 m;
+		mat44 m (1.0f);
+		if(!m_stack.empty() )
+		{
+		  m = m_stack.top();
+		}
 		m_stack.push(m);
 	}
 
@@ -67,6 +68,28 @@ public:
 			}
 
 			m_stack.pop();
+
+			//if( onSetNewMatrix(top() );
+	}
+
+	mat44& top() 
+	{
+		if(m_stack.empty())
+		{
+			throw std::runtime_error("Stack empty");
+		}
+
+		return m_stack.top();
+	}
+
+	const mat44& top()  const
+	{
+		if(m_stack.empty())
+		{
+			throw std::runtime_error("Stack empty");
+		}
+
+		return m_stack.top();
 	}
 
 	void loadIdentity() throw(std::runtime_error&)
@@ -120,9 +143,9 @@ public:
 				throw std::runtime_error("stack empty");
 			}
 
-		  mat44 mscaling;
-		  mscaling.setScaling(x,y,z);
-		  m_stack.top() = m_stack.top() * mscaling;
+		mat44 mscaling;
+		mscaling.setScaling(x,y,z);
+		m_stack.top() = m_stack.top() * mscaling;
 	}
 
 	//! \brief m_stack.top() = m_stack.top() * mrotate; 
@@ -161,7 +184,12 @@ public:
 		mat44 mtranslate;
 		mtranslate.setTranslation(x,y,z);
 		m_stack.top() = m_stack.top() * mtranslate;
+	}
 
+	//! \brief m_stack.top() = m_stack.top() * mtranslate; 
+	inline void translate(const vec3& v)
+	{
+		translate(v.x , v.y , v.y);
 	}
 
 	std::stack<mat44> m_stack;
