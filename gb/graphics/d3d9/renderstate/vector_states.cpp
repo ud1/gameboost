@@ -1,10 +1,10 @@
-﻿//#include "stdafx.h"
+﻿#include "d3d9pch.h"
 
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
 #include <gb/graphics/d3d9/renderstate/vector_states.h>
-#include <gb/graphics/d3d9/dataconv.h>
+#include <gb/graphics/d3d9/dataconv/dataconv.h>
 #include <gb/str/String.h>
 
 #include <assert.h>

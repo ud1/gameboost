@@ -12,7 +12,7 @@
   #include <gb/Config.h>
   #include <gb/macro.h>
 
-  #include "rendertarget.h"
+  #include "../rendertarget.h"
 
   //! УБРАТЬ !!!!!!!!!!!
   #define MONPRINTB(m)

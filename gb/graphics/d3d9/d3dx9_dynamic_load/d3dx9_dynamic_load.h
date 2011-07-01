@@ -61,23 +61,6 @@ namespace  d3d9
 namespace d3dx9_dynamic_load
 {
 
-	//d3dx9_undef   = 0 ,
-
-	//d3dx9_24,
-	//d3dx9_25,
-	//d3dx9_26,
-	//d3dx9_27,
-	//d3dx9_28,
-	//d3dx9_29,
-	//d3dx9_30,
-	//d3dx9_31,
-	//d3dx9_32,
-	//d3dx9_33,
-	//d3dx9_34,
-	//d3dx9_ ....,
- 
- 
-  
   //-------------------------------------------------------------------------
 
   
@@ -166,7 +149,7 @@ public:
 
 	// version function
 
-	BOOL D3DXCheckVersion( UINT D3DSDKVersion, UINT D3DXSDKVersion)
+inline BOOL D3DXCheckVersion( UINT D3DSDKVersion, UINT D3DXSDKVersion)
 	{
 		if( !m_fnc.m_TFunc_D3DXCheckVersion ) 
 		{
@@ -181,7 +164,7 @@ public:
 	//	     Animation Functions
 	//-------------------------------------------------------------
 
-	HRESULT D3DXCreateAnimationController(
+inline HRESULT D3DXCreateAnimationController(
 		UINT MaxNumAnimationOutputs,
 		UINT MaxNumAnimationSets,
 		UINT MaxNumTracks,
@@ -198,7 +181,7 @@ public:
 
 
 
-	HRESULT D3DXCreateCompressedAnimationSet(
+inline HRESULT D3DXCreateCompressedAnimationSet(
 		LPCSTR pName,
 		DOUBLE TicksPerSecond,
 		D3DXPLAYBACK_TYPE Playback,
@@ -217,7 +200,7 @@ public:
 
 
 
-	HRESULT D3DXCreateKeyframedAnimationSet(
+inline HRESULT D3DXCreateKeyframedAnimationSet(
 		LPCSTR pName,
 		DOUBLE TicksPerSecond,
 		D3DXPLAYBACK_TYPE Playback,
@@ -237,7 +220,7 @@ public:
 
 
 
-	HRESULT D3DXFrameAppendChild( LPD3DXFRAME pFrameParent,  CONST D3DXFRAME * pFrameChild)
+inline HRESULT D3DXFrameAppendChild( LPD3DXFRAME pFrameParent,  CONST D3DXFRAME * pFrameChild)
 	{
 		if(!m_fnc.m_TFunc_D3DXFrameAppendChild)
 		{
@@ -248,7 +231,7 @@ public:
 
 
 
-	HRESULT D3DXFrameCalculateBoundingSphere(
+inline HRESULT D3DXFrameCalculateBoundingSphere(
 		CONST D3DXFRAME * pFrameRoot,
 		LPD3DXVECTOR3 pObjectCenter,
 		FLOAT * pObjectRadius)
@@ -263,7 +246,7 @@ public:
 
 
 
-	HRESULT D3DXFrameDestroy(  LPD3DXFRAME pFrameRoot, LPD3DXALLOCATEHIERARCHY pAlloc)
+inline HRESULT D3DXFrameDestroy(  LPD3DXFRAME pFrameRoot, LPD3DXALLOCATEHIERARCHY pAlloc)
 	{
 		if(!m_fnc.m_TFunc_D3DXFrameDestroy)
 		{
@@ -274,7 +257,7 @@ public:
 
 
 
-	LPD3DXFRAME D3DXFrameFind( CONST D3DXFRAME * pFrameRoot,  LPCSTR Name)
+inline LPD3DXFRAME D3DXFrameFind( CONST D3DXFRAME * pFrameRoot,  LPCSTR Name)
 	{
 		if(!m_fnc.m_TFunc_D3DXFrameFind)
 		{
@@ -285,7 +268,7 @@ public:
 
 
 
-	UINT D3DXFrameNumNamedMatrices( CONST D3DXFRAME * pFrameRoot)
+inline UINT D3DXFrameNumNamedMatrices( CONST D3DXFRAME * pFrameRoot)
 	{
 		if(!m_fnc.m_TFunc_D3DXFrameNumNamedMatrices)
 		{
@@ -296,7 +279,7 @@ public:
 
 
 
-	HRESULT D3DXFrameRegisterNamedMatrices(
+inline HRESULT D3DXFrameRegisterNamedMatrices(
 		LPD3DXFRAME pFrameRoot,
 		LPD3DXANIMATIONCONTROLLER pAnimController)
 	{
@@ -308,7 +291,7 @@ public:
 	}  
 
 
-	HRESULT D3DXLoadMeshHierarchyFromXA(
+inline HRESULT D3DXLoadMeshHierarchyFromXA(
 		const CHAR* Filename,
 		DWORD MeshOptions,
 		LPDIRECT3DDEVICE9 pDevice,
@@ -326,7 +309,7 @@ public:
 	}
 
 
-	HRESULT D3DXLoadMeshHierarchyFromXW(
+inline HRESULT D3DXLoadMeshHierarchyFromXW(
 		const WCHAR* Filename,
 		DWORD MeshOptions,
 		LPDIRECT3DDEVICE9 pDevice,
@@ -346,7 +329,7 @@ public:
 
 
 
-	HRESULT D3DXLoadMeshHierarchyFromXInMemory(
+inline HRESULT D3DXLoadMeshHierarchyFromXInMemory(
 		LPCVOID pMemory,
 		DWORD SizeOfMemory,
 		DWORD MeshOptions,
@@ -367,7 +350,7 @@ public:
 
 
 
-	HRESULT D3DXSaveMeshHierarchyToFileA(
+inline HRESULT D3DXSaveMeshHierarchyToFileA(
 		const CHAR* pFilename,
 		DWORD XFormat,
 		CONST D3DXFRAME * pFrameRoot,
@@ -382,7 +365,7 @@ public:
 	}  
 
 
-	HRESULT D3DXSaveMeshHierarchyToFileW(
+inline HRESULT D3DXSaveMeshHierarchyToFileW(
 		const WCHAR* pFilename,
 		DWORD XFormat,
 		CONST D3DXFRAME * pFrameRoot,
@@ -410,7 +393,7 @@ public:
 
 
 
-	HRESULT D3DXCreateBuffer( DWORD NumBytes,    LPD3DXBUFFER * ppBuffer )
+inline HRESULT D3DXCreateBuffer( DWORD NumBytes,    LPD3DXBUFFER * ppBuffer )
 	{
 		if( !m_fnc.m_TFunc_D3DXCreateBuffer )
 		{
@@ -421,7 +404,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateFontA(LPDIRECT3DDEVICE9 pDevice,	INT Height,	UINT Width,	UINT Weight, UINT MipLevels,
+inline HRESULT D3DXCreateFontA(LPDIRECT3DDEVICE9 pDevice,	INT Height,	UINT Width,	UINT Weight, UINT MipLevels,
 		  BOOL Italic, DWORD CharSet,	DWORD OutputPrecision, DWORD Quality, DWORD PitchAndFamily,
 		  const CHAR* pFacename,	LPD3DXFONT * ppFont	)
 	{
@@ -436,7 +419,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateFontW(LPDIRECT3DDEVICE9 pDevice,	INT Height,	UINT Width,	UINT Weight, UINT MipLevels,
+inline HRESULT D3DXCreateFontW(LPDIRECT3DDEVICE9 pDevice,	INT Height,	UINT Width,	UINT Weight, UINT MipLevels,
 				BOOL Italic, DWORD CharSet,	DWORD OutputPrecision, DWORD Quality, DWORD PitchAndFamily,
 				const WCHAR* pFacename,	LPD3DXFONT * ppFont	)
 	{
@@ -451,7 +434,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateFontIndirectA( LPDIRECT3DDEVICE9 pDevice, CONST D3DXFONT_DESCA* pDesc, LPD3DXFONT * ppFont )
+inline HRESULT D3DXCreateFontIndirectA( LPDIRECT3DDEVICE9 pDevice, CONST D3DXFONT_DESCA* pDesc, LPD3DXFONT * ppFont )
 	{
 		  if( !m_fnc.m_TFunc_D3DXCreateFontIndirectA )
 		  {
@@ -462,7 +445,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateFontIndirectW( LPDIRECT3DDEVICE9 pDevice, CONST D3DXFONT_DESCW * pDesc, LPD3DXFONT * ppFont )
+inline HRESULT D3DXCreateFontIndirectW( LPDIRECT3DDEVICE9 pDevice, CONST D3DXFONT_DESCW * pDesc, LPD3DXFONT * ppFont )
 	{
 		if( !m_fnc.m_TFunc_D3DXCreateFontIndirectW )
 		{
@@ -473,7 +456,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateLine(	LPDIRECT3DDEVICE9 pDevice, LPD3DXLINE* ppLine)
+inline HRESULT D3DXCreateLine(	LPDIRECT3DDEVICE9 pDevice, LPD3DXLINE* ppLine)
 	{
 		if(!m_fnc.m_TFunc_D3DXCreateLine)
 		{
@@ -484,7 +467,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateRenderToEnvMap(	LPDIRECT3DDEVICE9 pDevice, 	UINT Size,	UINT MipLevels,	 D3DFORMAT Format,
+inline HRESULT D3DXCreateRenderToEnvMap(	LPDIRECT3DDEVICE9 pDevice, 	UINT Size,	UINT MipLevels,	 D3DFORMAT Format,
 				BOOL DepthStencil, D3DFORMAT DepthStencilFormat, ID3DXRenderToEnvMap** ppRenderToEnvMap	)
 	{
 		if(!m_fnc.m_TFunc_D3DXCreateRenderToEnvMap)
@@ -497,7 +480,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateRenderToSurface(LPDIRECT3DDEVICE9 pDevice,	UINT Width,	UINT Height,
+inline HRESULT D3DXCreateRenderToSurface(LPDIRECT3DDEVICE9 pDevice,	UINT Width,	UINT Height,
 				D3DFORMAT Format, BOOL DepthStencil, D3DFORMAT DepthStencilFormat,
 				LPD3DXRENDERTOSURFACE * ppRenderToSurface   )
 	{
@@ -511,7 +494,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateSprite(	LPDIRECT3DDEVICE9 pDevice,	LPD3DXSPRITE * ppSprite	)
+inline HRESULT D3DXCreateSprite(	LPDIRECT3DDEVICE9 pDevice,	LPD3DXSPRITE * ppSprite	)
 	{
 		if(!m_fnc.m_TFunc_D3DXCreateSprite)
 		{
@@ -521,7 +504,7 @@ public:
 	}
 
 
-	BOOL D3DXDebugMute(	BOOL Mute )
+	inline BOOL D3DXDebugMute(	BOOL Mute )
 	{
 		if(!m_fnc.m_TFunc_D3DXDebugMute)    
 		{
@@ -530,7 +513,7 @@ public:
 		return	m_fnc.m_TFunc_D3DXDebugMute(Mute);
 	}
 
-	UINT D3DXGetDriverLevel( LPDIRECT3DDEVICE9 pDevice)
+	inline UINT D3DXGetDriverLevel( LPDIRECT3DDEVICE9 pDevice)
 	{
 	   if(!m_fnc.m_TFunc_D3DXGetDriverLevel)
 	   {
@@ -544,37 +527,9 @@ public:
 	//-------------------------------------------------------------
 	//	Math Functions
 	//-------------------------------------------------------------
+ 
 
-
-	/*
-	D3DXMATRIX * D3DXMatrixInverse(D3DXMATRIX * pOut, FLOAT * pDeterminant, CONST D3DXMATRIX * pM )
-	{
-	   if(!m_fnc.m_TFunc_D3DXMatrixInverse)
-	   {
-		  GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR( D3DXMatrixInverse );
-	   }
-	   return m_fnc.m_TFunc_D3DXMatrixInverse(pOut,  pDeterminant, pM);
-	}
-
-
-	D3DXMATRIX * D3DXMatrixMultiply(D3DXMATRIX * pOut,CONST D3DXMATRIX * pM1,CONST D3DXMATRIX * pM2	)
-	{
-	   if(!m_fnc.m_TFunc_D3DXMatrixMultiply)
-	   {
-		   GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR(m_fnc.m_TFunc_D3DXMatrixMultiply);
-	   }
-	   return m_fnc.m_TFunc_D3DXMatrixMultiply( pOut, pM1, pM2 );
-	}
-	*/
-
-
-	/////////////////////////////////////////////////////
-
-		struct _M_BEGIN_MATHFUNC {};
-#if  1
-
-
-	D3DXCOLOR * D3DXColorAdd(
+	inline D3DXCOLOR * D3DXColorAdd(
 		D3DXCOLOR *pOut,
 		const D3DXCOLOR *pC1,
 		const D3DXCOLOR *pC2)
@@ -587,7 +542,7 @@ public:
 	};
 
 
-	D3DXCOLOR * D3DXColorAdjustContrast(
+	inline D3DXCOLOR * D3DXColorAdjustContrast(
 		D3DXCOLOR *pOut,
 		const D3DXCOLOR *pC,
 		FLOAT c)
@@ -600,7 +555,7 @@ public:
 	};
 
 
-	D3DXCOLOR * D3DXColorAdjustSaturation(D3DXCOLOR *pOut, const D3DXCOLOR *pC,	FLOAT s)
+	inline D3DXCOLOR * D3DXColorAdjustSaturation(D3DXCOLOR *pOut, const D3DXCOLOR *pC,	FLOAT s)
 	{
 		if(!m_fnc.m_TFunc_D3DXColorAdjustSaturation)
 		{
@@ -610,7 +565,7 @@ public:
 	};
 
 
-	D3DXCOLOR * D3DXColorLerp(
+	inline D3DXCOLOR * D3DXColorLerp(
 		D3DXCOLOR *pOut,
 		const D3DXCOLOR *pC1,
 		const D3DXCOLOR *pC2,
@@ -621,9 +576,9 @@ public:
 		pOut->b = pC1->b + s * (pC2->b - pC1->b);
 		pOut->a = pC1->a + s * (pC2->a - pC1->a);
 		return pOut;
-	};
-
-	D3DXCOLOR * D3DXColorModulate(
+	}; 
+	   
+	inline D3DXCOLOR * D3DXColorModulate(
 		D3DXCOLOR *pOut,
 		const D3DXCOLOR *pC1,
 		const D3DXCOLOR *pC2)
@@ -636,7 +591,7 @@ public:
 	};
 
 
-	D3DXCOLOR * D3DXColorNegative(
+	inline D3DXCOLOR * D3DXColorNegative(
 		D3DXCOLOR *pOut,
 		const D3DXCOLOR *pC)
 	{
@@ -648,7 +603,7 @@ public:
 	};
 
 
-	D3DXCOLOR * D3DXColorScale(
+	inline D3DXCOLOR * D3DXColorScale(
 		D3DXCOLOR *pOut,
 		const D3DXCOLOR *pC,
 		FLOAT s)
@@ -661,7 +616,7 @@ public:
 	};
 
 
-	D3DXCOLOR * D3DXColorSubtract(
+	inline D3DXCOLOR * D3DXColorSubtract(
 		D3DXCOLOR *pOut,
 		const D3DXCOLOR *pC1,
 		const D3DXCOLOR *pC2)
@@ -674,7 +629,7 @@ public:
 	};
 
 
-	HRESULT  D3DXCreateMatrixStack(DWORD Flags, LPD3DXMATRIXSTACK *ppStack)
+	inline HRESULT  D3DXCreateMatrixStack(DWORD Flags, LPD3DXMATRIXSTACK *ppStack)
 	{
 		if(!m_fnc.m_TFunc_D3DXCreateMatrixStack)
 		{
@@ -684,7 +639,7 @@ public:
 	};
 
 
-	FLOAT * D3DXFloat16To32Array(
+	inline FLOAT * D3DXFloat16To32Array(
 		FLOAT *pOut,
 		const D3DXFLOAT16 *pIn,
 		UINT n)
@@ -697,7 +652,7 @@ public:
 	};
 
 
-	D3DXFLOAT16 * D3DXFloat32To16Array(
+	inline D3DXFLOAT16 * D3DXFloat32To16Array(
 		D3DXFLOAT16 *pOut,
 		const FLOAT *pIn,
 		UINT n)
@@ -710,7 +665,7 @@ public:
 	};
 
 
-	FLOAT  D3DXFresnelTerm(
+	inline FLOAT  D3DXFresnelTerm(
 		FLOAT CosTheta,
 		FLOAT RefractionIndex)
 	{
@@ -722,7 +677,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixAffineTransformation(
+	inline D3DXMATRIX * D3DXMatrixAffineTransformation(
 		D3DXMATRIX *pOut,
 		FLOAT Scaling,
 		const D3DXVECTOR3 *pRotationCenter,
@@ -738,7 +693,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixAffineTransformation2D(
+	inline D3DXMATRIX * D3DXMatrixAffineTransformation2D(
 		D3DXMATRIX *pOut,
 		FLOAT Scaling,
 		const D3DXVECTOR2 *pRotationCenter,
@@ -754,7 +709,7 @@ public:
 	};
 
 
-	HRESULT  D3DXMatrixDecompose(
+	inline HRESULT  D3DXMatrixDecompose(
 		D3DXVECTOR3 *pOutScale,
 		D3DXQUATERNION *pOutRotation,
 		D3DXVECTOR3 *pOutTranslation,
@@ -769,7 +724,7 @@ public:
 	};
 
 
-	FLOAT  D3DXMatrixDeterminant( const D3DXMATRIX *pM)
+	inline FLOAT  D3DXMatrixDeterminant( const D3DXMATRIX *pM)
 	{
 		if(!m_fnc.m_TFunc_D3DXMatrixDeterminant)
 		{
@@ -779,7 +734,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixIdentity( D3DXMATRIX *pOut)
+	inline D3DXMATRIX * D3DXMatrixIdentity( D3DXMATRIX *pOut)
 	{
 		pOut->m[0][1] = pOut->m[0][2] = pOut->m[0][3] =
 		pOut->m[1][0] = pOut->m[1][2] = pOut->m[1][3] =
@@ -791,7 +746,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixInverse(
+	inline D3DXMATRIX * D3DXMatrixInverse(
 		D3DXMATRIX *pOut,
 		FLOAT *pDeterminant,
 		const D3DXMATRIX *pM)
@@ -804,7 +759,7 @@ public:
 	};
 
 
-	BOOL  D3DXMatrixIsIdentity(const D3DXMATRIX *pM)
+	inline BOOL  D3DXMatrixIsIdentity(const D3DXMATRIX *pM)
 	{
     return pM->m[0][0] == 1.0f && pM->m[0][1] == 0.0f && pM->m[0][2] == 0.0f && pM->m[0][3] == 0.0f &&
            pM->m[1][0] == 0.0f && pM->m[1][1] == 1.0f && pM->m[1][2] == 0.0f && pM->m[1][3] == 0.0f &&
@@ -813,7 +768,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixLookAtLH(
+	inline D3DXMATRIX * D3DXMatrixLookAtLH(
 		D3DXMATRIX *pOut,
 		const D3DXVECTOR3 *pEye,
 		const D3DXVECTOR3 *pAt,
@@ -827,7 +782,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixLookAtRH(
+	inline D3DXMATRIX * D3DXMatrixLookAtRH(
 		D3DXMATRIX *pOut,
 		const D3DXVECTOR3 *pEye,
 		const D3DXVECTOR3 *pAt,
@@ -841,7 +796,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixMultiply(
+	inline D3DXMATRIX * D3DXMatrixMultiply(
 		D3DXMATRIX *pOut,
 		const D3DXMATRIX *pM1,
 		const D3DXMATRIX *pM2)
@@ -854,7 +809,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixMultiplyTranspose(
+	inline D3DXMATRIX * D3DXMatrixMultiplyTranspose(
 		D3DXMATRIX *pOut,
 		const D3DXMATRIX *pM1,
 		const D3DXMATRIX *pM2)
@@ -867,7 +822,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixOrthoLH(
+	inline D3DXMATRIX * D3DXMatrixOrthoLH(
 		D3DXMATRIX *pOut,
 		FLOAT w,
 		FLOAT h,
@@ -882,7 +837,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixOrthoOffCenterLH(
+	inline D3DXMATRIX * D3DXMatrixOrthoOffCenterLH(
 		D3DXMATRIX *pOut,
 		FLOAT l,
 		FLOAT r,
@@ -899,7 +854,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixOrthoOffCenterRH(
+	inline D3DXMATRIX * D3DXMatrixOrthoOffCenterRH(
 		D3DXMATRIX *pOut,
 		FLOAT l,
 		FLOAT r,
@@ -916,7 +871,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixOrthoRH(
+	inline D3DXMATRIX * D3DXMatrixOrthoRH(
 		D3DXMATRIX *pOut,
 		FLOAT w,
 		FLOAT h,
@@ -931,7 +886,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixPerspectiveFovLH(
+	inline D3DXMATRIX * D3DXMatrixPerspectiveFovLH(
 		D3DXMATRIX *pOut,
 		FLOAT fovy,
 		FLOAT Aspect,
@@ -946,7 +901,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixPerspectiveFovRH(
+	inline D3DXMATRIX * D3DXMatrixPerspectiveFovRH(
 		D3DXMATRIX *pOut,
 		FLOAT fovy,
 		FLOAT Aspect,
@@ -961,7 +916,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixPerspectiveLH(
+	inline D3DXMATRIX * D3DXMatrixPerspectiveLH(
 		D3DXMATRIX *pOut,
 		FLOAT w,
 		FLOAT h,
@@ -976,7 +931,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixPerspectiveOffCenterLH(
+	inline D3DXMATRIX * D3DXMatrixPerspectiveOffCenterLH(
 		D3DXMATRIX *pOut,
 		FLOAT l,
 		FLOAT r,
@@ -999,7 +954,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixPerspectiveOffCenterRH(
+	inline D3DXMATRIX * D3DXMatrixPerspectiveOffCenterRH(
 		D3DXMATRIX *pOut,
 		FLOAT l,
 		FLOAT r,
@@ -1022,7 +977,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixPerspectiveRH(
+	inline D3DXMATRIX * D3DXMatrixPerspectiveRH(
 		D3DXMATRIX *pOut,
 		FLOAT w,
 		FLOAT h,
@@ -1041,7 +996,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixReflect(D3DXMATRIX *pOut,const D3DXPLANE *pPlane)
+	inline D3DXMATRIX * D3DXMatrixReflect(D3DXMATRIX *pOut,const D3DXPLANE *pPlane)
 	{
 		if(!m_fnc.m_TFunc_D3DXMatrixReflect)
 		{
@@ -1051,7 +1006,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixRotationAxis(
+	inline D3DXMATRIX * D3DXMatrixRotationAxis(
 		D3DXMATRIX *pOut,
 		const D3DXVECTOR3 *pV,
 		FLOAT Angle)
@@ -1064,7 +1019,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixRotationQuaternion(
+	inline D3DXMATRIX * D3DXMatrixRotationQuaternion(
 		D3DXMATRIX *pOut,
 		const D3DXQUATERNION *pQ)
 	{
@@ -1075,7 +1030,7 @@ public:
 		return m_fnc.m_TFunc_D3DXMatrixRotationQuaternion(  pOut, pQ );
 	};		   
  
-	D3DXMATRIX * D3DXMatrixRotationX( D3DXMATRIX *pOut,	FLOAT Angle)
+	inline D3DXMATRIX * D3DXMatrixRotationX( D3DXMATRIX *pOut,	FLOAT Angle)
 	{
 		if(!m_fnc.m_TFunc_D3DXMatrixRotationX)
 		{
@@ -1085,7 +1040,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixRotationY(D3DXMATRIX *pOut, 	FLOAT Angle)
+	inline D3DXMATRIX * D3DXMatrixRotationY(D3DXMATRIX *pOut, 	FLOAT Angle)
 	{
 		if(!m_fnc.m_TFunc_D3DXMatrixRotationY)
 		{
@@ -1095,7 +1050,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixRotationYawPitchRoll(D3DXMATRIX *pOut,
+	inline D3DXMATRIX * D3DXMatrixRotationYawPitchRoll(D3DXMATRIX *pOut,
 		   FLOAT Yaw,	 FLOAT Pitch,  	FLOAT Roll)
 	{
 		if(!m_fnc.m_TFunc_D3DXMatrixRotationYawPitchRoll)
@@ -1107,7 +1062,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixRotationZ(D3DXMATRIX *pOut, FLOAT Angle)
+	inline D3DXMATRIX * D3DXMatrixRotationZ(D3DXMATRIX *pOut, FLOAT Angle)
 	{
 		if(!m_fnc.m_TFunc_D3DXMatrixRotationZ )
 		{
@@ -1117,7 +1072,7 @@ public:
 	};
 
 
-	D3DXMATRIX * D3DXMatrixScaling(
+	inline D3DXMATRIX * D3DXMatrixScaling(
 		D3DXMATRIX *pOut,
 		FLOAT sx,
 		FLOAT sy,
@@ -1131,7 +1086,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixShadow(
+	inline D3DXMATRIX * D3DXMatrixShadow(
 		D3DXMATRIX *pOut,
 		const D3DXVECTOR4 *pLight,
 		const D3DXPLANE *pPlane)
@@ -1144,7 +1099,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixTransformation(
+	inline D3DXMATRIX * D3DXMatrixTransformation(
 		D3DXMATRIX *pOut,
 		const D3DXVECTOR3 *pScalingCenter,
 		const D3DXQUATERNION *pScalingRotation,
@@ -1162,7 +1117,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixTransformation2D(
+	inline D3DXMATRIX * D3DXMatrixTransformation2D(
 		D3DXMATRIX *pOut,
 		const D3DXVECTOR2 *pScalingCenter,
 		FLOAT pScalingRotation,
@@ -1180,7 +1135,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixTranslation(
+	inline D3DXMATRIX * D3DXMatrixTranslation(
 		D3DXMATRIX *pOut,
 		FLOAT x,
 		FLOAT y,
@@ -1194,7 +1149,7 @@ public:
 	};		   
 
 
-	D3DXMATRIX * D3DXMatrixTranspose(D3DXMATRIX *pOut,const D3DXMATRIX *pM)
+	inline D3DXMATRIX * D3DXMatrixTranspose(D3DXMATRIX *pOut,const D3DXMATRIX *pM)
 	{
 		if(!m_fnc.m_TFunc_D3DXMatrixTranspose)
 		{
@@ -1204,24 +1159,24 @@ public:
 	};		   
 
 
-	FLOAT  D3DXPlaneDot(const D3DXPLANE *pP, const D3DXVECTOR4 *pV)
+	inline FLOAT  D3DXPlaneDot(const D3DXPLANE *pP, const D3DXVECTOR4 *pV)
 	{
 	  return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z + pP->d * pV->w;
 	};		
 
-	FLOAT  D3DXPlaneDotCoord( const D3DXPLANE *pP, const D3DXVECTOR3 *pV)
+	inline FLOAT  D3DXPlaneDotCoord( const D3DXPLANE *pP, const D3DXVECTOR3 *pV)
 	{
 	  return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z + pP->d;
 	};
 
 
-	FLOAT  D3DXPlaneDotNormal( const D3DXPLANE *pP, const D3DXVECTOR3 *pV)
+	inline FLOAT  D3DXPlaneDotNormal( const D3DXPLANE *pP, const D3DXVECTOR3 *pV)
 	{
 	   return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z;
 	};
 
 
-	D3DXPLANE * D3DXPlaneFromPointNormal(
+	inline D3DXPLANE * D3DXPlaneFromPointNormal(
 		D3DXPLANE *pOut,
 		const D3DXVECTOR3 *pPoint,
 		const D3DXVECTOR3 *pNormal)
@@ -1235,7 +1190,7 @@ public:
 	};
 
 
-	D3DXPLANE * D3DXPlaneFromPoints(
+	inline D3DXPLANE * D3DXPlaneFromPoints(
 		D3DXPLANE *pOut,
 		const D3DXVECTOR3 *pV1,
 		const D3DXVECTOR3 *pV2,
@@ -1249,7 +1204,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXPlaneIntersectLine(
+	inline D3DXVECTOR3 * D3DXPlaneIntersectLine(
 		D3DXVECTOR3 *pOut,
 		const D3DXPLANE *pP,
 		const D3DXVECTOR3 *pV1,
@@ -1263,7 +1218,7 @@ public:
 	};
 
 
-	D3DXPLANE * D3DXPlaneNormalize(D3DXPLANE *pOut,	const D3DXPLANE *pP)
+	inline D3DXPLANE * D3DXPlaneNormalize(D3DXPLANE *pOut,	const D3DXPLANE *pP)
 	{
 		if(!m_fnc.m_TFunc_D3DXPlaneNormalize)
 		{
@@ -1273,7 +1228,7 @@ public:
 	};
 
 
-	D3DXPLANE * D3DXPlaneScale(D3DXPLANE *pOut,	const D3DXPLANE *pP, FLOAT s)
+	inline D3DXPLANE * D3DXPlaneScale(D3DXPLANE *pOut,	const D3DXPLANE *pP, FLOAT s)
 	{
 		pOut->a = pP->a * s;
 		pOut->b = pP->b * s;
@@ -1283,7 +1238,7 @@ public:
 	};
 
 
-	D3DXPLANE * D3DXPlaneTransform(
+	inline D3DXPLANE * D3DXPlaneTransform(
 		D3DXPLANE *pOut,
 		const D3DXPLANE *pP,
 		const D3DXMATRIX *pM)
@@ -1296,7 +1251,7 @@ public:
 	};
 
 
-	D3DXPLANE * D3DXPlaneTransformArray(
+	inline D3DXPLANE * D3DXPlaneTransformArray(
 		D3DXPLANE *pOut,
 		UINT OutStride,
 		const D3DXPLANE *pP,
@@ -1313,7 +1268,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionBaryCentric(
+	inline D3DXQUATERNION * D3DXQuaternionBaryCentric(
 		D3DXQUATERNION *pOut,
 		const D3DXQUATERNION *pQ1,
 		const D3DXQUATERNION *pQ2,
@@ -1329,7 +1284,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionConjugate( D3DXQUATERNION *pOut,  const D3DXQUATERNION *pQ)
+	inline D3DXQUATERNION * D3DXQuaternionConjugate( D3DXQUATERNION *pOut,  const D3DXQUATERNION *pQ)
 	{
 		pOut->x = -pQ->x;
 		pOut->y = -pQ->y;
@@ -1339,13 +1294,13 @@ public:
 	};
 
 
-	FLOAT  D3DXQuaternionDot( const D3DXQUATERNION *pQ1, const D3DXQUATERNION *pQ2)
+	inline FLOAT  D3DXQuaternionDot( const D3DXQUATERNION *pQ1, const D3DXQUATERNION *pQ2)
 	{
 	   return pQ1->x * pQ2->x + pQ1->y * pQ2->y + pQ1->z * pQ2->z + pQ1->w * pQ2->w;
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionExp( D3DXQUATERNION *pOut,  const D3DXQUATERNION *pQ)
+	inline D3DXQUATERNION * D3DXQuaternionExp( D3DXQUATERNION *pOut,  const D3DXQUATERNION *pQ)
 	{
 		if(!m_fnc.m_TFunc_D3DXQuaternionExp)
 		{
@@ -1355,7 +1310,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionIdentity(D3DXQUATERNION *pOut)
+	inline D3DXQUATERNION * D3DXQuaternionIdentity(D3DXQUATERNION *pOut)
 	{
 		pOut->x = pOut->y = pOut->z = 0.0f;
 		pOut->w = 1.0f;
@@ -1363,7 +1318,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionInverse(D3DXQUATERNION *pOut, const D3DXQUATERNION *pQ)
+	inline D3DXQUATERNION * D3DXQuaternionInverse(D3DXQUATERNION *pOut, const D3DXQUATERNION *pQ)
 	{
 		if(!m_fnc.m_TFunc_D3DXQuaternionInverse)
 		{
@@ -1373,25 +1328,25 @@ public:
 	};
 
 
-	BOOL  D3DXQuaternionIsIdentity(   const D3DXQUATERNION *pQ)
+	inline BOOL  D3DXQuaternionIsIdentity(   const D3DXQUATERNION *pQ)
 	{
 	      return pQ->x == 0.0f && pQ->y == 0.0f && pQ->z == 0.0f && pQ->w == 1.0f;
 	};
 
 
-	FLOAT  D3DXQuaternionLength(  const D3DXQUATERNION *pQ)
+	inline FLOAT  D3DXQuaternionLength(  const D3DXQUATERNION *pQ)
 	{
 	   return sqrtf(pQ->x * pQ->x + pQ->y * pQ->y + pQ->z * pQ->z + pQ->w * pQ->w);
 	};
 
 
-	FLOAT  D3DXQuaternionLengthSq( const D3DXQUATERNION *pQ )
+	inline FLOAT  D3DXQuaternionLengthSq( const D3DXQUATERNION *pQ )
 	{
 	    return pQ->x * pQ->x + pQ->y * pQ->y + pQ->z * pQ->z + pQ->w * pQ->w;
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionLn(D3DXQUATERNION *pOut, const D3DXQUATERNION *pQ)
+	inline D3DXQUATERNION * D3DXQuaternionLn(D3DXQUATERNION *pOut, const D3DXQUATERNION *pQ)
 	{
 		if(!m_fnc.m_TFunc_D3DXQuaternionLn)
 		{
@@ -1401,7 +1356,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionMultiply(
+	inline D3DXQUATERNION * D3DXQuaternionMultiply(
 		D3DXQUATERNION *pOut,
 		const D3DXQUATERNION *pQ1,
 		const D3DXQUATERNION *pQ2
@@ -1415,7 +1370,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionNormalize(D3DXQUATERNION *pOut,const D3DXQUATERNION *pQ)
+	inline D3DXQUATERNION * D3DXQuaternionNormalize(D3DXQUATERNION *pOut,const D3DXQUATERNION *pQ)
 	{
 		if(!m_fnc.m_TFunc_D3DXQuaternionNormalize)
 		{
@@ -1425,7 +1380,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionRotationAxis(D3DXQUATERNION *pOut, const D3DXVECTOR3 *pV, FLOAT Angle)
+	inline D3DXQUATERNION * D3DXQuaternionRotationAxis(D3DXQUATERNION *pOut, const D3DXVECTOR3 *pV, FLOAT Angle)
 	{
 		if(!m_fnc.m_TFunc_D3DXQuaternionRotationAxis)
 		{
@@ -1435,7 +1390,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionRotationMatrix( D3DXQUATERNION *pOut, const D3DXMATRIX *pM )
+	inline D3DXQUATERNION * D3DXQuaternionRotationMatrix( D3DXQUATERNION *pOut, const D3DXMATRIX *pM )
 	{
 		if(!m_fnc.m_TFunc_D3DXQuaternionRotationMatrix)
 		{
@@ -1445,7 +1400,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionRotationYawPitchRoll(
+	inline D3DXQUATERNION * D3DXQuaternionRotationYawPitchRoll(
 		D3DXQUATERNION *pOut,
 		FLOAT Yaw,
 		FLOAT Pitch,
@@ -1460,7 +1415,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionSlerp(
+	inline D3DXQUATERNION * D3DXQuaternionSlerp(
 		D3DXQUATERNION *pOut,
 		const D3DXQUATERNION *pQ1,
 		const D3DXQUATERNION *pQ2,
@@ -1474,7 +1429,7 @@ public:
 	};
 
 
-	D3DXQUATERNION * D3DXQuaternionSquad(
+	inline D3DXQUATERNION * D3DXQuaternionSquad(
 		D3DXQUATERNION *pOut,
 		const D3DXQUATERNION *pQ1,
 		const D3DXQUATERNION *pA,
@@ -1490,7 +1445,7 @@ public:
 	};
 
 
-	void D3DXQuaternionSquadSetup(
+	inline void D3DXQuaternionSquadSetup(
 		D3DXQUATERNION *pAOut,
 		D3DXQUATERNION *pBOut,
 		D3DXQUATERNION *pCOut,
@@ -1508,7 +1463,7 @@ public:
 	};
 
 
-	void D3DXQuaternionToAxisAngle(  const D3DXQUATERNION *pQ, D3DXVECTOR3 *pAxis,  FLOAT *pAngle)
+	inline void D3DXQuaternionToAxisAngle(  const D3DXQUATERNION *pQ, D3DXVECTOR3 *pAxis,  FLOAT *pAngle)
 	{	  
 		if(!m_fnc.m_TFunc_D3DXQuaternionToAxisAngle)
 		{
@@ -1518,7 +1473,7 @@ public:
 	};
 
 
-	FLOAT * D3DXSHAdd(
+	inline FLOAT * D3DXSHAdd(
 		FLOAT *pOut,
 		UINT Order,
 		const FLOAT *pA,
@@ -1532,7 +1487,7 @@ public:
 	};
 
 
-	FLOAT  D3DXSHDot( UINT Order,  const FLOAT *pA,  const FLOAT *pB )
+	inline FLOAT  D3DXSHDot( UINT Order,  const FLOAT *pA,  const FLOAT *pB )
 	{
 		if(!m_fnc.m_TFunc_D3DXSHDot)
 		{
@@ -1542,7 +1497,7 @@ public:
 	};
 
 
-	HRESULT  D3DXSHEvalConeLight(
+	inline HRESULT  D3DXSHEvalConeLight(
 		UINT Order,
 		const D3DXVECTOR3 *pDir,
 		FLOAT Radius,
@@ -1569,7 +1524,7 @@ public:
 	};
 
 
-	FLOAT * D3DXSHEvalDirection( FLOAT *pOut, UINT Order,  const D3DXVECTOR3 *pDir)
+	inline FLOAT * D3DXSHEvalDirection( FLOAT *pOut, UINT Order,  const D3DXVECTOR3 *pDir)
 	{
 		if(!m_fnc.m_TFunc_D3DXSHEvalDirection)
 		{
@@ -1579,7 +1534,7 @@ public:
 	};
 
 
-	HRESULT  D3DXSHEvalDirectionalLight(
+	inline HRESULT  D3DXSHEvalDirectionalLight(
 		UINT Order,
 		const D3DXVECTOR3 *pDir,
 		FLOAT RIntensity,
@@ -1604,7 +1559,7 @@ public:
 	};
 
 
-	HRESULT  D3DXSHEvalHemisphereLight(
+	inline HRESULT  D3DXSHEvalHemisphereLight(
 		UINT Order,
 		const D3DXVECTOR3 *pDir,
 		D3DXCOLOR Top,
@@ -1622,7 +1577,7 @@ public:
 	};
 
 
-	HRESULT  D3DXSHEvalSphericalLight(
+	inline HRESULT  D3DXSHEvalSphericalLight(
 		UINT Order,
 		const D3DXVECTOR3 *pPos,
 		FLOAT Radius,
@@ -1646,7 +1601,7 @@ public:
 	};
 
 
-	FLOAT * D3DXSHMultiply2( FLOAT *pOut,  const FLOAT *pF, const FLOAT *pG)
+	inline FLOAT * D3DXSHMultiply2( FLOAT *pOut,  const FLOAT *pF, const FLOAT *pG)
 	{
 		if(!m_fnc.m_TFunc_D3DXSHMultiply2)
 		{
@@ -1656,7 +1611,7 @@ public:
 	};
 
 
-	HRESULT  D3DXSHProjectCubeMap(
+	inline HRESULT  D3DXSHProjectCubeMap(
 		UINT Order,
 		LPDIRECT3DCUBETEXTURE9 pCubeMap,
 		FLOAT *pROut,
@@ -1671,7 +1626,7 @@ public:
 	};
 
 
-	FLOAT * D3DXSHRotate(
+	inline FLOAT * D3DXSHRotate(
 		FLOAT *pOut,
 		UINT Order,
 		const D3DXMATRIX *pMatrix,
@@ -1685,7 +1640,7 @@ public:
 	};
 
 
-	FLOAT * D3DXSHRotateZ(
+	inline FLOAT * D3DXSHRotateZ(
 		FLOAT *pOut,
 		UINT Order,
 		FLOAT Angle,
@@ -1699,7 +1654,7 @@ public:
 	};
 
 
-	FLOAT * D3DXSHScale(
+	inline FLOAT * D3DXSHScale(
 		FLOAT *pOut,
 		UINT Order,
 		const FLOAT *pIn,
@@ -1714,7 +1669,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2Add(
+	inline D3DXVECTOR2 * D3DXVec2Add(
 		D3DXVECTOR2 *pOut,
 		const D3DXVECTOR2 *pV1,
 		const D3DXVECTOR2 *pV2
@@ -1726,7 +1681,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2BaryCentric(
+	inline D3DXVECTOR2 * D3DXVec2BaryCentric(
 		D3DXVECTOR2 *pOut,
 		const D3DXVECTOR2 *pV1,
 		const D3DXVECTOR2 *pV2,
@@ -1742,7 +1697,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2CatmullRom(
+	inline D3DXVECTOR2 * D3DXVec2CatmullRom(
 		D3DXVECTOR2 *pOut,
 		const D3DXVECTOR2 *pV0,
 		const D3DXVECTOR2 *pV1,
@@ -1758,19 +1713,19 @@ public:
 	};
 
 
-	FLOAT  D3DXVec2CCW(	const D3DXVECTOR2 *pV1,	const D3DXVECTOR2 *pV2)
+	inline FLOAT  D3DXVec2CCW(	const D3DXVECTOR2 *pV1,	const D3DXVECTOR2 *pV2)
 	{
 		  return pV1->x * pV2->y - pV1->y * pV2->x;
 	};
 
 
-	FLOAT  D3DXVec2Dot(  const D3DXVECTOR2 *pV1,  const D3DXVECTOR2 *pV2)
+	inline FLOAT  D3DXVec2Dot(  const D3DXVECTOR2 *pV1,  const D3DXVECTOR2 *pV2)
 	{
 	   return pV1->x * pV2->x + pV1->y * pV2->y;
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2Hermite(
+	inline D3DXVECTOR2 * D3DXVec2Hermite(
 		D3DXVECTOR2 *pOut,
 		const D3DXVECTOR2 *pV1,
 		const D3DXVECTOR2 *pT1,
@@ -1786,19 +1741,19 @@ public:
 	};
 
 
-	FLOAT  D3DXVec2Length(const D3DXVECTOR2 *pV	)
+	inline FLOAT  D3DXVec2Length(const D3DXVECTOR2 *pV	)
 	{
 	   return sqrtf(pV->x * pV->x + pV->y * pV->y);
 	};
 
 
-	FLOAT  D3DXVec2LengthSq (const D3DXVECTOR2 *pV	)
+	inline FLOAT  D3DXVec2LengthSq (const D3DXVECTOR2 *pV	)
 	{
 		     return pV->x * pV->x + pV->y * pV->y;
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2Lerp(
+	inline D3DXVECTOR2 * D3DXVec2Lerp(
 		D3DXVECTOR2 *pOut,
 		const D3DXVECTOR2 *pV1,
 		const D3DXVECTOR2 *pV2,
@@ -1811,7 +1766,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2Maximize(
+	inline D3DXVECTOR2 * D3DXVec2Maximize(
 		D3DXVECTOR2 *pOut,
 		const D3DXVECTOR2 *pV1,
 		const D3DXVECTOR2 *pV2
@@ -1823,7 +1778,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2Minimize(
+	inline D3DXVECTOR2 * D3DXVec2Minimize(
 		D3DXVECTOR2 *pOut,
 		const D3DXVECTOR2 *pV1,
 		const D3DXVECTOR2 *pV2
@@ -1835,7 +1790,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2Normalize(D3DXVECTOR2 *pOut,const D3DXVECTOR2 *pV)
+	inline D3DXVECTOR2 * D3DXVec2Normalize(D3DXVECTOR2 *pOut,const D3DXVECTOR2 *pV)
 	{
 		if(!m_fnc.m_TFunc_D3DXVec2Normalize)
 		{
@@ -1845,7 +1800,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2Scale(D3DXVECTOR2 *pOut, 	const D3DXVECTOR2 *pV, FLOAT s)
+	inline D3DXVECTOR2 * D3DXVec2Scale(D3DXVECTOR2 *pOut, 	const D3DXVECTOR2 *pV, FLOAT s)
 	{
 		pOut->x = pV->x * s;
 		pOut->y = pV->y * s;
@@ -1853,7 +1808,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2Subtract(	
+	inline D3DXVECTOR2 * D3DXVec2Subtract(	
 				D3DXVECTOR2 *pOut,
 				const D3DXVECTOR2 *pV1,
 				const D3DXVECTOR2 *pV2)
@@ -1864,7 +1819,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec2Transform(
+	inline D3DXVECTOR4 * D3DXVec2Transform(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR2 *pV,
 		const D3DXMATRIX *pM
@@ -1878,7 +1833,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec2TransformArray(
+	inline D3DXVECTOR4 * D3DXVec2TransformArray(
 		D3DXVECTOR4 *pOut,
 		UINT OutStride,
 		const D3DXVECTOR2 *pV,
@@ -1894,7 +1849,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2TransformCoord(
+	inline D3DXVECTOR2 * D3DXVec2TransformCoord(
 		D3DXVECTOR2 *pOut,
 		const D3DXVECTOR2 *pV,
 		const D3DXMATRIX *pM)
@@ -1907,7 +1862,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2TransformCoordArray(
+	inline D3DXVECTOR2 * D3DXVec2TransformCoordArray(
 		D3DXVECTOR2 *pOut,
 		UINT OutStride,
 		const D3DXVECTOR2 *pV,
@@ -1923,7 +1878,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2TransformNormal(
+	inline D3DXVECTOR2 * D3DXVec2TransformNormal(
 		D3DXVECTOR2 *pOut,
 		const D3DXVECTOR2 *pV,
 		const D3DXMATRIX *pM)
@@ -1936,7 +1891,7 @@ public:
 	};
 
 
-	D3DXVECTOR2 * D3DXVec2TransformNormalArray(
+	inline D3DXVECTOR2 * D3DXVec2TransformNormalArray(
 		D3DXVECTOR2 *pOut,
 		UINT OutStride,
 		const D3DXVECTOR2 *pV,
@@ -1952,7 +1907,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Add(
+	inline D3DXVECTOR3 * D3DXVec3Add(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV1,
 		const D3DXVECTOR3 *pV2)
@@ -1964,7 +1919,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3BaryCentric(
+	inline D3DXVECTOR3 * D3DXVec3BaryCentric(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV1,
 		const D3DXVECTOR3 *pV2,
@@ -1980,7 +1935,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3CatmullRom(
+	inline D3DXVECTOR3 * D3DXVec3CatmullRom(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV0,
 		const D3DXVECTOR3 *pV1,
@@ -1997,7 +1952,7 @@ public:
 
 
 
-	D3DXVECTOR3 * D3DXVec3Cross(
+	inline D3DXVECTOR3 * D3DXVec3Cross(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV1,
 		const D3DXVECTOR3 *pV2 )
@@ -2012,13 +1967,13 @@ public:
 	};
 
 
-	FLOAT  D3DXVec3Dot(const D3DXVECTOR3 *pV1, const D3DXVECTOR3 *pV2)
+	inline FLOAT  D3DXVec3Dot(const D3DXVECTOR3 *pV1, const D3DXVECTOR3 *pV2)
 	{
 		 return pV1->x * pV2->x + pV1->y * pV2->y + pV1->z * pV2->z;
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Hermite(
+	inline D3DXVECTOR3 * D3DXVec3Hermite(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV1,
 		const D3DXVECTOR3 *pT1,
@@ -2035,19 +1990,19 @@ public:
 	};
 
 
-	FLOAT  D3DXVec3Length( const D3DXVECTOR3 *pV)
+	inline FLOAT  D3DXVec3Length( const D3DXVECTOR3 *pV)
 	{
 		  return sqrtf(pV->x * pV->x + pV->y * pV->y + pV->z * pV->z);
 	};
 
 
-	FLOAT  D3DXVec3LengthSq( const D3DXVECTOR3 *pV)
+	inline FLOAT  D3DXVec3LengthSq( const D3DXVECTOR3 *pV)
 	{
 	   return pV->x * pV->x + pV->y * pV->y + pV->z * pV->z;
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Lerp(
+	inline D3DXVECTOR3 * D3DXVec3Lerp(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV1,
 		const D3DXVECTOR3 *pV2,
@@ -2060,7 +2015,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Maximize(
+	inline D3DXVECTOR3 * D3DXVec3Maximize(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV1,
 		const D3DXVECTOR3 *pV2 )
@@ -2072,7 +2027,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Minimize(
+	inline D3DXVECTOR3 * D3DXVec3Minimize(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV1,
 		const D3DXVECTOR3 *pV2)
@@ -2084,7 +2039,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Normalize(
+	inline D3DXVECTOR3 * D3DXVec3Normalize(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV
 		)
@@ -2097,7 +2052,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Project(
+	inline D3DXVECTOR3 * D3DXVec3Project(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV,
 		const D3DVIEWPORT9 *pViewport,
@@ -2115,7 +2070,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3ProjectArray(
+	inline D3DXVECTOR3 * D3DXVec3ProjectArray(
 		D3DXVECTOR3 *pOut,
 		UINT OutStride,
 		const D3DXVECTOR3 *pV,
@@ -2135,7 +2090,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Scale(
+	inline D3DXVECTOR3 * D3DXVec3Scale(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV,
 		FLOAT s	)
@@ -2147,7 +2102,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Subtract(
+	inline D3DXVECTOR3 * D3DXVec3Subtract(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV1,
 		const D3DXVECTOR3 *pV2
@@ -2160,7 +2115,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec3Transform(
+	inline D3DXVECTOR4 * D3DXVec3Transform(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR3 *pV,
 		const D3DXMATRIX *pM )
@@ -2173,7 +2128,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec3TransformArray(
+	inline D3DXVECTOR4 * D3DXVec3TransformArray(
 		D3DXVECTOR4 *pOut,
 		UINT OutStride,
 		const D3DXVECTOR3 *pV,
@@ -2189,7 +2144,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3TransformCoord(
+	inline D3DXVECTOR3 * D3DXVec3TransformCoord(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV,
 		const D3DXMATRIX *pM )
@@ -2202,7 +2157,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3TransformCoordArray(
+	inline D3DXVECTOR3 * D3DXVec3TransformCoordArray(
 		D3DXVECTOR3 *pOut,
 		UINT OutStride,
 		const D3DXVECTOR3 *pV,
@@ -2218,7 +2173,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3TransformNormal(
+	inline D3DXVECTOR3 * D3DXVec3TransformNormal(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV,
 		const D3DXMATRIX *pM )
@@ -2231,7 +2186,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3TransformNormalArray(
+	inline D3DXVECTOR3 * D3DXVec3TransformNormalArray(
 		D3DXVECTOR3 *pOut,
 		UINT OutStride,
 		const D3DXVECTOR3 *pV,
@@ -2247,7 +2202,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3Unproject(
+	inline D3DXVECTOR3 * D3DXVec3Unproject(
 		D3DXVECTOR3 *pOut,
 		const D3DXVECTOR3 *pV,
 		const D3DVIEWPORT9 *pViewport,
@@ -2265,7 +2220,7 @@ public:
 	};
 
 
-	D3DXVECTOR3 * D3DXVec3UnprojectArray(
+	inline D3DXVECTOR3 * D3DXVec3UnprojectArray(
 		D3DXVECTOR3 *pOut,
 		UINT OutStride,
 		const D3DXVECTOR3 *pV,
@@ -2285,7 +2240,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Add(
+	inline D3DXVECTOR4 * D3DXVec4Add(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV1,
 		const D3DXVECTOR4 *pV2)
@@ -2298,7 +2253,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4BaryCentric(
+	inline D3DXVECTOR4 * D3DXVec4BaryCentric(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV1,
 		const D3DXVECTOR4 *pV2,
@@ -2314,7 +2269,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4CatmullRom(
+	inline D3DXVECTOR4 * D3DXVec4CatmullRom(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV0,
 		const D3DXVECTOR4 *pV1,
@@ -2331,7 +2286,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Cross(
+	inline D3DXVECTOR4 * D3DXVec4Cross(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV1,
 		const D3DXVECTOR4 *pV2,
@@ -2345,13 +2300,13 @@ public:
 	};
 
 
-	FLOAT  D3DXVec4Dot(	const D3DXVECTOR4 *pV1,	const D3DXVECTOR4 *pV2)	    
+	inline FLOAT  D3DXVec4Dot(	const D3DXVECTOR4 *pV1,	const D3DXVECTOR4 *pV2)	    
 	{
 	      return pV1->x * pV2->x + pV1->y * pV2->y + pV1->z * pV2->z + pV1->w * pV2->w;
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Hermite(
+	inline D3DXVECTOR4 * D3DXVec4Hermite(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV1,
 		const D3DXVECTOR4 *pT1,
@@ -2369,19 +2324,19 @@ public:
 	};
 
 
-	FLOAT  D3DXVec4Length( const D3DXVECTOR4 *pV)
+	inline FLOAT  D3DXVec4Length( const D3DXVECTOR4 *pV)
 	{
 		return sqrtf(pV->x * pV->x + pV->y * pV->y + pV->z * pV->z + pV->w * pV->w);
 	};
 
 
-	FLOAT  D3DXVec4LengthSq(  const D3DXVECTOR4 *pV)
+	inline FLOAT  D3DXVec4LengthSq(  const D3DXVECTOR4 *pV)
 	{
 		   return pV->x * pV->x + pV->y * pV->y + pV->z * pV->z + pV->w * pV->w;
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Lerp(
+	inline D3DXVECTOR4 * D3DXVec4Lerp(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV1,
 		const D3DXVECTOR4 *pV2,
@@ -2395,7 +2350,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Maximize(
+	inline D3DXVECTOR4 * D3DXVec4Maximize(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV1,
 		const D3DXVECTOR4 *pV2)
@@ -2408,7 +2363,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Minimize(
+	inline D3DXVECTOR4 * D3DXVec4Minimize(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV1,
 		const D3DXVECTOR4 *pV2)
@@ -2421,7 +2376,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Normalize(D3DXVECTOR4 *pOut, const D3DXVECTOR4 *pV)
+	inline D3DXVECTOR4 * D3DXVec4Normalize(D3DXVECTOR4 *pOut, const D3DXVECTOR4 *pV)
 	{
 		if(!m_fnc.m_TFunc_D3DXVec4Normalize)
 		{
@@ -2431,7 +2386,8 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Scale(D3DXVECTOR4 *pOut,	const D3DXVECTOR4 *pV, 	FLOAT s)
+	inline D3DXVECTOR4 * D3DXVec4Scale(D3DXVECTOR4 *pOut,	
+			const D3DXVECTOR4 *pV, 	FLOAT s)
 	{
 		pOut->x = pV->x * s;
 		pOut->y = pV->y * s;
@@ -2441,7 +2397,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Subtract(
+	inline D3DXVECTOR4 * D3DXVec4Subtract(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV1,
 		const D3DXVECTOR4 *pV2)
@@ -2454,7 +2410,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4Transform(
+	inline D3DXVECTOR4 * D3DXVec4Transform(
 		D3DXVECTOR4 *pOut,
 		const D3DXVECTOR4 *pV,
 		const D3DXMATRIX *pM  )
@@ -2467,7 +2423,7 @@ public:
 	};
 
 
-	D3DXVECTOR4 * D3DXVec4TransformArray(
+	inline D3DXVECTOR4 * D3DXVec4TransformArray(
 		D3DXVECTOR4 *pOut,
 		UINT OutStride,
 		const D3DXVECTOR4 *pV,
@@ -2482,15 +2438,7 @@ public:
 		return m_fnc.m_TFunc_D3DXVec4TransformArray(  pOut, OutStride, pV, VStride, pM,  n );
 	};
 
-
-#endif
-
-	struct _M_END_MATHFUNC {};
-
-
-
-
-
+ 
 
 
 	//-------------------------------------------------------------
@@ -2500,7 +2448,7 @@ public:
 
 
 
-	BOOL D3DXboxBoundProbe(  CONST D3DXVECTOR3 * pMin,  CONST D3DXVECTOR3 * pMax,
+	inline BOOL D3DXboxBoundProbe(  CONST D3DXVECTOR3 * pMin,  CONST D3DXVECTOR3 * pMax,
 		CONST D3DXVECTOR3 * pRayPosition,  CONST D3DXVECTOR3 * pRayDirection)
 	{
 		if(!m_fnc.m_TFunc_D3DXBoxBoundProbe)
@@ -2511,7 +2459,7 @@ public:
 	}
 
 
-	HRESULT D3DXCleanMesh( D3DXCLEANTYPE CleanType, LPD3DXMESH pMeshIn, CONST DWORD * pAdjacencyIn,
+	inline HRESULT D3DXCleanMesh( D3DXCLEANTYPE CleanType, LPD3DXMESH pMeshIn, CONST DWORD * pAdjacencyIn,
 		LPD3DXMESH * ppMeshOut, DWORD * pAdjacencyOut, LPD3DXBUFFER * ppErrorsAndWarnings )
 	{
 		if(! m_fnc.m_TFunc_D3DXCleanMesh)
@@ -2523,7 +2471,7 @@ public:
 	}
 
 
-	HRESULT D3DXComputeBoundingBox( CONST D3DXVECTOR3 * pFirstPosition, DWORD NumVertices,
+	inline HRESULT D3DXComputeBoundingBox( CONST D3DXVECTOR3 * pFirstPosition, DWORD NumVertices,
 		DWORD dwStride, D3DXVECTOR3 * pMin, D3DXVECTOR3 * pMax)
 	{
 		if(!m_fnc.m_TFunc_D3DXComputeBoundingBox)
@@ -2534,7 +2482,7 @@ public:
 	}
 
 
-	HRESULT D3DXComputeBoundingSphere( CONST D3DXVECTOR3 * pFirstPosition,  DWORD NumVertices, DWORD dwStride,
+	inline HRESULT D3DXComputeBoundingSphere( CONST D3DXVECTOR3 * pFirstPosition,  DWORD NumVertices, DWORD dwStride,
 		D3DXVECTOR3 * pCenter,  FLOAT * pRadius )
 	{
 		if(!m_fnc.m_TFunc_D3DXComputeBoundingSphere)
@@ -2545,7 +2493,7 @@ public:
 	}
 
 
-	HRESULT D3DXComputeNormals( LPD3DXBASEMESH pMesh, CONST DWORD * pAdjacency)
+	inline HRESULT D3DXComputeNormals( LPD3DXBASEMESH pMesh, CONST DWORD * pAdjacency)
 	{
 		if(!m_fnc.m_TFunc_D3DXComputeNormals)
 		{
@@ -2554,7 +2502,7 @@ public:
 		return m_fnc.m_TFunc_D3DXComputeNormals( pMesh,  pAdjacency);
 	}
 
-	HRESULT D3DXComputeTangent(	  LPD3DXMESH Mesh,	  DWORD TexStageIndex,  DWORD TangentIndex,
+	inline HRESULT D3DXComputeTangent(	  LPD3DXMESH Mesh,	  DWORD TexStageIndex,  DWORD TangentIndex,
 			DWORD BinormIndex,	 DWORD Wrap,  CONST DWORD * pAdjacency)
 	{
 		if( !m_fnc.m_TFunc_D3DXComputeTangent )
@@ -2566,7 +2514,7 @@ public:
 	}
 
 
-	HRESULT D3DXComputeTangentFrame(  ID3DXMesh * pMesh,  DWORD dwOptions )
+	inline HRESULT D3DXComputeTangentFrame(  ID3DXMesh * pMesh,  DWORD dwOptions )
 	{
 
 		if(!m_fnc.m_TFunc_D3DXComputeTangentFrame )
@@ -2577,7 +2525,7 @@ public:
 	}
 
 
-	HRESULT D3DXComputeTangentFrameEx( ID3DXMesh * pMesh,  DWORD dwTextureInSemantic,  DWORD dwTextureInIndex,  
+	inline HRESULT D3DXComputeTangentFrameEx( ID3DXMesh * pMesh,  DWORD dwTextureInSemantic,  DWORD dwTextureInIndex,  
 		DWORD dwUPartialOutSemantic,DWORD dwUPartialOutIndex,  DWORD dwVPartialOutSemantic,  
 		DWORD dwVPartialOutIndex,  DWORD dwNormalOutSemantic,	DWORD dwNormalOutIndex,  DWORD dwOptions, 
 		CONST DWORD * pdwAdjacency,  FLOAT fPartialEdgeThreshold,
@@ -2595,7 +2543,7 @@ public:
 	}
 
 
-	HRESULT D3DXConcatenateMeshes( LPD3DXMESH * ppMeshes, UINT NumMeshes, DWORD Options, CONST D3DXMATRIX * pGeomXForms, 
+	inline HRESULT D3DXConcatenateMeshes( LPD3DXMESH * ppMeshes, UINT NumMeshes, DWORD Options, CONST D3DXMATRIX * pGeomXForms, 
 		CONST D3DXMATRIX * pTextureXForms,  CONST D3DVERTEXELEMENT9 * pDecl, LPDIRECT3DDEVICE9 pD3DDevice, 
 		LPD3DXMESH * ppMeshOut )
 	{
@@ -2608,7 +2556,7 @@ public:
 	}
 
 
-	HRESULT D3DXConvertMeshSubsetToSingleStrip(  LPD3DXBASEMESH MeshIn,  DWORD AttribId,  DWORD IBOptions,
+	inline HRESULT D3DXConvertMeshSubsetToSingleStrip(  LPD3DXBASEMESH MeshIn,  DWORD AttribId,  DWORD IBOptions,
 		LPDIRECT3DINDEXBUFFER9 * ppIndexBuffer,  DWORD * pNumIndices )
 	{
 		if(!m_fnc.m_TFunc_D3DXConvertMeshSubsetToSingleStrip)
@@ -2619,7 +2567,7 @@ public:
 			ppIndexBuffer,   pNumIndices);
 	}
 
-	HRESULT D3DXConvertMeshSubsetToStrips( LPD3DXBASEMESH MeshIn, DWORD AttribId,  DWORD IBOptions,
+	inline HRESULT D3DXConvertMeshSubsetToStrips( LPD3DXBASEMESH MeshIn, DWORD AttribId,  DWORD IBOptions,
 		LPDIRECT3DINDEXBUFFER9 * ppIndexBuffer,  DWORD * pNumIndices,  LPD3DXBUFFER * ppStripLengths,
 		DWORD * pNumStrips)
 	{
@@ -2632,7 +2580,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateMesh( DWORD NumFaces,  DWORD NumVertices,  DWORD Options,  
+	inline HRESULT D3DXCreateMesh( DWORD NumFaces,  DWORD NumVertices,  DWORD Options,  
 			CONST LPD3DVERTEXELEMENT9 * pDeclaration,
 			LPDIRECT3DDEVICE9 pD3DDevice,  LPD3DXMESH * ppMesh)
 	{
@@ -2645,7 +2593,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateMeshFVF( DWORD NumFaces, DWORD NumVertices, DWORD Options, DWORD FVF,  
+	inline HRESULT D3DXCreateMeshFVF( DWORD NumFaces, DWORD NumVertices, DWORD Options, DWORD FVF,  
 		LPDIRECT3DDEVICE9 pD3DDevice, LPD3DXMESH * ppMesh )
 	{
 		if( !m_fnc.m_TFunc_D3DXCreateMeshFVF )
@@ -2657,7 +2605,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreateNPatchMesh( LPD3DXMESH pMeshSysMem, LPD3DXPATCHMESH * pPatchMesh )
+	inline HRESULT D3DXCreateNPatchMesh( LPD3DXMESH pMeshSysMem, LPD3DXPATCHMESH * pPatchMesh )
 	{
 		if( !m_fnc.m_TFunc_D3DXCreateNPatchMesh)
 		{
@@ -2667,7 +2615,7 @@ public:
 	}
 
 
-	HRESULT D3DXCreatePatchMesh( CONST D3DXPATCHINFO * pInfo, DWORD dwNumPatches, DWORD dwNumVertices, DWORD dwOptions,
+	inline HRESULT D3DXCreatePatchMesh( CONST D3DXPATCHINFO * pInfo, DWORD dwNumPatches, DWORD dwNumVertices, DWORD dwOptions,
 		CONST D3DVERTEXELEMENT9 * pDecl, LPDIRECT3DDEVICE9 pD3DDevice, LPD3DXPATCHMESH * pPatchMesh )
 	{
 		if( !m_fnc.m_TFunc_D3DXCreatePatchMesh )
@@ -2678,7 +2626,7 @@ public:
 			pDecl,   pD3DDevice,  pPatchMesh  );
 	}
 
-	HRESULT D3DXCreateSkinInfo( DWORD NumVertices, CONST D3DVERTEXELEMENT9 * pDeclaration, 
+	inline HRESULT D3DXCreateSkinInfo( DWORD NumVertices, CONST D3DVERTEXELEMENT9 * pDeclaration, 
 		DWORD NumBones, LPD3DXSKININFO * ppSkinInfo)
 	{
 		if( !m_fnc.m_TFunc_D3DXCreateSkinInfo )
@@ -2689,7 +2637,7 @@ public:
 	}
 
 
-	HRESULT D3DXDeclaratorFromFVF( DWORD FVF, D3DVERTEXELEMENT9 Declaration[MAX_FVF_DECL_SIZE] )
+	inline HRESULT D3DXDeclaratorFromFVF( DWORD FVF, D3DVERTEXELEMENT9 Declaration[MAX_FVF_DECL_SIZE] )
 	{
 		if( !m_fnc.m_TFunc_D3DXDeclaratorFromFVF)
 		{
@@ -2698,7 +2646,7 @@ public:
 		return m_fnc.m_TFunc_D3DXDeclaratorFromFVF ( FVF,   Declaration );
 	}
 
-	HRESULT D3DXFVFFromDeclarator( CONST LPD3DVERTEXELEMENT9 * pDeclaration, DWORD * pFVF)
+	inline HRESULT D3DXFVFFromDeclarator( CONST LPD3DVERTEXELEMENT9 * pDeclaration, DWORD * pFVF)
 	{
 		if( !m_fnc.m_TFunc_D3DXFVFFromDeclarator)
 		{
@@ -2708,7 +2656,7 @@ public:
 	}
 
 
-	HRESULT D3DXGenerateOutputDecl(  D3DVERTEXELEMENT9 * pOutput,  CONST D3DVERTEXELEMENT9 * pInput)
+	inline HRESULT D3DXGenerateOutputDecl(  D3DVERTEXELEMENT9 * pOutput,  CONST D3DVERTEXELEMENT9 * pInput)
 	{
 		if( !m_fnc.m_TFunc_D3DXGenerateOutputDecl )
 		{
@@ -2718,7 +2666,7 @@ public:
 	}
 
 
-	UINT D3DXGetDeclLength( CONST D3DVERTEXELEMENT9 * pDecl )
+	inline UINT D3DXGetDeclLength( CONST D3DVERTEXELEMENT9 * pDecl )
 	{
 		if( !m_fnc.m_TFunc_D3DXGetDeclLength )
 		{
@@ -2728,7 +2676,7 @@ public:
 	}
 
 
-	UINT D3DXGetDeclVertexSize( CONST D3DVERTEXELEMENT9 * pDecl, DWORD Stream)
+	inline UINT D3DXGetDeclVertexSize( CONST D3DVERTEXELEMENT9 * pDecl, DWORD Stream)
 	{
 		if( !m_fnc.m_TFunc_D3DXGetDeclVertexSize )    
 		{
@@ -2741,7 +2689,7 @@ public:
 
 
 
-	UINT D3DXGetFVFVertexSize( DWORD FVF )
+	inline UINT D3DXGetFVFVertexSize( DWORD FVF )
 	{
 		if( !m_fnc.m_TFunc_D3DXGetFVFVertexSize)
 		{
@@ -2751,7 +2699,7 @@ public:
 
 	}
 
-	HRESULT D3DXIntersect(  LPD3DXBASEMESH pMesh,  CONST D3DXVECTOR3 * pRayPos, 
+	inline HRESULT D3DXIntersect(  LPD3DXBASEMESH pMesh,  CONST D3DXVECTOR3 * pRayPos, 
 			CONST D3DXVECTOR3 * pRayDir, BOOL* pHit,  DWORD* pFaceIndex, 
 			FLOAT* pU, FLOAT* pV, FLOAT* pDist, LPD3DXBUFFER* ppAllHits, DWORD* pCountOfHits)
 	{
@@ -2764,7 +2712,7 @@ public:
 	}
 
 
-	HRESULT D3DXIntersectSubset( LPD3DXBASEMESH pMesh,  DWORD AttribId, 
+	inline HRESULT D3DXIntersectSubset( LPD3DXBASEMESH pMesh,  DWORD AttribId, 
 			CONST D3DXVECTOR3 * pRayPos,
 			CONST D3DXVECTOR3 * pRayDir, BOOL * pHit,DWORD * pFaceIndex, FLOAT * pU,  FLOAT * pV, 
 			FLOAT * pDist,  LPD3DXBUFFER * ppAllHits,  DWORD * pCountOfHits)
@@ -2778,7 +2726,7 @@ public:
 	}
 
 
-	BOOL D3DXIntersectTri( CONST D3DXVECTOR3 * p0,  CONST D3DXVECTOR3 * p1,  
+	inline BOOL D3DXIntersectTri( CONST D3DXVECTOR3 * p0,  CONST D3DXVECTOR3 * p1,  
 			CONST D3DXVECTOR3 * p2,
 			CONST D3DXVECTOR3 * pRayPos,  CONST D3DXVECTOR3 * pRayDir,
 			FLOAT * pU,  FLOAT * pV,  FLOAT * pDist)
@@ -2793,7 +2741,7 @@ public:
 
  
 
-	HRESULT D3DXLoadMeshFromXA( const CHAR* pFilename,  DWORD Options,  
+	inline HRESULT D3DXLoadMeshFromXA( const CHAR* pFilename,  DWORD Options,  
 		LPDIRECT3DDEVICE9 pD3DDevice,
 		LPD3DXBUFFER * ppAdjacency,  LPD3DXBUFFER * ppMaterials,  LPD3DXBUFFER * ppEffectInstances,
 		DWORD * pNumMaterials,  LPD3DXMESH * ppMesh)
@@ -2806,7 +2754,7 @@ public:
 			ppAdjacency,  ppMaterials, ppEffectInstances,  pNumMaterials,  ppMesh );
 	}
 
-	HRESULT D3DXLoadMeshFromXW( const WCHAR* pFilename,  DWORD Options,  
+	inline HRESULT D3DXLoadMeshFromXW( const WCHAR* pFilename,  DWORD Options,  
 			LPDIRECT3DDEVICE9 pD3DDevice,
 			LPD3DXBUFFER * ppAdjacency,  LPD3DXBUFFER * ppMaterials, 
 			LPD3DXBUFFER * ppEffectInstances,
@@ -2823,7 +2771,7 @@ public:
 
 
 
-	HRESULT D3DXLoadMeshFromXInMemory( LPCVOID Memory, DWORD SizeOfMemory, DWORD Options,
+	inline HRESULT D3DXLoadMeshFromXInMemory( LPCVOID Memory, DWORD SizeOfMemory, DWORD Options,
 		LPDIRECT3DDEVICE9 pD3DDevice, LPD3DXBUFFER * ppAdjacency, LPD3DXBUFFER * ppMaterials,
 		LPD3DXBUFFER * ppEffectInstances, DWORD * pNumMaterials, LPD3DXMESH * ppMesh)
 	{
@@ -2837,7 +2785,7 @@ public:
 	}
 
 
-	HRESULT D3DXLoadMeshFromXof(  LPD3DXFILEDATA pxofMesh,  DWORD Options, 
+	inline HRESULT D3DXLoadMeshFromXof(  LPD3DXFILEDATA pxofMesh,  DWORD Options, 
 		LPDIRECT3DDEVICE9 pDevice,
 		LPD3DXBUFFER * ppAdjacency,  LPD3DXBUFFER * ppMaterials,  LPD3DXBUFFER * ppEffectInstances,
 		DWORD * pNumMaterials,  LPD3DXMESH * ppMesh)
@@ -2851,7 +2799,7 @@ public:
 	}
 
 
-	HRESULT D3DXLoadMeshFromXResource( HMODULE Module, LPCSTR Name, LPCSTR Type, DWORD Options,
+	inline HRESULT D3DXLoadMeshFromXResource( HMODULE Module, LPCSTR Name, LPCSTR Type, DWORD Options,
 			LPDIRECT3DDEVICE9 pD3DDevice, LPD3DXBUFFER * ppAdjacency, LPD3DXBUFFER * ppMaterials,
 			LPD3DXBUFFER * ppEffectInstances, DWORD * pNumMaterials, LPD3DXMESH * ppMesh )
 	{
@@ -2864,7 +2812,7 @@ public:
 	}
 
 
-	HRESULT D3DXLoadPatchMeshFromXof(  LPD3DXFILEDATA pxofMesh,  DWORD Options,  
+	inline HRESULT D3DXLoadPatchMeshFromXof(  LPD3DXFILEDATA pxofMesh,  DWORD Options,  
 			LPDIRECT3DDEVICE9 pD3DDevice,
 			LPD3DXBUFFER * ppMaterials,  LPD3DXBUFFER * ppEffectInstances,  PDWORD pNumMaterials, 
 			LPD3DXPATCHMESH* ppMesh)
@@ -2878,7 +2826,7 @@ public:
 	}
 
 
-	HRESULT D3DXLoadSkinMeshFromXof( LPD3DXFILEDATA pxofMesh, DWORD Options,  
+	inline HRESULT D3DXLoadSkinMeshFromXof( LPD3DXFILEDATA pxofMesh, DWORD Options,  
 			LPDIRECT3DDEVICE9 pD3DDevice,
 			LPD3DXBUFFER * ppAdjacency, LPD3DXBUFFER * ppMaterials, LPD3DXBUFFER * ppEffectInstances,
 			DWORD * pMatOut, LPD3DXSKININFO * ppSkinInfo, LPD3DXMESH * ppMesh )
@@ -2893,7 +2841,7 @@ public:
 	}
 
 
-	HRESULT D3DXOptimizeFaces( LPCVOID pIndices, UINT NumFaces, UINT NumVertices, 
+	inline HRESULT D3DXOptimizeFaces( LPCVOID pIndices, UINT NumFaces, UINT NumVertices, 
 		BOOL Indices32Bit, DWORD* pFaceRemap)
 	{
 		if( !m_fnc.m_TFunc_D3DXOptimizeFaces )
@@ -2905,7 +2853,7 @@ public:
 	}
 
 
-	HRESULT D3DXOptimizeVertices(  LPCVOID pIndices,  UINT NumFaces,  UINT NumVertices,  BOOL Indices32Bit,
+	inline HRESULT D3DXOptimizeVertices(  LPCVOID pIndices,  UINT NumFaces,  UINT NumVertices,  BOOL Indices32Bit,
 		DWORD * pVertexRemap)
 	{
 		if( !m_fnc.m_TFunc_D3DXOptimizeVertices )
@@ -2917,7 +2865,7 @@ public:
 	}
 
 
-	HRESULT D3DXRectPatchSize(  CONST FLOAT* pfNumSegs, DWORD* pdwTriangles, DWORD* pwdVertices)
+	inline HRESULT D3DXRectPatchSize(  CONST FLOAT* pfNumSegs, DWORD* pdwTriangles, DWORD* pwdVertices)
 	{
 		if( !m_fnc.m_TFunc_D3DXRectPatchSize )
 		{
@@ -2927,7 +2875,7 @@ public:
 	}
 
 
-	HRESULT D3DXSaveMeshToXA( const CHAR* pFilename, LPD3DXMESH pMesh, CONST DWORD * pAdjacency, 
+	inline HRESULT D3DXSaveMeshToXA( const CHAR* pFilename, LPD3DXMESH pMesh, CONST DWORD * pAdjacency, 
 				CONST D3DXMATERIAL * pMaterials,  CONST D3DXEFFECTINSTANCE * pEffectInstances, 
 				DWORD NumMaterials,  DWORD Format)
 	{
@@ -2940,7 +2888,7 @@ public:
 	}	
 
  
-	HRESULT D3DXSaveMeshToXW( const WCHAR* pFilename, LPD3DXMESH pMesh, CONST DWORD * pAdjacency, 
+	inline HRESULT D3DXSaveMeshToXW( const WCHAR* pFilename, LPD3DXMESH pMesh, CONST DWORD * pAdjacency, 
 				CONST D3DXMATERIAL * pMaterials,  CONST D3DXEFFECTINSTANCE * pEffectInstances, 
 				DWORD NumMaterials,  DWORD Format)
 	{
@@ -2955,7 +2903,7 @@ public:
 
 
 
-	HRESULT D3DXSimplifyMesh(  LPD3DXMESH pMesh,  CONST DWORD * pAdjacency,  
+	inline HRESULT D3DXSimplifyMesh(  LPD3DXMESH pMesh,  CONST DWORD * pAdjacency,  
 				CONST D3DXATTRIBUTEWEIGHTS * pVertexAttributeWeights,  CONST FLOAT * pVertexWeights,  
 				DWORD MinValue,  DWORD Options,  LPD3DXMESH * ppMesh)
 	{
@@ -2968,7 +2916,7 @@ public:
 	}			
 
 
-	BOOL D3DXSphereBoundProbe( CONST D3DXVECTOR3 * pCenter, FLOAT Radius, CONST D3DXVECTOR3 * pRayPosition,
+	inline BOOL D3DXSphereBoundProbe( CONST D3DXVECTOR3 * pCenter, FLOAT Radius, CONST D3DXVECTOR3 * pRayPosition,
 			CONST D3DXVECTOR3 * pRayDirection)
 	{
 		if( !m_fnc.m_TFunc_D3DXSphereBoundProbe )
@@ -2981,7 +2929,7 @@ public:
  
 
 
-	void D3DXSplitMesh( LPD3DXMESH pMeshIn, CONST DWORD * pAdjacencyIn, CONST DWORD MaxSize,
+	inline void D3DXSplitMesh( LPD3DXMESH pMeshIn, CONST DWORD * pAdjacencyIn, CONST DWORD MaxSize,
 				CONST DWORD Options, DWORD * pMeshesOut, LPD3DXBUFFER * ppMeshArrayOut,
 				LPD3DXBUFFER * ppAdjacencyArrayOut, LPD3DXBUFFER * ppFaceRemapArrayOut,
 				LPD3DXBUFFER * ppVertRemapArrayOut)
@@ -2995,7 +2943,7 @@ public:
 	}
 
 
-	HRESULT D3DXTessellateNPatches( LPD3DXMESH pMeshIn,  CONST DWORD * pAdjacencyIn, FLOAT NumSegs,
+	inline HRESULT D3DXTessellateNPatches( LPD3DXMESH pMeshIn,  CONST DWORD * pAdjacencyIn, FLOAT NumSegs,
 		BOOL QuadraticInterpNormals, LPD3DXMESH * ppMeshOut, LPD3DXBUFFER * ppAdjacencyOut)
 	{
 		if( !m_fnc.m_TFunc_D3DXTessellateNPatches )
@@ -3007,7 +2955,7 @@ public:
 	}
 
 
-	HRESULT D3DXTessellateRectPatch(  LPDIRECT3DVERTEXBUFFER9 pVB,
+	inline HRESULT D3DXTessellateRectPatch(  LPDIRECT3DVERTEXBUFFER9 pVB,
 		CONST FLOAT * pNumSegs,  CONST D3DVERTEXELEMENT9 * pInDecl, 
 		CONST D3DRECTPATCH_INFO * pRectPatchInfo,  LPD3DXMESH pMesh)
 	{
@@ -3019,7 +2967,7 @@ public:
 	}
 			   
 
-	HRESULT D3DXTessellateTriPatch(  LPDIRECT3DVERTEXBUFFER9 pVB,  CONST FLOAT * pNumSegs,  
+	inline HRESULT D3DXTessellateTriPatch(  LPDIRECT3DVERTEXBUFFER9 pVB,  CONST FLOAT * pNumSegs,  
 			CONST D3DVERTEXELEMENT9 * pInDecl,
 			CONST D3DTRIPATCH_INFO * pTriPatchInfo,  LPD3DXMESH pMesh)
 	{
@@ -3031,7 +2979,7 @@ public:
 	}
 
 
-	HRESULT D3DXTriPatchSize(  CONST FLOAT * pfNumSegs,  DWORD * pdwTriangles,  DWORD * pdwVertices)
+	inline HRESULT D3DXTriPatchSize(  CONST FLOAT * pfNumSegs,  DWORD * pdwTriangles,  DWORD * pdwVertices)
 	{
 		if( !m_fnc.m_TFunc_D3DXTriPatchSize )
 		{
@@ -3041,7 +2989,7 @@ public:
 	}
 
 
-	HRESULT D3DXValidMesh(  LPD3DXMESH pMeshIn,  CONST DWORD * pAdjacency,  LPD3DXBUFFER * ppErrorsAndWarnings)
+	inline HRESULT D3DXValidMesh(  LPD3DXMESH pMeshIn,  CONST DWORD * pAdjacency,  LPD3DXBUFFER * ppErrorsAndWarnings)
 	{
 		if( !m_fnc.m_TFunc_D3DXValidMesh )
 		{
@@ -3051,7 +2999,7 @@ public:
 	}
 
 
-	HRESULT D3DXValidPatchMesh( LPD3DXPATCHMESH  pMeshIn, DWORD * pNumDegenerateVertices,
+	inline HRESULT D3DXValidPatchMesh( LPD3DXPATCHMESH  pMeshIn, DWORD * pNumDegenerateVertices,
 		DWORD * pNumDegeneratePatches,  LPD3DXBUFFER * ppErrorsAndWarnings)
 	{
 		if( !m_fnc.m_TFunc_D3DXValidPatchMesh )
@@ -3063,7 +3011,7 @@ public:
 	}
 
 
-	HRESULT D3DXWeldVertices(  LPD3DXMESH pMesh,  DWORD Flags,  CONST D3DXWELDEPSILONS * pEpsilons,
+	inline HRESULT D3DXWeldVertices(  LPD3DXMESH pMesh,  DWORD Flags,  CONST D3DXWELDEPSILONS * pEpsilons,
 		CONST DWORD * pAdjacencyIn,  DWORD * pAdjacencyOut,  DWORD * pFaceRemap,  LPD3DXBUFFER * ppVertexRemap)
 	{
 		if( !m_fnc.m_TFunc_D3DXWeldVertices )
@@ -3080,7 +3028,7 @@ public:
 
 
 
-	HRESULT D3DXCreatePRTBuffer(
+	inline HRESULT D3DXCreatePRTBuffer(
 		UINT NumSamples,
 		UINT NumCoeffs,
 		UINT NumChannels,
@@ -3096,7 +3044,7 @@ public:
 
 
 
-	HRESULT D3DXCreatePRTBufferTex(
+	inline HRESULT D3DXCreatePRTBufferTex(
 		UINT Width,
 		UINT Height,
 		UINT NumCoeffs,
@@ -3110,9 +3058,9 @@ public:
 		return m_fnc.m_TFunc_D3DXCreatePRTBufferTex(  Width,  Height, NumCoeffs,  NumChannels,  ppBuffer );
 	}  
 
+		    
 
-
-	HRESULT D3DXCreatePRTCompBuffer(
+	inline HRESULT D3DXCreatePRTCompBuffer(
 		D3DXSHCOMPRESSQUALITYTYPE Quality,
 		UINT NumClusters,
 		UINT NumPCA,
@@ -3131,7 +3079,7 @@ public:
 
 
 
-	HRESULT D3DXCreatePRTEngine(
+	inline HRESULT D3DXCreatePRTEngine(
 		LPD3DXMESH pMesh,
 		DWORD * pAdjacency,
 		BOOL ExtractUVs,
@@ -3148,7 +3096,7 @@ public:
 
 
 
-	HRESULT D3DXCreateTextureGutterHelper(
+	inline HRESULT D3DXCreateTextureGutterHelper(
 		UINT Width,
 		UINT Height,
 		LPD3DXMESH pMesh,
@@ -3165,7 +3113,7 @@ public:
 
 
 
-	HRESULT D3DXLoadPRTBufferFromFileA(
+	inline HRESULT D3DXLoadPRTBufferFromFileA(
 		const CHAR* pFileName,
 		LPD3DXPRTBUFFER * ppBuffer)
 	{
@@ -3178,7 +3126,7 @@ public:
 
 
 
-	HRESULT D3DXLoadPRTBufferFromFileW(
+	inline HRESULT D3DXLoadPRTBufferFromFileW(
 		const WCHAR* pFileName,
 		LPD3DXPRTBUFFER * ppBuffer)
 	{
@@ -3191,7 +3139,7 @@ public:
 
 
 
-	HRESULT D3DXLoadPRTCompBufferFromFileA(
+	inline HRESULT D3DXLoadPRTCompBufferFromFileA(
 		const CHAR* pFileName,
 		LPD3DXPRTCOMPBUFFER * ppBuffer)
 	{
@@ -3204,7 +3152,7 @@ public:
 
 
 
-	HRESULT D3DXLoadPRTCompBufferFromFileW(
+	inline HRESULT D3DXLoadPRTCompBufferFromFileW(
 		const WCHAR*  pFileName,
 		LPD3DXPRTCOMPBUFFER * ppBuffer)
 	{
@@ -3217,7 +3165,7 @@ public:
 
 
 
-	HRESULT D3DXSavePRTBufferToFileA(
+	inline HRESULT D3DXSavePRTBufferToFileA(
 		const CHAR* pFileName,
 		LPD3DXPRTBUFFER pBuffer)
 	{
@@ -3230,7 +3178,7 @@ public:
 
 
 
-	HRESULT D3DXSavePRTBufferToFileW(
+	inline HRESULT D3DXSavePRTBufferToFileW(
 		const WCHAR* pFileName,
 		LPD3DXPRTBUFFER pBuffer)
 	{
@@ -3243,7 +3191,7 @@ public:
 
 
 
-	HRESULT D3DXSavePRTCompBufferToFileA(
+	inline HRESULT D3DXSavePRTCompBufferToFileA(
 		const CHAR* pFileName,
 		LPD3DXPRTCOMPBUFFER pBuffer)
 	{
@@ -3256,7 +3204,7 @@ public:
 
 
 
-	HRESULT D3DXSavePRTCompBufferToFileW(
+	inline HRESULT D3DXSavePRTCompBufferToFileW(
 		const WCHAR* pFileName,
 		LPD3DXPRTCOMPBUFFER pBuffer)
 	{
@@ -3269,7 +3217,7 @@ public:
 
 
 
-	HRESULT D3DXSHPRTCompSplitMeshSC(
+	inline HRESULT D3DXSHPRTCompSplitMeshSC(
 		UINT * pClusterIDs,
 		UINT NumVertices,
 		UINT NumCs,
@@ -3299,7 +3247,7 @@ public:
 
 
 
-	HRESULT D3DXSHPRTCompSuperCluster(
+	inline HRESULT D3DXSHPRTCompSuperCluster(
 		UINT * pClusterIDs,
 		LPD3DXMESH pScene,
 		UINT MaxNumClusters,
@@ -3317,9 +3265,7 @@ public:
 
 
 
-
-
-
+ 
 
 	//-------------------------------------------------------
 	//	    Shader function
@@ -3328,7 +3274,7 @@ public:
 
  
  
-HRESULT D3DXAssembleShader(  LPCSTR pSrcData,  UINT SrcDataLen,  CONST D3DXMACRO* pDefines,
+inline HRESULT D3DXAssembleShader(  LPCSTR pSrcData,  UINT SrcDataLen,  CONST D3DXMACRO* pDefines,
 		LPD3DXINCLUDE pInclude,  DWORD Flags,  LPD3DXBUFFER* ppShader,  LPD3DXBUFFER * ppErrorMsgs )
 {
 	if( !m_fnc.m_TFunc_D3DXAssembleShader )
@@ -3340,7 +3286,7 @@ HRESULT D3DXAssembleShader(  LPCSTR pSrcData,  UINT SrcDataLen,  CONST D3DXMACRO
 }
  
  
-HRESULT D3DXAssembleShaderFromFileA(  const CHAR* pSrcFile,  CONST D3DXMACRO* pDefines,  
+inline HRESULT D3DXAssembleShaderFromFileA(  const CHAR* pSrcFile,  CONST D3DXMACRO* pDefines,  
 		LPD3DXINCLUDE pInclude, DWORD Flags,  LPD3DXBUFFER* ppShader,  LPD3DXBUFFER * ppErrorMsgs)
 {
 	if( !m_fnc.m_TFunc_D3DXAssembleShaderFromFileA )
@@ -3352,7 +3298,7 @@ HRESULT D3DXAssembleShaderFromFileA(  const CHAR* pSrcFile,  CONST D3DXMACRO* pD
 }
 
  
-HRESULT D3DXAssembleShaderFromFileW(  const WCHAR* pSrcFile,  CONST D3DXMACRO* pDefines,  LPD3DXINCLUDE pInclude,
+inline HRESULT D3DXAssembleShaderFromFileW(  const WCHAR* pSrcFile,  CONST D3DXMACRO* pDefines,  LPD3DXINCLUDE pInclude,
 		DWORD Flags,  LPD3DXBUFFER* ppShader,  LPD3DXBUFFER * ppErrorMsgs)
 {
 	if( !m_fnc.m_TFunc_D3DXAssembleShaderFromFileW )
@@ -3364,7 +3310,7 @@ HRESULT D3DXAssembleShaderFromFileW(  const WCHAR* pSrcFile,  CONST D3DXMACRO* p
 }
  
  
-HRESULT D3DXAssembleShaderFromResourceA(  HMODULE hSrcModule,  const CHAR* pSrcResource,  CONST D3DXMACRO* pDefines,
+inline HRESULT D3DXAssembleShaderFromResourceA(  HMODULE hSrcModule,  const CHAR* pSrcResource,  CONST D3DXMACRO* pDefines,
 		LPD3DXINCLUDE pInclude,  DWORD Flags,  LPD3DXBUFFER* ppShader,  LPD3DXBUFFER * ppErrorMsgs)
 {
 	if( !m_fnc.m_TFunc_D3DXAssembleShaderFromResourceA )
@@ -3376,7 +3322,7 @@ HRESULT D3DXAssembleShaderFromResourceA(  HMODULE hSrcModule,  const CHAR* pSrcR
 }
 
 
-HRESULT D3DXAssembleShaderFromResourceW(  HMODULE hSrcModule,  const WCHAR* pSrcResource,  CONST D3DXMACRO* pDefines,
+inline HRESULT D3DXAssembleShaderFromResourceW(  HMODULE hSrcModule,  const WCHAR* pSrcResource,  CONST D3DXMACRO* pDefines,
 		LPD3DXINCLUDE pInclude,  DWORD Flags,  LPD3DXBUFFER* ppShader,  LPD3DXBUFFER * ppErrorMsgs)
 {
 	if( !m_fnc.m_TFunc_D3DXAssembleShaderFromResourceW )
@@ -3391,7 +3337,7 @@ HRESULT D3DXAssembleShaderFromResourceW(  HMODULE hSrcModule,  const WCHAR* pSrc
 
 
  
-HRESULT D3DXCompileShader(  LPCSTR pSrcData,  UINT srcDataLen,  CONST D3DXMACRO* pDefines,
+inline HRESULT D3DXCompileShader(  LPCSTR pSrcData,  UINT srcDataLen,  CONST D3DXMACRO* pDefines,
 		LPD3DXINCLUDE pInclude,  LPCSTR pFunctionName,  LPCSTR pProfile,
 		DWORD Flags,  LPD3DXBUFFER* ppShader,  LPD3DXBUFFER* ppErrorMsgs,  
 		LPD3DXCONSTANTTABLE * ppConstantTable)
@@ -3406,7 +3352,7 @@ HRESULT D3DXCompileShader(  LPCSTR pSrcData,  UINT srcDataLen,  CONST D3DXMACRO*
 }
 
  
-HRESULT D3DXCompileShaderFromFileA(  const CHAR* pSrcFile,  CONST D3DXMACRO* pDefines,
+inline HRESULT D3DXCompileShaderFromFileA(  const CHAR* pSrcFile,  CONST D3DXMACRO* pDefines,
 		LPD3DXINCLUDE pInclude,  LPCSTR pFunctionName,  LPCSTR pProfile,
 		DWORD Flags,  LPD3DXBUFFER* ppShader,  LPD3DXBUFFER * ppErrorMsgs,
 		LPD3DXCONSTANTTABLE * ppConstantTable)
@@ -3420,7 +3366,7 @@ HRESULT D3DXCompileShaderFromFileA(  const CHAR* pSrcFile,  CONST D3DXMACRO* pDe
 		   Flags,   ppShader,    ppErrorMsgs, ppConstantTable );
 }
 
-HRESULT D3DXCompileShaderFromFileW(  const WCHAR* pSrcFile,  CONST D3DXMACRO* pDefines,
+inline HRESULT D3DXCompileShaderFromFileW(  const WCHAR* pSrcFile,  CONST D3DXMACRO* pDefines,
 		LPD3DXINCLUDE pInclude,  const WCHAR* pFunctionName,  const WCHAR* pProfile,
 		DWORD Flags,  LPD3DXBUFFER* ppShader,  LPD3DXBUFFER * ppErrorMsgs,
 		LPD3DXCONSTANTTABLE * ppConstantTable)
@@ -3435,7 +3381,7 @@ HRESULT D3DXCompileShaderFromFileW(  const WCHAR* pSrcFile,  CONST D3DXMACRO* pD
 }
 
 
-HRESULT D3DXCompileShaderFromResourceA(  HMODULE hSrcModule,  const CHAR* pSrcResource,
+inline HRESULT D3DXCompileShaderFromResourceA(  HMODULE hSrcModule,  const CHAR* pSrcResource,
 		CONST D3DXMACRO* pDefines,  LPD3DXINCLUDE pInclude,  LPCSTR pFunctionName,
 		LPCSTR pProfile,  DWORD Flags,  LPD3DXBUFFER* ppShader,
 		LPD3DXBUFFER * ppErrorMsgs,  LPD3DXCONSTANTTABLE * ppConstantTable)
@@ -3451,7 +3397,7 @@ HRESULT D3DXCompileShaderFromResourceA(  HMODULE hSrcModule,  const CHAR* pSrcRe
  
 
  
-HRESULT D3DXCompileShaderFromResourceW(  HMODULE hSrcModule,  const WCHAR* pSrcResource,
+inline HRESULT D3DXCompileShaderFromResourceW(  HMODULE hSrcModule,  const WCHAR* pSrcResource,
 		CONST D3DXMACRO* pDefines,  LPD3DXINCLUDE pInclude,  const WCHAR* pFunctionName,
 		const WCHAR* pProfile,  DWORD Flags,  LPD3DXBUFFER* ppShader,
 		LPD3DXBUFFER * ppErrorMsgs,  LPD3DXCONSTANTTABLE * ppConstantTable)
@@ -3465,12 +3411,9 @@ HRESULT D3DXCompileShaderFromResourceW(  HMODULE hSrcModule,  const WCHAR* pSrcR
           ppErrorMsgs,   ppConstantTable );
 }
 
-
-
-
-
  
-HRESULT D3DXCreateTextureShader(  CONST DWORD * pFunction,  LPD3DXTEXTURESHADER * ppTextureShader)
+ 
+inline HRESULT D3DXCreateTextureShader(  CONST DWORD * pFunction,  LPD3DXTEXTURESHADER * ppTextureShader)
 {
 	if( !m_fnc.m_TFunc_D3DXCreateTextureShader )
 	{
@@ -3480,7 +3423,7 @@ HRESULT D3DXCreateTextureShader(  CONST DWORD * pFunction,  LPD3DXTEXTURESHADER 
 } 
 
  
-HRESULT D3DXDisassembleShader( CONST DWORD * pShader,  BOOL EnableColorCode,
+inline HRESULT D3DXDisassembleShader( CONST DWORD * pShader,  BOOL EnableColorCode,
 		LPCSTR pComments,  LPD3DXBUFFER * ppDisassembly)
 {
 	if( !m_fnc.m_TFunc_D3DXDisassembleShader )
@@ -3492,7 +3435,7 @@ HRESULT D3DXDisassembleShader( CONST DWORD * pShader,  BOOL EnableColorCode,
 }		
  
  
-HRESULT D3DXFindShaderComment(  CONST DWORD* pFunction,  DWORD FourCC,  
+inline HRESULT D3DXFindShaderComment(  CONST DWORD* pFunction,  DWORD FourCC,  
 			LPCVOID* ppData,  UINT* pSizeInBytes)
 {
 	if( !m_fnc.m_TFunc_D3DXFindShaderComment )
@@ -3503,7 +3446,7 @@ HRESULT D3DXFindShaderComment(  CONST DWORD* pFunction,  DWORD FourCC,
 }
  
  
-LPCSTR D3DXGetPixelShaderProfile(  LPDIRECT3DDEVICE9 pDevice)
+inline LPCSTR D3DXGetPixelShaderProfile(  LPDIRECT3DDEVICE9 pDevice)
 {
 	if( !m_fnc.m_TFunc_D3DXGetPixelShaderProfile )
 	{
@@ -3513,7 +3456,7 @@ LPCSTR D3DXGetPixelShaderProfile(  LPDIRECT3DDEVICE9 pDevice)
 }
 
  
-HRESULT D3DXGetShaderConstantTable(  CONST DWORD* pFunction,  LPD3DXCONSTANTTABLE*  ppConstantTable)
+inline HRESULT D3DXGetShaderConstantTable(  CONST DWORD* pFunction,  LPD3DXCONSTANTTABLE*  ppConstantTable)
 {
 	if( !m_fnc.m_TFunc_D3DXGetShaderConstantTable )
 	{
@@ -3523,7 +3466,7 @@ HRESULT D3DXGetShaderConstantTable(  CONST DWORD* pFunction,  LPD3DXCONSTANTTABL
 }
  
  
- HRESULT D3DXGetShaderConstantTableEx(  CONST DWORD* pFunction,  DWORD Flags,
+inline  HRESULT D3DXGetShaderConstantTableEx(  CONST DWORD* pFunction,  DWORD Flags,
 			LPD3DXCONSTANTTABLE*  ppConstantTable)
 {
 	if( !m_fnc.m_TFunc_D3DXGetShaderConstantTableEx )
@@ -3534,7 +3477,7 @@ HRESULT D3DXGetShaderConstantTable(  CONST DWORD* pFunction,  LPD3DXCONSTANTTABL
 }
 
 
-HRESULT D3DXGetShaderInputSemantics( CONST DWORD* pFunction, D3DXSEMANTIC* pSemantics, UINT* pCount)
+inline HRESULT D3DXGetShaderInputSemantics( CONST DWORD* pFunction, D3DXSEMANTIC* pSemantics, UINT* pCount)
 {
 	if( !m_fnc.m_TFunc_D3DXGetShaderInputSemantics )
 	{
@@ -3544,7 +3487,7 @@ HRESULT D3DXGetShaderInputSemantics( CONST DWORD* pFunction, D3DXSEMANTIC* pSema
 }
  
 
-HRESULT D3DXGetShaderOutputSemantics( CONST DWORD* pFunction, D3DXSEMANTIC* pSemantics, UINT* pCount)
+inline HRESULT D3DXGetShaderOutputSemantics( CONST DWORD* pFunction, D3DXSEMANTIC* pSemantics, UINT* pCount)
 {
 	if( !m_fnc.m_TFunc_D3DXGetShaderOutputSemantics )
 	{
@@ -3554,7 +3497,7 @@ HRESULT D3DXGetShaderOutputSemantics( CONST DWORD* pFunction, D3DXSEMANTIC* pSem
 }
  
  
-HRESULT D3DXGetShaderSamplers( CONST DWORD* pFunction, LPCSTR* pSamplers, UINT* pCount)
+inline HRESULT D3DXGetShaderSamplers( CONST DWORD* pFunction, LPCSTR* pSamplers, UINT* pCount)
 {
 	if( !m_fnc.m_TFunc_D3DXGetShaderSamplers )
 	{
@@ -3563,7 +3506,7 @@ HRESULT D3DXGetShaderSamplers( CONST DWORD* pFunction, LPCSTR* pSamplers, UINT* 
     return m_fnc.m_TFunc_D3DXGetShaderSamplers( pFunction,   pSamplers,  pCount );
 }
  
- UINT D3DXGetShaderSize(  CONST DWORD * pFunction)
+inline  UINT D3DXGetShaderSize(  CONST DWORD * pFunction)
  {
  	if( !m_fnc.m_TFunc_D3DXGetShaderSize )
 	{
@@ -3573,7 +3516,7 @@ HRESULT D3DXGetShaderSamplers( CONST DWORD* pFunction, LPCSTR* pSamplers, UINT* 
  }
 
  
-DWORD D3DXGetShaderVersion(  CONST DWORD* pFunction)
+inline DWORD D3DXGetShaderVersion(  CONST DWORD* pFunction)
 {
 	if( !m_fnc.m_TFunc_D3DXGetShaderVersion )
 	{
@@ -3582,7 +3525,7 @@ DWORD D3DXGetShaderVersion(  CONST DWORD* pFunction)
     return m_fnc.m_TFunc_D3DXGetShaderVersion ( pFunction );
 }
 
-LPCSTR D3DXGetVertexShaderProfile(  LPDIRECT3DDEVICE9 pDevice)
+inline LPCSTR D3DXGetVertexShaderProfile(  LPDIRECT3DDEVICE9 pDevice)
 {
 	if( !m_fnc.m_TFunc_D3DXGetVertexShaderProfile )
 	{
@@ -3592,7 +3535,7 @@ LPCSTR D3DXGetVertexShaderProfile(  LPDIRECT3DDEVICE9 pDevice)
 }
 
  
-HRESULT D3DXPreprocessShader(  LPCSTR pSrcData,  UINT SrcDataSize,
+inline HRESULT D3DXPreprocessShader(  LPCSTR pSrcData,  UINT SrcDataSize,
 			CONST D3DXMACRO* pDefines,  LPD3DXINCLUDE pInclude,
 			LPD3DXBUFFER* ppShaderText,  LPD3DXBUFFER* ppErrorMsgs)
 {
@@ -3605,7 +3548,7 @@ HRESULT D3DXPreprocessShader(  LPCSTR pSrcData,  UINT SrcDataSize,
 }
 
 
-HRESULT D3DXPreprocessShaderFromFileA(  const CHAR* pSrcFile,  CONST D3DXMACRO* pDefines,
+inline HRESULT D3DXPreprocessShaderFromFileA(  const CHAR* pSrcFile,  CONST D3DXMACRO* pDefines,
 			 LPD3DXINCLUDE pInclude,  LPD3DXBUFFER* ppShaderText,  LPD3DXBUFFER* ppErrorMsgs)
 {
 	if( !m_fnc.m_TFunc_D3DXPreprocessShaderFromFileA )
@@ -3618,7 +3561,7 @@ HRESULT D3DXPreprocessShaderFromFileA(  const CHAR* pSrcFile,  CONST D3DXMACRO* 
 
 
 
-HRESULT D3DXPreprocessShaderFromFileW(  const WCHAR* pSrcFile,  CONST D3DXMACRO* pDefines,
+inline HRESULT D3DXPreprocessShaderFromFileW(  const WCHAR* pSrcFile,  CONST D3DXMACRO* pDefines,
 			 LPD3DXINCLUDE pInclude,  LPD3DXBUFFER* ppShaderText,  LPD3DXBUFFER* ppErrorMsgs)
 {
 	if( !m_fnc.m_TFunc_D3DXPreprocessShaderFromFileW )
@@ -3632,7 +3575,7 @@ HRESULT D3DXPreprocessShaderFromFileW(  const WCHAR* pSrcFile,  CONST D3DXMACRO*
 
 
 
-HRESULT D3DXPreprocessShaderFromResourceA(  HMODULE hSrcModule,  const CHAR* pSrcResource,
+inline HRESULT D3DXPreprocessShaderFromResourceA(  HMODULE hSrcModule,  const CHAR* pSrcResource,
 		 CONST D3DXMACRO* pDefines,  LPD3DXINCLUDE pInclude,  LPD3DXBUFFER* ppShaderText,
 		 LPD3DXBUFFER* ppErrorMsgs)
 {
@@ -3645,7 +3588,7 @@ HRESULT D3DXPreprocessShaderFromResourceA(  HMODULE hSrcModule,  const CHAR* pSr
 }
   
 
-HRESULT D3DXPreprocessShaderFromResourceW(  HMODULE hSrcModule,  const WCHAR* pSrcResource,
+inline HRESULT D3DXPreprocessShaderFromResourceW(  HMODULE hSrcModule,  const WCHAR* pSrcResource,
 		 CONST D3DXMACRO* pDefines,  LPD3DXINCLUDE pInclude,  LPD3DXBUFFER* ppShaderText,
 		 LPD3DXBUFFER* ppErrorMsgs)
 {
@@ -3664,7 +3607,7 @@ HRESULT D3DXPreprocessShaderFromResourceW(  HMODULE hSrcModule,  const WCHAR* pS
 
 
 
-HRESULT D3DXCreateBox(  LPDIRECT3DDEVICE9 pDevice,  FLOAT Width,  FLOAT Height,
+inline HRESULT D3DXCreateBox(  LPDIRECT3DDEVICE9 pDevice,  FLOAT Width,  FLOAT Height,
 		FLOAT Depth,  LPD3DXMESH * ppMesh,  LPD3DXBUFFER * ppAdjacency)
 {
 	if( !m_fnc.m_TFunc_D3DXCreateBox )
@@ -3676,7 +3619,7 @@ HRESULT D3DXCreateBox(  LPDIRECT3DDEVICE9 pDevice,  FLOAT Width,  FLOAT Height,
 }
 
 
-HRESULT D3DXCreateCylinder(  LPDIRECT3DDEVICE9 pDevice,  FLOAT Radius1,  FLOAT Radius2,
+inline HRESULT D3DXCreateCylinder(  LPDIRECT3DDEVICE9 pDevice,  FLOAT Radius1,  FLOAT Radius2,
 		FLOAT Length,  UINT Slices,  UINT Stacks,  LPD3DXMESH * ppMesh,  
 		LPD3DXBUFFER * ppAdjacency)
 {
@@ -3690,7 +3633,7 @@ HRESULT D3DXCreateCylinder(  LPDIRECT3DDEVICE9 pDevice,  FLOAT Radius1,  FLOAT R
 }
 
 
-HRESULT D3DXCreatePolygon(  LPDIRECT3DDEVICE9 pDevice,  FLOAT Length,  UINT Sides,
+inline HRESULT D3DXCreatePolygon(  LPDIRECT3DDEVICE9 pDevice,  FLOAT Length,  UINT Sides,
 			LPD3DXMESH * ppMesh,  LPD3DXBUFFER * ppAdjacency )
 {
 	if( !m_fnc.m_TFunc_D3DXCreatePolygon )
@@ -3703,7 +3646,7 @@ HRESULT D3DXCreatePolygon(  LPDIRECT3DDEVICE9 pDevice,  FLOAT Length,  UINT Side
 
 
 
-HRESULT D3DXCreateSphere( LPDIRECT3DDEVICE9 pDevice,  FLOAT Radius,  UINT Slices,
+inline HRESULT D3DXCreateSphere( LPDIRECT3DDEVICE9 pDevice,  FLOAT Radius,  UINT Slices,
 			UINT Stacks,  LPD3DXMESH * ppMesh,  LPD3DXBUFFER * ppAdjacency )
 {
 	if( !m_fnc.m_TFunc_D3DXCreateSphere )
@@ -3715,7 +3658,7 @@ HRESULT D3DXCreateSphere( LPDIRECT3DDEVICE9 pDevice,  FLOAT Radius,  UINT Slices
 }
 
 
-HRESULT D3DXCreateTeapot(  LPDIRECT3DDEVICE9 pDevice,  LPD3DXMESH * ppMesh,  LPD3DXBUFFER * ppAdjacency)
+inline HRESULT D3DXCreateTeapot(  LPDIRECT3DDEVICE9 pDevice,  LPD3DXMESH * ppMesh,  LPD3DXBUFFER * ppAdjacency)
 {
 	if( !m_fnc.m_TFunc_D3DXCreateTeapot )
 	{
@@ -3724,7 +3667,7 @@ HRESULT D3DXCreateTeapot(  LPDIRECT3DDEVICE9 pDevice,  LPD3DXMESH * ppMesh,  LPD
     return m_fnc.m_TFunc_D3DXCreateTeapot ( pDevice,   ppMesh,  ppAdjacency );
 }
 
-HRESULT D3DXCreateTextA(  LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateTextA(  LPDIRECT3DDEVICE9 pDevice,
 			HDC hDC,  const CHAR* pText, 
 			FLOAT Deviation,  FLOAT Extrusion,  LPD3DXMESH * ppMesh,
 			LPD3DXBUFFER * ppAdjacency,  LPGLYPHMETRICSFLOAT pGlyphMetrics)
@@ -3739,7 +3682,7 @@ HRESULT D3DXCreateTextA(  LPDIRECT3DDEVICE9 pDevice,
 
   
   
-HRESULT D3DXCreateTextW(  LPDIRECT3DDEVICE9 pDevice,  HDC hDC,  const WCHAR* pText,  
+inline HRESULT D3DXCreateTextW(  LPDIRECT3DDEVICE9 pDevice,  HDC hDC,  const WCHAR* pText,  
 		FLOAT Deviation,  FLOAT Extrusion,  LPD3DXMESH * ppMesh,
 		LPD3DXBUFFER * ppAdjacency,  LPGLYPHMETRICSFLOAT pGlyphMetrics)
 {
@@ -3753,7 +3696,7 @@ HRESULT D3DXCreateTextW(  LPDIRECT3DDEVICE9 pDevice,  HDC hDC,  const WCHAR* pTe
 }
 
 
-HRESULT D3DXCreateTorus(  LPDIRECT3DDEVICE9 pDevice,  FLOAT InnerRadius,  FLOAT OuterRadius,
+inline HRESULT D3DXCreateTorus(  LPDIRECT3DDEVICE9 pDevice,  FLOAT InnerRadius,  FLOAT OuterRadius,
 			UINT Sides,  UINT Rings,  LPD3DXMESH * ppMesh,  LPD3DXBUFFER * ppAdjacency)
 {
 	if( !m_fnc.m_TFunc_D3DXCreateTorus )
@@ -3770,7 +3713,7 @@ HRESULT D3DXCreateTorus(  LPDIRECT3DDEVICE9 pDevice,  FLOAT InnerRadius,  FLOAT 
 //---------------------------------------------------------
 
 
-HRESULT D3DXCheckCubeTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,  UINT * pSize,  
+inline HRESULT D3DXCheckCubeTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,  UINT * pSize,  
 										 UINT * pNumMipLevels,  DWORD Usage, D3DFORMAT * pFormat,  D3DPOOL Pool)
 {
 	if( !m_fnc.m_TFunc_D3DXCheckCubeTextureRequirements )
@@ -3782,7 +3725,7 @@ HRESULT D3DXCheckCubeTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,  UINT * pS
 }
 
 
-HRESULT D3DXCheckTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCheckTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,
 									 UINT * pWidth,  UINT * pHeight,  UINT * pNumMipLevels,
 									 DWORD Usage,  D3DFORMAT * pFormat,  D3DPOOL Pool)
 {
@@ -3797,7 +3740,7 @@ HRESULT D3DXCheckTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCheckVolumeTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCheckVolumeTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,
 										   UINT * pWidth,  UINT * pHeight,  UINT * pDepth,
 										   UINT * pNumMipLevels,  DWORD Usage,  D3DFORMAT * pFormat,  D3DPOOL Pool)
 {
@@ -3810,7 +3753,7 @@ HRESULT D3DXCheckVolumeTextureRequirements(  LPDIRECT3DDEVICE9 pDevice,
 }
 
 
-HRESULT D3DXComputeNormalMap(  LPDIRECT3DTEXTURE9 pTexture,  LPDIRECT3DTEXTURE9 pSrcTexture,
+inline HRESULT D3DXComputeNormalMap(  LPDIRECT3DTEXTURE9 pTexture,  LPDIRECT3DTEXTURE9 pSrcTexture,
 							 CONST PALETTEENTRY * pSrcPalette,  DWORD Flags,  DWORD Channel,  FLOAT Amplitude)
 {
 	if( !m_fnc.m_TFunc_D3DXComputeNormalMap )
@@ -3822,7 +3765,7 @@ HRESULT D3DXComputeNormalMap(  LPDIRECT3DTEXTURE9 pTexture,  LPDIRECT3DTEXTURE9 
 }
 
 
-HRESULT D3DXCreateCubeTexture(  LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateCubeTexture(  LPDIRECT3DDEVICE9 pDevice,
 							  UINT Size, UINT MipLevels, DWORD Usage,  D3DFORMAT Format,
 							  D3DPOOL Pool,  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
 {
@@ -3836,7 +3779,7 @@ HRESULT D3DXCreateCubeTexture(  LPDIRECT3DDEVICE9 pDevice,
 }
 
 
-HRESULT D3DXCreateCubeTextureFromFileA( LPDIRECT3DDEVICE9 pDevice,  const CHAR* pSrcFile,
+inline HRESULT D3DXCreateCubeTextureFromFileA( LPDIRECT3DDEVICE9 pDevice,  const CHAR* pSrcFile,
 									  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
 {
 	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileA )
@@ -3847,7 +3790,7 @@ HRESULT D3DXCreateCubeTextureFromFileA( LPDIRECT3DDEVICE9 pDevice,  const CHAR* 
 		ppCubeTexture );
 }
 
-HRESULT D3DXCreateCubeTextureFromFileW( LPDIRECT3DDEVICE9 pDevice,  const WCHAR* pSrcFile,
+inline HRESULT D3DXCreateCubeTextureFromFileW( LPDIRECT3DDEVICE9 pDevice,  const WCHAR* pSrcFile,
 									  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
 {
 	if( !m_fnc.m_TFunc_D3DXCreateCubeTextureFromFileW )
@@ -3858,12 +3801,9 @@ HRESULT D3DXCreateCubeTextureFromFileW( LPDIRECT3DDEVICE9 pDevice,  const WCHAR*
 		ppCubeTexture );
 }
 
+ 
 
-
-
-
-
-HRESULT D3DXCreateCubeTextureFromFileExA(
+inline HRESULT D3DXCreateCubeTextureFromFileExA(
 										LPDIRECT3DDEVICE9 pDevice,
 										const CHAR* pSrcFile,
 										UINT Size,
@@ -3890,7 +3830,7 @@ HRESULT D3DXCreateCubeTextureFromFileExA(
 
 
 
-HRESULT D3DXCreateCubeTextureFromFileExW(
+inline HRESULT D3DXCreateCubeTextureFromFileExW(
 										LPDIRECT3DDEVICE9 pDevice,
 										const WCHAR* pSrcFile,
 										UINT Size,
@@ -3916,11 +3856,9 @@ HRESULT D3DXCreateCubeTextureFromFileExW(
 }
 
 
+ 
 
-
-
-
-HRESULT D3DXCreateCubeTextureFromFileInMemory(  LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateCubeTextureFromFileInMemory(  LPDIRECT3DDEVICE9 pDevice,
 											  LPCVOID pSrcData,  UINT SrcDataSize,
 											  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture
 											  )
@@ -3936,7 +3874,7 @@ HRESULT D3DXCreateCubeTextureFromFileInMemory(  LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCreateCubeTextureFromFileInMemoryEx(
+inline HRESULT D3DXCreateCubeTextureFromFileInMemoryEx(
 	LPDIRECT3DDEVICE9 pDevice,
 	LPCVOID pSrcData,
 	UINT SrcDataSize,
@@ -3963,7 +3901,7 @@ HRESULT D3DXCreateCubeTextureFromFileInMemoryEx(
 
 
 
-HRESULT D3DXCreateCubeTextureFromResourceA( LPDIRECT3DDEVICE9 pDevice,  
+inline HRESULT D3DXCreateCubeTextureFromResourceA( LPDIRECT3DDEVICE9 pDevice,  
 										  HMODULE hSrcModule,
 										  const CHAR* pSrcResource, 
 										  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
@@ -3978,7 +3916,7 @@ HRESULT D3DXCreateCubeTextureFromResourceA( LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCreateCubeTextureFromResourceW( LPDIRECT3DDEVICE9 pDevice,  
+inline HRESULT D3DXCreateCubeTextureFromResourceW( LPDIRECT3DDEVICE9 pDevice,  
 										  HMODULE hSrcModule,
 										  const WCHAR*  pSrcResource, 
 										  LPDIRECT3DCUBETEXTURE9 * ppCubeTexture)
@@ -3993,7 +3931,7 @@ HRESULT D3DXCreateCubeTextureFromResourceW( LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCreateCubeTextureFromResourceExA(
+inline HRESULT D3DXCreateCubeTextureFromResourceExA(
 	LPDIRECT3DDEVICE9 pDevice,
 	HMODULE hSrcModule,
 	const CHAR* pSrcResource,
@@ -4020,7 +3958,7 @@ HRESULT D3DXCreateCubeTextureFromResourceExA(
 
 
 
-HRESULT D3DXCreateCubeTextureFromResourceExW(
+inline HRESULT D3DXCreateCubeTextureFromResourceExW(
 	LPDIRECT3DDEVICE9 pDevice,
 	HMODULE hSrcModule,
 	const WCHAR* pSrcResource,
@@ -4046,7 +3984,7 @@ HRESULT D3DXCreateCubeTextureFromResourceExW(
 }
 
 
-HRESULT D3DXCreateTexture(LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateTexture(LPDIRECT3DDEVICE9 pDevice,
 						  UINT Width,
 						  UINT Height,
 						  UINT MipLevels,
@@ -4063,10 +4001,8 @@ HRESULT D3DXCreateTexture(LPDIRECT3DDEVICE9 pDevice,
 		  Usage, Format,  Pool,	  ppTexture  );
 }
 
-
-
-
-HRESULT D3DXCreateTextureFromFileA(LPDIRECT3DDEVICE9 pDevice,
+ 
+inline HRESULT D3DXCreateTextureFromFileA(LPDIRECT3DDEVICE9 pDevice,
 								  const CHAR* pSrcFile,
 								  LPDIRECT3DTEXTURE9 * ppTexture )
 {
@@ -4079,7 +4015,7 @@ HRESULT D3DXCreateTextureFromFileA(LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9 pDevice,
 								  const WCHAR* pSrcFile,
 								  LPDIRECT3DTEXTURE9 * ppTexture )
 {
@@ -4091,7 +4027,7 @@ HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9 pDevice,
 }
 
 
-HRESULT D3DXCreateTextureFromFileExA(LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateTextureFromFileExA(LPDIRECT3DDEVICE9 pDevice,
 									const CHAR* pSrcFile,
 									UINT Width,
 									UINT Height,
@@ -4115,10 +4051,8 @@ HRESULT D3DXCreateTextureFromFileExA(LPDIRECT3DDEVICE9 pDevice,
 		  MipFilter, ColorKey,  pSrcInfo,  pPalette,   ppTexture );
 }
 
-
-
-
-HRESULT D3DXCreateTextureFromFileExW(LPDIRECT3DDEVICE9 pDevice,
+ 
+inline HRESULT D3DXCreateTextureFromFileExW(LPDIRECT3DDEVICE9 pDevice,
 									const WCHAR* pSrcFile,
 									UINT Width,
 									UINT Height,
@@ -4145,7 +4079,7 @@ HRESULT D3DXCreateTextureFromFileExW(LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCreateTextureFromFileInMemory(
+inline HRESULT D3DXCreateTextureFromFileInMemory(
 	LPDIRECT3DDEVICE9 pDevice,
 	LPCVOID pSrcData,
 	UINT SrcDataSize,
@@ -4161,7 +4095,7 @@ HRESULT D3DXCreateTextureFromFileInMemory(
 
 
 
-HRESULT D3DXCreateTextureFromFileInMemoryEx(
+inline HRESULT D3DXCreateTextureFromFileInMemoryEx(
 	LPDIRECT3DDEVICE9 pDevice,
 	LPCVOID pSrcData,
 	UINT SrcDataSize,
@@ -4190,7 +4124,7 @@ HRESULT D3DXCreateTextureFromFileInMemoryEx(
 
 
 
-HRESULT D3DXCreateTextureFromResourceExA(LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateTextureFromResourceExA(LPDIRECT3DDEVICE9 pDevice,
 										HMODULE hSrcModule,
 										const CHAR* pSrcResource,
 										UINT Width,
@@ -4218,7 +4152,7 @@ HRESULT D3DXCreateTextureFromResourceExA(LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCreateTextureFromResourceExW(LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateTextureFromResourceExW(LPDIRECT3DDEVICE9 pDevice,
 										HMODULE hSrcModule,
 										const WCHAR* pSrcResource,
 										UINT Width,
@@ -4245,7 +4179,7 @@ HRESULT D3DXCreateTextureFromResourceExW(LPDIRECT3DDEVICE9 pDevice,
 
 
  
-HRESULT D3DXCreateVolumeTexture(LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateVolumeTexture(LPDIRECT3DDEVICE9 pDevice,
 								UINT Width,
 								UINT Height,
 								UINT Depth,
@@ -4265,7 +4199,7 @@ HRESULT D3DXCreateVolumeTexture(LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCreateVolumeTextureFromFileA( LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateVolumeTextureFromFileA( LPDIRECT3DDEVICE9 pDevice,
 										const  CHAR* pSrcFile,  
 										LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture)
 {
@@ -4279,7 +4213,7 @@ HRESULT D3DXCreateVolumeTextureFromFileA( LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCreateVolumeTextureFromFileW( LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateVolumeTextureFromFileW( LPDIRECT3DDEVICE9 pDevice,
 										 const WCHAR* pSrcFile,  
 										 LPDIRECT3DVOLUMETEXTURE9 * ppVolumeTexture)
 {
@@ -4293,7 +4227,7 @@ HRESULT D3DXCreateVolumeTextureFromFileW( LPDIRECT3DDEVICE9 pDevice,
 
 
 
-HRESULT D3DXCreateVolumeTextureFromFileExA (
+inline HRESULT D3DXCreateVolumeTextureFromFileExA (
 	LPDIRECT3DDEVICE9 pDevice,
 	const  CHAR* pSrcFile,
 	UINT Width,
@@ -4321,7 +4255,7 @@ HRESULT D3DXCreateVolumeTextureFromFileExA (
 
 
 
-HRESULT D3DXCreateVolumeTextureFromFileExW (
+inline HRESULT D3DXCreateVolumeTextureFromFileExW (
 	LPDIRECT3DDEVICE9 pDevice,
 	const WCHAR* pSrcFile,
 	UINT Width,
@@ -4346,11 +4280,9 @@ HRESULT D3DXCreateVolumeTextureFromFileExW (
 		MipLevels, Usage, Format,Pool, Filter, MipFilter, ColorKey, 
 		pSrcInfo, pPalette,  ppTexture );
 }
+ 
 
-
-
-
-HRESULT D3DXCreateVolumeTextureFromFileInMemory( LPDIRECT3DDEVICE9 pDevice,
+inline HRESULT D3DXCreateVolumeTextureFromFileInMemory( LPDIRECT3DDEVICE9 pDevice,
 												LPCVOID pSrcFile, UINT SrcData, LPDIRECT3DVOLUMETEXTURE9 ppVolumeTexture)
 {
 	if( !m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileInMemory)
@@ -4359,11 +4291,9 @@ HRESULT D3DXCreateVolumeTextureFromFileInMemory( LPDIRECT3DDEVICE9 pDevice,
 	}
 	return m_fnc.m_TFunc_D3DXCreateVolumeTextureFromFileInMemory ( pDevice, pSrcFile, SrcData, ppVolumeTexture );
 }
+ 
 
-
-
-
-HRESULT D3DXCreateVolumeTextureFromFileInMemoryEx(
+inline HRESULT D3DXCreateVolumeTextureFromFileInMemoryEx(
 	LPDIRECT3DDEVICE9 pDevice,
 	LPCVOID pSrcData,
 	UINT SrcDataSize,
@@ -4393,7 +4323,7 @@ HRESULT D3DXCreateVolumeTextureFromFileInMemoryEx(
 
 
 
-HRESULT D3DXCreateVolumeTextureFromResourceA(
+inline HRESULT D3DXCreateVolumeTextureFromResourceA(
 	LPDIRECT3DDEVICE9 pDevice,
 	HMODULE hSrcModule,
 	const CHAR* pSrcResource,
@@ -4409,7 +4339,7 @@ HRESULT D3DXCreateVolumeTextureFromResourceA(
 
 
 
-HRESULT D3DXCreateVolumeTextureFromResourceW(
+inline HRESULT D3DXCreateVolumeTextureFromResourceW(
 	LPDIRECT3DDEVICE9 pDevice,
 	HMODULE hSrcModule,
 	const WCHAR* pSrcResource,
@@ -4426,7 +4356,7 @@ HRESULT D3DXCreateVolumeTextureFromResourceW(
 
 
 
-HRESULT D3DXCreateVolumeTextureFromResourceExA(
+inline HRESULT D3DXCreateVolumeTextureFromResourceExA(
 		LPDIRECT3DDEVICE9 pDevice,
 		HMODULE hSrcModule,
 		const  CHAR* pSrcResource,
@@ -4455,7 +4385,7 @@ HRESULT D3DXCreateVolumeTextureFromResourceExA(
 
 
 
-HRESULT D3DXCreateVolumeTextureFromResourceExW(
+inline HRESULT D3DXCreateVolumeTextureFromResourceExW(
 	LPDIRECT3DDEVICE9 pDevice,
 	HMODULE hSrcModule,
 	const WCHAR* pSrcResource,
@@ -4483,7 +4413,7 @@ HRESULT D3DXCreateVolumeTextureFromResourceExW(
 }
 
 
-HRESULT D3DXFillCubeTexture( LPDIRECT3DCUBETEXTURE9 pTexture, LPD3DXFILL3D pFunction, LPVOID pData)
+inline HRESULT D3DXFillCubeTexture( LPDIRECT3DCUBETEXTURE9 pTexture, LPD3DXFILL3D pFunction, LPVOID pData)
 {
 	if( !m_fnc.m_TFunc_D3DXFillCubeTexture )
 	{
@@ -4496,7 +4426,7 @@ HRESULT D3DXFillCubeTexture( LPDIRECT3DCUBETEXTURE9 pTexture, LPD3DXFILL3D pFunc
 
 
 
-HRESULT D3DXFillCubeTextureTX( LPDIRECT3DCUBETEXTURE9 pTexture,
+inline HRESULT D3DXFillCubeTextureTX( LPDIRECT3DCUBETEXTURE9 pTexture,
 							  LPD3DXTEXTURESHADER pTextureShader)
 {
 	if( !m_fnc.m_TFunc_D3DXFillCubeTextureTX )
@@ -4506,10 +4436,8 @@ HRESULT D3DXFillCubeTextureTX( LPDIRECT3DCUBETEXTURE9 pTexture,
 	return m_fnc.m_TFunc_D3DXFillCubeTextureTX( pTexture, pTextureShader );
 }
 
-
-
-
-HRESULT D3DXFillTexture(LPDIRECT3DTEXTURE9 pTexture, LPD3DXFILL2D pFunction, 
+ 
+inline HRESULT D3DXFillTexture(LPDIRECT3DTEXTURE9 pTexture, LPD3DXFILL2D pFunction, 
 						LPVOID pData)
 {
 	if( !m_fnc.m_TFunc_D3DXFillTexture)
@@ -4520,7 +4448,7 @@ HRESULT D3DXFillTexture(LPDIRECT3DTEXTURE9 pTexture, LPD3DXFILL2D pFunction,
 }
 
 
-HRESULT D3DXFillTextureTX( LPDIRECT3DTEXTURE9 pTexture, LPD3DXTEXTURESHADER pTextureShader )
+inline HRESULT D3DXFillTextureTX( LPDIRECT3DTEXTURE9 pTexture, LPD3DXTEXTURESHADER pTextureShader )
 {
 	if( !m_fnc.m_TFunc_D3DXFillTextureTX )
 	{
@@ -4532,7 +4460,7 @@ HRESULT D3DXFillTextureTX( LPDIRECT3DTEXTURE9 pTexture, LPD3DXTEXTURESHADER pTex
 
 
 
-HRESULT D3DXFillVolumeTexture( LPDIRECT3DVOLUMETEXTURE9 pTexture,
+inline HRESULT D3DXFillVolumeTexture( LPDIRECT3DVOLUMETEXTURE9 pTexture,
 							  LPD3DXFILL3D pFunction, LPVOID pData)
 {
 	if( !m_fnc.m_TFunc_D3DXFillVolumeTexture )
@@ -4545,7 +4473,7 @@ HRESULT D3DXFillVolumeTexture( LPDIRECT3DVOLUMETEXTURE9 pTexture,
 
 
 
-HRESULT D3DXFillVolumeTextureTX( LPDIRECT3DVOLUMETEXTURE9 pTexture,
+inline HRESULT D3DXFillVolumeTextureTX( LPDIRECT3DVOLUMETEXTURE9 pTexture,
 								LPD3DXTEXTURESHADER pTextureShader)
 {
 	if( !m_fnc.m_TFunc_D3DXFillVolumeTextureTX )
@@ -4556,7 +4484,7 @@ HRESULT D3DXFillVolumeTextureTX( LPDIRECT3DVOLUMETEXTURE9 pTexture,
 }
 
 
-HRESULT D3DXFilterTexture( LPDIRECT3DBASETEXTURE9 pBaseTexture,
+inline HRESULT D3DXFilterTexture( LPDIRECT3DBASETEXTURE9 pBaseTexture,
 						  CONST PALETTEENTRY * pPalette, UINT SrcLevel, DWORD MipFilter)
 {
 	if( !m_fnc.m_TFunc_D3DXFilterTexture )
@@ -4569,7 +4497,7 @@ HRESULT D3DXFilterTexture( LPDIRECT3DBASETEXTURE9 pBaseTexture,
 
 
 
-HRESULT D3DXGetImageInfoFromFile( const CHAR* pSrcFile, D3DXIMAGE_INFO * pSrcInfo)
+inline HRESULT D3DXGetImageInfoFromFile( const CHAR* pSrcFile, D3DXIMAGE_INFO * pSrcInfo)
 {
 	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromFileA )
 	{
@@ -4579,7 +4507,7 @@ HRESULT D3DXGetImageInfoFromFile( const CHAR* pSrcFile, D3DXIMAGE_INFO * pSrcInf
 }
 
 
-HRESULT D3DXGetImageInfoFromFileW( const WCHAR* pSrcFile, D3DXIMAGE_INFO * pSrcInfo)
+inline HRESULT D3DXGetImageInfoFromFileW( const WCHAR* pSrcFile, D3DXIMAGE_INFO * pSrcInfo)
 {
 	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromFileW )
 	{
@@ -4590,7 +4518,7 @@ HRESULT D3DXGetImageInfoFromFileW( const WCHAR* pSrcFile, D3DXIMAGE_INFO * pSrcI
 
 
 
-HRESULT D3DXGetImageInfoFromFileInMemory( LPCVOID pSrcData, UINT SrcDataSize,
+inline HRESULT D3DXGetImageInfoFromFileInMemory( LPCVOID pSrcData, UINT SrcDataSize,
 										 D3DXIMAGE_INFO * pSrcInfo)
 {
 	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromFileInMemory )
@@ -4603,7 +4531,7 @@ HRESULT D3DXGetImageInfoFromFileInMemory( LPCVOID pSrcData, UINT SrcDataSize,
 
 
 
-HRESULT D3DXGetImageInfoFromResourceA( HMODULE hSrcModule, const CHAR* pSrcFile,
+inline HRESULT D3DXGetImageInfoFromResourceA( HMODULE hSrcModule, const CHAR* pSrcFile,
 									 D3DXIMAGE_INFO * pSrcInfo)
 {
 	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromResourceA )
@@ -4615,7 +4543,7 @@ HRESULT D3DXGetImageInfoFromResourceA( HMODULE hSrcModule, const CHAR* pSrcFile,
 
 
 
-HRESULT D3DXGetImageInfoFromResourceW( HMODULE hSrcModule, const WCHAR* pSrcFile,
+inline HRESULT D3DXGetImageInfoFromResourceW( HMODULE hSrcModule, const WCHAR* pSrcFile,
 									 D3DXIMAGE_INFO * pSrcInfo)
 {
 	if( !m_fnc.m_TFunc_D3DXGetImageInfoFromResourceW )
@@ -4624,11 +4552,9 @@ HRESULT D3DXGetImageInfoFromResourceW( HMODULE hSrcModule, const WCHAR* pSrcFile
 	}
 	return m_fnc.m_TFunc_D3DXGetImageInfoFromResourceW ( hSrcModule,   pSrcFile, pSrcInfo );
 }
+ 
 
-
-
-
-HRESULT D3DXLoadSurfaceFromFileA(LPDIRECT3DSURFACE9 pDestSurface,
+inline HRESULT D3DXLoadSurfaceFromFileA(LPDIRECT3DSURFACE9 pDestSurface,
 								CONST PALETTEENTRY* pDestPalette,
 								CONST RECT* pDestRect,
 								CONST CHAR* pSrcFile,
@@ -4646,7 +4572,7 @@ HRESULT D3DXLoadSurfaceFromFileA(LPDIRECT3DSURFACE9 pDestSurface,
 }
 
 
-HRESULT D3DXLoadSurfaceFromFileW(LPDIRECT3DSURFACE9 pDestSurface,
+inline HRESULT D3DXLoadSurfaceFromFileW(LPDIRECT3DSURFACE9 pDestSurface,
 								CONST PALETTEENTRY* pDestPalette,
 								CONST RECT* pDestRect,
 								CONST WCHAR* pSrcFile,
@@ -4663,12 +4589,8 @@ HRESULT D3DXLoadSurfaceFromFileW(LPDIRECT3DSURFACE9 pDestSurface,
 		pDestRect,  pSrcFile,  pSrcRect,  Filter,   ColorKey, pSrcInfo  );
 }
 
-
-
-
-
-
-HRESULT D3DXLoadSurfaceFromFileInMemory(LPDIRECT3DSURFACE9 pDestSurface,
+ 
+inline HRESULT D3DXLoadSurfaceFromFileInMemory(LPDIRECT3DSURFACE9 pDestSurface,
 										CONST PALETTEENTRY * pDestPalette,
 										CONST RECT * pDestRect,
 										LPCVOID pSrcData,
@@ -4690,7 +4612,7 @@ HRESULT D3DXLoadSurfaceFromFileInMemory(LPDIRECT3DSURFACE9 pDestSurface,
 
 
 
-HRESULT D3DXLoadSurfaceFromMemory(LPDIRECT3DSURFACE9 pDestSurface,
+inline HRESULT D3DXLoadSurfaceFromMemory(LPDIRECT3DSURFACE9 pDestSurface,
 								  CONST PALETTEENTRY * pDestPalette,
 								  CONST RECT * pDestRect,
 								  LPCVOID pSrcMemory,
@@ -4712,7 +4634,7 @@ HRESULT D3DXLoadSurfaceFromMemory(LPDIRECT3DSURFACE9 pDestSurface,
 
 
 
-HRESULT D3DXLoadSurfaceFromResourceA(LPDIRECT3DSURFACE9 pDestSurface,
+inline HRESULT D3DXLoadSurfaceFromResourceA(LPDIRECT3DSURFACE9 pDestSurface,
 									CONST PALETTEENTRY * pDestPalette,
 									CONST RECT * pDestRect,
 									HMODULE hSrcModule,
@@ -4733,7 +4655,7 @@ HRESULT D3DXLoadSurfaceFromResourceA(LPDIRECT3DSURFACE9 pDestSurface,
 
 
 
-HRESULT D3DXLoadSurfaceFromResourceW(LPDIRECT3DSURFACE9 pDestSurface,
+inline HRESULT D3DXLoadSurfaceFromResourceW(LPDIRECT3DSURFACE9 pDestSurface,
 									CONST PALETTEENTRY * pDestPalette,
 									CONST RECT * pDestRect,
 									HMODULE hSrcModule,
@@ -4755,7 +4677,7 @@ HRESULT D3DXLoadSurfaceFromResourceW(LPDIRECT3DSURFACE9 pDestSurface,
 
 
 
-HRESULT D3DXLoadSurfaceFromSurface(
+inline HRESULT D3DXLoadSurfaceFromSurface(
 								   LPDIRECT3DSURFACE9 pDestSurface,
 								   CONST PALETTEENTRY * pDestPalette,
 								   CONST RECT * pDestRect,
@@ -4777,7 +4699,7 @@ HRESULT D3DXLoadSurfaceFromSurface(
 
 
 
-HRESULT D3DXLoadVolumeFromFileA(LPDIRECT3DVOLUME9 pDestVolume,
+inline HRESULT D3DXLoadVolumeFromFileA(LPDIRECT3DVOLUME9 pDestVolume,
 							   CONST PALETTEENTRY * pDestPalette,
 							   CONST D3DBOX * pDestBox,
 							   const CHAR* pSrcFile,
@@ -4795,7 +4717,7 @@ HRESULT D3DXLoadVolumeFromFileA(LPDIRECT3DVOLUME9 pDestVolume,
 }
 
 
-HRESULT D3DXLoadVolumeFromFileW(LPDIRECT3DVOLUME9 pDestVolume,
+inline HRESULT D3DXLoadVolumeFromFileW(LPDIRECT3DVOLUME9 pDestVolume,
 							   CONST PALETTEENTRY * pDestPalette,
 							   CONST D3DBOX * pDestBox,
 							   const WCHAR* pSrcFile,
@@ -4815,7 +4737,7 @@ HRESULT D3DXLoadVolumeFromFileW(LPDIRECT3DVOLUME9 pDestVolume,
 
 
 
-HRESULT D3DXLoadVolumeFromFileInMemory(LPDIRECT3DVOLUME9 pDestVolume,
+inline HRESULT D3DXLoadVolumeFromFileInMemory(LPDIRECT3DVOLUME9 pDestVolume,
 									   CONST PALETTEENTRY * pDestPalette,
 									   CONST D3DBOX * pDestBox,
 									   LPCVOID pSrcData,
@@ -4835,7 +4757,7 @@ HRESULT D3DXLoadVolumeFromFileInMemory(LPDIRECT3DVOLUME9 pDestVolume,
 }
 
 
-HRESULT D3DXLoadVolumeFromMemory(LPDIRECT3DVOLUME9 pDestVolume,
+inline HRESULT D3DXLoadVolumeFromMemory(LPDIRECT3DVOLUME9 pDestVolume,
 								 CONST PALETTEENTRY * pDestPalette,
 								 CONST D3DBOX * pDestBox,
 								 LPCVOID pSrcMemory,
@@ -4858,7 +4780,7 @@ HRESULT D3DXLoadVolumeFromMemory(LPDIRECT3DVOLUME9 pDestVolume,
 
 
 
-HRESULT D3DXLoadVolumeFromResourceA( LPDIRECT3DVOLUME9 pDestVolume,
+inline HRESULT D3DXLoadVolumeFromResourceA( LPDIRECT3DVOLUME9 pDestVolume,
 								   CONST PALETTEENTRY * pDestPalette,
 								   CONST D3DBOX * pDestBox,
 								   HMODULE hSrcModule,
@@ -4878,7 +4800,7 @@ HRESULT D3DXLoadVolumeFromResourceA( LPDIRECT3DVOLUME9 pDestVolume,
 
 
 
-HRESULT D3DXLoadVolumeFromResourceW( LPDIRECT3DVOLUME9 pDestVolume,
+inline HRESULT D3DXLoadVolumeFromResourceW( LPDIRECT3DVOLUME9 pDestVolume,
 								   CONST PALETTEENTRY * pDestPalette,
 								   CONST D3DBOX * pDestBox,
 								   HMODULE hSrcModule,
@@ -4900,7 +4822,7 @@ HRESULT D3DXLoadVolumeFromResourceW( LPDIRECT3DVOLUME9 pDestVolume,
 
 
 
-HRESULT D3DXLoadVolumeFromVolume( LPDIRECT3DVOLUME9 pDestVolume,
+inline HRESULT D3DXLoadVolumeFromVolume( LPDIRECT3DVOLUME9 pDestVolume,
 			 CONST PALETTEENTRY * pDestPalette,
 			 CONST D3DBOX * pDestBox,
 			 LPDIRECT3DVOLUME9 pSrcVolume,
@@ -4918,7 +4840,7 @@ HRESULT D3DXLoadVolumeFromVolume( LPDIRECT3DVOLUME9 pDestVolume,
 }
 
 
-HRESULT D3DXSaveSurfaceToFileA( const CHAR* pDestFile,    D3DXIMAGE_FILEFORMAT DestFormat,
+inline HRESULT D3DXSaveSurfaceToFileA( const CHAR* pDestFile,    D3DXIMAGE_FILEFORMAT DestFormat,
 							  LPDIRECT3DSURFACE9 pSrcSurface,    CONST PALETTEENTRY * pSrcPalette,
 							  CONST RECT * pSrcRect )
 {
@@ -4931,7 +4853,7 @@ HRESULT D3DXSaveSurfaceToFileA( const CHAR* pDestFile,    D3DXIMAGE_FILEFORMAT D
 }
 
 
-HRESULT D3DXSaveSurfaceToFileW( const WCHAR* pDestFile,    D3DXIMAGE_FILEFORMAT DestFormat,
+inline HRESULT D3DXSaveSurfaceToFileW( const WCHAR* pDestFile,    D3DXIMAGE_FILEFORMAT DestFormat,
 							  LPDIRECT3DSURFACE9 pSrcSurface,    CONST PALETTEENTRY * pSrcPalette,
 							  CONST RECT * pSrcRect )
 {
@@ -4947,7 +4869,7 @@ HRESULT D3DXSaveSurfaceToFileW( const WCHAR* pDestFile,    D3DXIMAGE_FILEFORMAT 
 
 
 
-HRESULT D3DXSaveSurfaceToFileInMemory(
+inline HRESULT D3DXSaveSurfaceToFileInMemory(
 			  LPD3DXBUFFER * ppDestBuf,
 			  D3DXIMAGE_FILEFORMAT DestFormat,
 			  LPDIRECT3DSURFACE9 pSrcSurface,
@@ -4963,7 +4885,7 @@ HRESULT D3DXSaveSurfaceToFileInMemory(
 }
 
 
-HRESULT D3DXSaveTextureToFileA(const CHAR* pDestFile, D3DXIMAGE_FILEFORMAT DestFormat,
+inline HRESULT D3DXSaveTextureToFileA(const CHAR* pDestFile, D3DXIMAGE_FILEFORMAT DestFormat,
 							  LPDIRECT3DBASETEXTURE9 pSrcTexture,   CONST PALETTEENTRY * pSrcPalette )
 {
 	if( !m_fnc.m_TFunc_D3DXSaveTextureToFileA )
@@ -4974,7 +4896,7 @@ HRESULT D3DXSaveTextureToFileA(const CHAR* pDestFile, D3DXIMAGE_FILEFORMAT DestF
 		pSrcPalette );
 }
 
-HRESULT D3DXSaveTextureToFileW(const WCHAR* pDestFile, D3DXIMAGE_FILEFORMAT DestFormat,
+inline HRESULT D3DXSaveTextureToFileW(const WCHAR* pDestFile, D3DXIMAGE_FILEFORMAT DestFormat,
 							  LPDIRECT3DBASETEXTURE9 pSrcTexture,   CONST PALETTEENTRY * pSrcPalette )
 {
 	if( !m_fnc.m_TFunc_D3DXSaveTextureToFileW )
@@ -4987,7 +4909,7 @@ HRESULT D3DXSaveTextureToFileW(const WCHAR* pDestFile, D3DXIMAGE_FILEFORMAT Dest
 
 
 
-HRESULT D3DXSaveTextureToFileInMemory(LPD3DXBUFFER * ppDestBuf,
+inline HRESULT D3DXSaveTextureToFileInMemory(LPD3DXBUFFER * ppDestBuf,
 									  D3DXIMAGE_FILEFORMAT DestFormat,
 									  LPDIRECT3DBASETEXTURE9 pSrcTexture,
 									  CONST PALETTEENTRY * pSrcPalette  )
@@ -5002,7 +4924,7 @@ HRESULT D3DXSaveTextureToFileInMemory(LPD3DXBUFFER * ppDestBuf,
 
 
 
-HRESULT D3DXSaveVolumeToFileA( const CHAR* pDestFile,
+inline HRESULT D3DXSaveVolumeToFileA( const CHAR* pDestFile,
 							 D3DXIMAGE_FILEFORMAT DestFormat,
 							 LPDIRECT3DVOLUME9 pSrcVolume,
 							 CONST PALETTEENTRY * pSrcPalette,
@@ -5017,7 +4939,7 @@ HRESULT D3DXSaveVolumeToFileA( const CHAR* pDestFile,
 }
 
 
-HRESULT D3DXSaveVolumeToFileW( const WCHAR* pDestFile,
+inline HRESULT D3DXSaveVolumeToFileW( const WCHAR* pDestFile,
 							 D3DXIMAGE_FILEFORMAT DestFormat,
 							 LPDIRECT3DVOLUME9 pSrcVolume,
 							 CONST PALETTEENTRY * pSrcPalette,
@@ -5033,7 +4955,7 @@ HRESULT D3DXSaveVolumeToFileW( const WCHAR* pDestFile,
 
 
 
-HRESULT D3DXSaveVolumeToFileInMemory(
+inline HRESULT D3DXSaveVolumeToFileInMemory(
 									 LPD3DXBUFFER * ppDestBuf,
 									 D3DXIMAGE_FILEFORMAT DestFormat,
 									 LPDIRECT3DVOLUME9 pSrcVolume,
@@ -5055,7 +4977,7 @@ HRESULT D3DXSaveVolumeToFileInMemory(
 
  
 
-HRESULT D3DXCreateEffect(
+inline HRESULT D3DXCreateEffect(
 	  LPDIRECT3DDEVICE9 pDevice,
 	  LPCVOID pSrcData,
 	  UINT SrcDataLen,
@@ -5077,7 +4999,7 @@ HRESULT D3DXCreateEffect(
   
 
 
-HRESULT D3DXCreateEffectEx(
+inline HRESULT D3DXCreateEffectEx(
 	  LPDIRECT3DDEVICE9 pDevice,
 	  LPCVOID pSrcData,
 	  UINT SrcDataLen,
@@ -5100,7 +5022,7 @@ HRESULT D3DXCreateEffectEx(
 
 
 
-HRESULT D3DXCreateEffectCompiler(
+inline HRESULT D3DXCreateEffectCompiler(
 	  LPCSTR pSrcData,
 	  UINT SrcDataLen,
 	  CONST D3DXMACRO * pDefines,
@@ -5119,7 +5041,7 @@ HRESULT D3DXCreateEffectCompiler(
   
   
 
-HRESULT D3DXCreateEffectCompilerFromFileA(
+inline HRESULT D3DXCreateEffectCompilerFromFileA(
 	  const CHAR* pSrcFile,
 	  CONST D3DXMACRO* pDefines,
 	  LPD3DXINCLUDE pInclude,
@@ -5137,7 +5059,7 @@ HRESULT D3DXCreateEffectCompilerFromFileA(
 
 
 
-HRESULT D3DXCreateEffectCompilerFromFileW(
+inline HRESULT D3DXCreateEffectCompilerFromFileW(
 	const WCHAR* pSrcFile,
 	CONST D3DXMACRO* pDefines,
 	LPD3DXINCLUDE pInclude,
@@ -5155,7 +5077,7 @@ HRESULT D3DXCreateEffectCompilerFromFileW(
 
 
 
-HRESULT D3DXCreateEffectCompilerFromResourceA(
+inline HRESULT D3DXCreateEffectCompilerFromResourceA(
 	  HMODULE hSrcModule,
 	  const CHAR* pSrcResource,
 	  CONST D3DXMACRO * pDefines,
@@ -5176,7 +5098,7 @@ HRESULT D3DXCreateEffectCompilerFromResourceA(
 
 
 
-HRESULT D3DXCreateEffectCompilerFromResourceW(
+inline HRESULT D3DXCreateEffectCompilerFromResourceW(
 	HMODULE hSrcModule,
 	const WCHAR* pSrcResource,
 	CONST D3DXMACRO * pDefines,
@@ -5195,7 +5117,7 @@ HRESULT D3DXCreateEffectCompilerFromResourceW(
 
 
 
-HRESULT D3DXCreateEffectFromFileA(
+inline HRESULT D3DXCreateEffectFromFileA(
 	  LPDIRECT3DDEVICE9 pDevice,
 	  const CHAR* pSrcFile,
 	  CONST D3DXMACRO * pDefines,
@@ -5215,7 +5137,7 @@ HRESULT D3DXCreateEffectFromFileA(
   
 
 
-HRESULT D3DXCreateEffectFromFileW(
+inline HRESULT D3DXCreateEffectFromFileW(
 								 LPDIRECT3DDEVICE9 pDevice,
 								 const WCHAR* pSrcFile,
 								 CONST D3DXMACRO * pDefines,
@@ -5236,7 +5158,7 @@ HRESULT D3DXCreateEffectFromFileW(
 
  
   
-HRESULT D3DXCreateEffectFromFileExA(
+inline HRESULT D3DXCreateEffectFromFileExA(
 	  LPDIRECT3DDEVICE9 pDevice,
 	  const CHAR* pSrcFile,
 	  CONST D3DXMACRO * pDefines,
@@ -5256,10 +5178,8 @@ HRESULT D3DXCreateEffectFromFileExA(
 		pPool, ppEffect,  ppCompilationErrors );
 }
 
-  
-
-
-HRESULT D3DXCreateEffectFromFileExW(
+ 
+inline HRESULT D3DXCreateEffectFromFileExW(
 								   LPDIRECT3DDEVICE9 pDevice,
 								   const WCHAR* pSrcFile,
 								   CONST D3DXMACRO * pDefines,
@@ -5278,12 +5198,9 @@ HRESULT D3DXCreateEffectFromFileExW(
 		pDefines,  pInclude,  pSkipConstants,  Flags,  pPool, ppEffect, 
 		ppCompilationErrors );
 }
-
-
-
-
+ 
   
-HRESULT D3DXCreateEffectFromResourceA(
+inline HRESULT D3DXCreateEffectFromResourceA(
 	  LPDIRECT3DDEVICE9 pDevice,
 	  HMODULE hSrcModule,
 	  const CHAR* pSrcResource,
@@ -5303,10 +5220,9 @@ HRESULT D3DXCreateEffectFromResourceA(
 	    ppCompilationErrors );
 }
 
+ 
 
-
-
-HRESULT D3DXCreateEffectFromResourceW(
+inline HRESULT D3DXCreateEffectFromResourceW(
 									 LPDIRECT3DDEVICE9 pDevice,
 									 HMODULE hSrcModule,
 									 const WCHAR* pSrcResource,
@@ -5325,12 +5241,9 @@ HRESULT D3DXCreateEffectFromResourceW(
 		pSrcResource, pDefines,  pInclude,  Flags,  pPool,  ppEffect,
 		ppCompilationErrors );
 }
+ 
 
-
-
-
-
-HRESULT D3DXCreateEffectFromResourceExA(
+inline HRESULT D3DXCreateEffectFromResourceExA(
 	  LPDIRECT3DDEVICE9 pDevice,
 	  HMODULE hSrcModule,
 	  const CHAR* pSrcResource,
@@ -5350,11 +5263,9 @@ HRESULT D3DXCreateEffectFromResourceExA(
 		hSrcModule,  pSrcResource,  pDefines,  pInclude, 
 		pSkipConstants,  Flags, pPool,  ppEffect,  ppCompilationErrors );
 }
+ 
 
-
-
-
-HRESULT D3DXCreateEffectFromResourceExW (
+inline HRESULT D3DXCreateEffectFromResourceExW (
 									   LPDIRECT3DDEVICE9 pDevice,
 									   HMODULE hSrcModule,
 									   const WCHAR* pSrcResource,
@@ -5377,7 +5288,7 @@ HRESULT D3DXCreateEffectFromResourceExW (
 
 
 
-HRESULT D3DXCreateEffectPool( LPD3DXEFFECTPOOL* ppPool )
+inline HRESULT D3DXCreateEffectPool( LPD3DXEFFECTPOOL* ppPool )
 {
 	if( !m_fnc.m_TFunc_D3DXCreateEffectPool )
 	{
@@ -5388,7 +5299,7 @@ HRESULT D3DXCreateEffectPool( LPD3DXEFFECTPOOL* ppPool )
 
 
 
-HRESULT D3DXDisassembleEffect(
+inline HRESULT D3DXDisassembleEffect(
 	  LPD3DXEFFECT pEffect,
 	  BOOL EnableColorCode,
 	  LPD3DXBUFFER * ppDisassembly)
@@ -5401,10 +5312,7 @@ HRESULT D3DXDisassembleEffect(
 	         ppDisassembly );
 }
 
-
-
-
-
+ 
 
 //----------------------------------------
 //     UVAtlas Functions
@@ -5412,7 +5320,7 @@ HRESULT D3DXDisassembleEffect(
 
 
 
-HRESULT D3DXUVAtlasCreate(
+inline HRESULT D3DXUVAtlasCreate(
 						  LPD3DXMESH pMesh,
 						  UINT dwMaxChartNumber,
 						  FLOAT fMaxStretch,
@@ -5446,7 +5354,7 @@ HRESULT D3DXUVAtlasCreate(
 
 
 
-HRESULT D3DXUVAtlasPack(
+inline HRESULT D3DXUVAtlasPack(
 						LPD3DXMESH pMesh,
 						UINT dwWidth,
 						UINT dwHeight,
@@ -5470,7 +5378,7 @@ HRESULT D3DXUVAtlasPack(
 
 
 
-HRESULT D3DXUVAtlasPartition(
+inline HRESULT D3DXUVAtlasPartition(
 							 LPD3DXMESH pMesh,
 							 UINT dwMaxChartNumber,
 							 FLOAT fMaxStretch,
@@ -5502,7 +5410,7 @@ HRESULT D3DXUVAtlasPartition(
 
 
 
-HRESULT D3DXComputeIMTFromPerTexelSignal(
+inline HRESULT D3DXComputeIMTFromPerTexelSignal(
 	LPD3DXMESH pMesh,
 	DWORD dwTextureIndex,
 	FLOAT * pfTexelSignal,
@@ -5526,7 +5434,7 @@ HRESULT D3DXComputeIMTFromPerTexelSignal(
 
 
 
-HRESULT D3DXComputeIMTFromPerVertexSignal(
+inline HRESULT D3DXComputeIMTFromPerVertexSignal(
 	LPD3DXMESH pMesh,
 	CONST FLOAT * pfVertexSignal,
 	UINT uSignalDimension,
@@ -5547,7 +5455,7 @@ HRESULT D3DXComputeIMTFromPerVertexSignal(
 
 
 
-HRESULT D3DXComputeIMTFromSignal(
+inline HRESULT D3DXComputeIMTFromSignal(
 								 LPD3DXMESH pMesh,
 								 DWORD dwTextureIndex,
 								 UINT uSignalDimension,
@@ -5570,7 +5478,7 @@ HRESULT D3DXComputeIMTFromSignal(
 
 
 
-HRESULT D3DXComputeIMTFromTexture(
+inline HRESULT D3DXComputeIMTFromTexture(
 								  LPD3DXMESH pMesh,
 								  LPDIRECT3DTEXTURE9 pTexture,
 								  DWORD dwTextureIndex,
@@ -5586,13 +5494,7 @@ HRESULT D3DXComputeIMTFromTexture(
 	return m_fnc.m_TFunc_D3DXComputeIMTFromTexture( pMesh,  pTexture,  dwTextureIndex,
 		dwOptions, pStatusCallback,  pUserContext,  ppIMTData );
 }
-
-
-
-
-
  
-
 
 //-------------------------------------------------------------------------
 
@@ -5620,21 +5522,17 @@ protected:
 	unsigned int m_versDll;
 
 };
+// end class
  
  
-
 }
 // end namespace d3dx9_dynamic_load
-
 }
 // end namespace d3d9
-
 }
 // end namespace graphics
-
 }
 // end namespace gb
-
 
 #pragma warning( pop )
 

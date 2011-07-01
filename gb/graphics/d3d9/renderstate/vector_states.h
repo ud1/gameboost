@@ -14,6 +14,9 @@
 #include <vector>
 #include <stdexcept>
 
+#pragma warning(push)
+#pragma warning(disable : 4297)
+
 namespace gb 
 {
  namespace graphics 
@@ -97,6 +100,8 @@ public:
   }
  }
 }
+
+#pragma warning(pop)
 
 #endif   // #if ( defined(GB_D3D9) && defined(WIN32) )
 

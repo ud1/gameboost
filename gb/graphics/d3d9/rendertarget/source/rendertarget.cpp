@@ -4,7 +4,7 @@
 
 #if ( defined(WIN32) && defined(_D3D9_H_) )
 
-#include "rendertarget.h" 
+#include "../rendertarget.h" 
 #include <gb/macro.h>
  
 #include "rendertarget_impl.h"
