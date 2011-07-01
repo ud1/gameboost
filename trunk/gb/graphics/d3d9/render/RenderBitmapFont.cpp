@@ -6,7 +6,7 @@
 #include <gb/macro.h>
 
 //! pugi xml library
-#include "pugixml.hpp"
+#include <ext/_XML/pugixml/include/pugixml.hpp>
 
 #include <string.h> 
 #include <string>

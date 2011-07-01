@@ -55,8 +55,15 @@ HRESULT  CreateGUITextureFromInternalArray( IDirect3DDevice9* pdevice,
 #define V_RETURN(hr)  if FAILED(hr) { return hr; };
 #endif
 
+
+#ifndef DXTRACE_ERR
 #define DXTRACE_ERR(msg,hres)   (hres)
+#endif
+
+#ifndef	DXTRACE_ERR_MSGBOX
 #define DXTRACE_ERR_MSGBOX(wmsg,herr)    (herr)
+#endif
+
 #define MYUTTRACE(msg)
 
 

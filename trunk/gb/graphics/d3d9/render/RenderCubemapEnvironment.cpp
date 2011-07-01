@@ -41,7 +41,7 @@ namespace gb
 
 				struct MARK_CPP_BEGIN {};
 
-#include <gb/graphics/d3d9/draw.h>
+#include <gb/graphics/d3d9/draw/draw.h>
 #include <gb/macro.h>
 
 				using namespace gb::graphics::d3d9;

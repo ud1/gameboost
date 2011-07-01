@@ -444,7 +444,7 @@ HRESULT Dialog::AddListBox( int ID, int x, int y, int width, int height, DWORD d
 //--------------------------------------------------------------------------------------
 HRESULT Dialog::InitControl( Control* pControl )
 {
-	HRESULT hr;
+//	HRESULT hr =0;
 
 	if( pControl == NULL )
 		return E_INVALIDARG;
