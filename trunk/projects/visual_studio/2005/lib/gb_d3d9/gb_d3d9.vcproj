@@ -111,7 +111,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB_GB_D3D9;GB_D3D9;GB_D3DX9;GB_COLOR;GB_MATH"
 				ExceptionHandling="2"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="1"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="d3d9pch.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -150,40 +150,26 @@
 	</References>
 	<Files>
 		<Filter
-			Name="src"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			Name="h"
 			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\api_decl.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\..\..\..\gb\graphics\d3d9\appl.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\common.cpp"
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\appl.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dfont.cpp"
-				>
-			</File>
-			<Filter
-				Name="NewFilter1"
-				>
-			</Filter>
-			<Filter
-				Name="NewFilter2"
-				>
-			</Filter>
-			<Filter
-				Name="NewFilter3"
-				>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="h"
-			>
 			<File
 				RelativePath="..\..\..\..\..\gb\graphics\d3d9\auto_include_libr.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\common.cpp"
 				>
 			</File>
 			<File
@@ -192,6 +178,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3d9.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dfont.cpp"
 				>
 			</File>
 			<File
@@ -204,8 +194,28 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="NewFilter1"
+			Name="dataconv"
 			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv\dataconv.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv\dataconv.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv\dataconv2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv\dataconv3.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dataconv\dataconv4.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="d3dx9_dynamic_load"
@@ -228,12 +238,268 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="NewFilter2"
+			Name="d3dxmesh"
 			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dxmesh\d3dxmesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\d3dxmesh\d3dxmesh.h"
+				>
+			</File>
 		</Filter>
 		<Filter
-			Name="NewFilter3"
+			Name="dds"
 			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dds\DDSTextureLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dds\DDSTextureLoader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\dds\ddsurfacedesc2_32bit.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="draw"
+			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw\source\draw.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw\draw.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw\source\draw2_3d.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw\source\draw_text.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw\source\getSampleDebugTexture.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw\source\internal.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\draw\source\internal.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="fvf"
+			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\fvf\fvf.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\fvf\fvf.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="render"
+			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\render.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\Renderbilliboard.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\RenderBitmapFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\render\RenderCubemapEnvironment.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="renderstate"
+			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\renderstate\renderstates_stack.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\renderstate\renderstates_stack.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\renderstate\vector_states.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\renderstate\vector_states.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="rendertarget"
+			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rendertarget\source\computesurfacepixelcolorobject.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rendertarget\source\computesurfacepixelcolorobject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rendertarget\source\rendertarget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rendertarget\rendertarget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rendertarget\source\rendertarget_impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rendertarget\source\rendertarget_impl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rendertarget\source\SurfAvearColorComputer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\rendertarget\source\surfavearcolorcomputer.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="hlsl"
+			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\hlsl\hlsl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\hlsl\hlsl.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="mdxutgui"
+			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\button.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\checkbox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\combobox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\control.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\dialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\dialogresourcemanager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\editbox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\getTexturefileDataSkin.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\getTexturefileDataSkin.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\internal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\listbox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\mdxutgui.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\mdxutgui.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\radiobutton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\scrollbar.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\slider.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\static.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\mdxutgui\source\templatedarray.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="stack"
+			>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\stack\rendertargetstack.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\stack\rendertargetstack.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\stack\StatesValueStack.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\stack\StatesValueStack.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\stack\ViewPortStack.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\gb\graphics\d3d9\stack\ViewPortStack.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
