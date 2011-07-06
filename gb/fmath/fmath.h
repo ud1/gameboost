@@ -64,12 +64,14 @@
 
 // do include static lib for VC
 
+#if GB_LIB
 #ifndef _LIB_GB_FMATH
 	#ifdef _DEBUG
 	   #pragma comment( lib , "gb_fmath_d.lib" )
 	#else
 	   #pragma comment( lib , "gb_fmath.lib" )
 	#endif
+#endif
 #endif
 
 

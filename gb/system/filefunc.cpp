@@ -1,15 +1,17 @@
 ﻿
-#include "pch.h"
+//#include "pch.h"
 
 #ifdef WIN32 // only windows
 
 #include <gb/Config.h>
 #include <gb/system/filefunc.h>
 
+/*
 #if GB_ALLOW_BOOST_LIBRARY
 #include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
 #endif
+*/
 
 #include <gb/t/func.h>
 
@@ -25,9 +27,12 @@
 //=========================================================================
 
 
-namespace gb {
-namespace system {
-namespace filefunc {
+namespace gb 
+{
+namespace system 
+{
+namespace filefunc 
+{
 
 //==============================================================
 
@@ -277,27 +282,11 @@ static GlobalArrSearchPathW  g_GlobalArrSearchPathW;
 //gb::t::func::FixedArray<gb::system::filefunc::PathDataA, gb::system::filefunc::MAX_GLOBALSEARCHPATH> g_GlobalArrSearchPathA;
 //gb::t::func::FixedArray<gb::system::filefunc::PathDataW, gb::system::filefunc::MAX_GLOBALSEARCHPATH> g_GlobalArrSearchPathW;
 
-
-
-
-
-
-
+ 
 
 //===========  времянки для совместимости (убрать) =================
-
-//! Убрать . Старое
-#define MONPRINT(msg)
-
-
-//=======================================================
-//=======================================================
-//=======================================================
-
-
-
-
-
+ 
+ 
 //==================================================================
 GB_FF_API  HRESULT gb::system::filefunc::FileUtApendGlobalSearchPathA(const gb::system::filefunc::PathDataA* path) {
 	HRESULT hr =0;
@@ -2303,7 +2292,7 @@ GB_FF_API HRESULT  gb::system::filefunc::findFilesA(const char* szDir,  const bo
 		hr = __FindFiles_UnsafeA( szDir,  bIncludeSubDirs,   _vExtentions,   _v);
 	}	 __except(1) {
 		hr |= E_FAIL;
-		MONPRINT("Exception \n");
+	 
 	}
 
 	return hr;
@@ -2318,7 +2307,7 @@ GB_FF_API HRESULT  gb::system::filefunc::findFilesW(const wchar_t* wszDir,  cons
 		hr = __FindFiles_UnsafeW( wszDir,  bIncludeSubDirs,   _vExtentions,   _v);
 	}	 __except(1) {
 		hr |= E_FAIL;
-		MONPRINT("Exception \n");
+		 
 	}
 	return hr;
 };

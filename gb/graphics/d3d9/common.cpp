@@ -5,7 +5,7 @@
 
 #pragma message ("KS777: GB_D3D9 COMMON.H  НЕ ДОДЕЛАН НИХЕРА !!!!  "  __FILE__)
 
-#include <gb/graphics/d3d9/common.h>
+#include  "common.h"
 #include <assert.h>
 
 namespace gb       

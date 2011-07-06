@@ -16,6 +16,9 @@
 
 
 #if ( defined(WIN32) && defined(_D3D9_H_) )
+
+#pragma once
+
 //#include <ddraw.h>
 #include <dxgitype.h>
 //#include <d3d9.h>

@@ -50,11 +50,13 @@
 #include <boost/lexical_cast.hpp>
 #endif
 
-#ifndef _LIB_GB_STR
-	#ifdef _DEBUG
-		#pragma comment(lib , "gb_str_d.lib")
-	#else
-		#pragma comment(lib , "gb_str.lib")
+#ifdef GB_LIB
+	#ifndef _LIB_GB_STR
+		#ifdef _DEBUG
+			#pragma comment(lib , "gb_str_d.lib")
+		#else
+			#pragma comment(lib , "gb_str.lib")
+		#endif
 	#endif
 #endif
 

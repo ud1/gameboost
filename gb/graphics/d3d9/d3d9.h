@@ -6,6 +6,7 @@
   \author ksacvet777 (ksacvet777@mail.ru) ICQ: #262849586
 */
 
+#if 0 // exclude
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
  
@@ -35,7 +36,7 @@
 
 #include <gb/graphics/d3d9/auto_include_libr.h>
 
-  #include <gb/graphics/d3d9/dataconv/dataconv.h>
+//  #include <gb/graphics/d3d9/dataconv/dataconv.h>
 #include <gb/graphics/d3d9/Device.h>
 #include <gb/graphics/d3d9/draw/draw.h>
 #include <gb/graphics/d3d9/fvf/fvf.h>
@@ -69,5 +70,6 @@ namespace gb
 
  
 #endif // #if ( defined(GB_D3D9) && defined(WIN32) )
+#endif
 
 // end file

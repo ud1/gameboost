@@ -65,13 +65,13 @@ namespace gb
 	  
 //---------------------------------------------------------------------------	  
 	  
-	     } // end ns common
+	     } // end namespace common
 
-      } // end ns d3d9
+      } // end namespace d3d9
 
-   } // end ns graphics
+   } // end namespace graphics
 
-} // end ns gb
+} // end namespace gb
 
 #endif // #if
 // end file

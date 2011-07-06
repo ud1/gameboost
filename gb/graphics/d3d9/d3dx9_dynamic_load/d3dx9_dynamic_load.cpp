@@ -2,13 +2,14 @@
 
 #if ( defined(WIN32)  )     // && defined(GB_D3D9) )
 
-#pragma warning(push)
-#pragma warning(disable : 4996)
-
 #include <gb/graphics/d3d9/d3dx9_dynamic_load/d3dx9_dynamic_load.h>
 
 #include <stdlib.h>
 #include <assert.h>
+
+#pragma warning(push)
+#pragma warning(disable : 4996)
+
 
 namespace  gb
 {

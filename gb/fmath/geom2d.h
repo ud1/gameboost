@@ -286,12 +286,12 @@ public:
 			// TODO void move(const Normal2& normal, float distance) { }
 
 			//! \brief  Извлечь все 4 вершины прямоугольника.
-			void extractCorners(Corners& _out) 
-			{
-				_out.points[0] =  vec2(x1, y1);
-				_out.points[2] =  vec2(x2, y1);
-				_out.points[3] =  vec2(x2, y2);
-				_out.points[4] =  vec2(x1, y2);
+			void extractCorners(Corners& _outCorners) 
+			{	  
+				_outCorners.points[0] =  vec2(x1, y1);
+				_outCorners.points[2] =  vec2(x2, y1);
+				_outCorners.points[3] =  vec2(x2, y2);
+				_outCorners.points[4] =  vec2(x1, y2);
 			}
 
 

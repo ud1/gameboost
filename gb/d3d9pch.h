@@ -2,6 +2,8 @@
 
 #pragma once
 
+#pragma warning(disable : 4995)
+
 #ifndef STRICT
 #define STRICT
 #endif
@@ -27,6 +29,8 @@
 #ifdef GB_D3DX9
   #include <d3dx9.h>
 #endif
+
+#pragma warning( disable : 4996 )
 
 #include <gb/graphics/d3d9/auto_include_libr.h>
 #include <gb/graphics/d3d9/api_decl.h>

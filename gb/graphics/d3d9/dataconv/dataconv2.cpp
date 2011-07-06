@@ -5,7 +5,7 @@
 
   #include <gb/graphics/d3d9/dataconv/dataconv.h>
 
-  #include <gb/str/String.h>
+  //#include <gb/str/String.h>
 
   #include <string>
   #include <string.h>
@@ -26,17 +26,17 @@
   {
 
 
-  //=======================================================================
+//=======================================================================
 
-	  static void __str_touper(std::string& str)
-	  {
-		  for(size_t c=0; c<str.length(); c++)
-		  {
-			  char curr = str[c];
-			  curr = toupper(curr);
-			  str[c] = curr;
-		  }
-	  }
+  //static void __toupper_978975(std::string& str)
+  //{
+	 // for(size_t c=0; c<str.length(); c++)
+	 // {
+		//  char curr = str[c];
+		//  curr = toupper(curr);
+		//  str[c] = curr;
+	 // }
+  //}
 
 
   //=====================================================
@@ -224,7 +224,7 @@ GB_D3D9_API   std::string D3DMATERIALCOLORSOURCE_tostr(const D3DMATERIALCOLORSOU
 		  str = strarg;
 	  }
 
-	 __str_touper(str);
+	 __toupper_978975(str);
 
     if (str == "D3DMCS_MATERIAL")
     {
@@ -334,7 +334,7 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
 		  str = strarg;
 	  }
 
-	  __str_touper(str);
+	  __toupper_978975(str);
 
     if (str == "D3DVBF_DISABLE")
     {
@@ -446,7 +446,7 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
 		  str = strarg;
 	  }
 
-  __str_touper(str);
+  __toupper_978975(str);
 
     if (str == "D3DDEGREE_LINEAR")
     {
@@ -541,7 +541,7 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
 		  str = strarg;
 	  }
 
-  __str_touper(str);
+  __toupper_978975(str);
 
     if (str == "D3DPATCHEDGE_DISCRETE")
     {
@@ -623,7 +623,7 @@ GB_D3D9_API   std::string D3DVERTEXBLENDFLAGS_tostr(const D3DVERTEXBLENDFLAGS va
     str = strarg;
   }
 
-  __str_touper(str);
+  __toupper_978975(str);
 
     if (str == "D3DDMT_ENABLE")
     {
@@ -1519,7 +1519,7 @@ GB_D3D9_API   std::string D3DRENDERSTATEVALUE_tostr(
   };
 
 
-  //============================================================
+//============================================================
 GB_D3D9_API   bool D3DRENDERSTATEVALUE_fromstr(DWORD &val, 
 											   const D3DRENDERSTATETYPE state, 
 											   const std::string &s, 
@@ -1527,7 +1527,7 @@ GB_D3D9_API   bool D3DRENDERSTATEVALUE_fromstr(DWORD &val,
   {
 
 	// ggggggggggg
-	// __str_touper(str);  
+	// __toupper_978975(str);  
 
     switch (state)
     {

@@ -23,7 +23,7 @@
 
 #include <gb/fmath/fmath.h>
 
-#include <windows.h>
+//#include <windows.h>
 #include <mmsystem.h>
  
 
@@ -258,8 +258,9 @@ public:
 		char buf[32];
 #pragma warning(push)
 #pragma warning(disable : 4996)
+#pragma warning(disable : 4995)
 		sprintf(buf, "%f", m_fCaptured*1000.0f );
- #pragma warning(pop)
+#pragma warning(pop)
 		m_str += buf;
 		m_str += "  ms";
 
