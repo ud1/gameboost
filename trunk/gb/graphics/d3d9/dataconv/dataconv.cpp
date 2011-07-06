@@ -1,5 +1,6 @@
 ﻿#include "d3d9pch.h"
 //#include "pch.h"
+//#include <gb/str/String.h>
 
 #if ( defined(GB_D3D9) && defined(WIN32) )
 
@@ -14,21 +15,20 @@
   {
   namespace dataconv
   {
+
+ 
+  inline void __toupper_978975(std::string& str)
+  {
+	  for(size_t c=0; c<str.length(); c++)
+	  {
+		  char curr = str[c];
+		  curr = toupper(curr);
+		  str[c] = curr;
+	  }
+  }
  
 
-  //=======================================================================
-
-	  static void __str_touper(std::string& str)
-	  {
-		  for(size_t c=0; c<str.length(); c++)
-		  {
-			    char curr = str[c];
-			  curr = toupper(curr);
-			  str[c] = curr;
-		  }
-	  }
-
-	  static void __Cstr_toupper(char* buf)
+	  inline void __Cstr_toupper(char* buf)
 	  {
 		  int c=0;
 		  while(1)
@@ -338,7 +338,8 @@
 	 str = strarg;
    }
 
-   __str_touper(str);
+ 
+   __toupper_978975(str);
 
     // D3DFMT_UNKNOWN;
 
@@ -869,7 +870,7 @@
 		  str = strarg;
 	  }
 
-	  __str_touper(str);
+	  __toupper_978975(str);
 
 
     if (str == "D3DRTYPE_SURFACE")
@@ -2170,7 +2171,7 @@
 	  str = strarg;
 	}
 
-	__str_touper(str);
+	__toupper_978975(str);
 
     if (str == "D3DPOOL_DEFAULT")
     {
@@ -2265,7 +2266,7 @@
 	    str = strarg;
 	  }
 
-	  __str_touper(str);
+	  __toupper_978975(str);
 
     if (str == "D3DFILL_POINT")
     {
@@ -2354,7 +2355,7 @@
 	   str = strarg;
 	 }
 
-	 __str_touper(str);
+	 __toupper_978975(str);
 
 
     if (str == "D3DSHADE_FLAT")
@@ -2674,7 +2675,7 @@
 
 	}
 
-	__str_touper(str);
+	__toupper_978975(str);
 
     if (str == "D3DCULL_NONE")
     {
@@ -2790,7 +2791,7 @@
 		 str = strarg;
 	  }
 
-	  __str_touper(str);
+	  __toupper_978975(str);
 
     if (str == "D3DCMP_NEVER")
     {
@@ -2910,7 +2911,7 @@
 	    str = strarg;
 	  }
 
-	__str_touper(str); 
+	__toupper_978975(str); 
 
     if (str == "D3DFOG_NONE")
     {
@@ -3030,7 +3031,7 @@
 	 str = strarg;
    }
 
-    __str_touper(str); 
+    __toupper_978975(str); 
 
     if (str == "D3DSTENCILOP_KEEP")
     {

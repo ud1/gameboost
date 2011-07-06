@@ -1559,9 +1559,15 @@ inline float distanceToPlane( plane_s& plane )   const
 	    vec3         vScaling;      ///< масштабирование
 	    Quaternion   qRotation;     ///< вращение
 	    vec3         vTranslation;  ///<  позиция
+   };
 
 
-
+   //! \brief  Сборка трансформации , но для повотора импользуется ось и угол.
+   struct TransformData2 
+   {
+	   vec3        scaling;
+	   AxiesAngle  rotation;
+	   vec3        translatiion;
    };
 
 

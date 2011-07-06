@@ -5510,7 +5510,7 @@ static IDirect3DTexture9* g_texture = NULL;
 
 
 //======================================================================
-static void __cdecl  __onRelease(void* pUserData)
+static void __cdecl  __onRelease_cpp_543543(void* pUserData)
 {
   if(g_texture)
   {
@@ -5530,7 +5530,7 @@ GB_D3D9_API  IDirect3DTexture9* getSampleDebugTexture(IDirect3DDevice9* pdevice)
 	  {
 		stb_firstcall =  false;
 
-		 if(!__registerOnReleaseDataProc(__onRelease, NULL) )
+		 if(!__registerOnReleaseDataProc(__onRelease_cpp_543543, NULL) )
 		 {
 			 assert(false && "fail register onrelease proc");
 			 throw std::runtime_error("fail register onrelease proc");

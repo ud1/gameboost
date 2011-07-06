@@ -1211,6 +1211,7 @@ GB_D3D9_API	HRESULT D3dFont::Render3DText( const TCHAR* strText, DWORD dwFlags )
 } // end namespace gb
 
 
+#undef  MAX_NUM_VERTICES 
 
 #pragma warning (pop)
 

@@ -32,6 +32,10 @@ namespace renderTargetSurfaceSize_e
 }
 
 
+class RenderTarget
+{
+
+};
 
 
 

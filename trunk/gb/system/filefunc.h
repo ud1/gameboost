@@ -25,30 +25,29 @@
 
 #include <gb/Config.h>
 
-#include <windows.h>
+//#include <windows.h>
 #include <string.h>
 #include <string>
 #include <vector>
 
 
-#ifdef GB_DLL
- #ifdef GB_DLL_EXPORTS
-    #define GB_FF_API __declspec(dllexport)
- #else
-    #define GB_FF_API __declspec(dllimport)
- #endif
-#else
-    #define GB_FF_API
+#ifdef GB_LIB
+	#ifdef GB_DLL
+		 #ifdef GB_DLL_EXPORTS
+			#define GB_FF_API __declspec(dllexport)
+		 #else
+			#define GB_FF_API __declspec(dllimport)
+		 #endif
+	#else
+		 #define GB_FF_API
+	#endif
+
+
+	#ifdef _DEBUG  // debug
+	#else // release
+	#endif // #ifdef _DEBUG
+
 #endif
-
-
-
-
-#ifdef _DEBUG  // debug
-
-#else // release
-
-#endif // #ifdef _DEBUG
 
 
 #pragma warning(push)

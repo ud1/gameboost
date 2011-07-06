@@ -128,8 +128,8 @@ namespace d3dxmesh
 
 
 
-// temp !!!!!!
-D3DXMeshEx  g_mesh(NULL, NULL, "dfsdfds" );
+
+//D3DXMeshEx  g_mesh(NULL, NULL, " " );
 
 
 //=========================================================================

@@ -129,21 +129,21 @@ inline HRESULT get_CullMode() const {
 
 inline mat44 getTransformWorld() const {
 	mat44 res;
-	HRESULT hr=dvc->GetTransform( D3DTS_WORLD , res );
+	HRESULT hr=dvc->GetTransform( D3DTS_WORLD , (D3DMATRIX*)&res._11 );
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	return res;
 }
 
 inline mat44 getTransformView() const {
 	mat44 res;
-	HRESULT hr=dvc->GetTransform( D3DTS_VIEW , res );
+	HRESULT hr=dvc->GetTransform( D3DTS_VIEW , (D3DMATRIX*)&res._11 );
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	return res;
 }
 
 inline mat44 getTransformProj() const {
 	mat44 res;
-	HRESULT hr=dvc->GetTransform( D3DTS_PROJECTION , res );
+	HRESULT hr=dvc->GetTransform( D3DTS_PROJECTION , (D3DMATRIX*)&res._11 );
 	if FAILED(hr) throw std::runtime_error("Failed operation");
 	return res;
 }

@@ -102,7 +102,11 @@ uint32_t uint32FromHex (const std::string & s)
 	std::istringstream stream(s);
 	uint32_t result;
 	stream >> std::hex >> result;
-	if (stream.fail()) return 0;
+	if (stream.fail() ) 
+	{
+		return 0;
+	}
+
 	return result;
 }
 
@@ -111,7 +115,11 @@ uint64_t uint64FromHex (const std::string & s)
 	std::istringstream stream(s);
 	uint64_t result;
 	stream >> std::hex >> result;
-	if (stream.fail()) return 0;
+	if (stream.fail())
+	{
+		return 0;
+	}
+
 	return result;
 }
 

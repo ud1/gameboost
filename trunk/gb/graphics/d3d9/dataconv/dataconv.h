@@ -30,6 +30,7 @@
 #include <d3d9.h>
 #include <gb/graphics/d3d9/auto_include_libr.h>
 #include <gb/graphics/d3d9/common.h>
+//#include <gb/str/String.h>
 
 #include <string.h>
 #include <string>
@@ -75,7 +76,7 @@ GB_D3D9_API bool D3DRENDERSTATETYPE_fromstr(  D3DRENDERSTATETYPE& val, std::stri
 GB_D3D9_API std::string D3DRENDERSTATEVALUE_tostr(const D3DRENDERSTATETYPE state, const DWORD val,bool bShortWord=false  );
 
 //! \brief Значение val стейта state  из строки. Если параметры некорректные вернёт false.
-GB_D3D9_API  bool D3DRENDERSTATEVALUE_fromstr(DWORD &val, const D3DRENDERSTATETYPE state, const std::string &s );
+GB_D3D9_API  bool D3DRENDERSTATEVALUE_fromstr(DWORD &val, const D3DRENDERSTATETYPE state, const std::string &s, bool bShortWord=false );
 
 
 /** \brief Значение D3DPOOL (val) в строку.

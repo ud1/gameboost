@@ -15,9 +15,9 @@
 
 #include <tchar.h>
 
-#include <D3D9.h>
+#include <d3d9.h>
 
-
+// temp !!!!
 #define GB_D3D9_API
 
 namespace gb 

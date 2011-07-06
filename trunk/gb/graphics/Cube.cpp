@@ -6,7 +6,7 @@
 namespace gb
 {
 
-namespace graghics
+namespace graphics
 {
  
 	static const CubeVertex_s    g_vertexes[]  = 
