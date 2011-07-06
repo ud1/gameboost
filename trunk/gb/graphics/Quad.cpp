@@ -6,11 +6,11 @@
 namespace gb
 {
 
-namespace graghics
+namespace graphics
 {
 
 
-  static  const  QuadVertex_s  g_vertexes[] =  
+     const  QuadVertex_s  g_st_quad_vertexes[] =  
   {
 	  {  -1.0f,    1.0f,   0.0f,    0.0f,  0.0f, },  
 	  {  -1.0f,   -1.0f,   0.0f,    0.0f,  1.0f, },
@@ -21,20 +21,21 @@ namespace graghics
 
   };
 
-  static const uint16_t  g_indexes[] = { 0,  1,  2,  3,  4,  5 };
+    const uint16_t  g_st_quad_indexes[] = { 0,  1,  2,  3,  4,  5 };
 
 
-void GetQuadVertexes(const CubeVertex_s** ppOutVertxs, 
-					   uint32_t* pOutNumVertex, 
-					 const  uint16_t** ppOutIndexes,
-					   uint32_t* pOutNumIndexes)
+void GetQuadVertexes(
+					const QuadVertex_s** ppOutVertxs, 
+					uint32_t* pOutNumVertex, 
+					const  uint16_t** ppOutIndexes,
+					uint32_t* pOutNumIndexes)
 {
 
-    *ppOutVertxs = g_vertexes;
-	*pOutNumVertex =   sizeof(g_vertexes)  /  sizeof(CubeVertex_s) ;
+    *ppOutVertxs = g_st_quad_vertexes;
+	*pOutNumVertex =   sizeof(g_st_quad_vertexes)  /  sizeof(CubeVertex_s) ;
 
-	*ppOutIndexes = g_indexes;
-	*pOutNumIndexes =  sizeof(g_indexes) / sizeof(uint16_t);
+	*ppOutIndexes = g_st_quad_indexes;
+	*pOutNumIndexes =  sizeof(g_st_quad_indexes) / sizeof(uint16_t);
 
 }
 

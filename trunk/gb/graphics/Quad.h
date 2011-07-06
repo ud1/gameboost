@@ -15,10 +15,11 @@ namespace graphics
   };
 
   
-    void GetQuadVertexes(const CubeVertex_s** ppOutVertxs, 
-					   uint32_t* pOutNumVertex, 
-					   const uint16_t** ppOutIndexes,
-					   uint32_t* pOutNumIndexes	   
+    void GetQuadVertexes(
+			const QuadVertex_s** ppOutVertxs, 
+			uint32_t* pOutNumVertex, 
+			const uint16_t** ppOutIndexes,
+			uint32_t* pOutNumIndexes	   
 					   );
 
 

@@ -429,7 +429,7 @@ public:
 #endif
 
   /** \brief Отсечение координат точки p в пределах прямоугольника */
-  inline void clumpCoord(   vec2& pntTobeClump ) const 
+  inline void clumpCoord( vec2& pntTobeClump ) const 
   {
 	  if( pntTobeClump.x < x1 ) { pntTobeClump.x = x1; };
 	  if( pntTobeClump.x > x2 ) { pntTobeClump.x = x2; };
@@ -507,12 +507,14 @@ public:
 
 
 
+	  // todo 
+  // std::string tostr() const {......}
+  // bool        fromstr(const std::string& str) {.....}
 
 
 
-
-          //! \brief печать на консоль 
-          void print() const {   printf("%f  %f     %f  %f", x1, y1,   x2, y2);    };
+     //! \brief печать на консоль 
+    void print() const {   printf("%f  %f     %f  %f", x1, y1,   x2, y2);    };
 
 		};
 
@@ -522,11 +524,11 @@ public:
 		/** \brief Класс окружность в 2-х мерном пространстве   */
 		class Circle {
 		public:
-			 vec2  center;
-			float         radius;
+			 vec2	center;
+			float	radius;
 
 
-			inline Circle() {}
+			inline Circle() { center.setzero(); radius=0.0f; }
 			inline Circle(const Circle& c) {center=c.center; radius=c.radius; };
 			inline Circle(const  vec2 & _center, const float _radius) { center=_center; radius=_radius; }
 			inline Circle(float _centerx, float _centery,  float _radius)    { center.x=_centerx; center.y=_centery;   radius=_radius; }
@@ -586,7 +588,7 @@ public:
 			 vec2   dest;
 
 
-			inline Line2d() {}
+			inline Line2d() { src.setzero(); dest.setzero(); }
 			inline Line2d(const Line2d& l) {src=l.src;  dest=l.dest; }
 			inline Line2d(const  vec2& _src, const  vec2& _dest)
 			{
@@ -646,8 +648,8 @@ public:
 		};
 
 	
-    } // end ns
-  } // end ns
-} // end ns
+    } // end namespace
+  } // end namespace
+} // end namespace
 
 // end file	
