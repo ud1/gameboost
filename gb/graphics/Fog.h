@@ -1,12 +1,53 @@
+/**	 \file
+  \brief  Туман.
+ *
+ *
+ *
+ *
+ *
+ *
+ **/
 
 
 #pragma once
 
-.......
 
- -- состояние тумана  
- --- типа
- -- begin()
- ---end()
- 
- -- .....  прочее хз .....
+
+namespace gb
+{
+
+	namespace graphic
+	{
+
+	class Fog {
+	public:
+
+	  enum type_e
+	  {
+
+	  undefined = 0,
+
+	  cxzxcczxc,
+	  czxczxczxczxc  // ?????
+
+
+
+	  };
+
+
+
+
+
+		 Fog() {}
+		~Fog() {}
+
+
+
+
+
+	};
+
+
+	}
+}
+
