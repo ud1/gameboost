@@ -58,7 +58,7 @@ namespace gb
 			/** Возвращает строковое представление типа примитива */
 			static const char *getPrimTypeName(PrimitiveType type);
 			
-			virtual Render_Target* createWindowRenderTarget(window_subsystem::Window *wnd) = 0;
+			virtual RenderTarget* createWindowRenderTarget(window_subsystem::Window *wnd) = 0;
 			virtual bool getSize(int &width, int &height) = 0;
 			virtual void setScissorRect(const base::Rectangle &rc) = 0;
 

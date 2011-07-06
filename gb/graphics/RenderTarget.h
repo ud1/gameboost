@@ -6,7 +6,7 @@
 namespace gb
 {
 
-namespace graphic
+namespace graphics
 {
  
 //----------------------------------------------------------------------
@@ -50,12 +50,12 @@ protected:
 
 
 
-class Render_Target : public base::IRefCountable {
+class RenderTarget : public base::IRefCountable {
 public:
 	int ttrtetretghfgh;
 
 protected:
-	Render_Target() {}
+	RenderTarget() {}
 };
 
 
