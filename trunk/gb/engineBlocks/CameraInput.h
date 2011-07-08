@@ -1,6 +1,6 @@
 #pragma once
 #include "InputBase.h"
-#include <gb/base/Camera.h>
+#include <gb/math/Camera.h>
 #include <gb/math/math.h>
 #include <gb/window_subsystem/KeyCodes.h>
 
@@ -9,7 +9,7 @@ namespace gb
 	namespace engine_blocks
 	{
 		
-		class CameraInput : public InputBase, public base::Camera
+		class CameraInput : public InputBase, public math::Camera
 		{
 		public:
 			enum MoveType

@@ -2,8 +2,10 @@
 #include <gb/fs/Helpers.h>
 #include <gb/math/math.h>
 
-#include <gb/loaders/images/BmpLoader.h>
+
 #include <gb/containers/Image.h>
+#include <gb/engineBlocks/SkyBox.h>
+#include <gb/base/AutoInjection.h>
 
 #include <vector>
 
@@ -25,6 +27,12 @@ class App : public GameApplication
 public:
 	App(bool console) : GameApplication(console)
 	{
+		camera.addKeyBinding(KEY_KEY_W, CameraInput::FORWARD);
+		camera.addKeyBinding(KEY_KEY_S, CameraInput::BACKWARD);
+		camera.addKeyBinding(KEY_KEY_A, CameraInput::LEFT);
+		camera.addKeyBinding(KEY_KEY_D, CameraInput::RIGHT);
+		camera.addKeyBinding(KEY_SPACE, CameraInput::UPWARD);
+		camera.addKeyBinding(KEY_KEY_C, CameraInput::DOWNWARD);
 	}
 	
 	void setup()
@@ -43,110 +51,77 @@ public:
 		shader_program_2d->attachShader(vert_shd);
 		shader_program_2d->link();
 		
-		InputStream *file = file_system->getInputStream("../data/sky/sky_ep01_02bk.bmp");
-		AutoImage im;
-		im.load(image_loader, *file);
-		file->release();
-		image = CreateRFHolder<Texture>(device->createTexture(Texture::Texture2D));
-// 		image->setMinFilter(Texture::TF_LINEAR);
-// 		image->setMagFilter(Texture::TF_LINEAR);
-		image->setImage(&(const Image &)im, 0);
+		SkyBoxConfig sky_box_config;
+		sky_box_config.filenames[0] = "../data/sky/sky_ep01_02lf.bmp";
+		sky_box_config.filenames[1] = "../data/sky/sky_ep01_02ft.bmp";
+		sky_box_config.filenames[2] = "../data/sky/sky_ep01_02rt.bmp";
+		sky_box_config.filenames[3] = "../data/sky/sky_ep01_02bk.bmp";
+		sky_box_config.filenames[4] = "../data/sky/sky_ep01_02up.bmp";
+		sky_box_config.filenames[5] = "../data/sky/sky_ep01_02dn.bmp";
+		sky_box_config.orientation[0] = ivec2(-1, 0);
+		sky_box_config.orientation[1] = ivec2(0, 0);
+		sky_box_config.orientation[2] = ivec2(1, 0);
+		sky_box_config.orientation[3] = ivec2(2, 0);
+		sky_box_config.orientation[4] = ivec2(1, 1);
+		sky_box_config.orientation[5] = ivec2(1, -1);
 		
-		struct Vert
-		{
-			vec3 pos;
-			vec2 tex_coord;
-		};
-		
-		float s = 100.0f;
-		
-		Vert verts[4];
-		verts[0].pos = vec3(-1, 1, 0);
-		verts[1].pos = vec3(1, 1, 0);
-		verts[2].pos = vec3(1, -1, 0);
-		verts[3].pos = vec3(-1, -1, 0);
-		
-		verts[0].tex_coord = vec2(-1, 1);
-		verts[1].tex_coord = vec2(1, 1);
-		verts[2].tex_coord = vec2(1, -1);
-		verts[3].tex_coord = vec2(-1, -1);
-		
-		short inds[6] = {0, 1, 3, 3, 1, 2};
-		
-		vertex_buffer = CreateRFHolder(device->createVertexBuffer());
-		vertex_buffer->setElementSize(sizeof(Vert));
-		vertex_buffer->setElementsNumber(4);
-		vertex_buffer->subData(0, 0, (void *) verts);
-		
-		index_buffer = CreateRFHolder(device->createIndexBuffer());
-		index_buffer->setElementSize(sizeof(short));
-		index_buffer->setElementsNumber(6);
-		index_buffer->subData(0, 0, (void *) inds);
-		
-		size_t n = shader_program_2d->getAttributesNumber();
-		for (size_t i = 0; i < n; ++i)
-		{
-			Attribute *attr = shader_program_2d->getAttribute(i);
-			if (std::string("position") == attr->getName())
-			{
-				Layout layout;
-				layout.ncomponents = 3;
-				layout.offset = 0;
-				layout.stride = sizeof(Vert);
-				layout.type = Layout::FLOAT;
-				attr->setVertexBuffer(vertex_buffer, &layout);
-			}
-			else if (std::string("tex_coord") == attr->getName())
-			{
-				Layout layout;
-				layout.ncomponents = 2;
-				layout.offset = reinterpret_cast<size_t>(&((Vert *) NULL)->tex_coord);
-				layout.stride = sizeof(Vert);
-				layout.type = Layout::FLOAT;
-				attr->setVertexBuffer(vertex_buffer, &layout);
-			}
-		}
-		
-		n = shader_program_2d->getUniformsNumber();
-		for (size_t i = 0; i < n; ++i)
-		{
-			Uniform *uniform = shader_program_2d->getUniform(i);
-			if (std::string("mvp") == uniform->getName())
-			{
-				mvp_uniform = uniform;
-			}
-			else if (std::string("tex") == uniform->getName())
-			{
-				uniform->setSamplerTexture(image);
-			}
-		}
+		sky_box.create(sky_box_config, camera.coord_system, 100.0f, *shader_program_2d);
+	}
+	
+	PDevice &getDevice()
+	{
+		return device;
+	}
+	
+	PFileSystem &getFileSystem()
+	{
+		return file_system;
 	}
 	
 protected:
 	void render(GameApplication::ApplicationState, float dt)
 	{
-		mat4 mvp = ortho(-2.0f, 2.0f, 2.0f, -2.0f);
-		mvp_uniform->setFloats((float *)&mvp, 1, false);
+		camera.updatePosition(dt);
+		const WindowInfo *info = main_window->getWindowInfo();
+		camera.aspect_ratio = (float)info->width / (float)info->height;
 		
-		device->draw((ShaderProgram *) shader_program_2d, 0, 0, Device::TRIANGLES, index_buffer);
+		mat4 projection = camera.getViewProjectionMatrix();
+		sky_box.render(projection);
 	}
 	
-	PBuffer index_buffer, vertex_buffer;
 	PShaderProgram shader_program_2d;
-	BmpLoader image_loader;
-	//PTexture images[8];
-	PTexture image;
-	Uniform *mvp_uniform;
-};
+	
+	SkyBox sky_box;
+} *application;
+
+namespace gb
+{
+	namespace base
+	{
+		template<>
+		PDevice inject<Device>()
+		{
+			return application->getDevice();
+		}
+		
+		template<>
+		PFileSystem inject<FileSystem>()
+		{
+			return application->getFileSystem();
+		}
+	}
+}
 
 int main()
 {
-	App application(true);
+	application = new App(true);
 	
-	if (!application.init("arn/config.txt"))
+	if (!application->init("arn/config.txt"))
 		return 0;
 	
-	application.setup();
+	application->setup();
 	
-	application.run();
+	application->run();
+	
+	delete application;
 }

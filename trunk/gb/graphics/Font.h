@@ -11,7 +11,7 @@ namespace gb
 	namespace graphics2d
 	{
 		
-		class Font : base::IRefCountable
+		class Font : public base::IRefCountable
 		{
 		public:
 			

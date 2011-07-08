@@ -57,10 +57,8 @@ namespace gb
 			size_t getHeight() const {return height;}
 			size_t getDepth() const {return depth;}
 			size_t getMipLevelsNumber() const {return mip_levels;}
-			void autogenerateMipMaps(bool v) {is_autogenerate_mipmaps = v;}
 
 			virtual void setMaxLod(float lod) = 0;
-			virtual void generateMipMaps() = 0;
 			virtual bool setImage(const containers::Image *im, size_t mipLevel) = 0;
 			virtual bool setImageOnCubeFace(const containers::Image *im, CubeFace face, size_t mipLevel) = 0;
 			virtual bool setSubImage(const containers::Image *im, int xoff, int yoff, int zoff, size_t mipLevel) = 0;
@@ -73,7 +71,6 @@ namespace gb
 		protected:
 			Type type;
 			size_t width, height, depth, mip_levels;
-			bool is_autogenerate_mipmaps;
 		};
 		
 		typedef base::RefCntHolder<Texture> PTexture;

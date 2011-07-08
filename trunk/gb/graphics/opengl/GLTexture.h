@@ -18,7 +18,6 @@ namespace gb
 				
 				bool setImage(const containers::Image *im, size_t mipLevel);
 				bool setImageOnCubeFace(const containers::Image *im, CubeFace face, size_t mipLevel);
-				void generateMipMaps();
 				bool setSubImage(const containers::Image *im, int xoff, int yoff, int zoff, size_t mipLevel);
 				bool setSubImageOnCubeFace(const containers::Image *im, int xoff, int yoff, int zoff, CubeFace face, size_t mipLevel);
 				void setMinFilter(TextureFilter filter);
