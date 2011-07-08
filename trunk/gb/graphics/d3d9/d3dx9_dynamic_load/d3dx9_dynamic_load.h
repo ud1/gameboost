@@ -3,12 +3,11 @@
 
 
   \author kscvet777
-
-
-  \todo  insert inline
-  \todo  сделать макрозащиту от неправильного включения.
+ 
+ 
   \todo поправить функцию  checkExistsDll на поиск в директории приложения.
   \todo убрать GB_D3D9_D3DXDLL_LOADER_CHECK_ENTRY_NULL_PTR.	
+  \todo Сделать версию загрузки/поиска длл  для юникода
 
 
   <br><br>
@@ -16,12 +15,14 @@
      -- Precomputed Radiance Transfer Functions
      --  UVAtlas Functions
     --  math functions
-
+	 --  insert inline
+	 -- сделать макрозащиту от неправильного включения.
+ 
 
 */
 
 
-#if ( defined(WIN32) )  // && defined(GB_D3D9) )
+#if ( defined(WIN32) ) 
 
 #pragma once
 #define __GB_D3DX9_DYNAMIC_LOAD_H__
@@ -31,14 +32,12 @@
 
 #include <d3dx9.h>
 
-#include <gb/graphics/d3d9/d3dx9_dynamic_load/d3dx9_dynamic_load_pfunc_decl.h>
+#include "d3dx9_dynamic_load_pfunc_decl.h"
 
 #include <stdlib.h>
-
 #include <string>
 #include <vector>
 #include <stdexcept>
-
 
 #include <gb/macro.h>
 #include <assert.h>
@@ -57,7 +56,7 @@ namespace  graphics
 namespace  d3d9
 {
 
-//!  \brief Динамическая загрузка/ использование DLL   библиотеки D3DX9 .
+//!  \brief Динамическая загрузка/использование  DLL   библиотеки D3DX9 .
 namespace d3dx9_dynamic_load
 {
 
@@ -66,12 +65,12 @@ namespace d3dx9_dynamic_load
   
   
 /** \brief   Получить файл d3dx dll по номеру версии. 
-    Например если передать 44 , то получиться d3dx9_44.dll  */
+    Например если передать 44 , то в strOut будет d3dx9_44.dll  */
 GB_D3D9_API void  makeD3DX9dllFilename_by_version(std::string& strOut, unsigned int vers, bool bDebugV=false) ;
 
 
 
-//! \brief  ПРоверить существует ли dll . bIncludeExeDir - проверить или нет директорию приложениея.
+//! \brief  Проверить существует ли dll . bIncludeExeDir - проверить или нет директорию приложениея.
 GB_D3D9_API bool checkDllExistsA (const char* fname, bool bIncludeExeDir) ;
  
 //!  \brief  УБРАТЬ !
@@ -85,16 +84,17 @@ GB_D3D9_API bool getInstaledD3DXlastVersion(unsigned int* piOutVers) ;
 GB_D3D9_API void print_d3dx9_dll_info() ;
 
 
-/** \brief  получит все инсталированые версии d3dx dll в системе   в вектор versions .
+/** \brief  получить все инсталированые версии d3dx dll в системе   в вектор versions .
      Например если обнаружена  d3dx9_44.dll  то в векторе в том числе будет 44   */
 GB_D3D9_API bool getInstaledD3DXallVersion(std::vector<unsigned int>& versions) ;
 
  
 
-/**  \brief Загрузаить новейшую версию d3dx9 dll обнаруженную в системе.  Вернёт хэндл загр. длл.
-  Еслит ошибка вернёт ноль.  piOutVers - версия, которая была загружена.       */
+/**  \brief Загрузить новейшую версию d3dx9 dll обнаруженую в системе.  Вернёт хэндл загр. длл.
+  Если ошибка вернёт ноль.  piOutVers - версия, которая была загружена.       */
 GB_D3D9_API HMODULE loadDllLastVersion(unsigned int* piOutVers ); 
  
+
 
 //! \brief  Загрузчик d3dx9 dll  . Так же использование d3dx9  через него. 
 class CD3DX9_Dll_Loader  : public gb::base::IObject  {
