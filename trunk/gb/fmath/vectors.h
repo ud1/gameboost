@@ -69,6 +69,8 @@ namespace gb
 
  			    inline operator  const float*() const  { return (float*)&x; }
 			    inline operator        float*()        { return (float*)&x; }
+ 
+
 
 				inline float operator [] (unsigned int index) const
 				{
@@ -342,7 +344,7 @@ namespace gb
 
 			inline operator  const float*() const  { return &x; }
 			inline operator        float*()        { return &x; }
-
+ 
 
 			inline float operator [] (unsigned int index) const
 			{
@@ -657,6 +659,7 @@ namespace gb
 
 			inline operator  const float*() const  { return &x; }
 			inline operator        float*()        { return &x; }
+ 
 
 
 			inline float operator [] (unsigned int index) const
