@@ -1122,6 +1122,7 @@ bool checkIntersectSphere_2 (const Sphere& sphere, float* result)
 // Aslan.   Проверка пересечения со сферой.  ПРОВЕРЕНО
 bool checkIntersectSphere_3( const Sphere& sph )   
 {
+	const float __infin__  = _INFCODE;
   float res = 0.0f;
 
  // // в 10й студии нет xmath.h  Временное определение.
@@ -1146,7 +1147,7 @@ bool checkIntersectSphere_3( const Sphere& sph )
   if( (d>r) && (s<0) ) // точка снаружи сферы и луч направлен от сферы
   {
   
-    res = INF; // return INF; // нет пересечения
+    res = __infin__; // return INF; // нет пересечения
 	 return false;
   }
 	
@@ -1155,7 +1156,7 @@ bool checkIntersectSphere_3( const Sphere& sph )
   
   if(h>r) // луч не пересекает сферу
   {
-      res = INF;
+      res = __infin__;
 	return false;
   }
  
