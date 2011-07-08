@@ -10,6 +10,7 @@
 
 #pragma once
 #include "Types.h"
+#include "version.h"
 #include <string>
 
 // temp !!!!!
@@ -56,16 +57,6 @@ public:
 };
 
 
-//! \brief  Для объектов имеющих уникальный целый идентификатор
-class UuidHas : public IUuidHas {
-public:
-   UuidHas(const uint32_t _uuid) :m_uuid(_uuid)  {}
-   //! \brief   Получить целочисленый идентификатор .
-   virtual uint32_t  uuid() const { return m_uuid; }
-
-private:
-  uint32_t m_uuid;
-};
 
 
 //! \brief  Для объектов имеющих уникальный идентификатор типа
@@ -86,22 +77,6 @@ public:
 
 
 
-//! для объектов имеющих имя в виде буфера строки (32 байта)
-class Named {
-public:
-
-  Named(const char* strName)
-  {
-    strncpy(m_strName, strName, 31);
-  }  
-  
-  virtual const char* name() const { return m_strName; }
-  
-private:
-  char m_strName[32];
-};
-
-
 //! \brief  Для объектов имеющих имя типа  в виде строкового буфера.
 class ITypeNamed {
 public:
@@ -118,16 +93,14 @@ public:
 };
 
 
-//! для объектов имеющих имя в виде std::string
-class Named_s : public INamed_s {
+class IVersioned {
 public:
-      Named_s(const std::string name) : m_strName_s(name)  {}
 
-	  virtual const std::string name() const { return m_strName_s; }
-
-private:
-   std::string   m_strName_s;
+  virtual VERSION  version() const =0;
+  
 };
+
+
 
 
 

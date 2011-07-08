@@ -19,28 +19,8 @@ namespace base
 {
 //---------------------------------------------------------------
 
-static const char CSTR_MONTH_NAMES[] = 
-        "JanFebMarAprMayJunJulAugSepOctNovDec"; 
-
-  /****************
-time_t cvt_TIME(char const *time) { 
-	char s_month[5];
-	int month, day, year;
-	struct tm t = {0};
-	static const char CSTR_MONTH_NAMES[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
-
-	sscanf(time, "%s %d %d", s_month, &day, &year);
-
-	month = (strstr(mon_name, CSTR_MONTH_NAMES)-CSTR_MONTH_NAMES)/3;
-
-	t.tm_mon = month-1;
-	t.tm_mday = day;
-	t.tm_year = year - 1900;
-	t.tm_isdst = -1;
-
-	return mktime(&t);
-	}
- *********************************/
+static const char CSTR_MONTH_NAMES[] = "JanFebMarAprMayJunJulAugSepOctNovDec"; 
+ 
 
    struct DATE 
    { 
@@ -108,26 +88,7 @@ time_t cvt_TIME(char const *time) {
  
  
 	  }
-
-	  /*******************
-	  std::string tostr() const
-	  {
-		   const char* s_mon = NULL;
-		   if( (month<1) || (month>12) )
-		   {
-			   assert(false && "bad month"");
-			   throw std::runtime_error("bad month"); 
-		   }
  
-
-		   sprintf(buffer,  );
-
-	    return res;
-	  }
-	  }*****************************/
- 
-
-
    };
 
    struct VERSION_INFO
@@ -179,10 +140,10 @@ time_t cvt_TIME(char const *time) {
    struct VERSION
    {
    
-    VERSION_INFO versinf;
+    VERSION_INFO versinf; ///< полная информация о версии
    
-    DATE  date_daclare;
-	DATE  date_modifyed; 
+    DATE  date_daclare; ///< дата рождения класса
+	DATE  date_modifyed; ///< дата последней модификации/добавления
 
 	VERSION(const DATE& ddecl, 
 		    const DATE& dmodif, 
@@ -201,31 +162,7 @@ time_t cvt_TIME(char const *time) {
 
 //-------------------------------------------------------------------
 
-class IVersioned {
-public:
 
-  virtual VERSION  version() const =0;
-  
-};
-
-
-//! \brief  Для объектов имеющих информацию о версии  создания
-class Versioned : public IVersioned {
-public: 
-	 
- 
-	Versioned( const VERSION& v) : m_version(v)
-  {
-     assert(false);
-  }
-
- 
-
-   virtual VERSION  version() const { return m_version; }
-
-private:
-   VERSION  m_version;
-};
 
 //---------------------------------------------------------------
 }

@@ -20,7 +20,9 @@
   #pragma once
 #define __GB_FMATH_H__
  
+#define _USE_MATH_DEFINES
 #include <math.h>
+
 #include <limits>
 #include <float.h>
 #include <stdlib.h>
