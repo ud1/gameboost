@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Plane.h"
+#include <gb/math/math.h>
 
 namespace gb
 {
@@ -10,6 +11,8 @@ namespace gb
 		{
 			Plane planes[6];
 
+			void setup(const mat4 &MVP);
+			
 			bool isPointInsideFrustum(const vec3 &point) const
 			{
 				for (int i = 0; i < 6; ++i)

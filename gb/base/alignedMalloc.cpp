@@ -27,7 +27,7 @@ namespace gb
 		
 		void *alignedMalloc(size_t size, size_t alignment)
 		{
-			void *ptr;
+			void *ptr = NULL;
 			posix_memalign(&ptr, alignment, size);
 			return ptr;
 		}

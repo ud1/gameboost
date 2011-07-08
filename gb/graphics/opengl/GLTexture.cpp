@@ -146,7 +146,6 @@ namespace gb
 			{
 				device = device_;
 				type = _type;
-				is_autogenerate_mipmaps = true;
 				glGenTextures(1, &textureID);
 				setBorderType(TB_REPEAT);
 				setMinFilter(TF_LINEAR_MIPMAP_LINEAR);
@@ -209,26 +208,8 @@ namespace gb
 						return false;
 				}
 
-				if (im->data && is_autogenerate_mipmaps && min_filter > TF_LINEAR)
-				{
-					glTexParameteri(target, GL_TEXTURE_BASE_LEVEL, mipLevel);
-					glGenerateMipmap = glXGetProcAddress("glGenerateMipmap");
-					glGenerateMipmap(target);
-				}
-
 				unbind();
 				return true;
-			}
-
-			void GLTexture::generateMipMaps()
-			{
-				if (min_filter > TF_LINEAR)
-				{
-					bind();
-					glTexParameteri(target, GL_TEXTURE_BASE_LEVEL, 0);
-					glGenerateMipmap(target);
-					unbind();
-				}
 			}
 
 			bool GLTexture::setSubImage(const Image *im, int xoff, int yoff, int zoff, size_t mipLevel)
@@ -271,12 +252,6 @@ namespace gb
 					default:
 						unbind();
 						return false;
-				}
-
-				if (im->data && is_autogenerate_mipmaps && min_filter > TF_LINEAR)
-				{
-					glTexParameteri(target, GL_TEXTURE_BASE_LEVEL, mipLevel);
-					glGenerateMipmap(target);
 				}
 
 				unbind();

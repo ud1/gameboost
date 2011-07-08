@@ -445,6 +445,7 @@ namespace
 				return false;
 			}
 		}
+		return false;
 	}
 
 	void JobSchedulerQueue::startThreads(size_t threads_number)

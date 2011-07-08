@@ -21,7 +21,6 @@ set( GAMEBOOST_SOURCES
 		base/Factory.h 
 		base/Atlas.h base/Atlas.cpp
 		base/alignedMalloc.h base/alignedMalloc.cpp
-		base/Camera.h
 		graphics/Font.h graphics/FontFreeType.h graphics/FontFreeType.cpp
 
 		t/clamp.h t/debug_cast.h
@@ -41,6 +40,7 @@ set( GAMEBOOST_SOURCES
 		engineBlocks/BaseApplication.h engineBlocks/BaseApplication.cpp engineBlocks/GameApplication.h engineBlocks/GameApplication.cpp
 		engineBlocks/EventTranslator.h engineBlocks/EventTranslator.cpp engineBlocks/InputHandlerContainer.h engineBlocks/InputHandlerMap.h
 		engineBlocks/InputBase.h engineBlocks/InputBase.cpp engineBlocks/CameraInput.h engineBlocks/CameraInput.cpp
+		engineBlocks/SkyBox.h engineBlocks/SkyBox.cpp
 		containers/Mesh.h containers/Mesh.cpp
 
 		color/color.h
@@ -77,7 +77,17 @@ set( GAMEBOOST_SOURCES
 		graphics/2d/rects.h
 		graphics/2d/RectsBuffer.h graphics/2d/RectsBuffer.cpp
 		graphics/2d/TextureAtlas.h graphics/2d/TextureAtlas.cpp
-		
+
+		math/math.h
+		math/BBox.h
+		math/Camera.h
+		math/CoordSystem.h
+		math/Frustum.h math/Frustum.cpp
+		math/IntersectionType.h
+		math/Plane.h
+		math/Rect.h
+		math/restrictedQuadTree.h
+
 		Config.h )
 
 # группы файлов в IDE

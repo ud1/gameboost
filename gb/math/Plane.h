@@ -13,7 +13,7 @@ namespace gb
 			vec3 normal; 
 			vec_t dist;
 			
-			bool isPointInside(const vec3 &p)
+			bool isPointInside(const vec3 &p) const
 			{
 				vec_t r = dot(normal, p) + dist;
 				if (r <= 0.0f)
