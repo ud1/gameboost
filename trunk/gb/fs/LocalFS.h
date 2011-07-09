@@ -7,6 +7,7 @@ namespace gb
 	namespace fs
 	{
 		/**
+		 * @ingroup filesystem_group
 		 * \brief Реализация интерфейса файловой системы для доступа к локальной файловой системе.
 		 */
 		class LocalFS : public FileSystem

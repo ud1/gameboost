@@ -1,6 +1,5 @@
 ﻿/**
-@defgroup base_group gb::base
-Общие компоненты
+@defgroup base_group gb::base Общие компоненты
 */
 
 // Я не уверен, что все это так объединять разумно.

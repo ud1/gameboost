@@ -6,7 +6,8 @@ namespace gb
 	{
 		namespace eSeekType
 		{
-			enum SeekType {
+			enum SeekType
+			{
 				HEAD = 0,
 				CURRENT,
 				TAIL

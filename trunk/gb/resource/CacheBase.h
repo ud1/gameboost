@@ -1,3 +1,7 @@
+/**
+ * @defgroup redource_group gb::resource Компоненты связанные с кешированием и ассинхронной загрузкой ресурсов
+ */
+
 #pragma once
 
 #include <boost/intrusive/set.hpp>
@@ -29,6 +33,7 @@ namespace gb
 		}
 		
 		/**
+		 * @ingroup redource_group
 		 * \brief CacheBase является основой для различных алгоритмов кэширования ресурсов.
 		 * 
 		 * Управляет объектами типа Resource, являющимся объектом типа IRefCountabe.

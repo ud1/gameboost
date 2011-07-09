@@ -1,80 +1,53 @@
- 
 #pragma once
 #include <gb/base/IRefCountable.h>
 
-
 namespace gb
 {
+	namespace graphics
+	{
+		
+		/**
+		 * @ingroup graphics_group
+		 * 
+		 * \brief Интерфейс к поверхности, в которую происходить рендеринг,
+		 * пока таком качестве может использоваться только окно.
+		 */
+		class RenderTarget : public base::IRefCountable
+		{
+		public:
+			/** Задаёт цвет, к который будет чиститься поверхность перед началом рендеринга */
+			void setClearColor(float r, float g, float b, float a)
+			{
+				cl_r = r;
+				cl_g = g;
+				cl_b = b;
+				cl_a = a;
+			}
 
-namespace graphics
-{
- 
-//----------------------------------------------------------------------
+			/** Нужно ли очищать цветовой буфер */
+			void clearColor(bool b) {isClearColor = b;}
+			
+			/** Нужно ли очищать буфер глубины */
+			void clearDepth(bool b) {isClearDepth = b;}
+		
+			/** Должен вызываться при изменении размера */
+			virtual void reshape() = 0;
+			
+			/** Начало рендеринта */
+			virtual void beginFrame() = 0;
+			
+			/** Окончание рендеринга */
+			virtual void endFrame() = 0;
 
-
-namespace renderTargetSurfaceSize_e
-{
-
-  enum e
-  {
-  
-   
-
-  };
-
+			/** Возвращает размер */
+			virtual bool getSize(int &width, int &height) = 0;
+			
+		protected:
+			float cl_r, cl_g, cl_b, cl_a;
+			bool isClearColor, isClearDepth;
+		};
+		
+		typedef base::RefCntHolder<RenderTarget> PRenderTarget;
+		
+	}
 }
-
-
-
-class RenderTargetSurface : public base::IRefCountable  {
-public:
-
-	uint32_t width()  const { return _width;  }
-	uint32_t hieght() const { return _hieght; }
-
-	virtual int32_t copy_from(const RenderTargetSurface* rt) =0;
-	virtual uint32_t read_pixel_color(int32_t x, int32_t y) const =0;
-
-protected:
-
-	   RenderTargetSurface() 
-	   {
-		  _width  = 0;
-		  _hieght = 0;
-	   }
-
-	uint32_t _width;
-	uint32_t _hieght;
-
-};
-
-
-
-class RenderTarget : public base::IRefCountable {
-public:
-	int ttrtetretghfgh;
-
-protected:
-	RenderTarget() {}
-};
-
-
-
-//template <>
-class RenderTargetBuffer
-{
-
-
-
-
-};
-
-
-
-
-//----------------------------------------------------------------------
-
-}
-}
-
-// end file
