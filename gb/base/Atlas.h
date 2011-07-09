@@ -9,7 +9,9 @@ namespace gb
 	{
 		
 		/**
-		 * Класс управлющий добавлением прямоугольных областей в текстурный атлас
+		 * @ingroup base_group
+		 * \brief Класс управлющий добавлением прямоугольных областей в текстурный атлас
+		 * 
 		 * Используемый алгоритм: http://www.gamedev.ru/pages/coriolis/articles/Packing_Lightmaps 
 		 */
 		class Atlas {
