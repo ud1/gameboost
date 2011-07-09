@@ -8,7 +8,10 @@ namespace gb
 {
 	namespace fs
 	{
-		/** \brief Поток для чтения */
+		/**
+		 * @ingroup filesystem_group
+		 * \brief Поток для чтения
+		 */
 		class InputStream : public base::IRefCountable
 		{
 		public:
@@ -28,7 +31,10 @@ namespace gb
 			}
 		};
 		
-		/** \brief Поток для записи */
+		/**
+		 * @ingroup filesystem_group
+		 * \brief Поток для записи
+		 */
 		class OutputStream : public base::IRefCountable
 		{
 		public:
@@ -47,7 +53,10 @@ namespace gb
 			}
 		};
 		
-		/** \brief Поток для чтения и записи */
+		/**
+		 * @ingroup filesystem_group
+		 * \brief Поток для чтения и записи
+		 */
 		class IOStream : public base::IRefCountable
 		{
 		public:

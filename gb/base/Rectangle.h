@@ -144,13 +144,13 @@ namespace gb
 			{
 				offset (p);
 			}
-#endif
 
 			//! \brief offset coord.
 			inline void operator += (const Point& p)
 			{
 				offset (p);
 			}
+#endif
 
 #ifdef _WINDOWS_
 			//! \brief  Получить центральную координату.
