@@ -172,6 +172,7 @@ namespace gb
 		};
 		
 		/**
+		 * @ingroup base_group
 		 * \brief RefCntHolder используется для хранения IRefCountable объектов.
 		 */
 		template <typename T>
@@ -261,6 +262,7 @@ namespace gb
 		};
 		
 		/**
+		 * @ingroup base_group
 		 * \brief Данную функцию следует использовать для сохранения
 		 * IRefCountable объекта полученного из фабрики непосредственно
 		 * в RefCntHolder.

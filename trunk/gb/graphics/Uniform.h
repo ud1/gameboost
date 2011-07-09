@@ -9,7 +9,8 @@ namespace gb
 	{
 		
 		/**
-		 * \brief Класс для работы с юниформ-переменными шейдера
+		 * @ingroup graphics_group
+		 * \brief Интерфейс для работы с юниформ-переменными шейдера
 		 * 
 		 * Uniform может представлять либо массив из size матриц размером width*height каждая,
 		 * либо семплер. Если uniform переменная не является массивом, то size = 1.
@@ -27,14 +28,26 @@ namespace gb
 			 * Device::draw().
 			 */
 			bool setFloat(float v) {return setFloats(&v, 1, false);}
+			
+			/** @copydoc setFloat(float) */
 			virtual bool setFloats(const float *values, size_t count, bool transpose) = 0;
 			
+			/** Биндинг текстуры к юниформу */
 			virtual bool setSamplerTexture(Texture *tex) = 0;
 			
+			/** \return Длина строк для представления матрицы, например 3 если юниформ это одна матрица mat3, или массив таких матриц */
 			size_t getWidth() {return width;}
+			
+			/** \return Число строк для представления матрицы, например 1, если юниформ является вовсе не матрицей а вектором (vec2, vec3 ...) или даже просто числом */
 			size_t getHeight() {return height;}
+			
+			/** \return Число элементов массива или 1, если юниформ не представляет собой массив */
 			size_t getSize() {return size;}
+			
+			/** \return Является или юниформ семплером */
 			bool isSampler() {return is_sampler;}
+			
+			/** \return Имя */
 			const char *getName() {return name.c_str();}
 		
 		protected:
