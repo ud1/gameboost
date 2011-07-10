@@ -4,9 +4,11 @@
 
 // сервер значений , которые обсуждали по асе
 
-class UfServer {
+class UfServer 
+{
 public:
-	UfServer();
+
+	 UfServer();
 	~UfServer() { m_values.clear(); }
 
 	// зарегистрировать переменную по иvенам names(имена должны быть разделены запятыми и без пробелов),
