@@ -21,6 +21,7 @@ set( GAMEBOOST_SOURCES
 		base/Factory.h 
 		base/Atlas.h base/Atlas.cpp
 		base/alignedMalloc.h base/alignedMalloc.cpp
+		base/Variable.h base/VariableUpdater.h
 		graphics/Font.h graphics/FontFreeType.h graphics/FontFreeType.cpp
 
 		t/clamp.h t/debug_cast.h
