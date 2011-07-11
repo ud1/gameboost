@@ -1,5 +1,5 @@
-﻿/** \file templ.h
-* \brief Шаблонные функции
+﻿/** \file 
+* \brief  template functions
 *
 *
 */
@@ -23,16 +23,17 @@
 
 #include <assert.h>
 
-
-
+ 
 
 namespace gb 
 {
  namespace t 
  {
-  //! \brief Шаблонные функции
-  namespace func
-  {
+
+
+ //     //! \brief  
+ // namespace func
+  //{
 
 //-------------------------------------------------------------------------
 
@@ -55,7 +56,7 @@ namespace gb
 		// a2 = temp;  
 	// }; 
   
-  
+ /***************************************************** 
   
  template <typename T>
 //! \brief  Печать буфера на консоль. Для T требуется:  std::string tostr() const .
@@ -70,7 +71,7 @@ void print_buffer(const T* p, const int len)
 
 template<typename T>
 /** \brief Печать содержимого вектора на консоль. Для T должен быть 
-       опреденён  std::string tostr() const   */
+       опреденён  std::string tostr() const  * /
 void print_vector(const std::vector<T>& v) 
 {
 	for(size_t c=0; c<v.size(); c++) 
@@ -90,6 +91,9 @@ void print_vector(const std::vector<T>& v)
  	}
  }
 
+ *****************************************/
+
+
 
  template<typename T>
  /** \brief вычисление кол-ва пустых элементов в массиве p размером num. 
@@ -108,6 +112,7 @@ void print_vector(const std::vector<T>& v)
  	return res;
  }
 
+ // замнить мягкой сортировкой.
 
  template <typename T>
  /** \brief Паковать буфер. Все Непустые элементы перемещаются в начало. Конечные обнуляются.
@@ -149,31 +154,32 @@ void print_vector(const std::vector<T>& v)
  template <typename T>
  /** \brief Поиск индекса первого свободного элемента в массиве. Для T требуется: bool empty() const .
  Если не найдено то возвращает минус один.   */
- int findFirstEmptyFromBuffer(const T buf[], const int len) 
+ int findFirstEmptyFromBuffer(const T* pbuf, const int len) 
  {
 	 for(int c=0; c<len; c++)
 	 {
-		 if( buf[c].empty() ) {
+		 if( pbuf[c].empty() ) 
+		 {
 			 return c;
-		 };
+		 }
 	 }
 	 return -1;
  };					 
 
 
 
- template <typename T>
- /** \brief Аналог  FindFirstEmptyFromBuffer , но по указателю  */
- int findFirstEmptyFromBuffer_ptr(const T* pbuf, const int len) {
-	 for(int c=0; c<len; c++)
-	 {
-		 const T* pcurr = pbuf + c;
-		 if( pcurr->empty() ) {
-			 return c;
-		 };
-	 }
-	 return -1;
- }
+ //template <typename T>
+ // /** \brief Аналог  FindFirstEmptyFromBuffer , но по указателю  */
+ //int findFirstEmptyFromBuffer_ptr(const T* pbuf, const int len) {
+	// for(int c=0; c<len; c++)
+	// {
+	//	 const T* pcurr = pbuf + c;
+	//	 if( pcurr->empty() ) {
+	//		 return c;
+	//	 };
+	// }
+	// return -1;
+ //}
 
 
  template<typename T>
@@ -183,12 +189,13 @@ void print_vector(const std::vector<T>& v)
 	 int res = 0;
 	 for(int c=0; c<len; c++)
 	 {
-		 if( buf[c] == val) {
+		 if( buf[c] == val) 
+		 {
 			 buf[c].setzero();
 			 res++;
-		 };
+		 }
+	 }
 
-	 };
 	 return res;
  }
 
@@ -196,7 +203,8 @@ void print_vector(const std::vector<T>& v)
  template<typename T>
  /** \brief  Нахождение в векторе всех элементов равных val и их обнуление  без удаления из вектора.
  Для T должен быть определён оператор:  bool == const . */
- int setzero_any_vector(  std::vector<T>& v, const T& val) { // ZeroAnyFromVector
+ int setzero_any_vector(  std::vector<T>& v, const T& val) 
+ {
 	 int res = 0;
 	 for(size_t c=0; c<v.size(); c++) {
 		 T& curr = v[c];
@@ -401,214 +409,16 @@ T* newArray(const size_t num)
 
 
 
-//! \brief   шаблонные функции сортровки
-namespace sort
-{
+ 
+// namespace sort {   }
 
-	template<typename T>
-	/** \brief Пузырьковая сортировка буфера   */
-	void sortBuffer_bubble(T* items, const int count) 
-	{
-		if(count == 0) return ;
-
-		register int i, j;
-		register T t;
-		// void bubble(char *items, int count)
-		for(i = 1; i < count; ++i)
-			for( j = count-1; j >= i; --j) 
-			{
-				if( !(items[j - 1] < items[ j ]) ) 
-				{
-					// exchange elements 
-					t = items[j - 1];
-					items[j - 1] = items[ j ];
-					items[ j ] = t;
-				}
-			}
-	};
+ 
 
 
-
-	template<typename T>
-	/** \brief  Сортировака массива выборкой */
-	void sortBuffer_select(T* items, const int count) 
-	{
-		if(count == 0) return;
-
-		register int a, b, c;
-		int exchange;
-		T t;
-
-		for(a = 0; a < count-1; ++a) 
-		{
-			exchange = 0;
-			c = a;
-			t = items[ a ];
-			for(b = a + 1; b < count; ++b) 
-			{
-				if(items[ b ] < t) 
-				{
-					c = b;
-					t = items[ b ];
-					exchange = 1;
-				}
-			}
-			if(exchange) 
-			{
-				items[ c ] = items[ a ];
-				items[ a ] = t;
-			}
-		}
-	};
-
-
-
-	template <typename T>
-	/** \brief  Сортировка буфера вставкой */
-	void sortBuffer_insertion(T* t, const int length) 
-	{
-		if(0==length) return;
-		int i;
-		T key ;
-		for(int j=1;j<length;j++)
-		{
-			key=t[j];
-			i=j-1;
-			while(  !(t[i]<key) && i>=0  )
-			{
-				t[i+1]=t[i];
-				i--;
-			}
-			t[i+1]=key;
-		}
-	};
-
-
-
-	template <typename T>
-	/** \brief Сортировка буфера перемешиванием  */
-	void sortBuffer_shaker(T* items, const int count) 
-	{
-		if(0==count) return;
-		register int i;
-		int exchange;
-		T t;
-
-		do {
-			exchange = 0;
-			for(i = count - 1; i > 0; --i) 
-			{
-				if( !(items[i - 1] < items[ i ]) ) 
-				{
-					t = items[i - 1];
-					items[i - 1] = items[ i ];
-					items[ i ] = t;
-					exchange = 1;
-				}
-			}
-
-			for(i = 1; i < count; ++i) 
-			{
-				if(  !(items[i - 1] < items[ i ])  ) 
-				{
-					t = items[i-1];
-					items[i - 1] = items[ i ];
-					items[ i ] = t;
-					exchange = 1;
-				}
-			}
-		} while(exchange); // sort until no exchanges  
-	};
-
-
-	template <typename T>
-	/** \brief Сортировка буфера методом Шелла */
-	void sortBuffer_shell(T* items, const int count) 
-	{
-		if(0==count) return ;
-		int i, j, gap, k;
-		T x;
-		char a[5];
-
-		a[0]=8; a[1]=5; a[2]=3; a[3]=2; a[4]=1;
-
-		for(k=0; k < 5; k++) 
-		{
-			gap = a[k];
-			for(i=gap; i < count; ++i) 
-			{
-				x = items[i];
-				for(j=i-gap; (x < items[j]) && (j >= 0); j=j-gap)
-				{
-					items[j+gap] = items[j];
-				}
-				items[j+gap] = x;
-			}
-		}
-	};
-
-
-
-	template <typename T>
-	/** \brief Быстрая сортировка буфера  по индексам диапазона */
-	void sortBuffer_quick(T* items, int left, int right)
-	{
-		int i, j;
-		T x;
-		T y;
-
-		i = left;
-		j = right;
-		x = items[(left+right)/2];
-
-		do {
-			while((items[i] < x) && (i < right))
-				i++;
-			while((x < items[j]) && (j > left))
-				j--;
-
-			if(i <= j) 
-			{
-				y = items[i];
-				items[i] = items[j];
-				items[j] = y;
-				i++; j--;
-			}
-		} while(i <= j);
-
-		if(i < right)
-			sortBuffer_quick(items, i, right);
-		if(left < j)
-			sortBuffer_quick(items, left, j);
-
-	};
-
-
-
-	template <typename T>
-	/** \brief Быстрая сортировка  буфера */
-	void sortBuffer_quick(T* items, const int nLen) 
-	{
-		if(0==nLen) return;
-		sortBuffer_quick(items, 0, nLen-1);
-	};
-
-
-
-
-
-
-} // end namespace sort
-
-
-
-
-
-
-
+//  } // end ns
 
 //-------------------------------------------------------------------------
-  } // end ns
+
  } // end ns
 } // end ns
 // end file
