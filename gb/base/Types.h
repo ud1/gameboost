@@ -18,6 +18,9 @@
 	#include <stdint.h>
 #endif
 
+typedef    float      float32;
+typedef    double     float64; 
+
 #ifndef WIN32
 
 typedef struct tagPOINT
