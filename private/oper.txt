@@ -1,0 +1,24 @@
+template <typename CharT, typename Traits>
+basic_ostream<CharT, Traits>& operator<<(
+  basic_ostream<CharT, Traits>& out, const Relation& r)
+{
+  return out<< r.toString();
+}
+
+
+-------------------------
+
+
+C++ doesn't have toString, but << operator is pretty standard way of getting a string representation of an object.. So to print out some object to console output, just do
+cout << object;
+
+If you want the string out of it, use stringstream:
+stringstream ss;ss << object;string object_as_string = ss.str();
+
+And to define this operator for a new class, do a free function that is something like this:
+ostream& operator<<(ostream& out, const MyClass& x) {  out << "(" << x.attribute << " " << x.attribute2 << ")";  return out;}
+
+It won't directly support inheritance, but nothing stops you from doing it like this:
+ostream& operator<<(ostream& out, const MyClass& x) {  out << x.toString();  return out;}
+
+Where toString is a virtual toString-method for the class hierarchy whose parent class is MyClass. 
