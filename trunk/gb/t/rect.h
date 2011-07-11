@@ -4,6 +4,7 @@
 
 #include <gb/base/Point.h>
 #include <boost/array.hpp>
+#include <stdexcept>
 #include <assert.h>
 
 
