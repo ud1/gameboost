@@ -111,6 +111,26 @@ void print_vector(const std::vector<T>& v)
  
  	return res;
  }
+ 
+ 
+ template<typename T>
+ /** \brief вычисление кол-ва пустых элементов в  векторе. 
+      Требует bool empty() const  */
+ int compute_empty(const std::vector<T>& v)
+ {
+  if (v.empty() ) return 0;
+  int res = 0;
+  //const size_t NSIZE = v.size();
+  for(size_t c=0; c<v.size(); c++)
+  {
+    if( v.at(c).empty() )
+    {
+    res++;
+    }
+  }
+  return res;
+ }
+
 
  // замнить мягкой сортировкой.
 
@@ -280,24 +300,6 @@ void print_vector(const std::vector<T>& v)
 	 return res;
  }
 
-
- template<typename T>
- /** \brief вычисление кол-ва пустых элементов в  векторе. 
-      Требует bool empty() const  */
- int compute_empty(const std::vector<T>& v)
- {
-  if (v.empty() ) return 0;
-  int res = 0;
-  const size_t NSIZE = v.size();
-  for(size_t c=0; c<NSIZE; c++)
-  {
-    if( v.at(c).empty() )
-    {
-    res++;
-    }
-  }
-  return res;
- }
 
 
 template <typename T>

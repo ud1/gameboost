@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <gb/base/Types.h>
+#include "../base/Types.h"
 #include <string>
 #include <vector>
 #include <stdexcept>
@@ -23,11 +23,7 @@ namespace gb
 
 	namespace t
 	{
-
-
-
-
-//#define throw_cast  throw(std::runtime_error&)
+ 
 
 class Any 
 {
@@ -82,13 +78,25 @@ public:
 	}
 
 	template <typename T>
-	Any(const T& value)
+	Any(const T value)
 	{
 		T _local = value;
 		*this = _local;
 	}
 
+	Any(const Any& a) 
+	{
+	   *this = a;
+	}
+
 	~Any() {}
+
+	void operator = (const Any& a)
+	{
+		m_any = a.m_any;
+		m_element_size = a.m_element_size;
+		m_num_elements = a.m_num_elements;
+	}
 
 	template <typename T>
 	void operator = (const T value)
@@ -109,6 +117,7 @@ public:
 		}
 		catch(boost::bad_any_cast)
 		{
+			assert( false && "cast error" );
 			throw std::runtime_error("cast error");
 		}
 
