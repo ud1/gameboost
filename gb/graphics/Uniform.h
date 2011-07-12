@@ -1,6 +1,6 @@
 #pragma once
 #include <gb/base/IRefCountable.h>
-
+#include <gb/base/OnDeleteSignalingObject.h>
 #include "Texture.h"
 
 namespace gb
@@ -17,7 +17,7 @@ namespace gb
 		 * В случае если Uniform представляет только одно число, то
 		 * width = height = 1.
 		 */
-		class Uniform
+		class Uniform : public base::OnDeleteSignalingObject
 		{
 		public:
 			/**
