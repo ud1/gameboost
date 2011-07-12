@@ -47,11 +47,6 @@ namespace gb
 
 
 
- 
-
-/** \brief Целочисленый 4-х байтовый  цвет.   */
-typedef uint32_t    uicolor32_t;   
- 
 
 
 
