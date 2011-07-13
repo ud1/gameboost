@@ -4,7 +4,7 @@
 //#include "d3d9pch.h"
 
 
-#include <gb/fmath/fmath.h>
+#include "fmath.h"
 #include <stdlib.h>
 #include <time.h>
 

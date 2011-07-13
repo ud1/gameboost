@@ -7,9 +7,10 @@
 #pragma once
 #define __GB__BASE__RECTANGLE_H__ 
 
-#include <gb/Config.h>
-#include <gb/base/Types.h>
-#include <gb/base/Point.h>
+#include "../Config.h"
+#include "Types.h"
+#include "Point.h"
+
 #include <stdlib.h>
 #include <string>
 

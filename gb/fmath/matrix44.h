@@ -575,11 +575,11 @@ namespace gb
 			}
 
 		    //! \brief Построение матрицы отражения по плоскости plane.   ПРОВЕРЕНА! 
-			mat44& setReflection(const geom3d::plane_s& plane );
+			mat44& setReflection(const plane_s& plane );
 
 
 			//! \brief  Построение теневой матрицы.  Рендеринг теней.   ПРОВЕРЕНА!
-			mat44&  setShadow(const vec4& Light, const geom3d::plane_s&Plane );
+			mat44&  setShadow(const vec4& Light, const plane_s&Plane );
 
 			//! \brief Построение матрицы поворота по оси X на угол angle . ПРОВЕРЕНА!
 			inline mat44&  setRotationX( const float angle )  
@@ -721,7 +721,7 @@ namespace gb
 								            const vec3& vTranslation);
 
 			//! \brief Построить как матрицу трансформации 
-			mat44& setWorldTransform(const geom3d::TransformData& t);
+			mat44& setWorldTransform(const TransformData& t);
 
 
 			//! \brief Построение ортографической левосторонней проекционной матрицы. ПРОВЕРЕНА.

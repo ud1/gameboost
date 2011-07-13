@@ -2,6 +2,12 @@
  \brief ??????
 
 
+  \todo Сделать перечечения: луч, сфера, бокс, плоскость,
+  \todo   bool checkIntersectRay(const Ray3d& ray) {....} 
+  \todo   bool checkIntersecеSphere(const Sphere& sph) {....}
+  \todo  bool checkIntersectAABB(const AABB& aabb) {....} 
+  \todo  bool checkIntersectPlane(const Plane& aabb) {....} 
+
 */
 
 #pragma once
@@ -17,22 +23,18 @@ namespace gb
 	namespace fmath
 	{
 	
-	
-	
-
-	#error  rename to Ray3d
-
+ 
 	//! \brief Луч в 3-D по позиции и направлению   
-	class Ray {
+	class Ray3d {
 	public:
 	    vec3   orig; ///< точка центр луча (позиция)
 	    vec3   dir;  ///< направление луча. Должен быть нормализован.
 	   
-	   inline Ray() {}
-	   inline Ray(const Ray& r) {orig=r.orig; dir=r.dir; }
+	   inline Ray3d() {}
+	   inline Ray3d(const Ray3d& r) {orig=r.orig; dir=r.dir; }
 	   
 	   // возможно нужно убрать параметр bNeedNormalizeDir
-	   inline Ray(const  vec3& _orig, const  vec3& _dir, bool bNeedNormalizeDir=true)
+	   inline Ray3d(const  vec3& _orig, const  vec3& _dir, bool bNeedNormalizeDir=true)
        {
 	      orig=_orig;
 	      dir=_dir;
@@ -364,7 +366,14 @@ inline float distanceToPlane( plane_s& plane )   const
  
 	
 	   //! \brief  вывод на консоль.
-       inline void print() const { orig.print(); printf("  "); dir.print(); printf("  "); };
+
+       //inline void print() const 
+	   //{ 
+		//   orig.print(); printf("  "); 
+		//	dir.print(); printf("  "); 
+	   //}
+
+
 	
 	};
 		// end class

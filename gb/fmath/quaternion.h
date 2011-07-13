@@ -365,9 +365,9 @@ namespace gb
 
 		 vec3  getRotationAxis() const;
 
-		geom3d::AxiesAngle getRotationAxiesAngle() const;
+		AxiesAngle getRotationAxiesAngle() const;
 
-		geom3d::AxiesAngle toAxiesAngle() const ;
+		AxiesAngle toAxiesAngle() const ;
 
 
 		inline Quaternion& setRotationX(float theta) {
@@ -407,7 +407,7 @@ namespace gb
 		Quaternion&         setRotationAxis(const  vec3 &axis, float theta) ;
 
 
-		Quaternion&  setRotationAxis(const geom3d::AxiesAngle& aa) ;
+		Quaternion&  setRotationAxis(const AxiesAngle& aa) ;
 
 
 		//! \brief  Построить поворотный по углам эллера
@@ -426,7 +426,7 @@ namespace gb
 
 
 		//! \brief  Построить поворотный по углам эллера  
-		void setRotationEulersAngles(const geom3d::EulerAngles& ea);
+		void setRotationEulersAngles(const EulerAngles& ea);
 
 		//! \brief Построение из матрицы поворота
 		Quaternion&  setRotationMatrix(const  mat44& m);

@@ -17,11 +17,7 @@ namespace gb
 	namespace fmath
 	{
 	
-	
-
-
-xxzxczxxczxcxz
-
+#pragma message("NEED RENAME  "   __FILE__ )
 
 	/** \brief  Углы Элера. Сборка углов поворота по всем трём осям. */
 	class EulerAngles {
@@ -30,7 +26,7 @@ xxzxczxxczxcxz
 		float pitch;  ///<   Pitch around the x-axis, in radians.
 		float roll;   ///<   Roll around the z-axis, in radians.
  
-		inline EulerAngles() {};
+		inline EulerAngles() {}
 		inline EulerAngles(const EulerAngles& ea  ) {yaw=ea.yaw; pitch=ea.pitch; roll=ea.roll; };
 		inline EulerAngles(float fYaw, float fPitch, float fRoll) { yaw=fYaw;  pitch=fPitch;  roll=fRoll; };
  

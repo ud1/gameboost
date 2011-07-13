@@ -109,7 +109,7 @@ namespace gb
 		   	inline void operator = (const D3DXVECTOR3& v) {	x=v.x; y=v.y; z=v.z; }
 #endif // #ifdef __D3DX9MATH_H__
 
-			void operator = (const gb::fmath::geom3d::Point3& pnt);
+			void operator = (const Point3& pnt);
 
 
 		    inline void setzero() {x=y=z=0.0f; }
@@ -300,7 +300,7 @@ namespace gb
 			/** \brief  Проекция вектора из виртуального "зазеркалья" на экран. 
 			     Возвращает спроектированый экранный вектор. ПРОВЕРЕНА!	*/
 			vec3 project ( 
-				const proj::ViewportZ& vp,   //<  область вывода
+				const ViewportZ& vp,   //<  область вывода
 				const  mat44& Proj, //<	матрица проекции
 				const  mat44& View, //<	матрица вида
 				const  mat44& World //<	матрица модельная
@@ -311,14 +311,14 @@ namespace gb
 			/** \brief Анпроекция. Перевод из экранных координат в пространственые координаты 
 			Возвращает переведённый вектор . ПРОВЕРЕНА! */
 			vec3  unproject( 
-				const proj::ViewportZ& vp,    //<  область вывода
+				const ViewportZ& vp,    //<  область вывода
 				const  mat44& Proj,	//<	матрица проекции
 				const  mat44& View,	//<	матрица вида
 				const  mat44& World	//<	матрица модельная
 				) const	;
 
 
-#pragma message ("delete tostr() fromstr()  "  __FILE__);
+#pragma message ("delete tostr() fromstr()  "  __FILE__  )
 
 			inline void toCstr(char* buf) const 
 			{

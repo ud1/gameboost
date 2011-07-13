@@ -3,7 +3,7 @@
 //#include "stdafx.h"
 //#include "d3d9pch.h"
 
-#include <gb/fmath/fmath.h>
+#include "fmath.h"
 
 namespace gb 
 {
@@ -22,7 +22,7 @@ namespace fmath
 //=========================================================================
 
 	//=====================================================================
-	void  vec3::operator = (const geom3d::Point3& pnt)
+	void  vec3::operator = (const Point3& pnt)
 	{
      x=pnt._x;
 	 y=pnt._y;
@@ -31,7 +31,7 @@ namespace fmath
 
 	//=====================================================================
 	vec3  vec3::project ( 
-				const proj::ViewportZ& vp,
+				const ViewportZ& vp,
 				const  mat44& Proj, 
 				const  mat44& View, 
 				const  mat44& World ) const
@@ -54,7 +54,7 @@ namespace fmath
 } 
 
 //=======================================================
-vec3  vec3::unproject( const proj::ViewportZ& vp,
+vec3  vec3::unproject( const ViewportZ& vp,
 						   const  mat44& Proj, 
 				 		   const  mat44& View, 
 						   const  mat44& World) const

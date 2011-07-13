@@ -4,7 +4,7 @@
 //#include "d3d9pch.h"
 
 
-#include <gb/fmath/fmath.h>
+#include "fmath.h"
 #include <assert.h>
 
 namespace gb
@@ -13,8 +13,8 @@ namespace gb
 namespace fmath
 {
 
-namespace geom3d
-{
+//namespace geom3d
+//{
 
 
 //=========================================================================
@@ -272,7 +272,7 @@ bool Frustum::checkAABB(const AABB& aabb) const
 
 
 
-} // end ns
+//} // end ns
 
 } // end ns
 

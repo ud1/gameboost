@@ -62,7 +62,7 @@ namespace gb
 
 
 
-	   #pragma warning("delete  print()  "   __FILE__ )
+	   #pragma message("delete  print()  "   __FILE__ )
 
      //! \brief Отладочный вывод на консоль
      inline void print() const 
@@ -75,6 +75,17 @@ namespace gb
 		 printf("top=");    top.print();    printf("\n");
 		 printf("bottom="); bottom.print(); printf("\n");
  	 }
+
+	 friend std::ostream &operator << ( std::ostream &stream, const Frustum& fr )
+	 {
+		 assert(false);
+		 //stream << o.name << " ";
+		 //stream << "(" << o.areacode << ") ";
+		 //stream << o.prefix << "-" << o.num << "\n";
+
+		 return stream; 
+	 }
+
 
 
    };
