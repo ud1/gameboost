@@ -450,9 +450,8 @@ namespace gb
 
 	};
 
-
-
-//----------------------------------------------------------------------
+ 
+// static const Quaternion QUATERNION_IDENTITY = Quaternion( 0.0f, 0.0f, 0.0f, 1.0f );
 
   } // end namespace fmath
 } // end namespace gb

@@ -3,6 +3,7 @@
   \brief Стек матриц
 
 
+
   \author ksacvet777
 */
 
@@ -17,6 +18,8 @@
 
 #pragma warning(push)
 #pragma warning(disable : 4290) 
+
+#pragma message(" create self exception   "  __FILE__  )
 
 namespace gb
 {
