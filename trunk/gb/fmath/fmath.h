@@ -29,6 +29,8 @@
 #include <cstdio>
 #include <string.h>
 #include <string>
+#include <istream>
+#include <ostream>
 #include <stdexcept>
 
 #include <assert.h>
@@ -40,30 +42,55 @@
 #endif
  
 
+#ifdef _MSC_VER
 #pragma  warning(push)
 #pragma  warning(disable : 4995)
 #pragma  warning(disable : 4996)
 #pragma  warning(disable : 4290)
+#endif
 
-#include <gb/base/Types.h>
-#include <gb/base/Point.h>
-#include <gb/base/Rectangle.h>
+
+#include "../base/Types.h"
+#include "../base/Point.h"
+#include "../base/Rectangle.h"
 
  
-#include <gb/fmath/fmath_forward_decl.h>
-#include <gb/fmath/scalar.h>
-#include <gb/fmath/vectors.h>
-#include <gb/fmath/matrices.h>
-#include <gb/fmath/matrix_stack.h>
-#include <gb/fmath/quaternion.h>
-#include <gb/fmath/geom2d.h>
-#include <gb/fmath/geom3d.h>
-#include <gb/fmath/proj.h>
-#include <gb/fmath/context.h>
+#include "fmath_forward_decl.h"
+#include "scalar.h"
 
 
+#include "vectors.h"
+#include "vector2.h"
+#include "vector3.h"
+#include "vector4.h"
 
+
+#include "matrices.h"
+#include "matrix22.h"
+#include "matrix33.h"
+#include "matrix44.h"
+
+
+#include "matrix_stack.h"
+#include "quaternion.h"
+
+
+//  Наполнение на основе выложеного ребятами в папку бранч,  
+//	опенсурсных движков,   выуженого из гугла , своих наработок.
+
+
+#include "geom2d.h"
+
+#include "geom3d.h"
+
+
+#include "proj.h"
+#include "context.h"
+
+
+#ifdef _MSC_VER
 #pragma  warning(pop)
+#endif
 
 // do include static lib for VC
 #if GB_LIB
