@@ -11,7 +11,7 @@
 #endif
 
 
-#error  need rename class
+
 
 namespace gb 
 {
@@ -20,7 +20,7 @@ namespace gb
 	{
 	
 	
-	
+#pragma message("#error  need rename class  "  __FILE__ )
 
 		//! Прямоугольник по мин. и макс координате
 		class Rect {

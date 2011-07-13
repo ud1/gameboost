@@ -18,13 +18,13 @@ namespace gb
 	{
 	
 	
-	#error need this class ??
+//	#error need this class ??
 
 
 	//!  \brief Клас бесконечный прожектор по лучу (точка основания) и углу прожектора 
 	class  Projector {
 	public:
-		Ray ray;   ///< луч (центр и направление прожектора)
+		Ray3d ray;   ///< луч (центр и направление прожектора)
 		float phi; ///< угол конуса
 
 		Projector() {};

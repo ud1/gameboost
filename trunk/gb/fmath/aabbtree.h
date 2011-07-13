@@ -1,12 +1,16 @@
 ﻿/** \file
-
-
-
+*  \brief ???????
+*
+*
 */
 
+#if 0
 
 #pragma once
 
+#ifndef __GB_FMATH_H__
+#error НЕ ВКЛЮЧАЙТЕ ЭТОТ ФАЙЛ. ВКЛЮЧАЙТЕ:   #include <gb/fmath/math.h>  
+#endif
 
 
 namespace gb
@@ -15,17 +19,18 @@ namespace gb
  namespace fmath
  {
  
-   template <typename TUserType>
+   //template <typename TUserType>
    class AABBTree {
    public:
    
-     template <>
+     template <typename TUserType>
      class Node {
 	 public:
 	 
 	    TUserType value;
 		AABB aabb;
 		
+		/*
 		class Iterator {
 		public:
 			Iterator(const Node<TUserType>& node) : __node(node)
@@ -47,8 +52,10 @@ namespace gb
 		  Node<TUserType>& __node;
 		
 		};
-		
-		void add(const Node<T>& n)
+		 */
+
+
+		void push_back(const Node<T>& n)
 		{
 		  _child.push_back(n);
 		}
@@ -88,5 +95,7 @@ namespace gb
  }
 
 }
+
+#endif
 
 // end file

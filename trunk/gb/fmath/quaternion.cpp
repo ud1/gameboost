@@ -3,7 +3,7 @@
 //#include "stdafx.h"
 //#include "d3d9pch.h"
 
-#include <gb/fmath/fmath.h>
+#include "fmath.h"
 
 namespace gb 
 {
@@ -282,28 +282,28 @@ Quaternion&  Quaternion::setRotationAxis(const  vec3 &axis, float theta)
 }
 
 //=========================================================================
-inline geom3d::AxiesAngle Quaternion::getRotationAxiesAngle() const 
+inline AxiesAngle Quaternion::getRotationAxiesAngle() const 
 {
-	 geom3d::AxiesAngle res;
+	 AxiesAngle res;
 	res.angle = getRotationAngle();
 	res.axies = getRotationAxis();
 	return res;
 }
 
 //=========================================================================
-geom3d::AxiesAngle Quaternion::toAxiesAngle() const 
+AxiesAngle Quaternion::toAxiesAngle() const 
 { 
 	return getRotationAxiesAngle(); 
 }
 
 //=========================================================================
-Quaternion&  Quaternion::setRotationAxis(const geom3d::AxiesAngle& aa)
+Quaternion&  Quaternion::setRotationAxis(const AxiesAngle& aa)
 {
 	return setRotationAxis( aa.axies , aa.angle );
 }
 
 //=========================================================================
-void Quaternion::setRotationEulersAngles(const geom3d::EulerAngles& ea)
+void Quaternion::setRotationEulersAngles(const EulerAngles& ea)
 {
 	setRotationYawPitchRoll(ea.yaw, ea.pitch, ea.roll);
 }

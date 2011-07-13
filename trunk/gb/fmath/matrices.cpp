@@ -4,7 +4,7 @@
 //#include "d3d9pch.h"
 
 
-#include <gb/fmath/fmath.h>
+#include "fmath.h"
 
 namespace gb 
 {
@@ -498,13 +498,13 @@ mat44& mat44::setTransformation(const vec3& vScale,
 };
 
 //=========================================================================
-mat44& mat44::setWorldTransform(const geom3d::TransformData& t)
+mat44& mat44::setWorldTransform(const TransformData& t)
 {
 	return setTransformation(t.vScaling, t.qRotation, t.vTranslation );
 }
 
 //=========================================================================
-mat44& mat44::setReflection(const geom3d::plane_s& plane )
+mat44& mat44::setReflection(const plane_s& plane )
 {
 
 	float a, b, c, d;
@@ -531,7 +531,7 @@ mat44& mat44::setReflection(const geom3d::plane_s& plane )
 };
 
 //=========================================================================
-mat44&  mat44::setShadow(const vec4& Light, const geom3d::plane_s& Plane )
+mat44&  mat44::setShadow(const vec4& Light, const plane_s& Plane )
 {
 	float a,b,c,d;
 	const float k = sqrt( scalar::sqr(Plane.a) + scalar::sqr(Plane.b) + scalar::sqr(Plane.c) );

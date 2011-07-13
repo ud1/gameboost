@@ -7,7 +7,7 @@
 //#include "stdafx.h"
 
 
-#include <gb/fmath/fmath.h>
+#include "fmath.h"
 #include <assert.h>
 
 namespace gb
@@ -16,8 +16,8 @@ namespace gb
 namespace fmath
 {
 
-namespace geom2d
-{
+//namespace geom2d
+//{
 
 //========================================================================
 
@@ -26,7 +26,7 @@ namespace geom2d
 
 
 
-} // end namespace
+//} // end namespace
 
 } // end namespace
 

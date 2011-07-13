@@ -37,22 +37,21 @@ struct mat44;
 class  Quaternion;
 
  
-namespace geom2d
-{
+//namespace geom2d  {
 
 struct Size2d;
 class Normal2;
 class Point2;
 class Rect;
 class Circle;
-class Line;
-class Ray;
+class Line3d;
+class Ray3d;
 
-}
+//}
+
 //---------------------------------------------------------------
 
-namespace geom3d
-{
+//namespace geom3d {
 
 struct Size3d;
 class Normal3;
@@ -61,8 +60,8 @@ class Point3;
 struct AxiesAngle;
 class Sphere;
 class AABB;
-class Ray;
-class Line;
+class Ray3d;
+class Line3d;
 class EulerAngles;
 class Triangle;
 
@@ -74,12 +73,13 @@ class  Cilinder;
 
 struct TransformData;
 
-}
+//}
+
+
 //---------------------------------------------------------------
 
 
-namespace proj
-{
+//namespace proj {
 
 struct PerspectiveProjData;
 struct RelatCoord;
@@ -87,14 +87,15 @@ struct RelatCoord;
 struct vieport_s;
 class ViewportZ;
 
-}
+// }
+
 //---------------------------------------------------------------
 
 namespace context 
 {
 
 struct float_context_type_e;
-class FloatContext;
+class float_context;
 struct vector_context_type_e;
 struct matrix4x4_context_type_e;
 class GeometryContext;

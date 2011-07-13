@@ -38,6 +38,7 @@ namespace gb
 	   }
 
 
+	   /*
 	   //! \brief Вывод значений на консоль. 
 	   void print() const 
 	   {
@@ -46,7 +47,7 @@ namespace gb
 		 printf("p2= "); p2.print(); printf("\n");
 		 printf("r= %f", radius);    printf("\n");
 	   }
-
+		  */
 
 
 

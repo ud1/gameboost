@@ -4,14 +4,14 @@
 //#include "d3d9pch.h"
 
 
-#include <gb/fmath/fmath.h>
+#include "fmath.h"
 
 namespace gb 
 {
 namespace fmath 
 {
-namespace proj  
-{
+//namespace proj  
+//{
 
 //=========================================================================
 
@@ -27,7 +27,7 @@ namespace proj
 
 //=========================================================================
 
-} // end namespace
+//} // end namespace
 } // end namespace
 } // end namespace
 

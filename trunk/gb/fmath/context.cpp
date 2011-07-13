@@ -1,15 +1,10 @@
 ﻿
-//#include "pch.h"
-//#include "stdafx.h"
-//#include "d3d9pch.h"
-
-#include <gb/fmath/fmath.h>
-
+#include "fmath.h"
 
 
 using namespace gb::fmath;
-using namespace gb::fmath::geom3d;
-using namespace gb::fmath::proj;
+//using namespace gb::fmath::geom3d;
+//using namespace gb::fmath::proj;
 
 #pragma warning(disable : 4290)
 
@@ -57,8 +52,8 @@ namespace gb
 {
 namespace fmath
 {
-namespace context
-{
+//namespace context
+//{
 
 
 //=============================================================
@@ -305,7 +300,7 @@ std::string str = strarg;
 }
 
 //=============================================================
-float FloatContext::getValue_by_context_type(
+float float_context::getValue_by_context_type(
 						 const float_context_type_e::e val
 									   ) const    throw(std::runtime_error&)
 {
@@ -2659,8 +2654,8 @@ bool   vector_context_type_e::fromstr(vector_context_type_e::e& valOut, const ch
 
 
 
-}
-// end namespace
+//}
+//  // end namespace
 }
 // end namespace
 }

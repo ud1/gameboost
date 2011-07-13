@@ -17,21 +17,17 @@ namespace gb
 	namespace fmath
 	{
 	
-	
-	
-	
-#error need rename to Line3d
-
+ 
 
 	//! \brief   Линия(Прямая) в трёхмерном пространстве по двум точкам  
-	class Line {
+	class Line3d {
 	public:
 		 vec3   src; 
 		 vec3   dest;
 
-		inline Line() {};
-		inline Line(const Line& l) {src=l.src; dest=l.dest; };	
-		inline Line(const  vec3& _src, const  vec3& _dest) {src=_src; dest=_dest; };
+		inline Line3d() {};
+		inline Line3d(const Line3d& l) {src=l.src; dest=l.dest; };	
+		inline Line3d(const  vec3& _src, const  vec3& _dest) {src=_src; dest=_dest; };
 
 		//! \brief Получить направление от src к dest
 		inline  vec3 direction() const {  vec3 r (dest - src); r.normalize(); return r; }
@@ -57,7 +53,11 @@ namespace gb
 
 
 		//! вывод на консоль.
-		inline void print() const { src.print(); printf("  "); dest.print(); printf("  \n"); };
+		//inline void print() const 
+		//{ 
+		//	src.print(); printf("  "); 
+		//	dest.print(); printf("  \n"); 
+		//};
 
 	}; // Line
 

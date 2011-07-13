@@ -299,11 +299,13 @@ namespace gb
 				return stream;
 			}
 
-			friend std::istream &operator >> (std::istream &stream, vec2& v)
-			{
-				stream >> v.x >> " " >> v.y ;
-				return stream;
-			}
+#pragma message("NEED operator >>  "  __FILE__ )
+
+			//friend std::istream &operator >> (std::istream &stream, vec2& v)
+			//{
+			//	stream >> v.x >> " " >> v.y ;
+			//	return stream;
+			//}
 
 
  /*

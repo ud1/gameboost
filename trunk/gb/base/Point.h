@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <gb/Config.h>
-#include <gb/base/Types.h>
+#include "../Config.h"
+#include "Types.h"
 #include <stdlib.h>
 #include <string>
 #include <stdio.h>

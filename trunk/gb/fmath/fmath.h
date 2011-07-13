@@ -27,10 +27,11 @@
 #include <float.h>
 #include <stdlib.h>
 #include <cstdio>
-#include <string.h>
+//#include <string.h>
 #include <string>
 #include <istream>
 #include <ostream>
+#include <sstream>
 #include <stdexcept>
 
 #include <assert.h>
@@ -44,9 +45,7 @@
 
 #ifdef _MSC_VER
 #pragma  warning(push)
-#pragma  warning(disable : 4995)
-#pragma  warning(disable : 4996)
-#pragma  warning(disable : 4290)
+#pragma  warning(disable : 4995 4996 4290)
 #endif
 
 
@@ -54,10 +53,9 @@
 #include "../base/Point.h"
 #include "../base/Rectangle.h"
 
- 
-#include "fmath_forward_decl.h"
 #include "scalar.h"
 
+#include "fmath_forward_decl.h"
 
 #include "vectors.h"
 #include "vector2.h"
@@ -70,22 +68,58 @@
 #include "matrix33.h"
 #include "matrix44.h"
 
-
 #include "matrix_stack.h"
 #include "quaternion.h"
 
+// 2d
+#include "normal2.h"
+#include "point2.h"
+#include "size2d.h"
+#include "ray2d.h"
+#include "line2d.h"
+#include "circle.h"
+#include "rect.h"
 
-//  Наполнение на основе выложеного ребятами в папку бранч,  
-//	опенсурсных движков,   выуженого из гугла , своих наработок.
+// 3d
+#include "normal3.h"
+#include "point3.h"
+#include "size3d.h"
+#include "objcontainse.h"
+#include "plane.h"
+#include "sphere.h"
+#include "aabb.h"
+#include "oobb.h"
+#include "aabbtree.h"
+#include "ray3d.h"
+#include "axiesangle.h"
+#include "cilinder.h"
+#include "EulerAngles.h"
+#include "frustum.h"
+#include "eyedata.h"
+#include "line3d.h"
+
+#include "transformdata.h"
+#include "transformdata2.h"
+#include "triangle.h"
+#include "projector.h"
 
 
-#include "geom2d.h"
-
-#include "geom3d.h"
-
-
+// proj
 #include "proj.h"
+#include "perspective_projdata.h"
+#include "RelatCoord.h"
+#include "viewport.h"
+
+
+// context
 #include "context.h"
+#include "float_context_type_e.h"
+#include "FloatContext.h"
+#include "matrix4x4_context_type_e.h"
+#include "vector_context_type_e.h"
+#include "GeometryContext.h"
+
+
 
 
 #ifdef _MSC_VER

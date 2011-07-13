@@ -259,12 +259,13 @@ namespace gb
 				return stream;
 			}
 
+			/*
 			friend std::istream &operator >> (std::istream &stream, vec4& v)
 			{
 				stream >>v.x >> " " >> v.y >> " " >> v.z >> " " >> v.w;
 				return stream;
 			}
-
+			*/
 
 
 		}; 
