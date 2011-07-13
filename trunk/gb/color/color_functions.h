@@ -35,17 +35,17 @@ namespace gb
 
 
 /**  \brief   Построение цвета по байтам. Альфа первая.   */
-inline uicolor32_t make_color_argb( uint8_t a, uint8_t r, uint8_t g, uint8_t b )
+inline color32_t make_color_argb( uint8_t a, uint8_t r, uint8_t g, uint8_t b )
 {
 //#define MAKECOLOR_ARGB(a,r,g,b) 
 	//(( uicolor32_t)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
- uicolor32_t res =  ( (a&0xff)<<24 ) | ( (r&0xff)<<16 ) | ( (g&0xff)<<8 ) |  (b&0xff);
+ color32_t res =  ( (a&0xff)<<24 ) | ( (r&0xff)<<16 ) | ( (g&0xff)<<8 ) |  (b&0xff);
  return res;
 }
 
 
 /**   \brief  Построение цвета по байтам. Альфа последняя  */
-inline uicolor32_t make_color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a )
+inline color32_t make_color_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a )
 {
 //#define MAKECOLOR_RGBA(r,g,b,a)   
 	// MAKECOLOR_ARGB(a,r,g,b)
@@ -66,7 +66,7 @@ inline color_rgb24_s  make_rgb(uint8_t r, uint8_t g, uint8_t b)
 
 
 /**  \brief   Построение целочисленого цвета по компонентам float (0.0f ... 1.0f)  */
-inline uicolor32_t make_rgba(float r, float g, float b, float a)
+inline color32_t make_rgba(float r, float g, float b, float a)
 {
 //#define MAKECOLOR_FLOAT_RGBA(r,g,b,a) \  
 	// MAKECOLOR_RGBA((uint32_t)((r)*255.f),(uint32_t)((g)*255.f),(uint32_t)((b)*255.f),(uint32_t)((a)*255.f))
@@ -104,40 +104,40 @@ inline D3DCOLORVALUE make_d3dcolorvalue( D3DCOLOR col )
 
 
 /** \brief  Обмен компонентов R и G . */
-inline void colorSwapRG(uicolor32_t& color) 
+inline void colorSwapRG(color32_t& color) 
 {
 	register uint8_t n_g = (uint8_t)(color >> 16); 
 	register uint8_t n_r = (uint8_t)(color >> 8); 
 	
 	color = (color | 0x00FFFF00) ^ 0x00FFFF00 ;
-	color |= ((uicolor32_t)n_g << 8);
-	color |= ((uicolor32_t)n_r << 16);
+	color |= ((color32_t)n_g << 8);
+	color |= ((color32_t)n_r << 16);
 }
 
 
 
 /** \brief  Обмен компонентов R и B . */
-inline void   colorSwapRB(uicolor32_t& color) 
+inline void   colorSwapRB(color32_t& color) 
 {
 	register uint8_t n_B = (uint8_t)(color >> 16); 
 	register uint8_t n_R = (uint8_t)(color ); 
 
 	color  =  (color | 0x00FF00FF) ^ 0x00FF00FF ;
-	color |= (uicolor32_t)n_B;
-	color |= ((uicolor32_t)n_R << 16);
+	color |= (color32_t)n_B;
+	color |= ((color32_t)n_R << 16);
 }
 
  
 
 /** \brief Обмен компонентов G и B .  */
-inline void colorSwapGB(uicolor32_t&  color) 
+inline void colorSwapGB(color32_t&  color) 
 {
 	register uint8_t _g  = (uint8_t) ( color >> 8 );
 	register uint8_t _b  = (uint8_t) ( color  );
 
 	color = (color | 0x0000FFFF) ^ 0x0000FFFF ;
-	color |= ( (uicolor32_t)_g << 0);
-	color |= ( (uicolor32_t)_b << 8);  
+	color |= ( (color32_t)_g << 0);
+	color |= ( (color32_t)_b << 8);  
 }
 
 
@@ -164,22 +164,22 @@ inline uint32_t   argb_to_rgba( uint32_t val )
 //
  
  
-inline uint8_t   colorExtractA( uicolor32_t color ) 
+inline uint8_t   colorExtractA( color32_t color ) 
 {  
 	return (uint8_t)(color >> 24);   
 }
 
-inline uint8_t   colorExtractR( uicolor32_t color ) 
+inline uint8_t   colorExtractR( color32_t color ) 
 {  
 	return (uint8_t)(color >> 16);   
 }
 
-inline uint8_t   colorExtractG( uicolor32_t color ) 
+inline uint8_t   colorExtractG( color32_t color ) 
 {  
 	return (uint8_t)(color >> 8);    
 }
 
-inline uint8_t   colorExtractB( uicolor32_t color ) 
+inline uint8_t   colorExtractB( color32_t color ) 
 {  
 	return (uint8_t)color;           
 }
@@ -191,22 +191,22 @@ inline uint8_t   colorExtractB( uicolor32_t color )
 
 
  
-inline float   colorExtractAf( uicolor32_t col ) 
+inline float   colorExtractAf( color32_t col ) 
 {  
 	return ( ( (float)colorExtractA(col) ) / 255.0f ); 
 }
 
-inline float   colorExtractRf( uicolor32_t col ) 
+inline float   colorExtractRf( color32_t col ) 
 {  
 	return ( ( (float)colorExtractR(col) ) / 255.0f );  
 }
 
-inline float   colorExtractGf( uicolor32_t col ) 
+inline float   colorExtractGf( color32_t col ) 
 {  
 	return ( ( (float)colorExtractG(col) ) / 255.0f );  
 }
 
-inline float   colorExtractBf( uicolor32_t col ) 
+inline float   colorExtractBf( color32_t col ) 
 {  
 	return ( ( (float)colorExtractB(col) ) / 255.0f );  
 }
@@ -218,10 +218,10 @@ inline float   colorExtractBf( uicolor32_t col )
 
  
 
-inline void   colorSetA( uicolor32_t& col, uint8_t a ) { col |= 0xFF000000;	col ^= 0xFF000000; col |=(uicolor32_t)(a << 24); };
-inline void   colorSetR( uicolor32_t& col, uint8_t r ) { col |= 0x00FF0000; col ^= 0x00FF0000; col |=(uicolor32_t)(r << 16); };
-inline void   colorSetG( uicolor32_t& col, uint8_t g ) { col |= 0x0000FF00; col ^= 0x0000FF00; col |=(uicolor32_t)(g <<  8); };
-inline void   colorSetB( uicolor32_t& col, uint8_t b ) { col |= 0x000000FF; col ^= 0x000000FF; col |=(uicolor32_t)(b);       };
+inline void   colorSetA( color32_t& col, uint8_t a ) { col |= 0xFF000000;	col ^= 0xFF000000; col |=(color32_t)(a << 24); };
+inline void   colorSetR( color32_t& col, uint8_t r ) { col |= 0x00FF0000; col ^= 0x00FF0000; col |=(color32_t)(r << 16); };
+inline void   colorSetG( color32_t& col, uint8_t g ) { col |= 0x0000FF00; col ^= 0x0000FF00; col |=(color32_t)(g <<  8); };
+inline void   colorSetB( color32_t& col, uint8_t b ) { col |= 0x000000FF; col ^= 0x000000FF; col |=(color32_t)(b);       };
 
  
 
@@ -231,10 +231,10 @@ inline void   colorSetB( uicolor32_t& col, uint8_t b ) { col |= 0x000000FF; col 
 //
 
  
-inline void   colorSetAf( uicolor32_t& color, float a ) { colorSetA( color, (uint8_t)( a * 255.0f ) );  };
-inline void   colorSetRf( uicolor32_t& color, float r ) { colorSetR( color, (uint8_t)( r * 255.0f ) );  };
-inline void   colorSetGf( uicolor32_t& color, float g ) { colorSetG( color, (uint8_t)( g * 255.0f ) );  };
-inline void   colorSetBf( uicolor32_t& color, float b ) { colorSetB( color, (uint8_t)( b * 255.0f ) );  };
+inline void   colorSetAf( color32_t& color, float a ) { colorSetA( color, (uint8_t)( a * 255.0f ) );  };
+inline void   colorSetRf( color32_t& color, float r ) { colorSetR( color, (uint8_t)( r * 255.0f ) );  };
+inline void   colorSetGf( color32_t& color, float g ) { colorSetG( color, (uint8_t)( g * 255.0f ) );  };
+inline void   colorSetBf( color32_t& color, float b ) { colorSetB( color, (uint8_t)( b * 255.0f ) );  };
  
 
 
@@ -270,7 +270,7 @@ inline void  colorRgb24_SwapGB( color_rgb_s& color )
 
 
 /** \brief Конвертация uicolor32_t в color_rgb24_s.  */
-color_rgb24_s   color_rgb_fFrom_uicolor (uicolor32_t   color) 
+color_rgb24_s   color_rgb_fFrom_uicolor (color32_t   color) 
 { 
 	color_rgb_s res; 
 	res.r=(color >> 16); 

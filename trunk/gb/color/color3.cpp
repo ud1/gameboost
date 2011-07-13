@@ -1,9 +1,7 @@
-﻿#include "stdafx.h"
-
+﻿
 #include "color3.h"
-#include "color_functions.h"
 
-
+/*
 inline Color3f& Color3f::operator = (const uicolor32_t col) 
 {
 	r = colorExtractRf(col);
@@ -12,4 +10,4 @@ inline Color3f& Color3f::operator = (const uicolor32_t col)
 	return *this;
 };
 
-
+*/
