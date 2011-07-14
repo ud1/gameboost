@@ -2,6 +2,7 @@
 
 #include <boost/function.hpp>
 #include <vector>
+#include <cassert>
 
 namespace gb
 {
@@ -27,6 +28,14 @@ namespace gb
 			
 			SignalId addSignal(Signal signal)
 			{
+				if (!unused_signal_ids.empty())
+				{
+					SignalId result = unused_signal_ids.back();
+					signals[result] = signal;
+					unused_signal_ids.pop_back();
+					return result;
+				}
+				
 				SignalId result = signals.size();
 				signals.push_back(signal);
 				return result;
@@ -34,12 +43,20 @@ namespace gb
 			
 			void removeSignal(SignalId id)
 			{
-				signals[id] = Signal();
+				assert(signals.size() > id);
+				
+				if (signals[id])
+				{
+					signals[id] = Signal();
+					unused_signal_ids.push_back(id);
+				}
 			}
 			
 		private:
 			typedef std::vector<Signal> Signals;
 			Signals signals;
+			typedef std::vector<SignalId> UnusedSignalIds;
+			UnusedSignalIds unused_signal_ids;
 		};
 		
 	}

@@ -17,12 +17,15 @@ namespace gb
 				~VariableContainer();
 				
 				/**
-				 * \return true если пееменная была перезаписана
+				 * \return true если переменная была перезаписана
 				 */
-				bool registerVariableOverride(VariableBase *var);
+				virtual bool registerVariableOverride(VariableBase *var);
 				bool unregisterVariable(const std::string &variable_name);
 				
 				VariableBase *find(const std::string &variable_name) const;
+				
+			protected:
+				virtual void onDeleteVariableCallback(const std::string &variable_name);
 				
 			private:
 				struct VarPtr

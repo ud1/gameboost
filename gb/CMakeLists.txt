@@ -22,6 +22,8 @@ set( GAMEBOOST_SOURCES
 		base/Atlas.h base/Atlas.cpp
 		base/alignedMalloc.h base/alignedMalloc.cpp
 		base/Variable.h base/VariableUpdater.h
+		base/OnDeleteSignalingObject.h
+		base/TailedType.h
 		graphics/Font.h graphics/FontFreeType.h graphics/FontFreeType.cpp
 
 		t/clamp.h t/debug_cast.h
@@ -37,6 +39,7 @@ set( GAMEBOOST_SOURCES
 		graphics/opengl/GLShaderProgram.h graphics/opengl/GLShaderProgram.cpp
 		graphics/opengl/GLWindowRenderTarget.h graphics/opengl/GLWindowRenderTarget.cpp
 		graphics/opengl/GLRenderState.h graphics/opengl/GLRenderState.cpp
+		graphics/UniformServer.h graphics/UniformServer.cpp
 
 		engineBlocks/BaseApplication.h engineBlocks/BaseApplication.cpp engineBlocks/GameApplication.h engineBlocks/GameApplication.cpp
 		engineBlocks/EventTranslator.h engineBlocks/EventTranslator.cpp engineBlocks/InputHandlerContainer.h engineBlocks/InputHandlerMap.h
