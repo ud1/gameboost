@@ -77,6 +77,18 @@ namespace gb
 				mutable UpdateNumber update_number;
 			};
 
+			class VariableRef : public VariableBase
+			{
+			public:
+				VariableBase *referencedVariable;
+				
+				VariableRef(const std::string &name) : VariableBase(name) {}
+				
+				virtual const float *getFloats() const {return referencedVariable->getFloats();}
+				virtual int getRowsNumber() const {return referencedVariable->getRowsNumber();}
+				virtual int getColumnsNumber() const {return referencedVariable->getColumnsNumber();}
+				virtual bool isFloatingPointType() const {return referencedVariable->isFloatingPointType();}
+			};
 		}
 	}
 }

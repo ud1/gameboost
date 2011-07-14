@@ -19,7 +19,7 @@ namespace gb
 			{
 				VarPtr var_ptr;
 				var_ptr.variable = var;
-				var_ptr.unregister_signal_id = var->addSignal(boost::bind(&VariableContainer::unregisterVariable, this, var->getName()));
+				var_ptr.unregister_signal_id = var->addSignal(boost::bind(&VariableContainer::onDeleteVariableCallback, this, var->getName()));
 				
 				bool result = unregisterVariable(var->getName());
 				
@@ -51,6 +51,11 @@ namespace gb
 					return it->second.variable;
 				
 				return nullptr;
+			}
+			
+			void onDeleteVariableCallback(const std::string &variable_name)
+			{
+				unregisterVariable(variable_name);
 			}
 			
 		}		
