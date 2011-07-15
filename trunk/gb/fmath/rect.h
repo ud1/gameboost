@@ -20,7 +20,7 @@ namespace gb
 	{
 	
 	
-#pragma message("#error  need rename class  "  __FILE__ )
+#pragma message("#error  need rename class  (aabr or rect)"  __FILE__ )
 
 		//! Прямоугольник по мин. и макс координате
 		class Rect {
@@ -33,7 +33,8 @@ namespace gb
 
 
 			//! \brief Углы прямоугольника
-			struct Corners {
+			struct Corners 
+			{
 				 vec2 points[4];
 			};
  

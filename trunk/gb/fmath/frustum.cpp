@@ -1,128 +1,12 @@
-﻿
-//#include "pch.h"
-//#include "stdafx.h"
-//#include "d3d9pch.h"
-
 
 #include "fmath.h"
-#include <assert.h>
+
 
 namespace gb
 {
 
 namespace fmath
 {
-
-//namespace geom3d
-//{
-
-
-//=========================================================================
-//                          Normal3
-//=========================================================================
-
-//=========================================================================
-	Normal3& Normal3::setDirectionBetweenPoints(const Point3& pntSrc, const Point3& pntDest) 
-	{
-		 vec3 v;
-		v.x=  pntDest._x - pntSrc._x; // пусть пока так будет
-		v.y=  pntDest._y - pntSrc._y;
-		v.z=  pntDest._z - pntSrc._z;
-		*this = v;
-		return *this;
-	}
-
-
-
-
-
-
-
-//=========================================================================
-//  Sphere
-//=========================================================================
-
-
-//=========================================================================
-AABB Sphere::toAabbInside() const
-{
-  AABB res;
- 
-   static const float k =  1.0f / sqrt(1.0f+1.0f+1.0f);
-
-  res.min.x = center.x - radius * k;
-  res.min.y = center.y - radius * k;
-  res.min.z = center.z - radius * k;
-
-  res.max.x = center.x + radius * k;
-  res.max.y = center.y + radius * k;
-  res.max.z = center.z + radius * k;
-
-   return res;
-
-
-}
-
-//=========================================================================
-AABB Sphere::toAabbOutside() const
-{
-    AABB res;
- 
-  res.min.x = center.x - radius;
-  res.min.y = center.y - radius;  
-  res.min.z = center.z - radius;  
-  
-  res.max.x = center.x + radius;
-  res.max.y = center.y + radius;  
-  res.max.z = center.z + radius;   
-  
-  return res;
-
-
-
-
-}
-
-
-//=========================================================================
-//  AABB
-//=========================================================================
-
-bool AABB::checkIntersectPlane(const plane_s& pl) const
-{
-
-
-   vec3 normal = pl.normal();
-  float d = pl.d;
-
-   vec3 vmax, vmin;
- 
-     bool result= false;
-
-     for (unsigned int i= 0; i<3; i++)
-	 {
-          if (normal[i] > 0.0f) 
-		  {
-               vmin[i] =  min[i];
-               vmax[i] =  max[i];
-          } 
-		  else 
-		  {
-               vmin[i] =  max[i];
-               vmax[i] =  min[i];
-		  };
-     }
-
-     if ( normal.dot(vmin) + d >  0.0f)   return result;
-     if ( normal.dot(vmax) + d >= 0.0f)   result = true;
-	 
-	 return result;
-};
-
-
-
-//=========================================================================
-
 
 
 //=========================================================================
@@ -270,10 +154,6 @@ bool Frustum::checkAABB(const AABB& aabb) const
 
 
 
+}
+}
 
-
-//} // end ns
-
-} // end ns
-
-} // end ns

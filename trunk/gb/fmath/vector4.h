@@ -24,16 +24,18 @@ namespace gb
 		/** \brief Базовый 4d-вектор. Поправить операторы по эпислону   */		
 		struct vec4  {
 
-		    union {
+		    union 
+			{
 			
-				struct {
+				struct 
+				{
 				   float x, y, z, w;
 				};
 
 				float floats [4];
 			};
 
-			inline vec4() {};
+			inline vec4() { x=y=z=w=0.0f; };
 
 			inline vec4(const vec4& v)      { x=v.x;  y=v.y; z=v.z; w=v.w;  };
 //			inline vec4(const vec4* v)      { x=v->x;  y=v->y; z=v->z; w=v->w;  };

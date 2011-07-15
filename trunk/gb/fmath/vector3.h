@@ -23,16 +23,18 @@ namespace gb
 		/** \brief Базовый 3d-вектор.  Поправить операторы по эпислону */		
 		struct vec3  {
 
-		    union {
+		    union 
+			{
 			
-				struct {
+				struct 
+				{
 				   float x, y, z;
 				};
 
 				float floats [3];
 			};
 
-			inline vec3() {}
+			inline vec3() { x=y=z=0.0f; }
 
 			inline vec3(const vec3& v)             { x=v.x;   y=v.y;   z=v.z;   }
 			inline vec3(const vec3* v)             { x=v->x;  y=v->y; z=v->z;   }
