@@ -116,6 +116,10 @@ namespace gb
 			main_window_rt->setClearColor(0.0f, 0.7f, 1.0f, 1.0f);
 			main_window_rt->clearDepth(true);
 			main_window_rt->reshape();
+			
+			window_size_updater = boost::shared_ptr<WindowSizeVariableUpdater>(new WindowSizeVariableUpdater(device));
+			window_size = boost::shared_ptr<base::variable::Variable<math::vec2> >(new base::variable::Variable<math::vec2>("window_size", window_size_updater.get()));
+			uniform_server.registerVariableOverride(window_size.get());
 			return true;
 		}
 		

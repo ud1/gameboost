@@ -22,6 +22,7 @@ set( GAMEBOOST_SOURCES
 		base/Atlas.h base/Atlas.cpp
 		base/alignedMalloc.h base/alignedMalloc.cpp
 		base/Variable.h base/VariableUpdater.h
+		base/VariableContainer.h base/VariableContainer.cpp
 		base/OnDeleteSignalingObject.h
 		base/TailedType.h
 		graphics/Font.h graphics/FontFreeType.h graphics/FontFreeType.cpp
