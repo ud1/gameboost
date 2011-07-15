@@ -1,426 +1,22 @@
-ï»¿
+
+
 #include "fmath.h"
-
-
-using namespace gb::fmath;
-//using namespace gb::fmath::geom3d;
-//using namespace gb::fmath::proj;
-
-#pragma warning(disable : 4290)
-
-
-static void __str_touper(std::string& str)
-{
-	for(size_t c=0; c<str.length(); c++)
-	{
-		char curr = str[c];
-		curr = toupper(curr);
-		str[c] = curr;
-	}
-}
-
-
-static const char* CSTR_VIEWPROJECTION = "VIEWPROJECTION";
-static const char* CSTR_VIEWPROJECTIONINVERSE = "VIEWPROJECTIONINVERSE";
-static const char* CSTR_VIEWPROJECTIONINVERSETRANSPONE = "VIEWPROJECTIONINVERSETRANSPONE";
-static const char* CSTR_VIEWPROJECTIONTRANSPONE = "VIEWPROJECTIONTRANSPONE";
-static const char* CSTR_VIEW = "VIEW";
-static const char* CSTR_VIEWTRANSPONE = "VIEWTRANSPONE";
-static const char* CSTR_VIEWINVERSE = "VIEWINVERSE";
-static const char* CSTR_VIEWINVERSETRANSPONE = "VIEWINVERSETRANSPONE";
-static const char* CSTR_PROJECTION = "PROJECTION";
-static const char* CSTR_PROJECTIONINVERSE = "PROJECTIONINVERSE";
-static const char* CSTR_PROJECTIONTRANSPONE = "PROJECTIONTRANSPONE";
-static const char* CSTR_PROJECTIONINVERSETRANSPONE = "PROJECTIONINVERSETRANSPONE";
-static const char* CSTR_WORLDVIEWPROJECTION = "WORLDVIEWPROJECTION";
-static const char* CSTR_WORLDVIEWPROJECTIONTRANSPONE = "WORLDVIEWPROJECTIONTRANSPONE";
-static const char* CSTR_WORLDVIEWPROJECTIONINVERSE = "WORLDVIEWPROJECTIONINVERSE";
-static const char* CSTR_WORLDVIEWPROJECTIONINVERSETRANSPONE = "WORLDVIEWPROJECTIONINVERSETRANSPONE";
-static const char* CSTR_WORLD = "WORLD";
-static const char* CSTR_WORLDTRANSPONE = "WORLDTRANSPONE";
-static const char* CSTR_WORLDINVERSE = "WORLDINVERSE";
-static const char* CSTR_WORLDINVERSETRANSPONE = "WORLDINVERSETRANSPONE";
-static const char* CSTR_WORLDVIEW = "WORLDVIEW";
-static const char* CSTR_WORLDVIEWTRANSPONE = "WORLDVIEWTRANSPONE";
-static const char* CSTR_WORLDVIEWINVERSE = "WORLDVIEWINVERSE";
-static const char* CSTR_WORLDVIEWINVERSETRANSPONE = "WORLDVIEWINVERSETRANSPONE";
-
-
-
 
 namespace gb
 {
 namespace fmath
 {
-//namespace context
-//{
-
-
-//=============================================================
-std::string  float_context_type_e::tostr(const float_context_type_e::e val)
-{
-
- assert(false);
-
- std::string res;
- switch(val)
-	 {
-	 case 1: {} break;
-	 //case XXXXXX: {} break;
-
-
-	 default: 
-		 {
-
-		 }
-
-	 }
-
-  return res;
-}
-
-//=============================================================
-bool float_context_type_e::fromstr(float_context_type_e::e& valOut, 
-								   const char* strarg)
-{
-std::string str = strarg;
-   __str_touper(str);
-
-	/***************************
-   if("XXXXX" == str)
-   {
-	   valOut =  XXXXXX;
-	   return true;
-   } 
-   ******************************/
- 
-
-   if( ("TIME" == str) || ("TIME0_X" == str) )
-   {
-	   valOut =  TIME;
-	   return true;
-   } 
-
-   if( ("COSTIME" == str) || ("COSTIME0_1" == str))
-   {
-	   valOut =  COSTIME;
-	   return true;
-   } 
-
-   if( ("SINTIME" == str) || ("SINTIME0_1" == str))
-   {
-	   valOut =  SINTIME;
-	   return true;
-   } 
-
-   if( ("TANTIME" == str) || ("TANTIME0_1" == str))
-   {
-	   valOut =  TANTIME;
-	   return true;
-   } 
-
-   /**************
-   if("XXXXX" == str)
-   {
-	   valOut =  XXXXXX;
-	   return true;
-   } ****************/
-
  
 
 
-		  //TIMESPEED,
 
-		  //TAN0_2PI,
-		  //COSTIME0_2PI,
-		  //SINTIME0_PI,
-		  //TANTIME0_2PI,
-		  //TIMECYCLEPERIOD,
-
-   if("FPS" == str)
-   {
-	 valOut = FPS;
-     return true;
-   }
-
-
-   if(  ("TIMEELAPSED" == str)  || ("ELAPSED" == str) || ("DELTA" == str) )
-   {
-	 valOut = TIMEELAPSED;
-     return true;
-   }
- 
-   if("VIEWPORTWIDTH" == str)
-   {
-	   valOut =  VIEWPORTWIDTH;
-	   return true;
-   } 
-
-   if("VIEWPORTHEIGHT" == str)
-   {
-	   valOut =  VIEWPORTHEIGHT;
-	   return true;
-   } 
-
-
-   if("VIEWPORTWIDTHINVERSE" == str)
-   {
-	   valOut =  VIEWPORTWIDTHINVERSE;
-	   return true;
-   } 
-
-   if("VIEWPORTHEIGHTINVERSE" == str)
-   {
-	   valOut =  VIEWPORTHEIGHTINVERSE;
-	   return true;
-   } 
- 
-
-   if("FOV" == str)
-   {
-	   valOut =  FOV;
-	   return true;
-   } 
-
-   if( ("FARCLIPPLANE" == str) || ("FAR" == str))
-   {
-	   valOut =  FARCLIPPLANE;
-	   return true;
-   }  
-
-   if( ("NEARCLIPPLANE" == str) || ("NEAR" == str))
-   {
-	   valOut =  NEARCLIPPLANE;
-	   return true;
-   } 
-
-
-   if( ("ASPECT" == str) || ("ASP" == str) )
-   {
-	   valOut =  ASPECT;
-	   return true;
-   } 
- 
- 
-
-			  /***********************************
-		  RANDOMFRACTION1PERPASS,
-		  RANDOMFRACTION2PERPASS,
-		  RANDOMFRACTION3PERPASS,
-		  RANDOMFRACTION4PERPASS,
-
-		  RANDOMFRACTION1PEREFFECT,
-		  RANDOMFRACTION2PEREFFECT,
-		  RANDOMFRACTION3PEREFFECT,
-		  RANDOMFRACTION4PEREFFECT,
-			 ****************************************/
- 
-		  //PASSINDEX,
-
-
-   if("RIGTHMOUSEBUTTON" == str)
-   {
-	 valOut = RIGTHMOUSEBUTTON;
-     return true;
-   }
-
-   if("LEFTMOUSEBUTTON" == str)
-   {
-	 valOut = LEFTMOUSEBUTTON;
-     return true;
-   }
-
-   if("MIDDLEMOUSEBUTTON" == str)
-   {
-	 valOut = MIDDLEMOUSEBUTTON;
-     return true;
-   }
-
-   //-----------------------------------------
-  
-   if("MOUSECOORDINATEX" == str)
-   {
-	 valOut = MOUSECOORDINATEX;
-     return true;
-   }
-
- 
-   if("MOUSECOORDINATEY" == str)
-   {
-	 valOut = MOUSECOORDINATEY;
-     return true;
-   }
-
- 
-   if("MOUSECOORDINATEXNDC" == str)
-   {
-	 valOut = MOUSECOORDINATEXNDC;
-     return true;
-   }			 
-
-  
-   if("MOUSECOORDINATEYNDC" == str)
-   {
-	 valOut = MOUSECOORDINATEYNDC;
-     return true;
-   }
-
-  
-   if("MODELBOUNDINGSPHERERADIUS" == str)
-   {
-	 valOut = MODELBOUNDINGSPHERERADIUS;
-     return true;
-   }
-
-  
- //  if("SPECULARPOWER" == str)
- //  {
-//	 valOut = SPECULARPOWER;
- //    return true;
- //  }
-
- 
-
-		//  ROTATEZ,
-
-		//  BRIGHTNESS,
-
-		 // CONTRAST,
-
-		  //ALPHA,
-		  //LIGTHMAPINTENSITY,
-		  //ANIMATESPEED,
- 
-
- 
-
- 
-
-  return false;
-}
-
-//=============================================================
-float float_context::getValue_by_context_type(
-						 const float_context_type_e::e val
-									   ) const    throw(std::runtime_error&)
-{
-
-switch(val) 
-	{
- 
-case float_context_type_e::TIME : { return time;} break;
-
-case float_context_type_e::COSTIME : { return cos(time); } break;
-case float_context_type_e::SINTIME : { return sin(time); } break;
-case float_context_type_e::TANTIME : { return tan(time); } break;
- 
-//
-//case float_context_type_e::TIME0_1 : {XXXXXXXX} break;
-//case float_context_type_e::COSTIME0_1 : {XXXXXXXX} break;
-//case float_context_type_e::SINTIME0_1 : {XXXXXXXX} break;
-//case float_context_type_e::TANTIME0_1 : {XXXXXXXX} break;
-//
-//case float_context_type_e::TIMESPEED : {XXXXXXXX} break;
-//
-//case float_context_type_e::TAN0_2PI : {XXXXXXXX} break;
-//case float_context_type_e::COSTIME0_2PI : {XXXXXXXX} break;
-//case float_context_type_e::SINTIME0_PI : {XXXXXXXX} break;
-//case float_context_type_e::TANTIME0_2PI : {XXXXXXXX} break;
-//case float_context_type_e::TIMECYCLEPERIOD : {XXXXXXXX} break;
-// 
-
-case float_context_type_e::FPS : { return (float)fps; } break;
-
-case float_context_type_e::TIMEELAPSED : { return timeElapsed;} break;
-
-
-case float_context_type_e::VIEWPORTWIDTH : { return (float)viewport.width;  } break;
-case float_context_type_e::VIEWPORTHEIGHT : {return (float)viewport.height; } break;
-case float_context_type_e::VIEWPORTWIDTHINVERSE :  { return 1.0f/(float)viewport.width;  } break;
-case float_context_type_e::VIEWPORTHEIGHTINVERSE : { return 1.0f/(float)viewport.height; } break;
-
-case float_context_type_e::FOV : { return projData.fovy; } break;
-
-
-case float_context_type_e::FARCLIPPLANE  : { return projData.zf; } break;
-case float_context_type_e::NEARCLIPPLANE : { return projData.zn; } break;
-
-// 
-//case float_context_type_e::RANDOMFRACTION1PERPASS : {XXXXXXXX} break;
-//case float_context_type_e::RANDOMFRACTION2PERPASS : {XXXXXXXX} break;
-//case float_context_type_e::RANDOMFRACTION3PERPASS : {XXXXXXXX} break;
-//case float_context_type_e::RANDOMFRACTION4PERPASS : {XXXXXXXX} break;
-//
-//case float_context_type_e::RANDOMFRACTION1PEREFFECT : {XXXXXXXX} break;
-//case float_context_type_e::RANDOMFRACTION2PEREFFECT : {XXXXXXXX} break;
-//case float_context_type_e::RANDOMFRACTION3PEREFFECT : {XXXXXXXX} break;
-//case float_context_type_e::RANDOMFRACTION4PEREFFECT : {XXXXXXXX} break;
-//
-//case float_context_type_e::PASSINDEX : {XXXXXXXX} break;
-//case float_context_type_e::MIDDLEMOUSEBUTTON : {XXXXXXXX} break;
-// 
-
-case float_context_type_e::RIGTHMOUSEBUTTON : 
-	{
-	 if(mouseData.bRIghtButtonDown)
-		 {
-		 return 1.0f;
-		 }
-	 else
-		 {
-		 return 0.0f;
-		 }
-	} break;
-case float_context_type_e::LEFTMOUSEBUTTON : 
-	{
-	if(mouseData.bLeftButtonDown)
-		{
-		return 1.0f;
-		}
-	else
-		{
-		return 0.0f;
-		}
-	} break;
- 
-case float_context_type_e::MOUSECOORDINATEX : { return (float)mouseData.x; } break;
-case float_context_type_e::MOUSECOORDINATEY : { return (float)mouseData.y; } break;
-
-//case float_context_type_e::MOUSECOORDINATEXNDC : {XXXXXXXX} break;
-//case float_context_type_e::MOUSECOORDINATEYNDC : {XXXXXXXX} break;
-case float_context_type_e::MODELBOUNDINGSPHERERADIUS : 
-	{
-	         return modelBoundingSphereRadius;
-	} break;
-
-case float_context_type_e::ASPECT : {  return  projData.aspect; } break;
-
-//case float_context_type_e::SPECULARPOWER : {XXXXXXXX} break;
-//case float_context_type_e::ROTATEZ : {XXXXXXXX} break;
-//case float_context_type_e::BRIGHTNESS : {XXXXXXXX} break;
-//case float_context_type_e::CONTRAST : {XXXXXXXX} break;
-//case float_context_type_e::ALPHA : {XXXXXXXX} break;
-//case float_context_type_e::LIGTHMAPINTENSITY : {} break;
-//case float_context_type_e::ANIMATESPEED : {} break;
-
- 
-
-			default:
-				{
-
-				}
- 
-
-	 }
-
-throw std::runtime_error("value not found");
-	return 0.0f;
-}
-
+//=========================================================================
+//				GeometryContext								
 //=========================================================================
 
 
-//============================================================= 
+
+//=========================================================================
 long  GeometryContext::setMatrices(const mat44 *mWorld, const mat44 *mView, const mat44 *mProj) 
 {
   long  hr = 0;
@@ -848,7 +444,7 @@ const mat44 *GeometryContext::get_matrix_WorldViewTranspone()const
   return  &m_matr.mWorldViewTranspone.matrix;
 };
 
-//#error Ð”ÐžÐ”Ð•Ð›ÐÐ¢Ð¬ Ð”ÐÐ›Ð¬Ð¨Ð• !!!!
+//#error ÄÎÄÅËÀÒÜ ÄÀËÜØÅ !!!!
 
 
 //====================================================================  
@@ -1115,7 +711,7 @@ void GeometryContext::__checkViewVectors()const
   if (m_matr.mViewInverse.bChangeFlag)
   {
     get_matrix_ViewInverse();
-    #pragma message ("ÐŸÐ ÐžÐ’Ð•Ð Ð˜Ð¢Ð¬ ÐŸÐžÐ›Ð£Ð§Ð•ÐÐ˜Ð• Ð’Ð•ÐšÐ¢ÐžÐ ÐžÐ’  Ð’Ð˜Ð”Ð Ð˜Ð— Ð˜ÐÐ’Ð•Ð Ð¡ÐÐžÐ™ Ð’Ð˜Ð”ÐžÐ’ÐžÐ™ ÐœÐÐ¢Ð Ð˜Ð¦Ð« ")
+    #pragma message ("ÏÐÎÂÅÐÈÒÜ ÏÎËÓ×ÅÍÈÅ ÂÅÊÒÎÐÎÂ  ÂÈÄÀ ÈÇ ÈÍÂÅÐÑÍÎÉ ÂÈÄÎÂÎÉ ÌÀÒÐÈÖÛ ")
     m_VewPos = *((vec3*) &m_matr.mViewInverse.matrix._41);
     m_ViewDir = *((vec3*) &m_matr.mViewInverse.matrix._31);
     m_ViewUp = *((vec3*) &m_matr.mViewInverse.matrix._21);
@@ -1158,7 +754,7 @@ const vec4 *GeometryContext::get_vector4_ViewUp()const
 //====================================================================  
 const vec3 *GeometryContext::get_vector3_ViewSide()const
 {
-  #pragma message ("ÐŸÐ ÐžÐ’Ð•Ð Ð˜Ð¢Ð¬ ÐŸÐžÐ›Ð£Ð§Ð•ÐÐ˜Ð• Ð‘ÐžÐšÐžÐ’ÐžÐ“Ðž Ð’Ð•ÐšÐ¢ÐžÐ Ð Ð’Ð˜Ð”Ð")
+  #pragma message ("ÏÐÎÂÅÐÈÒÜ ÏÎËÓ×ÅÍÈÅ ÁÎÊÎÂÎÃÎ ÂÅÊÒÎÐÀ ÂÈÄÀ")
  // D3DXVec3Cross(&m_vec3Temp, &m_ViewDir, &m_ViewUp);
   m_vec3Temp =	m_ViewDir.cross( m_ViewUp );
 
@@ -1542,7 +1138,7 @@ EyeData GeometryContext::getViewParams()const
 //=======================================================
 const EyeData *GeometryContext::getViewParamsPtr()const
 {
-  #pragma message ("ÐŸÐžÐ“ÐžÐÐ¯Ð¢Ð¬ Ð’ ÐžÐ¢Ð›ÐÐ”ÐšÐ• Ð­Ð¢ÐžÐ¢ ÐœÐ•Ð¢ÐžÐ”")
+  #pragma message ("ÏÎÃÎÍßÒÜ Â ÎÒËÀÄÊÅ ÝÒÎÒ ÌÅÒÎÄ")
  
 
   const mat44 *pmViewInv = get_matrix_ViewInverse();
@@ -1551,12 +1147,12 @@ const EyeData *GeometryContext::getViewParamsPtr()const
   {
 	 m_EyeData.decomposeInverseView(m_matr.mViewInverse.matrix);
 
-   // #pragma message ("ÐŸÐ ÐžÐ’Ð•Ð Ð˜Ð¢Ð¬ ÐŸÐžÐ›Ð£Ð§Ð•ÐÐ˜Ð• Ð’Ð•ÐšÐ¢ÐžÐ ÐžÐ’  Ð’Ð˜Ð”Ð Ð˜Ð— Ð˜ÐÐ’Ð•Ð Ð¡ÐÐžÐ™ Ð’Ð˜Ð”ÐžÐ’ÐžÐ™ ÐœÐÐ¢Ð Ð˜Ð¦Ð« ")
+   // #pragma message ("ÏÐÎÂÅÐÈÒÜ ÏÎËÓ×ÅÍÈÅ ÂÅÊÒÎÐÎÂ  ÂÈÄÀ ÈÇ ÈÍÂÅÐÑÍÎÉ ÂÈÄÎÂÎÉ ÌÀÒÐÈÖÛ ")
    // m_EyeData.eyePosition = *((vec3*) &m_matr.mViewInverse.matrix._41);
    // vec3 vViewDir = *((vec3*) &m_matr.mViewInverse.matrix._31);
    // m_EyeData.eyeUp = *((Normal3*) &m_matr.mViewInverse.matrix._21);
 
-    #pragma message("ks777  ÐŸÐ ÐžÐ’Ð•Ð Ð˜Ð¢Ð¬ !!!!  " __FILE__)
+    #pragma message("ks777  ÏÐÎÂÅÐÈÒÜ !!!!  " __FILE__)
       assert(false&&"NEED CKECK!! ");
    // float fDistToCenter = vViewDir.length();  // D3DXVec3Length(&vViewDir);
 
@@ -1850,7 +1446,7 @@ const TransformData  *GeometryContext::getWorldTransformDataPtr()const
 
 
    assert(false);
-   // Ð´Ð°Ð»ÑŒÑˆÐµ Ð½Ð²Ð°Ð´Ð¾ Ñ€Ð°Ð·Ð¾Ð±Ñ€Ð°Ñ†Ñ†Ð¾ !!
+   // äàëüøå íâàäî ðàçîáðàööî !!
 
 	 // NEW !!!!
 	// m_qRotation.toAxiesAngle(  m_TransformData.rot.vRotAx,  m_TransformData.rot.fAngle  );
@@ -2008,14 +1604,14 @@ int  GeometryContext::setWorldRotationVal(float axX, float axY, float axZ, float
 
    assert(false);
  
-   // ÐÐÐ”Ðž ÐŸÐžÐŸÐ ÐÐ’Ð˜Ð¢Ð¬ Ð­Ð¢ÐžÐ¢ ÐšÐžÐ”!!!
+   // ÍÀÄÎ ÏÎÏÐÀÂÈÒÜ ÝÒÎÒ ÊÎÄ!!!
 //  trd.rot.vRotAx.x = axX;
  // trd.rot.vRotAx.y = axY;
 //  trd.rot.vRotAx.z = axZ;
 
-   // Ð‘Ð«Ð›Ðž
+   // ÁÛËÎ
  // D3DXVec3Normalize(&trd.rot.vRotAx, &trd.rot.vRotAx);
-  // ÐÐÐ”Ðž	 
+  // ÍÀÄÎ	 
   //>>>>>  trd.rot.normalize();
 
 
@@ -2647,19 +2243,6 @@ bool   vector_context_type_e::fromstr(vector_context_type_e::e& valOut, const ch
 };
 
 
-
-
-//=================================================================
-
-
-
-
-//}
-//  // end namespace
+ 
 }
-// end namespace
 }
-// end namespace
-
-
-// end file

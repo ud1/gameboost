@@ -23,7 +23,8 @@ namespace gb
 		/** \brief Базовый 2d-вектор.  Поправить операторы по эпислону */
 		struct vec2 {
 
-				union {
+				union 
+				{
 
 					struct 
 					{
@@ -33,13 +34,13 @@ namespace gb
 					float floats [2];
 				};
 
-			    inline vec2() {}
+			    inline vec2() { x=y=0.0f; }
 
 			    inline vec2(const vec2& v)      { x=v.x;  y=v.y;  }
 				inline vec2(const vec2* v)      { x=v->x;  y=v->y;    }
 
 			    inline vec2(float _x, float _y)   { x=_x;   y=_y;   }
-			    //inline vec2(int   _x, int   _y)   { x=(float)_x;   y=(float)_y; }
+ 
 
 				inline vec2(const float* pfArray) { *this = pfArray; }
 
