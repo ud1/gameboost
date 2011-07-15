@@ -5,6 +5,8 @@
 #include <gb/graphics/Device.h>
 #include <gb/fs/FileSystem.h>
 #include <gb/engineBlocks/CameraInput.h>
+#include <gb/graphics/UniformServer.h>
+#include <boost/shared_ptr.hpp>
 
 namespace gb
 {
@@ -28,6 +30,8 @@ namespace gb
 			window_subsystem::PWindow main_window;
 			graphics::PDevice device;
 			graphics::PRenderTarget main_window_rt;
+			graphics::UniformServer uniform_server;
+			boost::shared_ptr<base::variable::Variable<math::vec2> > window_size;
 			fs::PFileSystem file_system;
 			CameraInput camera;
 			
@@ -56,6 +60,38 @@ namespace gb
 			private:
 				BaseApplication *app;
 			};
+			
+			class WindowSizeVariableUpdater : public base::variable::VariableUpdater<math::vec2>
+			{
+			public:
+				WindowSizeVariableUpdater(const graphics::PDevice &device) : device(device) {}
+				
+				virtual void setInitialValue(math::vec2 &value)
+				{
+					value = getSize();
+				}
+				
+				virtual bool update(math::vec2 &value)
+				{
+					math::vec2 size = getSize();
+					if (value == size)
+						return false;
+					
+					value = size;
+					return true;
+				}
+			private:
+				graphics::PDevice device;
+				
+				math::vec2 getSize()
+				{
+					int width, height;
+					device->getSize(width, height);
+					return math::vec2((float) width, (float) height);
+				}
+			};
+			
+			boost::shared_ptr<WindowSizeVariableUpdater> window_size_updater;
 			
 			/** Должна проинициализировать input, который после этого автоматически установится к окну */
 			virtual void setupInputHandler();

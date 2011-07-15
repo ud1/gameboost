@@ -30,28 +30,14 @@ namespace gb
 			};
 			
 			template<typename T>
-			class Variable : public VariableBase
+			class TypedVariable : public VariableBase
 			{
 			public:
 				typedef unsigned long UpdateNumber;
 				
-				Variable(const std::string &name, VariableUpdater<T> &updater) : VariableBase(name), updater(updater)
+				TypedVariable(const std::string &name) : VariableBase(name)
 				{
 					update_number = 0;
-					updater.setInitialValue(value);
-				}
-				
-				const T& getValue() const
-				{
-					if (updater.update(value))
-						++update_number;
-					
-					return value;
-				}
-				
-				virtual const float *getFloats() const
-				{
-					return (const float *) &getValue();
 				}
 				
 				virtual int getRowsNumber() const
@@ -71,10 +57,50 @@ namespace gb
 				
 				UpdateNumber getUpdateNumber() const {return update_number;}
 				
-			private:
-				mutable T value;
-				VariableUpdater<T> &updater;
+			protected:
 				mutable UpdateNumber update_number;
+			};
+			
+			template<typename T>
+			class Variable : public TypedVariable<T>
+			{
+			public:
+				typedef unsigned long UpdateNumber;
+				typedef TypedVariable<T> Base;
+				
+				Variable(const std::string &name, VariableUpdater<T> *updater) : TypedVariable<T>(name), updater(updater)
+				{
+					Base::update_number = 0;
+					
+					if (updater)
+						updater->setInitialValue(value);
+				}
+				
+				const T& getValue() const
+				{
+					if (updater && updater->update(value))
+						++Base::update_number;
+					
+					return value;
+				}
+				
+			protected:
+				mutable T value;
+				VariableUpdater<T> *updater;
+			};
+			
+			template<typename T>
+			class AutonomousVariable : public Variable<T>
+			{
+			public:
+				typedef Variable<T> Base;
+				AutonomousVariable(const std::string &name) : Base(name, nullptr) {}
+				
+				void updateValue(const T &new_value)
+				{
+					Base::value = new_value;
+					++Base::update_number;
+				}
 			};
 
 			class VariableRef : public VariableBase

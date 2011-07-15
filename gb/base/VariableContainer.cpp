@@ -45,7 +45,7 @@ namespace gb
 		
 			VariableBase *VariableContainer::find(const std::string &variable_name) const
 			{
-				Variables::iterator it = variables.find(variable_name);
+				Variables::const_iterator it = variables.find(variable_name);
 				
 				if (it != variables.end())
 					return it->second.variable;
@@ -53,7 +53,7 @@ namespace gb
 				return nullptr;
 			}
 			
-			void onDeleteVariableCallback(const std::string &variable_name)
+			void VariableContainer::onDeleteVariableCallback(const std::string &variable_name)
 			{
 				unregisterVariable(variable_name);
 			}
