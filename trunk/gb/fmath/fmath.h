@@ -64,6 +64,7 @@
 
 
 #include "matrices.h"
+
 #include "matrix22.h"
 #include "matrix33.h"
 #include "matrix44.h"
@@ -105,14 +106,14 @@
 
 
 // proj
-#include "proj.h"
+//#include "proj.h"
 #include "perspective_projdata.h"
 #include "RelatCoord.h"
 #include "viewport.h"
 
 
 // context
-#include "context.h"
+//#include "context.h"
 #include "float_context_type_e.h"
 #include "FloatContext.h"
 #include "matrix4x4_context_type_e.h"
