@@ -8,6 +8,35 @@ namespace fmath
 {
  
 
+	
+
+		static const char* CSTR_VIEWPROJECTION = "VIEWPROJECTION";
+		static const char* CSTR_VIEWPROJECTIONINVERSE = "VIEWPROJECTIONINVERSE";
+		static const char* CSTR_VIEWPROJECTIONINVERSETRANSPONE = "VIEWPROJECTIONINVERSETRANSPONE";
+		static const char* CSTR_VIEWPROJECTIONTRANSPONE = "VIEWPROJECTIONTRANSPONE";
+		static const char* CSTR_VIEW = "VIEW";
+		static const char* CSTR_VIEWTRANSPONE = "VIEWTRANSPONE";
+		static const char* CSTR_VIEWINVERSE = "VIEWINVERSE";
+		static const char* CSTR_VIEWINVERSETRANSPONE = "VIEWINVERSETRANSPONE";
+		static const char* CSTR_PROJECTION = "PROJECTION";
+		static const char* CSTR_PROJECTIONINVERSE = "PROJECTIONINVERSE";
+		static const char* CSTR_PROJECTIONTRANSPONE = "PROJECTIONTRANSPONE";
+		static const char* CSTR_PROJECTIONINVERSETRANSPONE = "PROJECTIONINVERSETRANSPONE";
+		static const char* CSTR_WORLDVIEWPROJECTION = "WORLDVIEWPROJECTION";
+		static const char* CSTR_WORLDVIEWPROJECTIONTRANSPONE = "WORLDVIEWPROJECTIONTRANSPONE";
+		static const char* CSTR_WORLDVIEWPROJECTIONINVERSE = "WORLDVIEWPROJECTIONINVERSE";
+		static const char* CSTR_WORLDVIEWPROJECTIONINVERSETRANSPONE = "WORLDVIEWPROJECTIONINVERSETRANSPONE";
+		static const char* CSTR_WORLD = "WORLD";
+		static const char* CSTR_WORLDTRANSPONE = "WORLDTRANSPONE";
+		static const char* CSTR_WORLDINVERSE = "WORLDINVERSE";
+		static const char* CSTR_WORLDINVERSETRANSPONE = "WORLDINVERSETRANSPONE";
+		static const char* CSTR_WORLDVIEW = "WORLDVIEW";
+		static const char* CSTR_WORLDVIEWTRANSPONE = "WORLDVIEWTRANSPONE";
+		static const char* CSTR_WORLDVIEWINVERSE = "WORLDVIEWINVERSE";
+		static const char* CSTR_WORLDVIEWINVERSETRANSPONE = "WORLDVIEWINVERSETRANSPONE";
+
+
+
 
 
 //=========================================================================
@@ -2212,7 +2241,13 @@ bool   vector_context_type_e::fromstr(vector_context_type_e::e& valOut, const ch
 
 	std::string str = strarg;
 
-	__str_touper(str);
+	//__str_touper(str);
+	for(size_t c=0; c<str.length(); c++ )
+	{
+		str[c] = toupper( str[c] );
+	}
+
+
  
 	if( ("VIEWPOSITION" == str) || ("VIEW_POSITION" == str) || ("VIEWPOS" == str))
 	{
