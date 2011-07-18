@@ -63,6 +63,14 @@
 #include "vector4.h"
 
 
+// new matrix template
+#include "matrix.hpp"
+#include "matrix_quad.hpp"
+#include "matrix2x2.hpp"
+#include "matrix3x3.hpp"
+#include "matrix4x4.hpp"
+
+
 #include "matrices.h"
 
 #include "matrix22.h"
