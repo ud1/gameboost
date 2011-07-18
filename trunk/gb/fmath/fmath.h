@@ -62,6 +62,11 @@
 #include "vector3.h"
 #include "vector4.h"
 
+#include "vector2.hpp"
+#include "vector3.hpp"
+#include "vector4.hpp"
+
+
 
 // new matrix template
 #include "matrix.hpp"
