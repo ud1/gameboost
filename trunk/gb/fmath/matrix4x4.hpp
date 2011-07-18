@@ -27,6 +27,30 @@ namespace gb
 	struct matrix4x4 : public matrix_quad<T,4> {
 	 /// ....
 	 
+	 
+		inline matrix4x4<T> () {}
+		
+		inline matrix4x4<T> (const inline matrix4x4<T>& a) 
+		{
+			*this = a;
+		}
+	 
+		inline vector4<T> get_row_vector() const 
+		{
+			inline vector4<T> res;
+			assert(false);	/// ????? xxxxx
+			return res;
+		}
+		
+		
+		inline vector4<T> get_column_vector() const
+		{
+			inline vector4<T> res;
+			assert(false);  /// ????? xxxxx
+			return res;
+		}
+
+	 
 	};
 
  
