@@ -1,4 +1,4 @@
-#include <gb/base/Atomic.h>
+#include "Atomic.h"
 
 #if defined(_WIN32)
 #include <Windows.h>
