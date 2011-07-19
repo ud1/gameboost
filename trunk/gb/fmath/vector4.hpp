@@ -1,4 +1,4 @@
-// vector4.hpp
+п»ї// vector4.hpp
 
 #ifndef __VECTOR4_H__
 #define __VECTOR4_H__
@@ -11,7 +11,6 @@ namespace gb
 
 	namespace fmath
 	{
-	
 	
 		template <typename T>
 		struct vector4 {
@@ -188,13 +187,13 @@ namespace gb
 
 				
 			
-			//! \brief Обнулить все компоненты  old:  setzero
+			//! \brief РћР±РЅСѓР»РёС‚СЊ РІСЃРµ РєРѕРјРїРѕРЅРµРЅС‚С‹  old:  setzero
 		    inline void set_zero()
 			{ 
 				x = y = z = w = T();
 			}
 			
-			//! проверить равны ли все компоненты нулю   old :  empty
+			//! РїСЂРѕРІРµСЂРёС‚СЊ СЂР°РІРЅС‹ Р»Рё РІСЃРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РЅСѓР»СЋ   old :  empty
 			inline bool is_zero() const
 			{
 				const T _ZERO = T();
@@ -210,25 +209,25 @@ namespace gb
 				return *this; 
 			}
  
-			//! \brief  Все ли компоненты нулевые по эпсилону.    old:  isZero
+			//! \brief  Р’СЃРµ Р»Рё РєРѕРјРїРѕРЅРµРЅС‚С‹ РЅСѓР»РµРІС‹Рµ РїРѕ СЌРїСЃРёР»РѕРЅСѓ.    old:  isZero
 			inline bool is_zero(const T epsilon) const
 			{
 				return( abs( x ) <= epsilon ) && ( abs( y ) <= epsilon ) && ( abs( z ) <= epsilon ) && ( abs( y ) <= epsilon );
 			}
 
-			//! \brief  получить длинну
+			//! \brief  РїРѕР»СѓС‡РёС‚СЊ РґР»РёРЅРЅСѓ
 			inline T length () const
 			{
 				return (T) sqrt( x*x + y*y + z*z + w*w );
 			}
 			
-			//! \brief  получить квадрат длинны  old:  lengthSq
+			//! \brief  РїРѕР»СѓС‡РёС‚СЊ РєРІР°РґСЂР°С‚ РґР»РёРЅРЅС‹  old:  lengthSq
 			inline T length_sq() const
 			{
 				return ( x*x + y*y + z*z + w*w );
 			}
 
-			//! \brief   Вернуть скалярное произведение с вектором v
+			//! \brief   Р’РµСЂРЅСѓС‚СЊ СЃРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ СЃ РІРµРєС‚РѕСЂРѕРј v
 			inline T   dot (const vector4<T>& a) const
 			{
 				return x * a.x + y * a.y + z * a.z + w * a.w;
@@ -237,7 +236,7 @@ namespace gb
 			
 #pragma message ("KS777: MATH::vector4<T> >> NEED CHECK CROSS METHOD !!!"  __FILE__)
 
-			//! \brief Получить векторное (перекрестное)  произведение с вектором v.
+			//! \brief РџРѕР»СѓС‡РёС‚СЊ РІРµРєС‚РѕСЂРЅРѕРµ (РїРµСЂРµРєСЂРµСЃС‚РЅРѕРµ)  РїСЂРѕРёР·РІРµРґРµРЅРёРµ СЃ РІРµРєС‚РѕСЂРѕРј v.
 			inline vector4<T>  cross ( const vector4<T> & v) const
 			{
 				vector4<T> r;
@@ -250,7 +249,7 @@ namespace gb
 
 
 			/*************************************************
-			// НЕПРАВИЛЬНО !!!!
+			// РќР•РџР РђР’РР›Р¬РќРћ !!!!
 			void cross( const vector4<T>& U, const vector4<T>& V, const vector4<T>& W )   
 			{
 				assert(false && "bad code !");
@@ -274,7 +273,7 @@ namespace gb
 			
 			
 
-			//! \brief  Инвертировать.
+			//! \brief  РРЅРІРµСЂС‚РёСЂРѕРІР°С‚СЊ.
 			inline vector4<T>&   invert()
 			{ 
 				x = -x; 
@@ -284,13 +283,13 @@ namespace gb
 				return *this; 
 			}
 			
-			//! \brief  Вернуть инвертированый.
+			//! \brief  Р’РµСЂРЅСѓС‚СЊ РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅС‹Р№.
 			inline vector4<T>    inverted() const 
 			{
 				return vector4<T> ( -x, -y, -z, -w );
 			}
 
-			//! \brief  Вернуть вектор по линейной интерполяции между this и v  по коэффициенту k
+			//! \brief  Р’РµСЂРЅСѓС‚СЊ РІРµРєС‚РѕСЂ РїРѕ Р»РёРЅРµР№РЅРѕР№ РёРЅС‚РµСЂРїРѕР»СЏС†РёРё РјРµР¶РґСѓ this Рё v  РїРѕ РєРѕСЌС„С„РёС†РёРµРЅС‚Сѓ k
 			inline vector4<T>    lerp(const vector4<T>& v, const T k) 
 			{
 				vector4<T> r;
@@ -303,7 +302,7 @@ namespace gb
 
 
 
-			//! \brief  Получить минимальную компоненту.  old: minval
+			//! \brief  РџРѕР»СѓС‡РёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ.  old: minval
 			inline T min_value() const 
 			{ 	  
 				T res = x;
@@ -313,7 +312,7 @@ namespace gb
 				return res;
 			}
 
-			//! \brief Получить максимальную компоненту.  old: maxval
+			//! \brief РџРѕР»СѓС‡РёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ.  old: maxval
 			inline T max_value() const
 			{   
 				T res = x;
@@ -323,7 +322,7 @@ namespace gb
 				return res;
 			}	
  
-			/** \brief  вычисл. минимальной абсолютной компоненты.   old:  minAbsVal   */
+			/** \brief  РІС‹С‡РёСЃР». РјРёРЅРёРјР°Р»СЊРЅРѕР№ Р°Р±СЃРѕР»СЋС‚РЅРѕР№ РєРѕРјРїРѕРЅРµРЅС‚С‹.   old:  minAbsVal   */
 			inline T min_abs_value() const 
 			{ 
 				T ax = abs(x); 
@@ -337,7 +336,7 @@ namespace gb
 				return res; 
 			}
 
-			/** \brief  вычисл. максимальной абсолютной компоненты.    old:  maxAbsVal    */
+			/** \brief  РІС‹С‡РёСЃР». РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ Р°Р±СЃРѕР»СЋС‚РЅРѕР№ РєРѕРјРїРѕРЅРµРЅС‚С‹.    old:  maxAbsVal    */
 			inline T max_abs_value() const 
 			{ 
 				T ax = abs(x); 
@@ -352,7 +351,7 @@ namespace gb
 			}
 
 
-			//! \brief Выполнить отсечение значений в диапазоне между vmin и vmax
+			//! \brief Р’С‹РїРѕР»РЅРёС‚СЊ РѕС‚СЃРµС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РІ РґРёР°РїР°Р·РѕРЅРµ РјРµР¶РґСѓ vmin Рё vmax
 			vector4<T>&  clump(const vector4<T>& vmin, const vector4<T>& vmax) 
 			{
 				if( x < vmin.x) x = vmin.x;  if(x > vmax.x) x = vmax.x;

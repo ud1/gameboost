@@ -30,7 +30,7 @@ namespace gb
 	 
 		inline matrix4x4<T> () {}
 		
-		inline matrix4x4<T> (const inline matrix4x4<T>& a) 
+		inline matrix4x4<T> (const  matrix4x4<T>& a) 
 		{
 			*this = a;
 		}
