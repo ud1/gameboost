@@ -148,14 +148,12 @@ namespace gb
 
 			inline operator  const T*() const  { return (T*)&x; }
 			inline operator        T*()        { return (T*)&x; }
-
-#pragma message("!!NEED replace exception  to   bad index  "   __FILE__ )
-
-			inline T operator [] (const size_t index) const throw()
+ 
+			inline T operator [] (const size_t index) const throw(std::bad_cast)
 			{
 				if(index>1)
 				{
-					throw std::runtime_error("invalid index");
+					throw std::bad_cast("bad cast");
 				}
 				
 				const T* parray = &x;
@@ -283,7 +281,7 @@ namespace gb
 				return x * a.x  +  y * a.y;
 			}
 
-#pragma message("??????? ccw  .... "   __FILE__ )
+ 
 			
 			//! \brief Returns the z-component by taking the cross product of two 2D vectors.  ПРОВЕРЕНА!  
 			T ccw(const vector2<T>& v) const;			
@@ -451,7 +449,7 @@ namespace gb
 			//!  \brief   Вернёт true если все компоненты положительные.  old:  isPositive
 			inline bool is_positive() const 
 			{  
-				return ( (x>=0.0f) && (y>=0.0f) );  
+				return ( (x >= 0.0f) && (y >= 0.0f) );  
 			}
  
 
@@ -460,29 +458,18 @@ namespace gb
 				stream << v.x << " " << v.y;
 				return stream;
 			}
-
-			#pragma message("NEED operator >> for vector2 "  __FILE__ )
-
-			//friend std::istream &operator >> (std::istream &stream, vector2<T>& v)
-			//{
-			//	stream >> v.x >> " " >> v.y ;
-			//	return stream;
-			//}
-
-			
-			#pragma message("NEED operator << for vector2 "  __FILE__ )
-	/*
-
-			#if defined(_MSC_VER)
-			#pragma warning( push )
-			#pragma warning( disable : 4290 )
-			#endif
-
-			friend std::stringstream &operator >> (std::stringstream &stream, color3<T>& c) throw (std::invalid_argument)
+ 
+			friend std::istream &operator >> (std::istream &stream, vector2<T>& v)
 			{
-				stream >> c.r; 
-				stream >> c.g; 
-				stream >> c.b; 
+				stream >> v.x;
+				stream >> v.y;
+				return stream;
+			}
+ 
+			friend std::istringstream &operator >> (std::istringstream &stream, vector2<T>& v) throw (std::invalid_argument)
+			{
+				stream >> v.x; 
+				stream >> v.y; 
 
 				if(stream.fail())
 				{
@@ -491,15 +478,8 @@ namespace gb
 
 				return stream;
 			}
-
-
-
-			#if defined(_MSC_VER)
-			#pragma warning( pop )
-			#endif
-
-
-	*/
+ 
+ 
 
 		
 		};

@@ -319,24 +319,7 @@ namespace gb
 				const  mat44& World	//<	матрица модельная
 				) const	;
 
-
-#pragma message ("delete tostr() fromstr()  "  __FILE__  )
-
-			inline void toCstr(char* buf) const 
-			{
-				*buf = '\0';
-				sprintf(buf, "%f %f %f", x, y, z);
-			}
-
-			bool fromCstr(const char* s) 
-			{
-				const int res = sscanf(s, "%f %f %f", &x, &y, &z);
-				if( 3 != res )
-					   return false;
-				   return true;
-			}
- 		  			  
-
+   
 			friend std::ostream &operator << (std::ostream &stream, const vec3& v)
 			{
 				stream << v.x << " " << v.y << " " << v.z ;
