@@ -22,6 +22,7 @@ namespace gb
 	//! \brief Сфера по центральной точке и радиусу. Она же Bounding sphere.
 	class Sphere {
 	public:
+
 	   vec3  center;  ///<  центральная координата сферы.
 	  float   radius;  ///<  радиус сферы.
 	  
@@ -31,14 +32,33 @@ namespace gb
 		   radius = 0.0f;
 	  }
 
-	  inline Sphere(const Sphere& s) {center=s.center; radius=s.radius; }
-	  inline Sphere(const  vec3& _center, const float _radius) {center=_center; radius=_radius; }	  
+	  inline Sphere(const Sphere& s) 
+	  {
+		  center = s.center; 
+		  radius = s.radius; 
+	  }
+	  inline Sphere(const  vec3& _center, const float _radius) 
+	  {
+		  center = _center; 
+		  radius = _radius; 
+	  }	  
 	  
 	
-	  inline void set(const  vec3& vCenter, float fRadius) {center=vCenter; radius=fRadius; }
-	  inline void set( float centerX, float centerY, float centerZ, float fRadius) { center.x=centerX;  center.y=centerY;  center.z=centerZ;  radius=fRadius; 	}
-//	  inline void set(int ix, int iy, int iz, int r) { center.x=(float)ix;  center.y=(float)iy;  center.z=(float)iz;	radius = (float)r; }
+	  inline void set(const  vec3& _center, float _radius) 
+	  {
+		  center = _center; 
+		  radius = _radius; 
 
+	  }
+	  inline void set( float centerX, float centerY, float centerZ, float fRadius) 
+	  { 
+		  center.x = centerX;  
+		  center.y = centerY;  
+		  center.z = centerZ;  
+		  radius = fRadius; 	
+	  }
+
+ 
 	  //! \brief Получить расстояние между краями сфер. Вернёт отрицательное значение если сферы пересекаются.
 	  inline float distanceBetweenSpheres(const Sphere& s) const 
 	  {

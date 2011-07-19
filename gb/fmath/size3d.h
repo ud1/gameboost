@@ -1,7 +1,6 @@
 ﻿/**  \file
  \brief ??????
 
-
 */
 
 #pragma once
@@ -13,27 +12,25 @@
 
 namespace gb 
 {
-
 	namespace fmath
 	{
-	
-	
-	
-
 		/** \brief 3-х мерный размер */
 		struct Size3d {
 
-			union {
+			union 
+			{
 				float x;
 				float width;
 			};
 
-			union {
+			union 
+			{
 				float y;
 				float height;
 			};
 
-			union {
+			union 
+			{
 				float z;
 				float depth;
 			};
@@ -41,15 +38,6 @@ namespace gb
 			inline operator  vec3() const { return  vec3(x,y,z); }
 
 
-		};
-
-	
-	
-	
-	
-	
-	
-	
-	
+		};	
 	}
 }

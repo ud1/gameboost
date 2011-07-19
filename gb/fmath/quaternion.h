@@ -426,7 +426,7 @@ namespace gb
 
 
 		//! \brief  Построить поворотный по углам эллера  
-		void setRotationEulersAngles(const EulerAngles& ea);
+		void setRotationEulersAngles(const euler_angles& ea);
 
 		//! \brief Построение из матрицы поворота
 		Quaternion&  setRotationMatrix(const  mat44& m);
@@ -445,8 +445,35 @@ namespace gb
 *******************************/
 
 
-		//! \brief  Вывод на консоль
-		void print() const { printf("%f  %f  %f  %f" , x , y, z, w ); }
+		//  //! \brief  Вывод на консоль
+		//void print() const { printf("%f  %f  %f  %f" , x , y, z, w ); }
+
+		friend std::ostream &operator << (std::ostream &stream, const Quaternion& q)
+		{
+			stream << q.x << " " << q.y << " " << q.z << " " << q.w;
+			return stream;
+		}
+
+		operator std::string() const 
+		{
+			std::ostringstream ss;
+			ss << x << " " << y << " " << z << " " << w;
+			return ss.str();
+		}
+
+		void operator = (const std::string& str) throw (std::invalid_argument)
+		{
+			std::istringstream ss(str);
+			ss >> x;
+			ss >> y;
+			ss >> z;
+			ss >> w;
+			if( ss.fail() ) throw std::invalid_argument("bad input string");
+		}
+
+
+
+
 
 	};
 

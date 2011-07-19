@@ -176,84 +176,79 @@ namespace gb
 
 
 
-	//! \brief  Получить минимальную компоненту.
-	inline float minval() const 
-	{ 	  
-		float res = x;
-		if(y<res) res=y;
-		if(z<res) res=z;
-		if(w<res) res=w;
-		return res;
-	}
+			//! \brief  Получить минимальную компоненту.
+			inline float minval() const 
+			{ 	  
+				float res = x;
+				if(y<res) res=y;
+				if(z<res) res=z;
+				if(w<res) res=w;
+				return res;
+			}
 
-	//! \brief Получить максимальную компоненту.
-	inline float maxval() const
-	{   
-		float res = x;
-		if(res<y) res=y;
-		if(res<z) res=z;
-		if(res<w) res=w;
-		return res;
-	}	
+			//! \brief Получить максимальную компоненту.
+			inline float maxval() const
+			{   
+				float res = x;
+				if(res<y) res=y;
+				if(res<z) res=z;
+				if(res<w) res=w;
+				return res;
+			}	
  
-	/** \brief  вычисл. минимальной абсолютной компоненты.  */
-	inline float minAbsVal() const 
-	{ 
-		float ax=abs(x); 
-		float ay=abs(y); 
-		float az=abs(z); 
-		float aw=abs(w);
-		      float res=ax;    
-			  if(ay<res) res=ay; 
-			  if(az<res) res=az; 
-			  if(aw<res) res=aw; 
-			  return res; 
-	}
+		/** \brief  вычисл. минимальной абсолютной компоненты.  */
+		inline float minAbsVal() const 
+		{ 
+			float ax=abs(x); 
+			float ay=abs(y); 
+			float az=abs(z); 
+			float aw=abs(w);
+				  float res=ax;    
+				  if(ay<res) res=ay; 
+				  if(az<res) res=az; 
+				  if(aw<res) res=aw; 
+				  return res; 
+		}
 
-	/** \brief  вычисл. максимальной абсолютной компоненты.  */
-	inline float maxAbsVal() const 
-	{ 
-		float ax=abs(x); 
-		float ay=abs(y); 
-		float az=abs(z); 
-		float aw=abs(w);
-	          float res=ax;
-			  if(ay>res) res=ay; 
-			  if(az>res) res=az;	 
-			  if(aw>res) res=aw;	
-			  return res;	
-	}
-
-
-	//! \brief Выполнить отсечение значений в диапазоне между vmin и vmax
-	inline void clump(const vec4& vmin, const vec4& vmax) 
-	{
-		if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
-		if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
-		if( z < vmin.z) z=vmin.z;  if(z > vmax.z) z=vmax.z;
-		if( w < vmin.w) w=vmin.w;  if(w > vmax.w) w=vmax.w;
-	}
+		/** \brief  вычисл. максимальной абсолютной компоненты.  */
+		inline float maxAbsVal() const 
+		{ 
+			float ax=abs(x); 
+			float ay=abs(y); 
+			float az=abs(z); 
+			float aw=abs(w);
+				  float res=ax;
+				  if(ay>res) res=ay; 
+				  if(az>res) res=az;	 
+				  if(aw>res) res=aw;	
+				  return res;	
+		}
 
 
-
-	void toCstr(char* buf) const 
-	{
-		*buf = '\0';
-	    sprintf(buf, "%f %f %f %f", x, y, z, w );
-	}
-
-	bool fromCstr(const char* s) 
-	{
-		const int NS = sscanf(s, "%f%f%f%f", &x, &y, &z, &w);
-		if(4!=NS)  return false;
-		return true;
-	}
+		//! \brief Выполнить отсечение значений в диапазоне между vmin и vmax
+		inline void clump(const vec4& vmin, const vec4& vmax) 
+		{
+			if( x < vmin.x) x=vmin.x;  if(x > vmax.x) x=vmax.x;
+			if( y < vmin.y) y=vmin.y;  if(y > vmax.y) y=vmax.y;
+			if( z < vmin.z) z=vmin.z;  if(z > vmax.z) z=vmax.z;
+			if( w < vmin.w) w=vmin.w;  if(w > vmax.w) w=vmax.w;
+		}
 
 
 
-	//  //! \brief Вывод значений на консоль
-	//inline void print() const { printf(" %f  %f  %f  %f ", x, y, z, w); };
+	//void toCstr(char* buf) const 
+	//{
+	//	*buf = '\0';
+	//    sprintf(buf, "%f %f %f %f", x, y, z, w );
+	//}
 
+	//bool fromCstr(const char* s) 
+	//{
+	//	const int NS = sscanf(s, "%f%f%f%f", &x, &y, &z, &w);
+	//	if(4!=NS)  return false;
+	//	return true;
+	//}
+ 
 
 			friend std::ostream &operator << (std::ostream &stream, const vec4& v)
 			{
@@ -261,13 +256,42 @@ namespace gb
 				return stream;
 			}
 
-			/*
+
+ 			operator std::string() const 
+			{
+				std::ostringstream ss;
+				ss << x << " " << y << " " << z << " " << w;
+				return ss.str();
+			}
+
+			void operator = (const std::string& str) throw (std::invalid_argument)
+			{
+				std::istringstream ss(str);
+				ss >> x;
+				ss >> y;
+				ss >> z;
+				ss >> w;
+				if( ss.fail() ) throw std::invalid_argument("bad input string");
+			}
+
+			friend std::istringstream &operator >> (std::istringstream &ss, vec4& v)
+			{
+				ss >> v.x;
+				ss >> v.y;
+				ss >> v.z;
+				ss >> v.w;
+				return ss;
+			}
+ 
 			friend std::istream &operator >> (std::istream &stream, vec4& v)
 			{
-				stream >>v.x >> " " >> v.y >> " " >> v.z >> " " >> v.w;
+				stream >> v.x;
+				stream >> v.y;
+				stream >> v.z;
+				stream >> v.w;
 				return stream;
 			}
-			*/
+			
 
 
 		}; 

@@ -12,21 +12,20 @@
 
 namespace gb 
 {
-
 	namespace fmath
 	{
-	
-	
 	
         /** \brief 2-х мерный размер. */
 		struct Size2d {
 
-			union {
+			union 
+			{
 				float x;
 				float width;	
 			};
 
-			union {
+			union 
+			{
 				float y;
 				float height;
 			};
@@ -35,8 +34,5 @@ namespace gb
 
 
 		};
-
-	
-	
 	}
 }
