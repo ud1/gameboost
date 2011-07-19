@@ -11,7 +11,8 @@
 #include "Types.h"
 #include "Point.h"
 
-#include <stdlib.h>
+#include <ostream>
+#include <sstream>
 #include <string>
 
 namespace gb
@@ -76,6 +77,11 @@ namespace gb
 				*this = rc;
 			}
 
+			void set_zero()
+			{
+				left = top = width = height = 0;
+			}
+
 			bool operator < (const Rectangle &other) const
 			{
 				if (width < other.width)
@@ -106,22 +112,22 @@ namespace gb
 			}
 #endif
 
-			// \brief Проверка нахождения точки в прямоугольнике. 
-			inline bool checkPoint(int x, int y) const 
+			// \brief Проверка нахождения точки в прямоугольнике.  // old name: checkPoint
+			inline bool check_point(int x, int y) const 
 			{
 			  if( (x>left) && (x<left+width) && (y>top) && (y<top+height) ) return true;
 			  return false;			
 			}
 
-			inline bool checkPoint(const Point& p) 
+			inline bool check_point(const Point& p) // old name :  checkPoint
 			{
-				return checkPoint( p.x , p.y );
+				return check_point( p.x , p.y );
 			}
 
 #ifdef _WINDOWS_
-			inline bool checkPoint(const POINT& p) 
+			inline bool check_point(const POINT& p)  // old name :  checkPoint
 			{
-				return checkPoint( p.x , p.y );
+				return check_point( p.x , p.y );
 			}
 #endif
 
@@ -146,12 +152,14 @@ namespace gb
 				offset (p);
 			}
 
+ #endif
+
 			//! \brief offset coord.
 			inline void operator += (const Point& p)
 			{
 				offset (p);
 			}
-#endif
+
 
 #ifdef _WINDOWS_
 			//! \brief  Получить центральную координату.
@@ -163,29 +171,31 @@ namespace gb
 #endif
 
 
-#pragma warning(push)
-#pragma warning(disable : 4996)
 
-			//!  order:  left, top, width, height
-			std::string tostr() const
+			friend std::ostream& operator << (std::ostream& os, const Rectangle& r)
 			{
-				char buffer [64];
-				sprintf(buffer, "%i %i %i %i", left, top, width, height);
-				std::string res = buffer;
-				return res; 
+				os << r.left << " " << r.top << " " << r.width << " " << r.height; 
+				return os;
 			}
 
-			//!  order:  left, top, width, height
-			bool fromstr(const std::string& str)
+
+			operator std::string() const 
 			{
-				const int NSCANRES = sscanf(str.c_str(), "%i %i %i %i", &left, &top, &width, &height);
-				if(NSCANRES != 4) return false;
-				return true;
+				std::ostringstream ss;
+				ss << left << " " << top << " " << width << " " << height; 
+				return ss.str();
 			}
 
-#pragma warning(pop)
-
-
+			void operator = (const std::string& str) throw (std::invalid_argument)
+			{
+				std::istringstream ss(str);
+				ss >> left;
+				ss >> top;
+				ss >> width;
+				ss >> height;
+				if( ss.fail() ) throw std::invalid_argument("bad input string");
+			}
+ 
 
 
 		};
