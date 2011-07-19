@@ -1,4 +1,4 @@
-// vector3.hpp
+п»ї// vector3.hpp
 
 #ifndef __VECTOR3_H__
 #define __VECTOR3_H__
@@ -11,7 +11,6 @@ namespace gb
 
 	namespace fmath
 	{
-	
 	
 		template <typename T>
 		struct vector3 
@@ -51,7 +50,7 @@ namespace gb
 
 			//inline vector3<T>(vec4);
 
-			//! \brief Присваивание из T-массива 
+			//! \brief РџСЂРёСЃРІР°РёРІР°РЅРёРµ РёР· T-РјР°СЃСЃРёРІР° 
 			inline void operator = (const T* _array)
 			{
 				x = _array[0];
@@ -277,10 +276,10 @@ namespace gb
 				return r;		 
 			}
 
-			//! \brief  Нормализовать 
+			//! \brief  РќРѕСЂРјР°Р»РёР·РѕРІР°С‚СЊ 
 			inline vector3<T>&   normalize ()	  
 			{ 
-				if( is_zero() ) // < без этого глючит. nan
+				if( is_zero() ) // < Р±РµР· СЌС‚РѕРіРѕ РіР»СЋС‡РёС‚. nan
 				{
 					assert(false && "apply normalize to zero vector");
 					return *this;
@@ -293,7 +292,7 @@ namespace gb
 				return *this; 
 			}
 
-			//! \brief  Вернуть нормализованый
+			//! \brief  Р’РµСЂРЅСѓС‚СЊ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅС‹Р№
 			inline vector3<T>    normalized() const
 			{ 
 				vector3<T> res(*this); 
@@ -301,19 +300,19 @@ namespace gb
 				return res;
 			}
 
-			//! \brief  Вычислить и вернуть расстояние между точками  this и point.
+			//! \brief  Р’С‹С‡РёСЃР»РёС‚СЊ Рё РІРµСЂРЅСѓС‚СЊ СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ С‚РѕС‡РєР°РјРё  this Рё point.
 			inline T distance(const vector3<T>& point)   const
 			{ 
 				return  sqrt( distanceSq(point) );  
 			}
-			//! \brief  Вычислить и вернуть квадрат расстояния между точками  this и point.  old:  distanceSq
+			//! \brief  Р’С‹С‡РёСЃР»РёС‚СЊ Рё РІРµСЂРЅСѓС‚СЊ РєРІР°РґСЂР°С‚ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РјРµР¶РґСѓ С‚РѕС‡РєР°РјРё  this Рё point.  old:  distanceSq
 			inline T distance_sq(const vector3<T>& point) const 
 			{ 
 				return vector3<T>(*this-point).lengthSq();  
 			}
  
 
-			//! \brief Получить наибольшее абсолютное из каждой компоненты  old:  getMaxLength
+			//! \brief РџРѕР»СѓС‡РёС‚СЊ РЅР°РёР±РѕР»СЊС€РµРµ Р°Р±СЃРѕР»СЋС‚РЅРѕРµ РёР· РєР°Р¶РґРѕР№ РєРѕРјРїРѕРЅРµРЅС‚С‹  old:  getMaxLength
 			inline T     get_max_length () const
 			{
 				// old line:  return scalar::max3 ( fabs (x), fabs (y), fabs (z) );
@@ -337,7 +336,7 @@ namespace gb
 				return r;			
 			}
 
-			//! \brief     получить минимальную компоненту  old:  minval
+			//! \brief     РїРѕР»СѓС‡РёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ  old:  minval
 			inline T min_value() const   
 			{ 
 				T ret = x;
@@ -346,7 +345,7 @@ namespace gb
 				return ret;
 			}
 
-			//! \brief     получить максимальную компоненту    old:  maxval
+			//! \brief     РїРѕР»СѓС‡РёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ    old:  maxval
 			inline T max_value()  const
 			{  
 				T ret = x;
@@ -357,7 +356,7 @@ namespace gb
 
 
 
-			//* \brief   вычисл. мин. абсолютное из компонент.    old:minAbsVal
+			//* \brief   РІС‹С‡РёСЃР». РјРёРЅ. Р°Р±СЃРѕР»СЋС‚РЅРѕРµ РёР· РєРѕРјРїРѕРЅРµРЅС‚.    old:minAbsVal
 			inline T min_abs_value() const 
 			{
 				T ax=abs(x);
@@ -370,7 +369,7 @@ namespace gb
 				return res;
 			}
 
-			//* \brief   вычисл. макс. абсолютное из компонент.    old:
+			//* \brief   РІС‹С‡РёСЃР». РјР°РєСЃ. Р°Р±СЃРѕР»СЋС‚РЅРѕРµ РёР· РєРѕРјРїРѕРЅРµРЅС‚.    old:
 			inline T max_abs_value() const
 			{
 				T ax=abs(x);
@@ -385,7 +384,7 @@ namespace gb
 
 
 
-/* 			//! \brief  Сравнить два вектора v1 и v2 и присвоить максимальный 
+/* 			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РґРІР° РІРµРєС‚РѕСЂР° v1 Рё v2 Рё РїСЂРёСЃРІРѕРёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ 
 			vector3<T>& maximize(const vector3<T>& v1, const vector3<T>& v2) 
 			{
 				if (v1.x > v2.x) x = v1.x; else x = v2.x;
@@ -394,7 +393,7 @@ namespace gb
 				return *this;
 			} */
 
-			//! \brief  Сравнить вектор v и собственное значение и присвоить максимальный
+			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РІРµРєС‚РѕСЂ v Рё СЃРѕР±СЃС‚РІРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё РїСЂРёСЃРІРѕРёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№
 			vector3<T>& maximize(const vector3<T>& v)
 			{
 				if (v.x > x) x = v.x; 
@@ -403,7 +402,7 @@ namespace gb
 				return *this;
 			}
 
-/* 			//! \brief  Сравнить два вектора v1 и v2 и присвоить минимальный 
+/* 			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РґРІР° РІРµРєС‚РѕСЂР° v1 Рё v2 Рё РїСЂРёСЃРІРѕРёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ 
 			vector3<T>& minimize(const vector3<T>& v1, const vector3<T>& v2) 
 			{
 				if (v1.x < v2.x) x = v1.x; else x = v2.x;
@@ -412,7 +411,7 @@ namespace gb
 				return *this;
 			} */
 
-			//! \brief  Сравнить вектор v и собственное значение и присвоить минимальный  
+			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РІРµРєС‚РѕСЂ v Рё СЃРѕР±СЃС‚РІРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё РїСЂРёСЃРІРѕРёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№  
 			vector3<T>& minimize(const vector3<T>& v) 
 			{
 				if (v.x < x) x = v.x;
@@ -421,7 +420,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief Вернуть минимальный вектор между this и v
+			//! \brief Р’РµСЂРЅСѓС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ РјРµР¶РґСѓ this Рё v
 			inline vector3<T> minimized(const vector3<T>& v) const
 			{ 
 				vector3<T> res(*this); 
@@ -429,7 +428,7 @@ namespace gb
 				return res;
 			}
 			
-			//! \brief Вернуть максимальный вектор между this и v
+			//! \brief Р’РµСЂРЅСѓС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ РјРµР¶РґСѓ this Рё v
 			inline vector3<T> maximized(const vector3<T>& v) const
 			{ 
 				vector3<T> res(*this); 
@@ -439,7 +438,7 @@ namespace gb
 
 
 
-			//! \brief  отсеч значения в диапазоне между vmin и vmax
+			//! \brief  РѕС‚СЃРµС‡ Р·РЅР°С‡РµРЅРёСЏ РІ РґРёР°РїР°Р·РѕРЅРµ РјРµР¶РґСѓ vmin Рё vmax
 			inline vector3<T>& clump(const vector3<T>& vmin, const vector3<T>& vmax) 
 			{
 				if( x < vmin.x) x = vmin.x;  if(x > vmax.x) x = vmax.x;
@@ -448,7 +447,7 @@ namespace gb
 				  return *this;
 			}
 
-			//! \brief Вернуть среднюю точку между this и point
+			//! \brief Р’РµСЂРЅСѓС‚СЊ СЃСЂРµРґРЅСЋСЋ С‚РѕС‡РєСѓ РјРµР¶РґСѓ this Рё point
 			inline vector3<T> middle(const vector3<T>& point) const 
 			{
 				vector3<T> res;
@@ -459,16 +458,16 @@ namespace gb
 				return res;
 			}
 
-			//! \brief  Вернёт true если все компоненты положительные. old:  isPositive
+			//! \brief  Р’РµСЂРЅС‘С‚ true РµСЃР»Рё РІСЃРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рµ. old:  isPositive
 			inline bool is_positive() const
 			{
 				return ( (x>=0.0f) && (y>=0.0f) && (z>=0.0f) );	
 			}
 
-			//! \brief Тарнсформировать по матрице m   как координату. ПРОВЕРЕНО!  old:  transformCoord
+			//! \brief РўР°СЂРЅСЃС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РїРѕ РјР°С‚СЂРёС†Рµ m   РєР°Рє РєРѕРѕСЂРґРёРЅР°С‚Сѓ. РџР РћР’Р•Р Р•РќРћ!  old:  transformCoord
 			vector3<T>&  transform_coord(const matrix4x4<T>& m); // const mat44& m
 			
-			//! \brief Тарнсформировать по матрице m   как нормаль. ПРОВЕРЕНО! old: transformNormal
+			//! \brief РўР°СЂРЅСЃС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РїРѕ РјР°С‚СЂРёС†Рµ m   РєР°Рє РЅРѕСЂРјР°Р»СЊ. РџР РћР’Р•Р Р•РќРћ! old: transformNormal
 			vector3<T>&  transform_normal(const matrix4x4<T>& m); // const mat44& m
 				
 			 // TODO: 
@@ -476,24 +475,24 @@ namespace gb
 			// void transformNormalArray(T* pfOut, int strideOut, const T* pvInput, int strideInput,  const M44& m, const int num) {...} 
 
 
-			/** \brief  Проекция вектора из виртуального "зазеркалья" на экран. 
-			     Возвращает спроектированый экранный вектор. ПРОВЕРЕНА!	*/
+			/** \brief  РџСЂРѕРµРєС†РёСЏ РІРµРєС‚РѕСЂР° РёР· РІРёСЂС‚СѓР°Р»СЊРЅРѕРіРѕ "Р·Р°Р·РµСЂРєР°Р»СЊСЏ" РЅР° СЌРєСЂР°РЅ. 
+			     Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРїСЂРѕРµРєС‚РёСЂРѕРІР°РЅС‹Р№ СЌРєСЂР°РЅРЅС‹Р№ РІРµРєС‚РѕСЂ. РџР РћР’Р•Р Р•РќРђ!	*/
 			vector3<T> project ( 
-				const ViewportZ& vp,   //<  область вывода
-				const  matrix4x4<T>& Proj, //<	матрица проекции
-				const  matrix4x4<T>& View, //<	матрица вида
-				const  matrix4x4<T>& World //<	матрица модельная
+				const ViewportZ& vp,   //<  РѕР±Р»Р°СЃС‚СЊ РІС‹РІРѕРґР°
+				const  matrix4x4<T>& Proj, //<	РјР°С‚СЂРёС†Р° РїСЂРѕРµРєС†РёРё
+				const  matrix4x4<T>& View, //<	РјР°С‚СЂРёС†Р° РІРёРґР°
+				const  matrix4x4<T>& World //<	РјР°С‚СЂРёС†Р° РјРѕРґРµР»СЊРЅР°СЏ
 				)  const; 
 
 
 
-			/** \brief Анпроекция. Перевод из экранных координат в пространственые координаты 
-			Возвращает переведённый вектор . ПРОВЕРЕНА! */
+			/** \brief РђРЅРїСЂРѕРµРєС†РёСЏ. РџРµСЂРµРІРѕРґ РёР· СЌРєСЂР°РЅРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚ РІ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРµРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ 
+			Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРµСЂРµРІРµРґС‘РЅРЅС‹Р№ РІРµРєС‚РѕСЂ . РџР РћР’Р•Р Р•РќРђ! */
 			vector3<T>  unproject( 
-				const ViewportZ& vp,    //<  область вывода
-				const  matrix4x4<T>& Proj,	//<	матрица проекции
-				const  matrix4x4<T>& View,	//<	матрица вида
-				const  matrix4x4<T>& World	//<	матрица модельная
+				const ViewportZ& vp,    //<  РѕР±Р»Р°СЃС‚СЊ РІС‹РІРѕРґР°
+				const  matrix4x4<T>& Proj,	//<	РјР°С‚СЂРёС†Р° РїСЂРѕРµРєС†РёРё
+				const  matrix4x4<T>& View,	//<	РјР°С‚СЂРёС†Р° РІРёРґР°
+				const  matrix4x4<T>& World	//<	РјР°С‚СЂРёС†Р° РјРѕРґРµР»СЊРЅР°СЏ
 				) const	;
 
 
@@ -516,7 +515,7 @@ namespace gb
   *************************/
 
 
-			// ! \brief Вывод значений на консоль
+			// ! \brief Р’С‹РІРѕРґ Р·РЅР°С‡РµРЅРёР№ РЅР° РєРѕРЅСЃРѕР»СЊ
 			// inline void print() const 
 			// { 
 				// printf("%f  %f  %f ", x, y, z); 

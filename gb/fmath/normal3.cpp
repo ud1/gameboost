@@ -1,4 +1,4 @@
-
+п»ї
 #include "fmath.h"
 
 namespace gb
@@ -6,6 +6,7 @@ namespace gb
 
 namespace fmath
 {
+
 
 
 //=========================================================================
@@ -16,7 +17,7 @@ namespace fmath
 	Normal3& Normal3::setDirectionBetweenPoints(const Point3& pntSrc, const Point3& pntDest) 
 	{
 		 vec3 v;
-		v.x=  pntDest._x - pntSrc._x; // пусть пока так будет
+		v.x=  pntDest._x - pntSrc._x; // РїСѓСЃС‚СЊ РїРѕРєР° С‚Р°Рє Р±СѓРґРµС‚
 		v.y=  pntDest._y - pntSrc._y;
 		v.z=  pntDest._z - pntSrc._z;
 		*this = v;

@@ -1,4 +1,4 @@
-
+﻿
 #include "fmath.h"
 
 
@@ -9,7 +9,6 @@ namespace gb
 namespace fmath
 {
  
-
 
 	static void __str_touper(std::string& str)
 	{

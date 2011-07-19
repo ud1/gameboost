@@ -55,9 +55,8 @@
 
 #include "scalar.h"
 
-#include "fmath_forward_decl.h"
+#include "forward_decl.h"
 
-#include "vectors.h"
 #include "vector2.h"
 #include "vector3.h"
 #include "vector4.h"
@@ -108,7 +107,7 @@
 #include "ray3d.h"
 #include "axiesangle.h"
 #include "cilinder.h"
-#include "EulerAngles.h"
+#include "euler_angles.h"
 #include "frustum.h"
 #include "eyedata.h"
 #include "line3d.h"
@@ -120,19 +119,17 @@
 
 
 // proj
-//#include "proj.h"
 #include "perspective_projdata.h"
-#include "RelatCoord.h"
+#include "relat_coord.h"
 #include "viewport.h"
 
 
 // context
-//#include "context.h"
 #include "float_context_type_e.h"
-#include "FloatContext.h"
+#include "float_context.h"
 #include "matrix4x4_context_type_e.h"
 #include "vector_context_type_e.h"
-#include "GeometryContext.h"
+#include "geometry_context.h"
 
 
 

@@ -1,4 +1,4 @@
-// vector2.hpp
+п»ї// vector2.hpp
 
 #ifndef __VECTOR2_H__
 #define __VECTOR2_H__
@@ -12,7 +12,7 @@ namespace gb
 	namespace fmath
 	{
 	
-	
+
 		template <typename T>
 		struct vector2 {
 
@@ -259,7 +259,7 @@ namespace gb
 
 			inline vector2<T>& normalize() 
 			{ 
-				if( (0.0f==x) && (0.0f==y) ) // < без этого глючит. nan
+				if( (0.0f==x) && (0.0f==y) ) // < Р±РµР· СЌС‚РѕРіРѕ РіР»СЋС‡РёС‚. nan
 				{
 					return *this; 
 				}
@@ -270,7 +270,7 @@ namespace gb
 				return *this; 
 			}
 
-			//! \brief  Вернуть нормализованый
+			//! \brief  Р’РµСЂРЅСѓС‚СЊ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅС‹Р№
 			inline vector2<T> normalized() const 
 			{
 				vector2<T> res(*this);
@@ -285,11 +285,11 @@ namespace gb
 
 #pragma message("??????? ccw  .... "   __FILE__ )
 			
-			//! \brief Returns the z-component by taking the cross product of two 2D vectors.  ПРОВЕРЕНА!  
+			//! \brief Returns the z-component by taking the cross product of two 2D vectors.  РџР РћР’Р•Р Р•РќРђ!  
 			T ccw(const vector2<T>& v) const;			
 
 
-			//! \brief  Инвертировать (поменять знаки компонентов).
+			//! \brief  РРЅРІРµСЂС‚РёСЂРѕРІР°С‚СЊ (РїРѕРјРµРЅСЏС‚СЊ Р·РЅР°РєРё РєРѕРјРїРѕРЅРµРЅС‚РѕРІ).
 			inline vector2<T>& inverse() 
 			{ 
 				x=-x; 
@@ -297,7 +297,7 @@ namespace gb
 				return *this; 
 			}
 
-			//! \brief Вернуть вектор, с противоположными знаками
+			//! \brief Р’РµСЂРЅСѓС‚СЊ РІРµРєС‚РѕСЂ, СЃ РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅС‹РјРё Р·РЅР°РєР°РјРё
 			inline vector2<T>  inverted() const 
 			{
 				return vector2<T> ( -x, -y ); 
@@ -324,7 +324,7 @@ namespace gb
 			}
 
 
-			//! \brief  Получить минимальную компоненту     old: minVal
+			//! \brief  РџРѕР»СѓС‡РёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ     old: minVal
 			inline T min_value() const
 			{ 
 				if( x < y ) 
@@ -332,7 +332,7 @@ namespace gb
 				return y; 
 			}
 			
-			//! \brief  Получить Максимальную компоненту    old: maxVal
+			//! \brief  РџРѕР»СѓС‡РёС‚СЊ РњР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ    old: maxVal
 			inline T max_value() const 
 			{ 
 				if( x > y ) 
@@ -340,7 +340,7 @@ namespace gb
 				return y; 
 			}
 
-/* 			//! \brief  Сравнить два вектора v1 и v2 и присвоить минимальный 
+/* 			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РґРІР° РІРµРєС‚РѕСЂР° v1 Рё v2 Рё РїСЂРёСЃРІРѕРёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ 
 			inline vector2<T>& minimize(const vector2<T>& v1, const vector2<T>& v2) 
 			{
 				if (v1.x < v2.x) x = v1.x; else  x = v2.x;
@@ -348,7 +348,7 @@ namespace gb
 				return *this;
 			} */
 
-			//! \brief  Сравнить вектор v и собственное значение и присвоить минимальный  
+			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РІРµРєС‚РѕСЂ v Рё СЃРѕР±СЃС‚РІРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё РїСЂРёСЃРІРѕРёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№  
 			inline vector2<T>& minimize(const vector2<T>& v) 
 			{
 				if (v.x < x) x = v.x;
@@ -356,7 +356,7 @@ namespace gb
 				return *this;
 			}
 
-/* 			//! \brief  Сравнить два вектора v1 и v2 и присвоить максимальный  
+/* 			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РґРІР° РІРµРєС‚РѕСЂР° v1 Рё v2 Рё РїСЂРёСЃРІРѕРёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№  
 			inline vector2<T>& maximize(const vector2<T>& v1, const vector2<T>& v2) 
 			{
 				if (v1.x > v2.x) x = v1.x; else  x = v2.x;
@@ -364,7 +364,7 @@ namespace gb
 				return *this;
 			} */
 
-			//! \brief  Сравнить вектор v и собственное значение и присвоить максимальный 
+			//! \brief  РЎСЂР°РІРЅРёС‚СЊ РІРµРєС‚РѕСЂ v Рё СЃРѕР±СЃС‚РІРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё РїСЂРёСЃРІРѕРёС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ 
 			inline vector2<T>& maximize(const vector2<T>& v) 
 			{
 				if (v.x > x) x = v.x;
@@ -372,7 +372,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief Вернуть минимальный вектор между this и v
+			//! \brief Р’РµСЂРЅСѓС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ РјРµР¶РґСѓ this Рё v
 			inline vector2<T> minimized(const vector2<T>& v) const 
 			{ 
 				vector2<T> r(*this); 
@@ -380,7 +380,7 @@ namespace gb
 				return r; 
 			}
 			
-			//! \brief Вернуть максимальный вектор между this и v
+			//! \brief Р’РµСЂРЅСѓС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ РјРµР¶РґСѓ this Рё v
 			inline vector2<T> maximized(const vector2<T>& v) const 
 			{ 
 				vector2<T> r(*this); 
@@ -389,7 +389,7 @@ namespace gb
 			}
 
 
-			//! \brief  вычислить мин. абсолютное значение компонент.  old:  minAbsVal
+			//! \brief  РІС‹С‡РёСЃР»РёС‚СЊ РјРёРЅ. Р°Р±СЃРѕР»СЋС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚.  old:  minAbsVal
 			inline T min_abs_value() const
 			{
 				T ax=abs(x); 
@@ -399,7 +399,7 @@ namespace gb
 				return ax; 
 			}
 			
-			//! \brief  вычислить макс. абсолютное значение компонент    old: maxAbsVal
+			//! \brief  РІС‹С‡РёСЃР»РёС‚СЊ РјР°РєСЃ. Р°Р±СЃРѕР»СЋС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚    old: maxAbsVal
 			inline T max_abs_value() const
 			{ 
 				T ax=abs(x); 
@@ -410,14 +410,14 @@ namespace gb
 			}
 
 
-			////! \brief  вычисление миним, компоненты 
+			////! \brief  РІС‹С‡РёСЃР»РµРЅРёРµ РјРёРЅРёРј, РєРѕРјРїРѕРЅРµРЅС‚С‹ 
 			//inline T minval() const
 			//{
 			//	if(x < y) return x; 
 			//	return y;
 			//}
 			
-			////! \brief  вычисление. макс компоненты  // old :   maxval
+			////! \brief  РІС‹С‡РёСЃР»РµРЅРёРµ. РјР°РєСЃ РєРѕРјРїРѕРЅРµРЅС‚С‹  // old :   maxval
 			//inline T max_value() const
 			//{
 			//	if(x > y) return x; 
@@ -425,7 +425,7 @@ namespace gb
 			//}
 
 
-			//! \brief  Отсечение значений в пределах vmin и vmax
+			//! \brief  РћС‚СЃРµС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РІ РїСЂРµРґРµР»Р°С… vmin Рё vmax
 			inline vector2<T>& clump(const vector2<T>& vmin, const vector2<T>& vmax) 
 			{
 				if(x < vmin.x) x = vmin.x;  
@@ -437,7 +437,7 @@ namespace gb
 				return *this;
 			}
 
-			//! \brief Вернуть среднюю точку между this и point
+			//! \brief Р’РµСЂРЅСѓС‚СЊ СЃСЂРµРґРЅСЋСЋ С‚РѕС‡РєСѓ РјРµР¶РґСѓ this Рё point
 			inline vector2<T> middle(const vector2<T>& point) const 
 			{
 				vector2<T> res;
@@ -448,7 +448,7 @@ namespace gb
 			}
 
 
-			//!  \brief   Вернёт true если все компоненты положительные.  old:  isPositive
+			//!  \brief   Р’РµСЂРЅС‘С‚ true РµСЃР»Рё РІСЃРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рµ.  old:  isPositive
 			inline bool is_positive() const 
 			{  
 				return ( (x>=0.0f) && (y>=0.0f) );  

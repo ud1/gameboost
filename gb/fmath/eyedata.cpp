@@ -1,11 +1,12 @@
-﻿
-#include "fmath.h"
 
+#include "fmath.h"
+ 
 namespace gb
 {
-
 namespace fmath
 {
+
+
 
 
 

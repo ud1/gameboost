@@ -1,4 +1,4 @@
-
+ï»¿
 
 #include "fmath.h"
 
@@ -473,7 +473,7 @@ const mat44 *GeometryContext::get_matrix_WorldViewTranspone()const
   return  &m_matr.mWorldViewTranspone.matrix;
 };
 
-//#error ÄÎÄÅËÀÒÜ ÄÀËÜØÅ !!!!
+//#error Ð”ÐžÐ”Ð•Ð›ÐÐ¢Ð¬ Ð”ÐÐ›Ð¬Ð¨Ð• !!!!
 
 
 //====================================================================  
@@ -740,7 +740,7 @@ void GeometryContext::__checkViewVectors()const
   if (m_matr.mViewInverse.bChangeFlag)
   {
     get_matrix_ViewInverse();
-    #pragma message ("ÏÐÎÂÅÐÈÒÜ ÏÎËÓ×ÅÍÈÅ ÂÅÊÒÎÐÎÂ  ÂÈÄÀ ÈÇ ÈÍÂÅÐÑÍÎÉ ÂÈÄÎÂÎÉ ÌÀÒÐÈÖÛ ")
+    #pragma message ("ÐŸÐ ÐžÐ’Ð•Ð Ð˜Ð¢Ð¬ ÐŸÐžÐ›Ð£Ð§Ð•ÐÐ˜Ð• Ð’Ð•ÐšÐ¢ÐžÐ ÐžÐ’  Ð’Ð˜Ð”Ð Ð˜Ð— Ð˜ÐÐ’Ð•Ð Ð¡ÐÐžÐ™ Ð’Ð˜Ð”ÐžÐ’ÐžÐ™ ÐœÐÐ¢Ð Ð˜Ð¦Ð« ")
     m_VewPos = *((vec3*) &m_matr.mViewInverse.matrix._41);
     m_ViewDir = *((vec3*) &m_matr.mViewInverse.matrix._31);
     m_ViewUp = *((vec3*) &m_matr.mViewInverse.matrix._21);
@@ -783,7 +783,7 @@ const vec4 *GeometryContext::get_vector4_ViewUp()const
 //====================================================================  
 const vec3 *GeometryContext::get_vector3_ViewSide()const
 {
-  #pragma message ("ÏÐÎÂÅÐÈÒÜ ÏÎËÓ×ÅÍÈÅ ÁÎÊÎÂÎÃÎ ÂÅÊÒÎÐÀ ÂÈÄÀ")
+  #pragma message ("ÐŸÐ ÐžÐ’Ð•Ð Ð˜Ð¢Ð¬ ÐŸÐžÐ›Ð£Ð§Ð•ÐÐ˜Ð• Ð‘ÐžÐšÐžÐ’ÐžÐ“Ðž Ð’Ð•ÐšÐ¢ÐžÐ Ð Ð’Ð˜Ð”Ð")
  // D3DXVec3Cross(&m_vec3Temp, &m_ViewDir, &m_ViewUp);
   m_vec3Temp =	m_ViewDir.cross( m_ViewUp );
 
@@ -1167,7 +1167,7 @@ EyeData GeometryContext::getViewParams()const
 //=======================================================
 const EyeData *GeometryContext::getViewParamsPtr()const
 {
-  #pragma message ("ÏÎÃÎÍßÒÜ Â ÎÒËÀÄÊÅ ÝÒÎÒ ÌÅÒÎÄ")
+  #pragma message ("ÐŸÐžÐ“ÐžÐÐ¯Ð¢Ð¬ Ð’ ÐžÐ¢Ð›ÐÐ”ÐšÐ• Ð­Ð¢ÐžÐ¢ ÐœÐ•Ð¢ÐžÐ”")
  
 
   const mat44 *pmViewInv = get_matrix_ViewInverse();
@@ -1176,12 +1176,12 @@ const EyeData *GeometryContext::getViewParamsPtr()const
   {
 	 m_EyeData.decomposeInverseView(m_matr.mViewInverse.matrix);
 
-   // #pragma message ("ÏÐÎÂÅÐÈÒÜ ÏÎËÓ×ÅÍÈÅ ÂÅÊÒÎÐÎÂ  ÂÈÄÀ ÈÇ ÈÍÂÅÐÑÍÎÉ ÂÈÄÎÂÎÉ ÌÀÒÐÈÖÛ ")
+   // #pragma message ("ÐŸÐ ÐžÐ’Ð•Ð Ð˜Ð¢Ð¬ ÐŸÐžÐ›Ð£Ð§Ð•ÐÐ˜Ð• Ð’Ð•ÐšÐ¢ÐžÐ ÐžÐ’  Ð’Ð˜Ð”Ð Ð˜Ð— Ð˜ÐÐ’Ð•Ð Ð¡ÐÐžÐ™ Ð’Ð˜Ð”ÐžÐ’ÐžÐ™ ÐœÐÐ¢Ð Ð˜Ð¦Ð« ")
    // m_EyeData.eyePosition = *((vec3*) &m_matr.mViewInverse.matrix._41);
    // vec3 vViewDir = *((vec3*) &m_matr.mViewInverse.matrix._31);
    // m_EyeData.eyeUp = *((Normal3*) &m_matr.mViewInverse.matrix._21);
 
-    #pragma message("ks777  ÏÐÎÂÅÐÈÒÜ !!!!  " __FILE__)
+    #pragma message("ks777  ÐŸÐ ÐžÐ’Ð•Ð Ð˜Ð¢Ð¬ !!!!  " __FILE__)
       assert(false&&"NEED CKECK!! ");
    // float fDistToCenter = vViewDir.length();  // D3DXVec3Length(&vViewDir);
 
@@ -1475,7 +1475,7 @@ const TransformData  *GeometryContext::getWorldTransformDataPtr()const
 
 
    assert(false);
-   // äàëüøå íâàäî ðàçîáðàööî !!
+   // Ð´Ð°Ð»ÑŒÑˆÐµ Ð½Ð²Ð°Ð´Ð¾ Ñ€Ð°Ð·Ð¾Ð±Ñ€Ð°Ñ†Ñ†Ð¾ !!
 
 	 // NEW !!!!
 	// m_qRotation.toAxiesAngle(  m_TransformData.rot.vRotAx,  m_TransformData.rot.fAngle  );
@@ -1633,14 +1633,14 @@ int  GeometryContext::setWorldRotationVal(float axX, float axY, float axZ, float
 
    assert(false);
  
-   // ÍÀÄÎ ÏÎÏÐÀÂÈÒÜ ÝÒÎÒ ÊÎÄ!!!
+   // ÐÐÐ”Ðž ÐŸÐžÐŸÐ ÐÐ’Ð˜Ð¢Ð¬ Ð­Ð¢ÐžÐ¢ ÐšÐžÐ”!!!
 //  trd.rot.vRotAx.x = axX;
  // trd.rot.vRotAx.y = axY;
 //  trd.rot.vRotAx.z = axZ;
 
-   // ÁÛËÎ
+   // Ð‘Ð«Ð›Ðž
  // D3DXVec3Normalize(&trd.rot.vRotAx, &trd.rot.vRotAx);
-  // ÍÀÄÎ	 
+  // ÐÐÐ”Ðž	 
   //>>>>>  trd.rot.normalize();
 
 
