@@ -1,15 +1,18 @@
 ﻿/** \file
- \brief Точка
-
+  \brief   simple point.
+  
+ 
 */
 
 #pragma once
 
 #include "../Config.h"
 #include "Types.h"
-#include <stdlib.h>
+
+#include <ostream>
+#include <sstream>
 #include <string>
-#include <stdio.h>
+
 
 namespace gb
 {
@@ -17,88 +20,98 @@ namespace gb
 namespace base 
 {
 
-//! \brief Точка
-class Point {
-public:
+	//! \brief   simple point.
+	class Point {
+	public:
 
-  int x;
-  int y;
+		int x;
+		int y;
  
- inline Point() { x=y=0; }
- inline Point(const Point& p) { x=p.x; y=p.y; }
+		inline Point() { x=y=0; }
+		inline Point(const Point& p) { x=p.x; y=p.y; }
 
-#ifdef _WINDOWS_
- inline Point(const POINT& p) { *this = p; }
-#endif
+		#ifdef _WINDOWS_
+		inline Point(const POINT& p) { *this = p; }
+		#endif
 
- inline Point(int _x, int _y) { init(_x,_y);  }
+		inline Point(int _x, int _y) { init(_x,_y);  }
   
- inline void init(int _x, int _y) { x=_x; y=_y; }
+		inline void init(int _x, int _y) { x=_x; y=_y; }
  
-#ifdef _WINDOWS_
 
- inline void operator = (const POINT& p) 
- {
-	 x = p.x;
-	 y = p.y;
- }
+		#ifdef _WINDOWS_
+
+		inline void operator = (const POINT& p) 
+		{
+			x = p.x;
+			y = p.y;
+		}
+
+		inline operator POINT() const 
+		{
+			POINT res = {x,y};
+			return res;
+		}
+
+		#endif
  
- inline operator POINT() const 
- {
-   POINT res = {x,y};
-   return res;
- }
 
-#endif
+		inline Point operator + (const Point& p) const 
+		{
+			return Point( x+p.x , y+p.y );
+		}
  
- inline Point operator + (const Point& p) const 
- {
-   return Point( x+p.x , y+p.y );
- }
+		inline Point& operator += (const Point& p)  
+		{
+			x += p.x;
+			y += p.y;
+			return *this;
+		} 
+
+		inline Point operator - (const Point& p) const 
+		{
+			return Point( x-p.x , y-p.y );
+		}
+
+		inline Point& operator -= (const Point& p)  
+		{
+			x -= p.x;
+			y -= p.y;
+			return *this;
+		} 
  
- inline Point& operator += (const Point& p)  
- {
-   x += p.x;
-   y += p.y;
-   return *this;
- } 
+		friend std::ostream& operator << (std::ostream& os, const Point& p)
+		{
+			os << p.x << " " << p.y ;
+			return os;
+		}
 
- inline Point operator - (const Point& p) const 
- {
-	 return Point( x-p.x , y-p.y );
- }
 
- inline Point& operator -= (const Point& p)  
- {
-	 x -= p.x;
-	 y -= p.y;
-	 return *this;
- } 
+		operator std::string() const 
+		{
+			std::ostringstream ss;
+			ss << x << " " << y;
+			return ss.str();
+		}
 
-#pragma warning(push)
-#pragma warning(disable : 4996)
+		void operator = (const std::string& str) throw (std::invalid_argument)
+		{
+			std::istringstream ss(str);
+			ss >> x;
+			ss >> y;
+			if( ss.fail() ) throw std::invalid_argument("bad input string");
+		}
+  
 
- std::string tostr() const
- {
-   char buffer [32];
-   sprintf(buffer, "%i %i", x, y);
-   std::string res = buffer;
-   return res; 
- }
 
- bool fromstr(const std::string& str)
- {
-	 const int NSCANRES = sscanf(str.c_str(), "%i %i", &x, &y);
-	 if(NSCANRES != 2) return false;
-	 return true;
- }
- 
-#pragma warning(pop)
 
-};
+	};
+
+
 
 }
 //end namespace base
+
 }
 //end namespace gb
 
