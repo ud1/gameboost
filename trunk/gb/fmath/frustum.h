@@ -62,27 +62,28 @@ namespace gb
 
 
 
-	   #pragma message("delete  print()  "   __FILE__ )
+	 //  #pragma message("delete  print()  "   __FILE__ )
 
-     //! \brief Отладочный вывод на консоль
-     inline void print() const 
-	 {
-		 printf("\n");
-		 printf("front=");  front.print();  printf("\n");
-		 printf("back=");   back.print();   printf("\n");
-		 printf("left= ");  left.print();   printf("\n");
-		 printf("right=");  right.print();  printf("\n");
-		 printf("top=");    top.print();    printf("\n");
-		 printf("bottom="); bottom.print(); printf("\n");
- 	 }
+  //   //! \brief Отладочный вывод на консоль
+  //   inline void print() const 
+	 //{
+		// printf("\n");
+		// printf("front=");  front.print();  printf("\n");
+		// printf("back=");   back.print();   printf("\n");
+		// printf("left= ");  left.print();   printf("\n");
+		// printf("right=");  right.print();  printf("\n");
+		// printf("top=");    top.print();    printf("\n");
+		// printf("bottom="); bottom.print(); printf("\n");
+ 	// }
 
 	 friend std::ostream &operator << ( std::ostream &stream, const Frustum& fr )
 	 {
-		 assert(false);
-		 //stream << o.name << " ";
-		 //stream << "(" << o.areacode << ") ";
-		 //stream << o.prefix << "-" << o.num << "\n";
-
+		 stream  << "front  = " << fr.front << "\n"
+				 << "back   = " << fr.back << "\n"
+				 << "left   = " << fr.left << "\n"
+				 << "right  = " << fr.right << "\n"
+				 << "top    = " << fr.top << "\n" 
+				 << "bottom = " << fr.bottom << "\n" ;	
 		 return stream; 
 	 }
 

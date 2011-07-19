@@ -335,16 +335,7 @@ namespace gb
 					   return false;
 				   return true;
 			}
-
-
-			// ! \brief Вывод значений на консоль
-			// inline void print() const 
-			// { 
-				// printf("%f  %f  %f ", x, y, z); 
-			// }
-
-
-		  			  
+ 		  			  
 
 			friend std::ostream &operator << (std::ostream &stream, const vec3& v)
 			{
@@ -352,11 +343,37 @@ namespace gb
 				return stream;
 			}
 
-			//friend std::istream &operator >> (std::istream &stream, vec3& v)
-			//{
-			//	stream >> v.x >> " " >> v.y >> " " >> v.z ;
-			//	return stream;
-			//}
+			operator std::string() const 
+			{
+				std::ostringstream ss;
+				ss << x << " " << y << " " << z;
+				return ss.str();
+			}
+
+			void operator = (const std::string& str) throw (std::invalid_argument)
+			{
+				std::istringstream ss(str);
+				ss >> x;
+				ss >> y;
+				ss >> z;
+				if( ss.fail() ) throw std::invalid_argument("bad input string");
+			}
+
+			friend std::istream &operator >> (std::istream &stream, vec3& v)
+			{
+				stream >> v.x;
+				stream >> v.y;
+				stream >> v.z;
+				return stream;
+			}
+
+			friend std::istringstream &operator >> (std::istringstream &ss, vec3& v)
+			{
+				ss >> v.x;
+				ss >> v.y;
+				ss >> v.z;
+				return ss;
+			}
 
 
 

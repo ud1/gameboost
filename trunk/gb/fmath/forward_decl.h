@@ -72,7 +72,7 @@ class Sphere;
 class AABB;
 class Ray3d;
 class Line3d;
-class EulerAngles;
+class euler_angles;
 class Triangle;
 
 struct plane_s;

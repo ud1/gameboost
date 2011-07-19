@@ -1,5 +1,5 @@
 ﻿/**  \file
- \brief ??????
+ \brief 2d vector float
 
 
 */
@@ -45,16 +45,22 @@ namespace gb
 				inline vec2(const float* pfArray) { *this = pfArray; }
 
 				//! \brief Присваивание из float-массива 
-				inline void operator = (const float* pf) {x=pf[0]; y=pf[1]; }
+				inline void operator = (const float* pf) 
+				{
+					x=pf[0]; 
+					y=pf[1]; 
+				}
 
-				inline bool  operator == (const vec2 & v) const {	return (x == v.x && y == v.y  ); }
-				inline bool  operator != (const vec2 & v) const {	return (x != v.x || y != v.y  ); }
+				inline bool  operator == (const vec2 & v) const 
+				{	
+					return (x == v.x && y == v.y  ); 
+				}
 
-				//inline bool  operator <  (const vec2 & v) const { return (x < v.x && y < v.y );    }
-				//inline bool  operator <= (const vec2 & v) const {	return (x <= v.x && y <= v.y);   }
-				//inline bool  operator >  (const vec2 & v) const {	return (x > v.x && y > v.y);     }
-				//inline bool  operator >= (const vec2 & v) const {	return (x >= v.x && y >= v.y );  }
-
+				inline bool  operator != (const vec2 & v) const 
+				{	
+					return (x != v.x || y != v.y  ); 
+				}
+ 
 				inline vec2  operator + () const   { 	return *this; }
 				inline vec2  operator - () const   { vec2 res; res.x = -x;	res.y = -y;	return res; }
 
@@ -123,14 +129,8 @@ namespace gb
 #endif
  
 
-
-
-
-
-
-
 				inline void setzero() {x=y=0.0f; }
-				inline bool empty() const { return ( (x==0.0f) && (y==0.0f) ); }
+				inline bool empty() const { return  (x==0.0f) && (y==0.0f); }
 
 				inline vec2& set     (float _x, float _y) {x=_x; y=_y;  return *this; }
 				inline vec2& set_all (float val) { x=val; y=val;        return *this; }
@@ -142,7 +142,7 @@ namespace gb
 
  
 				inline float     length () const  {	return (float)sqrt ( x*x + y*y );	}
-			    inline float     lengthSq() const {	 return (x*x + y*y );  }
+			    inline float     lengthSq() const {	return (x*x + y*y );  }
 
 				inline float distance(const vec2& point) const 
 				{
@@ -183,8 +183,8 @@ namespace gb
 				//! \brief  Инвертировать (поменять знаки компонентов).
 				inline vec2& inverse() 
 				{ 
-					x=-x; 
-					y=-y; 
+					x = -x; 
+					y = -y; 
 					return *this; 
 				}
 
@@ -205,7 +205,7 @@ namespace gb
 					r.x = x + (v.x - x) * k;
 					r.y = y + (v.y - y) * k;
 					return r;			
-				};
+				}
 
 				
 
@@ -286,27 +286,46 @@ namespace gb
 				{  
 					return ( (x>=0.0f) && (y>=0.0f) );  
 				}
+ 
+				friend std::ostream &operator << (std::ostream &stream, const vec2& v)
+				{
+					stream << v.x << " " << v.y ;
+					return stream;
+				}
+
+ 				operator std::string() const 
+				{
+					std::ostringstream ss;
+					ss << x << " " << y;
+					return ss.str();
+				}
+
+				void operator = (const std::string& str) throw (std::invalid_argument)
+				{
+					std::istringstream ss(str);
+					ss >> x;
+					ss >> y;
+					if( ss.fail() ) throw std::invalid_argument("bad input string");
+				}
 
 
-				/// //! \brief     Вывод значений на консоль.
-				// inline void print() const { printf(" %f %f ", x, y); }
+				friend std::istream &operator >> (std::istream &stream, vec2& v)
+				{
+					stream >> v.x;
+					stream >> v.y;
+					return stream;
+				}
 
 
-			  
+				friend std::istringstream &operator >> (std::istringstream &ss, vec2& v)
+				{
+					ss >> v.x;
+					ss >> v.y;
+					return ss;
+				}
+ 
 
-			friend std::ostream &operator << (std::ostream &stream, const vec2& v)
-			{
-				stream << v.x << " " << v.y ;
-				return stream;
-			}
 
-#pragma message("NEED operator >>  "  __FILE__ )
-
-			//friend std::istream &operator >> (std::istream &stream, vec2& v)
-			//{
-			//	stream >> v.x >> " " >> v.y ;
-			//	return stream;
-			//}
 
 
  /*

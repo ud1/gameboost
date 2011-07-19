@@ -10,8 +10,8 @@
 \todo  Тяжелые методы матриц перенести в cpp
 \todo  удалить собственные #ifdef XXXXXX
 \todo  Поправить макрозащиту на типы RECT и POINT
-\todo Добавить каст к типам OpenGL
-\todo print() поменять на << 
+ 
+ 
 
 *
 *
@@ -21,17 +21,19 @@
 #define __GB_FMATH_H__
  
 #define _USE_MATH_DEFINES
-#include <math.h>
 
+#include <math.h>
 #include <limits>
 #include <float.h>
 #include <stdlib.h>
 #include <cstdio>
-//#include <string.h>
-#include <string>
+
 #include <istream>
 #include <ostream>
+#include <iostream>
 #include <sstream>
+#include <string>
+#include <vector>
 #include <stdexcept>
 
 #include <assert.h>
@@ -42,10 +44,9 @@
 	#endif
 #endif
  
-
 #ifdef _MSC_VER
-#pragma  warning(push)
-#pragma  warning(disable : 4995 4996 4290)
+	#pragma  warning(push)
+	#pragma  warning(disable : 4995 4996 4290)
 #endif
 
 
@@ -66,15 +67,12 @@
 #include "vector3.hpp"
 #include "vector4.hpp"
 
-
-
 // new matrix template
 #include "matrix.hpp"
 #include "matrix_quad.hpp"
 #include "matrix2x2.hpp"
 #include "matrix3x3.hpp"
 #include "matrix4x4.hpp"
-
 
 #include "matrices.h"
 

@@ -303,7 +303,7 @@ Quaternion&  Quaternion::setRotationAxis(const AxiesAngle& aa)
 }
 
 //=========================================================================
-void Quaternion::setRotationEulersAngles(const EulerAngles& ea)
+void Quaternion::setRotationEulersAngles(const euler_angles& ea)
 {
 	setRotationYawPitchRoll(ea.yaw, ea.pitch, ea.roll);
 }
