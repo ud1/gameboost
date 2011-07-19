@@ -360,24 +360,7 @@ namespace gb
 				if( w < vmin.w) w = vmin.w;  if(w > vmax.w) w = vmax.w;
 				return *this;
 			}
-
-			
-#pragma  message("NEED delete c-style to/from str  "   __FILE__ )	
  
-  /************************
-			void toCstr(char* buf) const 
-			{
-				*buf = '\0';
-			    sprintf(buf, "%f %f %f %f", x, y, z, w );
-			}
-
-			bool fromCstr(const char* s) 
-			{
-				const int NS = sscanf(s, "%f%f%f%f", &x, &y, &z, &w);
-				if(4!=NS)  return false;
-				return true;
-			}
-  **********************************/
 
 			friend std::ostream &operator << (std::ostream &stream, const vector4<T>& v)
 			{
@@ -385,18 +368,39 @@ namespace gb
 				return stream;
 			}
 
-			/*
+
+
 			friend std::istream &operator >> (std::istream &stream, vector4<T>& v)
 			{
-				stream >>v.x >> " " >> v.y >> " " >> v.z >> " " >> v.w;
+				stream >> v.x;
+				stream >> v.y;
+				stream >> v.z;
+				stream >> v.w;
 				return stream;
 			}
-			*/
 
-			#pragma message("NEED string operators  "  __FILE__ )
+			friend std::istringstream &operator >> (std::istringstream &stream, vector4<T>& v) throw (std::invalid_argument)
+			{
+				stream >> v.x; 
+				stream >> v.y;
+				stream >> v.z;
+				stream >> v.w;
+
+				if(stream.fail())
+				{
+					throw std::invalid_argument("cast error");
+				}
+
+				return stream;
+			}
+
+
+
+ 
+ 
 
 		}; 
-		// end vector4<T>
+ 
  
 	
 	}

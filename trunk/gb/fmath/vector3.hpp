@@ -495,49 +495,35 @@ namespace gb
 				const  matrix4x4<T>& World	//<	матрица модельная
 				) const	;
 
-
-#pragma message ("delete tostr() fromstr()  "  __FILE__  )
  
- /*********************************
-			inline void toCstr(char* buf) const 
-			{
-				*buf = '\0';
-				sprintf(buf, "%f %f %f", x, y, z);
-			}
-
-			bool fromCstr(const char* s) 
-			{
-				const int res = sscanf(s, "%f %f %f", &x, &y, &z);
-				if( 3 != res )
-					   return false;
-				   return true;
-			}
-  *************************/
-
-
-			// ! \brief Вывод значений на консоль
-			// inline void print() const 
-			// { 
-				// printf("%f  %f  %f ", x, y, z); 
-			// }
-
-
-		  			  
-
 			friend std::ostream &operator << (std::ostream &stream, const vector3<T>& v)
 			{
 				stream << v.x << " " << v.y << " " << v.z ;
 				return stream;
 			}
+ 
 
-	#pragma message("!!!! Need operator >>  "   __FILE__ )		
-			
-			//friend std::istream &operator >> (std::istream &stream, vector3<T>& v)
-			//{
-			//	stream >> v.x >> " " >> v.y >> " " >> v.z ;
-			//	return stream;
-			//}
+			friend std::istream &operator >> (std::istream &stream, vector3<T>& v)
+			{
+				stream >> v.x;
+				stream >> v.y;
+				stream >> v.z;
+				return stream;
+			}
 
+			friend std::istringstream &operator >> (std::istringstream &stream, vector3<T>& v) throw (std::invalid_argument)
+			{
+				stream >> v.x; 
+				stream >> v.y;
+				stream >> v.z; 
+
+				if(stream.fail())
+				{
+					throw std::invalid_argument("cast error");
+				}
+
+				return stream;
+			}
 
 
 
