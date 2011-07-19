@@ -1,4 +1,4 @@
-/** \file TriangleMesh.h
+/** \file triangle_mesh.h
 
  я хз .. нужно обобщЄнное определение сети.
 
@@ -9,17 +9,19 @@
 
 #pragma once
 
-#include <gb/base/Types.h>
+#include "../base/Types.h"
 #include "Buffer.h"
+
 #include <string>
 #include <vector>
+
+#include "../fmath/fmath.h"
 
 
 /*
     ƒќЅј¬»“№:
 	 
 	void create_sphere (std::vector<vertex>& vertexes, size_t sl, .......) {....}
-
 	void create_cilinder(.......)
 	void create_cube(.....)
 	void create_plane(.......)
@@ -54,10 +56,20 @@ namespace gb
 	{
 	   T u, v;
 	};
+
+
+
+	template<typename T>
+	struct vertex_n_tc
+	{
+		vertex_xyz<T> v_;
+		normal_xyz<T> n_;
+		        uv<T> uv_;
+	};
 	
 	
 	template<typename T, size_t TNumTexCoord>
-	struct vertex_tc
+	struct vertex_n_tcm
 	{
 		vertex_xyz  v;
 		normal_xyz  n;
@@ -89,31 +101,33 @@ namespace gb
 		
 	//-----------------------------------------------------------
 
-	typedef vertex_tc<float,1>   vertex;
+//	typedef vertex_n_tc<float,1>   vertex;
 
  
 
 
- Ё“ќ ѕ—≈¬ƒќ ќƒ !!!
+// Ё“ќ ѕ—≈¬ƒќ ќƒ !!!
+// 
+// 
 // или как то по другому назвать.. хз   
-class TriangleMesh {
+class triangle_mesh {
 public:
 
 	// статистика сети (информаци€ о сети),  то что она имеет.
 	struct mesh_info 
 	{
 
-		uint  num_vertex; ///< сколько в сети вершин
-		uint  num_indexes; ///< сколько индексов.
-		uint  vertex_size; ///< размер вершины в байтах
+		uint32_t  num_vertex; ///< сколько в сети вершин
+		uint32_t  num_indexes; ///< сколько индексов.
+		uint32_t  vertex_size; ///< размер вершины в байтах
 	
 	
 	};
 
 
 
- Bbox() get_boundingbox() const { return m_Bbox; }
- BSphere() get_boundingSphere() const { return m_BSphere; } 
+ fmath::AABB   get_boundingbox() const    { return m_Bbox; }
+ fmath::Sphere get_boundingSphere() const { return m_BSphere; } 
  
  const mesh_info* get_mesh_info() const { return &m_mesh_info; };
  
@@ -122,8 +136,8 @@ public:
 
 protected:
 
- Bbox       m_Bbox;
- BSphere    m_BSphere;
+ fmath::AABB       m_Bbox;
+ fmath::Sphere    m_BSphere;
  mesh_info 	m_mesh_info;
  
  

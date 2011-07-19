@@ -1,5 +1,5 @@
 #pragma once
-#include <gb/base/IRefCountable.h>
+#include "../base/IRefCountable.h"
 
 namespace gb
 {

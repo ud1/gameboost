@@ -1,6 +1,6 @@
 #pragma once
 
-#include <gb/base/Atomic.h>
+#include "Atomic.h"
 #include <cstdlib>
 
 namespace gb

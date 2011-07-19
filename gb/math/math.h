@@ -11,7 +11,7 @@
 #pragma once
 #define __GB_MATH_H__
 
-#include <gb/Config.h>
+#include "../Config.h"
 
 #include <math.h>
 #include <limits>

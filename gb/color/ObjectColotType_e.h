@@ -12,6 +12,8 @@ namespace gb
      {
 	 
 
+	 #error rename ObjectColotType_e  >>  object_color_type_e
+	 
 		struct ObjectColotType_e
 		{
 			enum e
