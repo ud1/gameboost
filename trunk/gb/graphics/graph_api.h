@@ -16,11 +16,13 @@ namespace gb
 
 				 SOFTWARE,
 				 
+				 OPENGL,				 
+				 
 				 #ifdef WIN32
 				 DIRECTX,
 				 #endif
 				 
-				 OPENGL,
+
 			};
 			
 			std::string tostr(const e);
@@ -31,18 +33,18 @@ namespace gb
 		
 		#ifdef WIN32
 		
-		namespace e_directx
-		{
-			enum e
+			namespace e_directx
 			{
-				UNDEFINED = 0,
-			
-				DIRECTX9,
-				DIRECTX10,
-				DIRECTX11
-			
-			};
-		}
+				enum e
+				{
+					UNDEFINED = 0,
+				
+					DIRECTX9,
+					DIRECTX10,
+					DIRECTX11
+				
+				};
+			}
 		
 		#endif
 	 

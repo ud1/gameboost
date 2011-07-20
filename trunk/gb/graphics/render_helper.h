@@ -54,7 +54,7 @@ namespace gb
 
 	protected:
 
-	//* постановка новой матрицы. если в аргументе NULL? то матрица не меняется.
+	//* постановка новой матрицы. если в аргументе NULL, то матрица не меняется.
 	virtual void set_matrix(const math::mat4* world, const math::mat4* view, const math::mat4* proj) =0; 
   
 
