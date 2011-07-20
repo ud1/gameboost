@@ -25,17 +25,17 @@ namespace gb
 
 	 const math::mat4& render_helper::get_matrix_world() const
 	 {
-		  assert(false);  return math::mat4();
+		  assert(false); static  math::mat4 xxxxx;  return xxxxx;
 	 }
 
 	 const math::mat4& render_helper::get_matrix_view() const
 	 {
-		 assert(false);	 return math::mat4();
+		 assert(false);	 static  math::mat4 xxxxx;  return xxxxx;
 	 }
 
 	 const math::mat4& render_helper::get_matrix_proj() const
 	 {
-		 assert(false);	 return math::mat4();
+		 assert(false);	static  math::mat4 xxxxx;  return xxxxx;
 	 }
 
 
