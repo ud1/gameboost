@@ -23,6 +23,7 @@ namespace
 		{"RGBA_5551",	16, 5, 5, 5, 1, 4, false, false},
 		{"RGBA_10_10_10_2",	32, 10, 10, 10, 2, 4, false, false},
 		
+		{"ALPHA8",		 8, 0, 0, 0, 0, 1, false, false},
 		{"GRAYSCALE8",	 8, 0, 0, 0, 0, 1, false, false},
 		{"GRAYSCALE16",	16, 0, 0, 0, 0, 1, false, false},
 		{"FGRAYSCALE",	FLOAT_BITS, 0, 0, 0, 0, 1, false, true},

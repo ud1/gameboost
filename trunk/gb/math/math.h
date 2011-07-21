@@ -24,7 +24,8 @@
  
 #pragma  warning(push)
 #pragma  warning(disable : 4995)
- 
+
+#include <gb/base/nullptr.h>
  
 // Временно подключаем glm, так как не вся математика реализованна
 // http://glm.g-truc.net/
@@ -32,6 +33,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform2.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace gb
 {
@@ -51,6 +53,22 @@ namespace gb
 					return lev;
 			}
 			return 0;
+		}
+		
+		// FIXME Надо сделать все по нормальному
+		inline float const * value_ptr(const int &vec)
+		{
+			return nullptr;
+		}
+		
+		inline float const * value_ptr(const vec2 &v)
+		{
+			return &v.x;
+		}
+		
+		inline float const * value_ptr(const vec3 v)
+		{
+			return &v.x;
 		}
 	}
 }

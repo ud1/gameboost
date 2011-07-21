@@ -13,7 +13,7 @@ namespace gb
 			{
 			public:
 				GLAttribute(const char *name, GLint location);
-				bool setVertexBuffer(Buffer *buf, const Layout *l);
+				bool setVertexBuffer(Buffer *buf, const Layout &l);
 				void bindBuffer();
 				void unbindBuffer();
 				

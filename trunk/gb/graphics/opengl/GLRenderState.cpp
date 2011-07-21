@@ -5,6 +5,8 @@
 #include <boost/bind.hpp>
 #include <boost/tokenizer.hpp>
 
+#include "GLDevice.h"
+
 namespace gb
 {
 	namespace graphics

@@ -84,6 +84,11 @@ namespace gb
 					return value;
 				}
 				
+				virtual const float *getFloats() const
+				{
+					return math::value_ptr(getValue());
+				}
+				
 			protected:
 				mutable T value;
 				VariableUpdater<T> *updater;

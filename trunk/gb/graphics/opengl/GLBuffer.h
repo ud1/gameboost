@@ -19,7 +19,7 @@ namespace gb
 				
 				void* map(size_t offset_bytes, size_t size);
 				void unmap();
-				void subData(size_t offset_bytes, size_t size, void *data);
+				void subData(size_t offset_bytes, size_t size, const void *data);
 				void bind();
 				void unbind();
 				

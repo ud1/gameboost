@@ -24,9 +24,9 @@ namespace gb
 				this->location = location;
 			}
 			
-			bool GLAttribute::setVertexBuffer(Buffer *buf, const Layout *l)
+			bool GLAttribute::setVertexBuffer(Buffer *buf, const Layout &l)
 			{
-				layout = *l;
+				layout = l;
 				buffer = t::debug_cast<GLBuffer *> (buf);
 				return true;
 			}

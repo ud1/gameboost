@@ -20,6 +20,19 @@ namespace gb
 		struct rows_number<mat4> : public boost::mpl::int_<4> {};
 		
 		
+		template <>
+		struct rows_number<vec_t> : public boost::mpl::int_<1> {};
+		
+		template <>
+		struct rows_number<vec2> : public boost::mpl::int_<2> {};
+		
+		template <>
+		struct rows_number<vec3> : public boost::mpl::int_<3> {};
+		
+		template <>
+		struct rows_number<vec4> : public boost::mpl::int_<4> {};
+		
+		
 		template<typename T>
 		struct columns_number : public boost::mpl::int_<1> {};
 		
@@ -31,7 +44,7 @@ namespace gb
 		
 		
 		template <typename T>
-		struct is_floating_point_type : public boost::mpl::bool_<false> {};
+		struct is_floating_point_type : public boost::false_type {};
 		
 		template <>
 		struct is_floating_point_type<mat3> : public boost::false_type {};

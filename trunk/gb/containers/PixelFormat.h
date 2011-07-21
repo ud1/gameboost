@@ -31,6 +31,7 @@ namespace gb
 				RGBA_5551,
 				RGBA_10_10_10_2,
 				
+				ALPHA8,
 				GRAYSCALE8,
 				GRAYSCALE16,
 				FGRAYSCALE,

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLDevice.h"
+#include <gb/graphics/RenderState.h>
 
 #include <boost/function.hpp>
 

@@ -29,7 +29,7 @@ namespace
 
 namespace gb
 {
-	namespace graphics
+	namespace graphics2d
 	{
 		
 		using namespace base;
@@ -39,7 +39,7 @@ namespace gb
 		{
 		public:
 			
-			struct ImageBlockImpl : public gb::graphics::ImageBlock
+			struct ImageBlockImpl : public ImageBlock
 			{
 				ImageBlockImpl(TextureAtlasImpl *parent) : parent(parent) {}
 				
@@ -122,7 +122,7 @@ namespace gb
 					
 					*(Rectangle *) result = rec;
 					result->copyFrom(image, image.pixel_format);
-					texture->setSubImage((const Image *) result, rec.left, rec.top, 0, 0);
+					texture->setSubImage(&(const Image &) *result, rec.left, rec.top, 0, 0);
 					blocks.insert(result);
 					return result;
 				}
@@ -136,6 +136,11 @@ namespace gb
 				int id = (block->width << 16) + block->height;
 				unused_blocks.insert(std::make_pair(id, *block));
 				delete block;
+			}
+			
+			base::RefCntHolder<graphics::Texture> getTexture()
+			{
+				return texture;
 			}
 			
 		private:
@@ -178,6 +183,11 @@ namespace gb
 		const ImageBlock *TextureAtlas::createImageBlock(const containers::Image &image)
 		{
 			return pimpl->createImageBlock(image);
+		}
+		
+		base::RefCntHolder<Texture> TextureAtlas::getTexture()
+		{
+			return pimpl->getTexture();
 		}
 	}
 }

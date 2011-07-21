@@ -2,18 +2,60 @@
 
 namespace gb
 {
-	namespace graphics
+	namespace graphics2d
 	{
 		
-		void RectsBuffer::addRects(const Rect1 *rects, size_t size)
+		void RectsBuffer::addRects(const Rect1 *rects, size_t size, math::vec3 color)
+		{
+			compiled = false;
+			rect1_vector.insert(rect1_vector.end(), rects, rects + size);
+			order.push_back(RectsBucket(0, size, color));
+		}
+		
+		void RectsBuffer::addRects(const Rect9 *rects, size_t size, math::vec3 color)
+		{
+			compiled = false;
+			rect9_vector.insert(rect9_vector.end(), rects, rects + size);
+			order.push_back(RectsBucket(1, size, color));
+		}
+		
+		void RectsBuffer::compile()
+		{
+			if (compiled)
+				return;
+			
+			vertex_buffer.clear();
+			index_buffer.clear();
+			
+			size_t rect1_vector_pos = 0;
+			size_t rect9_vector_pos = 0;
+			for (size_t i = 0; i < order.size(); ++i)
+			{
+				RectsBucket &bucket = order[i];
+				if (bucket.vector_id == 0)
+				{
+					addRectsToBuffer(&rect1_vector[rect1_vector_pos], bucket.count, bucket.color);
+					rect1_vector_pos += bucket.count;
+				}
+				else
+				{
+					addRectsToBuffer(&rect9_vector[rect9_vector_pos], bucket.count, bucket.color);
+					rect9_vector_pos += bucket.count;
+				}
+			}
+			compiled = true;
+		}
+		
+		void RectsBuffer::addRectsToBuffer(const Rect1 *rects, size_t size, math::vec3 color)
 		{
 			Vertex2d vertex;
+			vertex.color = color;
 			for (const Rect1 *rect = rects; rect < rects + size; ++rect)
 			{
 				short ind = (short) vertex_buffer.size();
 				
 				vertex.coord = math::ivec2(rect->left, rect->top);
-				vertex.tex_coord = math::ivec2(rect->image_block->left, rect->image_block->left);
+				vertex.tex_coord = math::ivec2(rect->image_block->left, rect->image_block->top);
 				vertex_buffer.push_back(vertex);
 				
 				vertex.coord.x += rect->width;
@@ -38,7 +80,7 @@ namespace gb
 			}
 		}
 		
-		void RectsBuffer::addRects(const Rect9 *rects, size_t size)
+		void RectsBuffer::addRectsToBuffer(const Rect9 *rects, size_t size, math::vec3 color)
 		{
 			for (const Rect9 *rect = rects; rect < rects + size; ++rect)
 			{
@@ -64,6 +106,7 @@ namespace gb
 				short ind = (short) vertex_buffer.size();
 				
 				Vertex2d vertex;
+				vertex.color = color;
 				
 				vertex.coord = math::ivec2(x0, y0);
 				vertex.tex_coord = math::ivec2(tx0, ty0);

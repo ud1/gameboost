@@ -21,6 +21,7 @@ namespace gb
 	{
 		
 		//! \brief Прямоугольник
+		// Эта структура превратилась в кучу дерьма
 		struct Rectangle
 		{
 			int left; //< позиция по X.
@@ -74,7 +75,7 @@ namespace gb
 
 			void init(const Rectangle &rc)
 			{
-				*this = rc;
+				init(rc.left, rc.top, rc.width, rc.height);
 			}
 
 			void set_zero()
@@ -155,10 +156,10 @@ namespace gb
  #endif
 
 			//! \brief offset coord.
-			inline void operator += (const Point& p)
-			{
-				offset (p);
-			}
+// 			inline void operator += (const Point& p)
+// 			{
+// 				offset (p);
+// 			}
 
 
 #ifdef _WINDOWS_
@@ -186,15 +187,15 @@ namespace gb
 				return ss.str();
 			}
 
-			void operator = (const std::string& str) throw (std::invalid_argument)
-			{
-				std::istringstream ss(str);
-				ss >> left;
-				ss >> top;
-				ss >> width;
-				ss >> height;
-				if( ss.fail() ) throw std::invalid_argument("bad input string");
-			}
+// 			void operator = (const std::string& str) throw (std::invalid_argument)
+// 			{
+// 				std::istringstream ss(str);
+// 				ss >> left;
+// 				ss >> top;
+// 				ss >> width;
+// 				ss >> height;
+// 				if( ss.fail() ) throw std::invalid_argument("bad input string");
+// 			}
  
 
 

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <gb/graphics/Device.h>
+#include <gb/graphics/Buffer.h>
+#include <gb/graphics/ShaderProgram.h>
 #include <gb/containers/Image.h>
 #include <gb/base/AutoInjection.h>
 #include <gb/math/math.h>

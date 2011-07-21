@@ -184,21 +184,22 @@
 #include <gb/window_subsystem/Window.h>
 #include <gb/base/Rectangle.h>
 
-#include "Attribute.h"
-#include "Buffer.h"
-#include "Layout.h"
-#include "RenderState.h"
-#include "RenderTarget.h"
-#include "Shader.h"
-#include "ShaderProgram.h"
-#include "Texture.h"
-#include "Uniform.h"
+#include <gb/graphics/Texture.h>
 
 namespace gb
 {
 	namespace graphics
 	{
 
+		class Attribute;
+		class Buffer;
+		struct Layout;
+		class RenderState;
+		class RenderTarget;
+		class Shader;
+		class ShaderProgram;
+		class Uniform;
+		
 		/**
 		 * @ingroup graphics_group
 		 * \brief Интерфейс к графической библиотеки такой как gl или dx или softwar.

@@ -46,21 +46,11 @@ namespace gb
 				Attribute *attr = prg.getAttribute(i);
 				if (std::string("position") == attr->getName())
 				{
-					Layout layout;
-					layout.ncomponents = 3;
-					layout.offset = 0;
-					layout.stride = sizeof(Vert);
-					layout.type = Layout::FLOAT;
-					attr->setVertexBuffer(vertex_buffer, &layout);
+					attr->setVertexBuffer(vertex_buffer, getLayoutOf(&Vert::pos));
 				}
 				else if (std::string("tex_coord") == attr->getName())
 				{
-					Layout layout;
-					layout.ncomponents = 2;
-					layout.offset = reinterpret_cast<size_t>(&((Vert *) NULL)->tex_coord);
-					layout.stride = sizeof(Vert);
-					layout.type = Layout::FLOAT;
-					attr->setVertexBuffer(vertex_buffer, &layout);
+					attr->setVertexBuffer(vertex_buffer, getLayoutOf(&Vert::tex_coord));
 				}
 			}
 			

@@ -24,7 +24,7 @@ namespace gb
 			 * \param buf вершинный буфер
 			 * \param l задаёт расположение и тип данных внутри буфера
 			 */
-			virtual bool setVertexBuffer(Buffer *buf, const Layout *l) = 0;
+			virtual bool setVertexBuffer(Buffer *buf, const Layout &l) = 0;
 			
 		protected:
 			std::string name;

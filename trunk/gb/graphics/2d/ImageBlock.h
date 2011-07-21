@@ -6,8 +6,10 @@
 
 namespace gb
 {
-	namespace graphics
+	namespace graphics2d
 	{
 		struct ImageBlock : public containers::AutoImage, public base::Rectangle, public base::IRefCountable {};
+		
+		typedef base::RefCntHolder<const ImageBlock> PImageBlock;
 	}
 }

@@ -19,4 +19,4 @@ endif()
 
 #------ target -----
 add_executable( BaseApp_Test ${BaseApp_Test_SOURCES} )
-target_link_libraries(BaseApp_Test gameboost ${BaseApp_EXTRA_LIBS})
+target_link_libraries(BaseApp_Test gameboost ${BaseApp_EXTRA_LIBS} ${FREETYPE_LIBRARIES})
