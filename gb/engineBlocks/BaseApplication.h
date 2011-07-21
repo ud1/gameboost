@@ -3,6 +3,7 @@
 #include <gb/window_subsystem/WindowManager.h>
 #include <gb/window_subsystem/Input.h>
 #include <gb/graphics/Device.h>
+#include <gb/graphics/RenderTarget.h>
 #include <gb/fs/FileSystem.h>
 #include <gb/engineBlocks/CameraInput.h>
 #include <gb/graphics/UniformServer.h>
@@ -85,7 +86,7 @@ namespace gb
 				
 				math::vec2 getSize()
 				{
-					int width, height;
+					int width = 0, height = 0;
 					device->getSize(width, height);
 					return math::vec2((float) width, (float) height);
 				}

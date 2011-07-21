@@ -6,7 +6,7 @@ if (MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -D_WIN32_WINNT=0x0501 -D_USE_MATH_DEFINES -DGLEW_STATIC /MP )
 else()
 	# для прочих компиляторов
-	add_definitions(-pedantic -Wall)
+	add_definitions(-pedantic -Wall -std=c++0x)
 endif()
 
 # Исходники
@@ -55,6 +55,7 @@ set( GAMEBOOST_SOURCES
 
 		containers/Image.h containers/Image.cpp
 		containers/PixelFormat.h containers/PixelFormat.cpp
+		containers/alphaConvertion.h
 
 		loaders/images/ImageLoader.h
 		loaders/images/BmpLoader.h loaders/images/BmpLoader.cpp
@@ -82,6 +83,8 @@ set( GAMEBOOST_SOURCES
 		graphics/2d/rects.h
 		graphics/2d/RectsBuffer.h graphics/2d/RectsBuffer.cpp
 		graphics/2d/TextureAtlas.h graphics/2d/TextureAtlas.cpp
+		graphics/2d/GlyphCache.h
+		graphics/2d/TextRenderer.h graphics/2d/TextRenderer.cpp
 
 		math/math.h
 		math/BBox.h

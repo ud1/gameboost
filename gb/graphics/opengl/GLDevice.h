@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Device.h"
+#include <gb/graphics/ShaderProgram.h>
 #include <gb/mt/ThreadPolicy.h>
 #include <boost/thread/mutex.hpp>
 

@@ -40,7 +40,7 @@ namespace gb
 			virtual void unmap() = 0;
 			
 			/** Обновление части или всего буфера */
-			virtual void subData(size_t offset_bytes, size_t size_in_bytes, void *data) = 0;
+			virtual void subData(size_t offset_bytes, size_t size_in_bytes, const void *data) = 0;
 			
 		protected:
 			bool is_created;

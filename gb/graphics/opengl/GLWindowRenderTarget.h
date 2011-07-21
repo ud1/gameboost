@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GLDevice.h"
+#include <gb/graphics/RenderTarget.h>
 
 #include <gb/window_subsystem/Window.h>
 

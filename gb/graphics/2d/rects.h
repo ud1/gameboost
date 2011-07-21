@@ -4,7 +4,7 @@
 
 namespace gb
 {
-	namespace graphics
+	namespace graphics2d
 	{
 		struct Rect1 : public base::Rectangle
 		{
@@ -21,12 +21,28 @@ namespace gb
 				return *this;
 			}
 			
-			base::RefCntHolder<ImageBlock> image_block;
+			PImageBlock image_block;
 		};
 		
 		struct Rect9 : public Rect1
 		{
 			int ex, wx, ny, sy;
+			
+			Rect9() {}
+			Rect9(const Rect9 &o)
+			{
+				*this = o;
+			}
+			
+			Rect9 &operator = (const Rect9 &o)
+			{
+				*(Rect1 *) this = (const Rect1 &) o;
+				ex = o.ex;
+				wx = o.wx;
+				ny = o.ny;
+				sy = o.sy;
+				return *this;
+			}
 		};
 	}
 }

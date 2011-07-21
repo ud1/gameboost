@@ -60,7 +60,7 @@ namespace gb
 				unbind();
 			}
 			
-			void GLBuffer::subData(size_t offset_bytes, size_t size, void *data)
+			void GLBuffer::subData(size_t offset_bytes, size_t size, const void *data)
 			{
 				if (!size)
 					size = nelements * element_size - offset_bytes;

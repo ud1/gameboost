@@ -39,5 +39,6 @@ namespace gb
 			virtual const FontInfo *getFontInfo() const = 0;
 		};
 		
+		typedef base::RefCntHolder<Font> PFont;
 	}
 }

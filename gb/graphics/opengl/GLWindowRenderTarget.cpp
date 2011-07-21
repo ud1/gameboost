@@ -31,6 +31,9 @@ namespace gb
 				wnd->startRendering();
 				glDisable(GL_SCISSOR_TEST);
 				
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				
 				if (viewport_changed)
 				{
 					viewport_changed = false;
@@ -51,6 +54,8 @@ namespace gb
 				{
 					glClear(GL_DEPTH_BUFFER_BIT);
 				}
+				
+
 			}
 			
 			void GLWindowRenderTarget::endFrame()

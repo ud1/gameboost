@@ -101,6 +101,9 @@ namespace gb
 		class AutoImage
 		{
 		public:
+			AutoImage() {}
+			AutoImage(size_t width, size_t height, ePixelFormat::PixelFormat pf);
+			
 			~AutoImage();
 			/**
 			 * Копирует в себя данные изображения применяя конвертацию данных
@@ -120,8 +123,12 @@ namespace gb
 				return image;
 			}
 			
+			Image &getImage() {return image;}
+			
 		private:
 			Image image;
+			
+			void create(size_t width, size_t height, ePixelFormat::PixelFormat pf);
 		};
 		
 		/**

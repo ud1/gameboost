@@ -59,6 +59,7 @@ namespace
 				data_format = GL_RGBA;
 				data_type = GL_UNSIGNED_BYTE;
 				internal_format = GL_RGBA;
+				return true;
 			case ePixelFormat::RGBA_16_16_16_16:
 				data_format = GL_RGBA;
 				data_type = GL_UNSIGNED_SHORT;
@@ -180,7 +181,11 @@ namespace gb
 				GLenum data_type;
 
 				if (!getGLPixelFormat(im->pixel_format, data_format, data_type, internal_format))
-					return false;
+				{
+					AutoImage auto_image;
+					auto_image.copyFrom(*im, ePixelFormat::RGBA_8888);
+					return setImageOnCubeFace(&(const Image &)auto_image, face, mipLevel);
+				}
 
 				GLint row_len = im->pitch / (getPFDescription(im->pixel_format)->bits/8);
 				glPixelStorei(GL_UNPACK_ROW_LENGTH, row_len);
@@ -224,7 +229,7 @@ namespace gb
 					// Данные не выровнены, придется сначала скопировать
 					AutoImage auto_image;
 					auto_image.copyFrom(*im, im->pixel_format);
-					return setImageOnCubeFace(&(const Image &)auto_image, face, mipLevel);
+					return setSubImageOnCubeFace(&(const Image &)auto_image, xoff, yoff, zoff, face, mipLevel);
 				}
 				
 				bind();
@@ -233,7 +238,12 @@ namespace gb
 				GLenum data_format;
 				GLenum data_type;
 
-				getGLPixelFormat(im->pixel_format, data_format, data_type, internal_format);
+				if (!getGLPixelFormat(im->pixel_format, data_format, data_type, internal_format))
+				{
+					AutoImage auto_image;
+					auto_image.copyFrom(*im, ePixelFormat::RGBA_8888);
+					return setSubImageOnCubeFace(&(const Image &)auto_image, xoff, yoff, zoff, face, mipLevel);
+				}
 
 				GLint row_len = im->pitch / (getPFDescription(im->pixel_format)->bits/8);
 				glPixelStorei(GL_UNPACK_ROW_LENGTH, row_len);
