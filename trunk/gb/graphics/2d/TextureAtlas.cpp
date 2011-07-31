@@ -12,18 +12,9 @@ namespace
 {
 	using namespace gb::graphics;
 	
-	template <typename T>
-	struct Callback
-	{
-		T *c;
-		bool (T::*f)(int, int);
-	};
-	
-	template <typename T>
 	bool resizeFunc(int new_width, int new_height, void *user_data)
 	{
-		Callback<T> *callback = static_cast<Callback<T>*>(user_data);
-		return (callback->c->*(callback->f))(new_width, new_height);
+		return true;
 	}
 }
 
@@ -54,44 +45,29 @@ namespace gb
 			TextureAtlasImpl(Device &device) : device(device)
 			{
 				device.addRef();
-				
-				resize_callback.c = this;
-				resize_callback.f = &TextureAtlasImpl::resizeFunc;
 			}
 			
 			~TextureAtlasImpl()
 			{
-				assert(blocks.empty());
+				//assert(blocks.empty());
 				device.release();
-			}
-			
-			bool resizeFunc(int new_width, int new_height)
-			{
-				if (!initialize(new_width, new_height))
-					return false;
-				
-				unused_blocks.clear();
-				
-				Blocks old_blocks;
-				blocks.swap(old_blocks);
-				
-				for (Blocks::iterator it = old_blocks.begin(); it != old_blocks.end();)
-				{
-					const ImageBlock *block = createImageBlock(**it, *it);
-					assert(block);
-				}
-				
-				return true;
 			}
 			
 			bool initialize(int tex_width, int tex_height)
 			{
-				atlas = boost::shared_ptr<Atlas>(new Atlas(tex_width, tex_height));
-				atlas->setResizeFunc(::resizeFunc<TextureAtlasImpl>, (void *) &resize_callback);
+				if (!atlas)
+				{
+					atlas = boost::shared_ptr<Atlas>(new Atlas(tex_width, tex_height));
+				}
 				
-				texture = device.createTexture(Texture::Texture2D);
-				texture->setMinFilter(Texture::TF_LINEAR);
-				texture->setMagFilter(Texture::TF_LINEAR);
+				createTexture(tex_width, tex_height);
+			}
+			
+			bool createTexture(int tex_width, int tex_height)
+			{
+				PTexture new_texture = device.createTexture(Texture::Texture2D);
+				new_texture->setMinFilter(Texture::TF_LINEAR);
+				new_texture->setMagFilter(Texture::TF_LINEAR);
 				
 				Image im;
 				im.width = tex_width;
@@ -99,15 +75,14 @@ namespace gb
 				im.pixel_format = ePixelFormat::RGBA_8888;
 				im.calculateDataSize();
 				
-				return texture->setImage(&im, 0);
+				if(!new_texture->setImage(&im, 0))
+					return false;
+				
+				texture = new_texture;
+				return true;
 			}
 			
 			const ImageBlock *createImageBlock(const containers::Image &image)
-			{
-				return createImageBlock(image, nullptr);
-			}
-			
-			const ImageBlock *createImageBlock(const containers::Image &image, ImageBlockImpl *old_block)
 			{
 				Rectangle rec;
 				rec.width = image.width;
@@ -115,19 +90,64 @@ namespace gb
 				
 				if (getBlock(rec))
 				{
-					ImageBlockImpl *result;
-					if (old_block)
-						result = old_block;
-					else result = new ImageBlockImpl(this);
+					return createImageBlock(image, rec);
+				}
+				else
+				{
+					boost::shared_ptr<Atlas> new_atlas = boost::shared_ptr<Atlas>(new Atlas(atlas->getWidth(), atlas->getHeight()));
+					new_atlas->setResizeFunc(::resizeFunc, nullptr);
+					std::vector<Rectangle> rects;
+					rects.reserve(blocks.size() + 1);
 					
-					*(Rectangle *) result = rec;
-					result->copyFrom(image, image.pixel_format);
-					texture->setSubImage(&(const Image &) *result, rec.left, rec.top, 0, 0);
-					blocks.insert(result);
-					return result;
+					for (Blocks::iterator it = blocks.begin(); it != blocks.end(); ++it)
+					{
+						Rectangle im_rec;
+						im_rec.width = (*it)->getImage().width;
+						im_rec.height = (*it)->getImage().height;
+						if (!new_atlas->insert(im_rec))
+							return nullptr;
+						rects.push_back(im_rec);
+					}
+					
+					if (!new_atlas->insert(rec))
+						return nullptr;
+					rects.push_back(rec);
+					
+					if (!createTexture(new_atlas->getWidth(), new_atlas->getHeight()))
+						return nullptr;
+					
+					new_atlas->setResizeFunc(nullptr, nullptr);
+					atlas = new_atlas;
+					
+					size_t i = 0;
+					for (Blocks::iterator it = blocks.begin(); it != blocks.end(); ++it, ++i)
+					{
+						Rectangle &rec = rects[i];
+						*(Rectangle *) *it = rec;
+						if (!texture->setSubImage(&(const Image &) **it, rec.left, rec.top, 0, 0))
+							return nullptr;
+					}
+					
+					return createImageBlock(image, rects[i]);
 				}
 				
 				return nullptr;
+			}
+			
+			const ImageBlock *createImageBlock(const containers::Image &image, const Rectangle &rec)
+			{
+				ImageBlockImpl *result = new ImageBlockImpl(this);
+					
+				*(Rectangle *) result = rec;
+				result->copyFrom(image, image.pixel_format);
+				
+				if (!texture->setSubImage(&(const Image &) *result, rec.left, rec.top, 0, 0))
+				{
+					delete result;
+					return nullptr;
+				}
+				blocks.insert(result);
+				return result;
 			}
 			
 			void releaseBlock(ImageBlockImpl *block)
@@ -166,8 +186,6 @@ namespace gb
 			Blocks blocks;
 			typedef std::map<int, Rectangle> UnusedBlocks;
 			UnusedBlocks unused_blocks;
-			
-			Callback<TextureAtlasImpl> resize_callback;
 		};
 		
 		TextureAtlas::TextureAtlas(Device& device)
