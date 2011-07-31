@@ -16,11 +16,26 @@ namespace gb
 				{
 					if (resizeFunc(2*root->rc.width, root->rc.height, user_data))
 					{
+						if (!root->child[0])
+						{
+							root->rc.width *= 2;
+							return insert(rc);
+						}
+						
 						new_root = new Node;
 						new_root->rc.init(0, 0, 2*root->rc.width, root->rc.height);
 						
-						child = new Node;
-						child->rc.init(root->rc.width, 0, root->rc.width, root->rc.height);
+						if (root->child[1]->has_image || root->child[1]->rc.top)
+						{
+							child = new Node;
+							child->rc.init(root->rc.width, 0, root->rc.width, root->rc.height);
+						}
+						else
+						{
+							child = root->child[1];
+							root = root->child[0];
+							child->rc.init(root->rc.width, 0, new_root->rc.width - root->rc.width, new_root->rc.height);
+						}
 					}
 					else return false;
 				}
@@ -28,11 +43,26 @@ namespace gb
 				{
 					if (resizeFunc(root->rc.width, 2*root->rc.height, user_data))
 					{
+						if (!root->child[0])
+						{
+							root->rc.height *= 2;
+							return insert(rc);
+						}
+						
 						new_root = new Node;
 						new_root->rc.init(0, 0, root->rc.width, 2*root->rc.height);
 						
-						child = new Node;
-						child->rc.init(0, root->rc.height, root->rc.width, root->rc.height);
+						if (root->child[1]->has_image || root->child[1]->rc.left)
+						{
+							child = new Node;
+							child->rc.init(0, root->rc.height, root->rc.width, root->rc.height);
+						}
+						else
+						{
+							child = root->child[1];
+							root = root->child[0];
+							child->rc.init(0, root->rc.height, new_root->rc.width, new_root->rc.height - root->rc.height);
+						}
 					}
 					else return false;
 				}
@@ -42,7 +72,7 @@ namespace gb
 				
 				root = new_root;
 				
-				return insert(child, rc);
+				return insert(rc);
 			}
 			
 			if (node)
@@ -84,7 +114,7 @@ namespace gb
 				{
 					//	|------------|
 					//	|     |      |
-					//	|  rc |      |			
+					//	|  rc |      |
 					//	|     |      |
 					//	|-----|      |
 					//	|     |      |
@@ -100,7 +130,7 @@ namespace gb
 				{
 					//	|-----------|
 					//	|  rc |     |
-					//	|     |     |			
+					//	|     |     |
 					//	|-----|-----|
 					//	|           |
 					//	|           |
