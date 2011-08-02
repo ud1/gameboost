@@ -102,7 +102,7 @@ GB_D3D9_RT_API SetUnUsedAll();
 GB_D3D9_RT_API ComputeAverSurfaceColor(
 			gb_out gb::color::Color4f* pOut, 
 			gb_inout_opt IDirect3DSurface9* surf,
-			gb_in_opt gb::fmath::geom2d::Rect* rect);
+			gb_in_opt gb::fmath::geom2d::Rectangle* rect);
 
 GB_D3D9_RT_API ComputeSurfacePixelColor(
 			gb_out gb::color::Color4f* pColorOut, 
