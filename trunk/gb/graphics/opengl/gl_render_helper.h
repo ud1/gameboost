@@ -4,6 +4,8 @@
  * 
  */
 
+ 
+ /*
 
 #pragma once
 
@@ -39,3 +41,5 @@ namespace gb
 		} // end namespace opengl
 	}
 }
+
+*/
