@@ -6,7 +6,7 @@ namespace  gb
  namespace  graphics
  {
 
- 
+ 	/*
  
 	static std::string Fog::fog_mode_e::tostr(const e value)
 	{
@@ -20,7 +20,7 @@ namespace  gb
 	}
  
  
- 
+ 	 */
  
 
  }

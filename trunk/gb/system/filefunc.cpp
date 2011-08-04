@@ -15,6 +15,13 @@
 
 #include <gb/t/func.h>
 
+
+// kst template library
+// http://code.google.com/p/kst/
+#include <kst/func.hpp>
+
+
+
 #ifdef WIN32
 #include "Strsafe.h"
 #endif
@@ -114,13 +121,13 @@ public:
 
 	void clear() {
 #pragma message("ks777^^sys::filefunc После перерефр.  надо проверить")
-		gb::t::func::setzero_buffer<GlobalArrS_BufferA>(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH );	
+		kst::setzero_buffer<GlobalArrS_BufferA>(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH );	
 
 	};
 
 	bool Add(gb::system::filefunc::PathDataA& _path) {
 		__Init();
-		const int NFREEINDEX = gb::t::func::findFirstEmptyFromBuffer(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH);
+		const int NFREEINDEX = kst::findFirstEmptyFromBuffer(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH);
 		if(NFREEINDEX == -1) 
 			return false;
 
@@ -211,13 +218,13 @@ public:
 	};
 
 	void clear() {
-		gb::t::func::setzero_buffer(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH );	
+		kst::setzero_buffer(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH );	
 
 	};
 
 	bool Add(gb::system::filefunc::PathDataW& _path) {
 		__Init();
-		const int NFREEINDEX = gb::t::func::findFirstEmptyFromBuffer(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH);
+		const int NFREEINDEX = kst::findFirstEmptyFromBuffer(m_arr, gb::system::filefunc::MAX_GLOBALSEARCHPATH);
 		if(NFREEINDEX == -1) 
 			return false;
 
@@ -279,8 +286,8 @@ static GlobalArrSearchPathW  g_GlobalArrSearchPathW;
 
 
 
-//gb::t::func::FixedArray<gb::system::filefunc::PathDataA, gb::system::filefunc::MAX_GLOBALSEARCHPATH> g_GlobalArrSearchPathA;
-//gb::t::func::FixedArray<gb::system::filefunc::PathDataW, gb::system::filefunc::MAX_GLOBALSEARCHPATH> g_GlobalArrSearchPathW;
+//kst::FixedArray<gb::system::filefunc::PathDataA, gb::system::filefunc::MAX_GLOBALSEARCHPATH> g_GlobalArrSearchPathA;
+//kst::FixedArray<gb::system::filefunc::PathDataW, gb::system::filefunc::MAX_GLOBALSEARCHPATH> g_GlobalArrSearchPathW;
 
  
 
@@ -297,7 +304,7 @@ GB_FF_API  HRESULT gb::system::filefunc::FileUtApendGlobalSearchPathA(const gb::
 
 	// new code
 
-	//const int FREE_INDEX = gb::t::func::FindFirstEmptyFromBuffer(g_GlobalArrSearchPathA.ptr(),  gb::system::filefunc::MAX_GLOBALSEARCHPATH );
+	//const int FREE_INDEX = kst::FindFirstEmptyFromBuffer(g_GlobalArrSearchPathA.ptr(),  gb::system::filefunc::MAX_GLOBALSEARCHPATH );
 	//if(FREE_INDEX == -1) {
 	//	// not found. buffer is FULL !!
 	//	return E_FAIL;
@@ -320,7 +327,7 @@ GB_FF_API  HRESULT gb::system::filefunc::FileUtApendGlobalSearchPathW(const gb::
 	HRESULT hr =0;
 	gb::system::filefunc::PathDataW _path = *path;
 
-	//	const int FREE_INDEX = gb::t::func::FindFirstEmptyFromBuffer(g_GlobalArrSearchPathW.ptr(), g_GlobalArrSearchPathW.arrSize() );
+	//	const int FREE_INDEX = kst::FindFirstEmptyFromBuffer(g_GlobalArrSearchPathW.ptr(), g_GlobalArrSearchPathW.arrSize() );
 	//if(FREE_INDEX == -1) {
 	//	// not found. buffer is FULL !!
 	//	return E_FAIL;
