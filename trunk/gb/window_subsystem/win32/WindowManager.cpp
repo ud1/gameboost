@@ -1,566 +1,511 @@
 #ifdef _WIN32
 
-#pragma message("ƒŒƒ≈À¿“‹ !!!!   "   __FILE__ )
-// #error ƒŒƒ≈À¿“‹ !!
-
-//#include <unistd.h>
-
-//#include <GL/glew.h>
-//#include <GL3/gl3.h>
-
-//#include <GL/glx.h>
-
-#include <boost/program_options.hpp>
-#include <boost/scope_exit.hpp>
-
-//#include <X11/cursorfont.h>
-
-#include <cassert>
-#include <map>
-#include <vector>
-
 #include "../Input.h"
 #include "../WindowManager.h"
 #include "../KeyCodes.h"
 #include <gb/base/Logger.h>
+#include <gb/base/nullptr.h>
+#include <gb/str/UnicodeHelpers.h>
 #include <gb/t/clamp.h>
+
+#include <boost/program_options.hpp>
+
+#include <Windows.h>
+#include <vector>
+
+#include <GL/glew.h>
+#include <GL/wglew.h>
+#include <GL3/gl3.h>
 
 namespace po = boost::program_options;
 
 namespace
 {
+	const char* window_class_name = "Gameboost_window_class";
+	bool is_window_class_registered = false;
+
 	namespace ws = gb::window_subsystem;
 	namespace kk = gb::window_subsystem::eKeyCodes;
-	
-	class Win32Window : public ws::Window
+	using namespace std;
+
+	class WGLWindow;
+	typedef vector <WGLWindow *> WindowList;
+	WindowList list;
+
+	class WGLWindow : public ws::Window
 	{
 	public:
-		ws::WindowInfo info;
-		//GLXContext ctx;
-		//Colormap cmap;
-		
-		Win32Window(const ws::WindowInfo &i)
-		{
-			info.hDC = 0;
-			info.hWnd = 0;
-
-
-
-			windowExist = true;
-			info = i;
-			registerWindow(info.window, this);
-			input = NULL;
-			last_release_event_set = false;
-			
-			delete_window_protocol = XInternAtom (info.display, "WM_DELETE_WINDOW", True);
-			wm_protocols = XInternAtom (info.display, "WM_PROTOCOLS", True);
-			XSetWMProtocols(info.display, info.window, &delete_window_protocol, 1);
-			
-			initializeKeyCodesTable();
-			
-			xim = NULL;
-			xic = NULL;
-		}
-		
-		~Win32Window()
-		{
-			destroyWindow();
-		}
-		
 		const ws::WindowInfo *getWindowInfo()
 		{
 			return &info;
 		}
-		
+
 		void setSize(size_t width, size_t height)
 		{
-			if (!windowExist)
-				return;
-			
-			XResizeWindow(info.display, info.window, width, height);
+			tagRECT scrRect = {info.x, info.y, 
+				info.x + width, info.y + height};
+			AdjustWindowRectEx(&scrRect, window_style, false, window_extended_style);
+
+			info.width = width;
+			info.height = height;
+
+			if (is_window_created)
+			{
+				MoveWindow(info.hWnd, scrRect.left, scrRect.top, 
+					scrRect.right - scrRect.left, 
+					scrRect.bottom - scrRect.top, FALSE);
+			}
 		}
-		
+
 		void setPosition(int left, int top)
 		{
-			if (!windowExist)
-				return;
-			
-			XMoveWindow(info.display, info.window, left, top);
+			tagRECT scr_rect = {left, top, left + info.width, top + info.height};
+			AdjustWindowRectEx(&scr_rect, window_style, false, window_extended_style);
+
+			info.x = left;
+			info.y = top;
+
+			if (is_window_created)
+			{
+				MoveWindow(info.hWnd, scr_rect.left, scr_rect.top, 
+					scr_rect.right - scr_rect.left, 
+					scr_rect.bottom - scr_rect.top, FALSE);
+			}
 		}
-		
+
 		void setTitle(const std::string &title)
 		{
-			if (!windowExist)
-				return;
-			
-			XStoreName(info.display, info.window, title.c_str());
+			info.title = title;
+			if (is_window_created)
+			{
+				SetWindowTextW(info.hWnd, gb::str::utf8ToWstring(info.title).c_str());
+			}
 		}
-		
-		void show(bool show_ = true)
+
+		void show(bool show)
 		{
-			if (!windowExist)
+			if (!is_window_created)
 				return;
-			
-			info.is_visible = show_;
-			if (show_)
-			{
-				XMapWindow(info.display, info.window);
-			}
-			else
-			{
-				XUnmapWindow(info.display, info.window);
-			}
+			info.is_visible = show;
+			ShowWindow(info.hWnd, show ? SW_SHOW : SW_HIDE);
 		}
-		
+
 		bool close()
 		{
-			if (!windowExist)
-				return true;
-			
-			if (!input || !input->close())
-			{
-				destroyWindow();
-				return false;
-			}
-			return true;
+			return SendMessage(info.hWnd, WM_CLOSE, 0, 0);
 		}
-		
+
 		void attachInputHandler(ws::Input *input_)
 		{
-			if (input)
+			if (input && input != input_)
 				input->onDetach();
-			
 			input = input_;
-			
-			if (input)
-				input->onAttach(this);
+			input_->onAttach(this);
 		}
-		
+
 		void setCursorPosition(int x, int y)
 		{
-			if (!windowExist)
+			if (!info.hWnd)
 				return;
-			
-			XWarpPointer(info.display, 0, info.window, 0, 0, 0, 0, x, y);
+			POINT pt;
+			pt.x = x;
+			pt.y = y;
+			ClientToScreen(info.hWnd,&pt);
+			SetCursorPos(pt.x, pt.y);
 		}
-		
+
 		void startRendering()
 		{
-			if (!windowExist)
-				return;
-			
-			glXMakeCurrent(info.display, info.window, ctx);
+			wglMakeCurrent(info.hDC, info.hRC);
 		}
-		
+
 		void finishRendering()
 		{
-			if (!windowExist)
-				return;
-			
-			glXSwapBuffers(info.display, info.window);
+			SwapBuffers(info.hDC);
 		}
 
-		static bool event_s(::Window w, const XEvent &e)
+		void showCursor(bool v)
 		{
-			Windows::iterator it = windows.find(w);
-			if (it != windows.end()) {
-				return it->second->event(e);
-			}
+			ShowCursor(v);
 		}
-		
-		static bool flush_s()
-		{
-			Windows::iterator it = windows.begin();
-			for (; it != windows.end(); ++it)
-			{
-				return it->second->flush();
-			}
-		}
-		
-		virtual void showCursor(bool v) 
-		{
-			if (!v)
-			{
-				Cursor invisibleCursor;
-				Pixmap bitmapNoData;
-				XColor black;
-				static char noData[] = { 0,0,0,0,0,0,0,0 };
-				black.red = black.green = black.blue = 0;
 
-				bitmapNoData = XCreateBitmapFromData(info.display, info.window, noData, 8, 8);
-				invisibleCursor = XCreatePixmapCursor(info.display, bitmapNoData, bitmapNoData, 
-													&black, &black, 0, 0);
-				XDefineCursor(info.display, info.window, invisibleCursor);
-				XFreeCursor(info.display, invisibleCursor);
-			}
-			else
+		WGLWindow()
+		{
+			input = nullptr;
+			is_window_created = false;
+			window_style = WS_OVERLAPPEDWINDOW;
+			window_extended_style = WS_EX_APPWINDOW;
+		}
+
+		~WGLWindow()
+		{
+			unsigned int i;
+			for (i=0; i<list.size(); i++)
 			{
-				Cursor cursor;
-				cursor=XCreateFontCursor(info.display, XC_left_ptr);
-				XDefineCursor(info.display, info.window, cursor);
-				XFreeCursor(info.display, cursor);
-			}
-		}
-		
-	private:
-		typedef std::map< ::Window, Win32Window *> Windows;
-		static Windows windows;
-		static void registerWindow(::Window w, Win32Window *pw)
-		{
-			windows[w] = pw;
-		}
-		
-		static void unregisterWindow(::Window w)
-		{
-			windows.erase(w);
-		}
-		
-		bool flush()
-		{
-			ws::KbdMessage kbd;
-			if (last_release_event_set)
-			{
-				last_release_event_set = false;
-				if (input)
+				if (list[i] == this)
 				{
-					kbd.init(ws::KbdMessage::KEY_UP, convertKey(last_release_event.keycode));
-					return input->kbd(kbd);
+					list.erase(list.begin() + i);
+					break;
 				}
 			}
-		}
-		
-		bool event(const XEvent &e)
-		{
-			if (!input)
-				return false;
-		
-			ws::MouseMessage ms;
-			switch (e.type)
-			{
-				case ButtonPress:
-				case ButtonRelease:
-					ms.x = e.xbutton.x;
-					ms.y = e.xbutton.y;
-					if (e.xbutton.type == ButtonPress)
-					{
-						switch (e.xbutton.button)
-						{
-							case Button1:
-								ms.type = ws::MouseMessage::LB_DOWN;
-								break;
-							case Button3:
-								ms.type = ws::MouseMessage::RB_DOWN;
-								break;
-							case Button4:
-								ms.type = ws::MouseMessage::SCROLL_UP;
-								break;
-							case Button5:
-								ms.type = ws::MouseMessage::SCROLL_DOWN;
-								break;
-						}
-					}
-					else if (e.xbutton.type == ButtonRelease)
-					{
-						printf("mouse release %d\n", e.xbutton.button);
-						switch (e.xbutton.button)
-						{
-							case Button1:
-								ms.type = ws::MouseMessage::LB_UP;
-								break;
-							case Button3:
-								ms.type = ws::MouseMessage::RB_UP;
-								break;
-						}
-					}
-					if (input)
-						return input->mouse(ms);
-					return true;
-				case MotionNotify:
-					ms.init(e.xmotion.x, e.xmotion.y, ws::MouseMessage::MOVE);
-					if (input)
-						return input->mouse(ms);
-					return true;
-				case KeyPress:
-					return keyPress(e.xkey);
-				case KeyRelease:
-					return keyRelease(e.xkey);
-				case ConfigureNotify:
-					info.width = e.xconfigure.width;
-					info.height = e.xconfigure.height;
-					if (input)
-						return input->reshape();
-					return true;
-				case ClientMessage:
-					if (e.xclient.message_type == wm_protocols)
-					{
-						if (e.xclient.data.l[0] == delete_window_protocol)
-						{
-							return close();
-						}
-					}
-			}
-			
-			return true;
-		}
-		
-		bool keyPress(const XKeyPressedEvent &e)
-		{
-			if (!xim)
-				xim = XOpenIM (info.display, 0, 0, 0);
-			
-			if (!xic)
-				xic = XCreateIC (xim, XNInputStyle, XIMPreeditNothing | XIMStatusNothing,
-								XNClientWindow, e.window, NULL);
-			if (!xic)
-			{
-				return false;
-			}
-			
-			wchar_t str[16];
-			kk::KeyCode keysym;
-			KeySym temp;
-			Status status;
-			XKeyPressedEvent ev = e;
-			int len = XwcLookupString(xic, &ev, str, 16, &temp, &status);
-			keysym = convertKey(e.keycode);
-
-			switch (status)
-			{
-				case XLookupNone:
-					return false;
-				case XLookupKeySym:
-					return keyDown(keysym, e);
-				case XLookupChars:
-					charInput(str, len);
-					return true;
-				case XLookupBoth:
-					charInput(str, len);
-					return keyDown(keysym, e);
-				case XBufferOverflow:
-					// WTF???
-					assert(0);
-					break;
-			}
-			return false;
-		}
-		
-		bool keyRelease(const XKeyReleasedEvent &e)
-		{
-			if (last_release_event_set)
-				flush();
-			last_release_event = e;
-			last_release_event_set = true;
-			return true;
-		}
-		
-		bool keyDown(KeyCode key, const XKeyPressedEvent &e)
-		{
-			if (last_release_event_set && e.keycode == last_release_event.keycode && e.time == last_release_event.time)
-			{
-				last_release_event_set = false;
-				return false;
-			}
-			ws::KbdMessage kbd;
-			kbd.init(ws::KbdMessage::KEY_DOWN, key);
 			if (input)
-				return input->kbd(kbd);
-			
-			return false;
+				input->onDetach();
 		}
-		
-		void charInput(const wchar_t *str, int len)
-		{
-			if (!input)
-				return;
-			
-			ws::KbdMessage kbd;
-			kbd.type = ws::KbdMessage::KEY_CHAR;
-			for (int i = 0; i < len; ++i)
-			{
-				kbd.ch = str[i];
-				input->kbd(kbd);
-			}
-		}
-		
-		void destroyWindow()
-		{
-			if (!windowExist)
-				return;
-			
-			windowExist = false;
-			glXMakeCurrent(info.display, 0, 0);
-			glXDestroyContext(info.display, ctx);
-			XDestroyWindow(info.display, info.window);
-			XFreeColormap(info.display, cmap);
-			unregisterWindow(info.window);
-		
-			
-			if (xic)
-				XDestroyIC(xic);
-			
-			if (xim)
-				XCloseIM(xim);
-		}
-		
-		void initializeKeyCodesTable()
-		{
-			memset(keyCodesConverter, 0, sizeof(keyCodesConverter));
-			
-			kk::KeyCode code;
-			unsigned symkey;
-			
-			for (code = kk::KEY_KEY_0, symkey = XK_0; code <= kk::KEY_KEY_9; ++(int &)code, ++symkey)
-				addCode(XKeysymToKeycode(info.display, symkey), code);
-			
-			for (code = kk::KEY_KEY_A, symkey = XK_A; code <= kk::KEY_KEY_Z; ++(int &)code, ++symkey)
-				addCode(XKeysymToKeycode(info.display, symkey), code);
-			
-			for (code = kk::KEY_F1, symkey = XK_F1; code <= kk::KEY_F12; ++(int &)code, ++symkey)
-				addCode(XKeysymToKeycode(info.display, symkey), code);
-			
-			addCode(XKeysymToKeycode(info.display, XK_BackSpace), kk::KEY_BACK);
-			addCode(XKeysymToKeycode(info.display, XK_Tab), kk::KEY_TAB);
-			addCode(XKeysymToKeycode(info.display, XK_Return), kk::KEY_ENTER);
-			addCode(XKeysymToKeycode(info.display, XK_Shift_L), kk::KEY_LSHIFT);
-			addCode(XKeysymToKeycode(info.display, XK_Shift_R), kk::KEY_RSHIFT);
-			addCode(XKeysymToKeycode(info.display, XK_Control_L), kk::KEY_LCONTROL);
-			addCode(XKeysymToKeycode(info.display, XK_Control_R), kk::KEY_RCONTROL);
-			addCode(XKeysymToKeycode(info.display, XK_Alt_L), kk::KEY_LALT);
-			addCode(XKeysymToKeycode(info.display, XK_Alt_R), kk::KEY_RALT);
-			addCode(XKeysymToKeycode(info.display, XK_Pause), kk::KEY_PAUSE);
-			addCode(XKeysymToKeycode(info.display, XK_Escape), kk::KEY_ESCAPE);
-			addCode(XKeysymToKeycode(info.display, XK_space), kk::KEY_SPACE);
-			addCode(XKeysymToKeycode(info.display, XK_Page_Up), kk::KEY_PAGE_UP);
-			addCode(XKeysymToKeycode(info.display, XK_Page_Down), kk::KEY_PAGE_DOWN);
-			addCode(XKeysymToKeycode(info.display, XK_End), kk::KEY_END);
-			addCode(XKeysymToKeycode(info.display, XK_Home), kk::KEY_HOME);
-			addCode(XKeysymToKeycode(info.display, XK_Left), kk::KEY_LEFT);
-			addCode(XKeysymToKeycode(info.display, XK_Up), kk::KEY_UP);
-			addCode(XKeysymToKeycode(info.display, XK_Right), kk::KEY_RIGHT);
-			addCode(XKeysymToKeycode(info.display, XK_Down), kk::KEY_DOWN);
-			addCode(XKeysymToKeycode(info.display, XK_Insert), kk::KEY_INSERT);
-			addCode(XKeysymToKeycode(info.display, XK_Delete), kk::KEY_DELETE);
-			addCode(XKeysymToKeycode(info.display, XK_grave), kk::KEY_TILDE);
-		}
-		
-		kk::KeyCode convertKey(unsigned xKeyCode)
-		{
-			if (xKeyCode >= 0 && xKeyCode < 256 && keyCodesConverter[xKeyCode] != 0)
-				return keyCodesConverter[xKeyCode];
-			
-			return kk::KEY_NONE;
-		}
-		
-		void addCode(unsigned xKeyCode, kk::KeyCode keyCode)
-		{
-			if (xKeyCode >= 0 && xKeyCode < 256)
-				keyCodesConverter[xKeyCode] = keyCode;
-		}
-		
+
+		ws::WindowInfo info;
+		bool is_window_created;
 		ws::Input *input;
-		bool windowExist;
-		Atom delete_window_protocol, wm_protocols;
-		XKeyReleasedEvent last_release_event;
-		bool last_release_event_set;
-		XIM xim;
-		XIC xic;
-		
-		kk::KeyCode keyCodesConverter[256];
+		DWORD	window_style;
+		DWORD	window_extended_style;
 	};
 
-	Win32Window::Windows Win32Window::windows;
+	bool ChangeScreenResolution (int width, int height, int bitsPerPixel)
+	{
+		DEVMODE dmScreenSettings;
+		ZeroMemory (&dmScreenSettings, sizeof (DEVMODE));
+		dmScreenSettings.dmSize = sizeof (DEVMODE);
+		dmScreenSettings.dmPelsWidth = width;
+		dmScreenSettings.dmPelsHeight = height;
+		dmScreenSettings.dmBitsPerPel = bitsPerPixel;
+		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+		if (ChangeDisplaySettings (&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
+		{
+			return false;
+		}
+		return true;
+	}
 
-	class GLXWindowManager : public ws::WindowManager
+	bool createWin32Window(WGLWindow *wnd)
+	{
+		tagRECT scrRect = {wnd->info.x, wnd->info.y, 
+			wnd->info.x + wnd->info.width, wnd->info.y + wnd->info.height};
+		AdjustWindowRectEx(&scrRect, wnd->window_style, false, wnd->window_extended_style);
+
+		wnd->info.hWnd = CreateWindowExW(
+			wnd->window_extended_style,
+			gb::str::utf8ToWstring(window_class_name).c_str(),
+			gb::str::utf8ToWstring(wnd->info.title).c_str(),
+			wnd->window_style,
+			scrRect.left, scrRect.top,
+			scrRect.right - scrRect.left,
+			scrRect.bottom - scrRect.top,
+			HWND_DESKTOP,
+			0,
+			GetModuleHandle(NULL),
+			wnd);
+
+		if ( !wnd->info.hWnd )
+		{
+			ERROR_LOG("CreateWindowEx failed");
+			return false;
+		}
+
+		list.push_back(wnd);
+		wnd->is_window_created = true;
+		SetWindowTextW(wnd->info.hWnd, gb::str::utf8ToWstring(wnd->info.title).c_str());
+		wnd->info.hDC = GetDC(wnd->info.hWnd);
+
+		return true;
+	}
+
+	//
+	// CWindowManager
+	//
+
+	LRESULT CALLBACK windowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+	{
+		unsigned int i;
+		for (i=0; i<list.size(); i++)
+		{
+			if (list[i]->info.hWnd == hWnd)
+				break;
+		}
+
+		WGLWindow *window = nullptr;
+		if (i == list.size())
+		{
+			return DefWindowProc (hWnd, msg, wParam, lParam);
+		}
+		else
+		{
+			window = list[i];
+		}
+
+		ws::KbdMessage kbd_msg;
+		ws::MouseMessage mouse_msg;
+
+		switch (msg)
+		{
+			case WM_SYSCOMMAND:
+			{
+				switch (wParam)
+				{
+					case SC_SCREENSAVE:
+					case SC_MONITORPOWER:
+					return 0;												
+				}
+				break;
+			}
+			break;
+
+			case WM_CREATE:
+			break;
+
+			case WM_CLOSE:											
+				if (window->input && window->input->close())
+					return 0;
+				window->info.is_visible = false;
+				window->is_window_created = false;
+				ReleaseDC(window->info.hWnd, window->info.hDC);
+				window->info.hWnd = NULL;
+				window->info.hDC = NULL;
+			break;
+
+			case WM_SIZE:					
+				switch (wParam)
+				{									
+					case SIZE_MINIMIZED:
+						window->info.is_visible = false;
+						if (window->input && window->input->windowMinimized())
+							return 0;
+					break;
+
+					case SIZE_MAXIMIZED:
+						window->info.is_visible = true;
+						window->info.width = LOWORD(lParam);
+						window->info.height = HIWORD(lParam);
+						if (window->input && window->input->reshape())
+							return 0;
+					break;
+
+					case SIZE_RESTORED:									
+						window->info.is_visible = true;				
+						window->info.width = LOWORD(lParam);
+						window->info.height = HIWORD(lParam);
+						if (window->input && window->input->reshape())
+							return 0;
+					break;
+				}
+			break;	
+
+			case WM_KEYDOWN:
+				if (window->input)
+				{
+					kbd_msg.type = ws::KbdMessage::KEY_DOWN;
+					kbd_msg.key = (ws::eKeyCodes::KeyCode) wParam;
+					if (window->input->kbd(kbd_msg))
+						return 0;
+				}
+			break;
+
+			case WM_KEYUP:
+				if (window->input)
+				{
+					kbd_msg.type = ws::KbdMessage::KEY_UP;
+					kbd_msg.key = (ws::eKeyCodes::KeyCode) wParam;
+					if (window->input->kbd(kbd_msg))
+						return 0;
+				}	
+			break;
+
+			case WM_CHAR:
+				if (window->input) {
+					kbd_msg.type = ws::KbdMessage::KEY_CHAR;
+					kbd_msg.ch = (wchar_t) wParam;
+					if (window->input->kbd(kbd_msg))
+						return 0;
+				}
+			break;
+
+			case WM_LBUTTONDOWN:
+				if (window->input)
+				{
+					mouse_msg.init(LOWORD(lParam), HIWORD(lParam), ws::MouseMessage::LB_DOWN);
+					if (window->input->mouse(mouse_msg))
+						return 0;
+				}
+			break;
+
+			case WM_RBUTTONDOWN:
+				if (window->input)
+				{
+					mouse_msg.init(LOWORD(lParam), HIWORD(lParam), ws::MouseMessage::RB_DOWN);
+					if (window->input->mouse(mouse_msg))
+						return 0;
+				}
+			break;
+
+			case WM_LBUTTONUP:
+				if (window->input)
+				{
+					mouse_msg.init(LOWORD(lParam), HIWORD(lParam), ws::MouseMessage::LB_UP);
+					if (window->input->mouse(mouse_msg))
+						return 0;
+				}
+			break;
+
+			case WM_RBUTTONUP:
+				if (window->input)
+				{
+					mouse_msg.init(LOWORD(lParam), HIWORD(lParam), ws::MouseMessage::RB_UP);
+					if (window->input->mouse(mouse_msg))
+						return 0;
+				}
+			break;
+
+			case WM_MOUSEMOVE:
+				if (window->input)
+				{
+					mouse_msg.init(LOWORD(lParam), HIWORD(lParam), ws::MouseMessage::MOVE);
+					if (window->input->mouse(mouse_msg))
+						return 0;
+				}
+			break;
+
+			case WM_QUIT:
+
+			break;
+		}
+
+		return DefWindowProc (hWnd, msg, wParam, lParam);
+
+	}
+
+	bool registerWindowClass()
+	{
+		WNDCLASSEX windowClass;
+		ZeroMemory( &windowClass, sizeof( WNDCLASSEX ) );
+		windowClass.cbSize = sizeof (WNDCLASSEX);
+		windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+		windowClass.lpfnWndProc = (WNDPROC)(windowProc);
+		windowClass.hInstance = GetModuleHandle(NULL);
+		windowClass.hbrBackground = (HBRUSH)(COLOR_APPWORKSPACE);
+		windowClass.hCursor	= LoadCursor(NULL, IDC_ARROW);
+		windowClass.lpszClassName = window_class_name;
+		if (RegisterClassEx (&windowClass) == 0)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	class WGLWindowManager : public ws::WindowManager
 	{
 	public:
-		static GLXWindowManager *create();
-		
-		GLXWindowManager();
-		
+		static WGLWindowManager *create();
+
+		WGLWindowManager();
+		~WGLWindowManager();
+
 		bool init(const std::vector<std::string> &options);
 		ws::Window *createWindow(const std::vector<std::string> &params, ws::WindowInfo *info);
 		void processMessages();
 		void quit();
 
 	protected:
-		Display *display;
-		bool is_message_loop_active;
+		WGLWindow *createWindow_(const std::vector<std::string> &params, ws::WindowInfo *info, po::variables_map &vm);
 		bool initialized;
-	}; 
-	
-	GLXWindowManager::GLXWindowManager()
+	};
+
+	WGLWindowManager::WGLWindowManager()
 	{
-		display = NULL;
-		is_message_loop_active = false;
 		initialized = false;
 	}
 
-	typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
-	glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
-
-	bool GLXWindowManager::init(const std::vector<std::string> &options)
+	WGLWindowManager::~WGLWindowManager()
 	{
-		po::options_description desc;
-		desc.add_options()
-			("display", po::value<std::string>(), "display")
-			;
-			
-		po::variables_map vm;
-		po::store(po::command_line_parser(options).options(desc).run(), vm);
-		po::notify(vm);
-		
-		if (vm.count("display"))
+		if (is_window_class_registered)
+			UnregisterClass (window_class_name, GetModuleHandle(NULL));
+	}
+
+	bool setPixelFormatAndMakeCurent(ws::WindowInfo &info, int pixelFormat)
+	{
+		if (SetPixelFormat (info.hDC, pixelFormat, NULL) == FALSE)
 		{
-			display = XOpenDisplay(vm["display"].as<std::string>().c_str());
-		}
-		else
-		{
-			display = XOpenDisplay(0);
-		}
-		
-		if (!display)
-		{
-			ERROR_LOG("Failed to open X display");
+			ERROR_LOG("SetPixelFormat() error");
 			return false;
 		}
-		
-		int glx_major, glx_minor;
-		// FBConfigs were added in GLX version 1.3.
-		if ( !glXQueryVersion( display, &glx_major, &glx_minor ) || 
-			( ( glx_major == 1 ) && ( glx_minor < 3 ) ) || ( glx_major < 1 ) )
+
+		info.hRC = wglCreateContext(info.hDC);
+		if (!info.hRC)
 		{
-			ERROR_LOG("GLX version must be 1.3 or higher (current = " << glx_major << "." << glx_minor << ")");
+			ERROR_LOG("wglCreateContext() error");
 			return false;
 		}
-		
-		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)
-			glXGetProcAddressARB( (const GLubyte *) "glXCreateContextAttribsARB" );
-			
-		if (!glXCreateContextAttribsARB)
+
+		if (wglMakeCurrent(info.hDC, info.hRC) == FALSE)
 		{
-			ERROR_LOG("glXCreateContextAttribsARB not found");
+			ERROR_LOG("wglMakeCurrent() error");
+			wglDeleteContext (info.hRC);
+			info.hRC = 0;
 			return false;
 		}
-		
-		initialized = true;
+
 		return true;
 	}
 
-	ws::Window *GLXWindowManager::createWindow(const std::vector<std::string> &params, ws::WindowInfo *info)
+	bool initializeGL(WGLWindow *dummy_window)
+	{
+		ws::WindowInfo *info = &dummy_window->info;
+
+		PIXELFORMATDESCRIPTOR pfd;
+		pfd.nSize			= sizeof (PIXELFORMATDESCRIPTOR);	
+		pfd.nVersion		= 1;
+		pfd.dwFlags			= PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+		pfd.iPixelType		= PFD_TYPE_RGBA;
+		pfd.cColorBits		= 24;
+		pfd.cRedBits		=
+			pfd.cRedShift	=
+			pfd.cGreenBits	=
+			pfd.cGreenShift	=
+			pfd.cBlueBits	=
+			pfd.cBlueShift	= 0;
+		pfd.cAlphaBits		=
+			pfd.cAlphaShift	= 0;
+		pfd.cAccumBits		= 0;
+		pfd.cAccumRedBits	=
+			pfd.cAccumGreenBits =
+			pfd.cAccumBlueBits	= 
+			pfd.cAccumAlphaBits	= 0;
+
+		pfd.cDepthBits		= 16;
+		pfd.cStencilBits	= 0;
+		pfd.cAuxBuffers		= 0;
+		pfd.iLayerType		= 0;
+		pfd.bReserved		= 0;
+		pfd.dwLayerMask		= 0;
+		pfd.dwVisibleMask	= 0;
+		pfd.dwDamageMask	= 0;
+
+		int pixelFormat = ChoosePixelFormat (info->hDC, &pfd);
+		if (pixelFormat == 0)
+		{
+			ERROR_LOG("Pixel format not found");
+			return false;
+		}
+		if (!setPixelFormatAndMakeCurent(*info, pixelFormat))
+			return FALSE;
+
+		if (glewInit() != GLEW_OK)
+		{
+			ERROR_LOG("glewInit() error");
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	WGLWindow *WGLWindowManager::createWindow_(const std::vector<std::string> &params, ws::WindowInfo *info, po::variables_map &vm)
 	{
 		if (!initialized)
-			return NULL;
-		
-		int gl_version = 33;
-		bool forward_compatible = true;
-		
+			return nullptr;
+
 		setlocale(LC_ALL, "ru_RU.UTF-8");
-		
-		// Fill win_info with correct values
+
 		ws::WindowInfo win_info;
 		if (info)
 			win_info = *info;
-		
+
 		po::options_description desc;
 		desc.add_options()
 			("width", po::value<size_t>(&win_info.width), "window width")
@@ -571,185 +516,176 @@ namespace
 			("rel_y", po::value<double>(), "window relative y coordinate in range [0..1]")
 			("rel_width", po::value<double>(), "window relative width in range [0..1]")
 			("rel_height", po::value<double>(), "window relative height in range [0..1]")
-			("gl_version", po::value<int>(&gl_version), "gl version = 10 * major_version + minor_version")
-			("forward_compatible", po::value<bool>(&forward_compatible), "if gl_version >= 30, create forward compatible context")
+			("gl_version", po::value<int>(), "gl version = 10 * major_version + minor_version")
+			("forward_compatible", po::value<bool>(), "if gl_version >= 30, create forward compatible context")
 			("title", po::value<std::string>(&win_info.title), "window title")
 			;
-			
-		po::variables_map vm;
+
 		po::store(po::command_line_parser(params).options(desc).run(), vm);
 		po::notify(vm);
-		
-		size_t display_w = DisplayWidth(display, DefaultScreen(display));
-		size_t display_h = DisplayHeight(display, DefaultScreen(display));
-		
+
+		size_t display_w = GetSystemMetrics(SM_CXSCREEN);
+		size_t display_h = GetSystemMetrics(SM_CYSCREEN);
+
 		if (vm.count("rel_x"))
 		{
 			win_info.x = display_w*vm["rel_x"].as<double>();
 		}
-		
+
 		if (vm.count("rel_y"))
 		{
 			win_info.y = display_h*vm["rel_y"].as<double>();
 		}
-		
+
 		if (vm.count("rel_width"))
 		{
 			win_info.width = display_w*vm["rel_width"].as<double>();
 		}
-		
+
 		if (vm.count("rel_height"))
 		{
 			win_info.height = display_h*vm["rel_height"].as<double>();
 		}
-		
+
 		gb::t::clamp(win_info.width, (size_t) 0, display_w);
 		gb::t::clamp(win_info.height, (size_t) 0, display_h);
-		
-		// Create OpenGL window
-		
-		int visual_attribs[] = {
-			GLX_X_RENDERABLE    , True,
-			GLX_DRAWABLE_TYPE   , GLX_WINDOW_BIT,
-			GLX_RENDER_TYPE     , GLX_RGBA_BIT,
-			GLX_X_VISUAL_TYPE   , GLX_TRUE_COLOR,
-			GLX_RED_SIZE        , 8,
-			GLX_GREEN_SIZE      , 8,
-			GLX_BLUE_SIZE       , 8,
-			GLX_ALPHA_SIZE      , 8,
-			GLX_DEPTH_SIZE      , 24,
-			GLX_STENCIL_SIZE    , 8,
-			GLX_DOUBLEBUFFER    , True,
-			//GLX_SAMPLE_BUFFERS  , 1,
-			//GLX_SAMPLES         , 4,
-			None
-		};
-		
-		// Get framebuffer configs
-		int fb_count;
-		GLXFBConfig *fbc = glXChooseFBConfig(display, DefaultScreen(display), visual_attribs, &fb_count);
-		if (!fbc)
-		{
-			ERROR_LOG("Failed to retrieve a framebuffer config");
-			return NULL;
-		}
-		
-		DEBUG_LOG("Found " << fb_count << " matching FB configs");
-		
-		// First config will be fine
-		GLXFBConfig our_fbc = fbc[0];
-		
-		XFree(fbc);
-		
-		XVisualInfo *vi = glXGetVisualFromFBConfig(display, our_fbc);
-		BOOST_SCOPE_EXIT( (&vi) ) { XFree(vi); } BOOST_SCOPE_EXIT_END
-		
-		XSetWindowAttributes swa;
-		
-		swa.colormap = XCreateColormap(display, RootWindow(display, vi->screen), vi->visual, AllocNone);
-		
-		swa.background_pixmap = None;
-		swa.border_pixel = 0;
-		swa.event_mask = StructureNotifyMask;
 
-		Window win = win_info.window = XCreateWindow(display, RootWindow(display, vi->screen ), 
-								win_info.x, win_info.y, win_info.width, win_info.height, 0 /*border*/,
-								vi->depth, InputOutput,
-								vi->visual, 
-								CWBorderPixel|CWColormap|CWEventMask, &swa );
-		if (!win)
+		WGLWindow *wnd = new WGLWindow;
+		wnd->info = win_info;
+
+		if (!createWin32Window(wnd))
 		{
-			ERROR_LOG("Failed to create window");
-			XFreeColormap(display, swa.colormap);
-			return NULL;
+			delete wnd;
+			return nullptr;
+		}
+	}
+
+	ws::Window *WGLWindowManager::createWindow(const std::vector<std::string> &params, ws::WindowInfo *info)
+	{
+		if (!initialized)
+			return nullptr;
+
+		po::variables_map vm;
+		WGLWindow *result = createWindow_(params, info, vm);
+		if (!result)
+			return false;
+
+		std::vector<int> attribs;
+		attribs.push_back(WGL_SUPPORT_OPENGL_ARB);
+		attribs.push_back(GL_TRUE);
+
+		attribs.push_back(WGL_ACCELERATION_ARB);
+		attribs.push_back(WGL_FULL_ACCELERATION_ARB);
+
+		attribs.push_back(WGL_DOUBLE_BUFFER_ARB);
+		attribs.push_back(GL_TRUE);
+
+		attribs.push_back(WGL_DRAW_TO_WINDOW_ARB);
+		attribs.push_back(GL_TRUE);
+
+		attribs.push_back(WGL_DEPTH_BITS_ARB);
+		attribs.push_back(24);
+
+		attribs.push_back(WGL_COLOR_BITS_ARB);
+		attribs.push_back(32);
+
+		attribs.push_back(WGL_ALPHA_BITS_ARB);
+		attribs.push_back(8);
+
+		attribs.push_back(WGL_RED_BITS_ARB);
+		attribs.push_back(8);
+
+		attribs.push_back(WGL_GREEN_BITS_ARB);
+		attribs.push_back(8);
+
+		attribs.push_back(WGL_BLUE_BITS_ARB);
+		attribs.push_back(8);
+
+		attribs.push_back(WGL_STENCIL_BITS_ARB);
+		attribs.push_back(8);
+
+		attribs.push_back(WGL_STENCIL_BITS_ARB);
+		attribs.push_back(8);
+
+		attribs.push_back(WGL_ACCUM_BITS_ARB);
+		attribs.push_back(0);
+
+		int gl_version = 30;
+		if (vm.count("gl_version"))
+			gl_version = vm["gl_version"].as<int>();
+
+		attribs.push_back(WGL_CONTEXT_MAJOR_VERSION_ARB);
+		attribs.push_back(gl_version/10);
+
+		attribs.push_back(WGL_CONTEXT_MINOR_VERSION_ARB);
+		attribs.push_back(gl_version%10);
+
+		bool forward_compatible = true;
+		if (vm.count("forward_compatible"))
+			forward_compatible = vm["forward_compatible"].as<bool>();
+
+		if (gl_version >= 30 && forward_compatible)
+		{
+			attribs.push_back(WGL_CONTEXT_FLAGS_ARB);
+			attribs.push_back(WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB);
 		}
 
-		win_info.display = display;
-		Win32Window *result = new Win32Window(win_info);
-		result->cmap = swa.colormap;
-		
-		result->setTitle(win_info.title);
-		
-		std::vector<int> context_attribs;
-		context_attribs.push_back(GLX_CONTEXT_MAJOR_VERSION_ARB);
-		context_attribs.push_back(gl_version / 10);
-		context_attribs.push_back(GLX_CONTEXT_MINOR_VERSION_ARB);
-		context_attribs.push_back(gl_version % 10);
-		
-		if (forward_compatible && gl_version >= 30)
-		{
-			context_attribs.push_back(GLX_CONTEXT_FLAGS_ARB);
-			context_attribs.push_back(GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB);
-		}
-		
-		context_attribs.push_back(0);
+		attribs.push_back(0);
+		attribs.push_back(0);
 
-		result->ctx = glXCreateContextAttribsARB(display, our_fbc, 0, True, &context_attribs[0]);
-		
-		if (!result->ctx)
+		result->info.hRC = wglCreateContextAttribsARB(result->info.hDC, 0, &attribs[0]);
+
+		if (!result->info.hRC)
 		{
+			ERROR_LOG("wglCreateContextAttribsARB() error");
 			delete result;
-			ERROR_LOG("Failed to create GL context");
-			return NULL;
-		}
-		
-		// Verifying that context is a direct context
-		if ( ! glXIsDirect ( display, result->ctx ) )
-		{
-			DEBUG_LOG("Indirect GLX rendering context obtained");
-		}
-		else
-		{
-			DEBUG_LOG("Direct GLX rendering context obtained");
+			return nullptr;
 		}
 
-		long event_mask =
-			KeyPressMask | KeyReleaseMask |
-			ButtonPressMask | ButtonReleaseMask | PointerMotionMask |
-			StructureNotifyMask;
-			
-		XSelectInput(display, win, event_mask);
-		
-		GLenum err = glGetError();
-		glXMakeCurrent(result->info.display, result->info.window, result->ctx);
-		err = glGetError();
-			
-		static bool glew_initialized = false;
-		if (!glew_initialized)
-		{
-			glew_initialized = true;
-			GLenum err = glewInit();
-			if (GLEW_OK != err)
-			{
-				CRITICAL_LOG(glewGetErrorString(err));
-			}
-			MESSAGE_LOG("Using GLEW " << glewGetString(GLEW_VERSION));
-		}
-		
-		MESSAGE_LOG("GL Version: " << glGetString(GL_VERSION));
-		MESSAGE_LOG("Vendor: " << glGetString(GL_VENDOR));
-		MESSAGE_LOG("Renderer: " << glGetString(GL_RENDERER));
-		MESSAGE_LOG("GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION));
-		
 		return result;
 	}
 
-	void GLXWindowManager::processMessages()
+	bool WGLWindowManager::init(const std::vector<std::string> &options)
 	{
-		while (XPending(display))
+		if (initialized)
+			return true;
+
+		if ( !is_window_class_registered )
 		{
-			XEvent event;
-			XNextEvent(display, &event);
-			Win32Window::event_s(event.xany.window, event);
+			if ( !registerWindowClass() )
+			{
+				ERROR_LOG("RegisterClassEx Failed!");
+				return false;
+			}
 		}
-		Win32Window::flush_s();
+		is_window_class_registered = true;
+
+		WGLWindow *dummy_window = createWindow_(std::vector<std::string>(), nullptr, po::variables_map());
+		if (!dummy_window)
+			return false;
+
+		if (!initializeGL(dummy_window))
+		{
+			delete dummy_window;
+			return false;
+		}
+		delete dummy_window;
+		initialized = true;
+		return true;
 	}
 
-	void GLXWindowManager::quit()
+	void WGLWindowManager::processMessages()
 	{
-		
+		MSG msg;
+		while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0)
+		{
+			TranslateMessage(&msg);
+			DispatchMessage (&msg);
+		}
 	}
-}
+};
+
+void WGLWindowManager::quit() {}
 
 namespace gb
 {
@@ -757,10 +693,9 @@ namespace gb
 	{
 		WindowManager *createWindowManager(const char *)
 		{
-			return new GLXWindowManager;
+			return new WGLWindowManager;
 		}
 	}
 }
 
-#endif // _WIN32
-
+#endif

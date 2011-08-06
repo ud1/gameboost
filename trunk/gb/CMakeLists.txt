@@ -28,7 +28,7 @@ set( GAMEBOOST_SOURCES
 
 		t/clamp.h t/debug_cast.h
 		window_subsystem/Input.h window_subsystem/KeyCodes.h window_subsystem/Window.h
-		window_subsystem/WindowManager.h window_subsystem/linux/WindowManager.cpp
+		window_subsystem/WindowManager.h window_subsystem/linux/WindowManager.cpp window_subsystem/win32/WindowManager.cpp
 		graphics/Device.h graphics/Device.cpp graphics/Texture.h
 		graphics/opengl/GLDevice.h graphics/opengl/GLDevice.cpp
 		graphics/opengl/GLTexture.h graphics/opengl/GLTexture.cpp
@@ -49,8 +49,6 @@ set( GAMEBOOST_SOURCES
 
 		str/UnicodeHelpers.h
 
-		containers/IResource.cpp containers/IResource.h containers/Texture2D.cpp containers/Texture2D.h
-
 		containers/Image.h containers/Image.cpp
 		containers/PixelFormat.h containers/PixelFormat.cpp
 		containers/alphaConvertion.h
@@ -69,9 +67,6 @@ set( GAMEBOOST_SOURCES
 
 		shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
 		
-		i18n/I18n.cpp  i18n/I18n.h  i18n/IntlString.h  i18n/IntlString.cpp
-		i18n/Japanese.h  i18n/Japanese.cpp
-
 		terrain/ElevationData.h terrain/IndexBuffer.h terrain/IndexBuffer.cpp
 
 		graphics/2d/ImageBlock.h
@@ -111,7 +106,9 @@ source_group( system REGULAR_EXPRESSION "system/" )
 source_group( strings REGULAR_EXPRESSION "str/" )
 source_group( terrain REGULAR_EXPRESSION "terrain/" )
 source_group( util REGULAR_EXPRESSION "util/" )
-source_group( window_subsystem REGULAR_EXPRESSION "window_subsystem/" )
+source_group( window_subsystem/ REGULAR_EXPRESSION "window_subsystem/" )
+source_group( window_subsystem/linux REGULAR_EXPRESSION "window_subsystem/linux/" )
+source_group( window_subsystem/win32 REGULAR_EXPRESSION "window_subsystem/win32/" )
 
 
 if (MSVC)
