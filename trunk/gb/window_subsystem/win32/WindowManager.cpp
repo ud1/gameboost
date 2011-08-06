@@ -497,9 +497,6 @@ namespace
 
 	WGLWindow *WGLWindowManager::createWindow_(const std::vector<std::string> &params, ws::WindowInfo *info, po::variables_map &vm)
 	{
-		if (!initialized)
-			return nullptr;
-
 		setlocale(LC_ALL, "ru_RU.UTF-8");
 
 		ws::WindowInfo win_info;
@@ -555,9 +552,12 @@ namespace
 
 		if (!createWin32Window(wnd))
 		{
+			ERROR_LOG("createWin32Window() failed");
 			delete wnd;
 			return nullptr;
 		}
+
+		return wnd;
 	}
 
 	ws::Window *WGLWindowManager::createWindow(const std::vector<std::string> &params, ws::WindowInfo *info)
@@ -662,10 +662,14 @@ namespace
 
 		WGLWindow *dummy_window = createWindow_(std::vector<std::string>(), nullptr, po::variables_map());
 		if (!dummy_window)
+		{
+			ERROR_LOG("create dummy window failed");
 			return false;
+		}
 
 		if (!initializeGL(dummy_window))
 		{
+			ERROR_LOG("OpenGL initialization failed");
 			delete dummy_window;
 			return false;
 		}
