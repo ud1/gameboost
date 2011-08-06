@@ -12,7 +12,7 @@
 #include <gb/mt/Job.h>
 #include <gb/base/nullptr.h>
 #include <gb/base/Timer.h>
-#include "ResourceTraits.h"
+//#include "ResourceTraits.h"
 
 namespace gb
 {
