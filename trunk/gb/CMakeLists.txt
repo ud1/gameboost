@@ -14,9 +14,8 @@ set( GAMEBOOST_SOURCES
 		base/Atomic.h  base/Guid.h
 		base/Debug.h
 		base/IRefCountable.h
-		base/SimpleLog.cpp  base/SimpleLog.h  base/CommonLog.cpp  base/CommonLog.h
-		base/Timer.h  base/Timer.cpp  base/FPSCounter.cpp  base/FPSCounter.h 
-		base/Types.h  base/Constants.h  base/Constants.cpp
+		base/Timer.h  base/Timer.cpp
+		base/Types.h
 		base/Logger.h base/Logger.cpp
 		base/Factory.h 
 		base/Atlas.h base/Atlas.cpp
@@ -29,7 +28,7 @@ set( GAMEBOOST_SOURCES
 
 		t/clamp.h t/debug_cast.h
 		window_subsystem/Input.h window_subsystem/KeyCodes.h window_subsystem/Window.h
-		window_subsystem/WindowManager.h window_subsystem/linux/WindowManager.cpp
+		window_subsystem/WindowManager.h window_subsystem/linux/WindowManager.cpp window_subsystem/win32/WindowManager.cpp
 		graphics/Device.h graphics/Device.cpp graphics/Texture.h
 		graphics/opengl/GLDevice.h graphics/opengl/GLDevice.cpp
 		graphics/opengl/GLTexture.h graphics/opengl/GLTexture.cpp
@@ -116,6 +115,8 @@ source_group( system REGULAR_EXPRESSION "system/" )
 source_group( strings REGULAR_EXPRESSION "str/" )
 source_group( terrain REGULAR_EXPRESSION "terrain/" )
 source_group( util REGULAR_EXPRESSION "util/" )
+source_group( window_subsystem REGULAR_EXPRESSION "window_subsystem/" )
+
 
 if (MSVC)
 	set_source_files_properties( pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h" )
