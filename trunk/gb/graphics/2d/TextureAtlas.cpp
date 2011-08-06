@@ -60,7 +60,7 @@ namespace gb
 					atlas = boost::shared_ptr<Atlas>(new Atlas(tex_width, tex_height));
 				}
 				
-				createTexture(tex_width, tex_height);
+				return createTexture(tex_width, tex_height);
 			}
 			
 			bool createTexture(int tex_width, int tex_height)

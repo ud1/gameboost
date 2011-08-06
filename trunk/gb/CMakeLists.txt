@@ -28,7 +28,7 @@ set( GAMEBOOST_SOURCES
 
 		t/clamp.h t/debug_cast.h
 		window_subsystem/Input.h window_subsystem/KeyCodes.h window_subsystem/Window.h
-		window_subsystem/WindowManager.h window_subsystem/linux/WindowManager.cpp window_subsystem/win32/WindowManager.cpp
+		window_subsystem/WindowManager.h window_subsystem/linux/WindowManager.cpp
 		graphics/Device.h graphics/Device.cpp graphics/Texture.h
 		graphics/opengl/GLDevice.h graphics/opengl/GLDevice.cpp
 		graphics/opengl/GLTexture.h graphics/opengl/GLTexture.cpp
@@ -47,7 +47,6 @@ set( GAMEBOOST_SOURCES
 		engineBlocks/SkyBox.h engineBlocks/SkyBox.cpp
 		containers/Mesh.h containers/Mesh.cpp
 
-		color/color.h
 		str/UnicodeHelpers.h
 
 		containers/IResource.cpp containers/IResource.h containers/Texture2D.cpp containers/Texture2D.h
@@ -61,7 +60,6 @@ set( GAMEBOOST_SOURCES
 		loaders/images/JpegLoader.h loaders/images/JpegLoader.cpp
 		loaders/models/Obj.h loaders/models/Obj.cpp
 
-		io/DDSParser.cpp io/DDSParser.h io/FileStream.cpp io/FileStream.h io/IStream.h io/MemoryStream.cpp io/MemoryStream.h
 		fs/FileSystem.h fs/Helpers.cpp fs/Helpers.h fs/LocalFS.cpp fs/LocalFS.h fs/SeekType.h fs/Stream.h
 		
 		mt/Job.h mt/Job.cpp mt/JobScheduler.h mt/JobScheduler.cpp mt/ThreadPolicy.h mt/ThreadPolicy.cpp mt/syncPrimitives.h
@@ -70,8 +68,6 @@ set( GAMEBOOST_SOURCES
 		resource/CacheBase.h resource/CacheNoGarbage.h resource/LRUCache.h resource/AsyncLoader.h
 
 		shaders/ShaderPreprocessor.cpp shaders/ShaderPreprocessor.h
-		
-		system/Path.h  system/Path.cpp  system/Path_linux.cpp  system/Path_win32.cpp  system/Path_macosx.cpp
 		
 		i18n/I18n.cpp  i18n/I18n.h  i18n/IntlString.h  i18n/IntlString.cpp
 		i18n/Japanese.h  i18n/Japanese.cpp

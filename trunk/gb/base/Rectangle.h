@@ -9,7 +9,6 @@
 
 #include "../Config.h"
 #include "Types.h"
-#include "Point.h"
 
 #include <ostream>
 #include <sstream>
@@ -120,18 +119,6 @@ namespace gb
 			  return false;			
 			}
 
-			inline bool check_point(const Point& p) // old name :  checkPoint
-			{
-				return check_point( p.x , p.y );
-			}
-
-#ifdef _WINDOWS_
-			inline bool check_point(const POINT& p)  // old name :  checkPoint
-			{
-				return check_point( p.x , p.y );
-			}
-#endif
-
 			inline void offset(int x, int y)
 			{
 				left += x;
@@ -155,24 +142,6 @@ namespace gb
 
  #endif
 
-			//! \brief offset coord.
-// 			inline void operator += (const Point& p)
-// 			{
-// 				offset (p);
-// 			}
-
-
-#ifdef _WINDOWS_
-			//! \brief  Получить центральную координату.
-			inline POINT center() const 
-			{
-				POINT res = { (left+width)/2 , (top+height)/2 };
-				return res;
-			}
-#endif
-
-
-
 			friend std::ostream& operator << (std::ostream& os, const Rectangle& r)
 			{
 				os << r.left << " " << r.top << " " << r.width << " " << r.height; 
@@ -186,18 +155,6 @@ namespace gb
 				ss << left << " " << top << " " << width << " " << height; 
 				return ss.str();
 			}
-
-// 			void operator = (const std::string& str) throw (std::invalid_argument)
-// 			{
-// 				std::istringstream ss(str);
-// 				ss >> left;
-// 				ss >> top;
-// 				ss >> width;
-// 				ss >> height;
-// 				if( ss.fail() ) throw std::invalid_argument("bad input string");
-// 			}
- 
-
 
 		};
 		
