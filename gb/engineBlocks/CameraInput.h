@@ -37,7 +37,8 @@ namespace gb
 			
 		private:
 			bool skip_mouse_move;
-			std::vector<window_subsystem::eKeyCodes::KeyCode> key_bindings[COUNT];
+			typedef std::vector<window_subsystem::eKeyCodes::KeyCode> KeyBindings;
+			KeyBindings key_bindings[COUNT];
 		};
 		
 	}

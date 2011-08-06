@@ -28,6 +28,7 @@ namespace gb
 			{
 				hDC = NULL;
 				hWnd = NULL;
+				hRC = NULL;
 			}
 			
 			WindowOSSpecParams(const WindowOSSpecParams &o)
@@ -44,7 +45,8 @@ namespace gb
 			}
 
 			HDC hDC;
-			HWND	hWnd;
+			HWND hWnd;
+			HGLRC hRC;
 		};
 		#else
 		/**
