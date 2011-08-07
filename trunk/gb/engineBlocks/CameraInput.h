@@ -2,7 +2,7 @@
 #include "InputBase.h"
 #include <gb/math/Camera.h>
 #include <gb/math/math.h>
-#include <gb/window_subsystem/KeyCodes.h>
+#include <gb/windowSubsystem/KeyCodes.h>
 
 namespace gb
 {

@@ -9,7 +9,8 @@ set( Loaders_Test_SOURCES
 
 find_package(JPEG)
 set(Loaders_Test_EXTRA_LIBS ${JPEG_LIBRARY})
+set(Loaders_Test_GB_LIBS gb-fs gb-loaders gb-containers gb-logging)
 
 #------ target -----
 add_executable( Loaders_Test ${Loaders_Test_SOURCES} )
-target_link_libraries(Loaders_Test gameboost ${Loaders_Test_EXTRA_LIBS})
+target_link_libraries(Loaders_Test ${Loaders_Test_GB_LIBS} ${Loaders_Test_EXTRA_LIBS})

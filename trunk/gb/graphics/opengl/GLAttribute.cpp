@@ -1,6 +1,6 @@
 #include "GLAttribute.h"
 
-#include <gb/t/debug_cast.h>
+#include <gb/base/t/debug_cast.h>
 
 namespace
 {

@@ -9,4 +9,4 @@ set( base_variable_test_SOURCES
 
 #------ target -----
 add_executable( base_variable_test ${base_variable_test_SOURCES} )
-target_link_libraries(base_variable_test gameboost)
+target_link_libraries(base_variable_test gb-base)

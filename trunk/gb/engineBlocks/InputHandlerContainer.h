@@ -1,6 +1,6 @@
 #pragma once
 
-#include <gb/window_subsystem/Input.h>
+#include <gb/windowSubsystem/Input.h>
 #include <map>
 #include <cstdlib>
 #include <cassert>

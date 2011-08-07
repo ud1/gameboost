@@ -1,7 +1,7 @@
 #pragma once
 
-#include <gb/window_subsystem/WindowManager.h>
-#include <gb/window_subsystem/Input.h>
+#include <gb/windowSubsystem/WindowManager.h>
+#include <gb/windowSubsystem/Input.h>
 #include <gb/graphics/Device.h>
 #include <gb/graphics/RenderTarget.h>
 #include <gb/fs/FileSystem.h>

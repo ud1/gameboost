@@ -9,7 +9,8 @@ set( ShaderPreprocessor_Test_SOURCES
 find_package(Boost COMPONENTS thread date_time program_options system filesystem wave REQUIRED)
 
 set(ShaderPreprocessor_Test_EXTRA_LIBS ${Boost_LIBRARIES})
+set(ShaderPreprocessor_Test_GB_LIBS gb-graphics gb-fs gb-logging)
 
 #------ target -----
 add_executable( ShaderPreprocessor_Test ${ShaderPreprocessor_Test_SOURCES} )
-target_link_libraries(ShaderPreprocessor_Test gameboost ${ShaderPreprocessor_Test_EXTRA_LIBS})
+target_link_libraries(ShaderPreprocessor_Test ${ShaderPreprocessor_Test_GB_LIBS} ${ShaderPreprocessor_Test_EXTRA_LIBS})

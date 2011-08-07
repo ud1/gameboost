@@ -9,7 +9,7 @@
 #include <gb/containers/Image.h>
 #include <gb/engineBlocks/SkyBox.h>
 #include <gb/base/AutoInjection.h>
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 #include <vector>
 
@@ -233,7 +233,7 @@ int main()
 {
 	application = new App(true);
 	
-	if (!application->init("arn/config.txt"))
+	if (!application->init("../data/config.txt"))
 		return 0;
 	
 	application->setup();

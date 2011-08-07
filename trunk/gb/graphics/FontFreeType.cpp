@@ -1,7 +1,7 @@
 
 #include "FontFreeType.h"
 #include <gb/fs/Helpers.h>
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 #include <ft2build.h>
 

@@ -1,6 +1,6 @@
 #include "GLRenderState.h"
 
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 #include <boost/bind.hpp>
 #include <boost/tokenizer.hpp>
