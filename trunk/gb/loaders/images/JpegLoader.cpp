@@ -233,7 +233,6 @@ namespace gb
 			jpeg_compress_struct cinfo;
 			jpeg_error_mgr jerr;
 			JSAMPROW row_pointer[1];
-			int row_stride;
 			cinfo.err = jpeg_std_error(&jerr);
 			jpeg_create_compress(&cinfo);
 		

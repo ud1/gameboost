@@ -6,7 +6,7 @@
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
 
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 #include <iostream>
 

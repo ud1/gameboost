@@ -344,7 +344,7 @@ namespace gb
 			{
 				L operator()(R r)
 				{
-					return signedShift<ls - rs, ((ls - rs) > 0), R>().leftShift(r);
+					return (L) signedShift<ls - rs, ((ls - rs) > 0), R>().leftShift(r);
 				}
 			};
 			

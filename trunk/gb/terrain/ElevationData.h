@@ -6,7 +6,7 @@
 #include <gb/base/Types.h>
 #include <gb/base/nullptr.h>
 #include <gb/fs/Stream.h>
-#include <gb/t/clamp.h>
+#include <gb/base/t/clamp.h>
 
 namespace gb
 {

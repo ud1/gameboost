@@ -6,7 +6,7 @@
 #include "NvTriStripObjects.h"
 #include "VertexCache.h"
 
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 #define CACHE_INEFFICIENCY 6
 

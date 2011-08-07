@@ -1,4 +1,4 @@
-#include <gb/shaders/ShaderPreprocessor.h>
+#include <gb/graphics/ShaderPreprocessor.h>
 #include <gb/fs/LocalFS.h>
 
 #include <iostream>
