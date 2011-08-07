@@ -4,7 +4,7 @@
 
 #include <NvTriStrip.h>
 
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 #include <vector>
 

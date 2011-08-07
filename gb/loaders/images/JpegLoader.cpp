@@ -7,7 +7,7 @@
 #include <cstring>
 #include <jpeglib.h>
 
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 namespace
 {

@@ -5,7 +5,7 @@
 #pragma once
 
 #include <gb/Config.h>
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 #include <iostream>
 
 #define GB_ASSERT_3_EXCEPTION_CLASS std::exception
