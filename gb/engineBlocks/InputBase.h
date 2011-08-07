@@ -1,9 +1,9 @@
 #pragma once
 
-#include <gb/window_subsystem/Input.h>
-#include <gb/window_subsystem/Window.h>
+#include <gb/windowSubsystem/Input.h>
+#include <gb/windowSubsystem/Window.h>
 #include <gb/math/math.h>
-#include <gb/window_subsystem/KeyCodes.h>
+#include <gb/windowSubsystem/KeyCodes.h>
 
 namespace gb
 {

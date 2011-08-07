@@ -1,9 +1,9 @@
 #include <gb/Config.h>
 #if GB_ALLOW_BOOST_LIBRARY
 
-#include <gb/shaders/ShaderPreprocessor.h>
+#include <gb/graphics/ShaderPreprocessor.h>
 #include <gb/fs/Helpers.h>
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 #define BOOST_WAVE_PRAGMA_KEYWORD "shader"
 

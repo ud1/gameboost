@@ -9,8 +9,8 @@
 #include "GLWindowRenderTarget.h"
 
 #include <gb/containers/Image.h>
-#include <gb/t/debug_cast.h>
-#include <gb/window_subsystem/Window.h>
+#include <gb/base/t/debug_cast.h>
+#include <gb/windowSubsystem/Window.h>
 #include <gb/base/nullptr.h>
 
 namespace gb

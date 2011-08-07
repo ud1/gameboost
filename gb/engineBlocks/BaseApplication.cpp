@@ -2,7 +2,7 @@
 #include "InputHandlerMap.h"
 #include <gb/fs/LocalFS.h>
 #include <gb/fs/Helpers.h>
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 #include <gb/base/Timer.h>
 
 #include <yaml-cpp/yaml.h>

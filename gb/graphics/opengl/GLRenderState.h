@@ -3,6 +3,7 @@
 #include <gb/graphics/RenderState.h>
 
 #include <boost/function.hpp>
+#include <vector>
 
 namespace gb
 {

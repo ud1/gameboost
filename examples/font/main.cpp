@@ -16,7 +16,7 @@ int main()
 	fs::LocalFS fs;
 	base::Atlas atlas(im_size, im_size);
 	
-	fs::InputStream *input = fs.getInputStream("../data/BaroqueScript.ttf");
+	fs::InputStream *input = fs.getInputStream("../../data/BaroqueScript.ttf");
 	if (!input)
 		return 0;
 	
@@ -53,7 +53,7 @@ int main()
 		}
 	}
 	
-	fs::OutputStream *file = fs.getOutputStream("../data/font_test.bmp", true);
+	fs::OutputStream *file = fs.getOutputStream("../../data/font_test.bmp", true);
 	bmpLoader.saveImage(*file, image);
 	file->release();
 	delete []image.data;

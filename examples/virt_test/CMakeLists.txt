@@ -11,4 +11,4 @@ set( Virt_Test_SOURCES
 
 #------ target -----
 add_executable( Virt_Test ${Virt_Test_SOURCES} )
-target_link_libraries(Virt_Test gameboost )
+target_link_libraries(Virt_Test gb-base )

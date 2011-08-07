@@ -16,7 +16,8 @@ else()
 	set(BaseApp_EXTRA_LIBS ${Boost_LIBRARIES} ${OPENGL_gl_LIBRARY} X11 GLEW yaml-cpp)
 endif()
 
+set(BaseApp_GB_LIBS gb-engineBlocks gb-fs gb-math gb-graphics gb-graphics2d gb-opengl gb-containers gb-base gb-loaders gb-windowSubsystem gb-logging)
 
 #------ target -----
 add_executable( BaseApp_Test ${BaseApp_Test_SOURCES} )
-target_link_libraries(BaseApp_Test gameboost ${BaseApp_EXTRA_LIBS} ${FREETYPE_LIBRARIES})
+target_link_libraries(BaseApp_Test ${BaseApp_GB_LIBS} ${BaseApp_EXTRA_LIBS} ${FREETYPE_LIBRARIES})

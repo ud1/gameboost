@@ -1,7 +1,7 @@
 #include "GLShaderProgram.h"
 
-#include <gb/base/Logger.h>
-#include <gb/t/debug_cast.h>
+#include <gb/logging/Logger.h>
+#include <gb/base/t/debug_cast.h>
 #include "GLShader.h"
 
 namespace gb

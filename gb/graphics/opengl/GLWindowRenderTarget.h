@@ -3,7 +3,7 @@
 #include "GLDevice.h"
 #include <gb/graphics/RenderTarget.h>
 
-#include <gb/window_subsystem/Window.h>
+#include <gb/windowSubsystem/Window.h>
 
 namespace gb
 {
