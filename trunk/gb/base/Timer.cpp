@@ -2,12 +2,17 @@
 
 #include <gb/base/Timer.h>
 
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <sys/time.h>
+#include <unistd.h>
+#endif
+
 namespace
 {
 
 #ifdef _WIN32
-	#include <Windows.h>
-	
 	// Частота
 	uint64_t freq;
 	
@@ -26,9 +31,6 @@ namespace
 	}
 
 #else
-	#include <sys/time.h>
-	#include <unistd.h>
-	
 	inline uint64_t Time()
 	{
 		timeval t;
@@ -40,7 +42,6 @@ namespace
 #define freq 1000000
 
 #endif
-
 }
 
 namespace gb

@@ -2,7 +2,7 @@
 #include "Obj.h"
 
 #include <gb/fs/Helpers.h>
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 #include <boost/tuple/tuple.hpp>
 #include <boost/tuple/tuple_comparison.hpp>

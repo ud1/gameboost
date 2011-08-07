@@ -1,6 +1,6 @@
 #include "Mesh.h"
 #include <gb/fs/Helpers.h>
-#include <gb/base/Logger.h>
+#include <gb/logging/Logger.h>
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>

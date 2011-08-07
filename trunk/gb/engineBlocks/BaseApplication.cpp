@@ -59,7 +59,10 @@ namespace gb
 		{
 			std::string config_text;
 			if (!fs::readEntireFile(*file_system, config_file_name, config_text))
+			{
+				ERROR_LOG("File " << config_file_name << " not found");
 				return false;
+			}
 			
 			std::istringstream iss(config_text);
 			
@@ -92,25 +95,40 @@ namespace gb
 			
 			window_manager = base::CreateRFHolder(window_subsystem::createWindowManager("OpenGL"));
 			if (!window_manager)
+			{
+				ERROR_LOG("createWindowManager() failed");
 				return false;
+			}
 			
 			if (!window_manager->init(std::vector<std::string>()))
+			{
+				ERROR_LOG("window_manager->init() failed");
 				return false;
+			}
 			
 			main_window = base::CreateRFHolder(window_manager->createWindow(wnd_opts, NULL));
 			if (!main_window)
+			{
+				ERROR_LOG("createWindow() failed");
 				return false;
+			}
 			
 			setupInputHandler();
 			main_window->attachInputHandler(input);
 			
 			device = base::CreateRFHolder(graphics::createDevice("OpenGL"));
 			if (!device)
+			{
+				ERROR_LOG("createDevice() failed");
 				return false;
+			}
 			
 			main_window_rt = base::CreateRFHolder(device->createWindowRenderTarget(main_window));
 			if (!main_window_rt)
+			{
+				ERROR_LOG("createWindowRenderTarget() failed");
 				return false;
+			}
 			
 			main_window_rt->clearColor(true);
 			main_window_rt->setClearColor(0.0f, 0.7f, 1.0f, 1.0f);

@@ -181,7 +181,7 @@
 #pragma once
 
 #include <gb/base/IRefCountable.h>
-#include <gb/window_subsystem/Window.h>
+#include <gb/windowSubsystem/Window.h>
 #include <gb/base/Rectangle.h>
 
 #include <gb/graphics/Texture.h>
