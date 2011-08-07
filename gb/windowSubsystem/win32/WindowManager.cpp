@@ -565,6 +565,12 @@ namespace
 		if (!initialized)
 			return nullptr;
 
+		if (!wglCreateContextAttribsARB)
+		{
+			ERROR_LOG("wglCreateContextAttribsARB not supported");
+			return nullptr;
+		}
+
 		po::variables_map vm;
 		WGLWindow *result = createWindow_(params, info, vm);
 		if (!result)
