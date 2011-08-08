@@ -148,6 +148,7 @@ namespace gb
 				device = device_;
 				type = _type;
 				glGenTextures(1, &textureID);
+				GL_ERROR_CHECK("glGenTextures");
 				setBorderType(TB_REPEAT);
 				setMinFilter(TF_LINEAR_MIPMAP_LINEAR);
 				setMagFilter(TF_LINEAR);
@@ -157,6 +158,7 @@ namespace gb
 			GLTexture::~GLTexture()
 			{
 				glDeleteTextures(1, &textureID);
+				GL_ERROR_CHECK("glDeleteTextures");
 			}
 			
 			bool GLTexture::setImage(const Image *im, size_t mipLevel)
@@ -189,6 +191,7 @@ namespace gb
 
 				GLint row_len = im->pitch / (getPFDescription(im->pixel_format)->bits/8);
 				glPixelStorei(GL_UNPACK_ROW_LENGTH, row_len);
+				GL_ERROR_CHECK("glPixelStorei");
 				
 				switch (type)
 				{
@@ -196,17 +199,20 @@ namespace gb
 						width = im->width;
 						height = im->height;
 						glTexImage2D(target, mipLevel, internal_format, im->width, im->height, 0, data_format, data_type, im->data);
+						GL_ERROR_CHECK("glTexImage2D");
 						break;
 					case Texture3D:
 						width = im->width;
 						height = im->height;
 						depth = im->depth;
 						glTexImage3D(target, mipLevel, internal_format, im->width, im->height, im->depth, 0, data_format, data_type, im->data);
+						GL_ERROR_CHECK("glTexImage3D");
 						break;
 					case TextureCube:
 						width = im->width;
 						height = im->height;
 						glTexImage2D(CubeMapFace[face], mipLevel, internal_format, im->width, im->height, 0, data_format, data_type, im->data);
+						GL_ERROR_CHECK("glTexImage2D");
 						break;
 					default:
 						unbind();
@@ -247,17 +253,21 @@ namespace gb
 
 				GLint row_len = im->pitch / (getPFDescription(im->pixel_format)->bits/8);
 				glPixelStorei(GL_UNPACK_ROW_LENGTH, row_len);
+				GL_ERROR_CHECK("glPixelStorei");
 				
 				switch (type)
 				{
 					case Texture2D:
 						glTexSubImage2D(target, mipLevel, xoff, yoff, im->width, im->height, data_format, data_type, im->data);
+						GL_ERROR_CHECK("glTexSubImage2D");
 						break;
 					case Texture3D:
 						glTexSubImage3D(target, mipLevel, xoff, yoff, zoff, im->width, im->height, im->depth, data_format, data_type, im->data);
+						GL_ERROR_CHECK("glTexSubImage3D");
 						break;
 					case TextureCube:
 						glTexSubImage2D(CubeMapFace[face], mipLevel, xoff, yoff, im->width, im->height, data_format, data_type, im->data);
+						GL_ERROR_CHECK("glTexSubImage2D");
 						break;
 					default:
 						unbind();
@@ -272,7 +282,8 @@ namespace gb
 			{
 				bind();
 				min_filter = filter;
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, MagMinFilter[min_filter]);	
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, MagMinFilter[min_filter]);
+				GL_ERROR_CHECK("glTexParameteri (GL_TEXTURE_MIN_FILTER)");
 				unbind();
 			}
 
@@ -280,7 +291,8 @@ namespace gb
 			{
 				bind();
 				mag_filter = filter;
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, MagMinFilter[mag_filter]);	
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, MagMinFilter[mag_filter]);
+				GL_ERROR_CHECK("glTexParameteri (GL_TEXTURE_MAG_FILTER)");
 				unbind();
 			}
 
@@ -288,6 +300,7 @@ namespace gb
 			{
 				bind();
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, lod);
+				GL_ERROR_CHECK("glTexParameterf (GL_TEXTURE_MAX_LOD)");
 				unbind();
 			}
 
@@ -309,6 +322,7 @@ namespace gb
 
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, brd_type);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, brd_type);
+				GL_ERROR_CHECK("glTexParameteri (GL_TEXTURE_WRAP)");
 				unbind();
 			}
 
@@ -316,6 +330,7 @@ namespace gb
 			{
 				target = Target[type];
 				glBindTexture(target, textureID);
+				GL_ERROR_CHECK("glBindTexture");
 			}
 
 			void GLTexture::unbind()

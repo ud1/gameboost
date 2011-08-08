@@ -60,7 +60,7 @@ public:
 		
 		input->release();
 		atlas = boost::shared_ptr<TextureAtlas>(new TextureAtlas(*device));
-		atlas->initialize();
+		atlas->initialize(16, 16);
 		text_renderer = boost::shared_ptr<TextRenderer>(new TextRenderer(*font, *atlas.get()));
 		
 		vertex_buffer = CreateRFHolder(device->createVertexBuffer());

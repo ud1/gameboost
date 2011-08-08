@@ -74,6 +74,7 @@ namespace gb
 				im.height = tex_height;
 				im.pixel_format = ePixelFormat::RGBA_8888;
 				im.calculateDataSize();
+				im.pitch = im.row_size + im.padding_bytes;
 				
 				if(!new_texture->setImage(&im, 0))
 					return false;

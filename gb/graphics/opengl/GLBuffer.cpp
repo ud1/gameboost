@@ -20,6 +20,7 @@ namespace gb
 			{
 				device = device_;
 				glGenBuffers(1, &bufId);
+				GL_ERROR_CHECK("glGenBuffers");
 				is_created = false;
 				target = _target;
 				is_binded = false;
@@ -28,6 +29,7 @@ namespace gb
 			GLBuffer::~GLBuffer()
 			{
 				glDeleteBuffers(1, &bufId);
+				GL_ERROR_CHECK("glDeleteBuffers");
 			}
 
 			void* GLBuffer::map(size_t offset_bytes, size_t size)
@@ -37,6 +39,7 @@ namespace gb
 				if (!is_created)
 				{
 					glBufferData(target, nelements * element_size, 0, GL_STATIC_DRAW);
+					GL_ERROR_CHECK("glBufferData");
 					is_created = true;
 				}
 				
@@ -44,10 +47,12 @@ namespace gb
 				if (size == 0)
 				{
 					res = glMapBuffer(target, GL_WRITE_ONLY);
+					GL_ERROR_CHECK("glMapBuffer");
 				}
 				else
 				{
 					res = glMapBufferRange(target, offset_bytes, size, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT);
+					GL_ERROR_CHECK("glMapBufferRange");
 				}
 				unbind();
 				return res;
@@ -57,6 +62,7 @@ namespace gb
 			{
 				bind();
 				glUnmapBuffer(target);
+				GL_ERROR_CHECK("glUnmapBuffer");
 				unbind();
 			}
 			
@@ -70,10 +76,12 @@ namespace gb
 				if (!is_created)
 				{
 					glBufferData(target, nelements * element_size, 0, GL_STATIC_DRAW);
+					GL_ERROR_CHECK("glBufferData");
 					is_created = true;
 				}
 				
 				glBufferSubData(target, offset_bytes, size, data);
+				GL_ERROR_CHECK("glBufferSubData");
 				unbind();
 			}
 
@@ -82,6 +90,7 @@ namespace gb
 				if (!is_binded)
 				{
 					glBindBuffer(target, bufId);
+					GL_ERROR_CHECK("glBindBuffer");
 					is_binded = true;
 					binded_buffers.push_back(this);
 				}

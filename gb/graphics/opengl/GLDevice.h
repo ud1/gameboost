@@ -3,6 +3,7 @@
 #include "../Device.h"
 #include <gb/graphics/ShaderProgram.h>
 #include <gb/mt/ThreadPolicy.h>
+#include <gb/logging/Logger.h>
 #include <boost/thread/mutex.hpp>
 
 #include <GL/glew.h>
@@ -25,6 +26,17 @@
 		}																			\
 		device->forDeletion_(this); /*delete later by render thread*/				\
 	}
+
+#ifndef NDEBUG
+#define GL_ERROR_CHECK(function_name) 			\
+{												\
+	GLenum error = glGetError();				\
+	if (error)									\
+		ERROR_LOG("GL error " << error << "(" << function_name << ")");		\
+}
+#else
+#define GL_ERROR_CHECK(function_name)
+#endif
 
 namespace gb
 {
