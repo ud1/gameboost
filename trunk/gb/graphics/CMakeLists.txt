@@ -23,3 +23,4 @@ add_subdirectory(opengl)
 add_subdirectory(2d)
 
 add_library( gb-graphics STATIC ${gb-graphics_SOURCES} )
+target_link_libraries(gb-graphics gb-fs)

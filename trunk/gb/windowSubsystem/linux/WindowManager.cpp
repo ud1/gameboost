@@ -19,8 +19,19 @@
 #include "../Input.h"
 #include "../WindowManager.h"
 #include "../KeyCodes.h"
-#include <gb/base/Logger.h>
-#include <gb/t/clamp.h>
+#include <gb/logging/Logger.h>
+#include <gb/base/t/clamp.h>
+
+#ifndef NDEBUG
+#define GL_ERROR_CHECK(function_name) 			\
+{												\
+	GLenum error = glGetError();				\
+	if (error)									\
+		ERROR_LOG("GL error " << error << "(" << function_name << ")");		\
+}
+#else
+#define GL_ERROR_CHECK(function_name)
+#endif
 
 namespace po = boost::program_options;
 
@@ -543,8 +554,8 @@ namespace
 		if (!initialized)
 			return NULL;
 		
-		int gl_version = 33;
-		bool forward_compatible = true;
+		int gl_version = 30;
+		bool forward_compatible = false;
 		
 		setlocale(LC_ALL, "ru_RU.UTF-8");
 		
@@ -677,7 +688,7 @@ namespace
 		context_attribs.push_back(0);
 
 		result->ctx = glXCreateContextAttribsARB(display, our_fbc, 0, True, &context_attribs[0]);
-		
+		GL_ERROR_CHECK("glXCreateContextAttribsARB");
 		if (!result->ctx)
 		{
 			delete result;
@@ -702,9 +713,8 @@ namespace
 			
 		XSelectInput(display, win, event_mask);
 		
-		GLenum err = glGetError();
 		glXMakeCurrent(result->info.display, result->info.window, result->ctx);
-		err = glGetError();
+		GL_ERROR_CHECK("glXMakeCurrent");
 			
 		static bool glew_initialized = false;
 		if (!glew_initialized)
@@ -715,6 +725,7 @@ namespace
 			{
 				CRITICAL_LOG(glewGetErrorString(err));
 			}
+			GL_ERROR_CHECK("glewInit");
 			MESSAGE_LOG("Using GLEW " << glewGetString(GLEW_VERSION));
 		}
 		

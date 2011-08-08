@@ -35,13 +35,17 @@ namespace gb
 			{
 				buffer->bind();
 				glEnableVertexAttribArray(location);
+				GL_ERROR_CHECK("glEnableVertexAttribArray");
+				
 				glVertexAttribPointer(location, layout.ncomponents, AttrTypes[layout.type], 
 					GL_FALSE, layout.stride, (char *)NULL + layout.offset);
+				GL_ERROR_CHECK("glVertexAttribPointer");
 			}
 
 			void GLAttribute::unbindBuffer()
 			{
 				glDisableVertexAttribArray(location);
+				GL_ERROR_CHECK("glDisableVertexAttribArray");
 			}
 
 		}

@@ -16,12 +16,14 @@ namespace gb
 				device = device_;
 				is_linked = false;
 				gl_program = glCreateProgram();
+				GL_ERROR_CHECK("glCreateProgram");
 			}
 
 			GLShaderProgram::~GLShaderProgram()
 			{
 				clear();
 				glDeleteProgram(gl_program);
+				GL_ERROR_CHECK("glDeleteProgram");
 			}
 
 			void GLShaderProgram::attachShader(Shader *shd)
@@ -29,6 +31,7 @@ namespace gb
 				is_linked = false;
 				GLShader *shader = t::debug_cast<GLShader *> (shd);
 				glAttachShader(gl_program, shader->getGLShader_());
+				GL_ERROR_CHECK("glAttachShader");
 			}
 
 			void GLShaderProgram::detachShader(Shader *shd)
@@ -36,6 +39,7 @@ namespace gb
 				is_linked = false;
 				GLShader *shader = t::debug_cast<GLShader *> (shd);
 				glDetachShader(gl_program, shader->getGLShader_());
+				GL_ERROR_CHECK("glDetachShader");
 			}
 
 			bool GLShaderProgram::link()
@@ -184,8 +188,13 @@ namespace gb
 				{
 					(*it)->bindBuffer();
 				}
+				
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				GL_ERROR_CHECK("glBindBuffer (GL_ELEMENT_ARRAY_BUFFER)");
+				
 				glUseProgram(gl_program);
+				GL_ERROR_CHECK("glUseProgram");
+				
 				int tex_bind = 0;
 				for (std::vector<GLUniform *>::iterator it = uniforms.begin(); it != uniforms.end(); ++it)
 				{

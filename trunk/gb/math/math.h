@@ -66,7 +66,7 @@ namespace gb
 			return &v.x;
 		}
 		
-		inline float const * value_ptr(const vec3 v)
+		inline float const * value_ptr(const vec3 &v)
 		{
 			return &v.x;
 		}

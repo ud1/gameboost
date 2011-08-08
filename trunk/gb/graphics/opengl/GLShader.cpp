@@ -13,16 +13,19 @@ namespace gb
 			{
 				device = device_;
 				gl_shader = glCreateShader(type);
+				GL_ERROR_CHECK("glCreateShader");
 			}
 			
 			GLShader::~GLShader()
 			{
 				glDeleteShader(gl_shader);
+				GL_ERROR_CHECK("glDeleteShader");
 			}
 			
 			void GLShader::setSource(const char *str)
 			{
 				glShaderSource(gl_shader, 1, &str, NULL);
+				GL_ERROR_CHECK("glShaderSource");
 			}
 			
 			bool GLShader::compile()

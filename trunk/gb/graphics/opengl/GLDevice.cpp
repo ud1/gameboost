@@ -109,13 +109,21 @@ namespace gb
 					if (!count)
 						count = indexBuffer->getElementsNumber();
 					if (!base)
+					{
 						glDrawElements(PrimitiveTypes[ptype], count, type, ptr);
-					else glDrawElementsBaseVertex(PrimitiveTypes[ptype], count, type, ptr, base);
+						GL_ERROR_CHECK("glDrawElements");
+					}
+					else
+					{
+						glDrawElementsBaseVertex(PrimitiveTypes[ptype], count, type, ptr, base);
+						GL_ERROR_CHECK("glDrawElementsBaseVertex");
+					}
 					ind_buf->unbind();
 				}
 				else
 				{
 					glDrawArrays(PrimitiveTypes[ptype], first, count);
+					GL_ERROR_CHECK("glDrawArrays");
 				}
 			}
 

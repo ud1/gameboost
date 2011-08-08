@@ -19,7 +19,7 @@ namespace gb
 				vec2 tex_coord;
 			};
 			
-			Vert verts[4];
+			Vert verts[6];
 			verts[0].pos = (coord_system.getForwardVector() - coord_system.getRightVector() + coord_system.getUpVector())*size;
 			verts[1].pos = (coord_system.getForwardVector() + coord_system.getRightVector() + coord_system.getUpVector())*size;
 			verts[2].pos = (coord_system.getForwardVector() - coord_system.getRightVector() - coord_system.getUpVector())*size;
