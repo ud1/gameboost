@@ -1211,7 +1211,7 @@ uint32_t hwndAsUint(const HWND hwnd) ;
 
 
 
-#include <gb/str/KsString.h>
+//#include <gb/str/KsString.h>
 
 
 
