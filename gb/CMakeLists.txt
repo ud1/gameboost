@@ -40,6 +40,8 @@ add_subdirectory(resource)
 add_subdirectory(str)
 add_subdirectory(terrain)
 add_subdirectory(windowSubsystem)
+add_subdirectory(meta)
+add_subdirectory(xml)
 
 #------ target -----
 add_custom_target( gameboost SOURCES ${GAMEBOOST_SOURCES} )
