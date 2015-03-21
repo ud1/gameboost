@@ -1,0 +1,1 @@
+GameBoost is a set of libraries to make game and game engine development faster.
